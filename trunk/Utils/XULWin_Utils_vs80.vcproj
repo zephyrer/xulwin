@@ -39,7 +39,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)/include&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -105,7 +105,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)../XULWin/include&quot;;&quot;$(ProjectDir)../Utils/include&quot;"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -144,72 +144,78 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Code"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Name="Header Files"
 			>
 			<File
-				RelativePath=".\ErrorReporter.cpp"
+				RelativePath=".\include\XULWin\Utils\ErrorReporter.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ErrorReporter.h"
+				RelativePath=".\include\XULWin\Utils\Fallible.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Fallible.h"
+				RelativePath=".\include\XULWin\Utils\GenericGrid.h"
 				>
 			</File>
 			<File
-				RelativePath=".\GenericGrid.h"
+				RelativePath=".\include\XULWin\Utils\PopupMenu.h"
 				>
 			</File>
 			<File
-				RelativePath=".\PopupMenu.cpp"
+				RelativePath=".\include\XULWin\Utils\Toolbar.h"
 				>
 			</File>
 			<File
-				RelativePath=".\PopupMenu.h"
+				RelativePath=".\include\XULWin\Utils\ToolbarItem.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Toolbar.cpp"
+				RelativePath=".\include\XULWin\Utils\ToolbarMenuItem.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Toolbar.h"
+				RelativePath=".\include\XULWin\Utils\Unicode.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ToolbarItem.cpp"
+				RelativePath=".\include\XULWin\Utils\WinUtils.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Source Files"
+			>
+			<File
+				RelativePath=".\src\ErrorReporter.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ToolbarItem.h"
+				RelativePath=".\src\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ToolbarMenuItem.cpp"
+				RelativePath=".\src\PopupMenu.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ToolbarMenuItem.h"
+				RelativePath=".\src\Toolbar.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Unicode.cpp"
+				RelativePath=".\src\ToolbarItem.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Unicode.h"
+				RelativePath=".\src\ToolbarMenuItem.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\WinUtils.cpp"
+				RelativePath=".\src\Unicode.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\WinUtils.h"
+				RelativePath=".\src\WinUtils.cpp"
 				>
 			</File>
 		</Filter>

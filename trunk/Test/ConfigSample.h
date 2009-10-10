@@ -8,9 +8,9 @@
 #include "XULWin/ElementImpl.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/XULRunner.h"
-#include "Utils/ErrorReporter.h"
-#include "Utils/Fallible.h"
-#include "Utils/WinUtils.h"
+#include "XULWin/Utils/ErrorReporter.h"
+#include "XULWin/Utils/Fallible.h"
+#include "XULWin/Utils/WinUtils.h"
 #include <string>
 #include <windows.h>
 

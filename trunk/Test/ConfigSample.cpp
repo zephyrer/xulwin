@@ -1,5 +1,5 @@
-#include "Test/ConfigSample.h"
-#include "Utils/Unicode.h"
+#include "ConfigSample.h"
+#include "XULWin/Utils/Unicode.h"
 #include <sstream>
 
 

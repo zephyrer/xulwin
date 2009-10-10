@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)../Utils/include&quot;;&quot;$(ProjectDir)/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -108,7 +108,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)../Utils/include&quot;;&quot;$(ProjectDir)/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -149,228 +149,198 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Core"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="Header Files"
 			>
 			<File
-				RelativePath=".\ChromeURL.cpp"
+				RelativePath=".\include\XULWin\AttributeController.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ChromeURL.h"
+				RelativePath=".\include\XULWin\ChromeURL.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Defaults.h"
+				RelativePath=".\include\XULWin\Conversions.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ElementCreationSupport.h"
+				RelativePath=".\include\XULWin\Decorator.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ElementFactory.cpp"
+				RelativePath=".\include\XULWin\Defaults.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ElementFactory.h"
+				RelativePath=".\include\XULWin\Element.h"
 				>
 			</File>
 			<File
-				RelativePath=".\EventListener.cpp"
+				RelativePath=".\include\XULWin\ElementCreationSupport.h"
 				>
 			</File>
 			<File
-				RelativePath=".\EventListener.h"
+				RelativePath=".\include\XULWin\ElementFactory.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Layout.cpp"
+				RelativePath=".\include\XULWin\ElementImpl.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Layout.h"
+				RelativePath=".\include\XULWin\Enums.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Parser.cpp"
+				RelativePath=".\include\XULWin\EventListener.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Parser.h"
+				RelativePath=".\include\XULWin\Graphics.h"
 				>
 			</File>
 			<File
-				RelativePath=".\XULRunner.cpp"
+				RelativePath=".\include\XULWin\Image.h"
 				>
 			</File>
 			<File
-				RelativePath=".\XULRunner.h"
+				RelativePath=".\include\XULWin\Initializer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Layout.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Parser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\PathInstructions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Points.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\RGBColor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Script.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\StyleController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\SVG.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\SVGImpl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\XULRunner.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="_Notes"
+			Name="Sources Files"
 			>
 			<File
-				RelativePath=".\Todo.txt"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Attributes"
-			>
-			<File
-				RelativePath=".\AttributeController.cpp"
+				RelativePath=".\src\AttributeController.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\AttributeController.h"
+				RelativePath=".\src\ChromeURL.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\StyleController.cpp"
+				RelativePath=".\src\Conversions.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\StyleController.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="SVG"
-			>
-			<File
-				RelativePath=".\SVG.cpp"
+				RelativePath=".\src\Decorator.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SVG.h"
+				RelativePath=".\src\Element.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SVGImpl.cpp"
+				RelativePath=".\src\ElementFactory.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SVGImpl.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Decorators"
-			>
-			<File
-				RelativePath=".\Decorator.cpp"
+				RelativePath=".\src\ElementImpl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Decorator.h"
+				RelativePath=".\src\EventListener.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ToolbarCustomWindowDecorator.cpp"
+				RelativePath=".\src\Graphics.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ToolbarCustomWindowDecorator.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Misc"
-			>
-			<File
-				RelativePath=".\Graphics.cpp"
+				RelativePath=".\src\Image.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Graphics.h"
+				RelativePath=".\src\Initializer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Initializer.cpp"
+				RelativePath=".\src\Layout.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Initializer.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Elements"
-			>
-			<File
-				RelativePath=".\Element.cpp"
+				RelativePath=".\src\Parser.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Element.h"
+				RelativePath=".\src\PathInstructions.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ElementImpl.cpp"
+				RelativePath=".\src\Points.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ElementImpl.h"
+				RelativePath=".\src\RGBColor.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Image.cpp"
+				RelativePath=".\src\Script.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Image.h"
+				RelativePath=".\src\StyleController.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Script.cpp"
+				RelativePath=".\src\SVG.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Script.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Types"
-			>
-			<File
-				RelativePath=".\Conversions.cpp"
+				RelativePath=".\src\SVGImpl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Conversions.h"
+				RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Enums.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PathInstructions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PathInstructions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Points.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Points.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RGBColor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RGBColor.h"
+				RelativePath=".\src\XULRunner.cpp"
 				>
 			</File>
 		</Filter>

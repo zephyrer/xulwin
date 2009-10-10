@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)../XULWin/include&quot;;&quot;$(ProjectDir)../Utils/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -122,7 +122,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)../XULWin/include&quot;;&quot;$(ProjectDir)../Utils/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -179,32 +179,14 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Code"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="Header Files"
 			>
-			<File
-				RelativePath=".\ConfigSample.cpp"
-				>
-			</File>
 			<File
 				RelativePath=".\ConfigSample.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ImageViewerSample.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ImageViewerSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tester.cpp"
 				>
 			</File>
 			<File
@@ -263,6 +245,26 @@
 			>
 			<File
 				RelativePath="..\XULWin\XULWin.exe.manifest"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Source Files"
+			>
+			<File
+				RelativePath=".\ConfigSample.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ImageViewerSample.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tester.cpp"
 				>
 			</File>
 		</Filter>

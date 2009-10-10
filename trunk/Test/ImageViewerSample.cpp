@@ -1,11 +1,11 @@
-#include "Test/ImageViewerSample.h"
+#include "ImageViewerSample.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/EventListener.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ElementImpl.h"
 #include "XULWin/Image.h"
-#include "Utils/Unicode.h"
-#include "Utils/WinUtils.h"
+#include "XULWin/Utils/Unicode.h"
+#include "XULWin/Utils/WinUtils.h"
 #include <boost/bind.hpp>
 
 

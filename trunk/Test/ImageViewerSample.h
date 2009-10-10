@@ -2,6 +2,7 @@
 #define IMAGEVIEWER_H_INCLUDED
 
 
+#include "XULWin/Element.h"
 #include "XULWin/EventListener.h"
 #include <string>
 #include <windows.h>

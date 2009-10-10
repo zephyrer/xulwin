@@ -116,7 +116,7 @@ namespace SVG
             bufferedPaint(hDC);
             ::EndPaint(handle(), &ps);
             ::ReleaseDC(handle(), hDC);
-            return TRUE;
+            return 0;
         }
         return Super::handleMessage(inMessage, wParam, lParam);
     }

@@ -738,7 +738,6 @@ namespace XULWin
     {
         switch (inMessage)
         {
-
             case WM_COMMAND:
             {
 				WORD paramHi = HIWORD(wParam);
@@ -774,7 +773,7 @@ namespace XULWin
                         break;
 					}
                 }
-                return 0;
+                break;
             }
             // These messages get forwarded to the child elements that produced them.
             case WM_VSCROLL:
@@ -785,8 +784,9 @@ namespace XULWin
                 if (it != sComponentsByHandle.end())
                 {
                     it->second->handleMessage(inMessage, wParam, lParam);
+                    return 0;
                 }
-                return 0;
+                break;
             }
         }
 
@@ -1120,6 +1120,7 @@ namespace XULWin
                         break;
 					}
                 }
+                break;
             }
             // These messages get forwarded to the child elements that produced them.
             case WM_VSCROLL:
@@ -1129,8 +1130,9 @@ namespace XULWin
                 if (sender)
                 {
                     sender->handleMessage(inMessage, wParam, lParam);
+                    return 0;
                 }
-                return 0;
+                break;
             }
         }
 

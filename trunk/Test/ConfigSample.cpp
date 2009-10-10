@@ -17,7 +17,7 @@ namespace XULWin
         Element * allowRatingsCheckbox = mConfigWindow->getElementById("allowRatingsCheckBox");
         mEvents.connect(allowRatingsCheckbox, boost::bind(&ConfigSample::showMessage, this, "Checked"));
         
-        mSetsPopup = mConfigWindow->getElementById("setsPopup");
+        mSetsPopup = mConfigWindow->getElementById("setsMenuList");
         
         Element * tagsText = mConfigWindow->getElementById("tagsTextBox");
         mEvents.connect(tagsText, WM_KEYUP, boost::bind(&ConfigSample::showMessage, this, "WM_KEYUP"));
@@ -73,9 +73,16 @@ namespace XULWin
     { 
         AttributesMapping attr;
         attr["label"] = inSetName;
-        ElementPtr item = MenuItem::Create(mSetsPopup, attr);
-        item->init();
-        return 0;
+        if (!mSetsPopup->children().empty())
+        {
+            if (MenuPopup * popup = mSetsPopup->children()[0]->downcast<MenuPopup>())
+            {
+                ElementPtr item = MenuItem::Create(popup, attr);
+                item->init();
+                return 0;
+            }
+        }
+        return 1;
     }
 
 

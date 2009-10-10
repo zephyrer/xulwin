@@ -1,7 +1,7 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/WinUtils.h"
 #include "Poco/Path.h"
 #include "Poco/UnicodeConverter.h"
 #include <boost/bind.hpp>

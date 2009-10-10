@@ -1,5 +1,5 @@
 #include "XULWin/ElementFactory.h"
-#include "XULWin/Utils/ErrorReporter.h"
+#include "XULWin/ErrorReporter.h"
 
 
 using namespace XULWin;

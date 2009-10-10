@@ -1,7 +1,7 @@
-#include "XULWin/Utils/PopupMenu.h"
-#include "XULWin/Utils/ErrorReporter.h"
-#include "XULWin/Utils/Unicode.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/PopupMenu.h"
+#include "XULWin/ErrorReporter.h"
+#include "XULWin/Unicode.h"
+#include "XULWin/WinUtils.h"
 #include <sstream>
 
 

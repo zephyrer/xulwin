@@ -1,7 +1,7 @@
 #include "Tester.h"
 #include "XULWin/Element.h"
 #include "XULWin/XULRunner.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/WinUtils.h"
 
 
 namespace XULWin

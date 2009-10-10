@@ -1,4 +1,4 @@
-#include "XULWin/Utils/ErrorReporter.h"
+#include "XULWin/ErrorReporter.h"
 #include <sstream>
 #include <assert.h>
 

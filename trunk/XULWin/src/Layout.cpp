@@ -1,5 +1,5 @@
 #include "XULWin/Layout.h"
-#include "XULWin/Utils/ErrorReporter.h"
+#include "XULWin/ErrorReporter.h"
 #include <assert.h>
 
 

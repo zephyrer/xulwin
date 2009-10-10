@@ -7,7 +7,7 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ElementImpl.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/Utils/Fallible.h"
+#include "XULWin/Fallible.h"
 #include <boost/bind.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>

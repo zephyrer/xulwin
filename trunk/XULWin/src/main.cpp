@@ -4,8 +4,8 @@
 #include "XULWin/Image.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/XULRunner.h"
-#include "XULWin/Utils/ErrorReporter.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/ErrorReporter.h"
+#include "XULWin/WinUtils.h"
 #include "Poco/Path.h"
 #include "Poco/StringTokenizer.h"
 #include <windows.h>

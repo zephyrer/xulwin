@@ -2,7 +2,7 @@
 #include "XULWin/ElementFactory.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/Utils/ErrorReporter.h"
+#include "XULWin/ErrorReporter.h"
 #include "Poco/SAX/Attributes.h"
 #include "Poco/SAX/EntityResolverImpl.h"
 

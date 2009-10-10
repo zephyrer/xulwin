@@ -1,5 +1,5 @@
 #include "XULWin/Conversions.h"
-#include "XULWin/Utils/ErrorReporter.h"
+#include "XULWin/ErrorReporter.h"
 #include "Poco/String.h"
 #include "Poco/StringTokenizer.h"
 #include <boost/lexical_cast.hpp>

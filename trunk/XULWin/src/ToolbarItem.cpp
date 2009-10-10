@@ -1,8 +1,8 @@
-#include "XULWin/Utils/ToolbarItem.h"
-#include "XULWin/Utils/Toolbar.h"
-#include "XULWin/Utils/PopupMenu.h"
-#include "XULWin/Utils/Unicode.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/ToolbarItem.h"
+#include "XULWin/Toolbar.h"
+#include "XULWin/PopupMenu.h"
+#include "XULWin/Unicode.h"
+#include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
 #include <gdiplus.h>
 #include <commctrl.h>

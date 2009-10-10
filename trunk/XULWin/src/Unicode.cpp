@@ -1,4 +1,4 @@
-#include "XULWin/Utils/Unicode.h"
+#include "XULWin/Unicode.h"
 #include "Poco/UnicodeConverter.h"
 
 

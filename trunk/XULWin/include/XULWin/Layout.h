@@ -4,7 +4,7 @@
 
 #include "XULWin/Enums.h"
 #include "XULWin/Points.h"
-#include "XULWin/Utils/GenericGrid.h"
+#include "XULWin/GenericGrid.h"
 #include <vector>
 
 

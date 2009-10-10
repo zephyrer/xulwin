@@ -1,6 +1,6 @@
-#include "XULWin/Utils/WinUtils.h"
-#include "XULWin/Utils/ErrorReporter.h"
-#include "XULWin/Utils/Unicode.h"
+#include "XULWin/WinUtils.h"
+#include "XULWin/ErrorReporter.h"
+#include "XULWin/Unicode.h"
 #include <boost/lexical_cast.hpp>
 #include <commctrl.h>
 

@@ -4,8 +4,8 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ElementImpl.h"
 #include "XULWin/Image.h"
-#include "XULWin/Utils/Unicode.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/Unicode.h"
+#include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
 
 

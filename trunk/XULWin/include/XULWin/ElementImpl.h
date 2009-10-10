@@ -9,8 +9,8 @@
 #include "XULWin/Graphics.h"
 #include "XULWin/Layout.h"
 #include "XULWin/StyleController.h"
-#include "XULWin/Utils/Fallible.h"
-#include "XULWin/Utils/Toolbar.h"
+#include "XULWin/Fallible.h"
+#include "XULWin/Toolbar.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>

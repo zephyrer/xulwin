@@ -3,10 +3,10 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Layout.h"
-#include "XULWin/Utils/ErrorReporter.h"
-#include "XULWin/Utils/ToolbarItem.h"
-#include "XULWin/Utils/Unicode.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/ErrorReporter.h"
+#include "XULWin/ToolbarItem.h"
+#include "XULWin/Unicode.h"
+#include "XULWin/WinUtils.h"
 #include "Poco/String.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>

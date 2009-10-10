@@ -1,7 +1,7 @@
-#include "XULWin/Utils/Toolbar.h"
-#include "XULWin/Utils/ToolbarItem.h"
-#include "XULWin/Utils/Unicode.h"
-#include "XULWin/Utils/WinUtils.h"
+#include "XULWin/Toolbar.h"
+#include "XULWin/ToolbarItem.h"
+#include "XULWin/Unicode.h"
+#include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
 #include <commctrl.h>
 

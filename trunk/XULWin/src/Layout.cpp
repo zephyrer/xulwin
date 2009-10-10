@@ -3,9 +3,6 @@
 #include <assert.h>
 
 
-using namespace XULWin;
-
-
 namespace XULWin
 {
 

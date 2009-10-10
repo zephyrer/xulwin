@@ -7,9 +7,6 @@
 #include "Poco/String.h"
 
 
-using namespace XULWin;
-
-
 namespace XULWin
 {
 

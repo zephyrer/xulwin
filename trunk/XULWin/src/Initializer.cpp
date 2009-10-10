@@ -6,9 +6,6 @@
 #include "XULWin/ErrorReporter.h"
 
 
-using namespace XULWin;
-
-
 namespace XULWin
 {
     

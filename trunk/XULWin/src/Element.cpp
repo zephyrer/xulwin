@@ -9,9 +9,6 @@
 #include <boost/bind.hpp>
 
 
-using namespace XULWin;
-
-
 namespace XULWin
 {
 

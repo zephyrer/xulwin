@@ -7,11 +7,6 @@
 #include "Poco/SAX/EntityResolverImpl.h"
 
 
-using namespace XULWin;
-using namespace Poco;
-using namespace Poco::XML;
-
-
 namespace XULWin
 {
 
@@ -141,23 +136,23 @@ namespace XULWin
     }
 
 
-    InputSource* Parser::resolveEntity(const XMLString* publicId, const XMLString& systemId)
+    Poco::XML::InputSource* Parser::resolveEntity(const Poco::XML::XMLString* publicId, const Poco::XML::XMLString& systemId)
     {
         size_t idx = systemId.find("chrome://");
         if (idx != std::string::npos)
         {
             ChromeURL url(systemId, Defaults::locale());
             std::string path = url.convertToLocalPath();
-            EntityResolverImpl entityResolverImpl;
+            Poco::XML::EntityResolverImpl entityResolverImpl;
             return entityResolverImpl.resolveEntity(publicId, path);
         }
         return 0;
     }
 
 
-    void Parser::releaseInputSource(InputSource* pSource)
+    void Parser::releaseInputSource(Poco::XML::InputSource* pSource)
     {
-        EntityResolverImpl entityResolverImpl;
+        Poco::XML::EntityResolverImpl entityResolverImpl;
         return entityResolverImpl.releaseInputSource(pSource);
     }
 

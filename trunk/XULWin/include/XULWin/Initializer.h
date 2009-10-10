@@ -24,4 +24,5 @@ namespace XULWin
 
 } // namespace XULWin
 
+
 #endif // INITIALIZER_H_INCLUDED

@@ -6,9 +6,6 @@
 #include <map>
 
 
-using namespace XULWin;
-
-
 namespace XULWin
 {
     using namespace SVG;

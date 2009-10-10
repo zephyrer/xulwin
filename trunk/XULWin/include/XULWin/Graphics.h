@@ -24,4 +24,5 @@ namespace XULWin
 
 } // namespace XULWin
 
+
 #endif // GRAPHICS_H_INCLUDED

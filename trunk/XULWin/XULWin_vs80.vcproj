@@ -214,10 +214,6 @@
 			Name="_Notes"
 			>
 			<File
-				RelativePath=".\configpanel.bmp"
-				>
-			</File>
-			<File
 				RelativePath=".\Todo.txt"
 				>
 			</File>

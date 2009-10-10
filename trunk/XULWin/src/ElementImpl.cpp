@@ -1030,7 +1030,7 @@ namespace XULWin
     void NativeWindow::showModal()
     {
         rebuildLayout();
-        SIZE sz = Windows::GetSizeDifference_WindowRect_ClientRect(handle());
+        SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
         int w = getWidth() + sz.cx;
         int h = getHeight() + sz.cy;
         int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
@@ -1077,7 +1077,7 @@ namespace XULWin
             }
             case WM_GETMINMAXINFO:
             {
-                SIZE sizeDiff = Windows::GetSizeDifference_WindowRect_ClientRect(handle());
+                SIZE sizeDiff = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
                 MINMAXINFO * minMaxInfo = (MINMAXINFO*)lParam;
                 minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;

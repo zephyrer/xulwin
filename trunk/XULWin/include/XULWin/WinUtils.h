@@ -42,7 +42,7 @@ namespace Windows
 
     std::string getLastError(DWORD lastError);
 
-    SIZE GetSizeDifference_WindowRect_ClientRect(HWND inHandle);
+    SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
 
     void addStringToComboBox(HWND inHandle, const std::string & inString);
 

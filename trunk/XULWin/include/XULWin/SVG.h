@@ -85,4 +85,5 @@ namespace SVG
 
 } // namespace XULWin
 
+
 #endif // SVG_H_INCLUDED

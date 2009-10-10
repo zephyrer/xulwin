@@ -23,7 +23,7 @@ namespace XULWin
         Script(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
-
 } // namespace XULWin
+
 
 #endif // SCRIPT_H_INCLUDED

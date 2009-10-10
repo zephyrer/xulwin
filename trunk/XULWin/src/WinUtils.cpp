@@ -49,7 +49,7 @@ namespace Windows
     }
     
     
-    SIZE GetSizeDifference_WindowRect_ClientRect(HWND inHandle)
+    SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle)
     {
 	    RECT rc;
 	    GetClientRect(inHandle, &rc);

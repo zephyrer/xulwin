@@ -152,8 +152,7 @@ namespace XULWin
         virtual const std::string & getCSSListStyleImage() const = 0;
     };
 
-    
-
 } // namespace XULWin
+
 
 #endif // STYLECONTROLLER_H_INCLUDED

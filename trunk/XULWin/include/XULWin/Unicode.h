@@ -15,5 +15,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-
 #endif // UNICODE_H_INCLUDED

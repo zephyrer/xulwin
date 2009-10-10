@@ -31,6 +31,7 @@ namespace XULWin
         Stretch
     };
 
+
     enum CSSTextAlign
     {
         CSSTextAlign_Left,
@@ -38,6 +39,7 @@ namespace XULWin
         CSSTextAlign_Right,
         //CSSTextAlign_Justify // not supported atm
     };
+
 
     enum CSSOverflow
     {

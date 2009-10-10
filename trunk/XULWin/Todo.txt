@@ -1,3 +1,4 @@
+- Fix combobox selection action
 - Support menu-buttons in Toolbar
 - Fix WS_TABSTOP for multiline TextBoxes
 - Checkbox partial checkstate

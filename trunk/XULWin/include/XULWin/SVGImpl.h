@@ -155,4 +155,5 @@ namespace SVG
 
 } // namespace XULWin
 
+
 #endif // SVGIMPL_H_INCLUDED

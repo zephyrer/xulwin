@@ -50,4 +50,5 @@ namespace XULWin
 
 } // namespace XULWin
 
+
 #endif // TOOLBARCUSTOMWINDOWDECORATOR_H_INCLUDED

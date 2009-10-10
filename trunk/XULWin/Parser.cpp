@@ -7,7 +7,7 @@
 #include "Poco/SAX/EntityResolverImpl.h"
 
 
-using namespace Utils;
+using namespace XULWin;
 using namespace Poco;
 using namespace Poco::XML;
 
@@ -75,7 +75,7 @@ namespace XULWin
                 //
                 // Get attributes
                 //
-                XULWin::AttributesMapping attr;
+                AttributesMapping attr;
                 for (int idx = 0; idx != attributes.getLength(); ++idx)
                 {
                     const Poco::XML::XMLString & name = attributes.getLocalName(idx);

@@ -1,5 +1,6 @@
 #include "Toolbar.h"
 #include "ToolbarItem.h"
+#include "Utils/Unicode.h"
 #include "Utils/WinUtils.h"
 #include <boost/bind.hpp>
 #include <commctrl.h>
@@ -9,8 +10,12 @@
 #define free(p) _free_dbg(p, _NORMAL_BLOCK); *(int*)&p = 0x666;
 #endif
 
-namespace Utils
+namespace XULWin
 {
+
+namespace Windows
+{
+
 	extern const int cDownArrowWidth = 10;
 	extern const int cMarginForCustomWindow = 4;
 	extern const int cSpacingBetweenIconAndText = 4;
@@ -257,7 +262,7 @@ namespace Utils
 				buttonInfo.cx = item->getLeftMargin() + item->getRightMargin();
 				if (!item->text().empty())
 				{
-                    buttonInfo.cx += (WORD)Utils::getTextSize(inToolbarHandle, item->text()).cx;
+                    buttonInfo.cx += (WORD)Windows::getTextSize(inToolbarHandle, item->text()).cx;
 				}
 				if (item->image())
 				{
@@ -609,7 +614,7 @@ namespace Utils
 						    if (!item->tooltipText().empty())
 						    {
 							    static std::wstring fText;
-							    fText = Utils::ToUTF16(item->tooltipText());
+							    fText = ToUTF16(item->tooltipText());
 							    lpttt->lpszText = const_cast<TCHAR*>(fText.c_str());
 							    lpttt->hinst = pThis->moduleHandle();
 						    }
@@ -652,7 +657,7 @@ namespace Utils
 							{
 								case CDDS_PREPAINT:
 								{
-                                    bool isVisible = Utils::isWindowVisible(pThis->handle());
+                                    bool isVisible = Windows::isWindowVisible(pThis->handle());
                                     RECT rc;
                                     ::GetClientRect(pThis->handle(), &rc);
 									return CDRF_NOTIFYITEMDRAW;
@@ -668,7 +673,7 @@ namespace Utils
                                         {
 										    if (item->noHover())
 										    {
-											    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, Utils::getTextSize(pThis->handle(), item->text()));
+											    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, Windows::getTextSize(pThis->handle(), item->text()));
 											    return CDRF_SKIPDEFAULT;
 										    }
                                         }
@@ -686,7 +691,7 @@ namespace Utils
 									AbstractToolbarItem * abstractItem = it->get();
                                     if (ConcreteToolbarItem * item = dynamic_cast<ConcreteToolbarItem*>(abstractItem))
                                     {
-									    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, Utils::getTextSize(pThis->handle(), item->text()));									    
+									    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, Windows::getTextSize(pThis->handle(), item->text()));									    
                                     }
                                     return CDRF_DODEFAULT;
 								}
@@ -726,5 +731,6 @@ namespace Utils
 	}
 
 
-} // namespace Utils
+} // namespace Windows
 
+} // namespace XULWin

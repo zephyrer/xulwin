@@ -6,7 +6,7 @@
 #include <map>
 
 
-using namespace Utils;
+using namespace XULWin;
 
 
 namespace XULWin

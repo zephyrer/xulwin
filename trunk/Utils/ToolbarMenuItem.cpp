@@ -1,7 +1,10 @@
 #include "ToolbarMenuItem.h"
 
 
-namespace Utils
+namespace XULWin
+{
+
+namespace Windows
 {
 
 
@@ -16,4 +19,6 @@ namespace Utils
 	}
 
 
-} // namespace Utils
+} // namespace Windows
+
+} // namespace XULWin

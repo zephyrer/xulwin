@@ -7,7 +7,10 @@
 #include <boost/shared_ptr.hpp>
 
 
-namespace Utils
+namespace XULWin
+{
+
+namespace Windows
 {
 	
 	class ToolbarMenuItem;
@@ -27,7 +30,9 @@ namespace Utils
 			boost::function<void()> mAction;
 	};
 
-} // namespace Utils
+} // namespace Windows
+
+} // namespace XULWin
 
 
 #endif // TOOLBARMENUITEM_H_INCLUDED

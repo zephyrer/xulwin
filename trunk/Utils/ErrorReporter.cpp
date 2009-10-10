@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-namespace Utils
+namespace XULWin
 {
 
 
@@ -265,4 +265,4 @@ namespace Utils
 	}
 
 
-} // namespace Utils
+} // namespace XULWin

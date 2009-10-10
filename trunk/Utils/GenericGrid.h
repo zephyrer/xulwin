@@ -5,7 +5,7 @@
 #include <vector>
 
 
-namespace Utils
+namespace XULWin
 {
 
 	/**
@@ -90,6 +90,6 @@ namespace Utils
 	}
 
 
-} // namespace Utils
+} // namespace XULWin
 
 #endif // GENERIC_GRID_H

@@ -4,11 +4,12 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ElementImpl.h"
 #include "XULWin/Image.h"
+#include "Utils/Unicode.h"
 #include "Utils/WinUtils.h"
 #include <boost/bind.hpp>
 
 
-using namespace Utils;
+using namespace XULWin;
 
 
 namespace XULWin
@@ -22,7 +23,7 @@ namespace XULWin
     void ImageViewerSample::run()
     {
         std::string chdir = "../xulrunnersamples/imageviewer/";
-        CurrentDirectoryChanger curdir(chdir);
+        Windows::CurrentDirectoryChanger curdir(chdir);
 
         //system("run.bat");
 
@@ -61,7 +62,7 @@ namespace XULWin
 
             // Create the image element
             AttributesMapping attr;
-            attr["src"] = Utils::ToUTF8(&fileName[0]);
+            attr["src"] = ToUTF8(&fileName[0]);
             attr["flex"] = "1";
             attr["width"] = "160";
             attr["flex"] = "0";

@@ -11,7 +11,10 @@
 #include <gdiplus.h>
 
 
-namespace Utils
+namespace XULWin
+{
+
+namespace Windows
 {
 
 	class Toolbar;
@@ -264,7 +267,9 @@ namespace Utils
 		virtual void draw(HDC inHDC, RECT inRect, HFONT hFont, SIZE inTextSize);
 	};
 
-} // namespace Utils
+} // namespace Windows
+
+} // namespace XULWin
 
 
 #endif // TOOLBARITEM_H_INCLUDED

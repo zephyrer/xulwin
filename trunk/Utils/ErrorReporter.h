@@ -8,7 +8,7 @@
 #include <boost/shared_ptr.hpp>
 
 
-namespace Utils
+namespace XULWin
 {
 
 
@@ -192,7 +192,7 @@ namespace Utils
 	void ReportError(int inErrorCode);
 
 
-} // namespace Utils
+} // namespace XULWin
 
 
 #endif // ERRORSTACK_H

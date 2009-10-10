@@ -12,6 +12,7 @@
 
 namespace XULWin
 {
+    using namespace Windows;
 
     Decorator::Decorator(ElementImpl * inDecoratedElement) :
         mDecoratedElement(inDecoratedElement)
@@ -717,16 +718,16 @@ namespace XULWin
                 int maxpos = Defaults::Attributes::maxpos();
                 float ratio = (float)newW/(float)mDecoratedElement->getWidth(Optimal);
                 int pageincrement = (int)(maxpos*ratio + 0.5);
-                int curpos = Utils::getScrollPos(scrollbar->handle());
+                int curpos = getScrollPos(scrollbar->handle());
                 if (ratio < 1)
                 {
-                    Utils::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
                     scrollbar->setHidden(mOverflowX == CSSOverflow_Hidden);
                     scrollbar->setDisabled(false);
                 }
                 else
                 {
-                    Utils::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
                     scrollbar->setHidden(mOverflowX != CSSOverflow_Scroll);
                     scrollbar->setDisabled(true);
                 }
@@ -746,10 +747,10 @@ namespace XULWin
                 int maxpos = Defaults::Attributes::maxpos();
                 float ratio = (float)newH/(float)mDecoratedElement->getHeight(Minimum);
                 int pageincrement = (int)(maxpos*ratio + 0.5);
-                int curpos = Utils::getScrollPos(scrollbar->handle());
+                int curpos = Windows::getScrollPos(scrollbar->handle());
                 if (ratio < 1)
                 {
-                    Utils::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
                     scrollbar->setHidden(mOverflowY == CSSOverflow_Hidden);
                     scrollbar->setDisabled(false);
                 }
@@ -757,7 +758,7 @@ namespace XULWin
                 {
                     scrollbar->setHidden(mOverflowY != CSSOverflow_Scroll);
                     scrollbar->setDisabled(true);
-                    Utils::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
                 }
                 if (!scrollbar->isHidden())
                 {
@@ -791,7 +792,7 @@ namespace XULWin
             {
                 NativeScrollbar * hscrollbar = mHorizontalScrollbar->impl()->downcast<NativeScrollbar>();
                 int minHorSize = mDecoratedElement->getWidth(Minimum);
-                int horScrollPos = Utils::getScrollPos(hscrollbar->handle());
+                int horScrollPos = Windows::getScrollPos(hscrollbar->handle());
                 double horRatio = (double)horScrollPos/(double)Defaults::Attributes::maxpos();
                 newHorScrollPos = (int)((horRatio * (double)minHorSize) + 0.5);
                 dx = newHorScrollPos - mOldHorScrollPos;
@@ -801,7 +802,7 @@ namespace XULWin
             {
                 NativeScrollbar * vscrollbar = mVerticalScrollbar->impl()->downcast<NativeScrollbar>();
                 int minVerSize = mDecoratedElement->getHeight(Minimum);
-                int verScrollPos = Utils::getScrollPos(vscrollbar->handle());
+                int verScrollPos = Windows::getScrollPos(vscrollbar->handle());
                 double verRatio = (double)verScrollPos/(double)Defaults::Attributes::maxpos();
                 newVerScrollPos = (int)((verRatio * (double)minVerSize) + 0.5);
                 dy = newVerScrollPos - mOldVerScrollPos;

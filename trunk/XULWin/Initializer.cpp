@@ -1,12 +1,12 @@
 #include "Initializer.h"
-#include "XULWin/ElementImpl.h"
-#include "XULWin/Image.h"
-#include "XULWin/Script.h"
-#include "XULWin/SVG.h"
+#include "ElementImpl.h"
+#include "Image.h"
+#include "Script.h"
+#include "SVG.h"
 #include "Utils/ErrorReporter.h"
 
 
-using namespace Utils;
+using namespace XULWin;
 
 
 namespace XULWin

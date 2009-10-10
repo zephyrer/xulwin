@@ -42,11 +42,11 @@ namespace XULWin
         XULRunner mRunner;   
         ElementPtr mConfigWindow;
         ElementPtr mNewSetDlg;
-        Utils::Fallible<Element*> mNewSetButton;
-        Utils::Fallible<Element*> mSetsPopup;    
-        Utils::Fallible<Element*> mNewSetTextBox;
-        Utils::Fallible<Element*> mNewSetOK;
-        Utils::Fallible<Element*> mNewSetCancel;
+        XULWin::Fallible<Element*> mNewSetButton;
+        XULWin::Fallible<Element*> mSetsPopup;    
+        XULWin::Fallible<Element*> mNewSetTextBox;
+        XULWin::Fallible<Element*> mNewSetOK;
+        XULWin::Fallible<Element*> mNewSetCancel;
         ScopedEventListener mEvents;
     };
 

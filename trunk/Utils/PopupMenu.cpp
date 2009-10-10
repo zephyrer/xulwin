@@ -1,10 +1,14 @@
 #include "PopupMenu.h"
 #include "ErrorReporter.h"
+#include "Unicode.h"
 #include "WinUtils.h"
 #include <sstream>
 
 
-namespace Utils
+namespace XULWin
+{
+
+namespace Windows
 {
 
     boost::shared_ptr<PopupMenuItem> PopupMenuItem::Separator(new PopupMenuItem(0, ""));
@@ -124,7 +128,7 @@ namespace Utils
 	    if (!result)
 	    {
             std::stringstream ss;
-            ss << "PopupMenu::appendMenuItem failed. Reason: " << Utils::getLastError(::GetLastError());
+            ss << "PopupMenu::appendMenuItem failed. Reason: " << Windows::getLastError(::GetLastError());
 		    ReportError(ss.str());
 	    }
     }
@@ -160,7 +164,7 @@ namespace Utils
 	    if (!result)
 	    {
             std::stringstream ss;
-            ss << "PopupMenu::appendMenuItem failed. Reason: " << Utils::getLastError(::GetLastError());
+            ss << "PopupMenu::appendMenuItem failed. Reason: " << Windows::getLastError(::GetLastError());
 		    ReportError(ss.str());
 	    }
     }
@@ -194,4 +198,6 @@ namespace Utils
 	    }
     }
 
-} // namespace Utils
+} // namespace Windows
+
+} // namespace XULWin

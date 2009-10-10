@@ -7,7 +7,7 @@
 #include "Poco/String.h"
 
 
-using namespace Utils;
+using namespace XULWin;
 
 
 namespace XULWin
@@ -128,7 +128,7 @@ namespace XULWin
     void XULRunner::run(const std::string & inApplicationIniFile)
     {
         Parser parser;
-        Poco::Path topLevelAppDir = Utils::getCurrentDirectory();
+        Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
         if (Window * window = parser.rootElement()->downcast<Window>())
@@ -141,7 +141,7 @@ namespace XULWin
     ElementPtr XULRunner::loadApplication(const std::string & inApplicationIniFile)
     {
         Parser parser;
-        Poco::Path topLevelAppDir = Utils::getCurrentDirectory();
+        Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
         return parser.rootElement();
@@ -152,7 +152,7 @@ namespace XULWin
     {
         ChromeURL url(inXULUrl, Defaults::locale());
         Parser parser;
-        std::string curdir = Utils::getCurrentDirectory();
+        std::string curdir = Windows::getCurrentDirectory();
         std::string path = url.convertToLocalPath();
         parser.parse(path);
         return parser.rootElement();

@@ -10,7 +10,10 @@
 #include <windows.h>
 
 
-namespace Utils
+namespace XULWin
+{
+
+namespace Windows
 {
 
 	class AbstractToolbarItem;
@@ -109,7 +112,9 @@ namespace Utils
 			std::vector<boost::signals::connection> mConnections;
 	};
 
-}
+} // namespace Windows
+
+} // namespace XULWin
 
 
 #endif // TOOLBAR_H_INCLUDED

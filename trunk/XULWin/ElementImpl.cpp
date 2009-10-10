@@ -5,6 +5,7 @@
 #include "Layout.h"
 #include "Utils/ErrorReporter.h"
 #include "Utils/ToolbarItem.h"
+#include "Utils/Unicode.h"
 #include "Utils/WinUtils.h"
 #include "Poco/String.h"
 #include <boost/bind.hpp>
@@ -12,7 +13,7 @@
 #include <CommCtrl.h>
 
 
-using namespace Utils;
+using namespace XULWin;
 
 
 namespace XULWin
@@ -637,32 +638,32 @@ namespace XULWin
     
     bool NativeComponent::isDisabled() const
     {
-        return Utils::isWindowDisabled(handle());
+        return Windows::isWindowDisabled(handle());
     }
 
 
     void NativeComponent::setDisabled(bool inDisabled)
     {
-        Utils::disableWindow(handle(), inDisabled);
+        Windows::disableWindow(handle(), inDisabled);
     }
 
 
     std::string NativeComponent::getLabel() const
     {
-        return Utils::getWindowText(handle());
+        return Windows::getWindowText(handle());
     }
 
 
     void NativeComponent::setLabel(const std::string & inLabel)
     {
-        Utils::setWindowText(handle(), inLabel);
+        Windows::setWindowText(handle(), inLabel);
     }
     
     
     void NativeComponent::setHidden(bool inHidden)
     {
         Super::setHidden(inHidden);
-        Utils::setWindowVisible(handle(), !inHidden);
+        Windows::setWindowVisible(handle(), !inHidden);
     }
         
     
@@ -880,7 +881,7 @@ namespace XULWin
             0
         );
 
-        std::string error = Utils::getLastError(::GetLastError());
+        std::string error = Windows::getLastError(::GetLastError());
 
 
         // set default font
@@ -990,13 +991,13 @@ namespace XULWin
     
     std::string NativeWindow::getTitle() const
     {
-        return Utils::getWindowText(handle());
+        return Windows::getWindowText(handle());
     }
 
 
     void NativeWindow::setTitle(const std::string & inTitle)
     {
-        Utils::setWindowText(handle(), inTitle);
+        Windows::setWindowText(handle(), inTitle);
     }
 
     
@@ -1033,7 +1034,7 @@ namespace XULWin
     void NativeWindow::showModal()
     {
         rebuildLayout();
-        SIZE sz = Utils::GetSizeDifference_WindowRect_ClientRect(handle());
+        SIZE sz = Windows::GetSizeDifference_WindowRect_ClientRect(handle());
         int w = getWidth() + sz.cx;
         int h = getHeight() + sz.cy;
         int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
@@ -1080,7 +1081,7 @@ namespace XULWin
             }
             case WM_GETMINMAXINFO:
             {
-                SIZE sizeDiff = GetSizeDifference_WindowRect_ClientRect(handle());
+                SIZE sizeDiff = Windows::GetSizeDifference_WindowRect_ClientRect(handle());
                 MINMAXINFO * minMaxInfo = (MINMAXINFO*)lParam;
                 minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;
@@ -1252,7 +1253,7 @@ namespace XULWin
 
         if (!mHandle)
         {
-            ReportError(Utils::getLastError(::GetLastError()));
+            ReportError(Windows::getLastError(::GetLastError()));
             return;
         }
 
@@ -1365,8 +1366,8 @@ namespace XULWin
     
     int NativeButton::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = Utils::getWindowText(handle());
-        int minWidth = Utils::getTextSize(handle(), text).cx;
+        std::string text = Windows::getWindowText(handle());
+        int minWidth = Windows::getTextSize(handle(), text).cx;
         minWidth += Defaults::textPadding();
         return std::max<int>(minWidth, Defaults::buttonWidth());
     }
@@ -1386,19 +1387,19 @@ namespace XULWin
     
     int NativeCheckBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::checkBoxMinimumWidth() + Utils::getTextSize(handle(), Utils::getWindowText(handle())).cx;
+        return Defaults::checkBoxMinimumWidth() + Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx;
     }
 
     
     bool NativeCheckBox::isChecked() const
     {
-        return Utils::isCheckBoxChecked(handle());
+        return Windows::isCheckBoxChecked(handle());
     }
 
 
     void NativeCheckBox::setChecked(bool inChecked)
     {
-        Utils::setCheckBoxChecked(handle(), inChecked);
+        Windows::setCheckBoxChecked(handle(), inChecked);
     }
 
     
@@ -1452,25 +1453,25 @@ namespace XULWin
 
     std::string NativeTextBox::getValue() const
     {
-        return Utils::getWindowText(handle());
+        return Windows::getWindowText(handle());
     }
 
 
     void NativeTextBox::setValue(const std::string & inStringValue)
     {
-        Utils::setWindowText(handle(), inStringValue);
+        Windows::setWindowText(handle(), inStringValue);
     }
     
     
     bool NativeTextBox::isReadOnly() const
     {
-        return Utils::isTextBoxReadOnly(handle());
+        return Windows::isTextBoxReadOnly(handle());
     }
 
     
     void NativeTextBox::setReadOnly(bool inReadOnly)
     {
-        Utils::setTextBoxReadOnly(handle(), inReadOnly);
+        Windows::setTextBoxReadOnly(handle(), inReadOnly);
     }
 
 
@@ -1497,8 +1498,8 @@ namespace XULWin
 
     int NativeTextBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = Utils::getWindowText(handle());
-        int width = Utils::getTextSize(handle(), text).cx;
+        std::string text = Windows::getWindowText(handle());
+        int width = Windows::getTextSize(handle(), text).cx;
         width += Defaults::textPadding();
         return width;
     }
@@ -1527,19 +1528,19 @@ namespace XULWin
         
     std::string NativeLabel::getValue() const
     {
-        return Utils::getWindowText(handle());
+        return Windows::getWindowText(handle());
     }
 
 
     void NativeLabel::setValue(const std::string & inStringValue)
     {
-        Utils::setWindowText(handle(), inStringValue);
+        Windows::setWindowText(handle(), inStringValue);
     }
     
     
     CSSTextAlign NativeLabel::getCSSTextAlign() const
     {
-        LONG styles = Utils::getWindowStyles(handle());
+        LONG styles = Windows::getWindowStyles(handle());
         if (styles & SS_LEFT)
         {
             return CSSTextAlign_Left;
@@ -1561,7 +1562,7 @@ namespace XULWin
 
     void NativeLabel::setCSSTextAlign(CSSTextAlign inValue)
     {
-        LONG styles = Utils::getWindowStyles(handle());
+        LONG styles = Windows::getWindowStyles(handle());
         styles &= ~SS_LEFT;
         styles &= ~SS_CENTER;
         styles &= ~SS_RIGHT;
@@ -1589,7 +1590,7 @@ namespace XULWin
             //    break;
             //}
         }
-        Utils::setWindowStyle(handle(), styles);
+        Windows::setWindowStyle(handle(), styles);
     }
 
     
@@ -1609,15 +1610,15 @@ namespace XULWin
 
     int NativeLabel::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = Utils::getWindowText(handle());
-        int width = Utils::getTextSize(handle(), text).cx;
+        std::string text = Windows::getWindowText(handle());
+        int width = Windows::getTextSize(handle(), text).cx;
         return width;
     }
 
     
     int NativeLabel::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return Utils::getTextSize(handle(), Utils::getWindowText(handle())).cy;
+        return Windows::getTextSize(handle(), Windows::getWindowText(handle())).cy;
     }
 
 
@@ -1633,13 +1634,13 @@ namespace XULWin
         
     std::string NativeDescription::getValue() const
     {
-        return Utils::getWindowText(handle());
+        return Windows::getWindowText(handle());
     }
 
 
     void NativeDescription::setValue(const std::string & inStringValue)
     {
-        Utils::setWindowText(handle(), inStringValue);
+        Windows::setWindowText(handle(), inStringValue);
     }
 
 
@@ -1658,7 +1659,7 @@ namespace XULWin
     
     int NativeDescription::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return Utils::getMultilineTextHeight(handle());
+        return Windows::getMultilineTextHeight(handle());
     }
 
     
@@ -1889,7 +1890,7 @@ namespace XULWin
         int itemWidth = 0;
         for (size_t idx = 0; idx != mItems.size(); ++idx)
         {
-            int w = Utils::getTextSize(handle(), mItems[idx]).cx;
+            int w = Windows::getTextSize(handle(), mItems[idx]).cx;
             if (itemWidth < w)
             {
                 itemWidth = w;
@@ -1909,18 +1910,18 @@ namespace XULWin
     void NativeMenuList::move(int x, int y, int w, int h)
     {
         // The height of a combobox in Win32 is the height of the dropdown menu + the height of the widget itself.
-        h = h + Utils::getComboBoxItemCount(handle()) * Defaults::dropDownListItemHeight();
+        h = h + Windows::getComboBoxItemCount(handle()) * Defaults::dropDownListItemHeight();
         NativeControl::move(x, y, w, h);
     }
 
 
     void NativeMenuList::addMenuItem(const std::string & inText)
     {
-        Utils::addStringToComboBox(handle(), inText);
-        int count = Utils::getComboBoxItemCount(handle());        
+        Windows::addStringToComboBox(handle(), inText);
+        int count = Windows::getComboBoxItemCount(handle());        
         if (count == 1)
         {
-            Utils::selectComboBoxItem(handle(), 0);
+            Windows::selectComboBoxItem(handle(), 0);
         }
         mItems.push_back(inText);
 
@@ -1940,14 +1941,14 @@ namespace XULWin
                 break;
             }
         }
-        int idx = Utils::findStringInComboBox(handle(), inText);
+        int idx = Windows::findStringInComboBox(handle(), inText);
         if (idx == CB_ERR)
         {
             ReportError("MenuList: remove failed because item not found: '" + inText + "'.");
             return;
         }
 
-        Utils::deleteStringFromComboBox(handle(), idx);
+        Windows::deleteStringFromComboBox(handle(), idx);
 
         // size needs to be updated
         mParent->rebuildLayout();
@@ -2007,7 +2008,7 @@ namespace XULWin
         
     int NativeMenuButton::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Utils::getTextSize(handle(), Utils::getWindowText(handle())).cx + Defaults::textPadding()*2;
+        return Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx + Defaults::textPadding()*2;
     }
 
     
@@ -2580,7 +2581,7 @@ namespace XULWin
 
     int NativeRadio::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::radioButtonMinimumWidth() + Utils::getTextSize(handle(), Utils::getWindowText(handle())).cx;
+        return Defaults::radioButtonMinimumWidth() + Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx;
     }
 
     
@@ -2597,7 +2598,7 @@ namespace XULWin
                       0, // exStyle
                       PBS_SMOOTH)
     {
-        Utils::initializeProgressMeter(mHandle, 100);
+        Windows::initializeProgressMeter(mHandle, 100);
     }
 
 
@@ -2615,13 +2616,13 @@ namespace XULWin
 
     int NativeProgressMeter::getValue() const
     {
-        return Utils::getProgressMeterProgress(handle());
+        return Windows::getProgressMeterProgress(handle());
     }
 
 
     void NativeProgressMeter::setValue(int inValue)
     {
-        Utils::setProgressMeterProgress(handle(), inValue);
+        Windows::setProgressMeterProgress(handle(), inValue);
     }
 
 
@@ -2740,7 +2741,7 @@ namespace XULWin
         mIncrement(0)
     {
         mExpansive = true;
-        Utils::setScrollInfo(handle(), 100, 10, 0);
+        Windows::setScrollInfo(handle(), 100, 10, 0);
     }
 
 
@@ -2760,11 +2761,11 @@ namespace XULWin
     {
         if (inMessage == WM_VSCROLL || inMessage == WM_HSCROLL)
         {
-            int currentScrollPos = Utils::getScrollPos(handle());
+            int currentScrollPos = Windows::getScrollPos(handle());
             int totalHeight = 0;
             int pageHeight = 0;
             int currentPosition = 0;
-            Utils::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
             switch (LOWORD(wParam))
             {
                 case SB_LINEUP: // user clicked the top arrow
@@ -2815,7 +2816,7 @@ namespace XULWin
 
     int NativeScrollbar::getCurrentPosition() const
     {
-        return Utils::getScrollPos(handle());
+        return Windows::getScrollPos(handle());
     }
 
 
@@ -2824,7 +2825,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int oldCurPos = 0;
-        Utils::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
+        Windows::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
 
         // The order in which curpos, maxpos and pageincrement
         // will be set (alphabetically by attribute name) can cause
@@ -2844,7 +2845,7 @@ namespace XULWin
         {
             totalHeight = inCurrentPosition + 1;
         }
-        Utils::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
+        Windows::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
         if ((oldCurPos != inCurrentPosition) && eventHandler())
         {
             eventHandler()->curposChanged(this, oldCurPos, inCurrentPosition);
@@ -2857,7 +2858,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int curPos = 0;
-        Utils::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
         return totalHeight;
     }
 
@@ -2867,7 +2868,7 @@ namespace XULWin
         int dummy = 0;
         int pageHeight = 0;
         int curPos = 0;
-        Utils::getScrollInfo(handle(), dummy, pageHeight, curPos);
+        Windows::getScrollInfo(handle(), dummy, pageHeight, curPos);
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
@@ -2883,7 +2884,7 @@ namespace XULWin
         {
             pageHeight = inMaxPosition - 1;
         }
-        Utils::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
+        Windows::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
     }
 
 
@@ -2904,7 +2905,7 @@ namespace XULWin
         int totalHeight = 0;
         int dummy = 0;
         int curPos = 0;
-        Utils::getScrollInfo(handle(), totalHeight, dummy, curPos);
+        Windows::getScrollInfo(handle(), totalHeight, dummy, curPos);
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
@@ -2924,7 +2925,7 @@ namespace XULWin
         {
             totalHeight = inPageIncrement + 1;
         }
-        Utils::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
+        Windows::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
     }
 
 
@@ -2933,7 +2934,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int curPos = 0;
-        Utils::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
         return pageHeight;
     }
 
@@ -3013,7 +3014,7 @@ namespace XULWin
     {
         if (TabImpl * tab = getCorrespondingTab(mChildCount))
         {
-            Utils::appendTabPanel(mTabBarHandle, tab->owningElement()->getAttribute("label"));
+            Windows::appendTabPanel(mTabBarHandle, tab->owningElement()->getAttribute("label"));
             mChildCount++;
         }
         update();
@@ -3191,7 +3192,7 @@ namespace XULWin
         // There should be some more decent way to fix this. But for now
         // I just remove the flag from the parent. This may result in more
         // flickering during manual resize of the Window.
-        Utils::removeWindowStyle(NativeControl::GetNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
+        Windows::removeWindowStyle(NativeControl::GetNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
 
 
         mGroupBoxHandle = CreateWindowEx(0,
@@ -3221,13 +3222,13 @@ namespace XULWin
 
     void GroupBoxImpl::setCaption(const std::string & inLabel)
     {
-        Utils::setWindowText(mGroupBoxHandle, inLabel);
+        Windows::setWindowText(mGroupBoxHandle, inLabel);
     }
 
 
     int GroupBoxImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int textWidth = Defaults::textPadding() + Utils::getTextSize(mGroupBoxHandle, Utils::getWindowText(mGroupBoxHandle)).cx;
+        int textWidth = Defaults::textPadding() + Windows::getTextSize(mGroupBoxHandle, Windows::getWindowText(mGroupBoxHandle)).cx;
         int contentWidth = BoxLayouter::calculateWidth(inSizeConstraint);
         return mMarginLeft + std::max<int>(textWidth, contentWidth) + mMarginRight;
     }
@@ -3312,7 +3313,7 @@ namespace XULWin
     {
         if (NativeComponent * comp = NativeControl::GetNativeParent(mParent))
         {
-            return Utils::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
+            return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
         }
         return 0;
     }
@@ -3322,7 +3323,7 @@ namespace XULWin
     {
         if (NativeComponent * comp = NativeControl::GetNativeParent(mParent))
         {
-            return Utils::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
+            return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
         }
         return 0;
     }
@@ -3614,7 +3615,7 @@ namespace XULWin
         int result = 0;
         if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<TreeCellImpl*>(this)))
         {
-            result = Utils::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
+            result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
         }
         return result;
     }
@@ -3720,13 +3721,13 @@ namespace XULWin
 
     int StatusbarPanelImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Utils::getTextSize(handle(), getLabel()).cx;
+        return Windows::getTextSize(handle(), getLabel()).cx;
     }
 
 
     int StatusbarPanelImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return Utils::getTextSize(handle(), getLabel()).cy;
+        return Windows::getTextSize(handle(), getLabel()).cy;
     }
 
 
@@ -3740,7 +3741,7 @@ namespace XULWin
             rect.left = 0;
             rect.bottom = Defaults::toolbarHeight();
             rect.right = 1000;
-            mToolbar.reset(new Utils::Toolbar(this, ::GetModuleHandle(0), nativeComponent->handle(), rect, mCommandId.intValue()));
+            mToolbar.reset(new Windows::Toolbar(this, ::GetModuleHandle(0), nativeComponent->handle(), rect, mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
         }
@@ -3821,7 +3822,7 @@ namespace XULWin
             std::string buttonType = owningElement()->getAttribute("type");
             if (buttonType == "menu")
             {
-                mButton = new Utils::ToolbarDropDown(toolbar->nativeToolbar(),
+                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
                                                        mCommandId.intValue(), 
                                                        label,
                                                        label,
@@ -3831,7 +3832,7 @@ namespace XULWin
             }
             else
             {
-                mButton = new Utils::ToolbarButton(toolbar->nativeToolbar(),
+                mButton = new Windows::ToolbarButton(toolbar->nativeToolbar(),
                                                    mCommandId.intValue(), 
                                                    boost::function<void()>(),
                                                    label,
@@ -3869,7 +3870,7 @@ namespace XULWin
     {
         if (ToolbarImpl * toolbarImpl = parent()->downcast<ToolbarImpl>())
         {
-            int textWidth = Utils::getTextSize(toolbarImpl->handle(), getLabel()).cx;
+            int textWidth = Windows::getTextSize(toolbarImpl->handle(), getLabel()).cx;
             int imageWidth = 0;
             if (mButton && mButton->image())
             {
@@ -3886,7 +3887,7 @@ namespace XULWin
     {
         if (ToolbarImpl * toolbarImpl = parent()->downcast<ToolbarImpl>())
         {
-            int textHeight = Utils::getTextSize(toolbarImpl->handle(), getLabel()).cy;
+            int textHeight = Windows::getTextSize(toolbarImpl->handle(), getLabel()).cy;
             int imageHeight = 0;
             if (mButton && mButton->image())
             {
@@ -3945,7 +3946,7 @@ namespace XULWin
         if (mButton)
         {
             ChromeURL chromeURL(inURL, Defaults::locale());
-            std::wstring utf16URL = Utils::ToUTF16(chromeURL.convertToLocalPath());
+            std::wstring utf16URL = ToUTF16(chromeURL.convertToLocalPath());
             boost::shared_ptr<Gdiplus::Bitmap> img(new Gdiplus::Bitmap(utf16URL.c_str()));
             mButton->setImage(img);
         }

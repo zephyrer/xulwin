@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-using namespace Utils;
+using namespace XULWin;
 
 
 namespace XULWin
@@ -230,7 +230,7 @@ namespace XULWin
     void GridLayoutManager::GetOuterRects(const Rect & inRect,
                                           const std::vector<SizeInfo> & inColWidths,
                                           const std::vector<SizeInfo> & inRowHeights,
-                                          Utils::GenericGrid<Rect> & outRects)
+                                          GenericGrid<Rect> & outRects)
     {
         std::vector<int> colSizes;
         LinearLayoutManager::GetSizes(inRect.width(), inColWidths, colSizes);
@@ -254,9 +254,9 @@ namespace XULWin
         }
     }
 
-    void GridLayoutManager::GetInnerRects(const Utils::GenericGrid<Rect> & inOuterRects,
-                                          const Utils::GenericGrid<CellInfo> & inWidgetInfos,
-                                          Utils::GenericGrid<Rect> & outInnerRects)
+    void GridLayoutManager::GetInnerRects(const GenericGrid<Rect> & inOuterRects,
+                                          const GenericGrid<CellInfo> & inWidgetInfos,
+                                          GenericGrid<Rect> & outInnerRects)
     {
         for (size_t rowIdx = 0; rowIdx != inOuterRects.numRows(); ++rowIdx)
         {

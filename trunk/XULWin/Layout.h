@@ -223,11 +223,11 @@ namespace XULWin
         static void GetOuterRects(const Rect & inRect,
                                   const std::vector<SizeInfo> & inColWidths,
                                   const std::vector<SizeInfo> & inRowHeights,
-                                  Utils::GenericGrid<Rect> & outRects);
+                                  GenericGrid<Rect> & outRects);
 
-        static void GetInnerRects(const Utils::GenericGrid<Rect> & inOuterRects,
-                                  const Utils::GenericGrid<CellInfo> & inWidgetInfos,
-                                  Utils::GenericGrid<Rect> & outInnerRects);
+        static void GetInnerRects(const GenericGrid<Rect> & inOuterRects,
+                                  const GenericGrid<CellInfo> & inWidgetInfos,
+                                  GenericGrid<Rect> & outInnerRects);
     };
 
 } // namespace XULWin

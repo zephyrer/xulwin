@@ -2,7 +2,7 @@
 #define FALLIBLE_H_INCLUDED
 
 
-namespace Utils
+namespace XULWin
 {
 
     template<class T>
@@ -94,7 +94,7 @@ namespace Utils
         T mValue;
     };
 
-} // namespace Utils
+} // namespace XULWin
 
 
 #endif // FALLIBLE_H_INCLUDED

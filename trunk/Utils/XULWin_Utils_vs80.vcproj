@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="Utils"
+	Name="XULWin_Utils"
 	ProjectGUID="{85286E77-8679-422A-A839-C1D563D4441F}"
 	RootNamespace="ErrorHandler"
 	>
@@ -194,6 +194,14 @@
 			</File>
 			<File
 				RelativePath=".\ToolbarMenuItem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Unicode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Unicode.h"
 				>
 			</File>
 			<File

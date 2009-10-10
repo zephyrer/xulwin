@@ -1,4 +1,5 @@
 #include "Test/ConfigSample.h"
+#include "Utils/Unicode.h"
 #include <sstream>
 
 
@@ -7,7 +8,7 @@ namespace XULWin
 
     void ConfigSample::run()
     {
-        Utils::CurrentDirectoryChanger curdir("../xulrunnersamples/configpanel/");
+        Windows::CurrentDirectoryChanger curdir("../xulrunnersamples/configpanel/");
         mConfigWindow = mRunner.loadApplication("application.ini");
 
         mNewSetButton = mConfigWindow->getElementById("newSetButton");
@@ -46,7 +47,7 @@ namespace XULWin
         {
     	    TCHAR fileName[MAX_PATH];
             ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
-            files.push_back(Utils::ToUTF8(&fileName[0]));
+            files.push_back(ToUTF8(&fileName[0]));
         }
         return 0;
     }

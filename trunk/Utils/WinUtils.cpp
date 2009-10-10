@@ -1,28 +1,15 @@
-#include "WinUtils.h"
-#include "Poco/UnicodeConverter.h"
+#include "Utils/WinUtils.h"
+#include "Utils/Unicode.h"
 #include "ErrorReporter.h"
 #include <boost/lexical_cast.hpp>
 #include <commctrl.h>
 
 
-namespace Utils
+namespace XULWin
 {
-    
-    std::string ToUTF8(const std::wstring & inText)
-    {
-        std::string result;
-        Poco::UnicodeConverter::toUTF8(inText, result);
-        return result;
-    }
 
-
-    std::wstring ToUTF16(const std::string & inText)
-    {
-        std::wstring result;
-        Poco::UnicodeConverter::toUTF16(inText, result);
-        return result;
-    }
-
+namespace Windows
+{
 
     CommonControlsInitializer::CommonControlsInitializer() :
         mSuccess(false)
@@ -301,7 +288,7 @@ namespace Utils
     
     void setCheckBoxChecked(HWND inHandle, bool inChecked)
     {
-        setCheckBoxState(inHandle, inChecked ? Utils::CHECKED : Utils::UNCHECKED);
+        setCheckBoxState(inHandle, inChecked ? CHECKED : UNCHECKED);
     }
 
     
@@ -437,5 +424,7 @@ namespace Utils
             ReportError("Failed to insert a new tab.");
         }
     }
-    
-} // namespace Utils
+
+} // namespace Windows
+
+} // namespace XULWin

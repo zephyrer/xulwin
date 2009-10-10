@@ -3,7 +3,7 @@
 #include "Utils/ErrorReporter.h"
 
 
-using namespace Utils;
+using namespace XULWin;
 
 
 namespace XULWin

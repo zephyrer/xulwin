@@ -6,11 +6,11 @@
 #include <string>
 
 
-namespace Utils
+namespace XULWin
 {
-    std::string ToUTF8(const std::wstring & inText);
 
-    std::wstring ToUTF16(const std::string & inText);
+namespace Windows
+{
 
     class CurrentDirectoryChanger
     {
@@ -128,7 +128,9 @@ namespace Utils
 
     void appendTabPanel(HWND inHandle, const std::string & inTitle);
 
-} // namespace Utils
+} // namespace Windows
+
+} // namespace XULWin
 
 
 #endif // WINUTILS_H_INCLUDED

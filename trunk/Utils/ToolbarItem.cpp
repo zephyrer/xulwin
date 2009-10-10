@@ -1,6 +1,7 @@
 #include "ToolbarItem.h"
 #include "Toolbar.h"
 #include "Utils/PopupMenu.h"
+#include "Utils/Unicode.h"
 #include "Utils/WinUtils.h"
 #include <boost/bind.hpp>
 #include <gdiplus.h>
@@ -12,8 +13,12 @@
 #endif
 
 
-namespace Utils
+namespace XULWin
 {
+
+namespace Windows
+{
+
 	extern const int cDownArrowWidth;
 	extern const int cMarginForCustomWindow;
 	extern const int cSpacingBetweenIconAndText;
@@ -276,7 +281,7 @@ namespace Utils
 		}
 
 		// draw text
-        std::wstring unicodeText(Utils::ToUTF16(mText));
+        std::wstring unicodeText(ToUTF16(mText));
 		RECT textRect = getTextRect(this, rect, imageWidth, imageHeight, inTextSize);
 		int oldBkMode = ::SetBkMode(inHDC, TRANSPARENT);
 		DWORD fgColor = GetSysColor(COLOR_MENUTEXT);
@@ -411,10 +416,10 @@ namespace Utils
 
 			//if (sTimerID_DisposeActiveDropDown)
 			//{
-			//	Utils::StopTimer(sTimerID_DisposeActiveDropDown);
+			//	XULWin::StopTimer(sTimerID_DisposeActiveDropDown);
 			//}
 			//TrackPopupMenuEx(menu->operator HMENU(), TPM_LEFTALIGN | TPM_LEFTBUTTON, rc.left, rc.bottom, toolbar->handle(), &tpm);
-			//sTimerID_DisposeActiveDropDown = Utils::StartTimer(boost::bind(&ToolbarDropDown::disposeActiveDropDown, this), 1);
+			//sTimerID_DisposeActiveDropDown = XULWin::StartTimer(boost::bind(&ToolbarDropDown::disposeActiveDropDown, this), 1);
 		}
 	}
 	
@@ -426,7 +431,7 @@ namespace Utils
 	//	{
 	//		toolbar->setActiveDropDownToNull();
 	//	}
-	//	Utils::StopTimer(sTimerID_DisposeActiveDropDown);
+	//	XULWin::StopTimer(sTimerID_DisposeActiveDropDown);
 	//	sTimerID_DisposeActiveDropDown = 0;
 	//}
 
@@ -515,4 +520,6 @@ namespace Utils
 	}
 
 
-} // namespace Utils
+} // namespace Windows
+
+} // namespace XULWin

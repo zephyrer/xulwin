@@ -11,8 +11,12 @@
 #include <gdiplus.h>
 
 
-namespace Utils
+namespace XULWin
 {	
+
+namespace Windows
+{
+
 	class PopupMenu;		
 	typedef boost::shared_ptr<PopupMenu> MenuPtr;
 
@@ -85,8 +89,9 @@ namespace Utils
 			std::vector<MenuPtr> mSubmenus;
 	};
 
+} //namespace Windows
 
-} // namespace Utils
+} // namespace XULWin
 
 
 #endif // POPUPMENU_H_INCLUDED

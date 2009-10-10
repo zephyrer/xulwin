@@ -21,14 +21,14 @@
 #include <CommCtrl.h>
 
 
-namespace Utils
-{
-    class ConcreteToolbarItem;
-}
-
-
 namespace XULWin
 {
+
+    namespace Windows
+    {
+        class ConcreteToolbarItem;
+    }
+
     class CommandId
     {
     public:
@@ -485,19 +485,19 @@ namespace XULWin
         bool mExpansive;
         int mFlex;
 
-        Utils::Fallible<int> mCSSX;
-        Utils::Fallible<int> mCSSY;
-        Utils::Fallible<int> mWidth;
-        Utils::Fallible<int> mHeight;
-        Utils::Fallible<int> mCSSWidth;
-        Utils::Fallible<int> mCSSHeight;
-        Utils::Fallible<RGBColor> mFill;
-        Utils::Fallible<RGBColor> mStroke;
-        Utils::Fallible<int> mStrokeWidth;
-        Utils::Fallible<RGBColor> mCSSFill;
-        Utils::Fallible<RGBColor> mCSSStroke;
-        Utils::Fallible<Orient> mOrient;
-        Utils::Fallible<Align> mAlign;
+        Fallible<int> mCSSX;
+        Fallible<int> mCSSY;
+        Fallible<int> mWidth;
+        Fallible<int> mHeight;
+        Fallible<int> mCSSWidth;
+        Fallible<int> mCSSHeight;
+        Fallible<RGBColor> mFill;
+        Fallible<RGBColor> mStroke;
+        Fallible<int> mStrokeWidth;
+        Fallible<RGBColor> mCSSFill;
+        Fallible<RGBColor> mCSSStroke;
+        Fallible<Orient> mOrient;
+        Fallible<Align> mAlign;
 
         // We need to remember the hidden state ourselves because we can't
         // rely on WinAPI IsWindowVisible call, because it will return false
@@ -1538,7 +1538,7 @@ namespace XULWin
 
 
     class ToolbarImpl : public NativeControl,
-                        public Utils::Toolbar::EventHandler,
+                        public Windows::Toolbar::EventHandler,
                         public GdiplusLoader
     {
     public:
@@ -1561,10 +1561,10 @@ namespace XULWin
         // Toolbar::EventHandler methods
         virtual void onRequestFocus() {}
 
-        boost::shared_ptr<Utils::Toolbar> nativeToolbar() const { return mToolbar; }
+        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const { return mToolbar; }
 
     private:
-        boost::shared_ptr<Utils::Toolbar> mToolbar;
+        boost::shared_ptr<Windows::Toolbar> mToolbar;
     };
 
 
@@ -1601,7 +1601,7 @@ namespace XULWin
         virtual const std::string & getCSSListStyleImage() const;
 
     private:
-        Utils::ConcreteToolbarItem * mButton;
+        Windows::ConcreteToolbarItem * mButton;
         bool mDisabled;
         std::string mLabel;
         std::string mCSSListStyleImage;

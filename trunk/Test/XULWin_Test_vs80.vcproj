@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="Test"
+	Name="XULWin_Test"
 	ProjectGUID="{01FEEDB4-2408-444E-B274-8BE629148C66}"
 	RootNamespace="Test"
 	Keyword="Win32Proj"

@@ -35,9 +35,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::Initializer initializer(hInstance);
 
     // Ensure that the common control DLL is loaded. 
-    Utils::CommonControlsInitializer ccInit;
+    Windows::CommonControlsInitializer ccInit;
 
-    Utils::ErrorReporter::Instance().setLogger(boost::bind(&log, _1));
+    ErrorReporter::Instance().setLogger(boost::bind(&log, _1));
 
     //runConfigSample();
     runImageViewerSample();

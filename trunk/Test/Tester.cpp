@@ -4,17 +4,13 @@
 #include "Utils/WinUtils.h"
 
 
-using namespace Utils;
-using namespace XULWin;
-
-
 namespace XULWin
 {
 
     void Tester::runXULSample(const std::string & inAppName)
     {
         std::string chdir = "../xulrunnersamples/" + inAppName + "/";
-        CurrentDirectoryChanger curdir(chdir);
+        Windows::CurrentDirectoryChanger curdir(chdir);
 
         //system("run.bat");
 

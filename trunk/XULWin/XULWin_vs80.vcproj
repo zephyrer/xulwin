@@ -148,6 +148,10 @@
 	<References>
 	</References>
 	<Files>
+		<File
+			RelativePath=".\Todo.txt"
+			>
+		</File>
 		<Filter
 			Name="Header Files"
 			>
@@ -408,10 +412,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\Todo.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

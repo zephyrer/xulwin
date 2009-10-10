@@ -406,53 +406,6 @@ namespace XULWin
         mDestructing = true;
     }
 
-
-    void MenuPopup::addMenuItem(const MenuItem * inItem)
-    {
-        if (mParent->type() == "menulist")
-        {
-            if (MenuList * menuList = mParent->downcast<MenuList>())
-            {
-                menuList->addMenuItem(inItem);
-            }
-        }
-        else if (mParent->type() == "menubutton")
-        {
-            // not yet implemented
-        }
-        else
-        {
-            ReportError("MenuPopup is located in non-compatible container.");
-        }
-    }
-
-
-    void MenuPopup::removeMenuItem(const MenuItem * inItem)
-    {
-        // We don't remove menu items when destructing.
-        // It is not needed.
-        if (mDestructing)
-        {
-            return;
-        }
-
-        if (mParent->type() == "menulist")
-        {
-            if (MenuList * menuList = mParent->downcast<MenuList>())
-            {
-                menuList->removeMenuItem(inItem);
-            }
-        }
-        else if (mParent->type() == "menubutton")
-        {
-            // not yet implemented
-        }
-        else
-        {
-            ReportError("MenuPopup is located in non-compatible container.");
-        }
-    }
-
     
     MenuItem::MenuItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuItem::Type(),
@@ -466,7 +419,14 @@ namespace XULWin
     {
         if (MenuPopup * popup = mParent->downcast<MenuPopup>())
         {
-            popup->removeMenuItem(this);
+            if (popup->isDestructing())
+            {
+                return;
+            }
+            if (MenuPopupController * controller = popup->parent()->impl()->downcast<MenuPopupController>())
+            {
+                controller->removeMenuItem(getAttribute("label"));
+            }
         }
         else
         {
@@ -479,7 +439,10 @@ namespace XULWin
     {
         if (MenuPopup * popup = mParent->downcast<MenuPopup>())
         {
-            popup->addMenuItem(this);
+            if (MenuPopupController * controller = popup->parent()->impl()->downcast<MenuPopupController>())
+            {
+                controller->addMenuItem(getAttribute("label"));
+            }
         }
         else
         {

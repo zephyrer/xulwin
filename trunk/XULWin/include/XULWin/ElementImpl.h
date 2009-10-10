@@ -964,7 +964,17 @@ namespace XULWin
     };
 
 
-    class NativeMenuList : public NativeControl
+    class MenuPopupController
+    {
+    public:
+        virtual void addMenuItem(const std::string & inText) = 0;
+        
+        virtual void removeMenuItem(const std::string & inText) = 0;
+    };
+
+
+    class NativeMenuList : public NativeControl,
+                           public MenuPopupController
     {
     public:
         typedef NativeControl Super;
@@ -977,9 +987,9 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h);
 
-        void addMenuItem(const std::string & inText);
+        virtual void addMenuItem(const std::string & inText);
 
-        void removeMenuItem(const std::string & inText);
+        virtual void removeMenuItem(const std::string & inText);
 
     private:
         std::vector<std::string> mItems;

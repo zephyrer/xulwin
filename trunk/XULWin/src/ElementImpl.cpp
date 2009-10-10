@@ -3891,17 +3891,24 @@ namespace XULWin
 
     int ToolbarButtonImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
+        int result = Defaults::toolbarHeight();
         if (ToolbarImpl * toolbarImpl = parent()->downcast<ToolbarImpl>())
         {
             int textHeight = Windows::getTextSize(toolbarImpl->handle(), getLabel()).cy;
-            int imageHeight = 0;
+            if (textHeight > result)
+            {
+                result = textHeight;
+            }
             if (mButton && mButton->image())
             {
-                imageHeight = mButton->image()->GetHeight();
+                int imageHeight = mButton->image()->GetHeight();
+                if (imageHeight > result)
+                {
+                    result = imageHeight;
+                }
             }
-            return std::max<int>(textHeight, imageHeight);
         }
-        return 0;
+        return result;
     }
     
     

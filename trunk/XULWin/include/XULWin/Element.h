@@ -318,9 +318,7 @@ namespace XULWin
 
         static const char * Type() { return "menupopup"; }
 
-        void addMenuItem(const MenuItem * inItem);
-
-        void removeMenuItem(const MenuItem * inItem);
+        bool isDestructing() const { return mDestructing; }
 
     private:
         friend class Element;

@@ -1102,14 +1102,22 @@ namespace XULWin
 					case IDCONTINUE:
 					{
                         NativeComponent * focus = FindComponentByHandle(::GetFocus());
-                        focus->handleDialogCommand(paramLo, wParam, lParam);
-                        return 0;
+                        if (focus)
+                        {
+                            focus->handleDialogCommand(paramLo, wParam, lParam);
+                            return 0;
+                        }
+                        break;
                     }
                     default:
                     {                        
                         NativeComponent * sender = FindComponentById(LOWORD(wParam));
-                        sender->handleCommand(wParam, lParam);
-                        return 0;
+                        if (sender)
+                        {
+                            sender->handleCommand(wParam, lParam);
+                            return 0;
+                        }
+                        break;
 					}
                 }
             }

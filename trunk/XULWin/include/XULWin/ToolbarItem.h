@@ -53,8 +53,7 @@ namespace Windows
 			int inCommandID,
 			const std::string & inText,
 			const std::string & inTooltipText,
-			boost::shared_ptr<Gdiplus::Bitmap> inImage,
-			int inMenuId
+			boost::shared_ptr<Gdiplus::Bitmap> inImage
 		);
 		
 		virtual ~ConcreteToolbarItem();
@@ -74,8 +73,6 @@ namespace Windows
 		const std::string & tooltipText() const;
 
 		boost::shared_ptr<Gdiplus::Bitmap> image() const;
-
-		int menuId() const;
 
 		void setText( const std::string & inText);
 
@@ -125,7 +122,6 @@ namespace Windows
 		std::string mText;
 		std::string mTooltipText;
 		boost::shared_ptr<Gdiplus::Bitmap> mImage;
-		int mMenuId;
 		bool mNoHover;
 		int mLeftMargin;
 		int mRightMargin;
@@ -166,7 +162,6 @@ namespace Windows
 			const std::string & inText,
 			const std::string & inTooltipText,
 			boost::shared_ptr<Gdiplus::Bitmap> inImage,
-			int inMenuID,
 			bool inIsButton
 		);
 
@@ -180,18 +175,13 @@ namespace Windows
 
         virtual void performMenuCommand(int inMenuId){}
 
-		void showMenu();
+        boost::shared_ptr<PopupMenu> getMenu() { return mMenu; }
 
-	protected:
-        virtual boost::shared_ptr<PopupMenu> getMenu()
-        {   boost::shared_ptr<PopupMenu> nullRes;
-            return nullRes; }
+		void showMenu();
 		
 	private:
 		bool mIsButton;
-
-		//void disposeActiveDropDown();
-		//static int sTimerID_DisposeActiveDropDown;
+        boost::shared_ptr<PopupMenu> mMenu;
 	};
 	
 	// Only one spring can be added to the toolbar.

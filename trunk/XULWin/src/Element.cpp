@@ -378,7 +378,7 @@ namespace XULWin
     {
         if (NativeMenuList * nativeMenuList = impl()->downcast<NativeMenuList>())
         {
-            nativeMenuList->addMenuItem(inItem->label());
+            nativeMenuList->addMenuItem(impl()->commandId(), inItem->label());
         }
     }
         
@@ -441,7 +441,7 @@ namespace XULWin
         {
             if (MenuPopupController * controller = popup->parent()->impl()->downcast<MenuPopupController>())
             {
-                controller->addMenuItem(getAttribute("label"));
+                controller->addMenuItem(impl()->commandId(), getAttribute("label"));
             }
         }
         else

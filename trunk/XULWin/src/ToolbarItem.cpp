@@ -46,15 +46,13 @@ namespace Windows
 		int inCommandID,
 		const std::string & inText,
 		const std::string & inTooltipText,
-        boost::shared_ptr<Gdiplus::Bitmap> inImage,
-		int inMenuId
+        boost::shared_ptr<Gdiplus::Bitmap> inImage
 	):
 		mToolbar(inToolbar),
 		mCommandId(inCommandID),
 		mText(inText),
 		mTooltipText(inTooltipText),
 		mImage(inImage),
-		mMenuId(inMenuId),
 		mNoHover(false),
 		mLeftMargin(4),
 		mRightMargin(4),
@@ -199,12 +197,6 @@ namespace Windows
 	}
 
 
-	int ConcreteToolbarItem::menuId() const
-	{
-		return mMenuId;
-	}
-
-
 	const std::string & ConcreteToolbarItem::text() const
 	{
 		return mText;
@@ -311,8 +303,7 @@ namespace Windows
 			inCommandID,
 			inText,
 			inTooltipText,
-			inImage,
-			0
+			inImage
 		),
 		mAction(inAction)
 	{
@@ -346,7 +337,6 @@ namespace Windows
 		const std::string & inText,
 		const std::string & inTooltipText,
 		boost::shared_ptr<Gdiplus::Bitmap> inImage,
-		int inMenuId,
 		bool inIsButton
 	):
 		ConcreteToolbarItem
@@ -355,16 +345,11 @@ namespace Windows
 			inCommandID,
 			inText,
 			inTooltipText,
-			inImage,
-			inMenuId
+			inImage
 		),
 		mIsButton(inIsButton)
 	{
-		//if (mIsButton)
-		//{
-		//	setLeftMargin(2);
-		//	setRightMargin(12);
-		//}
+        mMenu.reset(new Windows::PopupMenu);
 	}
 		
 		
@@ -400,40 +385,24 @@ namespace Windows
 			// Convert to screen coordinates.            
 			MapWindowPoints(toolbar->handle(), HWND_DESKTOP, (LPPOINT)&rc, 2);
 			
-			boost::shared_ptr<PopupMenu> menu = getMenu();
-			
-			// Set up the popup menu.
-			// Set rcExclude equal to the button rectangle so that if the toolbar 
-			// is too close to the bottom of the screen, the menu will appear above 
-			// the button rather than below it. 
-			TPMPARAMS tpm;
-			tpm.cbSize = sizeof(TPMPARAMS);
-			tpm.rcExclude = rc;
+			if (boost::shared_ptr<PopupMenu> menu = getMenu())
+            {			
+			    // Set up the popup menu.
+			    // Set rcExclude equal to the button rectangle so that if the toolbar 
+			    // is too close to the bottom of the screen, the menu will appear above 
+			    // the button rather than below it. 
+			    TPMPARAMS tpm;
+			    tpm.cbSize = sizeof(TPMPARAMS);
+			    tpm.rcExclude = rc;
 
-			// Show the menu and wait for input. 
-			// If the user selects an item, its WM_COMMAND is sent.
-			toolbar->mActiveDropDown = this;
+			    // Show the menu and wait for input. 
+			    // If the user selects an item, its WM_COMMAND is sent.
+			    toolbar->mActiveDropDown = this;
 
-			//if (sTimerID_DisposeActiveDropDown)
-			//{
-			//	XULWin::StopTimer(sTimerID_DisposeActiveDropDown);
-			//}
-			//TrackPopupMenuEx(menu->operator HMENU(), TPM_LEFTALIGN | TPM_LEFTBUTTON, rc.left, rc.bottom, toolbar->handle(), &tpm);
-			//sTimerID_DisposeActiveDropDown = XULWin::StartTimer(boost::bind(&ToolbarDropDown::disposeActiveDropDown, this), 1);
+			    TrackPopupMenuEx(menu->operator HMENU(), TPM_LEFTALIGN | TPM_LEFTBUTTON, rc.left, rc.bottom, toolbar->handle(), &tpm);
+            }
 		}
 	}
-	
-	//int ToolbarDropDown::sTimerID_DisposeActiveDropDown = 0;
-	//void ToolbarDropDown::disposeActiveDropDown()
-	//{
-	//	assert(sTimerID_DisposeActiveDropDown);
-	//	if (boost::shared_ptr<Toolbar> toolbar = mToolbar.lock())
-	//	{
-	//		toolbar->setActiveDropDownToNull();
-	//	}
-	//	XULWin::StopTimer(sTimerID_DisposeActiveDropDown);
-	//	sTimerID_DisposeActiveDropDown = 0;
-	//}
 
 
 	ToolbarSeparator::ToolbarSeparator
@@ -447,8 +416,7 @@ namespace Windows
 			inCommandID,
 			"",
 			"",
-			nullImage,
-			0
+			nullImage
 		)
 	{
 		setNoHover(true);
@@ -490,8 +458,7 @@ namespace Windows
 			inCommandID,
 			"",
 			"",
-			nullImage,
-			0
+			nullImage
 		)
 	{
 		setNoHover(true);

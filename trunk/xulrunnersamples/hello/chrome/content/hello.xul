@@ -11,21 +11,14 @@
                    label="Main" 
                    tooltiptext="Tutorial Toolbar Main Menu">
       <menupopup>
-        <menuitem label="Google Home Page" accesskey="G"
-                  tooltiptext="Navigate to Google"
-                  oncommand="TutTB_LoadURL('http://www.google.com/')" />
-
+        
+        <menuitem label="1 Home Page"/>
+        <menuitem label="2 Home Page"/>
         <menuseparator />
-
-        <menuitem label="Born Geek Website" accesskey="B"
-                  tooltiptext="Navigate to Born Geek"
-                  oncommand="TutTB_LoadURL('http://www.borngeek.com/')" />
+        <menuitem label="3 Home Page"/>
+        <menuitem label="4 Home Page"/>
       </menupopup>
     </toolbarbutton>
-    <toolbarbutton id="nav-users"  accesskey="U" label="Users"/>
-    <toolbarbutton id="nav-groups" accesskey="p" label="Groups"/>
-    <toolbarbutton id="nav-events" accesskey="E" label="Events" disabled="true"/>
   </toolbar>
-  <button label="test"></button>
 
 </window>

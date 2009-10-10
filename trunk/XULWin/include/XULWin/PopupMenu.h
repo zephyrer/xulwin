@@ -73,6 +73,8 @@ namespace Windows
 			virtual ~PopupMenu();
 			
 			operator HMENU() const;
+
+            int size() const;
 			
 			virtual void append(boost::shared_ptr<PopupMenuItem> inMenuItem);
 

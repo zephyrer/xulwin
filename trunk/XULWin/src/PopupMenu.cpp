@@ -134,6 +134,12 @@ namespace Windows
     }
 
 
+    int PopupMenu::size() const
+    {
+        return mSize;
+    }
+
+
     void PopupMenu::append(const std::string & inText, const MenuPtr & inSubmenu)
     {	
 	    PopupMenuItem item(0, inText);

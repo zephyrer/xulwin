@@ -1921,7 +1921,7 @@ namespace XULWin
     }
 
 
-    void NativeMenuList::addMenuItem(const std::string & inText)
+    void NativeMenuList::addMenuItem(int inCommandId, const std::string & inText)
     {
         Windows::addStringToComboBox(handle(), inText);
         int count = Windows::getComboBoxItemCount(handle());        
@@ -3815,17 +3815,17 @@ namespace XULWin
         mButton(0),
         mDisabled(false)
     {
-    }
-
-
-    bool ToolbarButtonImpl::initImpl()
-    {
         if (ToolbarImpl * toolbar = parent()->downcast<ToolbarImpl>())
         {
             boost::shared_ptr<Gdiplus::Bitmap> nullImage;
             std::string label = getLabel();
 
-            std::string buttonType = owningElement()->getAttribute("type");
+            std::string buttonType;
+            AttributesMapping::const_iterator it = inAttributesMapping.find("type");
+            if (it != inAttributesMapping.end())
+            {
+                buttonType = it->second;
+            }
             if (buttonType == "menu")
             {
                 mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
@@ -3833,7 +3833,6 @@ namespace XULWin
                                                        label,
                                                        label,
                                                        nullImage,
-                                                       0,
                                                        false);
             }
             else
@@ -3853,7 +3852,31 @@ namespace XULWin
             setCSSListStyleImage(mCSSListStyleImage);
 
         }
+    }
+
+
+    bool ToolbarButtonImpl::initImpl()
+    {
         return Super::initImpl();
+    }
+
+    
+    void ToolbarButtonImpl::addMenuItem(int inCommandId, const std::string & inText)
+    {
+        if (Windows::ToolbarDropDown * menuButton = dynamic_cast<Windows::ToolbarDropDown*>(mButton))
+        {
+            boost::shared_ptr<Windows::PopupMenu> menu = menuButton->getMenu();
+            if (menu)
+            {
+                boost::shared_ptr<Windows::PopupMenuItem> item(new Windows::PopupMenuItem(inCommandId, inText));
+                menu->append(item);
+            }
+        }
+    }
+    
+
+    void ToolbarButtonImpl::removeMenuItem(const std::string & inText)
+    {
     }
 
 

@@ -967,7 +967,7 @@ namespace XULWin
     class MenuPopupController
     {
     public:
-        virtual void addMenuItem(const std::string & inText) = 0;
+        virtual void addMenuItem(int inCommandId, const std::string & inText) = 0;
         
         virtual void removeMenuItem(const std::string & inText) = 0;
     };
@@ -987,7 +987,7 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h);
 
-        virtual void addMenuItem(const std::string & inText);
+        virtual void addMenuItem(int inCommandId, const std::string & inText);
 
         virtual void removeMenuItem(const std::string & inText);
 
@@ -1579,6 +1579,7 @@ namespace XULWin
 
 
     class ToolbarButtonImpl : public PassiveComponent,
+                              public MenuPopupController,
                               public virtual DisabledController,
                               public virtual LabelController,
                               public virtual CSSListStyleImageController
@@ -1597,6 +1598,10 @@ namespace XULWin
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual void addMenuItem(int inCommandId, const std::string & inText);
+        
+        virtual void removeMenuItem(const std::string & inText);
 
         virtual std::string getLabel() const;
 

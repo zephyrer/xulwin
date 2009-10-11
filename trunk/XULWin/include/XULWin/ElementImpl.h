@@ -516,6 +516,7 @@ namespace XULWin
         Fallible<RGBColor> mCSSStroke;
         Fallible<Orient> mOrient;
         Fallible<Align> mAlign;
+        bool mIsInitialized;
 
         // We need to remember the hidden state ourselves because we can't
         // rely on WinAPI IsWindowVisible call, because it will return false
@@ -1076,7 +1077,6 @@ namespace XULWin
         void fillComboBox();
 
         std::vector<std::string> mItems;
-        bool mIsInitialized;
     };
 
 

@@ -41,7 +41,8 @@ namespace XULWin
         mCSSWidth(0),
         mCSSHeight(0),
         mCSSFill(RGBColor()),
-        mCSSStroke(RGBColor(0, 0, 0, 0))
+        mCSSStroke(RGBColor(0, 0, 0, 0)),
+        mIsInitialized(false)
     {        
         mCSSX.setInvalid();
         mCSSY.setInvalid();
@@ -66,6 +67,7 @@ namespace XULWin
 
     bool ConcreteElement::initImpl()
     {
+        mIsInitialized = true;
         return true;
     }
 
@@ -2021,8 +2023,7 @@ namespace XULWin
                       inAttributesMapping,
                       TEXT("COMBOBOX"),
                       0, // exStyle
-                      WS_TABSTOP | CBS_DROPDOWNLIST),
-        mIsInitialized(false)
+                      WS_TABSTOP | CBS_DROPDOWNLIST)
     {
     }
     
@@ -2030,7 +2031,6 @@ namespace XULWin
     bool MenuListImpl::initImpl()
     {
         fillComboBox();
-        mIsInitialized = true;
         return Super::initImpl();
     }
 

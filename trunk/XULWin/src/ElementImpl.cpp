@@ -724,6 +724,16 @@ namespace XULWin
     }
     
     
+    void NativeComponent::handleMenuCommand(WORD inMenuId)
+    {
+        EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
+        for (; it != end; ++it)
+        {
+            (*it)->handleMenuCommand(owningElement(), inMenuId);
+        }
+    }
+
+    
     void NativeComponent::handleDialogCommand(WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
     {
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
@@ -3868,7 +3878,15 @@ namespace XULWin
             boost::shared_ptr<Windows::PopupMenu> menu = menuButton->getMenu();
             if (menu)
             {
-                boost::shared_ptr<Windows::PopupMenuItem> item(new Windows::PopupMenuItem(inCommandId, inText));
+                Windows::PopupMenuItem * item = new Windows::PopupMenuItem(inCommandId, inText);
+                if (NativeComponent * comp = parent()->downcast<NativeComponent>())
+                {
+                    item->setAction(boost::bind(&NativeComponent::handleMenuCommand, comp, inCommandId));
+                }
+                else
+                {
+                    assert(false);
+                }
                 menu->append(item);
             }
         }

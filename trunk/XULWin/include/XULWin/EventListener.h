@@ -17,6 +17,8 @@ namespace XULWin
     {
     public:
         virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode) = 0;        
+
+        virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId) = 0;
         
         virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;
 
@@ -44,6 +46,7 @@ namespace XULWin
 
     protected:
         virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode);
+        virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
         virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) { return 1; }
         virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
 

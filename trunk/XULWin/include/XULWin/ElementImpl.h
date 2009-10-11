@@ -557,6 +557,8 @@ namespace XULWin
 
         virtual void handleCommand(WPARAM wParam, LPARAM lParam);
 
+        virtual void handleMenuCommand(WORD inMenuId);
+
         virtual void handleDialogCommand(WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
 
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);

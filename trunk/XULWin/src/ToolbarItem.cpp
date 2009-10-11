@@ -377,29 +377,24 @@ namespace Windows
 	void ToolbarDropDown::showMenu()
 	{
 		if (boost::shared_ptr<Toolbar> toolbar = mToolbar.lock())
-		{
-			// Get the coordinates of the button.
-			RECT rc;
-			::SendMessage(toolbar->handle(), TB_GETRECT, (WPARAM)commandId(), (LPARAM)&rc);
-
-			// Convert to screen coordinates.            
-			MapWindowPoints(toolbar->handle(), HWND_DESKTOP, (LPPOINT)&rc, 2);
-			
+		{			
 			if (boost::shared_ptr<PopupMenu> menu = getMenu())
-            {			
-			    // Set up the popup menu.
-			    // Set rcExclude equal to the button rectangle so that if the toolbar 
-			    // is too close to the bottom of the screen, the menu will appear above 
-			    // the button rather than below it. 
-			    TPMPARAMS tpm;
-			    tpm.cbSize = sizeof(TPMPARAMS);
-			    tpm.rcExclude = rc;
+            {                
+			    // Get the coordinates of the button.
+			    RECT rc;
+			    ::SendMessage(toolbar->handle(), TB_GETRECT, (WPARAM)commandId(), (LPARAM)&rc);
+
+			    // Convert to screen coordinates.            
+			    MapWindowPoints(toolbar->handle(), HWND_DESKTOP, (LPPOINT)&rc, 2);
 
 			    // Show the menu and wait for input. 
 			    // If the user selects an item, its WM_COMMAND is sent.
 			    toolbar->mActiveDropDown = this;
 
-			    TrackPopupMenuEx(menu->operator HMENU(), TPM_LEFTALIGN | TPM_LEFTBUTTON, rc.left, rc.bottom, toolbar->handle(), &tpm);
+                POINT pt;
+                pt.x = rc.left;
+                pt.y = rc.bottom;
+                menu->show(toolbar->handle(), pt, rc);
             }
 		}
 	}

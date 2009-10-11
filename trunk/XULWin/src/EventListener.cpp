@@ -79,7 +79,13 @@ namespace XULWin
         return processMessage(inSender, WM_COMMAND, 0, 0);
     }
 
+
+    LRESULT ScopedEventListener::handleMenuCommand(Element * inSender, WORD inMenuId)
+    {
+        return processMessage(inSender, WM_COMMAND, 0, 0);
+    }
     
+
     LRESULT ScopedEventListener::handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         return processMessage(inSender, inMessage, wParam, lParam);

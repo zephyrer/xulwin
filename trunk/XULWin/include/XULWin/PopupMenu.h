@@ -11,12 +11,6 @@
 #include <windows.h>
 
 
-namespace Gdiplus
-{
-    class Bitmap;
-}
-
-
 namespace XULWin
 {	
 

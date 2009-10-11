@@ -1,9 +1,7 @@
 #include "XULWin/PopupMenu.h"
-#include "XULWin/ErrorReporter.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include <sstream>
-#include <gdiplus.h>
 
 
 namespace XULWin
@@ -99,9 +97,16 @@ namespace Windows
 
     PopupMenu::~PopupMenu()
     {
-        unsubclass();
-	    DestroyMenu(mHandle);
-	    mHandle = 0;
+        if (mOrigProc)
+        {
+            unsubclass();
+        }
+
+        if (mHandle)
+        {
+	        DestroyMenu(mHandle);
+	        mHandle = 0;
+        }
     }
 
 

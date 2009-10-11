@@ -2,21 +2,22 @@
 #define NATIVECOMPONENT_H_INCLUDED
 
 
-#include "XULWin/Element.h"
 #include "XULWin/AttributeController.h"
 #include "XULWin/Conversions.h"
+#include "XULWin/Element.h"
 #include "XULWin/EventListener.h"
+#include "XULWin/Fallible.h"
 #include "XULWin/Graphics.h"
 #include "XULWin/Layout.h"
+#include "XULWin/PopupMenu.h"
 #include "XULWin/StyleController.h"
-#include "XULWin/Fallible.h"
 #include "XULWin/Toolbar.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
-#include <string>
 #include <map>
+#include <string>
 #include <windows.h>
 #include <CommCtrl.h>
 
@@ -975,13 +976,37 @@ namespace XULWin
     };
 
 
-    class NativeMenuList : public NativeControl,
-                           public MenuPopupController
+    class MenuPopupImpl : public PassiveComponent
+    {
+    public:
+        typedef PassiveComponent Super;
+
+        MenuPopupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+    };
+
+
+    class MenuImpl : public PassiveComponent,
+                     public MenuPopupController,
+                     public Windows::PopupMenu
+    {
+    public:
+        typedef PassiveComponent Super;
+
+        MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual void addMenuItem(int inCommandId, const std::string & inText);
+
+        virtual void removeMenuItem(const std::string & inText);
+    };
+
+
+    class MenuListImpl : public NativeControl,
+                         public MenuPopupController
     {
     public:
         typedef NativeControl Super;
 
-        NativeMenuList(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        MenuListImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
             
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 

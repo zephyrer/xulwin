@@ -21,9 +21,10 @@ namespace XULWin
         ElementFactory::Instance().registerElement<HBox>();
         ElementFactory::Instance().registerElement<VBox>();
         ElementFactory::Instance().registerElement<Box>();
-        ElementFactory::Instance().registerElement<MenuList>();
+        ElementFactory::Instance().registerElement<Menu>();
         ElementFactory::Instance().registerElement<MenuPopup>();
         ElementFactory::Instance().registerElement<MenuItem>();
+        ElementFactory::Instance().registerElement<MenuList>();
         ElementFactory::Instance().registerElement<TextBox>();
         ElementFactory::Instance().registerElement<Separator>();
         ElementFactory::Instance().registerElement<MenuButton>();

@@ -1890,8 +1890,32 @@ namespace XULWin
         return Super::rebuildChildLayouts();
     }
     
+
+    MenuImpl::MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        PassiveComponent(inParent, inAttributesMapping)
+    {
+    }
+
+
+    void MenuImpl::addMenuItem(int inCommandId, const std::string & inText)
+    {
+        Windows::PopupMenu::append(new Windows::PopupMenuItem(inCommandId, inText));
+    }
+
+
+    void MenuImpl::removeMenuItem(const std::string & inText)
+    {
+        // TODO: implement
+    }
     
-    NativeMenuList::NativeMenuList(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    
+    MenuPopupImpl::MenuPopupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        PassiveComponent(inParent, inAttributesMapping)
+    {
+    }
+
+
+    MenuListImpl::MenuListImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("COMBOBOX"),
@@ -1901,7 +1925,7 @@ namespace XULWin
     }
     
     
-    int NativeMenuList::calculateWidth(SizeConstraint inSizeConstraint) const
+    int MenuListImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int itemWidth = 0;
         for (size_t idx = 0; idx != mItems.size(); ++idx)
@@ -1911,19 +1935,18 @@ namespace XULWin
             {
                 itemWidth = w;
             }
-        }
-        
+        }        
         return Defaults::dropDownListMinimumWidth() + itemWidth;
     }
 
 
-    int NativeMenuList::calculateHeight(SizeConstraint inSizeConstraint) const
+    int MenuListImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return Defaults::controlHeight();
     }
     
     
-    void NativeMenuList::move(int x, int y, int w, int h)
+    void MenuListImpl::move(int x, int y, int w, int h)
     {
         // The height of a combobox in Win32 is the height of the dropdown menu + the height of the widget itself.
         h = h + Windows::getComboBoxItemCount(handle()) * Defaults::dropDownListItemHeight();
@@ -1931,7 +1954,7 @@ namespace XULWin
     }
 
 
-    void NativeMenuList::addMenuItem(int inCommandId, const std::string & inText)
+    void MenuListImpl::addMenuItem(int inCommandId, const std::string & inText)
     {
         Windows::addStringToComboBox(handle(), inText);
         int count = Windows::getComboBoxItemCount(handle());        
@@ -1946,7 +1969,7 @@ namespace XULWin
     }
 
 
-    void NativeMenuList::removeMenuItem(const std::string & inText)
+    void MenuListImpl::removeMenuItem(const std::string & inText)
     {
         std::vector<std::string>::iterator it = mItems.begin(), end = mItems.end();
         for (; it != end; ++it)

@@ -10,15 +10,18 @@
                    type="menu"
                    label="Main" 
                    tooltiptext="Tutorial Toolbar Main Menu">
-      <menupopup>
-        
-        <menuitem label="1 Home Page"/>
-        <menuitem label="2 Home Page"/>
-        <menuseparator />
-        <menuitem label="3 Home Page"/>
-        <menuitem label="4 Home Page"/>
-      </menupopup>
+        <menupopup id="file-popup">
+          <menu id="new-menu" label="New">
+            <menupopup id="new-popup">
+              <menuitem label="Window"/>
+              <menuitem label="Message"/>
+            </menupopup>
+          </menu>
+          <menuitem label="Open"/>
+          <menuitem label="Save"/>
+          <menuseparator/>
+          <menuitem label="Exit"/>
+        </menupopup>
     </toolbarbutton>
   </toolbar>
-
 </window>

@@ -366,17 +366,43 @@ namespace XULWin
     }
 
 
+    Menu::Menu(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(Menu::Type(),
+                inParent,
+                new MenuImpl(inParent->impl(), inAttributesMapping))
+    {
+    }
+
+
+    void Menu::addMenuItem(const MenuItem * inItem)
+    {
+        if (MenuImpl * nativeMenu = impl()->downcast<MenuImpl>())
+        {
+            nativeMenu->addMenuItem(impl()->commandId(), inItem->label());
+        }
+    }
+
+    
+    void Menu::removeMenuItem(const MenuItem * inItem)
+    {
+        if (MenuImpl * nativeMenu = impl()->downcast<MenuImpl>())
+        {
+            nativeMenu->removeMenuItem(inItem->label());
+        }
+    }
+
+
     MenuList::MenuList(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuList::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeMenuList>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateNativeControl<MenuListImpl>(inParent, inAttributesMapping)))
     {
     }
         
     
     void MenuList::addMenuItem(const MenuItem * inItem)
     {
-        if (NativeMenuList * nativeMenuList = impl()->downcast<NativeMenuList>())
+        if (MenuListImpl * nativeMenuList = impl()->downcast<MenuListImpl>())
         {
             nativeMenuList->addMenuItem(impl()->commandId(), inItem->label());
         }
@@ -385,7 +411,7 @@ namespace XULWin
     
     void MenuList::removeMenuItem(const MenuItem * inItem)
     {
-        if (NativeMenuList * nativeMenuList = impl()->downcast<NativeMenuList>())
+        if (MenuListImpl * nativeMenuList = impl()->downcast<MenuListImpl>())
         {
             nativeMenuList->removeMenuItem(inItem->label());
         }
@@ -395,7 +421,7 @@ namespace XULWin
     MenuPopup::MenuPopup(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuPopup::Type(),
                 inParent,
-                new PassiveComponent(inParent->impl(), inAttributesMapping)),
+                new MenuPopupImpl(inParent->impl(), inAttributesMapping)),
         mDestructing(false)
     {
     }

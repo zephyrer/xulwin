@@ -290,6 +290,24 @@ namespace XULWin
 
 
     class MenuItem;
+    class Menu : public Element
+    {
+    public:
+        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
+        { return Element::Create<Menu>(inParent, inAttr); }
+
+        static const char * Type() { return "menu"; }
+
+        void addMenuItem(const MenuItem * inItem);
+
+        void removeMenuItem(const MenuItem * inItem);
+
+    private:
+        friend class Element;
+        Menu(Element * inParent, const AttributesMapping & inAttributesMapping);
+    };
+
+
     class MenuList : public Element
     {
     public:

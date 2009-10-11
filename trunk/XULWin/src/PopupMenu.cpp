@@ -131,7 +131,7 @@ namespace Windows
     }
 
 
-    PopupMenu::operator HMENU() const
+    HMENU PopupMenu::handle() const
     {
 	    return mHandle;
     }
@@ -143,7 +143,28 @@ namespace Windows
 	    memset(&mii, 0, sizeof(mii));
 	    mii.cbSize = sizeof(mii);
     	
-	    updateInfo(*inMenuItem, mii);
+	    
+	    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
+	    mii.fType = (inMenuItem->id() == 0) ? MFT_SEPARATOR : 0;
+
+	    std::wstring itemText = ToUTF16(inMenuItem->text());
+        std::vector<TCHAR> buffer;
+        buffer.resize(itemText.length() + 1);
+	    for (std::size_t i = 0; i < itemText.length(); i++)
+	    {
+		    buffer[i] = itemText[i];
+	    }
+	    buffer[itemText.length()] = 0;
+	    mii.dwTypeData = (LPTSTR)&buffer[0];    		
+	    mii.cch = (UINT)itemText.size();
+	    mii.wID = inMenuItem->id();
+	    if (inMenuItem->getHBITMAP())
+	    {
+		    mii.fMask |= MIIM_CHECKMARKS;
+		    mii.hbmpChecked = inMenuItem->getHBITMAP();
+		    mii.hbmpUnchecked = inMenuItem->getHBITMAP();
+	    }
+
 	    BOOL result = InsertMenuItem(mHandle, mSize++, TRUE, &mii);
 	    ::EnableMenuItem(mHandle, inMenuItem->id(), MF_BYCOMMAND | (inMenuItem->isEnabled() ? MF_ENABLED : MF_DISABLED | MF_GRAYED));
 	    ::CheckMenuItem(mHandle, inMenuItem->id(), MF_BYCOMMAND | (inMenuItem->isChecked() ? MF_CHECKED : MF_UNCHECKED));
@@ -177,21 +198,18 @@ namespace Windows
 	    mii.cbSize = sizeof(mii);
 	    mii.fMask = MIIM_SUBMENU | MIIM_STRING;
     	
-	    // copy string into dwTypeData field
+	    std::wstring text = ToUTF16(inText);
+        std::vector<TCHAR> buffer;
+        buffer.resize(text.length() + 1);
+        for (std::size_t i = 0; i < text.length(); i++)
 	    {
-		    std::wstring text = ToUTF16(inText);
-		    std::size_t length = text.length();
-		    TCHAR * buffer = new TCHAR[length + 1];
-		    for (std::size_t i = 0; i < length; i++)
-		    {
-			    buffer[i] = text[i];
-		    }
-		    buffer[length] = 0;
-		    mii.dwTypeData = (LPTSTR)buffer;
+		    buffer[i] = text[i];
 	    }
+	    buffer[text.length()] = 0;
+	    mii.dwTypeData = (LPTSTR)&buffer[0];
     		
 	    mii.cch = (UINT)inText.size();
-	    mii.hSubMenu = inSubmenu->operator HMENU();
+	    mii.hSubMenu = inSubmenu->handle();
 
 	    BOOL result = InsertMenuItem(mHandle, mSize++, TRUE, &mii);
 
@@ -203,35 +221,6 @@ namespace Windows
             std::stringstream ss;
             ss << "PopupMenu::appendMenuItem failed. Reason: " << Windows::getLastError(::GetLastError());
 		    ReportError(ss.str());
-	    }
-    }
-
-
-    void PopupMenu::updateInfo(const PopupMenuItem & inMenuItem, MENUITEMINFO & ioItemInfo)
-    {
-	    ioItemInfo.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
-	    ioItemInfo.fType = (inMenuItem.id() == 0) ? MFT_SEPARATOR : 0;
-    	
-	    // copy string into dwTypeData field
-	    {
-		    std::wstring text = ToUTF16(inMenuItem.text());
-		    std::size_t length = text.length();
-		    TCHAR * buffer = new TCHAR[length + 1];
-		    for (std::size_t i = 0; i < length; i++)
-		    {
-			    buffer[i] = text[i];
-		    }
-		    buffer[length] = 0;
-		    ioItemInfo.dwTypeData = (LPTSTR)buffer;
-	    }
-    		
-	    ioItemInfo.cch = (UINT)inMenuItem.text().size();
-	    ioItemInfo.wID = inMenuItem.id();
-	    if (inMenuItem.getHBITMAP())
-	    {
-		    ioItemInfo.fMask |= MIIM_CHECKMARKS;
-		    ioItemInfo.hbmpChecked = inMenuItem.getHBITMAP();
-		    ioItemInfo.hbmpUnchecked = inMenuItem.getHBITMAP();
 	    }
     }
 

@@ -75,7 +75,7 @@ namespace Windows
 		
 		virtual ~PopupMenu();
 		
-		operator HMENU() const;
+		HMENU handle() const;
 
         int size() const;
 		
@@ -86,9 +86,6 @@ namespace Windows
 		void append(const std::string & inText, PopupMenu * inSubmenu);
 
         void show(HWND inParent, const POINT & inLocation, const RECT & inExcludeRegion);
-	
-	protected:	
-		virtual void updateInfo(const PopupMenuItem & inMenuItem, MENUITEMINFO & ioItemInfo);
 		
 	private:
         static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);

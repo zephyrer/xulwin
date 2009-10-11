@@ -47,14 +47,6 @@ namespace Windows
 		void setEnabled(bool inEnabled);
 		
 		void setChecked(bool inChecked);
-		
-		void setHBITMAP(HBITMAP inBitmap);
-		
-		HBITMAP getHBITMAP() const;
-		
-        void setImage(boost::shared_ptr<Gdiplus::Bitmap> inImage);
-		
-		boost::shared_ptr<Gdiplus::Bitmap> getImage() const;
 	
 	private:
 		const static int SeparatorID;
@@ -63,8 +55,6 @@ namespace Windows
 		std::string mText;
 		bool mEnabled;
 		bool mChecked;
-		HBITMAP mBitmap;				
-		boost::shared_ptr<Gdiplus::Bitmap> mImage;
 	};
 	
 	

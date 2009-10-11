@@ -18,8 +18,7 @@ namespace Windows
     PopupMenuItem::PopupMenuItem():
 	    mId(SeparatorID),
 	    mEnabled(true),
-	    mChecked(false),
-	    mBitmap(0)
+	    mChecked(false)
     {
     }
 
@@ -28,8 +27,7 @@ namespace Windows
 	    mId(inId),
 	    mText(inText),
 	    mEnabled(true),
-	    mChecked(false),
-	    mBitmap(0)
+	    mChecked(false)
     {
     }
 
@@ -82,30 +80,6 @@ namespace Windows
     void PopupMenuItem::setChecked(bool inChecked)
     {
 	    mChecked = inChecked;
-    }
-
-
-    void PopupMenuItem::setHBITMAP(HBITMAP inBitmap)
-    {
-	    mBitmap = inBitmap;
-    }
-
-
-    HBITMAP PopupMenuItem::getHBITMAP() const
-    {
-	    return mBitmap;
-    }
-    				
-
-    void PopupMenuItem::setImage(boost::shared_ptr<Gdiplus::Bitmap> inImage)
-    {
-	    mImage = inImage;
-    }
-
-
-    boost::shared_ptr<Gdiplus::Bitmap> PopupMenuItem::getImage() const
-    {
-	    return mImage;
     }
 
     

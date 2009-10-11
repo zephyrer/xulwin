@@ -298,31 +298,9 @@ namespace XULWin
 
         static const char * Type() { return "menu"; }
 
-        void addMenuItem(const MenuItem * inItem);
-
-        void removeMenuItem(const MenuItem * inItem);
-
     private:
         friend class Element;
         Menu(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
-    class MenuList : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuList>(inParent, inAttr); }
-
-        static const char * Type() { return "menulist"; }
-
-        void addMenuItem(const MenuItem * inItem);
-
-        void removeMenuItem(const MenuItem * inItem);
-
-    private:
-        friend class Element;
-        MenuList(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -336,18 +314,9 @@ namespace XULWin
 
         static const char * Type() { return "menupopup"; }
 
-        bool isDestructing() const { return mDestructing; }
-
     private:
         friend class Element;
         MenuPopup(Element * inParent, const AttributesMapping & inAttributesMapping);
-
-        // This flag is set to true when destructor is called.
-        // It is used to prevent that the destruction of
-        // child menu items would trigger the 'removeMenuItem' call
-        // which is not needed when destructing and it could
-        // cause crashes is certain situations.
-        bool mDestructing;
     };
 
 
@@ -361,8 +330,6 @@ namespace XULWin
 
         virtual ~MenuItem();
 
-        virtual bool init();
-
         std::string label() const;
 
         std::string value() const;
@@ -370,6 +337,20 @@ namespace XULWin
     private:
         friend class Element;
         MenuItem(Element * inParent, const AttributesMapping & inAttributesMapping);
+    };
+
+
+    class MenuList : public Element
+    {
+    public:
+        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
+        { return Element::Create<MenuList>(inParent, inAttr); }
+
+        static const char * Type() { return "menulist"; }
+
+    private:
+        friend class Element;
+        MenuList(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 

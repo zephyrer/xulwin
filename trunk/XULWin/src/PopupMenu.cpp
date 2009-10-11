@@ -165,8 +165,8 @@ namespace Windows
         tpm.rcExclude = inExcludeRegion;
         TrackPopupMenuEx(mHandle,
                          TPM_LEFTALIGN | TPM_LEFTBUTTON,
-                         inLocation.x,
-                         inLocation.y,
+                         inLocation.x + 1,
+                         inLocation.y + 1,
                          parent,
                          &tpm);
 

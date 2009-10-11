@@ -374,107 +374,37 @@ namespace XULWin
     }
 
 
-    void Menu::addMenuItem(const MenuItem * inItem)
-    {
-        if (MenuImpl * nativeMenu = impl()->downcast<MenuImpl>())
-        {
-            nativeMenu->addMenuItem(impl()->commandId(), inItem->label());
-        }
-    }
-
-    
-    void Menu::removeMenuItem(const MenuItem * inItem)
-    {
-        if (MenuImpl * nativeMenu = impl()->downcast<MenuImpl>())
-        {
-            nativeMenu->removeMenuItem(inItem->label());
-        }
-    }
-
-
     MenuList::MenuList(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuList::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<MenuListImpl>(inParent, inAttributesMapping)))
     {
     }
-        
-    
-    void MenuList::addMenuItem(const MenuItem * inItem)
-    {
-        if (MenuListImpl * nativeMenuList = impl()->downcast<MenuListImpl>())
-        {
-            nativeMenuList->addMenuItem(impl()->commandId(), inItem->label());
-        }
-    }
-        
-    
-    void MenuList::removeMenuItem(const MenuItem * inItem)
-    {
-        if (MenuListImpl * nativeMenuList = impl()->downcast<MenuListImpl>())
-        {
-            nativeMenuList->removeMenuItem(inItem->label());
-        }
-    }
 
     
     MenuPopup::MenuPopup(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuPopup::Type(),
                 inParent,
-                new MenuPopupImpl(inParent->impl(), inAttributesMapping)),
-        mDestructing(false)
+                new MenuPopupImpl(inParent->impl(), inAttributesMapping))
     {
     }
 
     
     MenuPopup::~MenuPopup()
     {
-        mDestructing = true;
     }
 
     
     MenuItem::MenuItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuItem::Type(),
                 inParent,
-                new PassiveComponent(inParent->impl(), inAttributesMapping))
+                new MenuItemImpl(inParent->impl(), inAttributesMapping))
     {
     }
         
     
     MenuItem::~MenuItem()
     {
-        if (MenuPopup * popup = mParent->downcast<MenuPopup>())
-        {
-            if (popup->isDestructing())
-            {
-                return;
-            }
-            if (MenuPopupController * controller = popup->parent()->impl()->downcast<MenuPopupController>())
-            {
-                controller->removeMenuItem(getAttribute("label"));
-            }
-        }
-        else
-        {
-            ReportError("MenuItem is located in non-compatible container.");
-        }
-    }
-
-
-    bool MenuItem::init()
-    {
-        if (MenuPopup * popup = mParent->downcast<MenuPopup>())
-        {
-            if (MenuPopupController * controller = popup->parent()->impl()->downcast<MenuPopupController>())
-            {
-                controller->addMenuItem(impl()->commandId(), getAttribute("label"));
-            }
-        }
-        else
-        {
-            ReportError("MenuItem is located in non-compatible container.");
-        }
-        return Element::init();
     }
 
     

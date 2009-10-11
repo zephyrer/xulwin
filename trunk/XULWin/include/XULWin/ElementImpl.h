@@ -9,9 +9,9 @@
 #include "XULWin/Fallible.h"
 #include "XULWin/Graphics.h"
 #include "XULWin/Layout.h"
-#include "XULWin/PopupMenu.h"
 #include "XULWin/StyleController.h"
 #include "XULWin/Toolbar.h"
+#include "XULWin/ToolbarItem.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -28,6 +28,7 @@ namespace XULWin
     namespace Windows
     {
         class ConcreteToolbarItem;
+        class PopupMenu;
     }
 
     class CommandId
@@ -967,12 +968,33 @@ namespace XULWin
     };
 
 
-    class MenuPopupController
+    class MenuPopupContainer
     {
     public:
-        virtual void addMenuItem(int inCommandId, const std::string & inText) = 0;
+        virtual void showPopupMenu() = 0;
+    };
+
+
+    class MenuImpl : public PassiveComponent,
+                     public MenuPopupContainer,
+                     public LabelController
+    {
+    public:
+        typedef PassiveComponent Super;
+
+        MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initAttributeControllers();
         
-        virtual void removeMenuItem(const std::string & inText) = 0;
+        // MenuPopupContainer methods
+        virtual void showPopupMenu();
+
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
+    private:
+        std::string mLabel;
     };
 
 
@@ -982,26 +1004,35 @@ namespace XULWin
         typedef PassiveComponent Super;
 
         MenuPopupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        void show();
+
+    private:
+        Windows::PopupMenu * getMenu();
     };
 
 
-    class MenuImpl : public PassiveComponent,
-                     public MenuPopupController,
-                     public Windows::PopupMenu
+    class MenuItemImpl : public PassiveComponent,
+                         public LabelController
     {
     public:
         typedef PassiveComponent Super;
 
-        MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual void addMenuItem(int inCommandId, const std::string & inText);
+        virtual bool initAttributeControllers();
 
-        virtual void removeMenuItem(const std::string & inText);
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
+    private:
+        std::string mLabel;
     };
 
 
     class MenuListImpl : public NativeControl,
-                         public MenuPopupController
+                         public MenuPopupContainer
     {
     public:
         typedef NativeControl Super;
@@ -1014,9 +1045,7 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h);
 
-        virtual void addMenuItem(int inCommandId, const std::string & inText);
-
-        virtual void removeMenuItem(const std::string & inText);
+        virtual void showPopupMenu();
 
     private:
         std::vector<std::string> mItems;
@@ -1606,7 +1635,8 @@ namespace XULWin
 
 
     class ToolbarButtonImpl : public PassiveComponent,
-                              public MenuPopupController,
+                              public Windows::ToolbarDropDown::EventHandler,
+                              public MenuPopupContainer,
                               public virtual DisabledController,
                               public virtual LabelController,
                               public virtual CSSListStyleImageController
@@ -1626,9 +1656,11 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void addMenuItem(int inCommandId, const std::string & inText);
-        
-        virtual void removeMenuItem(const std::string & inText);
+        // From ToolbarDropDown::EventHandler
+        virtual void showToolbarMenu();
+
+        // From MenuPopupContainer
+        virtual void showPopupMenu();
 
         virtual std::string getLabel() const;
 

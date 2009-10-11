@@ -636,7 +636,7 @@ namespace Windows
 								assert(item);
 								if (item)
 								{
-									item->showMenu();
+                                    item->showToolbarMenu();
 								}
 							}
 							break;

@@ -333,6 +333,7 @@ namespace Windows
 	ToolbarDropDown::ToolbarDropDown
 	(
 		boost::weak_ptr<Toolbar> inToolbar,
+        ToolbarDropDown::EventHandler * inEventHandler,
 		int inCommandID,
 		const std::string & inText,
 		const std::string & inTooltipText,
@@ -347,9 +348,9 @@ namespace Windows
 			inTooltipText,
 			inImage
 		),
+        mEventHandler(inEventHandler),
 		mIsButton(inIsButton)
 	{
-        mMenu.reset(new Windows::PopupMenu);
 	}
 		
 		
@@ -374,29 +375,12 @@ namespace Windows
 	}
 
 
-	void ToolbarDropDown::showMenu()
+	void ToolbarDropDown::showToolbarMenu()
 	{
-		if (boost::shared_ptr<Toolbar> toolbar = mToolbar.lock())
-		{			
-			if (boost::shared_ptr<PopupMenu> menu = getMenu())
-            {                
-			    // Get the coordinates of the button.
-			    RECT rc;
-			    ::SendMessage(toolbar->handle(), TB_GETRECT, (WPARAM)commandId(), (LPARAM)&rc);
-
-			    // Convert to screen coordinates.            
-			    MapWindowPoints(toolbar->handle(), HWND_DESKTOP, (LPPOINT)&rc, 2);
-
-			    // Show the menu and wait for input. 
-			    // If the user selects an item, its WM_COMMAND is sent.
-			    toolbar->mActiveDropDown = this;
-
-                POINT pt;
-                pt.x = rc.left;
-                pt.y = rc.bottom;
-                menu->show(toolbar->handle(), pt, rc);
-            }
-		}
+        if (mEventHandler)
+        {
+            mEventHandler->showToolbarMenu();
+        }
 	}
 
 

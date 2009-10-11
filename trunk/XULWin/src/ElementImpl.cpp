@@ -2,9 +2,9 @@
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/Layout.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/ToolbarItem.h"
+#include "XULWin/Layout.h"
+#include "XULWin/PopupMenu.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/String.h"
@@ -1895,23 +1895,113 @@ namespace XULWin
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
-
-
-    void MenuImpl::addMenuItem(int inCommandId, const std::string & inText)
+        
+        
+    bool MenuImpl::initAttributeControllers()
     {
-        Windows::PopupMenu::append(new Windows::PopupMenuItem(inCommandId, inText));
+        setAttributeController("label", static_cast<LabelController*>(this));
+        return Super::initAttributeControllers();
+    }
+    
+    
+    std::string MenuImpl::getLabel() const
+    {
+        return mLabel;
     }
 
-
-    void MenuImpl::removeMenuItem(const std::string & inText)
+     
+    void MenuImpl::setLabel(const std::string & inLabel)
     {
-        // TODO: implement
+        mLabel = inLabel;
+    }
+    
+
+
+    void MenuImpl::showPopupMenu()
+    {
+        for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+        {
+            ElementPtr child = owningElement()->children()[idx];
+            if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
+            {
+                popupMenu->show();
+            }
+        }
     }
     
     
     MenuPopupImpl::MenuPopupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
+    }
+
+        
+    Windows::PopupMenu * MenuPopupImpl::getMenu()
+    {
+        Windows::PopupMenu * popupMenu = new Windows::PopupMenu;
+        for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+        {
+            ElementPtr child = owningElement()->children()[idx];
+            if (MenuItemImpl * menuItem = child->impl()->downcast<MenuItemImpl>())
+            {
+                popupMenu->append(new Windows::PopupMenuItem(menuItem->commandId(), menuItem->getLabel()));
+            }
+            else if (MenuImpl * menu = child->impl()->downcast<MenuImpl>())
+            {
+                if (!menu->owningElement()->children().empty())
+                {
+                    if (MenuPopupImpl * childPopup = menu->owningElement()->children()[0]->impl()->downcast<MenuPopupImpl>())
+                    {
+                        if (MenuImpl * menu = childPopup->parent()->downcast<MenuImpl>())
+                        {
+                            popupMenu->append(menu->getLabel(), childPopup->getMenu());
+                        }
+                    }
+                }
+            }
+        }
+        return popupMenu;
+    }
+
+        
+    void MenuPopupImpl::show()
+    {
+        if (NativeComponent * comp = NativeControl::GetNativeParent(this))
+        {
+            RECT rc;
+            ::GetClientRect(comp->handle(), &rc);
+            POINT location;
+            location.x = rc.left;
+            location.y = rc.bottom;
+            ::MapWindowPoints(comp->handle(), HWND_DESKTOP, &location, 1);
+            boost::scoped_ptr<Windows::PopupMenu> menu(getMenu());
+            menu->show(comp->handle(), location, rc);
+        }
+    }
+
+    
+    MenuItemImpl::MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        PassiveComponent(inParent, inAttributesMapping)
+    {
+    }
+
+        
+    bool MenuItemImpl::initAttributeControllers()
+    {
+        setAttributeController("label", static_cast<LabelController*>(this));
+        return Super::initAttributeControllers();
+    }
+
+
+    std::string MenuItemImpl::getLabel() const
+    {
+        return mLabel;
+    }
+
+    
+    void MenuItemImpl::setLabel(const std::string & inLabel)
+    {
+        mLabel = inLabel;
     }
 
 
@@ -1954,43 +2044,16 @@ namespace XULWin
     }
 
 
-    void MenuListImpl::addMenuItem(int inCommandId, const std::string & inText)
+    void MenuListImpl::showPopupMenu()
     {
-        Windows::addStringToComboBox(handle(), inText);
-        int count = Windows::getComboBoxItemCount(handle());        
-        if (count == 1)
+        for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
         {
-            Windows::selectComboBoxItem(handle(), 0);
-        }
-        mItems.push_back(inText);
-
-        // size needs to be updated
-        mParent->rebuildLayout();
-    }
-
-
-    void MenuListImpl::removeMenuItem(const std::string & inText)
-    {
-        std::vector<std::string>::iterator it = mItems.begin(), end = mItems.end();
-        for (; it != end; ++it)
-        {
-            if (*it == inText)
+            ElementPtr child = owningElement()->children()[idx];
+            if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
             {
-                mItems.erase(it);
-                break;
+                popupMenu->show();
             }
         }
-        int idx = Windows::findStringInComboBox(handle(), inText);
-        if (idx == CB_ERR)
-        {
-            ReportError("MenuList: remove failed because item not found: '" + inText + "'.");
-            return;
-        }
-
-        Windows::deleteStringFromComboBox(handle(), idx);
-
-        // size needs to be updated
-        mParent->rebuildLayout();
     }
 
 
@@ -3862,6 +3925,7 @@ namespace XULWin
             if (buttonType == "menu")
             {
                 mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+                                                       this,
                                                        mCommandId.intValue(), 
                                                        label,
                                                        label,
@@ -3892,32 +3956,24 @@ namespace XULWin
     {
         return Super::initImpl();
     }
-
     
-    void ToolbarButtonImpl::addMenuItem(int inCommandId, const std::string & inText)
+
+    void ToolbarButtonImpl::showToolbarMenu()
     {
-        if (Windows::ToolbarDropDown * menuButton = dynamic_cast<Windows::ToolbarDropDown*>(mButton))
-        {
-            boost::shared_ptr<Windows::PopupMenu> menu = menuButton->getMenu();
-            if (menu)
-            {
-                Windows::PopupMenuItem * item = new Windows::PopupMenuItem(inCommandId, inText);
-                if (NativeComponent * comp = parent()->downcast<NativeComponent>())
-                {
-                    item->setAction(boost::bind(&NativeComponent::handleMenuCommand, comp, inCommandId));
-                }
-                else
-                {
-                    assert(false);
-                }
-                menu->append(item);
-            }
-        }
+        showPopupMenu();
     }
     
 
-    void ToolbarButtonImpl::removeMenuItem(const std::string & inText)
+    void ToolbarButtonImpl::showPopupMenu()
     {
+        for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+        {
+            ElementPtr child = owningElement()->children()[idx];
+            if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
+            {
+                popupMenu->show();
+            }
+        }
     }
 
 

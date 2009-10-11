@@ -155,9 +155,16 @@ namespace Windows
 	class ToolbarDropDown : public ConcreteToolbarItem
 	{
 	public:
+        class EventHandler
+        {
+        public:
+            virtual void showToolbarMenu() = 0;
+        };
+
 		ToolbarDropDown
 		(
 			boost::weak_ptr<Toolbar> inToolbar,
+            EventHandler * inEventHandler,
 			int inCommandID,
 			const std::string & inText,
 			const std::string & inTooltipText,
@@ -171,17 +178,16 @@ namespace Windows
 
 		bool isButton() const;
 
+        // forwards call to event handler
+        void showToolbarMenu();
+
 		virtual void performCommand() {}
 
         virtual void performMenuCommand(int inMenuId){}
-
-        boost::shared_ptr<PopupMenu> getMenu() { return mMenu; }
-
-		void showMenu();
 		
 	private:
 		bool mIsButton;
-        boost::shared_ptr<PopupMenu> mMenu;
+        EventHandler * mEventHandler;
 	};
 	
 	// Only one spring can be added to the toolbar.

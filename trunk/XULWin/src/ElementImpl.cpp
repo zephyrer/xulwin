@@ -1914,7 +1914,6 @@ namespace XULWin
     {
         mLabel = inLabel;
     }
-    
 
 
     void MenuImpl::showPopupMenu()
@@ -1978,6 +1977,18 @@ namespace XULWin
             menu->show(comp->handle(), location, rc);
         }
     }
+    
+    
+    void MenuPopupImpl::onChildAdded()
+    {
+        parent()->onContentChanged();
+    }
+
+
+    void MenuPopupImpl::onChildRemoved()
+    {
+        parent()->onContentChanged();
+    }
 
     
     MenuItemImpl::MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
@@ -2010,10 +2021,37 @@ namespace XULWin
                       inAttributesMapping,
                       TEXT("COMBOBOX"),
                       0, // exStyle
-                      WS_TABSTOP | CBS_DROPDOWNLIST)
+                      WS_TABSTOP | CBS_DROPDOWNLIST),
+        mIsInitialized(false)
     {
     }
     
+        
+    bool MenuListImpl::initImpl()
+    {
+        fillComboBox();
+        mIsInitialized = true;
+        return Super::initImpl();
+    }
+
+
+    void MenuListImpl::fillComboBox()
+    {        
+        if (MenuPopupImpl * popup = findChildOfType<MenuPopupImpl>())
+        {
+            for (size_t idx = 0; idx != popup->owningElement()->children().size(); ++idx)
+            {
+                ElementPtr child = popup->owningElement()->children()[idx];
+                if (MenuItemImpl * item = child->impl()->downcast<MenuItemImpl>())
+                {
+                    std::string label = item->getLabel();
+                    Windows::addStringToComboBox(handle(), label);
+                }
+            }
+            Windows::selectComboBoxItem(handle(), 0);
+        }
+    }
+
     
     int MenuListImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
@@ -2046,14 +2084,18 @@ namespace XULWin
 
     void MenuListImpl::showPopupMenu()
     {
-        for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+        // no implementation needed
+    }
+    
+    
+    void MenuListImpl::onContentChanged()
+    {
+        if (mIsInitialized)
         {
-            ElementPtr child = owningElement()->children()[idx];
-            if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
-            {
-                popupMenu->show();
-            }
+            Windows::clearComboBox(handle());
+            fillComboBox();
         }
+        // else: the initImpl will take care of the initial fill
     }
 
 

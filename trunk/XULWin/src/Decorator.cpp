@@ -560,6 +560,33 @@ namespace XULWin
     }
 
 
+    void Decorator::onChildAdded()
+    {
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->onChildAdded();
+        }
+    }
+
+
+    void Decorator::onChildRemoved()
+    {
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->onChildRemoved();
+        }
+    }
+
+
+    void Decorator::onContentChanged()
+    {
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->onContentChanged();
+        }
+    }
+
+
     LRESULT Decorator::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         if (mDecoratedElement)

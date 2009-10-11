@@ -69,12 +69,18 @@ namespace Windows
     }
 
     
-    void deleteStringFromComboBox(HWND inHandle, int inIndex)
+    void removeStringFromComboBox(HWND inHandle, int inIndex)
     {
         ::SendMessage(inHandle, CB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0);
     }
 
     
+    void clearComboBox(HWND inHandle)
+    {
+        ::SendMessage(inHandle, CB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
+    }
+
+
     int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset)
     {
         return ::SendMessage(inHandle, CB_FINDSTRING, (WPARAM)inOffset, (LPARAM)(LPTSTR)ToUTF16(inString).c_str());

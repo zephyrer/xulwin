@@ -41,7 +41,9 @@ namespace Windows
 
     void addStringToComboBox(HWND inHandle, const std::string & inString);
 
-    void deleteStringFromComboBox(HWND inHandle, int inIndex);
+    void removeStringFromComboBox(HWND inHandle, int inIndex);
+
+    void clearComboBox(HWND inHandle);
 
     // returns CB_ERR (-1) if not found
     int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset = -1);

@@ -93,7 +93,8 @@ namespace XULWin
         if (it != mChildren.end())
         {
             mChildren.erase(it);
-            mImpl->rebuildLayout();
+            mImpl->rebuildLayout();            
+            mImpl->onChildRemoved();
         }
         else
         {
@@ -266,6 +267,7 @@ namespace XULWin
     void Element::addChild(ElementPtr inChild)
     {
         mChildren.push_back(inChild);
+        impl()->onChildAdded();
     }
 
 

@@ -12,7 +12,7 @@ namespace XULWin
         std::string chdir = "../xulrunnersamples/" + inAppName + "/";
         Windows::CurrentDirectoryChanger curdir(chdir);
 
-        system("run.bat");
+        //system("run.bat");
 
         XULRunner runner;
         runner.run("application.ini");

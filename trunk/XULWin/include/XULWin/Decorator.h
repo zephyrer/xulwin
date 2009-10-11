@@ -152,6 +152,12 @@ namespace XULWin
 
         virtual bool setStyle(const std::string & inName, const std::string & inValue);
 
+        virtual void onChildAdded();
+
+        virtual void onChildRemoved();
+
+        virtual void onContentChanged();
+
     protected:
         ElementImplPtr mDecoratedElement;
     };

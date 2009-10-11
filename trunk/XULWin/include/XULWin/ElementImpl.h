@@ -53,10 +53,26 @@ namespace XULWin
     class NativeComponent;
     typedef boost::shared_ptr<ElementImpl> ElementImplPtr;
 
+
+    /**
+     * Listener for XUL notifications
+     */
+    class NotificationListener
+    {
+    public:
+        virtual void onChildAdded() {}
+
+        virtual void onChildRemoved() {}
+
+        virtual void onContentChanged() {}
+    };
+
+
     /**
      * ElementImpl is base class for all native UI elements.
      */
-    class ElementImpl : public virtual AlignController,
+    class ElementImpl : public NotificationListener,
+                        public virtual AlignController,
                         public virtual WidthController,
                         public virtual HeightController,
                         public virtual FillController,
@@ -1007,6 +1023,11 @@ namespace XULWin
 
         void show();
 
+    protected:
+        virtual void onChildAdded();
+
+        virtual void onChildRemoved();
+
     private:
         Windows::PopupMenu * getMenu();
     };
@@ -1038,6 +1059,8 @@ namespace XULWin
         typedef NativeControl Super;
 
         MenuListImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initImpl();
             
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1047,8 +1070,13 @@ namespace XULWin
 
         virtual void showPopupMenu();
 
+        virtual void onContentChanged();
+
     private:
+        void fillComboBox();
+
         std::vector<std::string> mItems;
+        bool mIsInitialized;
     };
 
 

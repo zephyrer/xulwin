@@ -37,14 +37,14 @@ namespace XULWin
                                  const AttributesMapping & inAttr)
         {
             ElementPtr result(new T(inParent, inAttr));
-            if (inParent)
-            {
-                inParent->addChild(result);
-            }
             result->initAttributeControllers();
             result->setAttributes(inAttr);
             result->initStyleControllers();
             result->setStyles(inAttr);
+            if (inParent)
+            {
+                inParent->addChild(result);
+            }
             return result;
         }
 

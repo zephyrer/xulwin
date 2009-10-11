@@ -988,7 +988,7 @@ namespace XULWin
     class MenuPopupContainer
     {
     public:
-        virtual void showPopupMenu() = 0;
+        virtual void showPopupMenu(RECT inToolbarButtonRect) = 0;
     };
 
 
@@ -1004,7 +1004,7 @@ namespace XULWin
         virtual bool initAttributeControllers();
         
         // MenuPopupContainer methods
-        virtual void showPopupMenu();
+        virtual void showPopupMenu(RECT inExcludeRect);
 
         virtual std::string getLabel() const;
 
@@ -1022,7 +1022,7 @@ namespace XULWin
 
         MenuPopupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
-        void show();
+        void show(RECT inExcludeRect);
 
     protected:
         virtual void onChildAdded();
@@ -1069,7 +1069,7 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h);
 
-        virtual void showPopupMenu();
+        virtual void showPopupMenu(RECT inToolbarButtonRect);
 
         virtual void onContentChanged();
 
@@ -1685,10 +1685,10 @@ namespace XULWin
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
         // From ToolbarDropDown::EventHandler
-        virtual void showToolbarMenu();
+        virtual void showToolbarMenu(RECT inToolbarButtonRect);
 
         // From MenuPopupContainer
-        virtual void showPopupMenu();
+        virtual void showPopupMenu(RECT inToolbarButtonRect);
 
         virtual std::string getLabel() const;
 

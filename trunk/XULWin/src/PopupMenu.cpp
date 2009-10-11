@@ -145,7 +145,7 @@ namespace Windows
     }
 
 
-    void PopupMenu::show(HWND inWindow, const POINT & inLocation, const RECT & inExcludeRegion)
+    void PopupMenu::show(HWND inWindow, const POINT & inLocation, const RECT & inExcludeRect)
     {
         HWND parent = inWindow;
         assert(parent);
@@ -162,7 +162,7 @@ namespace Windows
 
         TPMPARAMS tpm;
         tpm.cbSize = sizeof(tpm);
-        tpm.rcExclude = inExcludeRegion;
+        tpm.rcExclude = inExcludeRect;
         TrackPopupMenuEx(mHandle,
                          TPM_LEFTALIGN | TPM_LEFTBUTTON,
                          inLocation.x + 1,

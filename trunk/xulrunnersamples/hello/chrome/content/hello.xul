@@ -6,22 +6,36 @@
         align="stretch"
         >
   <toolbar>
-    <toolbarbutton id="MainMenu"
+    <toolbarbutton id="normalButton"
+                   label="button" 
+                   tooltiptext="Normal tooltip"/>
+    
+    <toolbarbutton id="menuButton"
                    type="menu"
-                   label="Main" 
+                   label="menu" 
                    tooltiptext="Tutorial Toolbar Main Menu">
-        <menupopup id="file-popup">
-          <menu id="new-menu" label="New">
-            <menupopup id="new-popup">
-              <menuitem label="Window"/>
-              <menuitem label="Message"/>
-            </menupopup>
-          </menu>
-          <menuitem label="Open"/>
-          <menuitem label="Save"/>
-          <menuseparator/>
-          <menuitem label="Exit"/>
-        </menupopup>
+      <menupopup id="new-popup">
+        <menuitem label="Window"/>
+        <menuitem label="Message"/>
+      </menupopup>
+    </toolbarbutton>
+    
+    <toolbarbutton id="MainMenu"
+                   type="menu-button"
+                   label="menu-button" 
+                   tooltiptext="Tutorial Toolbar Main Menu">
+      <menupopup id="file-popup">
+        <menu id="new-menu" label="New">
+          <menupopup id="new-popup">
+            <menuitem label="Window"/>
+            <menuitem label="Message"/>
+          </menupopup>
+        </menu>
+        <menuitem label="Open"/>
+        <menuitem label="Save"/>
+        <menuseparator/>
+        <menuitem label="Exit"/>
+      </menupopup>
     </toolbarbutton>
   </toolbar>
 </window>

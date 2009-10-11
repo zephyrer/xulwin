@@ -158,7 +158,7 @@ namespace Windows
         class EventHandler
         {
         public:
-            virtual void showToolbarMenu() = 0;
+            virtual void showToolbarMenu(RECT inToolbarButtonRect) = 0;
         };
 
 		ToolbarDropDown
@@ -179,7 +179,7 @@ namespace Windows
 		bool isButton() const;
 
         // forwards call to event handler
-        void showToolbarMenu();
+        void showToolbarMenu(RECT inToolbarButtonRect);
 
 		virtual void performCommand() {}
 

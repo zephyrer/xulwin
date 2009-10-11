@@ -1918,14 +1918,14 @@ namespace XULWin
     }
 
 
-    void MenuImpl::showPopupMenu()
+    void MenuImpl::showPopupMenu(RECT inExcludeRect)
     {
         for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
         {
             ElementPtr child = owningElement()->children()[idx];
             if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
             {
-                popupMenu->show();
+                popupMenu->show(inExcludeRect);
             }
         }
     }
@@ -1965,18 +1965,16 @@ namespace XULWin
     }
 
         
-    void MenuPopupImpl::show()
+    void MenuPopupImpl::show(RECT inExcludeRect)
     {
         if (NativeComponent * comp = NativeControl::GetNativeParent(this))
         {
-            RECT rc;
-            ::GetClientRect(comp->handle(), &rc);
             POINT location;
-            location.x = rc.left;
-            location.y = rc.bottom;
+            location.x = inExcludeRect.left;
+            location.y = inExcludeRect.bottom;
             ::MapWindowPoints(comp->handle(), HWND_DESKTOP, &location, 1);
             boost::scoped_ptr<Windows::PopupMenu> menu(getMenu());
-            menu->show(comp->handle(), location, rc);
+            menu->show(comp->handle(), location, inExcludeRect);
         }
     }
     
@@ -2082,7 +2080,7 @@ namespace XULWin
     }
 
 
-    void MenuListImpl::showPopupMenu()
+    void MenuListImpl::showPopupMenu(RECT inToolbarButtonRect)
     {
         // no implementation needed
     }
@@ -3964,7 +3962,20 @@ namespace XULWin
             {
                 buttonType = it->second;
             }
-            if (buttonType == "menu")
+            //menu: Set the type attribute to the value menu to create a button with a menu popup. Place a menupopup element inside the button in this case. The user may click anywhere on the button to open and close the menu.
+            //menu-button: You can also use the value menu-button to create a button with a menu. Unlike the menu type, this type requires the user to press the arrow to open the menu, but a different command may be invoked when the main part of the button is pressed. This type of button would be used for browser's back and forward buttons.
+            //checkbox: Use this type to create a toggle button which will switch the checked state each time the button is pressed.
+            //radio: Use this type to create a radio button. You can also create a group of toolbarbutton using this type and the attribute group.
+            if (buttonType.empty())
+            {
+                mButton = new Windows::ToolbarButton(toolbar->nativeToolbar(),
+                                                     mCommandId.intValue(), 
+                                                     boost::function<void()>(),
+                                                     label,
+                                                     label,
+                                                     nullImage);
+            }
+            else if (buttonType == "menu")
             {
                 mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
                                                        this,
@@ -3974,14 +3985,15 @@ namespace XULWin
                                                        nullImage,
                                                        false);
             }
-            else
+            else if (buttonType == "menu-button")
             {
-                mButton = new Windows::ToolbarButton(toolbar->nativeToolbar(),
-                                                   mCommandId.intValue(), 
-                                                   boost::function<void()>(),
-                                                   label,
-                                                   label,
-                                                   nullImage);
+                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+                                                       this,
+                                                       mCommandId.intValue(), 
+                                                       label,
+                                                       label,
+                                                       nullImage,
+                                                       true);
             }
             toolbar->nativeToolbar()->add(mButton);
             // Now that mButton is constructed we can apply any previously set
@@ -3989,7 +4001,6 @@ namespace XULWin
             setLabel(mLabel);
             setDisabled(mDisabled);
             setCSSListStyleImage(mCSSListStyleImage);
-
         }
     }
 
@@ -4000,20 +4011,20 @@ namespace XULWin
     }
     
 
-    void ToolbarButtonImpl::showToolbarMenu()
+    void ToolbarButtonImpl::showToolbarMenu(RECT inToolbarButtonRect)
     {
-        showPopupMenu();
+        showPopupMenu(inToolbarButtonRect);
     }
     
 
-    void ToolbarButtonImpl::showPopupMenu()
+    void ToolbarButtonImpl::showPopupMenu(RECT inToolbarButtonRect)
     {
         for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
         {
             ElementPtr child = owningElement()->children()[idx];
             if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
             {
-                popupMenu->show();
+                popupMenu->show(inToolbarButtonRect);
             }
         }
     }

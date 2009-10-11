@@ -1,4 +1,3 @@
-- Implement mIsInitialized on ElementImpl level, instead of just MenuList.
 - Support menu-buttons in Toolbar
 - Make sample with menus and submenus
 - Fix WS_TABSTOP for multiline TextBoxes

@@ -351,15 +351,15 @@ namespace Windows
         mEventHandler(inEventHandler),
 		mIsButton(inIsButton)
 	{
+        if (inIsButton)
+        {
+            setRightMargin(getRightMargin() + 8);
+        }
 	}
 		
 		
 	ToolbarDropDown::~ToolbarDropDown()
 	{
-		//if (sTimerID_DisposeActiveDropDown)
-		//{
-		//	disposeActiveDropDown();
-		//}
 	}
 
 
@@ -375,11 +375,11 @@ namespace Windows
 	}
 
 
-	void ToolbarDropDown::showToolbarMenu()
+	void ToolbarDropDown::showToolbarMenu(RECT inToolbarButtonRect)
 	{
         if (mEventHandler)
         {
-            mEventHandler->showToolbarMenu();
+            mEventHandler->showToolbarMenu(inToolbarButtonRect);
         }
 	}
 

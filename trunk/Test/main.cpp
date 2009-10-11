@@ -39,7 +39,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     ErrorReporter::Instance().setLogger(boost::bind(&log, _1));
 
-    runConfigSample();
+    //runConfigSample();
     //runImageViewerSample();
     XULWin::Tester tester;
     tester.runXULSample("hello");

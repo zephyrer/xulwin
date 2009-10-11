@@ -69,7 +69,7 @@ namespace Windows
         // takes ownership
 		void append(const std::string & inText, PopupMenu * inSubmenu);
 
-        void show(HWND inParent, const POINT & inLocation, const RECT & inExcludeRegion);
+        void show(HWND inParent, const POINT & inLocation, const RECT & inExcludeRect);
 		
 	private:
         static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);

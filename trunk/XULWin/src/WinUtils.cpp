@@ -11,19 +11,12 @@ namespace XULWin
 namespace Windows
 {
 
-    CommonControlsInitializer::CommonControlsInitializer() :
-        mSuccess(false)
+    CommonControlsInitializer::CommonControlsInitializer()
     {
 		INITCOMMONCONTROLSEX icex;
 		icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 		icex.dwICC  = ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_STANDARD_CLASSES | ICC_WIN95_CLASSES;
 		InitCommonControlsEx(&icex);
-    }
-    
-        
-    bool CommonControlsInitializer::ok() const
-    {
-        return mSuccess;
     }
     
 

@@ -31,11 +31,6 @@ namespace Windows
     {
     public:
         CommonControlsInitializer();
-
-        bool ok() const;
-
-    private:
-        bool mSuccess;
     };
 
     std::string getCurrentDirectory();

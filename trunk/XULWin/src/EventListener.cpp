@@ -40,18 +40,24 @@ namespace XULWin
 
     void ScopedEventListener::connect(Element * inEl, UINT inMessage, const Action & inAction)
     {
-        inEl->addEventListener(this);
-        mMessageCallbacks[std::make_pair(inEl, inMessage)].push_back(inAction);
+        if (inEl)
+        {
+            inEl->addEventListener(this);
+            mMessageCallbacks[std::make_pair(inEl, inMessage)].push_back(inAction);
+        }
     }
 
     
     void ScopedEventListener::disconnect(Element * inEl, UINT inMessage)
     {
-        MessageCallbacks::iterator it = mMessageCallbacks.find(std::make_pair(inEl, inMessage));
-        if (it != mMessageCallbacks.end())
+        if (inEl)
         {
-            it->first.first->removeEventListener(this);
-            mMessageCallbacks.erase(it);
+            MessageCallbacks::iterator it = mMessageCallbacks.find(std::make_pair(inEl, inMessage));
+            if (it != mMessageCallbacks.end())
+            {
+                it->first.first->removeEventListener(this);
+                mMessageCallbacks.erase(it);
+            }
         }
     }
 

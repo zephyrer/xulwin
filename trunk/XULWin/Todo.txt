@@ -1,4 +1,5 @@
 - Support menu-buttons in Toolbar
+- Make sample with menus and submenus
 - Fix WS_TABSTOP for multiline TextBoxes
 - Checkbox partial checkstate
 - Implement PathInstructions2String

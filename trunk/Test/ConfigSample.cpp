@@ -10,20 +10,27 @@ namespace XULWin
     {
         Windows::CurrentDirectoryChanger curdir("../xulrunnersamples/configpanel/");
         mConfigWindow = mRunner.loadApplication("application.ini");
-
-        mNewSetButton = mConfigWindow->getElementById("newSetButton");
-        mEvents.connect(mNewSetButton, boost::bind(&ConfigSample::showNewSetDialog, this));
-        
-        Element * allowRatingsCheckbox = mConfigWindow->getElementById("allowRatingsCheckBox");
-        mEvents.connect(allowRatingsCheckbox, boost::bind(&ConfigSample::showMessage, this, "Checked"));
         
         mSetsPopup = mConfigWindow->getElementById("setsMenuList");
-        
-        Element * tagsText = mConfigWindow->getElementById("tagsTextBox");
-        mEvents.connect(tagsText, WM_KEYUP, boost::bind(&ConfigSample::showMessage, this, "WM_KEYUP"));
 
-        Element * uploadButton = mConfigWindow->getElementById("uploadButton");
-        mEvents.connect(uploadButton, boost::bind(&ConfigSample::showUpload, this));
+
+        mNewSetButton = mConfigWindow->getElementById("newSetButton");
+        mEvents.connect(mNewSetButton,
+                        boost::bind(&ConfigSample::showNewSetDialog, this));
+
+        
+        mEvents.connect(mConfigWindow->getElementById("allowRatingsCheckBox"),
+                        boost::bind(&ConfigSample::showMessage, this, "Checked"));
+
+        
+        mEvents.connect(mConfigWindow->getElementById("tagsTextBox"),
+                        WM_KEYUP,
+                        boost::bind(&ConfigSample::showMessage, this, "WM_KEYUP"));
+
+
+        mEvents.connect(mConfigWindow->getElementById("uploadButton"),
+                        boost::bind(&ConfigSample::showUpload, this));
+
 
         if (NativeWindow * win = mConfigWindow->impl()->downcast<NativeWindow>())
         {

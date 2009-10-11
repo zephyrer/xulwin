@@ -128,6 +128,14 @@ namespace Windows
 
     void appendTabPanel(HWND inHandle, const std::string & inTitle);
 
+    bool insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText);
+
+    bool insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
+    
+    bool setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled);
+
+    bool setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked);
+
 } // namespace Windows
 
 } // namespace XULWin

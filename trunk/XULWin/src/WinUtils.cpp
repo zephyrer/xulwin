@@ -425,6 +425,65 @@ namespace Windows
         }
     }
 
+
+    bool insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText)
+    {        
+	    MENUITEMINFO mii;
+	    memset(&mii, 0, sizeof(mii));
+	    mii.cbSize = sizeof(mii);	    
+	    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
+	    mii.fType = 0;
+
+	    std::wstring itemText = ToUTF16(inText);
+        std::vector<TCHAR> buffer;
+        buffer.resize(itemText.length() + 1);
+	    for (std::size_t i = 0; i < itemText.length(); i++)
+	    {
+		    buffer[i] = itemText[i];
+	    }
+	    buffer[itemText.length()] = 0;
+	    mii.dwTypeData = (LPTSTR)&buffer[0];    		
+	    mii.cch = (UINT)itemText.size();
+	    mii.wID = inCommandId;
+        return 0 != ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii);
+    }
+    
+
+    bool insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText)
+    {
+	    MENUITEMINFO mii;
+	    memset(&mii, 0, sizeof(mii));
+	    mii.cbSize = sizeof(mii);
+	    mii.fMask = MIIM_SUBMENU | MIIM_STRING;
+    	
+	    std::wstring text = ToUTF16(inText);
+        std::vector<TCHAR> buffer;
+        buffer.resize(text.length() + 1);
+        for (std::size_t i = 0; i < text.length(); i++)
+	    {
+		    buffer[i] = text[i];
+	    }
+	    buffer[text.length()] = 0;
+	    mii.dwTypeData = (LPTSTR)&buffer[0];    		
+	    mii.cch = (UINT)inText.size();
+	    mii.hSubMenu = inSubMenu;
+
+        return 0 != ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii);
+    }
+    
+
+    bool setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled)
+    {
+        return 0 != ::EnableMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED);
+    }
+    
+
+    bool setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked)
+    {
+        return 0 != ::CheckMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED);
+    }
+
+
 } // namespace Windows
 
 } // namespace XULWin

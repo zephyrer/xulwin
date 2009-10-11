@@ -139,41 +139,9 @@ namespace Windows
 
     void PopupMenu::append(PopupMenuItem * inMenuItem)
     {
-	    MENUITEMINFO mii;
-	    memset(&mii, 0, sizeof(mii));
-	    mii.cbSize = sizeof(mii);
-    	
-	    
-	    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
-	    mii.fType = (inMenuItem->id() == 0) ? MFT_SEPARATOR : 0;
-
-	    std::wstring itemText = ToUTF16(inMenuItem->text());
-        std::vector<TCHAR> buffer;
-        buffer.resize(itemText.length() + 1);
-	    for (std::size_t i = 0; i < itemText.length(); i++)
-	    {
-		    buffer[i] = itemText[i];
-	    }
-	    buffer[itemText.length()] = 0;
-	    mii.dwTypeData = (LPTSTR)&buffer[0];    		
-	    mii.cch = (UINT)itemText.size();
-	    mii.wID = inMenuItem->id();
-	    if (inMenuItem->getHBITMAP())
-	    {
-		    mii.fMask |= MIIM_CHECKMARKS;
-		    mii.hbmpChecked = inMenuItem->getHBITMAP();
-		    mii.hbmpUnchecked = inMenuItem->getHBITMAP();
-	    }
-
-	    BOOL result = InsertMenuItem(mHandle, mSize++, TRUE, &mii);
-	    ::EnableMenuItem(mHandle, inMenuItem->id(), MF_BYCOMMAND | (inMenuItem->isEnabled() ? MF_ENABLED : MF_DISABLED | MF_GRAYED));
-	    ::CheckMenuItem(mHandle, inMenuItem->id(), MF_BYCOMMAND | (inMenuItem->isChecked() ? MF_CHECKED : MF_UNCHECKED));
-	    if (!result)
-	    {
-            std::stringstream ss;
-            ss << "PopupMenu::appendMenuItem failed. Reason: " << Windows::getLastError(::GetLastError());
-		    ReportError(ss.str());
-	    }
+        Windows::insertMenuItem(mHandle, mSize++, inMenuItem->id(), inMenuItem->text());
+        Windows::setMenuItemEnabled(mHandle, inMenuItem->id(), inMenuItem->isEnabled());
+        Windows::setMenuItemChecked(mHandle, inMenuItem->id(), inMenuItem->isChecked());
 
         Items::iterator it = mItems.find(inMenuItem->id());
         assert(it == mItems.end());
@@ -192,36 +160,9 @@ namespace Windows
 
     void PopupMenu::append(const std::string & inText, PopupMenu * inSubmenu)
     {	
-	    PopupMenuItem item(0, inText);
-	    MENUITEMINFO mii;
-	    memset(&mii, 0, sizeof(mii));
-	    mii.cbSize = sizeof(mii);
-	    mii.fMask = MIIM_SUBMENU | MIIM_STRING;
-    	
-	    std::wstring text = ToUTF16(inText);
-        std::vector<TCHAR> buffer;
-        buffer.resize(text.length() + 1);
-        for (std::size_t i = 0; i < text.length(); i++)
-	    {
-		    buffer[i] = text[i];
-	    }
-	    buffer[text.length()] = 0;
-	    mii.dwTypeData = (LPTSTR)&buffer[0];
-    		
-	    mii.cch = (UINT)inText.size();
-	    mii.hSubMenu = inSubmenu->handle();
-
-	    BOOL result = InsertMenuItem(mHandle, mSize++, TRUE, &mii);
-
+        Windows::insertSubMenu(mHandle, mSize++, inSubmenu->handle(), inText);
         boost::shared_ptr<PopupMenu> subMenuPtr(inSubmenu);
 	    mSubmenus.push_back(subMenuPtr);
-    			
-	    if (!result)
-	    {
-            std::stringstream ss;
-            ss << "PopupMenu::appendMenuItem failed. Reason: " << Windows::getLastError(::GetLastError());
-		    ReportError(ss.str());
-	    }
     }
 
 

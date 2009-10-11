@@ -251,9 +251,6 @@ namespace Windows
         }
         subclass(parent);
 
-        // Remember instance and handle for PopupMenu::ParentProc
-        sInstances[this] = parent;
-
         TPMPARAMS tpm;
         tpm.cbSize = sizeof(tpm);
         tpm.rcExclude = inExcludeRegion;
@@ -274,6 +271,9 @@ namespace Windows
         assert(!mSubclassedWindow);
         mSubclassedWindow = inHandle;
         mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mSubclassedWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)PopupMenu::ParentProc);
+
+        // Remember instance and handle for PopupMenu::ParentProc
+        sInstances[this] = inHandle;
     }
 
     
@@ -286,6 +286,7 @@ namespace Windows
             ::SetWindowLongPtr(mSubclassedWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)mOrigProc);
             mSubclassedWindow = 0;
             mOrigProc = 0;
+            sInstances.erase(sInstances.find(this));
         }
     }
 

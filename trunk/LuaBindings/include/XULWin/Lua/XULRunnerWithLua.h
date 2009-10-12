@@ -51,6 +51,7 @@ namespace Lua
 
         boost::scoped_ptr<XULWin::XULRunner> mXULRunner;
         lua_State * mLuaState;
+        Element * mPrevRoot;
     };
 
 

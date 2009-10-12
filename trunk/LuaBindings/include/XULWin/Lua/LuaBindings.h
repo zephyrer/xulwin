@@ -16,7 +16,8 @@ namespace Lua
 
     void showMessage(const std::string & inString);
 
-    void setRootElement(Element * inEl);
+    // returns the previous root element
+    Element * setRootElement(Element * inEl);
 
     Element * getRootElement();
 

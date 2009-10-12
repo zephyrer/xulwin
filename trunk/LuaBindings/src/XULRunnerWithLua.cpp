@@ -33,7 +33,8 @@ namespace Lua
     
     XULRunnerWithLua::XULRunnerWithLua() :
         mXULRunner(new XULRunner),
-        mLuaState(0)
+        mLuaState(0),
+        mPrevRoot(0)
     {    
         
         mLuaState = lua_open();
@@ -44,6 +45,7 @@ namespace Lua
 
     XULRunnerWithLua::~XULRunnerWithLua()
     {
+        Lua::setRootElement(mPrevRoot);
         lua_close(mLuaState);
     }
 
@@ -100,7 +102,7 @@ namespace Lua
         ElementPtr result = mXULRunner->loadApplication(inApplicationIniFile);
         loadScripts(result.get());
         addListeners(result.get());
-        Lua::setRootElement(result.get());
+        mPrevRoot = Lua::setRootElement(result.get());
         return result;
     }
 
@@ -110,7 +112,7 @@ namespace Lua
         ElementPtr result = mXULRunner->loadXUL(inXULUrl);
         loadScripts(result.get());
         addListeners(result.get());
-        Lua::setRootElement(result.get());
+        mPrevRoot = Lua::setRootElement(result.get());
         return result;
     }
 

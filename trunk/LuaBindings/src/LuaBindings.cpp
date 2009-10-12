@@ -12,12 +12,14 @@ namespace XULWin
 
 namespace Lua
 {
-    static Element * gRootElement;
+    static Element * gRootElement(0);
     
     
-    void setRootElement(Element * inEl)
+    Element * setRootElement(Element * inEl)
     {
+        Element * prev = gRootElement;
         gRootElement = inEl;
+        return prev;
     }
 
 

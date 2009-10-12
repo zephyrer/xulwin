@@ -17,10 +17,9 @@ namespace XULWin
     }
 
 
-
-    void LuaBindingsTest::run()
+    void LuaBindingsTest::run(const std::string & inAppname)
     {   
-        Windows::CurrentDirectoryChanger cd("../xulrunnersamples/hello/");
+        Windows::CurrentDirectoryChanger cd("../xulrunnersamples/" + inAppname + "/");
         ElementPtr rootEl = mXULRunnerWithLua.loadApplication("application.ini");
         rootEl->downcast<Window>()->showModal();
     }

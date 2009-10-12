@@ -17,7 +17,7 @@ namespace XULWin
 
         ~LuaBindingsTest();
 
-        void run();
+        void run(const std::string & inAppname);
 
     private:
         Lua::XULRunnerWithLua mXULRunnerWithLua;

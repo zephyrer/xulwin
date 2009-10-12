@@ -33,7 +33,7 @@ void runImageViewerSample()
 void testLuaBindings()
 {
     XULWin::LuaBindingsTest test;
-    test.run();
+    test.run("hello");
 }
 
 

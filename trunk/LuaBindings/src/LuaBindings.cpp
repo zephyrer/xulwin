@@ -40,13 +40,9 @@ namespace Lua
 
     Element * loadApplication(const std::string & inFile)
     {
-        static bool fFirstTime = true;
-        if (fFirstTime)
-        {           
-        }
-        Windows::CurrentDirectoryChanger cd("../xulrunnersamples/hello/");
+        Windows::CurrentDirectoryChanger cd("../xulrunnersamples/" + inFile + "/");
         XULWin::XULRunner runner;
-        gRootElement = runner.loadApplication(inFile);
+        gRootElement = runner.loadApplication("application.ini");
         return gRootElement.get();
     }
     

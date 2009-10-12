@@ -34,13 +34,7 @@ namespace XULWin
 
     void LuaBindingsTest::run()
     {
-        mInitializer->loadScript("XULWin.initialize()");
-        mInitializer->loadScript("XULWin.showMessage(\"Hello From Lua\")");
-        mInitializer->loadScript("el = XULWin.loadApplication(\"application.ini\")"
-                                 "XULWin.showMessage(el:type())");
-        mInitializer->loadScript("XULWin.showModal(el)");
-
-        mInitializer->loadScript("XULWin.finalize()");
+        mInitializer->loadFile("Hello.lua");
     }
 
 

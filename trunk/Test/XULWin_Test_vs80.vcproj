@@ -285,6 +285,14 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Lua Samples"
+			>
+			<File
+				RelativePath=".\Hello.lua"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

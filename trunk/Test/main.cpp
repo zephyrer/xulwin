@@ -1,5 +1,6 @@
 #include "Tester.h"
 #include "ConfigSample.h"
+#include "LuaBindingsTest.h"
 #include <boost/bind.hpp>
 #include <sstream>
 #include <windows.h>
@@ -29,6 +30,13 @@ void runImageViewerSample()
 }
 
 
+void testLuaBindings()
+{
+    XULWin::LuaBindingsTest test;
+    test.run();
+}
+
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     // Initialize all kinds of stuff
@@ -39,10 +47,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     ErrorReporter::Instance().setLogger(boost::bind(&log, _1));
 
+    testLuaBindings();
+
     //runConfigSample();
     //runImageViewerSample();
-    XULWin::Tester tester;
-    tester.runXULSample("hello");
+    //XULWin::Tester tester;
+    //tester.runXULSample("hello");
     //tester.runXULSample("toolbar");
     //tester.runXULSample("widgets");
     //tester.runXULSample("tabbox");

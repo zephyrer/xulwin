@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="Test"
-	ProjectGUID="{01FEEDB4-2408-444E-B274-8BE629148C66}"
+	Name="LuaBindings"
+	ProjectGUID="{60BC064D-F309-48D3-B534-8324FBB51C58}"
 	RootNamespace="Test"
 	Keyword="Win32Proj"
 	>
@@ -19,12 +19,13 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\"
 			IntermediateDirectory="$(OutDir)\Intermediate"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy ..\Output\Windows\Debug\LuaBindings\LuaBindings.dll ."
+				Description="Swig compilation step"
+				CommandLine="swig -lua -c++ LuaBindings.i"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -90,18 +91,21 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\"
 			IntermediateDirectory="$(OutDir)\Intermediate"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Swig compilation step"
+				CommandLine="swig -lua -c++ LuaBindings.i"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -141,20 +145,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib GdiPlus.lib"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -166,13 +160,8 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
@@ -183,67 +172,7 @@
 			Name="Header Files"
 			>
 			<File
-				RelativePath=".\ConfigSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ImageViewerSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaBindingsTest.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaInitializer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tester.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="XUL Samples"
-			>
-			<File
-				RelativePath="..\xulrunnersamples\configpanel\chrome\content\configpanel.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\hello\chrome\content\hello.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\imageviewer\chrome\content\imageviewer.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\configpanel\chrome\content\newsetdialog.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\shout\chrome\content\shout.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\svg\chrome\content\svg.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\tabbox\chrome\content\tabbox.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\toolbar\chrome\content\toolbar.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\treeview\chrome\content\treeview.xul"
-				>
-			</File>
-			<File
-				RelativePath="..\xulrunnersamples\widgets\chrome\content\widgets.xul"
+				RelativePath=".\include\XULWin\Lua\LuaBindings.h"
 				>
 			</File>
 		</Filter>
@@ -253,7 +182,7 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath="..\XULWin\XULWin.exe.manifest"
+				RelativePath=".\LuaBindings.i"
 				>
 			</File>
 		</Filter>
@@ -261,27 +190,15 @@
 			Name="Source Files"
 			>
 			<File
-				RelativePath=".\ConfigSample.cpp"
+				RelativePath=".\src\LuaBindings.cpp"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Generated Files"
+			>
 			<File
-				RelativePath=".\ImageViewerSample.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaBindingsTest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaInitializer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tester.cpp"
+				RelativePath=".\LuaBindings_wrap.cxx"
 				>
 			</File>
 		</Filter>

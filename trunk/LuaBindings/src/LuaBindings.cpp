@@ -1,34 +1,59 @@
 #include "XULWin/Lua/LuaBindings.h"
+#include "XULWin/ErrorReporter.h"
+#include "XULWin/Initializer.h"
+#include "XULWin/WinUtils.h"
+#include "XULWin/XULRunner.h"
 #include <windows.h> // TODO: remove
 
 
 namespace XULWin
 {
 
+
 namespace Lua
 {
+    XULWin::Initializer * gInitializer(0);
 
+    static ElementPtr gRootElement;
 
-    void ShowMessage(const std::string & inString)
+    void showMessage(const std::string & inString)
     {
         ::MessageBoxA(0, inString.c_str(), "Lua", MB_OK);
     }
-
-
-    Element::Element()
+    
+    
+    void initialize()
     {
+        gInitializer = new XULWin::Initializer(GetModuleHandle(0));
+        Windows::CommonControlsInitializer ccInit;
+        ErrorReporter::Instance().setLogger(boost::bind(&showMessage, _1));
     }
 
-    
-    int Element::testSum(int a, int b)
+
+    void finalize()
     {
-        return a + b;
+        gRootElement.reset();
+        delete gInitializer;
+        gInitializer = 0;
+    }
+
+
+    Element * loadApplication(const std::string & inFile)
+    {
+        static bool fFirstTime = true;
+        if (fFirstTime)
+        {           
+        }
+        Windows::CurrentDirectoryChanger cd("../xulrunnersamples/hello/");
+        XULWin::XULRunner runner;
+        gRootElement = runner.loadApplication(inFile);
+        return gRootElement.get();
     }
     
     
-    Element * Element::getElementById()
+    void showModal(Element * inWindow)
     {
-        return 0;
+        inWindow->impl()->downcast<NativeWindow>()->showModal();
     }
 
 

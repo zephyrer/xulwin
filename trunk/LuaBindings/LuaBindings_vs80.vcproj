@@ -25,7 +25,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Swig compilation step"
-				CommandLine="swig -lua -c++ LuaBindings.i"
+				CommandLine="del LuaBindings_wrap.cxx&#x0D;&#x0A;swig -lua -c++ LuaBindings.i"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"

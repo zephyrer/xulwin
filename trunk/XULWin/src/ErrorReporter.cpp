@@ -139,7 +139,11 @@ namespace XULWin
 
 	ErrorReporter & ErrorReporter::Instance()
 	{
-		assert(sInstance);
+		//assert(sInstance);
+        if (!sInstance)
+        {
+            Initialize();
+        }
 		return *sInstance;
 	}
 

@@ -2,6 +2,9 @@
 #define LUABINDINGS_H_INCLUDED
 
 
+#include "XULWin/Element.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/ElementImpl.h"
 #include <string>
 
 
@@ -11,22 +14,15 @@ namespace XULWin
 namespace Lua
 {
 
-    void ShowMessage(const std::string & inString);
+    void showMessage(const std::string & inString);
 
+    void initialize();
 
-    /**
-     * LuaBindings is a swig-compatible class.
-     */
-    class Element
-    {
-    public:
-        Element();
+    void finalize();
 
-        int testSum(int a, int b);
+    Element * loadApplication(const std::string & inFile);
 
-        Element * getElementById();
-
-    };
+    void showModal(Element * inWindow);
 
 
 } // namespace Lua

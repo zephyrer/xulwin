@@ -8,8 +8,8 @@ extern "C" {
 #endif
 
 
-extern int luaopen_LuaBindings(lua_State* L); // declare the wrapped module
-#define LUA_EXTRALIBS {"LuaBindings",luaopen_LuaBindings}
+extern int luaopen_XULWin(lua_State* L); // declare the wrapped module
+#define LUA_EXTRALIBS {"XULWin",luaopen_LuaBindings}
 
 
 #ifdef __cplusplus
@@ -34,7 +34,7 @@ namespace Lua
     {    
         L = lua_open();
         luaopen_base(L);
-        luaopen_LuaBindings(L);
+        luaopen_XULWin(L);
     }
 
 
@@ -65,9 +65,7 @@ namespace Lua
         int status = luaL_loadstring(L, inScript.c_str());
         if (status != 0)
         {
-            std::stringstream ss;
-            ss << status;
-            log(ss.str());
+            log(lua_tostring(L, -1));
             return false;
         }
 

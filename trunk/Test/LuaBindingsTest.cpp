@@ -1,6 +1,9 @@
 #include "LuaBindingsTest.h"
 #include "LuaInitializer.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/WinUtils.h"
+#include "XULWin/XULRunner.h"
+#include "XULWin/Lua/LuaBindings.h"
 #include <boost/bind.hpp>
 #include <lua.hpp>
 #include <stdio.h>
@@ -12,7 +15,7 @@ namespace XULWin
 
     void DisplayError(const std::string & inMessage)
     {
-        ::MessageBoxA(0, inMessage.c_str(), "XULWin", MB_OK);
+        ::MessageBoxA(0, ("Error: " + inMessage).c_str(), "XULWin", MB_OK);
     }
 
 
@@ -31,12 +34,13 @@ namespace XULWin
 
     void LuaBindingsTest::run()
     {
-        mInitializer->loadScript("LuaBindings.ShowMessage(\"Hello From Lua\")");
-        mInitializer->loadScript(
-            "LuaBindings.Element el()       "
-            "sum = el:testSum(1,2)          "
-            "LuaBindings.ShowMessage(sum)   "
-        );        
+        mInitializer->loadScript("XULWin.initialize()");
+        mInitializer->loadScript("XULWin.showMessage(\"Hello From Lua\")");
+        mInitializer->loadScript("el = XULWin.loadApplication(\"application.ini\")"
+                                 "XULWin.showMessage(el:type())");
+        mInitializer->loadScript("XULWin.showModal(el)");
+
+        mInitializer->loadScript("XULWin.finalize()");
     }
 
 

@@ -3,6 +3,8 @@
 
 
 #include "XULWin/Lua/LuaBindings.h"
+#include "XULWin/Element.h"
+#include "XULWin/Parser.h"
 #include <boost/scoped_ptr.hpp>
 #include <string>
 

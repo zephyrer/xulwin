@@ -88,7 +88,7 @@ namespace XULWin
                         public virtual FlexController,
                         public virtual HiddenController,
                         public virtual OrientController,
-                        boost::noncopyable
+                        private boost::noncopyable
     {
     public:
         virtual ~ElementImpl() = 0{}        

@@ -195,10 +195,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LuaInitializer.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Tester.h"
 				>
 			</File>
@@ -270,10 +266,6 @@
 			</File>
 			<File
 				RelativePath=".\LuaBindingsTest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaInitializer.cpp"
 				>
 			</File>
 			<File

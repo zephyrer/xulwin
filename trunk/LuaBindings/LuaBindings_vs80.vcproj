@@ -161,6 +161,10 @@
 				RelativePath=".\include\XULWin\Lua\LuaBindings.h"
 				>
 			</File>
+			<File
+				RelativePath=".\include\XULWin\Lua\XULRunnerWithLua.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -177,6 +181,10 @@
 			>
 			<File
 				RelativePath=".\src\LuaBindings.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\XULRunnerWithLua.cpp"
 				>
 			</File>
 		</Filter>

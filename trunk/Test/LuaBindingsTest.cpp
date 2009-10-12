@@ -32,9 +32,36 @@ namespace XULWin
     }
 
 
+    LRESULT LuaBindingsTest::handleButtonPressed()
+    {
+        // Execute the script found in the 'oncommand' attribute of the button.
+        Element * button = mRootElement->getElementById("helloButton");
+        if (mInitializer->loadScript(button->getAttribute("oncommand")))
+        {
+            return 0;
+        }
+        return 1;
+    }
+
+
     void LuaBindingsTest::run()
     {
-        mInitializer->loadFile("Hello.lua");
+        XULRunner runner;
+        Windows::CurrentDirectoryChanger cd("../xulrunnersamples/hello/");
+        mRootElement = runner.loadApplication("application.ini");
+        Lua::setRootElement(mRootElement.get());
+
+        // Load the script
+        Element * script = mRootElement->getElementById("sayHelloScript");
+        mInitializer->loadScript(script->innerText());
+        
+        // Connect the button listener
+        Element * button = mRootElement->getElementById("helloButton");        
+        ScopedEventListener events;
+        events.connect(button, boost::bind(&LuaBindingsTest::handleButtonPressed, this));
+
+        // Show the window
+        mRootElement->impl()->downcast<NativeWindow>()->showModal();
     }
 
 

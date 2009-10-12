@@ -28,7 +28,9 @@ namespace XULWin
         void run();
 
     private:
+        LRESULT handleButtonPressed();
         boost::scoped_ptr<Lua::LuaInitializer> mInitializer;
+        ElementPtr mRootElement;
     };
 
 

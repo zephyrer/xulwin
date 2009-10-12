@@ -24,7 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy ..\Output\Windows\Debug\LuaBindings\LuaBindings.dll ."
+				CommandLine="REM copy ..\Output\Windows\Debug\LuaBindings\LuaBindings.dll ."
 			/>
 			<Tool
 				Name="VCCustomBuildTool"

@@ -53,7 +53,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<SVG::Group>();
         ElementFactory::Instance().registerElement<SVG::Polygon>();
         ElementFactory::Instance().registerElement<SVG::Path>();
-        ElementFactory::Instance().registerElement<SVG::Rect>();
+        ElementFactory::Instance().registerElement<SVG::SVGRect>();
 
         ElementFactory::Instance().registerElement<Tree>();
         ElementFactory::Instance().registerElement<TreeChildren>();

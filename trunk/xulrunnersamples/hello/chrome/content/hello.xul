@@ -8,9 +8,10 @@
   <script id="sayHelloScript">
 <![CDATA[
 function buttonPushed()
-  el = getElementById("helloButton")
+  el = XULWin.getRootElement():getElementById("helloButton")
+  el:setAttribute("label", "You pushed me!")
 end
 ]]>
   </script>
-  <button id="helloButton" label="Say Hello" oncommand="buttonPushed()"/>
+  <button id="helloButton" label="Hello" oncommand="buttonPushed()"/>
 </window>

@@ -53,10 +53,22 @@ namespace Lua
     }
 
     
-    void LuaInitializer::loadFile(const std::string & inLuaFile)
+    bool LuaInitializer::loadFile(const std::string & inLuaFile)
     {
-        luaL_loadfile(L, inLuaFile.c_str());
-        lua_pcall(L, 0, 0, 0);
+        int status = luaL_loadfile(L, inLuaFile.c_str());
+        if (status != 0)
+        {
+            log(lua_tostring(L, -1));
+            return false;
+        }
+
+        status = lua_pcall(L, 0, 0, 0);
+        if (status != 0)
+        {
+            log(lua_tostring(L, -1));
+            return false;
+        }
+        return true;
     }
 
     

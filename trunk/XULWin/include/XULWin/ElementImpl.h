@@ -91,7 +91,7 @@ namespace XULWin
                         private boost::noncopyable
     {
     public:
-        virtual ~ElementImpl() = 0{}        
+        virtual ~ElementImpl() {}        
 
         virtual bool initImpl() = 0;
 
@@ -582,7 +582,9 @@ namespace XULWin
 
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
+#ifndef SWIG
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
+#endif
 
     protected:
         static NativeComponent * FindComponentByHandle(HWND inHandle);
@@ -705,7 +707,9 @@ namespace XULWin
 
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
+#ifndef SWIG
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
+#endif
     };
 
 

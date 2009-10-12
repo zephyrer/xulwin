@@ -54,17 +54,17 @@ namespace SVG
     };
 
 
-    class Rect : public Element
+    class SVGRect : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Rect>(inParent, inAttr); }
+        { return Element::Create<SVGRect>(inParent, inAttr); }
 
         static const char * Type() { return "rect"; }
     
     private:
         friend class Element;
-        Rect(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SVGRect(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 

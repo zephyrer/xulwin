@@ -16,13 +16,9 @@ namespace Lua
 
     void showMessage(const std::string & inString);
 
-    void initialize();
+    void setRootElement(Element * inEl);
 
-    void finalize();
-
-    Element * loadApplication(const std::string & inFile);
-
-    void showModal(Element * inWindow);
+    Element * getRootElement();
 
 
 } // namespace Lua

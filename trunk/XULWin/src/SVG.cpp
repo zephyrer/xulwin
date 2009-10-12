@@ -45,8 +45,8 @@ namespace SVG
     }
 
 
-    Rect::Rect(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Rect::Type(),
+    SVGRect::SVGRect(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(SVGRect::Type(),
                 inParent,
                 new SVGRectImpl(inParent->impl(), inAttributesMapping))
     {

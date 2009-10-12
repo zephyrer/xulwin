@@ -15,11 +15,5 @@
 -- Element:addChild
 -- Element:removeChild
 
-XULWin.initialize()
-
-el = XULWin.loadApplication("hello")
-button = el:getElementById("helloButton")
-button:setAttribute("label", "Hacked by Lua!")
-XULWin.showModal(el)
-
-XULWin.finalize()
+-- el = XULWin.loadApplication("hello")
+-- XULWin.showModal(el)

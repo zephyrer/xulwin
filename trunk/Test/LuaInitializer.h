@@ -19,7 +19,7 @@ namespace Lua
 
         ~LuaInitializer();
 
-        void loadFile(const std::string & inLuaFile);
+        bool loadFile(const std::string & inLuaFile);
 
         bool loadScript(const std::string & inScript);
 

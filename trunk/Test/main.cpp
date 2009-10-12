@@ -39,13 +39,13 @@ void testLuaBindings()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    //// Initialize all kinds of stuff
-    //XULWin::Initializer initializer(hInstance);
+    // Initialize all kinds of stuff
+    XULWin::Initializer initializer(hInstance);
 
-    //// Ensure that the common control DLL is loaded. 
-    //Windows::CommonControlsInitializer ccInit;
+    // Ensure that the common control DLL is loaded. 
+    Windows::CommonControlsInitializer ccInit;
 
-    //ErrorReporter::Instance().setLogger(boost::bind(&log, _1));
+    ErrorReporter::Instance().setLogger(boost::bind(&log, _1));
 
     testLuaBindings();
 

@@ -11,7 +11,17 @@ function buttonPushed()
   el = XULWin.getRootElement():getElementById("helloButton")
   el:setAttribute("label", "You pushed me!")
 end
+function buttonPushed2()
+  el = XULWin.getRootElement():getElementById("helloButton2")
+  el:setAttribute("label", "You pushed me2!")
+end
+function buttonPushed3()
+  el = XULWin.getRootElement():getElementById("helloButton3")
+  el:setAttribute("label", "You pushed me3!")
+end
 ]]>
-  </script>
-  <button id="helloButton" label="Hello" oncommand="buttonPushed()"/>
+</script>
+<button id="helloButton" label="Hello" oncommand="buttonPushed()"/>
+<button id="helloButton2" label="Hello" oncommand="buttonPushed2()"/>
+<button id="helloButton3" label="Hello" oncommand="buttonPushed3()"/>
 </window>

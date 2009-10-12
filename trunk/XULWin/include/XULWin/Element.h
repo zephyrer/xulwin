@@ -85,6 +85,18 @@ namespace XULWin
 
         Element * getElementById(const std::string & inId);
 
+        template<class ElementType>
+        void getElementsByType(std::vector<ElementType*> & outElements)
+        {
+            for (size_t idx = 0; idx != mChildren.size(); ++idx)
+            {
+                if (ElementType * child = mChildren[idx]->downcast<ElementType>())
+                {
+                    outElements.push_back(child);
+                }
+            }
+        }
+
         const Children & children() const { return mChildren; }
 
         bool addEventListener(EventListener * inEventListener);

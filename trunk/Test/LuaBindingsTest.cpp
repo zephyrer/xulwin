@@ -1,6 +1,8 @@
 #include "LuaBindingsTest.h"
 #include "LuaInitializer.h"
+#include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Script.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/Lua/LuaBindings.h"
@@ -32,15 +34,16 @@ namespace XULWin
     }
 
 
-    LRESULT LuaBindingsTest::handleButtonPressed()
+    void LuaBindingsTest::addListeners(Element * inElement)
     {
-        // Execute the script found in the 'oncommand' attribute of the button.
-        Element * button = mRootElement->getElementById("helloButton");
-        if (mInitializer->loadScript(button->getAttribute("oncommand")))
+        if (NativeComponent * comp = inElement->impl()->downcast<NativeComponent>())
         {
-            return 0;
+            comp->addEventListener(this);
         }
-        return 1;
+        for (size_t idx = 0; idx != inElement->children().size(); ++idx)
+        {
+            addListeners(inElement->children()[idx].get());
+        }
     }
 
 
@@ -51,17 +54,45 @@ namespace XULWin
         mRootElement = runner.loadApplication("application.ini");
         Lua::setRootElement(mRootElement.get());
 
-        // Load the script
-        Element * script = mRootElement->getElementById("sayHelloScript");
-        mInitializer->loadScript(script->innerText());
-        
-        // Connect the button listener
-        Element * button = mRootElement->getElementById("helloButton");        
-        ScopedEventListener events;
-        events.connect(button, boost::bind(&LuaBindingsTest::handleButtonPressed, this));
+        std::vector<XULWin::Script*> scripts;
+        mRootElement->getElementsByType<Script>(scripts);
+        for (size_t idx = 0; idx != scripts.size(); ++idx)
+        {
+            mInitializer->loadScript(scripts[idx]->innerText());
+        }
+        addListeners(mRootElement.get());
 
         // Show the window
         mRootElement->impl()->downcast<NativeWindow>()->showModal();
+    }
+
+
+    LRESULT LuaBindingsTest::handleCommand(Element * inSender, WORD inNotificationCode)
+    {
+        std::string script = inSender->getAttribute("oncommand");
+        if (!script.empty() && mInitializer->loadScript(script))
+        {
+            return 0;
+        }
+        return 1;
+    }
+    
+    
+    LRESULT LuaBindingsTest::handleMenuCommand(Element * inSender, WORD inMenuId)
+    {
+        return 1;
+    }
+
+
+    LRESULT LuaBindingsTest::handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
+    {
+        return 1;
+    }
+
+
+    LRESULT LuaBindingsTest::handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        return 1;
     }
 
 

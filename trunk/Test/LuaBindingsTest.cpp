@@ -1,29 +1,23 @@
 #include "LuaBindingsTest.h"
 #include "XULWin/Element.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/Lua/LuaBindings.h"
+#include "XULWin/Lua/XULRunnerWithLua.h"
+#include <boost/bind.hpp>
 
 
 namespace XULWin
 {
 
 
-    LuaBindingsTest::LuaBindingsTest()
-    {
-    }
-
-
-    LuaBindingsTest::~LuaBindingsTest()
-    {
-    }
-
-
-    void LuaBindingsTest::run(const std::string & inAppname)
+    void LuaBindingsTest::runXULSample(const std::string & inAppname)
     {   
         Windows::CurrentDirectoryChanger cd("../xulrunnersamples/" + inAppname + "/");
-        ElementPtr rootEl = mXULRunnerWithLua.loadApplication("application.ini");
+        Lua::XULRunnerWithLua xulRunner;
+        xulRunner.Logger = boost::bind(Lua::showMessage, _1);
+        ElementPtr rootEl = xulRunner.loadApplication("application.ini");
         rootEl->downcast<Window>()->showModal();
     }
-
 
 
 } // namespace XULWin

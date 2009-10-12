@@ -24,7 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="REM copy ..\Output\Windows\Debug\LuaBindings\LuaBindings.dll ."
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -274,14 +274,6 @@
 			</File>
 			<File
 				RelativePath=".\Tester.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Lua Samples"
-			>
-			<File
-				RelativePath=".\Hello.lua"
 				>
 			</File>
 		</Filter>

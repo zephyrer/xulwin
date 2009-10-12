@@ -23,7 +23,7 @@ namespace XULWin
         static const std::string cChrome = "chrome://";
         if (mURL.empty() || mURL.size() < cChrome.size() || (mURL.find(cChrome) == std::string::npos))
         {
-            return "";
+            return mURL;
         }
 
         // Change this pattern: chrome://myapp/skin/icons/myimg.jpg

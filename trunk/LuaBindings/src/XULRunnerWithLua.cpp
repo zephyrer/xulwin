@@ -39,6 +39,9 @@ namespace Lua
         
         mLuaState = lua_open();
         luaopen_base(mLuaState);
+        luaopen_table(mLuaState);
+        luaopen_string(mLuaState);
+        luaopen_math(mLuaState);
         luaopen_XULWin(mLuaState);
     }
 

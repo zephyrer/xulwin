@@ -33,28 +33,42 @@
         style="width: 480px; height:320px"
         orient="vertical">
 
-  <script>
-    <![CDATA[
-
-  function testProperty( aID )
-  {
-    var element = document.getElementById( aID );
-    if (!element)
-      return false;
-
-    var pValPair = prompt("Enter property,value:","").split(",");
-    var property = pValPair[0];
-    var value = pValPair[1];
-    element[property] = value;
-  }
-
-  ]]>
+  <script id="sayHelloScript">
+<![CDATA[
+--Written for 5.0; could be made slightly cleaner with 5.1
+--Splits a string based on a separator string or pattern;
+--returns an array of pieces of the string.
+--(May optionally supply a table as the third parameter which will be filled 
+--with the results.)
+function string:split( inSplitPattern, outResults )
+  if not outResults then
+    outResults = { }
+  end
+  local theStart = 1
+  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, 
+theStart )
+  while theSplitStart do
+    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+    theStart = theSplitEnd + 1
+    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  end
+  table.insert( outResults, string.sub( self, theStart ) )
+  return outResults
+end
+function testProperty(id)
+  el = XULWin.getRootElement():getElementById(id)
+  input = XULWin.prompt("Key, value:", "")
+  keys = input:split(",")
+  if #keys ~= 2 then return end
+  el:setAttribute(keys[1], keys[2])
+end
+]]>
   </script>
 
   <hbox align="center">
     <text class="label" value="Foo Label 1:" for="nerp1"/>
     <textbox flex="1" id="nerp1" disabled="true" value="disabled"/>
-    <button label="Test Property APIs" oncommand="testProperty('nerp1');"/>
+    <button label="Test Property APIs with Lua" oncommand="testProperty('nerp1')"/>
   </hbox>
   <hbox align="center">
     <text class="label" value="Foo Label 2:" for="nerp2"/>
@@ -168,7 +182,7 @@
 
   <progressmeter mode="undetermined" flex="1"/>
 
-  <script>
+  <!--<script>
     <![CDATA[
     function advanceProgress()
     {
@@ -185,7 +199,7 @@
     }
 
   ]]>
-  </script>
+  </script>-->
 
 
   <hbox align="center">

@@ -21,6 +21,10 @@ namespace Lua
 
     Element * getRootElement();
 
+    std::string prompt(const std::string & inText, const std::string & inDefault);
+
+    Window * toWindow(Element * inElement);
+
 
 } // namespace Lua
 

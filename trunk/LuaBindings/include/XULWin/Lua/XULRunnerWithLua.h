@@ -30,6 +30,8 @@ namespace Lua
 
         ElementPtr loadXUL(const std::string & inXULUrl);
 
+        boost::function<void(const std::string &)> Logger;
+
     private:
 
         virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode);        
@@ -40,8 +42,6 @@ namespace Lua
         bool loadFile(const std::string & inLuaFile);
 
         bool loadScript(const std::string & inScript);
-
-        boost::function<void(const std::string &)> Logger;
 
         void log(const std::string & inMessage);
 

@@ -175,6 +175,10 @@
 				RelativePath=".\LuaBindings.i"
 				>
 			</File>
+			<File
+				RelativePath=".\Prompt.xul"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"

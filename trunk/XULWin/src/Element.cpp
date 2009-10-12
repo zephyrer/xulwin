@@ -288,6 +288,15 @@ namespace XULWin
     }
 
 
+    void Window::endModal()
+    {
+        if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
+        {
+            nativeWindow->endModal();
+        }
+    }
+
+
     Button::Button(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Button::Type(),
                 inParent,

@@ -167,6 +167,8 @@ namespace XULWin
 
         void showModal();
 
+        void endModal();
+
     private:
         friend class Element;
         Window(Element * inParent, const AttributesMapping & inAttributesMapping);

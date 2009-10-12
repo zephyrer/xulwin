@@ -3966,16 +3966,7 @@ namespace XULWin
             //menu-button: You can also use the value menu-button to create a button with a menu. Unlike the menu type, this type requires the user to press the arrow to open the menu, but a different command may be invoked when the main part of the button is pressed. This type of button would be used for browser's back and forward buttons.
             //checkbox: Use this type to create a toggle button which will switch the checked state each time the button is pressed.
             //radio: Use this type to create a radio button. You can also create a group of toolbarbutton using this type and the attribute group.
-            if (buttonType.empty())
-            {
-                mButton = new Windows::ToolbarButton(toolbar->nativeToolbar(),
-                                                     mCommandId.intValue(), 
-                                                     boost::function<void()>(),
-                                                     label,
-                                                     label,
-                                                     nullImage);
-            }
-            else if (buttonType == "menu")
+            if (buttonType == "menu")
             {
                 mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
                                                        this,
@@ -3995,6 +3986,16 @@ namespace XULWin
                                                        nullImage,
                                                        true);
             }
+            else // buttonType.empty() or buttonType == "button"
+            {
+                mButton = new Windows::ToolbarButton(toolbar->nativeToolbar(),
+                                                     mCommandId.intValue(), 
+                                                     boost::function<void()>(),
+                                                     label,
+                                                     label,
+                                                     nullImage);
+            }
+            assert(mButton);
             toolbar->nativeToolbar()->add(mButton);
             // Now that mButton is constructed we can apply any previously set
             // attributes.

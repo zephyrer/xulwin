@@ -22,12 +22,11 @@
         <label value="Enter key,value:"></label>
         <spacer flex="1"></spacer>
       </vbox>
-      <textbox width="120"></textbox>
+      <textbox width="120" id="textInput"></textbox>
     </hbox>
     <hbox>
       <spacer flex="1"></spacer>
       <button label="OK" oncommand="closeWindow()"></button>
-      <button label="Cancel" oncommand="closeWindow()"></button>
     </hbox>
   </vbox>
 </window>

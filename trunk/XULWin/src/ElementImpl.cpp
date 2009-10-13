@@ -1070,6 +1070,10 @@ namespace XULWin
     {
         rebuildLayout();
         SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+        if (findChildOfType<MenuBarImpl>())
+        {
+            sz.cy += Defaults::menuBarHeight();
+        }
         int w = getWidth() + sz.cx;
         int h = getHeight() + sz.cy;
         int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;

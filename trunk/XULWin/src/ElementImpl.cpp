@@ -2322,7 +2322,7 @@ namespace XULWin
         for (size_t idx = 0; idx != items.size(); ++idx)
         {
             MenuItemImpl * item = items[idx]->impl()->downcast<MenuItemImpl>();
-            result += item->calculateWidth(inSizeConstraint);
+            result += item->calculateWidth(inSizeConstraint) + Defaults::menuBarSpacing();
         }     
         return result;
     }

@@ -33,6 +33,9 @@ namespace Lua
     // converts Element to Window, returns 0 on fail
     Window * toWindow(Element * inElement);
 
+    // converts Element to Window, returns 0 on fail
+    Dialog * toDialog(Element * inElement);
+
 
 } // namespace Lua
 

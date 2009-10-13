@@ -1,4 +1,5 @@
 - Add dialog
+- Dialog esc key is cancel
 - Make sample with menu event handling
 - Fix WS_TABSTOP for multiline TextBoxes
 - Checkbox partial checkstate

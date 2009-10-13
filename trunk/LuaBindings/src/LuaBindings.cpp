@@ -60,6 +60,17 @@ namespace Lua
         }
         return result;
     }
+    
+    
+    Dialog * toDialog(Element * inElement)
+    {
+        Dialog * result = 0;
+        if (inElement)
+        {
+            result = inElement->downcast<Dialog>();
+        }
+        return result;
+    }
 
 
     std::string prompt(const std::string & inText, const std::string & inDefault)
@@ -71,9 +82,9 @@ namespace Lua
         ElementPtr root = runner.loadXUL(path);
         if (root)
         {
-            if (Window * win = root->downcast<Window>())
+            if (Dialog * dlg = root->downcast<Dialog>())
             {
-                win->showModal();
+                dlg->showModal();
                 if (Element * textField = root->getElementById("textInput"))
                 {
                     result = textField->getAttribute("value");

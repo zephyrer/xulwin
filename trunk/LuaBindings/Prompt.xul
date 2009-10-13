@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         xmlns:svg="http://www.w3.org/2000/svg"
         orient="vertical"
         align="stretch"
@@ -10,8 +10,8 @@
     function closeWindow()
       root = XULWin.getRootElement()
       if not root then return end
-      wnd = XULWin.toWindow(root)
-      wnd:endModal()
+      dlg = XULWin.toDialog(root)
+      dlg:endModal()
     end
     ]]>
   </script>
@@ -29,4 +29,4 @@
       <button label="OK" oncommand="closeWindow()"></button>
     </hbox>
   </vbox>
-</window>
+</dialog>

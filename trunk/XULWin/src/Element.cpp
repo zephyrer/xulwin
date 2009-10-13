@@ -297,6 +297,42 @@ namespace XULWin
     }
 
 
+
+    static NativeWindow * GetDialogHelper()
+    {
+        AttributesMapping emptyAttr;
+        emptyAttr["id"] = "XULWin::DialogHelper";
+        static NativeWindow fDialogHelper(emptyAttr);
+        return &fDialogHelper;
+    }
+
+
+    Dialog::Dialog(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(Dialog::Type(),
+                inParent,
+                new NativeDialog(inParent ? inParent->impl() : GetDialogHelper(), inAttributesMapping))
+    {
+    }
+
+
+    void Dialog::showModal()
+    {
+        if (NativeDialog * nativeDialog = impl()->downcast<NativeDialog>())
+        {
+            nativeDialog->showModal();
+        }
+    }
+
+
+    void Dialog::endModal()
+    {
+        if (NativeDialog * nativeDialog = impl()->downcast<NativeDialog>())
+        {
+            nativeDialog->endModal();
+        }
+    }
+
+
     Button::Button(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Button::Type(),
                 inParent,

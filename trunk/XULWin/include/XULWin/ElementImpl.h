@@ -713,6 +713,74 @@ namespace XULWin
     };
 
 
+    class NativeDialog : public NativeComponent,
+                         public virtual TitleController,
+                         public BoxLayouter
+    {
+    public:
+        typedef NativeComponent Super;
+
+        static void Register(HMODULE inModuleHandle);
+
+        NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual ~NativeDialog();
+
+        // BoxLayouter
+        virtual Orient getOrient() const;
+
+        // BoxLayouter
+        virtual Align getAlign() const;
+
+
+        // TitleController methods
+        virtual std::string getTitle() const;
+
+        virtual void setTitle(const std::string & inTitle);
+
+        // BoxLayouter methods
+        virtual size_t numChildren() const;
+
+        virtual const ElementImpl * getChild(size_t idx) const;
+
+        virtual ElementImpl * getChild(size_t idx);
+
+        virtual void rebuildChildLayouts()
+        { return Super::rebuildChildLayouts(); }
+
+        virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
+        { return Super::setAttributeController(inAttr, inController); }
+
+        LRESULT endModal();
+
+        void showModal();
+
+        virtual void move(int x, int y, int w, int h);
+
+        virtual void rebuildLayout();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual Rect clientRect() const;
+
+        virtual Rect windowRect() const;
+
+        virtual bool initAttributeControllers();
+
+        virtual bool initStyleControllers();
+
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
+#ifndef SWIG
+        static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
+#endif
+    private:
+        bool mHasParent;
+    };
+
+
     class NativeControl : public NativeComponent
     {
     public:

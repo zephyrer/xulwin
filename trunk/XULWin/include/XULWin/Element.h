@@ -157,6 +157,7 @@ namespace XULWin
         boost::shared_ptr<ElementImpl> mImpl;
     };
 
+
     class Window : public Element
     {
     public:
@@ -172,6 +173,24 @@ namespace XULWin
     private:
         friend class Element;
         Window(Element * inParent, const AttributesMapping & inAttributesMapping);
+    };
+
+
+    class Dialog : public Element
+    {
+    public:
+        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
+        { return Element::Create<Dialog>(inParent, inAttr); }
+
+        static const char * Type() { return "dialog"; }
+
+        void showModal();
+
+        void endModal();
+
+    private:
+        friend class Element;
+        Dialog(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 

@@ -23,7 +23,6 @@ extern int luaopen_XULWin(lua_State* L); // declare the wrapped module
 #endif
 
 
-
 namespace XULWin
 {
 

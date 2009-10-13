@@ -371,7 +371,7 @@ namespace XULWin
             return 0;
         }
 
-        if (inSizeConstraint == Minimum && mWidth.isValid())
+        if (mWidth.isValid())
         {
             return mWidth.getValue();
         }
@@ -387,7 +387,7 @@ namespace XULWin
             return 0;
         }
 
-        if (inSizeConstraint == Minimum && mHeight.isValid())
+        if (mHeight.isValid())
         {
             return mHeight.getValue();
         }
@@ -1159,6 +1159,374 @@ namespace XULWin
 
     
     LRESULT CALLBACK NativeWindow::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        NativeComponent * sender = FindComponentByHandle(hWnd);
+        if (sender)
+        {
+            int result = sender->handleMessage(inMessage, wParam, lParam);
+            if (result == 0)
+            {
+                return 0;
+            }
+        }
+        return ::DefWindowProc(hWnd, inMessage, wParam, lParam);
+    }
+
+
+    void NativeDialog::Register(HMODULE inModuleHandle)
+    {
+        WNDCLASSEX wndClass;
+        wndClass.cbSize = sizeof(wndClass);
+        wndClass.style = 0;
+        wndClass.lpfnWndProc = &NativeDialog::MessageHandler;
+        wndClass.cbClsExtra = 0;
+        wndClass.cbWndExtra = 0;
+        wndClass.hInstance = inModuleHandle;
+        wndClass.hIcon = 0;
+        wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+        wndClass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
+        wndClass.lpszMenuName = NULL;
+        wndClass.lpszClassName = TEXT("XULWin::Dialog");
+        wndClass.hIconSm = 0;
+        if (! RegisterClassEx(&wndClass))
+        {
+            ReportError("Could not register XUL::Dialog class.");
+        }
+    }
+		
+		
+	namespace
+	{
+		BOOL CALLBACK DisableAllExcept(HWND inWindow, LPARAM lParam)
+		{
+			HWND exceptThisOne = (HWND)lParam;
+			if (inWindow != exceptThisOne)
+			{
+				::EnableWindow(inWindow, false);
+			}
+			return true;
+		}
+		
+		BOOL CALLBACK EnableAllExcept(HWND inWindow, LPARAM lParam)
+		{
+			HWND exceptThisOne = (HWND)lParam;
+			if (inWindow != exceptThisOne)
+			{
+				::EnableWindow(inWindow, true);
+			}
+			return true;
+		}
+	}
+
+
+    NativeDialog::NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        NativeComponent(inParent, inAttributesMapping),
+        mHasParent(false)
+    {
+        if (NativeComponent * comp = inParent->downcast<NativeComponent>())
+        {
+            mHandle = ::CreateWindowEx
+            (
+                0, 
+                TEXT("XULWin::Dialog"), 
+                TEXT(""),
+                WS_POPUPWINDOW | WS_CAPTION | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+                CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
+                comp->handle(),
+                (HMENU)0, // must be zero if not menu and not child
+                mModuleHandle,
+                0
+            );
+            AttributesMapping::const_iterator idIt = inAttributesMapping.find("id");
+            if (idIt != inAttributesMapping.end())
+            {
+                mHasParent = idIt->second == "XULWin::DialogHelper";
+            }
+            
+        }
+        
+        std::string error = Windows::getLastError(::GetLastError());
+
+
+        // set default font
+        ::SendMessage(mHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));        
+        registerHandle();
+    }
+
+
+    NativeDialog::~NativeDialog()
+    {
+    }
+
+
+    bool NativeDialog::initStyleControllers()
+    {  
+        return Super::initStyleControllers();
+    }
+
+
+    bool NativeDialog::initAttributeControllers()
+    {
+        setAttributeController("title", static_cast<TitleController*>(this));
+        return Super::initAttributeControllers();
+    }
+    
+    
+    Rect NativeDialog::clientRect() const
+    {
+        RECT rc;
+        ::GetClientRect(handle(), &rc);
+        return Rect(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+    }
+    
+    
+    Rect NativeDialog::windowRect() const
+    {
+        RECT rw;
+        ::GetWindowRect(handle(), &rw);
+        return Rect(rw.left, rw.top, rw.right - rw.left, rw.bottom - rw.top);
+    }
+    
+    
+    int NativeDialog::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        
+        for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+        {
+            ElementPtr child(owningElement()->children()[idx]);
+            int width = child->impl()->getWidth(inSizeConstraint);
+            if (getOrient() == Horizontal)
+            {
+                result += width;
+            }
+            else if (width > result)
+            {
+                result = width;
+            }
+        }
+        return result;
+    }
+    
+    
+    int NativeDialog::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+        {
+            ElementPtr child(owningElement()->children()[idx]);
+            int height = child->impl()->getHeight(inSizeConstraint);
+            if (getOrient() == Vertical)
+            {
+                result += height;
+            }
+            else if (height > result)
+            {
+                result = height;
+            }
+        }
+        return result;
+    }
+    
+    
+    void NativeDialog::move(int x, int y, int w, int h)
+    {
+        ::MoveWindow(handle(), x, y, w, h, FALSE);
+    }
+
+    
+    void NativeDialog::rebuildLayout()
+    {
+        BoxLayouter::rebuildLayout();
+    }        
+
+
+    Orient NativeDialog::getOrient() const
+    {
+        return Super::getOrient();
+    }
+
+
+    Align NativeDialog::getAlign() const
+    {
+        return Super::getAlign();
+    }
+
+    
+    std::string NativeDialog::getTitle() const
+    {
+        return Windows::getWindowText(handle());
+    }
+
+
+    void NativeDialog::setTitle(const std::string & inTitle)
+    {
+        Windows::setWindowText(handle(), inTitle);
+    }
+
+    
+    size_t NativeDialog::numChildren() const
+    {
+        if (owningElement())
+        {
+            return owningElement()->children().size();
+        }
+        return 0;
+    }
+
+
+    const ElementImpl * NativeDialog::getChild(size_t idx) const
+    {
+        if (owningElement())
+        {
+            return owningElement()->children()[idx]->impl();
+        }
+        return 0;
+    }
+
+
+    ElementImpl * NativeDialog::getChild(size_t idx)
+    {
+        if (owningElement())
+        {
+            return owningElement()->children()[idx]->impl();
+        }
+        return 0;
+    }
+
+
+    void NativeDialog::showModal()
+    {
+        if (!mHasParent)
+        {
+            DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
+		    ::EnumThreadWindows(threadID, &DisableAllExcept, (LPARAM)handle());
+        }
+
+        rebuildLayout();
+        SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+        int w = getWidth() + sz.cx;
+        int h = getHeight() + sz.cy;
+        int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
+        int y = (GetSystemMetrics(SM_CYSCREEN) - h)/2;
+        move(x, y, w, h);
+        ::ShowWindow(handle(), SW_SHOW);
+        ::UpdateWindow(handle());
+
+        MSG message;
+        while (GetMessage(&message, NULL, 0, 0))
+        {
+            HWND hActive = GetActiveWindow();
+            if (! IsDialogMessage(hActive, &message))
+            {
+                TranslateMessage(&message);
+                DispatchMessage(&message);
+            }
+        }
+    }
+    
+    
+    LRESULT NativeDialog::endModal()
+    {
+        if (!mHasParent)
+        {
+			DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
+			::EnumThreadWindows(threadID, &EnableAllExcept, (LPARAM)handle());
+        }
+
+        setHidden(true);
+        ::PostQuitMessage(0);
+        return 0;
+    }
+
+
+    LRESULT NativeDialog::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        switch(inMessage)
+        {
+            case WM_SIZE:
+            {
+                rebuildLayout();
+                ::InvalidateRect(handle(), 0, FALSE);
+                return 0;
+            }
+            case WM_CLOSE:
+            {
+                PostQuitMessage(0);
+                return 0;
+            }
+            case WM_GETMINMAXINFO:
+            {
+                SIZE sizeDiff = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+                MINMAXINFO * minMaxInfo = (MINMAXINFO*)lParam;
+                minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
+                minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;
+                return 0;
+            }
+            case WM_COMMAND:
+            {
+				WORD paramHi = HIWORD(wParam);
+				WORD paramLo = LOWORD(wParam);
+				
+				switch (paramLo)
+				{
+					case IDOK:
+					case IDCANCEL:
+					case IDABORT:
+					case IDRETRY:
+					case IDIGNORE:
+					case IDYES:
+					case IDNO:
+					case IDHELP:
+					case IDTRYAGAIN:
+					case IDCONTINUE:
+					{
+                        NativeComponent * focus = FindComponentByHandle(::GetFocus());
+                        if (focus)
+                        {
+                            focus->handleDialogCommand(paramLo, wParam, lParam);
+                            return 0;
+                        }
+                        break;
+                    }
+                    default:
+                    {                        
+                        NativeComponent * sender = FindComponentById(LOWORD(wParam));
+                        if (sender)
+                        {
+                            sender->handleCommand(wParam, lParam);
+                            return 0;
+                        }
+                        break;
+					}
+                }
+                break;
+            }
+            // These messages get forwarded to the child elements that produced them.
+            case WM_VSCROLL:
+            case WM_HSCROLL:
+            {
+                NativeComponent * sender = FindComponentByHandle((HWND)lParam);
+                if (sender)
+                {
+                    sender->handleMessage(inMessage, wParam, lParam);
+                    return 0;
+                }
+                break;
+            }
+        }
+
+        // Forward to event handlers
+        EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
+        for (; it != end; ++it)
+        {
+            (*it)->handleMessage(owningElement(), inMessage, wParam, lParam);
+        }
+        return ::DefWindowProc(handle(), inMessage, wParam, lParam);
+    }
+
+    
+    LRESULT CALLBACK NativeDialog::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         NativeComponent * sender = FindComponentByHandle(hWnd);
         if (sender)

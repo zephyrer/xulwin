@@ -180,6 +180,15 @@ namespace XULWin
     };
 
 
+    enum DialogResult
+    {
+        DialogResult_Error = -1,
+        DialogResult_Ok,
+        DialogResult_Cancel,
+        DialogResult_Custom
+    };
+
+
     class Dialog : public Element
     {
     public:
@@ -188,9 +197,9 @@ namespace XULWin
 
         static const char * Type() { return "dialog"; }
 
-        void showModal(Window * inInvoker);
+        DialogResult showModal(Window * inInvoker);
 
-        void endModal();
+        void endModal(DialogResult inDialogResult);
 
     private:
         friend class Element;

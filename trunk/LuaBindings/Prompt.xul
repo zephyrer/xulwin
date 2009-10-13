@@ -7,26 +7,27 @@
         title="XULWin Prompt">
   <script>
     <![CDATA[
-    function closeWindow()
+    function closeWindow(inDialogResult)
       root = XULWin.getRootElement()
       if not root then return end
       dlg = XULWin.toDialog(root)
-      dlg:endModal()
+      dlg:endModal(inDialogResult)
     end
     ]]>
-  </script>
-  <vbox>
-    <hbox>
-      <vbox>
+    </script>
+    <vbox>
+      <hbox>
+        <vbox>
+          <spacer flex="1"></spacer>
+          <label value="Enter key,value:"></label>
+          <spacer flex="1"></spacer>
+        </vbox>
+        <textbox width="120" id="textInput"></textbox>
+      </hbox>
+      <hbox>
         <spacer flex="1"></spacer>
-        <label value="Enter key,value:"></label>
-        <spacer flex="1"></spacer>
-      </vbox>
-      <textbox width="120" id="textInput"></textbox>
-    </hbox>
-    <hbox>
-      <spacer flex="1"></spacer>
-      <button label="OK" oncommand="closeWindow()"></button>
+        <button label="OK" oncommand="closeWindow(XULWin.DialogResult_Ok)"></button>
+        <button label="Cancel" oncommand="closeWindow(XULWin.DialogResult_Cancel)"></button>
     </hbox>
   </vbox>
 </dialog>

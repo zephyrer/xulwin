@@ -1237,7 +1237,8 @@ namespace XULWin
 
     NativeDialog::NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping),
-        mInvoker(0)
+        mInvoker(0),
+        mDialogResult(DialogResult_Cancel)
     {
         if (NativeComponent * comp = inParent->downcast<NativeComponent>())
         {
@@ -1405,7 +1406,7 @@ namespace XULWin
     }
 
 
-    void NativeDialog::showModal(NativeWindow * inInvoker)
+    DialogResult NativeDialog::showModal(NativeWindow * inInvoker)
     {
         mInvoker = inInvoker;
         if (mInvoker)
@@ -1438,11 +1439,13 @@ namespace XULWin
                 DispatchMessage(&message);
             }
         }
+        return mDialogResult;
     }
     
     
-    LRESULT NativeDialog::endModal()
+    LRESULT NativeDialog::endModal(DialogResult inDialogResult)
     {
+        mDialogResult = inDialogResult;
 		// Re-enable all windows
         DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
         ::EnumThreadWindows(threadID, &EnableAllExcept, (LPARAM)handle());
@@ -1470,7 +1473,7 @@ namespace XULWin
             }
             case WM_CLOSE:
             {
-                endModal();
+                endModal(DialogResult_Cancel);
                 return 0;
             }
             case WM_GETMINMAXINFO:
@@ -1488,24 +1491,17 @@ namespace XULWin
 				
 				switch (paramLo)
 				{
-					case IDOK:
-					case IDCANCEL:
-					case IDABORT:
-					case IDRETRY:
-					case IDIGNORE:
 					case IDYES:
+					case IDOK:
+                    {
+                        endModal(DialogResult_Ok);
+                        return 0;
+                    }
+					case IDCANCEL:
 					case IDNO:
-					case IDHELP:
-					case IDTRYAGAIN:
-					case IDCONTINUE:
-					{
-                        NativeComponent * focus = FindComponentByHandle(::GetFocus());
-                        if (focus)
-                        {
-                            focus->handleDialogCommand(paramLo, wParam, lParam);
-                            return 0;
-                        }
-                        break;
+                    {
+                        endModal(DialogResult_Cancel);
+                        return 0;
                     }
                     default:
                     {                        
@@ -1516,7 +1512,7 @@ namespace XULWin
                             return 0;
                         }
                         break;
-					}
+                    }                      
                 }
                 break;
             }

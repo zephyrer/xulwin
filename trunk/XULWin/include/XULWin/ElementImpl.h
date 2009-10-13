@@ -758,9 +758,9 @@ namespace XULWin
         virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
         { return Super::setAttributeController(inAttr, inController); }
 
-        LRESULT endModal();
+        DialogResult showModal(NativeWindow * inInvoker);
 
-        void showModal(NativeWindow * inInvoker);
+        LRESULT endModal(DialogResult inDialogResult);
 
         virtual void move(int x, int y, int w, int h);
 
@@ -786,6 +786,7 @@ namespace XULWin
     private:
         // Invoker is the stored parameter for showModal.
         NativeWindow * mInvoker;
+        DialogResult mDialogResult;
     };
 
 

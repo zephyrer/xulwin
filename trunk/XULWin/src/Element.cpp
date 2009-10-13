@@ -318,20 +318,21 @@ namespace XULWin
     }
 
 
-    void Dialog::showModal(Window * inInvoker)
+    DialogResult Dialog::showModal(Window * inInvoker)
     {
         if (NativeDialog * nativeDialog = impl()->downcast<NativeDialog>())
         {
-            nativeDialog->showModal(inInvoker->impl()->downcast<NativeWindow>());
+            return nativeDialog->showModal(inInvoker->impl()->downcast<NativeWindow>());
         }
+        return DialogResult_Cancel;
     }
 
 
-    void Dialog::endModal()
+    void Dialog::endModal(DialogResult inDialogResult)
     {
         if (NativeDialog * nativeDialog = impl()->downcast<NativeDialog>())
         {
-            nativeDialog->endModal();
+            nativeDialog->endModal(inDialogResult);
         }
     }
 

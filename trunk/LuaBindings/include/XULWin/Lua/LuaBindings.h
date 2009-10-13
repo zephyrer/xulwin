@@ -18,14 +18,19 @@ namespace Lua
     XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner);
 #endif // SWIG
 
+    // shows a mesage box
     void showMessage(const std::string & inString);
 
+    // same to DOM's 'document' object
     Element * getRootElement();
 
+    // behaves the same as Javascript's setTimeout function
     void setTimeout(const std::string & inCallback, int inMilliseconds);
 
+    // behaves the sames as Javascript's prompt function
     std::string prompt(const std::string & inText, const std::string & inDefault);
 
+    // converts Element to Window, returns 0 on fail
     Window * toWindow(Element * inElement);
 
 

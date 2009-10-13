@@ -35,8 +35,7 @@ namespace Lua
         mXULRunner(new XULRunner),
         mLuaState(0),
         mPrevXULRunner(0)
-    {    
-        
+    {
         mLuaState = lua_open();
         luaopen_base(mLuaState);
         luaopen_table(mLuaState);

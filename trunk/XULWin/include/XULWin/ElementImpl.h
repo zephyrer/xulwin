@@ -717,6 +717,7 @@ namespace XULWin
         friend class NativeDialog;
         void setBlockingDialog(NativeDialog * inDlg);
         NativeDialog * mActiveDialog;
+        
         HMENU mMenuHandle;
     };
 
@@ -1138,6 +1139,8 @@ namespace XULWin
 
         MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
+        virtual ~MenuItemImpl();
+
         virtual bool initAttributeControllers();
             
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
@@ -1149,6 +1152,9 @@ namespace XULWin
         virtual void setLabel(const std::string & inLabel);
 
     private:
+        typedef std::map<int, MenuItemImpl*> MenuItemsById;
+        static MenuItemsById sMenuItemsById;
+
         std::string mLabel;
     };
 

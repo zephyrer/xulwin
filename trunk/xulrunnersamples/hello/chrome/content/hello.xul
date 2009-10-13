@@ -18,8 +18,14 @@
   <menubar id="sample-menubar">
     <menu id="file-menu" label="File">
       <menupopup id="file-popup">
-        <menuitem label="New"/>
-        <menuitem label="Save"/>         
+        <menu id="new-menu" label="New">
+          <menupopup id="new-popup">
+            <menuitem label="Window"/>
+            <menuitem label="Message"/>
+          </menupopup>
+        </menu>
+        <menuitem label="Open"/>
+        <menuitem label="Save"/>
         <menuseparator/>
         <menuitem label="Exit"/>
       </menupopup>

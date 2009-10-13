@@ -21,6 +21,9 @@ namespace XULWin
     NativeComponent::ComponentsByHandle NativeComponent::sComponentsByHandle;
     
     NativeComponent::ComponentsById NativeComponent::sComponentsById;
+    
+    MenuItemImpl::MenuItemsById MenuItemImpl::sMenuItemsById;
+    
 
     ConcreteElement::ConcreteElement(ElementImpl * inParent) :
         mParent(inParent),
@@ -1534,7 +1537,7 @@ namespace XULWin
                         return 0;
                     }
                     default:
-                    {                        
+                    {      
                         NativeComponent * sender = FindComponentById(LOWORD(wParam));
                         if (sender)
                         {
@@ -2433,6 +2436,19 @@ namespace XULWin
     MenuItemImpl::MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
+        assert (sMenuItemsById.find(mCommandId.intValue()) == sMenuItemsById.end());
+        sMenuItemsById.insert(std::make_pair(mCommandId.intValue(), this));
+    }
+
+    
+    MenuItemImpl::~MenuItemImpl()
+    {        
+        MenuItemsById::iterator itById = sMenuItemsById.find(mCommandId.intValue());
+        assert (itById != sMenuItemsById.end());
+        if (itById != sMenuItemsById.end())
+        {
+            sMenuItemsById.erase(itById);
+        }
     }
 
         

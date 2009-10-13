@@ -874,7 +874,8 @@ namespace XULWin
 
 
     NativeWindow::NativeWindow(const AttributesMapping & inAttributesMapping) :
-        NativeComponent(0, inAttributesMapping)
+        NativeComponent(0, inAttributesMapping),
+        mActiveDialog(0)
     {
         mHandle = ::CreateWindowEx
         (
@@ -1076,6 +1077,15 @@ namespace XULWin
     {
         switch(inMessage)
         {
+            case WM_SETFOCUS:
+            {
+                if (mActiveDialog)
+                {
+                    ::SetFocus(mActiveDialog->handle());
+					return 0;
+                }
+                break;
+            }
             case WM_SIZE:
             {
                 rebuildLayout();
@@ -1173,6 +1183,12 @@ namespace XULWin
     }
 
 
+    void NativeWindow::setBlockingDialog(NativeDialog * inDlg)
+    {
+        mActiveDialog = inDlg;
+    }
+
+
     void NativeDialog::Register(HMODULE inModuleHandle)
     {
         WNDCLASSEX wndClass;
@@ -1221,7 +1237,7 @@ namespace XULWin
 
     NativeDialog::NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping),
-        mHasParent(false)
+        mInvoker(0)
     {
         if (NativeComponent * comp = inParent->downcast<NativeComponent>())
         {
@@ -1237,12 +1253,6 @@ namespace XULWin
                 mModuleHandle,
                 0
             );
-            AttributesMapping::const_iterator idIt = inAttributesMapping.find("id");
-            if (idIt != inAttributesMapping.end())
-            {
-                mHasParent = idIt->second == "XULWin::DialogHelper";
-            }
-            
         }
         
         std::string error = Windows::getLastError(::GetLastError());
@@ -1395,13 +1405,18 @@ namespace XULWin
     }
 
 
-    void NativeDialog::showModal()
+    void NativeDialog::showModal(NativeWindow * inInvoker)
     {
-        if (!mHasParent)
+        mInvoker = inInvoker;
+        if (mInvoker)
         {
-            DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
-		    ::EnumThreadWindows(threadID, &DisableAllExcept, (LPARAM)handle());
+            mInvoker->setBlockingDialog(this);
         }
+
+		// Disable all windows except the dialog
+        DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
+	    ::EnumThreadWindows(threadID, &DisableAllExcept, (LPARAM)handle());
+
 
         rebuildLayout();
         SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
@@ -1428,10 +1443,13 @@ namespace XULWin
     
     LRESULT NativeDialog::endModal()
     {
-        if (!mHasParent)
+		// Re-enable all windows
+        DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
+        ::EnumThreadWindows(threadID, &EnableAllExcept, (LPARAM)handle());
+        if (mInvoker)
         {
-			DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
-			::EnumThreadWindows(threadID, &EnableAllExcept, (LPARAM)handle());
+            mInvoker->setBlockingDialog(0);
+            mInvoker = 0;
         }
 
         setHidden(true);
@@ -1452,7 +1470,7 @@ namespace XULWin
             }
             case WM_CLOSE:
             {
-                PostQuitMessage(0);
+                endModal();
                 return 0;
             }
             case WM_GETMINMAXINFO:

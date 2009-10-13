@@ -38,6 +38,8 @@ namespace Lua
 
         bool loadScript(const std::string & inScript);
 
+        XULRunnerWithLua * getParentXULRunner();
+
     private:
 
         virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode);        

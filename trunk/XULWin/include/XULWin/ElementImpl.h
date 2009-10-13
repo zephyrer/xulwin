@@ -646,6 +646,7 @@ namespace XULWin
         virtual void rebuildChildLayouts() = 0;
     };
 
+    class NativeDialog;
 
     class NativeWindow : public NativeComponent,
                          public virtual TitleController,
@@ -710,9 +711,15 @@ namespace XULWin
 #ifndef SWIG
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 #endif
+
+    private:
+        friend class NativeDialog;
+        void setBlockingDialog(NativeDialog * inDlg);
+        NativeDialog * mActiveDialog;
     };
 
 
+    // NativeDialog is actually a normal Window with some customizations to make it behave like a dialog.
     class NativeDialog : public NativeComponent,
                          public virtual TitleController,
                          public BoxLayouter
@@ -753,7 +760,7 @@ namespace XULWin
 
         LRESULT endModal();
 
-        void showModal();
+        void showModal(NativeWindow * inInvoker);
 
         virtual void move(int x, int y, int w, int h);
 
@@ -777,7 +784,8 @@ namespace XULWin
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 #endif
     private:
-        bool mHasParent;
+        // Invoker is the stored parameter for showModal.
+        NativeWindow * mInvoker;
     };
 
 

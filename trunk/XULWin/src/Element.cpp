@@ -298,11 +298,14 @@ namespace XULWin
 
 
 
+    // We want the dialog to have a parent because an owning window is needed
+    // in order to prevent our dialog from showing in the Windows taskbar.
+    // MSDN Article ID 205158: How To Prevent a Window from Appearing on the Taskbar
     static NativeWindow * GetDialogHelper()
     {
-        AttributesMapping emptyAttr;
-        emptyAttr["id"] = "XULWin::DialogHelper";
-        static NativeWindow fDialogHelper(emptyAttr);
+        AttributesMapping attr;
+        static NativeWindow fDialogHelper(attr);
+        fDialogHelper.setTitle("XULWin::DialogHelper");
         return &fDialogHelper;
     }
 
@@ -315,11 +318,11 @@ namespace XULWin
     }
 
 
-    void Dialog::showModal()
+    void Dialog::showModal(Window * inInvoker)
     {
         if (NativeDialog * nativeDialog = impl()->downcast<NativeDialog>())
         {
-            nativeDialog->showModal();
+            nativeDialog->showModal(inInvoker->impl()->downcast<NativeWindow>());
         }
     }
 

@@ -88,6 +88,10 @@ namespace XULWin
         template<class ElementType>
         void getElementsByType(std::vector<ElementType*> & outElements)
         {
+            if (ElementType * element = downcast<ElementType>())
+            {
+                outElements.push_back(element);
+            }
             for (size_t idx = 0; idx != mChildren.size(); ++idx)
             {
                 if (ElementType * child = mChildren[idx]->downcast<ElementType>())
@@ -184,7 +188,7 @@ namespace XULWin
 
         static const char * Type() { return "dialog"; }
 
-        void showModal();
+        void showModal(Window * inInvoker);
 
         void endModal();
 

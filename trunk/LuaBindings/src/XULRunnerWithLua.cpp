@@ -50,7 +50,13 @@ namespace Lua
         lua_close(mLuaState);
     }
 
+    
+    XULRunnerWithLua * XULRunnerWithLua::getParentXULRunner()
+    {
+        return mPrevXULRunner;
+    }
 
+    
     void XULRunnerWithLua::log(const std::string & inMessage)
     {
         if (Logger)

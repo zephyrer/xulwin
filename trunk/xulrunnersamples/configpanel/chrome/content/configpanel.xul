@@ -4,7 +4,7 @@
 <window title="Config Panel"
 		    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 >
-  <grid flex="1">
+  <grid flex="1" style="overflow:auto">
     <columns>
       <column flex="0" align="end" ></column>
       <column flex="1"></column>

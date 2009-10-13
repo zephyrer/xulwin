@@ -83,11 +83,23 @@ namespace Lua
         if (root)
         {
             if (Dialog * dlg = root->downcast<Dialog>())
-            {
-                dlg->showModal();
-                if (Element * textField = root->getElementById("textInput"))
+            {         
+                XULRunnerWithLua * parentXULRunner = runner.getParentXULRunner();
+                assert(parentXULRunner);
+                std::vector<Window *> windows;
+                ElementPtr prevRoot = parentXULRunner->rootElement();
+                prevRoot->getElementsByType<Window>(windows);
+                if (!windows.empty())
                 {
-                    result = textField->getAttribute("value");
+                    Window * wnd = windows[0];
+                    if (wnd)
+                    {
+                        dlg->showModal(wnd);
+                        if (Element * textField = root->getElementById("textInput"))
+                        {
+                            result = textField->getAttribute("value");
+                        }
+                    }
                 }
             }
         }

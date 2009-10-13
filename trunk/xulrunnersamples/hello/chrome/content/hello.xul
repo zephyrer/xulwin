@@ -15,6 +15,16 @@
     end
     ]]>
   </script>
+  <menubar id="sample-menubar">
+    <menu id="file-menu" label="File">
+      <menupopup id="file-popup">
+        <menuitem label="New"/>
+        <menuitem label="Save"/>         
+        <menuseparator/>
+        <menuitem label="Exit"/>
+      </menupopup>
+    </menu>
+  </menubar>
   <vbox>
     <hbox>
       <vbox>

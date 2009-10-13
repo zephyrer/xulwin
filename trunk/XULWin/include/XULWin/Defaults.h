@@ -16,6 +16,8 @@ namespace XULWin
 
         static int windowHeight() { return 240; }
 
+        static int menuBarHeight() { return 23; }
+
         static int controlHeight() { return 21; }
 
         // default control width is rarely used since

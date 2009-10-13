@@ -661,12 +661,13 @@ namespace XULWin
 
         virtual ~NativeWindow();
 
+        virtual bool initImpl();
+
         // BoxLayouter
         virtual Orient getOrient() const;
 
         // BoxLayouter
         virtual Align getAlign() const;
-
 
         // TitleController methods
         virtual std::string getTitle() const;
@@ -716,6 +717,7 @@ namespace XULWin
         friend class NativeDialog;
         void setBlockingDialog(NativeDialog * inDlg);
         NativeDialog * mActiveDialog;
+        HMENU mMenuHandle;
     };
 
 
@@ -1073,6 +1075,19 @@ namespace XULWin
     };
 
 
+    class MenuBarImpl : public PassiveComponent
+    {
+    public:
+        typedef PassiveComponent Super;
+
+        MenuBarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
     class MenuImpl : public PassiveComponent,
                      public MenuPopupContainer,
                      public LabelController
@@ -1124,6 +1139,10 @@ namespace XULWin
         MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
+            
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
         virtual std::string getLabel() const;
 

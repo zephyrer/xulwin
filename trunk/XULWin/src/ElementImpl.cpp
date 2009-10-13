@@ -877,6 +877,7 @@ namespace XULWin
         NativeComponent(0, inAttributesMapping),
         mActiveDialog(0)
     {
+        mMenuHandle = ::CreateMenu();
         mHandle = ::CreateWindowEx
         (
             0, 
@@ -885,7 +886,7 @@ namespace XULWin
             WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
             0,
-            (HMENU)0, // must be zero if not menu and not child
+            (HMENU)mMenuHandle, // must be zero if not menu and not child
             mModuleHandle,
             0
         );
@@ -901,6 +902,31 @@ namespace XULWin
 
     NativeWindow::~NativeWindow()
     {
+    }
+
+    
+    bool NativeWindow::initImpl()
+    {
+        if (MenuBarImpl * menuBar = findChildOfType<MenuBarImpl>())
+        {
+            if (MenuImpl * menu = menuBar->findChildOfType<MenuImpl>())
+            {
+                if (MenuPopupImpl * popup = menu->findChildOfType<MenuPopupImpl>())
+                {
+                    std::vector<MenuItem*> items;
+                    popup->owningElement()->getElementsByType<MenuItem>(items);
+                    for (size_t idx = 0; idx != items.size(); ++idx)
+                    {
+                        MenuItemImpl * item = items[idx]->impl()->downcast<MenuItemImpl>();
+                        Windows::insertMenuItem(mMenuHandle,
+                                                idx,
+                                                item->commandId(),
+                                                item->getLabel());
+                    }
+                }
+            }
+        }
+        return Super::initImpl();
     }
 
 
@@ -2275,6 +2301,33 @@ namespace XULWin
     }
     
 
+    MenuBarImpl::MenuBarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        PassiveComponent(inParent, inAttributesMapping)
+    {
+    }
+    
+
+    int MenuBarImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        std::vector<Element*> items;
+        owningElement()->getElementsByType(MenuItem::Type(), items);
+        for (size_t idx = 0; idx != items.size(); ++idx)
+        {
+            MenuItemImpl * item = items[idx]->impl()->downcast<MenuItemImpl>();
+            result += item->calculateWidth(inSizeConstraint);
+        }     
+        return result;
+    }
+
+
+    int MenuBarImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return 0; // does not take part in client rect
+        //return Defaults::menuBarHeight();
+    }
+
+
     MenuImpl::MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
@@ -2383,6 +2436,26 @@ namespace XULWin
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
+    }
+            
+    
+    int MenuItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<MenuItemImpl*>(this)))
+        {
+            return Windows::getTextSize(comp->handle(), getLabel()).cx;
+        }
+        return 0;
+    }
+
+
+    int MenuItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<MenuItemImpl*>(this)))
+        {
+            return Windows::getTextSize(comp->handle(), getLabel()).cy;
+        }
+        return 0;
     }
 
 

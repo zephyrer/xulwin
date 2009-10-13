@@ -85,6 +85,8 @@ namespace XULWin
 
         Element * getElementById(const std::string & inId);
 
+        void getElementsByType(const std::string & inType, std::vector<Element*> & outElements);
+
         template<class ElementType>
         void getElementsByType(std::vector<ElementType*> & outElements)
         {
@@ -94,10 +96,7 @@ namespace XULWin
             }
             for (size_t idx = 0; idx != mChildren.size(); ++idx)
             {
-                if (ElementType * child = mChildren[idx]->downcast<ElementType>())
-                {
-                    outElements.push_back(child);
-                }
+                mChildren[idx]->getElementsByType<ElementType>(outElements);
             }
         }
 
@@ -336,6 +335,22 @@ namespace XULWin
 
 
     class MenuItem;
+
+
+    class MenuBar : public Element
+    {
+    public:
+        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
+        { return Element::Create<MenuBar>(inParent, inAttr); }
+
+        static const char * Type() { return "menubar"; }
+
+    private:
+        friend class Element;
+        MenuBar(Element * inParent, const AttributesMapping & inAttributesMapping);
+    };
+
+
     class Menu : public Element
     {
     public:

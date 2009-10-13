@@ -43,9 +43,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     //runConfigSample();
     //runImageViewerSample();    
     XULWin::LuaBindingsTest tester;
-    //tester.runXULSample("hello");
+    tester.runXULSample("hello");
     //tester.runXULSample("toolbar");
-    tester.runXULSample("widgets");
+    //tester.runXULSample("widgets");
     //tester.runXULSample("tabbox");
     //tester.runXULSample("treeview");
     //tester.runXULSample("configpanel");

@@ -85,6 +85,19 @@ namespace XULWin
         };
         return Helper::findChildById(children(), inId);
     }
+    
+    
+    void Element::getElementsByType(const std::string & inType, std::vector<Element*> & outElements)
+    {
+        if (type() == inType)
+        {
+            outElements.push_back(this);
+        }
+        for (size_t idx = 0; idx != mChildren.size(); ++idx)
+        {
+            mChildren[idx]->getElementsByType(inType, outElements);
+        }
+    }
 
 
     void Element::removeChild(const Element * inChild)
@@ -421,6 +434,14 @@ namespace XULWin
         Element(Menu::Type(),
                 inParent,
                 new MenuImpl(inParent->impl(), inAttributesMapping))
+    {
+    }
+
+
+    MenuBar::MenuBar(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(MenuBar::Type(),
+                inParent,
+                new MenuBarImpl(inParent->impl(), inAttributesMapping))
     {
     }
 

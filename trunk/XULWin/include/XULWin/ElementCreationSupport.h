@@ -15,11 +15,16 @@ namespace XULWin
     template<class ControlType>
     static ElementImpl * CreateNativeControl(Element * inParent, const AttributesMapping & inAttributesMapping)
     {
+        if (!inParent)
+        {
+            return new ControlType(0, inAttributesMapping);
+        }
+        
         if (ToolbarImpl * toolbar = inParent->impl()->downcast<ToolbarImpl>())
         {
-            ControlType * control = new ControlType(inParent->impl(), inAttributesMapping);
-            boost::weak_ptr<Windows::Toolbar> weakToolbar(toolbar->nativeToolbar());
-            return new ToolbarCustomWindowDecorator(control, weakToolbar);
+                ControlType * control = new ControlType(inParent->impl(), inAttributesMapping);
+                boost::weak_ptr<Windows::Toolbar> weakToolbar(toolbar->nativeToolbar());
+                return new ToolbarCustomWindowDecorator(control, weakToolbar);
         }
         else
         {

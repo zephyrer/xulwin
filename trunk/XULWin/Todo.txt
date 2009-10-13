@@ -1,4 +1,5 @@
-- Menubar
+- Menubar events
+- Splitter
 - Fix WS_TABSTOP for multiline TextBoxes
 - Make sample with menu event handling
 - Checkbox partial checkstate

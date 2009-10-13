@@ -16,7 +16,11 @@ namespace XULWin
         Lua::XULRunnerWithLua xulRunner;
         xulRunner.Logger = boost::bind(Lua::showMessage, _1);
         ElementPtr rootEl = xulRunner.loadApplication("application.ini");
-        rootEl->downcast<Window>()->showModal();
+
+        if (Window * wnd = rootEl->downcast<Window>())
+        {
+            wnd->showModal();
+        }
     }
 
 

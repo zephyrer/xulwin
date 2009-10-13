@@ -13,8 +13,8 @@ namespace XULWin
     {
     public:
         /**
-         * Params:
-         * inApplicationIniFile: path to ini file
+         * Runs a XUL applications. Requires that the main XUL file is a
+         * Window root element.
          */
         void run(const std::string & inApplicationIniFile);
 

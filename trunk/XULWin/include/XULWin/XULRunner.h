@@ -22,8 +22,11 @@ namespace XULWin
 
         ElementPtr loadXUL(const std::string & inXULUrl);
 
+        ElementPtr rootElement() const;
+
     private:
         Parser mParser;
+        ElementPtr mRootElement;
     
     };
 

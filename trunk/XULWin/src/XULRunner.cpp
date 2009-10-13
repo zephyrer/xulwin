@@ -141,7 +141,8 @@ namespace XULWin
         Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
-        return parser.rootElement();
+        mRootElement = parser.rootElement();
+        return mRootElement;
     }
 
     
@@ -152,7 +153,15 @@ namespace XULWin
         std::string curdir = Windows::getCurrentDirectory();
         std::string path = url.convertToLocalPath();
         parser.parse(path);
-        return parser.rootElement();
+        mRootElement = parser.rootElement();
+        return mRootElement;
     }
+    
+    
+    ElementPtr XULRunner::rootElement() const
+    {
+        return mRootElement;
+    }
+
 
 } // namespace XULWin

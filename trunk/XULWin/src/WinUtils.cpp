@@ -2,6 +2,7 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Unicode.h"
 #include <boost/lexical_cast.hpp>
+#include <map>
 #include <commctrl.h>
 
 
@@ -480,6 +481,31 @@ namespace Windows
     bool setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked)
     {
         return 0 != ::CheckMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED);
+    }
+
+
+    typedef std::map<UINT_PTR, TimerAction> Timers;
+
+    static Timers sTimers;
+	
+    static void CALLBACK TimerCallback(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime)
+	{
+        Timers::iterator it = sTimers.find(inTimerId);
+        assert (it != sTimers.end());
+        if (it != sTimers.end())
+        {
+            ::KillTimer(NULL, inTimerId);
+            it->second();
+            sTimers.erase(it);
+        }
+	}
+
+
+    void setTimeout(TimerAction inAction, int inDelayInMilliseconds)
+    {
+        UINT_PTR timerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &Windows::TimerCallback);
+        assert (sTimers.find(timerId) == sTimers.end());
+        sTimers.insert(std::make_pair(timerId, inAction));
     }
 
 

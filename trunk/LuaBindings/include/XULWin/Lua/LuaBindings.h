@@ -13,13 +13,16 @@ namespace XULWin
 
 namespace Lua
 {
+#ifndef SWIG
+    class XULRunnerWithLua;
+    XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner);
+#endif // SWIG
 
     void showMessage(const std::string & inString);
 
-    // returns the previous root element
-    Element * setRootElement(Element * inEl);
-
     Element * getRootElement();
+
+    void setTimeout(const std::string & inCallback, int inMilliseconds);
 
     std::string prompt(const std::string & inText, const std::string & inDefault);
 

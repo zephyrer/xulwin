@@ -4,6 +4,7 @@
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "Poco/Path.h"
+#include "Poco/Timer.h"
 #include <windows.h> // TODO: remove
 
 
@@ -13,20 +14,34 @@ namespace XULWin
 
 namespace Lua
 {
-    static Element * gRootElement(0);
+    static XULRunnerWithLua * gActiveXULRunner(0);
     
     
-    Element * setRootElement(Element * inEl)
+    XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner)
     {
-        Element * prev = gRootElement;
-        gRootElement = inEl;
+        XULRunnerWithLua * prev = gActiveXULRunner;
+        gActiveXULRunner = inXULRunner;
         return prev;
     }
 
 
     Element * getRootElement()
     {
-        return gRootElement;
+        if (gActiveXULRunner)
+        {
+            return gActiveXULRunner->rootElement().get();
+        }
+        return 0;
+    }
+    
+    
+    void setTimeout(const std::string & inCallback, int inMilliseconds)
+    {
+        assert(gActiveXULRunner);
+        if (gActiveXULRunner)
+        {
+            Windows::setTimeout(boost::bind(&XULRunnerWithLua::loadScript, gActiveXULRunner, inCallback), inMilliseconds);
+        }
     }
 
 

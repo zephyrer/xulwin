@@ -182,24 +182,22 @@ end
 
   <progressmeter mode="undetermined" flex="1"/>
 
-  <!--<script>
+  <script>
     <![CDATA[
     function advanceProgress()
-    {
-      var progressMeter = document.getElementById("normal");
-      if(progressMeter.getAttribute('value') <= 100) {
-        var newvalue = parseInt(progressMeter.getAttribute('value')) + 10;
-        progressMeter.setAttribute('value', newvalue);
-        setTimeout("advanceProgress()", 100);
-      }
-      else {
-        progressMeter.setAttribute('value', 0);
-        setTimeout("advanceProgress()", 100);
-      }
-    }
+      progressMeter = XULWin.getRootElement():getElementById("normal")
+      value = tonumber(progressMeter:getAttribute('value'))
+      if value <= 99 then
+        newvalue = value + 1
+        progressMeter:setAttribute('value', newvalue)
+      else
+        progressMeter:setAttribute('value', 0)
+      end
+      XULWin.setTimeout("advanceProgress()", 30)
+    end
 
   ]]>
-  </script>-->
+  </script>
 
 
   <hbox align="center">
@@ -209,7 +207,7 @@ end
 
   <separator/>
 
-  <scrollbar orient="horizontal" />
-  <!--<scrollbar orient="horizontal" curpos="26" maxpos="100" increment="1" pageincrement="60"/>-->
+  <!--<scrollbar orient="horizontal" />-->
+  <scrollbar orient="horizontal" curpos="26" maxpos="100" increment="1" pageincrement="60"/>
 
 </window>

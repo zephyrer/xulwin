@@ -30,7 +30,13 @@ namespace Lua
 
         ElementPtr loadXUL(const std::string & inXULUrl);
 
+        ElementPtr rootElement() const;
+
         boost::function<void(const std::string &)> Logger;
+
+        bool loadFile(const std::string & inLuaFile);
+
+        bool loadScript(const std::string & inScript);
 
     private:
 
@@ -38,10 +44,6 @@ namespace Lua
         virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);        
         virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
         virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
-
-        bool loadFile(const std::string & inLuaFile);
-
-        bool loadScript(const std::string & inScript);
 
         void log(const std::string & inMessage);
 
@@ -51,7 +53,7 @@ namespace Lua
 
         boost::scoped_ptr<XULWin::XULRunner> mXULRunner;
         lua_State * mLuaState;
-        Element * mPrevRoot;
+        XULRunnerWithLua * mPrevXULRunner;
     };
 
 

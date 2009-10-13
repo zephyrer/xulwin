@@ -2,6 +2,7 @@
 #define WINUTILS_H_INCLUDED
 
 
+#include <boost/function.hpp>
 #include <windows.h>
 #include <string>
 
@@ -132,6 +133,9 @@ namespace Windows
     bool setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled);
 
     bool setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked);
+
+    typedef boost::function<void()> TimerAction;
+    void setTimeout(TimerAction inAction, int inDelayInMilliseconds);
 
 } // namespace Windows
 

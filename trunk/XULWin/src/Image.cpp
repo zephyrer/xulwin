@@ -5,7 +5,7 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/ElementCreationSupport.h"
 #include "XULWin/ElementImpl.h"
-#include "XULWin/Graphics.h"
+#include "XULWin/GdiplusLoader.h"
 #include "Poco/Path.h"
 #include "Poco/UnicodeConverter.h"
 #include <boost/bind.hpp>

@@ -1,12 +1,10 @@
-- Dialog esc key is cancel
-- Make sample with menu event handling
+- Menubar
 - Fix WS_TABSTOP for multiline TextBoxes
+- Make sample with menu event handling
 - Checkbox partial checkstate
 - Implement PathInstructions2String
 - Context menu (treeview sample)
 - Toolbar
-- Menubar
-- Dialog
 - Add "undetermined" attribute for progressmeter
 - remove items from Tree view
 - Treeview: implement tree open/closed state, and min size implications

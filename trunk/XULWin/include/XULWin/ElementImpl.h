@@ -7,7 +7,7 @@
 #include "XULWin/Element.h"
 #include "XULWin/EventListener.h"
 #include "XULWin/Fallible.h"
-#include "XULWin/Graphics.h"
+#include "XULWin/GdiplusLoader.h"
 #include "XULWin/Layout.h"
 #include "XULWin/StyleController.h"
 #include "XULWin/Toolbar.h"

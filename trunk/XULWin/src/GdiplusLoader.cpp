@@ -1,4 +1,4 @@
-#include "XULWin/Graphics.h"
+#include "XULWin/GdiplusLoader.h"
 #include <assert.h>
 #include <gdiplus.h>
 

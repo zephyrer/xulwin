@@ -56,7 +56,6 @@ namespace XULWin
         ElementFactory::Instance().registerElement<SVG::Polygon>();
         ElementFactory::Instance().registerElement<SVG::Path>();
         ElementFactory::Instance().registerElement<SVG::SVGRect>();
-
         ElementFactory::Instance().registerElement<Tree>();
         ElementFactory::Instance().registerElement<TreeChildren>();
         ElementFactory::Instance().registerElement<TreeCols>();
@@ -66,10 +65,8 @@ namespace XULWin
         ElementFactory::Instance().registerElement<TreeItem>();
         ElementFactory::Instance().registerElement<Statusbar>();
         ElementFactory::Instance().registerElement<StatusbarPanel>();
-
         ElementFactory::Instance().registerElement<Toolbar>();
-        ElementFactory::Instance().registerElement<ToolbarButton>();
-        
+        ElementFactory::Instance().registerElement<ToolbarButton>();        
     }
 
 

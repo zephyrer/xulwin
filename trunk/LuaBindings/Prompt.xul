@@ -11,6 +11,7 @@
       root = XULWin.getRootElement()
       if not root then return end
       dlg = XULWin.toDialog(root)
+      if not dlg then return end
       dlg:endModal(inDialogResult)
     end
     ]]>

@@ -149,10 +149,18 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Header Files"
+			Name="Code"
 			>
 			<File
+				RelativePath=".\src\AttributeController.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\XULWin\AttributeController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ChromeURL.cpp"
 				>
 			</File>
 			<File
@@ -160,7 +168,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Conversions.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\XULWin\Conversions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Decorator.cpp"
 				>
 			</File>
 			<File
@@ -172,6 +188,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Element.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\XULWin\Element.h"
 				>
 			</File>
@@ -180,7 +200,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ElementFactory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\XULWin\ElementFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ElementImpl.cpp"
 				>
 			</File>
 			<File
@@ -192,7 +220,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ErrorReporter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\XULWin\ErrorReporter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\EventListener.cpp"
 				>
 			</File>
 			<File
@@ -204,6 +240,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\GdiplusLoader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\include\XULWin\GdiplusLoader.h"
 				>
 			</File>
@@ -212,127 +252,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Image.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Initializer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Layout.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\PathInstructions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Points.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\PopupMenu.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\RGBColor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Script.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\StyleController.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\SVG.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\SVGImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Toolbar.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ToolbarItem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ToolbarMenuItem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Unicode.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\WinUtils.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\XULRunner.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Sources Files"
-			>
-			<File
-				RelativePath=".\src\AttributeController.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ChromeURL.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Conversions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Decorator.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Element.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ElementFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ElementImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ErrorReporter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\EventListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\GdiplusLoader.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Image.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Image.h"
 				>
 			</File>
 			<File
@@ -340,7 +264,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\Initializer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Layout.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Layout.h"
 				>
 			</File>
 			<File
@@ -348,7 +280,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\Parser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PathInstructions.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\PathInstructions.h"
 				>
 			</File>
 			<File
@@ -356,7 +296,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\Points.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PopupMenu.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\PopupMenu.h"
 				>
 			</File>
 			<File
@@ -364,7 +312,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\RGBColor.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Script.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Script.h"
 				>
 			</File>
 			<File
@@ -372,7 +328,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\StyleController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SVG.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\SVG.h"
 				>
 			</File>
 			<File
@@ -380,7 +344,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\SVGImpl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Toolbar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Toolbar.h"
 				>
 			</File>
 			<File
@@ -388,7 +360,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ToolbarItem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\ToolbarItem.h"
 				>
 			</File>
 			<File
@@ -396,7 +376,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\ToolbarMenuItem.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Unicode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Unicode.h"
 				>
 			</File>
 			<File
@@ -404,7 +392,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\WinUtils.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\XULRunner.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\XULRunner.h"
 				>
 			</File>
 		</Filter>

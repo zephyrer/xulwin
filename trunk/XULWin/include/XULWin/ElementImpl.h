@@ -224,9 +224,9 @@ namespace XULWin
             {
                 return obj->decoratedElement()->findParentOfType<Type>();
             }
-            else if (owningElement() && owningElement()->parent() && owningElement()->parent()->impl())
+            else if (el() && el()->parent() && el()->parent()->impl())
             {
-                return owningElement()->parent()->impl()->findParentOfType<Type>();
+                return el()->parent()->impl()->findParentOfType<Type>();
             }
             return 0;
         }
@@ -238,14 +238,14 @@ namespace XULWin
         template<class Type>
         Type * findChildOfType()
         {
-            if (!owningElement())
+            if (!el())
             {
                 return 0;
             }
 
-            for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+            for (size_t idx = 0; idx != el()->children().size(); ++idx)
             {
-                ElementImpl * child = owningElement()->children()[idx]->impl();
+                ElementImpl * child = el()->children()[idx]->impl();
                 if (Type * found = child->downcast<Type>())
                 {
                     return found;
@@ -261,14 +261,14 @@ namespace XULWin
         template<class Type>
         const Type * findConstChildOfType() const
         {
-            if (!owningElement())
+            if (!el())
             {
                 return 0;
             }
 
-            for (size_t idx = 0; idx != owningElement()->children().size(); ++idx)
+            for (size_t idx = 0; idx != el()->children().size(); ++idx)
             {
-                const ElementImpl * child = owningElement()->children()[idx]->impl();
+                const ElementImpl * child = el()->children()[idx]->impl();
                 if (const Type * found = child->constDowncast<Type>())
                 {
                     return found;
@@ -296,7 +296,7 @@ namespace XULWin
 
         virtual void setOwningElement(Element * inElement) = 0;
 
-        virtual Element * owningElement() const = 0;
+        virtual Element * el() const = 0;
 
         virtual ElementImpl * parent() const = 0;
 
@@ -469,7 +469,7 @@ namespace XULWin
 
         virtual void setOwningElement(Element * inElement);
 
-        virtual Element * owningElement() const;
+        virtual Element * el() const;
 
         ElementImpl * parent() const;
 
@@ -647,6 +647,7 @@ namespace XULWin
     };
 
     class NativeDialog;
+    class MenuImpl;
 
     class NativeWindow : public NativeComponent,
                          public virtual TitleController,
@@ -714,11 +715,16 @@ namespace XULWin
 #endif
 
     private:
+        void showMenu(MenuImpl * inMenu);
+
+        size_t getPositionInMenuBar(MenuImpl * inMenu);
+
         friend class NativeDialog;
         void setBlockingDialog(NativeDialog * inDlg);
         NativeDialog * mActiveDialog;
         
         HMENU mMenuHandle;
+        MenuImpl * mActiveMenu;
     };
 
 
@@ -1098,6 +1104,8 @@ namespace XULWin
 
         MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
+        virtual ~MenuImpl();
+
         virtual bool initAttributeControllers();
         
         // MenuPopupContainer methods
@@ -1107,7 +1115,12 @@ namespace XULWin
 
         virtual void setLabel(const std::string & inLabel);
 
+        static MenuImpl * FindById(int inId);
+
     private:
+        typedef std::map<int, MenuImpl*> MenusById;
+        static MenusById sMenusById;
+
         std::string mLabel;
     };
 
@@ -1150,6 +1163,8 @@ namespace XULWin
         virtual std::string getLabel() const;
 
         virtual void setLabel(const std::string & inLabel);
+
+        static MenuItemImpl * FindById(int inId);
 
     private:
         typedef std::map<int, MenuItemImpl*> MenuItemsById;

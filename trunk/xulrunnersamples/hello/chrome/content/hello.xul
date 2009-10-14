@@ -24,6 +24,12 @@
             <menuitem label="Message"/>
           </menupopup>
         </menu>
+        <menu id="new-menu" label="New2">
+          <menupopup id="new-popup">
+            <menuitem label="Window"/>
+            <menuitem label="Message"/>
+          </menupopup>
+        </menu>
         <menuitem label="Open"/>
         <menuitem label="Save"/>
         <menuseparator/>

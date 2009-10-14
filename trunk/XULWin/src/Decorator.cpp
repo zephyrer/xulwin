@@ -432,11 +432,11 @@ namespace XULWin
     }
 
 
-    Element * Decorator::owningElement() const
+    Element * Decorator::el() const
     {
         if (mDecoratedElement)
         {
-            return mDecoratedElement->owningElement();
+            return mDecoratedElement->el();
         }
         return 0;
     }
@@ -624,10 +624,10 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Horizontal);
-            mHorizontalScrollbar = Scrollbar::Create(inParent->owningElement(), attr);
+            mHorizontalScrollbar = Scrollbar::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
-            inParent->owningElement()->removeChild(mHorizontalScrollbar.get());
+            inParent->el()->removeChild(mHorizontalScrollbar.get());
 
             mHorizontalScrollbar->impl()->downcast<NativeScrollbar>()->setEventListener(this);
         }
@@ -635,10 +635,10 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Vertical);
-            mVerticalScrollbar = Scrollbar::Create(inParent->owningElement(), attr);
+            mVerticalScrollbar = Scrollbar::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
-            inParent->owningElement()->removeChild(mVerticalScrollbar.get());
+            inParent->el()->removeChild(mVerticalScrollbar.get());
 
             mVerticalScrollbar->impl()->downcast<NativeScrollbar>()->setEventListener(this);
         }

@@ -122,7 +122,7 @@ namespace XULWin
 
         virtual void setOwningElement(Element * inElement);
 
-        virtual Element * owningElement() const;
+        virtual Element * el() const;
 
         virtual ElementImpl * parent() const;
 

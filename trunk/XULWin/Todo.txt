@@ -1,11 +1,5 @@
-Helper methods:
-- getElementIndex
-- getChildCount
-- getChild(size_t)
-- HWND getFirstParentHandle()
-- 
-- Cleanup BoxLayouter virtual methods, use a composition-based approach
-- Logger uses listbox
+- Closing Logger window should work, there is a bug in WM_CLOSE
+- Fix horizontal scrolling in Logger window
 - Support ListItem's selected attribute 
 - Add sample for custom xul element
 - Menubar events

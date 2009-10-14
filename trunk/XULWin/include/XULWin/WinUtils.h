@@ -62,6 +62,9 @@ namespace Windows
 
     int getComboBoxItemCount(HWND inHandle);
 
+    // Returns CB_ERR (-1) if an error occurs
+    int getComboBoxItemHeight(HWND inHandle, int inItemIndex);
+
     void selectComboBoxItem(HWND inHandle, int inItemIndex);
 
     int getWindowWidth(HWND inHandle);

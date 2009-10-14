@@ -2665,9 +2665,20 @@ namespace XULWin
     
     void MenuListImpl::move(int x, int y, int w, int h)
     {
-        // The height of a combobox in Win32 is the height of the dropdown menu + the height of the widget itself.
-        h = h + Windows::getComboBoxItemCount(handle()) * Defaults::dropDownListItemHeight();
-        NativeControl::move(x, y, w, h);
+        // The height of a combobox in Win32 is the height of the dropdown menu
+        // + the height of the widget itself.
+        
+        int numItems = Windows::getComboBoxItemCount(handle());
+        int dropdownHeight = 0;
+        if (numItems > 0)
+        {
+            dropdownHeight = numItems * Windows::getComboBoxItemHeight(handle(), 0); // use index 0            
+        }
+
+        // This is usually needed as well, I think :S
+        int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+        
+        NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
     }
 
 

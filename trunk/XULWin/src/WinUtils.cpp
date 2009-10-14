@@ -149,6 +149,12 @@ namespace Windows
     {
         ::SendMessage(inHandle, (UINT)CB_SETCURSEL, (WPARAM)inItemIndex, (LPARAM)0);
     }
+    
+    
+    int getComboBoxItemHeight(HWND inHandle, int inItemIndex)
+    {
+        return (int)::SendMessage(inHandle, (UINT)CB_GETITEMHEIGHT, (WPARAM)inItemIndex, (LPARAM)0);
+    }
 
 
     void setWindowWidth(HWND inHandle, int inWidth)

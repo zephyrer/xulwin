@@ -1,6 +1,7 @@
 #include "XULWin/Lua/LuaBindings.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
+#include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "Poco/Path.h"
@@ -47,7 +48,8 @@ namespace Lua
 
     void showMessage(const std::string & inString)
     {
-        ::MessageBoxA(0, inString.c_str(), "Lua", MB_OK);
+        std::wstring utf16Message = ToUTF16(inString);
+        ::MessageBox(0, utf16Message.c_str(), TEXT("Lua"), MB_OK);
     }
     
     

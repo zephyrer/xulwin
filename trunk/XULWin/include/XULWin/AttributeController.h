@@ -20,6 +20,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: title
+     * Type: string
+     * Purpose: The text to appear in the title bar of the window.
+     */
     class TitleController : public AttributeController
     {
     public:
@@ -35,6 +40,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: width
+     * Type: string (representing an integer)
+     * Purpose: The preferred width of the element.
+     */
     class WidthController : public AttributeController
     {
     public:
@@ -50,6 +60,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: height
+     * Type: string (representing an integer)
+     * The preferred height of the element.
+     */
     class HeightController : public AttributeController
     {
     public:
@@ -65,6 +80,13 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: flex
+     * Type: string (representing an integer)
+     * Indicates the flexibility of the element, which indicates how
+     * an element's container distributes remaining empty space among its
+     * children.
+     */
     class FlexController : public AttributeController
     {
     public:
@@ -80,6 +102,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: disabled
+     * Type: boolean
+     * Indicates whether the element is disabled or not.
+     */
     class DisabledController : public AttributeController
     {
     public:
@@ -95,6 +122,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: selected
+     * Type: boolean
+     * Indicates whether the element is selected or not.
+     */
     class SelectedController : public AttributeController
     {
     public:
@@ -110,6 +142,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: hidden
+     * Type: boolean 
+     * If set to true, the element is not displayed.
+     */
     class HiddenController : public AttributeController
     {
     public:
@@ -125,6 +162,12 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: label
+     * Type: string 
+     * The label that will appear on the element. If this is left out, no text
+     * appears.
+     */
     class LabelController : public AttributeController
     {
     public:
@@ -140,6 +183,12 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: value
+     * Type: string
+     * The string attribute allows you to associate a data value with an
+     * element.
+     */
     class StringValueController : public AttributeController
     {
     public:
@@ -155,6 +204,12 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: readonly
+     * Type: boolean
+     * If set to true, then the user cannot change the value of the element.
+     * However, the value may still be modified by a script.
+     */
     class ReadOnlyController : public AttributeController
     {
     public:
@@ -170,6 +225,13 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: rows
+     * Type: integer
+     * The number of rows to display in the element. If the element contains
+     * more than this number of rows, a scrollbar will appear which the user
+     * can use to scroll to the other rows.
+     */
     class RowsController : public AttributeController
     {
     public:

@@ -169,11 +169,22 @@ namespace XULWin
 
         static const char * Type() { return "window"; }
 
-        void showModal();
 
-        void showNonModal(bool inCenterWindowInScreen);
+        enum Positioning
+        {
+            DefaultPosition,
+            CenterInScreen
+        };
 
-        void endModal();
+        enum MessageLoopOption
+        {
+            StartMessageLoop,
+            NoMessageLoop
+        };
+
+        void show(MessageLoopOption inMessageLoopOption, Positioning inPositioning);
+
+        void close();
 
     private:
         friend class Element;

@@ -292,29 +292,20 @@ namespace XULWin
     }
 
 
-    void Window::showModal()
+    void Window::show(MessageLoopOption inMessageLoopOption, Positioning inPositioning)
     {
         if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
         {
-            nativeWindow->showModal();
+            nativeWindow->show(inMessageLoopOption, inPositioning);
         }
     }
 
 
-    void Window::showNonModal(bool inCenterWindowInScreen)
+    void Window::close()
     {
         if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
         {
-            nativeWindow->showNonModal(inCenterWindowInScreen);
-        }
-    }
-
-
-    void Window::endModal()
-    {
-        if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
-        {
-            nativeWindow->endModal();
+            nativeWindow->close();
         }
     }
 

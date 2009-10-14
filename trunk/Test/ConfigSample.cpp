@@ -1,10 +1,19 @@
 #include "ConfigSample.h"
 #include "XULWin/Unicode.h"
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
 #include <sstream>
 
 
 namespace XULWin
 {
+
+
+    LRESULT closeWindowHelper(NativeWindow * inWindow, WPARAM, LPARAM)
+    {
+        inWindow->close();
+        return 0;
+    }
 
     void ConfigSample::run()
     {
@@ -40,8 +49,9 @@ namespace XULWin
                             boost::bind(&ConfigSample::dropFiles, this, _1, _2));
 
             Element * cancelButton = mConfigWindow->getElementById("cancelButton");
-            mEvents.connect(cancelButton, boost::bind(&NativeWindow::endModal, win));
-            win->showModal();
+            ScopedEventListener::Action closeAction = boost::bind(&closeWindowHelper, win, _1, _2);
+            mEvents.connect(cancelButton, closeAction);
+            win->show(Window::StartMessageLoop, Window::CenterInScreen);
         }
     }
 
@@ -106,7 +116,7 @@ namespace XULWin
         mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
         localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeWindow, this, mNewSetDlg.get()));
 
-        mNewSetDlg->impl()->downcast<NativeWindow>()->showModal();
+        mNewSetDlg->impl()->downcast<NativeWindow>()->show(Window::StartMessageLoop, Window::CenterInScreen);
         return 0;
     }
 

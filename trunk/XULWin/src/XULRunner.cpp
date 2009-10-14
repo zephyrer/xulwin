@@ -130,7 +130,7 @@ namespace XULWin
         parser.parse(mainXULFile);
         if (Window * window = parser.rootElement()->downcast<Window>())
         {
-            window->showModal();
+            window->show(Window::StartMessageLoop, Window::CenterInScreen);
         }
     }
 

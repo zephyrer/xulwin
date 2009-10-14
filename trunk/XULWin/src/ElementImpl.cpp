@@ -914,7 +914,8 @@ namespace XULWin
         NativeComponent(0, inAttributesMapping),
         BoxLayouter(this),
         mActiveDialog(0),
-        mActiveMenu(0)
+        mActiveMenu(0),
+        mHasMessageLoop(false)
     {
         mMenuHandle = ::CreateMenu();
         mHandle = ::CreateWindowEx
@@ -1097,10 +1098,11 @@ namespace XULWin
     }
 
 
-    void NativeWindow::showNonModal(bool inCenterWindowInScreen)
+    void NativeWindow::show(Window::MessageLoopOption inMessageLoopOption, Window::Positioning inPositioning)
     {
         rebuildLayout();
-        if (inCenterWindowInScreen)
+
+        if (inPositioning == Window::CenterInScreen)
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
             if (findChildOfType<MenuBarImpl>())
@@ -1113,33 +1115,34 @@ namespace XULWin
             int y = (GetSystemMetrics(SM_CYSCREEN) - h)/2;
             move(x, y, w, h);
         }
+
         ::ShowWindow(handle(), SW_SHOW);
         ::UpdateWindow(handle());
-    }
 
-
-    void NativeWindow::showModal()
-    {
-        showNonModal(true);
-
-        MSG message;
-        while (GetMessage(&message, NULL, 0, 0))
+        if (inMessageLoopOption == Window::StartMessageLoop)
         {
-            HWND hActive = GetActiveWindow();
-            if (! IsDialogMessage(hActive, &message))
+            mHasMessageLoop = true;
+            MSG message;
+            while (GetMessage(&message, NULL, 0, 0))
             {
-                TranslateMessage(&message);
-                DispatchMessage(&message);
+                HWND hActive = GetActiveWindow();
+                if (! IsDialogMessage(hActive, &message))
+                {
+                    TranslateMessage(&message);
+                    DispatchMessage(&message);
+                }
             }
         }
     }
     
     
-    LRESULT NativeWindow::endModal()
+    void NativeWindow::close()
     {
         setHidden(true);
-        ::PostQuitMessage(0);
-        return 0;
+        if (mHasMessageLoop)
+        {
+            ::PostQuitMessage(0);
+        }
     }
 
 
@@ -1194,7 +1197,7 @@ namespace XULWin
             }
             case WM_CLOSE:
             {
-                PostQuitMessage(0);
+                close();
                 return 0;
             }
             case WM_GETMINMAXINFO:

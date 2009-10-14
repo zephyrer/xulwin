@@ -20,7 +20,7 @@ namespace XULWin
         if (Window * wnd = mLoggerApp->downcast<Window>())
         {
             wnd->impl()->move(0, 200, 400, 100);
-            wnd->showNonModal(false);
+            wnd->show(Window::NoMessageLoop, Window::DefaultPosition);
         }
     }
 
@@ -39,7 +39,7 @@ namespace XULWin
 
         if (Window * wnd = rootEl->downcast<Window>())
         {
-            wnd->showModal();
+            wnd->show(Window::StartMessageLoop, Window::CenterInScreen);
         }
     }
     

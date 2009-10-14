@@ -714,11 +714,9 @@ namespace XULWin
         virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
         { return Super::setAttributeController(inAttr, inController); }
 
-        LRESULT endModal();
+        void show(Window::MessageLoopOption inMessageLoopOption, Window::Positioning inPositioning);
 
-        void showModal();
-
-        void showNonModal(bool inCenterWindowInScreen);
+        void close();
 
         virtual void move(int x, int y, int w, int h);
 
@@ -774,6 +772,7 @@ namespace XULWin
         
         HMENU mMenuHandle;
         MenuImpl * mActiveMenu;
+        bool mHasMessageLoop;
     };
 
 

@@ -1970,13 +1970,13 @@ namespace XULWin
     };
 
 
-    class ListBoxItemImpl : public PassiveComponent,
+    class ListItemImpl : public PassiveComponent,
                             public LabelController
     {
     public:
         typedef PassiveComponent Super;
 
-        ListBoxItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ListItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
 

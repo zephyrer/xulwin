@@ -4771,13 +4771,13 @@ namespace XULWin
     }
 
 
-    ListBoxItemImpl::ListBoxItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ListItemImpl::ListItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
         
         
-    bool ListBoxItemImpl::initImpl()
+    bool ListItemImpl::initImpl()
     {        
         if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
         {
@@ -4787,26 +4787,26 @@ namespace XULWin
     }
 
 
-    std::string ListBoxItemImpl::getLabel() const
+    std::string ListItemImpl::getLabel() const
     {
         return mLabel;
     }
 
     
-    void ListBoxItemImpl::setLabel(const std::string & inLabel)
+    void ListItemImpl::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }
 
 
-    bool ListBoxItemImpl::initAttributeControllers()
+    bool ListItemImpl::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
 
 
-    int ListBoxItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         static int cMargin = 4;
         int result = 0; 
@@ -4820,7 +4820,7 @@ namespace XULWin
     }
 
 
-    int ListBoxItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         if (ListBoxImpl * listBox = parent()->downcast<ListBoxImpl>())
         {

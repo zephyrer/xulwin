@@ -5,5 +5,7 @@
         orient="vertical"
         align="stretch"
         title="XULWin Prompt">
-  <textbox rows="10" multiline="true" id="logField" flex="1"></textbox>
+  <vbox style="overflow:auto" flex="1" align="stretch">
+    <listbox id="logListBox" flex="1" ></listbox>
+  </vbox>
 </window>

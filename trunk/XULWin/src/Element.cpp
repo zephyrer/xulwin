@@ -910,7 +910,7 @@ namespace XULWin
     ListItem::ListItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListItem::Type(),
                 inParent,
-                new ListBoxItemImpl(inParent->impl(), inAttributesMapping))
+                new ListItemImpl(inParent->impl(), inAttributesMapping))
     {
     } 
 

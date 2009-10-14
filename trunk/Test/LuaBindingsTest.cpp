@@ -46,12 +46,11 @@ namespace XULWin
     
     void LuaBindingsTest::log(const std::string & inMessage)
     {
-        if (Element * messageList = mLoggerApp->getElementById("logField"))
+        if (Element * logListBox = mLoggerApp->getElementById("logListBox"))
         {
-            if (NativeTextBox * textBox = messageList->impl()->downcast<NativeTextBox>())
-            {
-                textBox->setValue(textBox->getValue() + inMessage + "\r\n");
-            }
+            AttributesMapping attr;
+            attr["label"] = inMessage;
+            ListItem::Create(logListBox, attr)->init();
         }
     }
 

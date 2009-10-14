@@ -692,6 +692,8 @@ namespace XULWin
 
         void showModal();
 
+        void showNonModal(bool inCenterWindowInScreen);
+
         virtual void move(int x, int y, int w, int h);
 
         virtual void rebuildLayout();

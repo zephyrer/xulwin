@@ -2,6 +2,7 @@
 #define LUABINDINGSTEST_H_INCLUDED
 
 
+#include "XULWin/Lua/XULRunnerWithLua.h"
 #include <string>
 
 
@@ -12,7 +13,15 @@ namespace XULWin
     class LuaBindingsTest
     {
     public:
+        LuaBindingsTest();
+
         void runXULSample(const std::string & inAppname);
+
+        void log(const std::string & inMessage);
+
+    private:
+        Lua::XULRunnerWithLua mLoggerRunner;
+        ElementPtr mLoggerApp;
     };
 
 

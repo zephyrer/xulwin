@@ -38,18 +38,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Ensure that the common control DLL is loaded. 
     Windows::CommonControlsInitializer ccInit;
 
-    ErrorReporter::Instance().setLogger(boost::bind(&log, _1));
+    XULWin::LuaBindingsTest tester;
+    ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, &tester, _1));
 
     //runConfigSample();
     //runImageViewerSample();    
-    XULWin::LuaBindingsTest tester;
     tester.runXULSample("hello");
-    //tester.runXULSample("toolbar");
-    //tester.runXULSample("widgets");
-    //tester.runXULSample("tabbox");
-    //tester.runXULSample("treeview");
-    //tester.runXULSample("configpanel");
-    //tester.runXULSample("shout");
-    //tester.runXULSample("svg");
+    tester.runXULSample("toolbar");
+    tester.runXULSample("widgets");
+    tester.runXULSample("tabbox");
+    tester.runXULSample("treeview");
+    tester.runXULSample("configpanel");
+    tester.runXULSample("shout");
+    tester.runXULSample("svg");
     return 0;
 }

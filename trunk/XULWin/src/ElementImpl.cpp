@@ -1064,21 +1064,30 @@ namespace XULWin
     }
 
 
-    void NativeWindow::showModal()
+    void NativeWindow::showNonModal(bool inCenterWindowInScreen)
     {
         rebuildLayout();
-        SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-        if (findChildOfType<MenuBarImpl>())
+        if (inCenterWindowInScreen)
         {
-            sz.cy += Defaults::menuBarHeight();
+            SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+            if (findChildOfType<MenuBarImpl>())
+            {
+                sz.cy += Defaults::menuBarHeight();
+            }
+            int w = getWidth() + sz.cx;
+            int h = getHeight() + sz.cy;
+            int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
+            int y = (GetSystemMetrics(SM_CYSCREEN) - h)/2;
+            move(x, y, w, h);
         }
-        int w = getWidth() + sz.cx;
-        int h = getHeight() + sz.cy;
-        int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
-        int y = (GetSystemMetrics(SM_CYSCREEN) - h)/2;
-        move(x, y, w, h);
         ::ShowWindow(handle(), SW_SHOW);
         ::UpdateWindow(handle());
+    }
+
+
+    void NativeWindow::showModal()
+    {
+        showNonModal(true);
 
         MSG message;
         while (GetMessage(&message, NULL, 0, 0))
@@ -1979,10 +1988,7 @@ namespace XULWin
 
     int NativeTextBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = Windows::getWindowText(handle());
-        int width = Windows::getTextSize(handle(), text).cx;
-        width += Defaults::textPadding();
-        return width;
+        return 20;
     }
 
 

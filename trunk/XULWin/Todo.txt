@@ -1,5 +1,7 @@
 - Menubar events
+- Fix toolbar menu sample!
 - Splitter
+- Make sample runner app
 - Fix WS_TABSTOP for multiline TextBoxes
 - Make sample with menu event handling
 - Checkbox partial checkstate

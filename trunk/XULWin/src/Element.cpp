@@ -301,6 +301,15 @@ namespace XULWin
     }
 
 
+    void Window::showNonModal(bool inCenterWindowInScreen)
+    {
+        if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
+        {
+            nativeWindow->showNonModal(inCenterWindowInScreen);
+        }
+    }
+
+
     void Window::endModal()
     {
         if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())

@@ -171,6 +171,8 @@ namespace XULWin
 
         void showModal();
 
+        void showNonModal(bool inCenterWindowInScreen);
+
         void endModal();
 
     private:

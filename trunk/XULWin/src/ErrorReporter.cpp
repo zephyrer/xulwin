@@ -223,7 +223,7 @@ namespace XULWin
                     const Error & error = inErrorCatcher.errors()[idx];
                     if (idx > 0)
                     {
-                        ss << "Therefore: ";
+                        ss << "\r\n => ";
                     }
                     ss << error.message();
                     

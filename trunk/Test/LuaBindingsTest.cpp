@@ -1,4 +1,5 @@
 #include "LuaBindingsTest.h"
+#include "Config.h"
 #include "XULWin/Element.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/LuaBindings.h"
@@ -27,6 +28,11 @@ namespace XULWin
     void LuaBindingsTest::runXULSample(const std::string & inAppname)
     {
         Windows::CurrentDirectoryChanger cd("../xulrunnersamples/" + inAppname + "/");
+
+#if TEST_WITH_MOZILLA_XULRUNNER
+        system("run.bat");
+#endif
+
         Lua::XULRunnerWithLua xulRunner;
         xulRunner.Logger = boost::bind(Lua::showMessage, _1);
         ElementPtr rootEl = xulRunner.loadApplication("application.ini");

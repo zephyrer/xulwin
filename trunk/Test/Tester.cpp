@@ -1,4 +1,5 @@
 #include "Tester.h"
+#include "Config.h"
 #include "XULWin/Element.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/WinUtils.h"
@@ -12,7 +13,9 @@ namespace XULWin
         std::string chdir = "../xulrunnersamples/" + inAppName + "/";
         Windows::CurrentDirectoryChanger curdir(chdir);
 
-        //system("run.bat");
+#if TEST_WITH_MOZILLA_XULRUNNER
+        system("run.bat");
+#endif
 
         XULRunner runner;
         runner.run("application.ini");

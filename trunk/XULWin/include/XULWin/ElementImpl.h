@@ -828,6 +828,7 @@ namespace XULWin
         // If this is a VirtualComponent, return first parent that is a NativeComponent.
         // If this is a Decorator, resolve until a NativeComponent is found.
         static NativeComponent * GetNativeParent(ElementImpl * inElementImpl);
+        static const NativeComponent * GetNativeParent(const ElementImpl * inElementImpl);
     };
 
 
@@ -1830,6 +1831,46 @@ namespace XULWin
         bool mDisabled;
         std::string mLabel;
         std::string mCSSListStyleImage;
+    };
+
+
+    class ListBoxImpl : public NativeControl
+    {
+    public:
+        typedef NativeControl Super;
+
+        ListBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initAttributeControllers();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
+    class ListBoxItemImpl : public PassiveComponent,
+                            public LabelController
+    {
+    public:
+        typedef PassiveComponent Super;
+
+        ListBoxItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initImpl();
+
+        virtual bool initAttributeControllers();
+
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+    private:
+        std::string mLabel;
     };
 
 

@@ -183,6 +183,10 @@
 			Name="Header Files"
 			>
 			<File
+				RelativePath=".\Config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ConfigSample.h"
 				>
 			</File>

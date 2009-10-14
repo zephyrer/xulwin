@@ -1,3 +1,13 @@
+Helper methods:
+- getElementIndex
+- getChildCount
+- getChild(size_t)
+- HWND getFirstParentHandle()
+- 
+
+- Logger uses listbox
+- Support ListItem's selected attribute 
+- Add sample for custom xul element
 - Menubar events
 - Fix toolbar menu sample!
 - Splitter

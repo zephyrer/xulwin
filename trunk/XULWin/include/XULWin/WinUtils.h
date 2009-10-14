@@ -44,6 +44,17 @@ namespace Windows
 
     void removeStringFromComboBox(HWND inHandle, int inIndex);
 
+    void addStringToListBox(HWND inHandle, const std::string & inString);
+
+    void removeStringFromListBox(HWND inHandle, int inIndex);
+
+    int getListBoxItemCount(HWND inHandle);
+
+    // returns LB_ERR (-1) if not found
+    int getListBoxIndexOf(HWND inHandle, const std::string & inStringValue);
+
+    void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect);
+
     void clearComboBox(HWND inHandle);
 
     // returns CB_ERR (-1) if not found

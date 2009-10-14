@@ -5,51 +5,14 @@
         orient="vertical"
         align="stretch"
         title="XULWin Prompt">
-  <script>
-    <![CDATA[
-    function closeWindow()
-      root = XULWin.getRootElement()
-      if not root then return end
-      wnd = XULWin.toWindow(root)
-      wnd:endModal()
-    end
-    ]]>
-  </script>
-  <menubar id="sample-menubar">
-    <menu id="file-menu" label="File">
-      <menupopup id="file-popup">
-        <menu id="new-menu" label="New">
-          <menupopup id="new-popup">
-            <menuitem label="Window"/>
-            <menuitem label="Message"/>
-          </menupopup>
-        </menu>
-        <menu id="new-menu" label="New2">
-          <menupopup id="new-popup">
-            <menuitem label="Window"/>
-            <menuitem label="Message"/>
-          </menupopup>
-        </menu>
-        <menuitem label="Open"/>
-        <menuitem label="Save"/>
-        <menuseparator/>
-        <menuitem label="Exit"/>
-      </menupopup>
-    </menu>
-  </menubar>
-  <vbox>
-    <hbox>
-      <vbox>
-        <spacer flex="1"></spacer>
-        <label value="Enter key,value:"></label>
-        <spacer flex="1"></spacer>
-      </vbox>
-      <textbox width="120"></textbox>
-    </hbox>
-    <hbox>
-      <spacer flex="1"></spacer>
-      <button label="OK" oncommand="closeWindow()"></button>
-      <button label="Cancel" oncommand="closeWindow()"></button>
-    </hbox>
-  </vbox>
+  <listbox id="theList">
+    <listitem label="Ruby"/>
+    <listitem label="EmeraldEmeraldEmeraldEmeraldEmeraldEmerald"/>
+    <listitem label="Sapphire" selected="true"/>
+    <listitem label="Diamond"/>
+    <listitem label="Ruby"/>
+    <listitem label="Emerald"/>
+    <listitem label="Sapphire" selected="true"/>
+    <listitem label="Diamond"/>
+  </listbox>
 </window>

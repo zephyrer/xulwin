@@ -67,7 +67,9 @@ namespace XULWin
         ElementFactory::Instance().registerElement<Statusbar>();
         ElementFactory::Instance().registerElement<StatusbarPanel>();
         ElementFactory::Instance().registerElement<Toolbar>();
-        ElementFactory::Instance().registerElement<ToolbarButton>();        
+        ElementFactory::Instance().registerElement<ToolbarButton>();
+        ElementFactory::Instance().registerElement<ListBox>();
+        ElementFactory::Instance().registerElement<ListItem>();
     }
 
 

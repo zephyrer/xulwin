@@ -1820,21 +1820,27 @@ namespace XULWin
     }
     
     
-    NativeComponent * NativeControl::GetNativeParent(ElementImpl * inElementImpl)
+    const NativeComponent * NativeControl::GetNativeParent(const ElementImpl * inElementImpl)
     {
-        if (NativeComponent * obj = dynamic_cast<NativeComponent*>(inElementImpl))
+        if (const NativeComponent * obj = dynamic_cast<const NativeComponent*>(inElementImpl))
         {
             return obj;
         }
-        else if (Decorator * obj = dynamic_cast<Decorator*>(inElementImpl))
+        else if (const Decorator * obj = dynamic_cast<const Decorator*>(inElementImpl))
         {
             return GetNativeParent(obj->decoratedElement().get());
         }
-        else if (VirtualComponent * obj = dynamic_cast<VirtualComponent*>(inElementImpl))
+        else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent*>(inElementImpl))
         {
             return GetNativeParent(obj->parent());
         }
         return 0;
+    }
+    
+    
+    NativeComponent * NativeControl::GetNativeParent(ElementImpl * inElementImpl)
+    {
+        return const_cast<NativeComponent *>(GetNativeParent(const_cast<const ElementImpl*>(inElementImpl)));
     }
     
     
@@ -4708,6 +4714,107 @@ namespace XULWin
     const std::string & ToolbarButtonImpl::getCSSListStyleImage() const
     {
         return mCSSListStyleImage;
+    }
+
+
+    ListBoxImpl::ListBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0)
+    {
+    }
+
+
+    bool ListBoxImpl::initAttributeControllers()
+    {
+        setAttributeController("label", static_cast<LabelController*>(this));
+        return Super::initAttributeControllers();
+    }
+
+
+    int ListBoxImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        {
+            int width = el()->children()[idx]->impl()->calculateWidth(inSizeConstraint);
+            if (width > result)
+            {
+                result = width;
+            }
+        }
+        return result;
+    }
+
+
+    int ListBoxImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        {
+            result += el()->children()[idx]->impl()->calculateHeight(inSizeConstraint);
+        }
+        int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+        return result + extraHeight;
+    }
+
+
+    ListBoxItemImpl::ListBoxItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        PassiveComponent(inParent, inAttributesMapping)
+    {
+    }
+        
+        
+    bool ListBoxItemImpl::initImpl()
+    {        
+        if (NativeComponent * comp = NativeControl::GetNativeParent(this))
+        {
+            Windows::addStringToListBox(comp->handle(), getLabel());
+        }
+        return Super::initImpl();
+    }
+
+
+    std::string ListBoxItemImpl::getLabel() const
+    {
+        return mLabel;
+    }
+
+    
+    void ListBoxItemImpl::setLabel(const std::string & inLabel)
+    {
+        mLabel = inLabel;
+    }
+
+
+    bool ListBoxItemImpl::initAttributeControllers()
+    {
+        setAttributeController("label", static_cast<LabelController*>(this));
+        return Super::initAttributeControllers();
+    }
+
+
+    int ListBoxItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        static int cMargin = 4;
+        int result = 0; 
+        if (ListBoxImpl * listBox = parent()->downcast<ListBoxImpl>())
+        {
+            int width = Windows::getTextSize(listBox->handle(), getLabel()).cx;
+            int extraWidth = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(listBox->handle()).cx;
+            result = width + extraWidth + cMargin;
+        }
+        return result;
+    }
+
+
+    int ListBoxItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        if (ListBoxImpl * listBox = parent()->downcast<ListBoxImpl>())
+        {
+            RECT rect;
+            Windows::getListBoxItemRect(listBox->handle(), Windows::getListBoxIndexOf(listBox->handle(), getLabel()), rect);
+            return rect.bottom - rect.top;
+        }
+        return 0;
     }
 
 

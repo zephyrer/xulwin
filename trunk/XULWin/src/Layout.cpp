@@ -16,7 +16,9 @@ namespace XULWin
     //}
 
 
-    void LinearLayoutManager::GetSizes(int inLength, const std::vector<int> & inFlexValues, std::vector<int> & outSizes)
+    void LinearLayoutManager::GetSizes(int inLength,
+                                       const std::vector<int> & inFlexValues,
+                                       std::vector<int> & outSizes)
     {
         assert(outSizes.empty());
         
@@ -38,7 +40,12 @@ namespace XULWin
     }
 
 
-    void LinearLayoutManager::GetSizes(int inLength, const std::vector<SizeInfo> & inFlexValues, std::vector<int> & outSizes)
+    void LinearLayoutManager::GetSizes
+    (
+        int inLength,
+        const std::vector<SizeInfo> & inFlexValues,
+        std::vector<int> & outSizes
+    )
     {
         assert(outSizes.empty());
         

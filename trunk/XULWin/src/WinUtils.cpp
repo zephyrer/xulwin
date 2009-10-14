@@ -66,7 +66,8 @@ namespace Windows
 
     void addStringToComboBox(HWND inHandle, const std::string & inString)
     {
-        ::SendMessage(inHandle, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)ToUTF16(inString).c_str());
+        std::wstring utf16String = ToUTF16(inString);
+        ::SendMessage(inHandle, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str());
     }
 
     
@@ -75,7 +76,40 @@ namespace Windows
         ::SendMessage(inHandle, CB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0);
     }
 
+
+
+    void addStringToListBox(HWND inHandle, const std::string & inString)
+    {
+        std::wstring utf16String = ToUTF16(inString);
+        ::SendMessage(inHandle, (UINT)LB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str());
+    }
+
     
+    void removeStringFromListBox(HWND inHandle, int inIndex)
+    {
+        ::SendMessage(inHandle, LB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0);
+    }
+
+    
+    int getListBoxItemCount(HWND inHandle)
+    {
+        return ::SendMessage(inHandle, LB_GETCOUNT, 0, 0);
+    }
+
+    
+    int getListBoxIndexOf(HWND inHandle, const std::string & inStringValue)
+    {
+        std::wstring utf16String = ToUTF16(inStringValue);
+        return (int)::SendMessage(inHandle, LB_FINDSTRINGEXACT, (WPARAM)-1, (LPARAM)utf16String.c_str());
+    }
+
+    
+    void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect)
+    {
+        ::SendMessage(inHandle, LB_GETITEMRECT, (WPARAM)inIndex, (LPARAM)&outRect);
+    }
+
+
     void clearComboBox(HWND inHandle)
     {
         ::SendMessage(inHandle, CB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
@@ -84,7 +118,8 @@ namespace Windows
 
     int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset)
     {
-        return ::SendMessage(inHandle, CB_FINDSTRING, (WPARAM)inOffset, (LPARAM)(LPTSTR)ToUTF16(inString).c_str());
+        std::wstring utf16String = ToUTF16(inString);
+        return ::SendMessage(inHandle, CB_FINDSTRING, (WPARAM)inOffset, (LPARAM)(LPTSTR)utf16String.c_str());
     }
 
 
@@ -182,7 +217,8 @@ namespace Windows
     
     void setWindowText(HWND inHandle, const std::string & inText)
     {
-        ::SetWindowText(inHandle, ToUTF16(inText).c_str());
+        std::wstring utf16String = ToUTF16(inText);
+        ::SetWindowText(inHandle, utf16String.c_str());
     }
 
 

@@ -19,6 +19,12 @@ class XULRunner;
 namespace Lua
 {
 
+    /**
+     * Lua::XULRunnerWithLua bundles a XULWin::XULRunner and a Lua state.
+     * You should use a separate XULRunnerWithLua object for each XUL document
+     * that you want to parse. This ensures that a separate Lua state will be
+     * created per XUL document.
+     */
     class XULRunnerWithLua : public EventListener
     {
     public:

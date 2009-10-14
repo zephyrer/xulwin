@@ -13,28 +13,56 @@ namespace XULWin
 
 namespace Lua
 {
-#ifndef SWIG
-    class XULRunnerWithLua;
-    XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner);
-#endif // SWIG
 
-    // shows a mesage box
+    /**
+     * Displays a message box.
+     */
     void showMessage(const std::string & inString);
 
-    // same to DOM's 'document' object
+
+    /**
+     * Gets the root element for the XUL document.
+     * This is the DOM 'document' object.
+     */
     Element * getRootElement();
 
-    // behaves the same as Javascript's setTimeout function
-    void setTimeout(const std::string & inCallback, int inMilliseconds);
+    
+    /**
+     * Executes the given code after the given delay.
+     * Same as Javascript's setTimeout function.
+     */
+    void setTimeout(const std::string & inExecutableCode, int inMilliseconds);
 
-    // behaves the sames as Javascript's prompt function
+    
+    /**
+     * Displays a dialog with a message, input field and OK and Cancel buttons.
+     * If the user clicks the Ok button then the user input is returned.
+     * If the users clicks cancel then the default value is returned.
+     */
     std::string prompt(const std::string & inText, const std::string & inDefault);
 
-    // converts Element to Window, returns 0 on fail
+    
+    /**
+     * Casts an Element object to a Window object
+     */
     Window * toWindow(Element * inElement);
 
-    // converts Element to Window, returns 0 on fail
+
+    /**
+     * Casts an Element object to a Dialog object
+     */
     Dialog * toDialog(Element * inElement);
+
+
+    /**
+     * PRIVATE FUNCTION
+     * Sets the current XULRunnerWithLua object.
+     * Returns the old XULRunnerWithLua object.
+     */
+    #ifndef SWIG
+    class XULRunnerWithLua;
+    XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner);
+    #endif
 
 
 } // namespace Lua

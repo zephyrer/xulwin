@@ -14,6 +14,7 @@ using namespace XULWin;
 
 namespace XULWin
 {
+    
     ImageViewerSample::ImageViewerSample() :
         mNativeWindow(0)
     {

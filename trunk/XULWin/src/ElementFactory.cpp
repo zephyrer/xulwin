@@ -19,6 +19,7 @@ namespace XULWin
 
     ElementPtr ElementFactory::createElement(const std::string & inType, Element * inParent, const AttributesMapping & inAttr)
     {
+        ErrorCatcher errorCatcher;
         ElementPtr result;
         FactoryMethods::iterator it = mFactoryMethods.find(inType);
         if (it != mFactoryMethods.end())

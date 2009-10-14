@@ -4,7 +4,7 @@
         xmlns:svg="http://www.w3.org/2000/svg"
         orient="vertical"
         align="stretch"
-        title="XULWin Prompt">
+        title="XULWin Logger">
   <vbox style="overflow:auto" flex="1" align="stretch">
     <listbox id="logListBox" flex="1" ></listbox>
   </vbox>

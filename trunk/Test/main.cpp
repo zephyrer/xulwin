@@ -30,6 +30,21 @@ void runImageViewerSample()
 }
 
 
+void startTest(XULWin::LuaBindingsTest & tester)
+{
+    runConfigSample();
+    runImageViewerSample();    
+    tester.runXULSample("hello");
+    tester.runXULSample("toolbar");
+    tester.runXULSample("widgets");
+    tester.runXULSample("tabbox");
+    tester.runXULSample("treeview");
+    tester.runXULSample("configpanel");
+    tester.runXULSample("shout");
+    tester.runXULSample("svg");
+}
+
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     // Initialize all kinds of stuff
@@ -41,15 +56,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::LuaBindingsTest tester;
     ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, &tester, _1));
 
-    runConfigSample();
-    //runImageViewerSample();    
-    //tester.runXULSample("hello");
-    //tester.runXULSample("toolbar");
-    //tester.runXULSample("widgets");
-    //tester.runXULSample("tabbox");
-    //tester.runXULSample("treeview");
-    //tester.runXULSample("configpanel");
-    //tester.runXULSample("shout");
-    //tester.runXULSample("svg");
+    startTest(tester);
     return 0;
 }

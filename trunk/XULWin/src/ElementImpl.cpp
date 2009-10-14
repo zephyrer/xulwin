@@ -819,28 +819,18 @@ namespace XULWin
             }
         }
 
+        if (handled)
+        {
+            return 0;
+        }
 
         if (mOrigProc)
         {
-            if (!handled)
-            {
-                return ::CallWindowProc(mOrigProc, mHandle, inMessage, wParam, lParam);
-            }
-            else
-            {
-                return 0;
-            }
+            return ::CallWindowProc(mOrigProc, mHandle, inMessage, wParam, lParam);
         }
         else
         {
-            if (!handled)
-            {
-                return ::DefWindowProc(mHandle, inMessage, wParam, lParam);
-            }
-            else
-            {
-                return 0;
-            }
+            return ::DefWindowProc(mHandle, inMessage, wParam, lParam);
         }
     }
 

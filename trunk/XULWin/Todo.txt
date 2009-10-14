@@ -1,4 +1,3 @@
-- Closing Logger window should work, there is a bug in WM_CLOSE
 - Fix horizontal scrolling in Logger window
 - Support ListItem's selected attribute 
 - Add sample for custom xul element

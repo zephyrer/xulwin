@@ -95,6 +95,18 @@ namespace XULWin
 
         virtual bool initImpl() = 0;
 
+        // Returns this element's index in its parent's children collection.
+        virtual int getIndex() const = 0;
+
+        virtual size_t getChildCount() const = 0;
+
+        virtual const ElementImpl * getChild(size_t inIndex) const = 0;
+
+        virtual ElementImpl * getChild(size_t inIndex) = 0;
+
+        virtual HWND getFirstParentHandle() = 0;
+
+
         // WidthController methods
         // Returns value from last call to setWidth. If setWidth has not yet
         // been called, then this method returns the value as defined in XUL
@@ -243,9 +255,9 @@ namespace XULWin
                 return 0;
             }
 
-            for (size_t idx = 0; idx != el()->children().size(); ++idx)
+            for (size_t idx = 0; idx != getChildCount(); ++idx)
             {
-                ElementImpl * child = el()->children()[idx]->impl();
+                ElementImpl * child = getChild(idx);
                 if (Type * found = child->downcast<Type>())
                 {
                     return found;
@@ -266,9 +278,9 @@ namespace XULWin
                 return 0;
             }
 
-            for (size_t idx = 0; idx != el()->children().size(); ++idx)
+            for (size_t idx = 0; idx != getChildCount(); ++idx)
             {
-                const ElementImpl * child = el()->children()[idx]->impl();
+                const ElementImpl * child = getChild(idx);
                 if (const Type * found = child->constDowncast<Type>())
                 {
                     return found;
@@ -332,6 +344,16 @@ namespace XULWin
         virtual ~ConcreteElement() = 0;
 
         virtual bool initImpl();
+
+        virtual int getIndex() const;
+
+        virtual size_t getChildCount() const;
+
+        virtual const ElementImpl * getChild(size_t inIndex) const;
+
+        virtual ElementImpl * getChild(size_t inIndex);
+
+        virtual HWND getFirstParentHandle();
 
         // WidthController methods
         // Returns value from last call to setWidth. If setWidth has not yet
@@ -623,7 +645,24 @@ namespace XULWin
     class BoxLayouter
     {
     public:
-        BoxLayouter();
+        class ContentProvider
+        {
+        public:
+            virtual Orient BoxLayouter_getOrient() const = 0;
+
+            virtual Align BoxLayouter_getAlign() const = 0;
+
+            virtual size_t BoxLayouter_getChildCount() const = 0;
+
+            virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const = 0;
+
+            virtual ElementImpl * BoxLayouter_getChild(size_t idx) = 0;
+
+            virtual Rect BoxLayouter_clientRect() const = 0;
+
+            virtual void BoxLayouter_rebuildChildLayouts() = 0;
+        };
+        BoxLayouter(ContentProvider * inContentProvider);
 
         virtual void rebuildLayout();
 
@@ -631,27 +670,17 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual Orient getOrient() const = 0;
-
-        virtual Align getAlign() const = 0;
-
-        virtual size_t numChildren() const = 0;
-
-        virtual const ElementImpl * getChild(size_t idx) const = 0;
-
-        virtual ElementImpl * getChild(size_t idx) = 0;
-
-        virtual Rect clientRect() const = 0;
-
-        virtual void rebuildChildLayouts() = 0;
+    private:
+        ContentProvider * mContentProvider;
     };
 
     class NativeDialog;
     class MenuImpl;
 
     class NativeWindow : public NativeComponent,
-                         public virtual TitleController,
-                         public BoxLayouter
+                         public BoxLayouter,
+                         public BoxLayouter::ContentProvider,
+                         public virtual TitleController
     {
     public:
         typedef NativeComponent Super;
@@ -674,9 +703,6 @@ namespace XULWin
         virtual std::string getTitle() const;
 
         virtual void setTitle(const std::string & inTitle);
-
-        // BoxLayouter methods
-        virtual size_t numChildren() const;
 
         virtual const ElementImpl * getChild(size_t idx) const;
 
@@ -712,6 +738,27 @@ namespace XULWin
 
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
+        virtual Orient BoxLayouter_getOrient() const
+        { return getOrient(); }
+
+        virtual Align BoxLayouter_getAlign() const
+        { return getAlign(); }
+
+        virtual size_t BoxLayouter_getChildCount() const
+        { return getChildCount(); }
+
+        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        { return getChild(idx); }
+
+        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        { return getChild(idx); }
+
+        virtual Rect BoxLayouter_clientRect() const
+        { return clientRect(); }
+
+        virtual void BoxLayouter_rebuildChildLayouts()
+        { rebuildChildLayouts(); }
+
 #ifndef SWIG
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 #endif
@@ -732,8 +779,9 @@ namespace XULWin
 
     // NativeDialog is actually a normal Window with some customizations to make it behave like a dialog.
     class NativeDialog : public NativeComponent,
-                         public virtual TitleController,
-                         public BoxLayouter
+                         public BoxLayouter,
+                         public BoxLayouter::ContentProvider,
+                         public virtual TitleController
     {
     public:
         typedef NativeComponent Super;
@@ -755,9 +803,6 @@ namespace XULWin
         virtual std::string getTitle() const;
 
         virtual void setTitle(const std::string & inTitle);
-
-        // BoxLayouter methods
-        virtual size_t numChildren() const;
 
         virtual const ElementImpl * getChild(size_t idx) const;
 
@@ -788,6 +833,27 @@ namespace XULWin
         virtual bool initAttributeControllers();
 
         virtual bool initStyleControllers();
+
+        virtual Orient BoxLayouter_getOrient() const
+        { return getOrient(); }
+
+        virtual Align BoxLayouter_getAlign() const
+        { return getAlign(); }
+
+        virtual size_t BoxLayouter_getChildCount() const
+        { return getChildCount(); }
+
+        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        { return getChild(idx); }
+
+        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        { return getChild(idx); }
+
+        virtual Rect BoxLayouter_clientRect() const
+        { return clientRect(); }
+
+        virtual void BoxLayouter_rebuildChildLayouts()
+        { rebuildChildLayouts(); }
 
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
@@ -827,8 +893,8 @@ namespace XULWin
         // If this is a NativeComponent, return this.
         // If this is a VirtualComponent, return first parent that is a NativeComponent.
         // If this is a Decorator, resolve until a NativeComponent is found.
-        static NativeComponent * GetNativeParent(ElementImpl * inElementImpl);
-        static const NativeComponent * GetNativeParent(const ElementImpl * inElementImpl);
+        static NativeComponent * GetNativeThisOrParent(ElementImpl * inElementImpl);
+        static const NativeComponent * GetNativeThisOrParent(const ElementImpl * inElementImpl);
     };
 
 
@@ -1003,7 +1069,8 @@ namespace XULWin
 
 
     class VirtualBox : public VirtualComponent,
-                       public BoxLayouter
+                       public BoxLayouter,
+                       public BoxLayouter::ContentProvider
     {
     public:
         typedef VirtualComponent Super;
@@ -1027,15 +1094,6 @@ namespace XULWin
         {
             return BoxLayouter::calculateHeight(inSizeConstraint);
         }
-        
-        virtual size_t numChildren() const
-        { return mElement->children().size(); }
-
-        virtual const ElementImpl * getChild(size_t idx) const
-        { return mElement->children()[idx]->impl(); }
-
-        virtual ElementImpl * getChild(size_t idx)
-        { return mElement->children()[idx]->impl(); }
 
         virtual Rect clientRect() const
         { return Super::clientRect(); }
@@ -1044,11 +1102,33 @@ namespace XULWin
         { return Super::rebuildChildLayouts(); }        
 
         virtual void setAttributeController(const std::string & inAttr, AttributeController * inController);
+
+        virtual Orient BoxLayouter_getOrient() const
+        { return getOrient(); }
+
+        virtual Align BoxLayouter_getAlign() const
+        { return getAlign(); }
+
+        virtual size_t BoxLayouter_getChildCount() const
+        { return getChildCount(); }
+
+        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        { return getChild(idx); }
+
+        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        { return getChild(idx); }
+
+        virtual Rect BoxLayouter_clientRect() const
+        { return clientRect(); }
+
+        virtual void BoxLayouter_rebuildChildLayouts()
+        { rebuildChildLayouts(); }
     };
 
 
     class NativeBox : public NativeControl,
-                      public BoxLayouter
+                      public BoxLayouter,
+                      public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
@@ -1067,13 +1147,32 @@ namespace XULWin
 
         virtual Rect clientRect() const;
 
-        virtual size_t numChildren() const;
-
         virtual const ElementImpl * getChild(size_t idx) const;
 
         virtual ElementImpl * getChild(size_t idx);
 
         virtual void rebuildChildLayouts();
+        
+        virtual Orient BoxLayouter_getOrient() const
+        { return getOrient(); }
+
+        virtual Align BoxLayouter_getAlign() const
+        { return getAlign(); }
+
+        virtual size_t BoxLayouter_getChildCount() const
+        { return getChildCount(); }
+
+        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        { return getChild(idx); }
+
+        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        { return getChild(idx); }
+
+        virtual Rect BoxLayouter_clientRect() const
+        { return clientRect(); }
+
+        virtual void BoxLayouter_rebuildChildLayouts()
+        { rebuildChildLayouts(); }
 
     };
 
@@ -1533,11 +1632,11 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
+        virtual size_t getChildCount() const;
+
         virtual const ElementImpl * getChild(size_t idx) const;
 
         virtual ElementImpl * getChild(size_t idx);
-        
-        virtual size_t numChildren() const;
 
         virtual Rect clientRect() const;
 
@@ -1572,17 +1671,23 @@ namespace XULWin
 
         TreeItemInfo(const std::string & inLabel) : mLabel(inLabel){}
 
-        const std::string & label() const { return mLabel; }
+        const std::string & label() const
+        { return mLabel; }
 
-        void setLabel(const std::string & inLabel) { mLabel = inLabel; }
-        
-        size_t numChildren() const { return mChildren.size(); }
+        void setLabel(const std::string & inLabel)
+        { mLabel = inLabel; }
 
-        const TreeItemInfo * getChild(size_t idx) const { return mChildren[idx]; }
+        size_t getChildCount() const
+        { return mChildren.size(); }
 
-        TreeItemInfo * getChild(size_t idx) { return mChildren[idx]; }
+        const TreeItemInfo * getChild(size_t idx) const
+        { return mChildren[idx]; }
 
-        void addChild(TreeItemInfo * inItem) { mChildren.push_back(inItem); }
+        TreeItemInfo * getChild(size_t idx)
+        { return mChildren[idx]; }
+
+        void addChild(TreeItemInfo * inItem)
+        { mChildren.push_back(inItem); }
 
     private:
         std::string mLabel;
@@ -1707,7 +1812,8 @@ namespace XULWin
 
 
     class StatusbarImpl : public NativeControl,
-                          public BoxLayouter
+                          public BoxLayouter,
+                          public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
@@ -1724,17 +1830,32 @@ namespace XULWin
 
         virtual Align getAlign() const;
 
-        virtual size_t numChildren() const;
-
-        virtual const ElementImpl * getChild(size_t idx) const;
-
-        virtual ElementImpl * getChild(size_t idx);
-
         virtual Rect clientRect() const;
 
         virtual void rebuildChildLayouts();
 
         virtual void rebuildLayout();
+
+        virtual Orient BoxLayouter_getOrient() const
+        { return getOrient(); }
+
+        virtual Align BoxLayouter_getAlign() const
+        { return getAlign(); }
+
+        virtual size_t BoxLayouter_getChildCount() const
+        { return getChildCount(); }
+
+        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        { return getChild(idx); }
+
+        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        { return getChild(idx); }
+
+        virtual Rect BoxLayouter_clientRect() const
+        { return clientRect(); }
+
+        virtual void BoxLayouter_rebuildChildLayouts()
+        { rebuildChildLayouts(); }
     };
 
 

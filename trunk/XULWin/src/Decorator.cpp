@@ -41,6 +41,56 @@ namespace XULWin
     }
 
 
+    int Decorator::getIndex() const
+    {
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getIndex();
+        }
+        return 0;
+    }
+
+
+    size_t Decorator::getChildCount() const
+    {
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getChildCount();
+        }
+        return 0;
+    }
+
+
+    const ElementImpl * Decorator::getChild(size_t inIndex) const
+    {
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getChild(inIndex);
+        }
+        return 0;
+    }
+
+
+    ElementImpl * Decorator::getChild(size_t inIndex)
+    {
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getChild(inIndex);
+        }
+        return 0;
+    }
+
+
+    HWND Decorator::getFirstParentHandle()
+    {
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getFirstParentHandle();
+        }
+        return 0;
+    }
+
+
     int Decorator::getWidth() const
     {
         if (mDecoratedElement)

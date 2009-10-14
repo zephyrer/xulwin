@@ -33,9 +33,9 @@ namespace SVG
         Gdiplus::Graphics g(inHDC);
         g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
         g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            if (SVGPainter * svg = el()->children()[idx]->impl()->downcast<SVGPainter>())
+            if (SVGPainter * svg = getChild(idx)->downcast<SVGPainter>())
             {
                 svg->paint(g);
             }
@@ -161,9 +161,9 @@ namespace SVG
     
     void SVGGroupImpl::paint(Gdiplus::Graphics & g)
     {
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            if (SVGPainter * svg = el()->children()[idx]->impl()->downcast<SVGPainter>())
+            if (SVGPainter * svg = getChild(idx)->downcast<SVGPainter>())
             {
                 svg->paint(g);
             }

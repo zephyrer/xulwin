@@ -3,7 +3,6 @@
 
 
 #include <boost/shared_ptr.hpp>
-#include <boost/signal.hpp>
 #include <map>
 #include <string>
 #include <vector>
@@ -109,7 +108,6 @@ namespace Windows
 
 			ToolbarItems mToolbarItems;
 			CustomWindowPositions mCustomWindowPositions;
-			std::vector<boost::signals::connection> mConnections;
 	};
 
 } // namespace Windows

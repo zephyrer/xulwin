@@ -5,7 +5,6 @@
 #include "XULWin/PopupMenu.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
-#include <boost/signal.hpp>
 #include <boost/utility.hpp>
 #include <windows.h>
 #include <gdiplus.h>

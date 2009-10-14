@@ -75,8 +75,6 @@ namespace Windows
 			mActiveDropDown = 0;
 		}
 
-		for_each(mConnections.begin(), mConnections.end(), boost::bind(&boost::signals::connection::disconnect, _1));
-
 		mToolbarItems.clear();
 
 		(WNDPROC)(LONG_PTR)SetWindowLongPtr(mHandle, GWLP_WNDPROC, (LONG)(LONG_PTR)mToolbarProc);

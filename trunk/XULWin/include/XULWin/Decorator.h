@@ -22,6 +22,16 @@ namespace XULWin
         virtual ~Decorator();
 
         virtual bool initImpl();
+
+        virtual int getIndex() const;
+
+        virtual size_t getChildCount() const;
+
+        virtual const ElementImpl * getChild(size_t inIndex) const;
+
+        virtual ElementImpl * getChild(size_t inIndex);
+
+        virtual HWND getFirstParentHandle();
         
         // WidthController methods
         virtual int getWidth() const;

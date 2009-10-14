@@ -75,8 +75,50 @@ namespace XULWin
         mIsInitialized = true;
         return true;
     }
+    
+    
+    int ConcreteElement::getIndex() const
+    {
+        size_t idx = 0;
+        for (; idx != parent()->getChildCount(); ++idx)
+        {
+            if (this == parent()->getChild(idx))
+            {
+                return idx;
+            }
+        }
+        return idx;
+    }
+
+
+    size_t ConcreteElement::getChildCount() const
+    {
+        return el()->children().size();
+    }
+
+
+    const ElementImpl * ConcreteElement::getChild(size_t inIndex) const
+    {
+        return el()->children()[inIndex]->impl();
+    }
 
     
+    ElementImpl * ConcreteElement::getChild(size_t inIndex)
+    {
+        return el()->children()[inIndex]->impl();
+    }
+
+    
+    HWND ConcreteElement::getFirstParentHandle()
+    {
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(parent()))
+        {
+            return comp->handle();
+        }
+        return 0;
+    }
+
+
     const RGBColor & ConcreteElement::getCSSFill() const
     {
         if (mCSSFill.isValid())
@@ -298,9 +340,9 @@ namespace XULWin
     void ConcreteElement::setHidden(bool inHidden)
     {
         mHidden = inHidden;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            el()->children()[idx]->impl()->setHidden(inHidden);
+            getChild(idx)->setHidden(inHidden);
         }
     }
 
@@ -870,6 +912,7 @@ namespace XULWin
 
     NativeWindow::NativeWindow(const AttributesMapping & inAttributesMapping) :
         NativeComponent(0, inAttributesMapping),
+        BoxLayouter(this),
         mActiveDialog(0),
         mActiveMenu(0)
     {
@@ -909,9 +952,9 @@ namespace XULWin
             {
                 if (MenuPopupImpl * popup = menu->findChildOfType<MenuPopupImpl>())
                 {
-                    for (size_t idx = 0; idx != popup->el()->children().size(); ++idx)
+                    for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
                     {
-                        ElementImpl * childImpl = popup->el()->children()[idx]->impl();
+                        ElementImpl * childImpl = popup->getChild(idx);
                         if (MenuImpl * menu = childImpl->downcast<MenuImpl>())
                         {
                             Windows::insertMenuItem(mMenuHandle, idx, menu->commandId(), menu->getLabel());
@@ -961,7 +1004,7 @@ namespace XULWin
     {
         int result = 0;
         
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child(el()->children()[idx]);
             int width = child->impl()->getWidth(inSizeConstraint);
@@ -981,7 +1024,7 @@ namespace XULWin
     int NativeWindow::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child(el()->children()[idx]);
             int height = child->impl()->getHeight(inSizeConstraint);
@@ -1031,16 +1074,6 @@ namespace XULWin
     void NativeWindow::setTitle(const std::string & inTitle)
     {
         Windows::setWindowText(handle(), inTitle);
-    }
-
-    
-    size_t NativeWindow::numChildren() const
-    {
-        if (el())
-        {
-            return el()->children().size();
-        }
-        return 0;
     }
 
 
@@ -1127,7 +1160,7 @@ namespace XULWin
 
     void NativeWindow::showMenu(MenuImpl * inMenu)
     {     
-        if (NativeComponent * comp = NativeControl::GetNativeParent(this))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
         {
             size_t menuIndex = getPositionInMenuBar(inMenu);
             if (::GetMenuItemCount(mMenuHandle) != menuIndex)
@@ -1327,6 +1360,7 @@ namespace XULWin
 
     NativeDialog::NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping),
+        BoxLayouter(this),
         mInvoker(0),
         mDialogResult(DialogResult_Cancel)
     {
@@ -1393,7 +1427,7 @@ namespace XULWin
     {
         int result = 0;
         
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child(el()->children()[idx]);
             int width = child->impl()->getWidth(inSizeConstraint);
@@ -1413,7 +1447,7 @@ namespace XULWin
     int NativeDialog::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child(el()->children()[idx]);
             int height = child->impl()->getHeight(inSizeConstraint);
@@ -1465,22 +1499,12 @@ namespace XULWin
         Windows::setWindowText(handle(), inTitle);
     }
 
-    
-    size_t NativeDialog::numChildren() const
-    {
-        if (el())
-        {
-            return el()->children().size();
-        }
-        return 0;
-    }
-
 
     const ElementImpl * NativeDialog::getChild(size_t idx) const
     {
         if (el())
         {
-            return el()->children()[idx]->impl();
+            return getChild(idx);
         }
         return 0;
     }
@@ -1490,7 +1514,7 @@ namespace XULWin
     {
         if (el())
         {
-            return el()->children()[idx]->impl();
+            return getChild(idx);
         }
         return 0;
     }
@@ -1721,7 +1745,7 @@ namespace XULWin
 
         Rect clientRect = inParent->clientRect();
 
-        NativeComponent * nativeParent = GetNativeParent(inParent);
+        NativeComponent * nativeParent = GetNativeThisOrParent(inParent);
         if (!nativeParent)
         {
             ReportError("NativeControl constructor failed because no native parent was found.");
@@ -1820,7 +1844,7 @@ namespace XULWin
     }
     
     
-    const NativeComponent * NativeControl::GetNativeParent(const ElementImpl * inElementImpl)
+    const NativeComponent * NativeControl::GetNativeThisOrParent(const ElementImpl * inElementImpl)
     {
         if (const NativeComponent * obj = dynamic_cast<const NativeComponent*>(inElementImpl))
         {
@@ -1828,19 +1852,19 @@ namespace XULWin
         }
         else if (const Decorator * obj = dynamic_cast<const Decorator*>(inElementImpl))
         {
-            return GetNativeParent(obj->decoratedElement().get());
+            return GetNativeThisOrParent(obj->decoratedElement().get());
         }
         else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent*>(inElementImpl))
         {
-            return GetNativeParent(obj->parent());
+            return GetNativeThisOrParent(obj->parent());
         }
         return 0;
     }
     
     
-    NativeComponent * NativeControl::GetNativeParent(ElementImpl * inElementImpl)
+    NativeComponent * NativeControl::GetNativeThisOrParent(ElementImpl * inElementImpl)
     {
-        return const_cast<NativeComponent *>(GetNativeParent(const_cast<const ElementImpl*>(inElementImpl)));
+        return const_cast<NativeComponent *>(GetNativeThisOrParent(const_cast<const ElementImpl*>(inElementImpl)));
     }
     
     
@@ -2157,7 +2181,8 @@ namespace XULWin
 
     
     VirtualBox::VirtualBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+        VirtualComponent(inParent, inAttributesMapping),
+        BoxLayouter(this)
     {
     }
         
@@ -2192,28 +2217,29 @@ namespace XULWin
     }
 
 
-    BoxLayouter::BoxLayouter()
+    BoxLayouter::BoxLayouter(ContentProvider * inContentProvider) :
+        mContentProvider(inContentProvider)
     {
     }
 
 
     int BoxLayouter::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (getOrient() == Horizontal)
+        if (mContentProvider->BoxLayouter_getOrient() == Horizontal)
         {
             int result = 0;
-            for (size_t idx = 0; idx != numChildren(); ++idx)
+            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
             {
-                result += getChild(idx)->getWidth(inSizeConstraint);
+                result += mContentProvider->BoxLayouter_getChild(idx)->getWidth(inSizeConstraint);
             }
             return result;
         }
-        else if (getOrient() == Vertical)
+        else if (mContentProvider->BoxLayouter_getOrient() == Vertical)
         {
             int result = 0;
-            for (size_t idx = 0; idx != numChildren(); ++idx)
+            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
             {
-                int width = getChild(idx)->getWidth(inSizeConstraint);
+                int width = mContentProvider->BoxLayouter_getChild(idx)->getWidth(inSizeConstraint);
                 if (width > result)
                 {
                     result = width;
@@ -2231,12 +2257,12 @@ namespace XULWin
 
     int BoxLayouter::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (getOrient() == Horizontal)
+        if (mContentProvider->BoxLayouter_getOrient() == Horizontal)
         {
             int result = 0;
-            for (size_t idx = 0; idx != numChildren(); ++idx)
+            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
             {
-                int height = getChild(idx)->getHeight(inSizeConstraint);
+                int height = mContentProvider->BoxLayouter_getChild(idx)->getHeight(inSizeConstraint);
                 if (height > result)
                 {
                     result = height;
@@ -2244,12 +2270,12 @@ namespace XULWin
             }
             return result;
         }
-        else if (getOrient() == Vertical)
+        else if (mContentProvider->BoxLayouter_getOrient() == Vertical)
         {
             int result = 0;
-            for (size_t idx = 0; idx != numChildren(); ++idx)
+            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
             {
-                result += getChild(idx)->getHeight(inSizeConstraint);
+                result += mContentProvider->BoxLayouter_getChild(idx)->getHeight(inSizeConstraint);
             }
             return result;
         }
@@ -2263,14 +2289,14 @@ namespace XULWin
     
     void BoxLayouter::rebuildLayout()
     {     
-        Rect clientR(clientRect());   
-        LinearLayoutManager layout(getOrient());
-        bool horizontal = getOrient() == Horizontal;
+        Rect clientR(mContentProvider->BoxLayouter_clientRect());   
+        LinearLayoutManager layout(mContentProvider->BoxLayouter_getOrient());
+        bool horizontal = mContentProvider->BoxLayouter_getOrient() == Horizontal;
         std::vector<ExtendedSizeInfo> sizeInfos;
 
-        for (size_t idx = 0; idx != numChildren(); ++idx)
+        for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
         {
-            ElementImpl * child = getChild(idx);
+            ElementImpl * child = mContentProvider->BoxLayouter_getChild(idx);
             std::string flex;
             if (child->el())
             {
@@ -2289,21 +2315,22 @@ namespace XULWin
         }
 
         std::vector<Rect> childRects;
-        layout.getRects(clientR, getAlign(), sizeInfos, childRects);
+        layout.getRects(clientR, mContentProvider->BoxLayouter_getAlign(), sizeInfos, childRects);
 
-        for (size_t idx = 0; idx != numChildren(); ++idx)
+        for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
         {
-            ElementImpl * child = getChild(idx);
+            ElementImpl * child = mContentProvider->BoxLayouter_getChild(idx);
             const Rect & rect = childRects[idx];
             child->move(rect.x(), rect.y(), rect.width(), rect.height());
         }
 
-        rebuildChildLayouts();
+        mContentProvider->BoxLayouter_rebuildChildLayouts();
     }
         
 
     NativeBox::NativeBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP)
+        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
+        BoxLayouter(this)
     {
     }
 
@@ -2341,12 +2368,6 @@ namespace XULWin
     Rect NativeBox::clientRect() const
     {
         return Super::clientRect();
-    }
-
-
-    size_t NativeBox::numChildren() const
-    {
-        return mElement->children().size();
     }
 
     
@@ -2446,7 +2467,7 @@ namespace XULWin
 
     void MenuImpl::showPopupMenu(RECT inExcludeRect)
     {
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
@@ -2466,7 +2487,7 @@ namespace XULWin
     Windows::PopupMenu * MenuPopupImpl::getMenu()
     {
         Windows::PopupMenu * popupMenu = new Windows::PopupMenu;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (MenuItemImpl * menuItem = child->impl()->downcast<MenuItemImpl>())
@@ -2493,7 +2514,7 @@ namespace XULWin
         
     void MenuPopupImpl::show(RECT inExcludeRect)
     {
-        if (NativeComponent * comp = NativeControl::GetNativeParent(this))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
         {
             POINT location;
             location.x = inExcludeRect.left;
@@ -2556,7 +2577,7 @@ namespace XULWin
     
     int MenuItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<MenuItemImpl*>(this)))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItemImpl*>(this)))
         {
             return Windows::getTextSize(comp->handle(), getLabel()).cx;
         }
@@ -2566,7 +2587,7 @@ namespace XULWin
 
     int MenuItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<MenuItemImpl*>(this)))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItemImpl*>(this)))
         {
             return Windows::getTextSize(comp->handle(), getLabel()).cy;
         }
@@ -2607,7 +2628,7 @@ namespace XULWin
     {        
         if (MenuPopupImpl * popup = findChildOfType<MenuPopupImpl>())
         {
-            for (size_t idx = 0; idx != popup->el()->children().size(); ++idx)
+            for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
             {
                 ElementPtr child = popup->el()->children()[idx];
                 if (MenuItemImpl * item = child->impl()->downcast<MenuItemImpl>())
@@ -2740,14 +2761,14 @@ namespace XULWin
     int VirtualGrid::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (NativeColumns * cols = child->impl()->downcast<NativeColumns>())
             {
-                for (size_t idx = 0; idx != cols->el()->children().size(); ++idx)
+                for (size_t idx = 0; idx != cols->getChildCount(); ++idx)
                 {
-                    if (NativeColumn * col = cols->el()->children()[idx]->impl()->downcast<NativeColumn>())
+                    if (NativeColumn * col = cols->getChild(idx)->downcast<NativeColumn>())
                     {
                         result += col->getWidth(inSizeConstraint);
                     }
@@ -2761,14 +2782,14 @@ namespace XULWin
     int VirtualGrid::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (NativeRows * rows = child->impl()->downcast<NativeRows>())
             {
-                for (size_t idx = 0; idx != rows->el()->children().size(); ++idx)
+                for (size_t idx = 0; idx != rows->getChildCount(); ++idx)
                 {
-                    if (NativeRow * row = rows->el()->children()[idx]->impl()->downcast<NativeRow>())
+                    if (NativeRow * row = rows->getChild(idx)->downcast<NativeRow>())
                     {
                         result += row->getHeight(inSizeConstraint);
                     }
@@ -2788,7 +2809,7 @@ namespace XULWin
         int numRows = 0;
         ElementPtr columns;
         ElementPtr rows;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (child->type() == Rows::Type())
@@ -2889,7 +2910,7 @@ namespace XULWin
                 {
                     if (NativeColumn * column = columns->children()[colIdx]->impl()->downcast<NativeColumn>())
                     {
-                        if (colIdx < row->el()->children().size())
+                        if (colIdx < row->getChildCount())
                         {                            
                             ElementImpl * child = row->el()->children()[colIdx]->impl();
                             widgetInfos.set(rowIdx, colIdx,
@@ -2948,14 +2969,14 @@ namespace XULWin
     int NativeGrid::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (NativeColumns * cols = child->impl()->downcast<NativeColumns>())
             {
-                for (size_t idx = 0; idx != cols->el()->children().size(); ++idx)
+                for (size_t idx = 0; idx != cols->getChildCount(); ++idx)
                 {
-                    if (NativeColumn * col = cols->el()->children()[idx]->impl()->downcast<NativeColumn>())
+                    if (NativeColumn * col = cols->getChild(idx)->downcast<NativeColumn>())
                     {
                         result += col->getWidth(inSizeConstraint);
                     }
@@ -2969,14 +2990,14 @@ namespace XULWin
     int NativeGrid::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (NativeRows * rows = child->impl()->downcast<NativeRows>())
             {
-                for (size_t idx = 0; idx != rows->el()->children().size(); ++idx)
+                for (size_t idx = 0; idx != rows->getChildCount(); ++idx)
                 {
-                    if (NativeRow * row = rows->el()->children()[idx]->impl()->downcast<NativeRow>())
+                    if (NativeRow * row = rows->getChild(idx)->downcast<NativeRow>())
                     {
                         result += row->getHeight(inSizeConstraint);
                     }
@@ -2996,7 +3017,7 @@ namespace XULWin
         int numRows = 0;
         ElementPtr columns;
         ElementPtr rows;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (child->type() == Rows::Type())
@@ -3098,7 +3119,7 @@ namespace XULWin
                 {
                     if (NativeColumn * column = columns->children()[colIdx]->impl()->downcast<NativeColumn>())
                     {
-                        if (colIdx < row->el()->children().size())
+                        if (colIdx < row->getChildCount())
                         {
                             ElementImpl * child = row->el()->children()[colIdx]->impl();
                             widgetInfos.set(rowIdx, colIdx,
@@ -3367,7 +3388,7 @@ namespace XULWin
 
     void NativeDeck::rebuildLayout()
     {
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr element = el()->children()[idx];
             bool visible = idx == mSelectedIndex;
@@ -3386,9 +3407,9 @@ namespace XULWin
     int NativeDeck::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int res = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            int w = el()->children()[idx]->impl()->getWidth(inSizeConstraint);
+            int w = getChild(idx)->getWidth(inSizeConstraint);
             if (w > res)
             {
                 res = w;
@@ -3401,9 +3422,9 @@ namespace XULWin
     int NativeDeck::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int res = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            int h = el()->children()[idx]->impl()->getHeight(inSizeConstraint);
+            int h = getChild(idx)->getHeight(inSizeConstraint);
             if (h > res)
             {
                 res = h;
@@ -3683,7 +3704,7 @@ namespace XULWin
         mSelectedIndex(0),
         mChildCount(0)
     {
-        NativeComponent * nativeParent = NativeControl::GetNativeParent(inParent);
+        NativeComponent * nativeParent = NativeControl::GetNativeThisOrParent(inParent);
         if (!nativeParent)
         {
             ReportError("TabPanelsImpl constructor failed because no native parent was found.");
@@ -3752,9 +3773,9 @@ namespace XULWin
     void TabPanelsImpl::rebuildLayout()
     {
         Rect rect = clientRect();
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * elementImpl = el()->children()[idx]->impl();
+            ElementImpl * elementImpl = getChild(idx);
             elementImpl->move(rect.x(),
                               rect.y() + Defaults::tabHeight(),
                               rect.width(),
@@ -3768,9 +3789,9 @@ namespace XULWin
     int TabPanelsImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int res = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            int w = el()->children()[idx]->impl()->getWidth(inSizeConstraint);
+            int w = getChild(idx)->getWidth(inSizeConstraint);
             if (w > res)
             {
                 res = w;
@@ -3783,9 +3804,9 @@ namespace XULWin
     int TabPanelsImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int res = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            int h = el()->children()[idx]->impl()->getHeight(inSizeConstraint);
+            int h = getChild(idx)->getHeight(inSizeConstraint);
             if (h > res)
             {
                 res = h;
@@ -3800,7 +3821,7 @@ namespace XULWin
         int selectedIndex = TabCtrl_GetCurSel(mTabBarHandle);
         for (size_t idx = 0; idx != mChildCount; ++idx)
         {
-            el()->children()[idx]->impl()->setHidden(idx != selectedIndex);
+            getChild(idx)->setHidden(idx != selectedIndex);
         }
     }
 
@@ -3904,7 +3925,7 @@ namespace XULWin
         // There should be some more decent way to fix this. But for now
         // I just remove the flag from the parent. This may result in more
         // flickering during manual resize of the Window.
-        Windows::removeWindowStyle(NativeControl::GetNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
+        Windows::removeWindowStyle(NativeControl::GetNativeThisOrParent(inParent)->handle(), WS_CLIPCHILDREN);
 
 
         mGroupBoxHandle = CreateWindowEx(0,
@@ -3912,7 +3933,7 @@ namespace XULWin
                                          0,
                                          WS_VISIBLE | WS_CHILD | BS_GROUPBOX,
                                          0, 0, 0, 0,
-                                         NativeControl::GetNativeParent(inParent)->handle(),
+                                         NativeControl::GetNativeThisOrParent(inParent)->handle(),
                                          (HMENU)mCommandId.intValue(),
                                          GetModuleHandle(0),
                                          0);
@@ -3976,42 +3997,52 @@ namespace XULWin
     }
 
     
+    // The 'caption' is optionally the first child element of the groupbox.
+    // This element is responsible for setting the groupbox title and it has
+    // no other purpose than that.
+    // I think this is a design error in Mozilla XUL. The groupbox title should
+    // have been an attribute, not a child element.
+    // However, we want to be compatible with Mozilla XUL so we have to support it.
+
+    // In order to keep the layout managers from taking the caption element
+    // into account we never return it and return the element after it instead.
+    // This requires getChildCount to be overridden as well to make it return
+    // the number of children minus one.
     const ElementImpl * GroupBoxImpl::getChild(size_t idx) const
     {
-        if (!mElement->children().empty())
+        if (Super::getChildCount() > 0)
         {
-            if (mElement->children()[0]->type() == Caption::Type())
+            if (Super::getChild(0)->el()->type() == Caption::Type())
             {
-                return mElement->children()[idx + 1]->impl();
+                assert (idx + 1 < Super::getChildCount());
+                if (idx + 1 < Super::getChildCount())
+                {
+                    return Super::getChild(idx + 1);
+                }
             }
         }
-        return mElement->children()[idx]->impl();
+        return Super::getChild(idx);
     }
 
     
     ElementImpl * GroupBoxImpl::getChild(size_t idx)
     {
-        if (!mElement->children().empty())
-        {
-            if (mElement->children()[0]->type() == Caption::Type())
-            {
-                return mElement->children()[idx + 1]->impl();
-            }
-        }
-        return mElement->children()[idx]->impl();
+        return const_cast<ElementImpl *>(static_cast<const GroupBoxImpl*>(this)->getChild(idx));
     }
     
     
-    size_t GroupBoxImpl::numChildren() const
+    // Returns number of children minus the caption element.
+    // See documention of GroupBoxImpl::getChild method for more information.
+    size_t GroupBoxImpl::getChildCount() const
     {
-        if (!mElement->children().empty())
+        if (Super::getChildCount() > 0)
         {
-            if (mElement->children()[0]->type() == Caption::Type())
+            if (Super::getChild(0)->el()->type() == Caption::Type())
             {
-                return mElement->children().size() - 1;
+                return Super::getChildCount() - 1;
             }
         }
-        return mElement->children().size();
+        return Super::getChildCount();
     }
 
 
@@ -4023,7 +4054,7 @@ namespace XULWin
     
     int CaptionImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetNativeParent(mParent))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(mParent))
         {
             return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
         }
@@ -4033,7 +4064,7 @@ namespace XULWin
     
     int CaptionImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetNativeParent(mParent))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(mParent))
         {
             return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
         }
@@ -4101,7 +4132,7 @@ namespace XULWin
         inPrev = (HTREEITEM)SendMessage(handle(), TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&tvins);
 
         HTREEITEM prevChild = TVI_FIRST;
-        for (size_t idx = 0; idx != inInfo.numChildren(); ++idx)
+        for (size_t idx = 0; idx != inInfo.getChildCount(); ++idx)
         {
             prevChild = addInfo(inPrev, prevChild, *inInfo.getChild(idx));
         }
@@ -4135,10 +4166,10 @@ namespace XULWin
     int TreeChildrenImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * child = el()->children()[idx]->impl();
-            if (TreeItemImpl * item = child->downcast<TreeItemImpl>())
+            const ElementImpl * child = getChild(idx);
+            if (const TreeItemImpl * item = child->constDowncast<TreeItemImpl>())
             {
                 result += item->calculateHeight(inSizeConstraint);
             }
@@ -4150,10 +4181,10 @@ namespace XULWin
     int TreeChildrenImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * child = el()->children()[idx]->impl();
-            if (TreeItemImpl * item = child->downcast<TreeItemImpl>())
+            const ElementImpl * child = getChild(idx);
+            if (const TreeItemImpl * item = child->constDowncast<TreeItemImpl>())
             {
                 int minWidth = item->calculateWidth(inSizeConstraint);
                 if (result < minWidth)
@@ -4216,7 +4247,7 @@ namespace XULWin
     
     bool TreeItemImpl::isOpened() const
     {
-        //if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<TreeItemImpl*>(this)))
+        //if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<TreeItemImpl*>(this)))
         //{
         //    TreeView_GetItemState(comp->handle(), hti, mask);
         //}
@@ -4236,9 +4267,9 @@ namespace XULWin
         }
         if (TreeChildrenImpl * treeChildren = findChildOfType<TreeChildrenImpl>())
         {
-            for (size_t idx = 0; idx != treeChildren->el()->children().size(); ++idx)
+            for (size_t idx = 0; idx != treeChildren->getChildCount(); ++idx)
             {
-                ElementImpl * child = treeChildren->el()->children()[idx]->impl();
+                ElementImpl * child = treeChildren->getChild(idx);
                 if (TreeItemImpl * item = child->downcast<TreeItemImpl>())
                 {
                     mItemInfo.addChild(&item->itemInfo());
@@ -4270,10 +4301,10 @@ namespace XULWin
     int TreeRowImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * child = el()->children()[idx]->impl();
-            if (TreeCellImpl * cell = child->downcast<TreeCellImpl>())
+            const ElementImpl * child = getChild(idx);
+            if (const TreeCellImpl * cell = child->constDowncast<TreeCellImpl>())
             {
                 result += cell->calculateWidth(inSizeConstraint);
             }
@@ -4285,10 +4316,10 @@ namespace XULWin
     int TreeRowImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * child = el()->children()[idx]->impl();
-            if (TreeCellImpl * cell = child->downcast<TreeCellImpl>())
+            const ElementImpl * child = getChild(idx);
+            if (const TreeCellImpl * cell = child->constDowncast<TreeCellImpl>())
             {
                 result += cell->calculateHeight(inSizeConstraint);
             }
@@ -4325,7 +4356,7 @@ namespace XULWin
     int TreeCellImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<TreeCellImpl*>(this)))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<TreeCellImpl*>(this)))
         {
             result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
         }
@@ -4340,7 +4371,8 @@ namespace XULWin
 
 
     StatusbarImpl::StatusbarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP)
+        NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
+        BoxLayouter(this)
     {
     }
 
@@ -4354,9 +4386,9 @@ namespace XULWin
     int StatusbarImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * child = el()->children()[idx]->impl();
+            const ElementImpl * child = getChild(idx);
             result += child->calculateWidth(inSizeConstraint);
         }
         return result;
@@ -4378,24 +4410,6 @@ namespace XULWin
     Align StatusbarImpl::getAlign() const
     {
         return Center;
-    }
-
-
-    size_t StatusbarImpl::numChildren() const
-    {
-        return el()->children().size();
-    }
-
-
-    const ElementImpl * StatusbarImpl::getChild(size_t idx) const
-    {
-        return el()->children()[idx]->impl();
-    }
-
-
-    ElementImpl * StatusbarImpl::getChild(size_t idx)
-    {
-        return el()->children()[idx]->impl();
     }
 
 
@@ -4446,7 +4460,7 @@ namespace XULWin
     ToolbarImpl::ToolbarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping)
     {            
-        if (NativeComponent * nativeComponent = NativeControl::GetNativeParent(inParent))
+        if (NativeComponent * nativeComponent = NativeControl::GetNativeThisOrParent(inParent))
         {
             RECT rect;
             rect.top = 0;
@@ -4485,9 +4499,9 @@ namespace XULWin
     int ToolbarImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * child = el()->children()[idx]->impl();
+            const ElementImpl * child = getChild(idx);
             result += child->calculateWidth(inSizeConstraint);
         }
         return result;
@@ -4497,9 +4511,9 @@ namespace XULWin
     int ToolbarImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * child = el()->children()[idx]->impl();
+            const ElementImpl * child = getChild(idx);
             int minHeight = child->calculateHeight(inSizeConstraint);
             if (minHeight > result)
             {
@@ -4590,7 +4604,7 @@ namespace XULWin
 
     void ToolbarButtonImpl::showPopupMenu(RECT inToolbarButtonRect)
     {
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (MenuPopupImpl * popupMenu = child->impl()->downcast<MenuPopupImpl>())
@@ -4733,9 +4747,9 @@ namespace XULWin
     int ListBoxImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            int width = el()->children()[idx]->impl()->calculateWidth(inSizeConstraint);
+            int width = getChild(idx)->calculateWidth(inSizeConstraint);
             if (width > result)
             {
                 result = width;
@@ -4748,9 +4762,9 @@ namespace XULWin
     int ListBoxImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != el()->children().size(); ++idx)
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            result += el()->children()[idx]->impl()->calculateHeight(inSizeConstraint);
+            result += getChild(idx)->calculateHeight(inSizeConstraint);
         }
         int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
         return result + extraHeight;
@@ -4765,7 +4779,7 @@ namespace XULWin
         
     bool ListBoxItemImpl::initImpl()
     {        
-        if (NativeComponent * comp = NativeControl::GetNativeParent(this))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
         {
             Windows::addStringToListBox(comp->handle(), getLabel());
         }

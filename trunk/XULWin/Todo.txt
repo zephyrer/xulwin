@@ -4,7 +4,7 @@ Helper methods:
 - getChild(size_t)
 - HWND getFirstParentHandle()
 - 
-
+- Cleanup BoxLayouter virtual methods, use a composition-based approach
 - Logger uses listbox
 - Support ListItem's selected attribute 
 - Add sample for custom xul element

@@ -41,15 +41,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::LuaBindingsTest tester;
     ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, &tester, _1));
 
-    //runConfigSample();
-    //runImageViewerSample();    
+    runConfigSample();
+    runImageViewerSample();    
     tester.runXULSample("hello");
-    //tester.runXULSample("toolbar");
-    //tester.runXULSample("widgets");
-    //tester.runXULSample("tabbox");
-    //tester.runXULSample("treeview");
-    //tester.runXULSample("configpanel");
-    //tester.runXULSample("shout");
-    //tester.runXULSample("svg");
+    tester.runXULSample("toolbar");
+    tester.runXULSample("widgets");
+    tester.runXULSample("tabbox");
+    tester.runXULSample("treeview");
+    tester.runXULSample("configpanel");
+    tester.runXULSample("shout");
+    tester.runXULSample("svg");
     return 0;
 }

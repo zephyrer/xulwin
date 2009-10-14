@@ -10,9 +10,5 @@
     <listitem label="EmeraldEmeraldEmeraldEmeraldEmeraldEmerald"/>
     <listitem label="Sapphire" selected="true"/>
     <listitem label="Diamond"/>
-    <listitem label="Ruby"/>
-    <listitem label="Emerald"/>
-    <listitem label="Sapphire" selected="true"/>
-    <listitem label="Diamond"/>
   </listbox>
 </window>

@@ -109,6 +109,12 @@ namespace Windows
         ::SendMessage(inHandle, LB_GETITEMRECT, (WPARAM)inIndex, (LPARAM)&outRect);
     }
 
+    
+    void setListItemSelected(HWND inHandle, int inIndex)
+    {
+        ::SendMessage(inHandle, LB_SETCURSEL, (WPARAM)inIndex, (LPARAM)0);
+    }
+
 
     void clearComboBox(HWND inHandle)
     {

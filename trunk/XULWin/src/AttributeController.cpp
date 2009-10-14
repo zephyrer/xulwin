@@ -66,6 +66,19 @@ namespace XULWin
     }
 
 
+
+    void SelectedController::get(std::string & outValue)
+    {
+        outValue = Bool2String(isSelected());
+    }
+
+
+    void SelectedController::set(const std::string & inValue)
+    {
+        setSelected(String2Bool(inValue, true));
+    }
+
+
     void HiddenController::get(std::string & outValue)
     {
         outValue = Bool2String(isHidden());

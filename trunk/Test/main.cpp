@@ -32,16 +32,16 @@ void runImageViewerSample()
 
 void startTest(XULWin::LuaBindingsTest & tester)
 {
-    runConfigSample();
-    runImageViewerSample();    
+    //runConfigSample();
+    //runImageViewerSample();    
     tester.runXULSample("hello");
-    tester.runXULSample("toolbar");
-    tester.runXULSample("widgets");
-    tester.runXULSample("tabbox");
-    tester.runXULSample("treeview");
-    tester.runXULSample("configpanel");
-    tester.runXULSample("shout");
-    tester.runXULSample("svg");
+    //tester.runXULSample("toolbar");
+    //tester.runXULSample("widgets");
+    //tester.runXULSample("tabbox");
+    //tester.runXULSample("treeview");
+    //tester.runXULSample("configpanel");
+    //tester.runXULSample("shout");
+    //tester.runXULSample("svg");
 }
 
 

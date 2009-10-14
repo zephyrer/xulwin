@@ -1970,7 +1970,8 @@ namespace XULWin
 
 
     class ListItemImpl : public PassiveComponent,
-                            public LabelController
+                         public LabelController,
+                         public SelectedController
     {
     public:
         typedef PassiveComponent Super;
@@ -1985,12 +1986,17 @@ namespace XULWin
 
         virtual void setLabel(const std::string & inLabel);
 
+        virtual bool isSelected() const;
+
+        virtual void setSelected(bool inSelected);
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
     private:
         std::string mLabel;
+        bool mSelected;
     };
 
 

@@ -4786,16 +4786,21 @@ namespace XULWin
 
 
     ListItemImpl::ListItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        PassiveComponent(inParent, inAttributesMapping),
+        mSelected(false)
     {
     }
         
         
     bool ListItemImpl::initImpl()
-    {        
+    {
         if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
         {
             Windows::addStringToListBox(comp->handle(), getLabel());
+            if (isSelected())
+            {
+                Windows::setListItemSelected(comp->handle(), getIndex());
+            }
         }
         return Super::initImpl();
     }
@@ -4813,9 +4818,22 @@ namespace XULWin
     }
 
 
+    bool ListItemImpl::isSelected() const
+    {
+        return mSelected;
+    }
+
+
+    void ListItemImpl::setSelected(bool inSelected)
+    {
+        mSelected = inSelected;
+    }
+
+
     bool ListItemImpl::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
+        setAttributeController("selected", static_cast<SelectedController*>(this));
         return Super::initAttributeControllers();
     }
 

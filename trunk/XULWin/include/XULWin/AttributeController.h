@@ -95,6 +95,21 @@ namespace XULWin
     };
 
 
+    class SelectedController : public AttributeController
+    {
+    public:
+        SelectedController(){}
+
+        virtual void get(std::string & outValue);
+
+        virtual void set(const std::string & inValue);
+
+        virtual bool isSelected() const = 0;
+
+        virtual void setSelected(bool inSelected) = 0;
+    };
+
+
     class HiddenController : public AttributeController
     {
     public:

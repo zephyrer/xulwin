@@ -55,6 +55,9 @@ namespace Windows
 
     void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect);
 
+    // Use index -1 to deselect
+    void setListItemSelected(HWND inHandle, int inIndex);
+
     void clearComboBox(HWND inHandle);
 
     // returns CB_ERR (-1) if not found

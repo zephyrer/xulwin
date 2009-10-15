@@ -8,17 +8,30 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <!-- Creates a two column listbox -->
   <listbox>
+
+    <listhead>
+      <listheader label="Name"/>
+      <listheader label="Occupation"/>
+    </listhead>
+
     <listcols>
-      <listcol flex="1"/>
+      <listcol/>
       <listcol flex="1"/>
     </listcols>
+
     <listitem>
-      <listcell label="Buck"/>
-      <listcell label="Rogers"/>
+      <listcell label="George"/>
+      <listcell label="House Painter"/>
     </listitem>
     <listitem>
-      <listcell label="John"/>
-      <listcell label="Painter"/>
+      <listcell label="Mary Ellen"/>
+      <listcell label="Candle Maker"/>
     </listitem>
+    <listitem>
+      <listcell label="Roger"/>
+      <listcell label="Swashbuckler"/>
+    </listitem>
+
   </listbox>
+
 </window>

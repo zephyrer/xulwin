@@ -9,8 +9,8 @@ namespace XULWin
         Super(inParent,
               inAttributesMapping,
               WC_LISTVIEW,
-              0,
-              0)
+              WS_EX_CLIENTEDGE,
+              LVS_REPORT)
     {
     }
 

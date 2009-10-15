@@ -55,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     Windows::CommonControlsInitializer ccInit;
 
     XULWin::LuaBindingsTest tester;
-    ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, &tester, _1));
+    
     startTest(tester);
     //TwitterTest twitterTest;
     return 0;

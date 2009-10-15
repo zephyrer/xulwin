@@ -30,18 +30,16 @@ namespace XULWin
             //getElementsByType(ListCols::Type(), elements);
             // If we have a <listcols> element, then we are a ListView
             if (findChildOfType<ListCols>())
-            {
-                
+            {   
                 ListViewImpl * listView = new ListViewImpl(parent()->impl(), mAttributes);
-                proxy->swap(listView);
+                proxy->swap(new MarginDecorator(listView));
             }
             else
             {
                 ListBoxImpl * listBox = new ListBoxImpl(parent()->impl(), mAttributes);
-                proxy->swap(listBox);
+                proxy->swap(new MarginDecorator(listBox));
             }
         }
-        //new MarginDecorator(new ListBoxImpl(inParent->impl(), inAttributesMapping))
         return Element::init();
     }
 

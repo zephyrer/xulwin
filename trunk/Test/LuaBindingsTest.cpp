@@ -1,6 +1,7 @@
 #include "LuaBindingsTest.h"
 #include "Config.h"
 #include "XULWin/Element.h"
+#include "XULWin/ErrorReporter.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/LuaBindings.h"
@@ -23,6 +24,9 @@ namespace XULWin
             wnd->impl()->move(0, 800, 400, 100);
             wnd->show(Window::DefaultPosition);
         }
+        ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, this, _1));
+        ErrorCatcher errorCatcher;
+        ReportError("Test logger");
     }
 
 

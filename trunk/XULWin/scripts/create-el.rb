@@ -7,11 +7,6 @@ cppdir = projectpath + 'src/'
 classname = ARGV[0]
 projectname = "XULWin_vs80.vcproj"
 
-puts "Classname: " + classname
-puts "Element name: " + classname.downcase()
-puts "hppdir: " + hppdir
-puts "cppdir: " + cppdir
-
 hppfile = classname + ".h"
 hpppath = hppdir + hppfile
 
@@ -61,12 +56,15 @@ File.open("ElementImplTemplate.cpp", 'r') do |template|
     end
 end
 
+system("svn add #{hpppath}")
+system("svn add #{hppimplpath}")
+system("svn add #{cpppath}")
+system("svn add #{cppimplpath}")
 
 contents = ""
 File.open(projectpath + projectname, 'r') do |file|
     doc = REXML::Document.new file
     firstFile = doc.elements["VisualStudioProject/Files/Filter/"]
-    puts firstFile
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\include\\XULWin\\" + hppfile;

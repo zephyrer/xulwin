@@ -4,6 +4,7 @@ appName = ARGV[0]
 srcPath = "XULSampleTemplate/"
 targetPath = "../../xulrunnersamples/#{appName}/"
 system("svn export #{srcPath} #{targetPath}")
+File.delete(targetPath + "chrome/content/main.xul")
 
 applicationIniFile = "application.ini"
 File.open(srcPath + applicationIniFile, 'r') do |template|
@@ -25,9 +26,9 @@ File.open(srcPath + manifestFile, 'r') do |template|
     end
 end
 
-xulFile = "chrome/content/main.xul"
-File.open(srcPath + xulFile, 'r') do |template|
-    File.open(targetPath + xulFile, 'w') do |out|
+
+File.open(srcPath + "chrome/content/main.xul", 'r') do |template|
+    File.open(targetPath + "chrome/content/#{appName.downcase()}.xul", 'w') do |out|
         while (line = template.gets())
             out << line.gsub("{{APP_NAME}}", appName).gsub(
                              "{{APP_NAME_DOWNCASE}}", appName.downcase())

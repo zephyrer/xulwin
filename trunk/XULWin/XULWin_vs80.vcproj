@@ -627,6 +627,14 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+			<Filter
+				Name="CreateXULSample"
+				>
+				<File
+					RelativePath="..\Scripts\CreateXULSample\create-xul-sample.rb"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\Todo.txt"

@@ -44,3 +44,5 @@ File.open(srcPath + prefsFile, 'r') do |template|
         end
     end
 end
+
+system("svn add #{targetPath}")

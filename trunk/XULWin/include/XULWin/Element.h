@@ -27,16 +27,19 @@ namespace XULWin
     class EventListener;
 
     /**
-     * Represents a XUL element.
+     * Base class XUL elements.
+     * Class Element provides a string-based interface for UI components.
+     * For a C++ interface you need to get the ElementImpl object using the 
+     * impl() method.
      */
     class Element : private boost::noncopyable
     {
     public:
-        template<class T>
+        template<class ElementType>
         static ElementPtr Create(Element * inParent,
                                  const AttributesMapping & inAttr)
         {
-            ElementPtr result(new T(inParent, inAttr));
+            ElementPtr result(new ElementType(inParent, inAttr));
             result->initAttributeControllers();
             result->setAttributes(inAttr);
             result->initStyleControllers();

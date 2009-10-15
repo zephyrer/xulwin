@@ -1,6 +1,7 @@
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "XULWin/Lua/LuaBindings.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/ElementImpl.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/Script.h"
 #include "XULWin/WinUtils.h"

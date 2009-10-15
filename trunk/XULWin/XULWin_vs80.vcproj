@@ -550,6 +550,14 @@
 					RelativePath=".\include\XULWin\Image.h"
 					>
 				</File>
+				<File
+					RelativePath=".\src\ImageImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ImageImpl.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

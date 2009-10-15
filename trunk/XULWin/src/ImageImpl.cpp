@@ -1,0 +1,264 @@
+#include "XULWin/Image.h"
+#include "XULWin/ImageImpl.h"
+#include "XULWin/AttributeController.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/ChromeURL.h"
+#include "XULWin/Defaults.h"
+#include "XULWin/ElementCreationSupport.h"
+#include "XULWin/ElementImpl.h"
+#include "XULWin/GdiplusLoader.h"
+#include "Poco/Path.h"
+#include "Poco/UnicodeConverter.h"
+#include <boost/bind.hpp>
+#include <boost/noncopyable.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <gdiplus.h>
+
+
+namespace XULWin
+{
+
+    ImageImpl::ImageImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        NativeControl(inParent, inAttributesMapping, L"STATIC", 0, 0),
+        mKeepAspectRatio(false)
+    {
+    }
+
+
+    std::string ImageImpl::getSrc() const
+    {
+        return mSrc;
+    }
+
+
+    void ImageImpl::setSrc(const std::string & inSrc)
+    {
+        if (inSrc.find("chrome://") != std::string::npos)
+        {        
+            ChromeURL url(inSrc, Defaults::locale());
+            mSrc = url.convertToLocalPath();
+        }
+        else
+        {
+            mSrc = inSrc;
+        }
+        std::wstring utf16Path;
+        Poco::UnicodeConverter::toUTF16(mSrc, utf16Path);
+        Gdiplus::Bitmap * img = new Gdiplus::Bitmap(utf16Path.c_str());
+        mImage.reset(img);
+        if (mImage->GetLastStatus() != Gdiplus::Ok)
+        {
+            mImage.reset();
+        }
+    }
+
+
+    void ImageImpl::getWidthAndHeight(int & width, int & height) const
+    {
+        if (!mImage)
+        {
+            return;
+        }
+        float optimalWidth = (float)mImage->GetWidth();
+        float optimalHeight = (float)mImage->GetHeight();        	
+        if (optimalWidth < 1.0 || optimalHeight < 1.0)
+        {
+            width = 1;
+            height = 1;
+            return;
+        }
+
+        float resizeFactorX = mWidth.or(mHeight.or(MAXINT32))/optimalWidth;
+        float resizeFactorY = mHeight.or(mWidth.or(MAXINT32))/optimalHeight;
+        float resizeFactor = std::min<float>(resizeFactorX, resizeFactorY);
+		
+        width = (int)(resizeFactor*optimalWidth + 0.5f);
+        if (width == 0)
+        {
+            width = 1;
+        }
+
+        height = (int)(resizeFactor*optimalHeight + 0.5f);		        
+        if (height == 0)
+        {
+            height = 1;
+        }
+    }
+
+    
+    int ImageImpl::getWidth(SizeConstraint inSizeConstraint) const
+    {
+        if (mWidth)
+        {
+            if (mHeight && getKeepAspectRatio())
+            {
+                int width = 0;
+                int height = 0;  
+                getWidthAndHeight(width, height);
+                return width;
+            }
+            else
+            {
+                return mWidth;
+            }
+        }
+        // deduce width from height
+        else if (mHeight && !mWidth)
+        {
+            int width = 0;
+            int height = 0;  
+            getWidthAndHeight(width, height);
+            return width;
+        }
+        // if flex=0, then choose the natural width & height
+        else if (mImage && !mWidth && !mHeight && getFlex() == 0)
+        {
+            return mImage->GetWidth();
+        }
+        else
+        {
+            return Super::getWidth(inSizeConstraint);
+        }
+    }
+        
+    
+    int ImageImpl::getHeight(SizeConstraint inSizeConstraint) const
+    {        
+        if (mHeight)
+        {
+            if (mWidth && getKeepAspectRatio())
+            {
+                int width = 0;
+                int height = 0;  
+                getWidthAndHeight(width, height);
+                return height;
+            }
+            else
+            {
+                return mHeight;
+            }
+        }
+        // deduce height from width
+        else if (mWidth && !mHeight)
+        {
+            int width = 0;
+            int height = 0;  
+            getWidthAndHeight(width, height);
+            return height;
+        }
+        // if flex=0, then choose the natural width & height
+        else if (mImage && !mWidth && !mHeight && getFlex() == 0)
+        {
+            return mImage->GetHeight();
+        }
+        else
+        {
+            return Super::getHeight(inSizeConstraint);
+        }
+    }
+    
+    
+    void ImageImpl::move(int x, int y, int w, int h)
+    {
+        if (mImage && (w != clientRect().width() || h != clientRect().height()))
+        {
+            // create a resized copy of the original
+            mCachedImage.reset(new Gdiplus::Bitmap(w, h, PixelFormat32bppARGB));
+        	
+            Gdiplus::Graphics g(mCachedImage.get());
+            g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+            g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);        	
+            g.DrawImage(mImage.get(), Gdiplus::Rect(0, 0, INT(w), INT(h)));
+        }
+        Super::move(x, y, w, h);
+    }
+    
+    
+    bool ImageImpl::getKeepAspectRatio() const
+    {
+        return mKeepAspectRatio;
+    }
+
+
+    void ImageImpl::setKeepAspectRatio(bool inKeepAspectRatio)
+    {
+        mKeepAspectRatio = inKeepAspectRatio;
+    }
+
+
+    int ImageImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        if (inSizeConstraint == Minimum)
+        {
+            return 0;
+        }
+
+        if (mImage)
+        {
+            return mImage->GetWidth();
+        }
+
+        return 0;
+    }
+
+
+    int ImageImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        if (inSizeConstraint == Minimum)
+        {
+            return 0;
+        }
+
+        if (mImage)
+        {
+            return mImage->GetHeight();
+        }
+
+        return 0;
+    }
+
+
+    bool ImageImpl::initAttributeControllers()
+    {
+        Super::setAttributeController("src", static_cast<SrcController*>(this));
+        Super::setAttributeController("keepaspectratio", static_cast<KeepAspectRatioController*>(this));
+        return Super::initAttributeControllers();
+    }
+
+
+    void ImageImpl::paintImage(HDC inHDC, const RECT & rc)
+    {
+        Gdiplus::Graphics g(inHDC);        
+        g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+        g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+        if (mCachedImage)
+        {
+            g.DrawImage(mCachedImage.get(), rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+        }
+        else if (mImage)
+        {
+            g.DrawImage(mImage.get(), rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+        }
+    }
+
+
+    LRESULT ImageImpl::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        if (inMessage == WM_PAINT)
+        {
+            if (mImage)
+            {
+                RECT rc;
+                ::GetClientRect(handle(), &rc);
+                PAINTSTRUCT ps;
+                HDC hDC = ::BeginPaint(handle(), &ps);
+                paintImage(hDC, rc);
+                ::EndPaint(handle(), &ps);
+                return 0;
+            }
+
+        }
+        return Super::handleMessage(inMessage, wParam, lParam);
+    }
+
+} // namespace XULWin

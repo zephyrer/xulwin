@@ -17,6 +17,8 @@ namespace XULWin
 
         static const char * Type() { return "image"; }
 
+        virtual bool init();
+
         std::string value() const;
     
     private:

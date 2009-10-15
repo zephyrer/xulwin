@@ -1,5 +1,5 @@
-#ifndef {{ELEMENTIMPL_NAME_UPPER}}_H_INCLUDED
-#define {{ELEMENTIMPL_NAME_UPPER}}_H_INCLUDED
+#ifndef LISTHEADERIMPL_H_INCLUDED
+#define LISTHEADERIMPL_H_INCLUDED
 
 
 #include "XULWin/ElementImpl.h"
@@ -8,12 +8,12 @@
 namespace XULWin
 {
 
-    class {{ELEMENTIMPL_NAME}} : public PassiveComponent
+    class ListHeaderImpl : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        {{ELEMENTIMPL_NAME}}(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ListHeaderImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
 
@@ -27,4 +27,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // {{ELEMENTIMPL_NAME_UPPER}}_H_INCLUDED
+#endif // LISTHEADERIMPL_H_INCLUDED

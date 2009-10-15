@@ -64,23 +64,23 @@ system("svn add #{cppimplpath}")
 contents = ""
 File.open(projectpath + projectname, 'r') do |file|
     doc = REXML::Document.new file
-    firstFile = doc.elements["VisualStudioProject/Files/Filter/"]
+    filterElement = doc.elements["VisualStudioProject/Files/Filter/"]
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\include\\XULWin\\" + hppfile;
-    firstFile.insert_after(firstFile, headerElement)
+    filterElement.insert_after(filterElement, headerElement)
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\src\\" + cppfile;
-    firstFile.insert_after(firstFile, headerElement)
+    filterElement.insert_after(filterElement, headerElement)
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\include\\XULWin\\" + hppimplfile;
-    firstFile.insert_after(firstFile, headerElement)
+    filterElement.insert_after(filterElement, headerElement)
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\src\\" + cppimplfile;
-    firstFile.insert_after(firstFile, headerElement)
+    filterElement.insert_after(filterElement, headerElement)
 
     contents << doc.to_s
     

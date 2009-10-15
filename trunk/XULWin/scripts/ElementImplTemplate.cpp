@@ -8,6 +8,18 @@ namespace XULWin
         Super(inParent, inAttributesMapping)
     {
     }
+
+
+    bool {{ELEMENTIMPL_NAME}}::initImpl()
+    {
+        return Super::initImpl();
+    }
+
+    
+    bool {{ELEMENTIMPL_NAME}}::initAttributeControllers()
+    {
+        return Super::initAttributeControllers();
+    }
         
         
     int {{ELEMENTIMPL_NAME}}::calculateWidth(SizeConstraint inSizeConstraint) const
@@ -19,12 +31,6 @@ namespace XULWin
     int {{ELEMENTIMPL_NAME}}::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
-    }
-
-
-    bool {{ELEMENTIMPL_NAME}}::initImpl()
-    {
-        return Super::initImpl();
     }
     
 } // namespace XULWin

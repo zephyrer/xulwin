@@ -934,38 +934,6 @@ namespace XULWin
     };
 
 
-    class ListBox : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListBox>(inParent, inAttr); }
-
-        static const char * Type() { return "listbox"; }
-
-        virtual ~ListBox();
-
-    private:
-        friend class Element;
-        ListBox(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
-    class ListItem : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListItem>(inParent, inAttr); }
-
-        static const char * Type() { return "listitem"; }
-
-        virtual ~ListItem();
-
-    private:
-        friend class Element;
-        ListItem(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
 } // XULWin
 
 

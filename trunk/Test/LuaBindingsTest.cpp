@@ -1,6 +1,7 @@
 #include "LuaBindingsTest.h"
 #include "Config.h"
 #include "XULWin/Element.h"
+#include "XULWin/ListItem.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/LuaBindings.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"

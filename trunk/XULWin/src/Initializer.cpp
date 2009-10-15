@@ -1,6 +1,12 @@
 #include "XULWin/Initializer.h"
 #include "XULWin/ElementImpl.h"
 #include "XULWin/Image.h"
+#include "XULWin/ListBox.h"
+#include "XULWin/ListCell.h"
+#include "XULWin/ListCol.h"
+#include "XULWin/ListHead.h"
+#include "XULWin/ListHeader.h"
+#include "XULWin/ListItem.h"
 #include "XULWin/Script.h"
 #include "XULWin/SVG.h"
 #include "XULWin/ErrorReporter.h"
@@ -70,6 +76,10 @@ namespace XULWin
         ElementFactory::Instance().registerElement<ToolbarButton>();
         ElementFactory::Instance().registerElement<ListBox>();
         ElementFactory::Instance().registerElement<ListItem>();
+        ElementFactory::Instance().registerElement<ListCell>();
+        ElementFactory::Instance().registerElement<ListCol>();
+        ElementFactory::Instance().registerElement<ListHead>();
+        ElementFactory::Instance().registerElement<ListHeader>();
     }
 
 

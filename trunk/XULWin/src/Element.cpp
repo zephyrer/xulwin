@@ -893,31 +893,5 @@ namespace XULWin
     {
     }
 
-    
-    ListBox::ListBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListBox::Type(),
-                inParent,
-                new MarginDecorator(new ListBoxImpl(inParent->impl(), inAttributesMapping)))
-    {
-    }
-
-
-    ListBox::~ListBox()
-    {
-    }
-
-    
-    ListItem::ListItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListItem::Type(),
-                inParent,
-                new ListItemImpl(inParent->impl(), inAttributesMapping))
-    {
-    } 
-
-
-    ListItem::~ListItem()
-    {
-    }
-
 
 } // XULWin

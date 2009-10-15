@@ -2,7 +2,6 @@
 #include "TwitterTest.h"
 #include "ConfigSample.h"
 #include "LuaBindingsTest.h"
-#include "XULWin/Lua/XMLHttpRequest.h"
 #include <boost/bind.hpp>
 #include <sstream>
 #include <windows.h>

@@ -5,7 +5,13 @@
 #include "XULWin/ElementImpl.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/GdiplusLoader.h"
-#include <gdiplus.h>
+
+
+namespace Gdiplus
+{
+    class Graphics;
+    class PointF;
+}
 
 
 namespace XULWin

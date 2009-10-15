@@ -10,6 +10,7 @@
 #include "Poco/String.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
+#include <gdiplus.h>
 
 
 namespace XULWin

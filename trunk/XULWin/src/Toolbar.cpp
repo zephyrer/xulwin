@@ -3,6 +3,7 @@
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
+#include <gdiplus.h>
 #include <commctrl.h>
 
 #ifdef _DEBUGFREE // detect the access to freed memory

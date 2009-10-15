@@ -7,7 +7,12 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/utility.hpp>
 #include <windows.h>
-#include <gdiplus.h>
+
+
+namespace Gdiplus
+{
+    class Bitmap;
+}
 
 
 namespace XULWin

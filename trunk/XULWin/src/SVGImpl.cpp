@@ -1,6 +1,7 @@
 #include "XULWin/SVGImpl.h"
 #include "XULWin/PathInstructions.h"
 #include "XULWin/ErrorReporter.h"
+#include <gdiplus.h>
 
 
 namespace XULWin

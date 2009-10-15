@@ -1,4 +1,6 @@
+- Add XMLHttpRequest-like to Lua
 - Differentiate between single and multi selection listboxes
+- Add listbox columns
 - Fix horizontal scrolling in Logger window
 - Support ListItem's selected attribute 
 - Add sample for custom xul element

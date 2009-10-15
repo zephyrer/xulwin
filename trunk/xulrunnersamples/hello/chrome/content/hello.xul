@@ -5,7 +5,7 @@
         orient="vertical"
         align="stretch"
         title="XULWin Prompt">
-  <listbox id="theList">
+  <listbox id="theList" flex="1">
     <listitem label="Ruby"/>
     <listitem label="EmeraldEmeraldEmeraldEmeraldEmeraldEmerald"/>
     <listitem label="Sapphire" selected="true"/>

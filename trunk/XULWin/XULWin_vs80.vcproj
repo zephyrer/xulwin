@@ -1,632 +1,284 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<VisualStudioProject
-	ProjectType="Visual C++"
-	Version="8,00"
-	Name="XULWin"
-	ProjectGUID="{D623C05B-BDD9-4D6E-8E51-E3275608DEBE}"
-	RootNamespace="XULWin"
-	Keyword="Win32Proj"
-	>
+<?xml version='1.0' encoding='WINDOWS-1252'?>
+<VisualStudioProject Name='XULWin' Version="8,00" ProjectGUID='{D623C05B-BDD9-4D6E-8E51-E3275608DEBE}' RootNamespace='XULWin' ProjectType='Visual C++' Keyword='Win32Proj'>
 	<Platforms>
-		<Platform
-			Name="Win32"
-		/>
+		<Platform Name='Win32'/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\"
-			IntermediateDirectory="$(OutDir)Intermediate"
-			ConfigurationType="4"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)../Utils/include&quot;;&quot;$(ProjectDir)/include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				DebugInformationFormat="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+		<Configuration Name='Debug|Win32' OutputDirectory='$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\' CharacterSet='1' IntermediateDirectory='$(OutDir)Intermediate' ConfigurationType='4'>
+			<Tool Name='VCPreBuildEventTool'/>
+			<Tool Name='VCCustomBuildTool'/>
+			<Tool Name='VCXMLDataGeneratorTool'/>
+			<Tool Name='VCWebServiceProxyGeneratorTool'/>
+			<Tool Name='VCMIDLTool'/>
+			<Tool Name='VCCLCompilerTool' WarningLevel='3' MinimalRebuild='true' UsePrecompiledHeader='0' Optimization='0' RuntimeLibrary='1' DebugInformationFormat='4' AdditionalIncludeDirectories='&quot;$(ProjectDir)../Utils/include&quot;;&quot;$(ProjectDir)/include&quot;' PreprocessorDefinitions='WIN32;_DEBUG;_WINDOWS' BasicRuntimeChecks='3'/>
+			<Tool Name='VCManagedResourceCompilerTool'/>
+			<Tool Name='VCResourceCompilerTool'/>
+			<Tool Name='VCPreLinkEventTool'/>
+			<Tool Name='VCLibrarianTool'/>
+			<Tool Name='VCALinkTool'/>
+			<Tool Name='VCXDCMakeTool'/>
+			<Tool Name='VCBscMakeTool'/>
+			<Tool Name='VCFxCopTool'/>
+			<Tool Name='VCPostBuildEventTool'/>
 		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\"
-			IntermediateDirectory="$(OutDir)Intermediate"
-			ConfigurationType="4"
-			CharacterSet="1"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="true"
-				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)../Utils/include&quot;;&quot;$(ProjectDir)/include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+		<Configuration Name='Release|Win32' WholeProgramOptimization='1' OutputDirectory='$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\' CharacterSet='1' IntermediateDirectory='$(OutDir)Intermediate' ConfigurationType='4'>
+			<Tool Name='VCPreBuildEventTool'/>
+			<Tool Name='VCCustomBuildTool'/>
+			<Tool Name='VCXMLDataGeneratorTool'/>
+			<Tool Name='VCWebServiceProxyGeneratorTool'/>
+			<Tool Name='VCMIDLTool'/>
+			<Tool Name='VCCLCompilerTool' WarningLevel='3' UsePrecompiledHeader='0' FavorSizeOrSpeed='1' Optimization='2' InlineFunctionExpansion='2' EnableIntrinsicFunctions='true' RuntimeLibrary='0' OmitFramePointers='true' EnableFiberSafeOptimizations='true' EnableFunctionLevelLinking='true' DebugInformationFormat='3' AdditionalIncludeDirectories='&quot;$(ProjectDir)../Utils/include&quot;;&quot;$(ProjectDir)/include&quot;' PreprocessorDefinitions='WIN32;NDEBUG;_WINDOWS'/>
+			<Tool Name='VCManagedResourceCompilerTool'/>
+			<Tool Name='VCResourceCompilerTool'/>
+			<Tool Name='VCPreLinkEventTool'/>
+			<Tool Name='VCLibrarianTool'/>
+			<Tool Name='VCALinkTool'/>
+			<Tool Name='VCXDCMakeTool'/>
+			<Tool Name='VCBscMakeTool'/>
+			<Tool Name='VCFxCopTool'/>
+			<Tool Name='VCPostBuildEventTool'/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Code"
-			>
-			<File
-				RelativePath=".\src\AttributeController.cpp"
-				>
+		<Filter Name='Code'>
+			<File RelativePath='.\src\AttributeController.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\AttributeController.h"
-				>
+			<File RelativePath='.\include\XULWin\AttributeController.h'>
 			</File>
-			<File
-				RelativePath=".\src\ChromeURL.cpp"
-				>
+			<File RelativePath='.\src\ChromeURL.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\ChromeURL.h"
-				>
+			<File RelativePath='.\include\XULWin\ChromeURL.h'>
 			</File>
-			<File
-				RelativePath=".\src\Conversions.cpp"
-				>
+			<File RelativePath='.\src\Conversions.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Conversions.h"
-				>
+			<File RelativePath='.\include\XULWin\Conversions.h'>
 			</File>
-			<File
-				RelativePath=".\src\Decorator.cpp"
-				>
+			<File RelativePath='.\src\Decorator.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Decorator.h"
-				>
+			<File RelativePath='.\include\XULWin\Decorator.h'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Defaults.h"
-				>
+			<File RelativePath='.\include\XULWin\Defaults.h'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\ElementCreationSupport.h"
-				>
+			<File RelativePath='.\include\XULWin\ElementCreationSupport.h'>
 			</File>
-			<File
-				RelativePath=".\src\ElementFactory.cpp"
-				>
+			<File RelativePath='.\src\ElementFactory.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\ElementFactory.h"
-				>
+			<File RelativePath='.\include\XULWin\ElementFactory.h'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Enums.h"
-				>
+			<File RelativePath='.\include\XULWin\Enums.h'>
 			</File>
-			<File
-				RelativePath=".\src\ErrorReporter.cpp"
-				>
+			<File RelativePath='.\src\ErrorReporter.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\ErrorReporter.h"
-				>
+			<File RelativePath='.\include\XULWin\ErrorReporter.h'>
 			</File>
-			<File
-				RelativePath=".\src\EventListener.cpp"
-				>
+			<File RelativePath='.\src\EventListener.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\EventListener.h"
-				>
+			<File RelativePath='.\include\XULWin\EventListener.h'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Fallible.h"
-				>
+			<File RelativePath='.\include\XULWin\Fallible.h'>
 			</File>
-			<File
-				RelativePath=".\src\GdiplusLoader.cpp"
-				>
+			<File RelativePath='.\src\GdiplusLoader.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\GdiplusLoader.h"
-				>
+			<File RelativePath='.\include\XULWin\GdiplusLoader.h'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\GenericGrid.h"
-				>
+			<File RelativePath='.\include\XULWin\GenericGrid.h'>
 			</File>
-			<File
-				RelativePath=".\src\Initializer.cpp"
-				>
+			<File RelativePath='.\src\Initializer.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Initializer.h"
-				>
+			<File RelativePath='.\include\XULWin\Initializer.h'>
 			</File>
-			<File
-				RelativePath=".\src\Layout.cpp"
-				>
+			<File RelativePath='.\src\Layout.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Layout.h"
-				>
+			<File RelativePath='.\include\XULWin\Layout.h'>
 			</File>
-			<File
-				RelativePath=".\src\Parser.cpp"
-				>
+			<File RelativePath='.\src\Parser.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Parser.h"
-				>
+			<File RelativePath='.\include\XULWin\Parser.h'>
 			</File>
-			<File
-				RelativePath=".\src\PathInstructions.cpp"
-				>
+			<File RelativePath='.\src\PathInstructions.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\PathInstructions.h"
-				>
+			<File RelativePath='.\include\XULWin\PathInstructions.h'>
 			</File>
-			<File
-				RelativePath=".\src\Points.cpp"
-				>
+			<File RelativePath='.\src\Points.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Points.h"
-				>
+			<File RelativePath='.\include\XULWin\Points.h'>
 			</File>
-			<File
-				RelativePath=".\src\Proxy.cpp"
-				>
+			<File RelativePath='.\src\Proxy.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Proxy.h"
-				>
+			<File RelativePath='.\include\XULWin\Proxy.h'>
 			</File>
-			<File
-				RelativePath=".\src\RGBColor.cpp"
-				>
+			<File RelativePath='.\src\RGBColor.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\RGBColor.h"
-				>
+			<File RelativePath='.\include\XULWin\RGBColor.h'>
 			</File>
-			<File
-				RelativePath=".\src\Script.cpp"
-				>
+			<File RelativePath='.\src\Script.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Script.h"
-				>
+			<File RelativePath='.\include\XULWin\Script.h'>
 			</File>
-			<File
-				RelativePath=".\src\StyleController.cpp"
-				>
+			<File RelativePath='.\src\StyleController.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\StyleController.h"
-				>
+			<File RelativePath='.\include\XULWin\StyleController.h'>
 			</File>
-			<File
-				RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
-				>
+			<File RelativePath='.\src\ToolbarCustomWindowDecorator.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
-				>
+			<File RelativePath='.\include\XULWin\ToolbarCustomWindowDecorator.h'>
 			</File>
-			<File
-				RelativePath=".\src\Unicode.cpp"
-				>
+			<File RelativePath='.\src\Unicode.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\Unicode.h"
-				>
+			<File RelativePath='.\include\XULWin\Unicode.h'>
 			</File>
-			<File
-				RelativePath=".\src\XULRunner.cpp"
-				>
+			<File RelativePath='.\src\XULRunner.cpp'>
 			</File>
-			<File
-				RelativePath=".\include\XULWin\XULRunner.h"
-				>
+			<File RelativePath='.\include\XULWin\XULRunner.h'>
 			</File>
-			<Filter
-				Name="Element"
-				>
-				<File
-					RelativePath=".\src\Element.cpp"
-					>
+			<Filter Name='Element'>
+				<File RelativePath='.\src\Element.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\Element.h"
-					>
+				<File RelativePath='.\include\XULWin\Element.h'>
 				</File>
-				<File
-					RelativePath=".\src\ElementImpl.cpp"
-					>
+				<File RelativePath='.\src\ElementImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ElementImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ElementImpl.h'>
 				</File>
 			</Filter>
-			<Filter
-				Name="ListBox"
-				>
-				<File
-					RelativePath=".\src\ListBox.cpp"
-					>
+			<Filter Name='ListBox'>
+				<File RelativePath='.\src\ListBox.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListBox.h"
-					>
+				<File RelativePath='.\include\XULWin\ListBox.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListBoxImpl.cpp"
-					>
+				<File RelativePath='.\src\ListBoxImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListBoxImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListBoxImpl.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListCell.cpp"
-					>
+				<File RelativePath='.\src\ListCell.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCell.h"
-					>
+				<File RelativePath='.\include\XULWin\ListCell.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListCellImpl.cpp"
-					>
+				<File RelativePath='.\src\ListCellImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCellImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListCellImpl.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListCol.cpp"
-					>
+				<File RelativePath='.\src\ListCol.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCol.h"
-					>
+				<File RelativePath='.\include\XULWin\ListCol.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListColImpl.cpp"
-					>
+				<File RelativePath='.\src\ListColImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListColImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListColImpl.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListCols.cpp"
-					>
+				<File RelativePath='.\src\ListCols.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCols.h"
-					>
+				<File RelativePath='.\include\XULWin\ListCols.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListColsImpl.cpp"
-					>
+				<File RelativePath='.\src\ListColsImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListColsImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListColsImpl.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListHead.cpp"
-					>
+				<File RelativePath='.\src\ListHead.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHead.h"
-					>
+				<File RelativePath='.\include\XULWin\ListHead.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListHeader.cpp"
-					>
+				<File RelativePath='.\src\ListHeader.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHeader.h"
-					>
+				<File RelativePath='.\include\XULWin\ListHeader.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListHeaderImpl.cpp"
-					>
+				<File RelativePath='.\src\ListHeaderImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHeaderImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListHeaderImpl.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListHeadImpl.cpp"
-					>
+				<File RelativePath='.\src\ListHeadImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHeadImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListHeadImpl.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListItem.cpp"
-					>
+				<File RelativePath='.\src\ListItem.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListItem.h"
-					>
+				<File RelativePath='.\include\XULWin\ListItem.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListItemImpl.cpp"
-					>
+				<File RelativePath='.\src\ListItemImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListItemImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListItemImpl.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListView.cpp"
-					>
+				<File RelativePath='.\src\ListView.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListView.h"
-					>
+				<File RelativePath='.\include\XULWin\ListView.h'>
 				</File>
-				<File
-					RelativePath=".\src\ListViewImpl.cpp"
-					>
+				<File RelativePath='.\src\ListViewImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ListViewImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ListViewImpl.h'>
 				</File>
 			</Filter>
-			<Filter
-				Name="WinAPI"
-				>
-				<File
-					RelativePath=".\src\PopupMenu.cpp"
-					>
+			<Filter Name='WinAPI'>
+				<File RelativePath='.\src\PopupMenu.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\PopupMenu.h"
-					>
+				<File RelativePath='.\include\XULWin\PopupMenu.h'>
 				</File>
-				<File
-					RelativePath=".\src\Toolbar.cpp"
-					>
+				<File RelativePath='.\src\Toolbar.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\Toolbar.h"
-					>
+				<File RelativePath='.\include\XULWin\Toolbar.h'>
 				</File>
-				<File
-					RelativePath=".\src\ToolbarItem.cpp"
-					>
+				<File RelativePath='.\src\ToolbarItem.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarItem.h"
-					>
+				<File RelativePath='.\include\XULWin\ToolbarItem.h'>
 				</File>
-				<File
-					RelativePath=".\src\ToolbarMenuItem.cpp"
-					>
+				<File RelativePath='.\src\ToolbarMenuItem.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarMenuItem.h"
-					>
+				<File RelativePath='.\include\XULWin\ToolbarMenuItem.h'>
 				</File>
-				<File
-					RelativePath=".\src\WinUtils.cpp"
-					>
+				<File RelativePath='.\src\WinUtils.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\WinUtils.h"
-					>
+				<File RelativePath='.\include\XULWin\WinUtils.h'>
 				</File>
 			</Filter>
-			<Filter
-				Name="Image"
-				>
-				<File
-					RelativePath=".\src\Image.cpp"
-					>
+			<Filter Name='Image'>
+				<File RelativePath='.\src\Image.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\Image.h"
-					>
+				<File RelativePath='.\include\XULWin\Image.h'>
 				</File>
-				<File
-					RelativePath=".\src\ImageImpl.cpp"
-					>
+				<File RelativePath='.\src\ImageImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\ImageImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\ImageImpl.h'>
 				</File>
 			</Filter>
-			<Filter
-				Name="SVG"
-				>
-				<File
-					RelativePath=".\src\SVG.cpp"
-					>
+			<Filter Name='SVG'>
+				<File RelativePath='.\src\SVG.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\SVG.h"
-					>
+				<File RelativePath='.\include\XULWin\SVG.h'>
 				</File>
-				<File
-					RelativePath=".\src\SVGImpl.cpp"
-					>
+				<File RelativePath='.\src\SVGImpl.cpp'>
 				</File>
-				<File
-					RelativePath=".\include\XULWin\SVGImpl.h"
-					>
+				<File RelativePath='.\include\XULWin\SVGImpl.h'>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Scripts"
-			>
-			<File
-				RelativePath=".\scripts\create-el.rb"
-				>
+		<Filter Name='NewElementS'><File RelativePath='.\include\XULWin\NewElementS.h'/><File RelativePath='.\src\NewElementS.cpp'/><File RelativePath='.\include\XULWin\NewElementSImpl.h'/><File RelativePath='.\src\NewElementSImpl.cpp'/></Filter></Filter>
+		<Filter Name='Scripts'>
+			<File RelativePath='.\scripts\create-el.rb'>
 			</File>
-			<File
-				RelativePath=".\scripts\ElementImplTemplate.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
+			<File RelativePath='.\scripts\ElementImplTemplate.cpp'>
+				<FileConfiguration Name='Debug|Win32' ExcludedFromBuild='true'>
+					<Tool Name='VCCLCompilerTool'/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\scripts\ElementImplTemplate.h"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
+			<File RelativePath='.\scripts\ElementImplTemplate.h'>
+				<FileConfiguration Name='Debug|Win32' ExcludedFromBuild='true'>
+					<Tool Name='VCCustomBuildTool'/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\scripts\ElementTemplate.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
+			<File RelativePath='.\scripts\ElementTemplate.cpp'>
+				<FileConfiguration Name='Debug|Win32' ExcludedFromBuild='true'>
+					<Tool Name='VCCLCompilerTool'/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\scripts\ElementTemplate.h"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
+			<File RelativePath='.\scripts\ElementTemplate.h'>
+				<FileConfiguration Name='Debug|Win32' ExcludedFromBuild='true'>
+					<Tool Name='VCCustomBuildTool'/>
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\Todo.txt"
-			>
+		<File RelativePath='.\Todo.txt'>
 		</File>
 	</Files>
 	<Globals>

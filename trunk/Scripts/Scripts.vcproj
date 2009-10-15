@@ -64,6 +64,10 @@
 			Name="CreateElement"
 			>
 			<File
+				RelativePath=".\CreateElement\Create Element.PNG"
+				>
+			</File>
+			<File
 				RelativePath=".\CreateElement\create-el.rb"
 				>
 			</File>
@@ -119,6 +123,10 @@
 		<Filter
 			Name="CreateXULSample"
 			>
+			<File
+				RelativePath=".\CreateXULSample\Create XUL Sample.PNG"
+				>
+			</File>
 			<File
 				RelativePath=".\CreateXULSample\create-xul-sample.rb"
 				>

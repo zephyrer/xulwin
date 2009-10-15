@@ -195,6 +195,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\xulrunnersamples\listbox-advanced\chrome\content\listbox-advanced.xul"
+				>
+			</File>
+			<File
+				RelativePath="..\xulrunnersamples\listbox-simple\chrome\content\listbox-simple.xul"
+				>
+			</File>
+			<File
 				RelativePath="..\xulrunnersamples\configpanel\chrome\content\newsetdialog.xul"
 				>
 			</File>

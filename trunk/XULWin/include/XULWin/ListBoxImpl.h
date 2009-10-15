@@ -16,6 +16,8 @@ namespace XULWin
 
         ListBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
+        virtual bool initImpl();
+
         virtual bool initAttributeControllers();
 
         virtual int getRows() const;

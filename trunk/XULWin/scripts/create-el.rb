@@ -62,6 +62,7 @@ system("svn add #{cpppath}")
 system("svn add #{cppimplpath}")
 
 contents = ""
+
 File.open(projectpath + projectname, 'r') do |file|
     doc = REXML::Document.new file
     filterElement = doc.elements["VisualStudioProject/Files/Filter/"]

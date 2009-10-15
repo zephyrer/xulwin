@@ -13,6 +13,12 @@ namespace XULWin
         mRows.setInvalid();
     }
 
+    
+    bool ListBoxImpl::initImpl()
+    {
+        return Super::initImpl();
+    }
+
 
     bool ListBoxImpl::initAttributeControllers()
     {

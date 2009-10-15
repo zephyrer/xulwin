@@ -20,7 +20,7 @@ namespace XULWin
         mLoggerApp = mLoggerRunner.loadXUL(path);
         if (Window * wnd = mLoggerApp->downcast<Window>())
         {
-            wnd->impl()->move(0, 200, 400, 100);
+            wnd->impl()->move(0, 800, 400, 100);
             wnd->show(Window::DefaultPosition);
         }
     }

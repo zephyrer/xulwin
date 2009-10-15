@@ -608,6 +608,12 @@ namespace XULWin
     {
         mDecoratedElement = inElement;
     }
+    
+    
+    void Decorator::setDecoratedElement(ElementImpl * inElement)
+    {
+        mDecoratedElement.reset(inElement);
+    }
 
 
     void Decorator::onChildAdded()

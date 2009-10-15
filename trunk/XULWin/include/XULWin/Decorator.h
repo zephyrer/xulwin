@@ -154,6 +154,9 @@ namespace XULWin
 
         void setDecoratedElement(ElementImplPtr inElement);
 
+        // Takes ownership, and destroys any previously set element
+        void setDecoratedElement(ElementImpl * inElement);
+
         virtual bool getAttribute(const std::string & inName, std::string & outValue);
 
         virtual bool getStyle(const std::string & inName, std::string & outValue);

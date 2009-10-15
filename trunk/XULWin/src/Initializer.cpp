@@ -4,6 +4,7 @@
 #include "XULWin/ListBox.h"
 #include "XULWin/ListCell.h"
 #include "XULWin/ListCol.h"
+#include "XULWin/ListCols.h"
 #include "XULWin/ListHead.h"
 #include "XULWin/ListHeader.h"
 #include "XULWin/ListItem.h"
@@ -78,6 +79,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<ListItem>();
         ElementFactory::Instance().registerElement<ListCell>();
         ElementFactory::Instance().registerElement<ListCol>();
+        ElementFactory::Instance().registerElement<ListCols>();
         ElementFactory::Instance().registerElement<ListHead>();
         ElementFactory::Instance().registerElement<ListHeader>();
     }

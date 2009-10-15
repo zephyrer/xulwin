@@ -131,6 +131,29 @@ namespace XULWin
             return 0;
         }
 
+
+        // Searches for a child of given type.
+        // Returns the first one found.
+        // Only searches one level deep.
+        template<class ElementType>
+        ElementType * findChildOfType()
+        {
+            return const_cast<ElementType*>(static_cast<const Element*>(this)->findChildOfType<ElementType>());
+        }
+
+        template<class ElementType>
+        const ElementType * findChildOfType() const
+        {
+            for (size_t idx = 0; idx != mChildren.size(); ++idx)
+            {
+                if (ElementType * res = mChildren[idx]->downcast<ElementType>())
+                {
+                    return res;
+                }
+            }
+            return 0;
+        }
+
         // you don't need to call this, the factory method takes care of it
         virtual void addChild(ElementPtr inChild);
 
@@ -142,6 +165,7 @@ namespace XULWin
 
         Element * mParent;
         Children mChildren;
+        AttributesMapping mAttributes;
 
     private:
 
@@ -157,7 +181,6 @@ namespace XULWin
 
         friend class ElementFactory;
         std::string mType;
-        AttributesMapping mAttributes;
         StylesMapping mStyles;
         std::string mInnerText;
         boost::shared_ptr<ElementImpl> mImpl;

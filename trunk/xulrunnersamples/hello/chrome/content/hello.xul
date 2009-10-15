@@ -8,17 +8,19 @@
 <?xul-overlay href="chrome://global/content/globalOverlay.xul"?>
 <window id="testsuite"
         xmlns:html="http://www.w3.org/1999/xhtml"
-        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        orient="vertical"
+        align="stretch">
 
 
   <!-- A two column listbox with one column flexible -->
-  <listbox>
+  <listbox flex="1">
     <listhead>
       <listheader label="First"/>
       <listheader label="Last"/>
     </listhead>
     <listcols>
-      <listcol flex="1"/>
+      <listcol/>
       <listcol/>
     </listcols>
     <listitem>

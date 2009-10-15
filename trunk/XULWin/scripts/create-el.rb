@@ -1,5 +1,4 @@
 require "rexml/document"
-
 projectpath = '../'
 hppdir = projectpath + 'include/XULWin/'
 cppdir = projectpath + 'src/'
@@ -65,23 +64,30 @@ contents = ""
 
 File.open(projectpath + projectname, 'r') do |file|
     doc = REXML::Document.new file
-    filterElement = doc.elements["VisualStudioProject/Files/Filter/"]
+
+    elementsFolder = doc.elements["VisualStudioProject" +
+                                  "/Files" +
+                                  "/Filter[@Name='Code']"]
+
+    newFolder = REXML::Element.new("Filter")
+    newFolder.attributes["Name"] = classname
+    elementsFolder.insert_after(elementsFolder, newFolder)
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\include\\XULWin\\" + hppfile;
-    filterElement.insert_after(filterElement, headerElement)
+    newFolder.insert_after(newFolder, headerElement)
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\src\\" + cppfile;
-    filterElement.insert_after(filterElement, headerElement)
+    newFolder.insert_after(newFolder, headerElement)
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\include\\XULWin\\" + hppimplfile;
-    filterElement.insert_after(filterElement, headerElement)
+    newFolder.insert_after(newFolder, headerElement)
 
     headerElement = REXML::Element.new("File")
     headerElement.attributes["RelativePath"] = ".\\src\\" + cppimplfile;
-    filterElement.insert_after(filterElement, headerElement)
+    newFolder.insert_after(newFolder, headerElement)
 
     contents << doc.to_s
     

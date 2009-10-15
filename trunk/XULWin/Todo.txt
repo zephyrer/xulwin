@@ -1,9 +1,6 @@
 
 
 Test-Driven-Developement
-
-
-- Make CreateElement script independent of current project
 - Add script for making XUL samples
 - Add listbox columns
 - Fix horizontal scrolling in Logger window

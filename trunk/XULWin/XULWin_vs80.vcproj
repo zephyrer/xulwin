@@ -188,14 +188,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Element.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Element.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\XULWin\ElementCreationSupport.h"
 				>
 			</File>
@@ -205,14 +197,6 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\ElementFactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ElementImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ElementImpl.h"
 				>
 			</File>
 			<File
@@ -249,14 +233,6 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\GenericGrid.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Image.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Image.h"
 				>
 			</File>
 			<File
@@ -411,6 +387,170 @@
 				RelativePath=".\include\XULWin\XULRunner.h"
 				>
 			</File>
+			<Filter
+				Name="Element"
+				>
+				<File
+					RelativePath=".\src\Element.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Element.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ElementImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ElementImpl.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="ListBox"
+				>
+				<File
+					RelativePath=".\src\ListBox.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListBox.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListBoxImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListBoxImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListCell.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListCell.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListCellImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListCellImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListCol.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListCol.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListColImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListColImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListCols.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListCols.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListColsImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListColsImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListHead.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListHead.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListHeader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListHeader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListHeaderImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListHeaderImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListHeadImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListHeadImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListItem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListItemImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListItemImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListView.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListView.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListViewImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListViewImpl.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Image"
+				>
+				<File
+					RelativePath=".\src\Image.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Image.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Scripts"
@@ -466,138 +606,6 @@
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="ListBox"
-			>
-			<File
-				RelativePath=".\src\ListBox.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListBoxImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListBoxImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListCell.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListCell.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListCellImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListCellImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListCol.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListCol.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListColImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListColImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListCols.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListCols.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListColsImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListColsImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListHead.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListHead.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListHeader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListHeader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListHeaderImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListHeaderImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListHeadImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListHeadImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListItem.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListItem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListItemImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListItemImpl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListView.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListView.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ListViewImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListViewImpl.h"
-				>
 			</File>
 		</Filter>
 		<File

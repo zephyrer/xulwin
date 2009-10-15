@@ -85,22 +85,18 @@ Poco::Int64 Twitter::update(const std::string& status)
 }
 
 
-void Twitter::getFriendStatuses(std::string & outResult)
+Poco::AutoPtr<Poco::XML::Document> Twitter::getFriendStatuses(const Params & inParams)
 {
 	Poco::Net::HTMLForm form;
-	Poco::AutoPtr<Poco::XML::Document> pResult = invoke(Poco::Net::HTTPRequest::HTTP_GET, "friends", form);
-	Poco::AutoPtr<Poco::XML::NodeList> pList = pResult->getElementsByTagName("text");
-    for (size_t idx = 0; idx != pList->length(); ++idx)
+    Params::const_iterator it = inParams.begin(), end = inParams.end();
+    for (; it != end; ++it)
     {
-        if (idx != 0)
-        {
-            outResult += ", ";
-        }
-        outResult += pList->item(0)->innerText();
+        form.set(it->first, it->second);
     }
+    return invoke(Poco::Net::HTTPRequest::HTTP_GET, "friends", form);
 }
 
-    
+
 Poco::AutoPtr<Poco::XML::Document> Twitter::invoke(const std::string& httpMethod, const std::string& twitterMethod, Poco::Net::HTMLForm& form)
 {
 	// Create the request URI.

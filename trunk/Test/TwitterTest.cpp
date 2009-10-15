@@ -14,8 +14,8 @@ namespace XULWin
 
     TwitterTest::TwitterTest()
     {
-        std::string friends;
-        mTwitter.getFriendStatuses(friends);
+        Poco::AutoPtr<Poco::XML::Document> friendStatuses = mTwitter.getFriendStatuses();
+        friendStatuses->getElementById("text");
     }
 
 

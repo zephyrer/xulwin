@@ -68,8 +68,17 @@ public:
 		///
 		/// Returns the ID of the newly created status.
 
+    typedef std::map<std::string, std::string> Params;
 
-    void getFriendStatuses(std::string & outResult);
+    Poco::AutoPtr<Poco::XML::Document> getFriendStatuses(const Params & inParams = Params());
+        /// Returns a user's friends, each with current status inline. They are
+        /// ordered by the order in which the user followed them, most recently
+        /// followed first, 100 at a time. (Please note that the result set
+        /// isn't guaranteed to be 100 every time as suspended users will be
+        /// filtered out.) Use the cursor option to access older friends. With
+        /// no user specified, request defaults to the authenticated user's
+        /// friends. It's also possible to request another user's friends list
+        /// via the id, screen_name or user_id parameter.
 
 
 	Poco::AutoPtr<Poco::XML::Document> invoke(const std::string& httpMethod, const std::string& twitterMethod, Poco::Net::HTMLForm& params);

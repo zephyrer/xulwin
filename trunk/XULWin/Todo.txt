@@ -1,3 +1,10 @@
+
+
+Test-Driven-Developement
+
+
+- Make CreateElement script independent of current project
+- Add script for making XUL samples
 - Add listbox columns
 - Fix horizontal scrolling in Logger window
 - Support ListItem's selected attribute 
@@ -17,4 +24,3 @@
 - Treeview: implement tree open/closed state, and min size implications
 - Classes inheriting VirtualComponent should not have a 'Native' prefix in their class name.
 - Make sample app with toolbar, status-bar and scrollbar
-- Add ErrorCatcher live reporter in a sep DOS window

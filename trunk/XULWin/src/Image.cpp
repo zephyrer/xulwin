@@ -106,6 +106,10 @@ namespace XULWin
 
     void NativeImage::getWidthAndHeight(int & width, int & height) const
     {
+        if (!mImage)
+        {
+            return;
+        }
         float optimalWidth = (float)mImage->GetWidth();
         float optimalHeight = (float)mImage->GetHeight();        	
         if (optimalWidth < 1.0 || optimalHeight < 1.0)

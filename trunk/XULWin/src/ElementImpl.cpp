@@ -1519,11 +1519,7 @@ namespace XULWin
 
     ElementImpl * NativeDialog::getChild(size_t idx)
     {
-        if (el())
-        {
-            return getChild(idx);
-        }
-        return 0;
+        return const_cast<ElementImpl*>(static_cast<const NativeDialog*>(this)->getChild(idx));
     }
 
 

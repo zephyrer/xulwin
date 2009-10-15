@@ -3,8 +3,8 @@
 Test-Driven-Developement
 - Add script for making XUL samples
 - Add listbox columns
+- Add mouse scrolling
 - Fix horizontal scrolling in Logger window
-- Support ListItem's selected attribute 
 - Add sample for custom xul element
 - Menubar events
 - Fix toolbar menu sample!

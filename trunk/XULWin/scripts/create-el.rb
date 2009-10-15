@@ -85,6 +85,8 @@ File.open(projectpath + projectname, 'r') do |file|
     firstFile.insert_after(firstFile, headerElement)
 
     contents << doc.to_s
+    
+    # Prevent Visual Studio Conversion Wizard trigger
     contents.sub!(/'8,00'/, "\"8,00\"")
 end
 

@@ -51,7 +51,7 @@ namespace XULWin
             Element * cancelButton = mConfigWindow->getElementById("cancelButton");
             ScopedEventListener::Action closeAction = boost::bind(&closeWindowHelper, win, _1, _2);
             mEvents.connect(cancelButton, closeAction);
-            win->show(Window::StartMessageLoop, Window::CenterInScreen);
+            win->showModal(Window::CenterInScreen);
         }
     }
 
@@ -116,7 +116,7 @@ namespace XULWin
         mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
         localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeWindow, this, mNewSetDlg.get()));
 
-        mNewSetDlg->impl()->downcast<NativeWindow>()->show(Window::StartMessageLoop, Window::CenterInScreen);
+        mNewSetDlg->impl()->downcast<NativeWindow>()->showModal(Window::CenterInScreen);
         return 0;
     }
 

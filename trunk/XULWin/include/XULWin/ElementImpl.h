@@ -714,7 +714,9 @@ namespace XULWin
         virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
         { return Super::setAttributeController(inAttr, inController); }
 
-        void show(Window::MessageLoopOption inMessageLoopOption, Window::Positioning inPositioning);
+        void show(Window::Positioning inPositioning);
+
+        void showModal(Window::Positioning inPositioning);
 
         void close();
 
@@ -1954,7 +1956,8 @@ namespace XULWin
     };
 
 
-    class ListBoxImpl : public NativeControl
+    class ListBoxImpl : public NativeControl,
+                        public RowsController
     {
     public:
         typedef NativeControl Super;
@@ -1963,9 +1966,16 @@ namespace XULWin
 
         virtual bool initAttributeControllers();
 
+        virtual int getRows() const;
+
+        virtual void setRows(int inRows);
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+    private:
+        Fallible<int> mRows;
     };
 
 

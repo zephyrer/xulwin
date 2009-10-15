@@ -1,14 +1,163 @@
 <?xml version="1.0"?>
+<!-- global styles -->
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        xmlns:svg="http://www.w3.org/2000/svg"
-        orient="vertical"
-        align="stretch"
-        title="XULWin Prompt">
-  <listbox id="theList" flex="1">
-    <listitem label="Ruby"/>
-    <listitem label="EmeraldEmeraldEmeraldEmeraldEmeraldEmerald"/>
-    <listitem label="Sapphire" selected="true"/>
-    <listitem label="Diamond"/>
-  </listbox>
+<!-- local styles -->
+<?xml-stylesheet href="../../../FormWidgets/FormWidgets.css" type="text/css"?>
+<?xml-stylesheet href="../../docs.css" type="text/css"?>
+<!-- global xul -->
+<?xul-overlay href="chrome://global/content/globalOverlay.xul"?>
+<window id="testsuite"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+
+
+  <vbox  flex="1" id="form">
+
+    <label value="single select" />
+    <listbox  rows="6" class="formwidget">
+      <listcols>
+        <listcol />
+        <listcol />
+        <listcol flex="1" />
+      </listcols>
+      <listitem>
+        <listcell label="1"     class="formwidget" name="ss-id"/>
+        <listcell label="George"                />
+        <listcell label="House Painter" class="formwidget" name="ss-occupation"/>
+      </listitem>
+      <listitem>
+        <listcell label="2"     class="formwidget" name="ss-id"/>
+        <listcell label="Mary Ellen"     disabled="true"/>
+        <listcell label="Candle Maker"  class="formwidget" name="ss-occupation" value="cdnlmkr" />
+      </listitem>
+      <listitem>
+        <listcell label="3"     class="formwidget" name="ss-id"/>
+        <listcell label="Roger"                 />
+        <listcell label="Swashbuckler"   disabled="true" class="formwidget" name="ss-occupation"/>
+      </listitem>
+      <listitem>
+        <listcell label="4"     class="formwidget" name="ss-id"/>
+        <listcell label="George"                />
+        <listcell label="House Painter" class="formwidget" name="ss-occupation"/>
+      </listitem>
+      <listitem>
+        <listcell label="5"     class="formwidget" name="ss-id"/>
+        <listcell label="Mary Ellen"    />
+        <listcell label="Candle Maker"  class="formwidget" name="ss-occupation"/>
+      </listitem>
+      <listitem>
+        <listcell label="6"     class="formwidget" name="ss-id"/>
+        <listcell label="Roger"                 />
+        <listcell label="Swashbuckler"  class="formwidget" name="ss-occupation"/>
+      </listitem>
+    </listbox>
+
+    <label value="multiple select" />
+    <listbox  rows="5" class="formwidget" seltype="multiple">
+      <listhead>
+        <listheader label="ID" sortDirection="ascending" />
+        <listheader label="Name" sortDirection="natural" />
+        <listheader label="Occupation" sortDirection="descending" />
+      </listhead>
+      <listcols>
+        <listcol />
+        <listcol  />
+        <listcol flex="1"/>
+      </listcols>
+      <listitem>
+        <listcell label="1"     class="formwidget" name="ms-id[]"/>
+        <listcell label="George"                />
+        <listcell label="House Painter" class="formwidget" name="ms-occupation:1"/>
+      </listitem>
+      <listitem>
+        <listcell label="2"     class="formwidget" name="ms-id[]"/>
+        <listcell label="Mary Ellen"     disabled="true"/>
+        <listcell class="formwidget" name="ms-occupation:2" value="cdnlmkr" />
+      </listitem>
+      <listitem>
+        <listcell label="3"     class="formwidget" name="ms-id[]"/>
+        <listcell label="Roger"                 />
+        <listcell label="Swashbuckler"   disabled="true" class="formwidget" name="ms-occupation:3"/>
+      </listitem>
+      <listitem>
+        <listcell label="4"     class="formwidget" name="ms-id[]"/>
+        <listcell label="George"                />
+        <listcell label="House Painter" class="formwidget" name="ms-occupation:4"/>
+      </listitem>
+      <listitem>
+        <listcell label="5"     class="formwidget" name="ms-id[]"/>
+        <listcell label="Mary Ellen"    />
+        <listcell label="Candle Maker"  class="formwidget" name="ms-occupation:5"/>
+      </listitem>
+      <listitem>
+        <listcell label="6"     class="formwidget" name="ms-id[]"/>
+        <listcell label="Roger"                 />
+        <listcell label="Swashbuckler"  class="formwidget" name="ms-occupation:6"/>
+      </listitem>
+    </listbox>
+
+
+    <spacer flex="1" />
+    <hbox id="testsuitefooter">
+
+      <button  flex="0" label="view-source"
+              oncommand="window.open('view-source:'+document.location.href)" />
+
+      <spacer flex="1" />
+
+      <button serialize="true" class="formbutton" flex="0" label="harvest()"  name="harvestbutton" value="1"
+              oncommand="harvestTest(this)"/>
+
+      <button class="formbutton" flex="0" label="seed()"   value="1"
+              oncommand="seedTest(this)"/>
+
+
+      <spacer flex="1" />
+
+      <button class="formbutton" flex="0" label="submit()"
+              oncommand="this.submit(document.getElementById('form'))"
+              action="../../testsuite.php"
+              onresult="alert(this.responseText)"
+              onerror="alert(this.responseText)"/>
+
+    </hbox>
+
+
+  </vbox>
+
+  <script language="javascript">
+    <![CDATA[
+
+
+
+                function seedTest(formbutton) {
+
+                        var testBucket = new Array();
+
+                        /* selects by id */
+                        testBucket[0] = {"name":"ss-id",                        "value":"4",            "label":"4" };
+
+                        /* selects by id */
+                        testBucket[2] = {"name":"ms-id[]",                      "value":"1",            "label":"1" };
+
+                        /* matches on the value, gives it a label */
+                        testBucket[3] = {"name":"ms-occupation:2",      "value":"cdnlmkr",      "label":"Swheet CandleMaker" };
+
+                        /* matches on the label */
+                        testBucket[4] = {"name":"ms-occupation:4",      "value":"House Painter",        "label":"" };
+
+                        formbutton.seed(document.getElementById('form'),testBucket);
+                }
+
+                function harvestTest(formbutton) {
+                        var bucket = formbutton.harvest(document.getElementById('form'));
+                        alert(formbutton.bucket2string(bucket));
+                }
+
+
+
+        ]]>
+  </script>
+
 </window>

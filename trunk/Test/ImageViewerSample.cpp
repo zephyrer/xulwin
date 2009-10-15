@@ -41,7 +41,7 @@ namespace XULWin
         if (mNativeWindow = mRootElement->impl()->downcast<NativeWindow>())
         {
             ::DragAcceptFiles(mNativeWindow->handle(), TRUE);
-            mNativeWindow->show(Window::StartMessageLoop, Window::CenterInScreen);
+            mNativeWindow->showModal(Window::CenterInScreen);
         }
     }
 

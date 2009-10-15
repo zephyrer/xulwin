@@ -179,13 +179,9 @@ namespace XULWin
             CenterInScreen
         };
 
-        enum MessageLoopOption
-        {
-            StartMessageLoop,
-            NoMessageLoop
-        };
+        void show(Positioning inPositioning);
 
-        void show(MessageLoopOption inMessageLoopOption, Positioning inPositioning);
+        void showModal(Positioning inPositioning);
 
         void close();
 

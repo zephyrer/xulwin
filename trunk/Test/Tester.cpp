@@ -48,7 +48,7 @@ namespace XULWin
         ElementPtr passText = TextBox::Create(hbox2.get(), attr);
         attr.clear();
 
-        window->downcast<Window>()->show(Window::StartMessageLoop, Window::CenterInScreen);
+        window->downcast<Window>()->showModal(Window::CenterInScreen);
     }
 
 

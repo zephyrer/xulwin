@@ -292,11 +292,20 @@ namespace XULWin
     }
 
 
-    void Window::show(MessageLoopOption inMessageLoopOption, Positioning inPositioning)
+    void Window::show(Positioning inPositioning)
     {
         if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
         {
-            nativeWindow->show(inMessageLoopOption, inPositioning);
+            nativeWindow->show(inPositioning);
+        }
+    }
+
+
+    void Window::showModal(Positioning inPositioning)
+    {
+        if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
+        {
+            nativeWindow->showModal(inPositioning);
         }
     }
 

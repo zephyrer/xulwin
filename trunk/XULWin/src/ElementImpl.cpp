@@ -1099,7 +1099,25 @@ namespace XULWin
     }
 
 
-    void NativeWindow::show(Window::MessageLoopOption inMessageLoopOption, Window::Positioning inPositioning)
+    void NativeWindow::showModal(Window::Positioning inPositioning)
+    {
+        show(inPositioning);
+
+        mHasMessageLoop = true;
+        MSG message;
+        while (GetMessage(&message, NULL, 0, 0))
+        {
+            HWND hActive = GetActiveWindow();
+            if (! IsDialogMessage(hActive, &message))
+            {
+                TranslateMessage(&message);
+                DispatchMessage(&message);
+            }
+        }
+    }
+
+
+    void NativeWindow::show(Window::Positioning inPositioning)
     {
         rebuildLayout();
 
@@ -1119,21 +1137,6 @@ namespace XULWin
 
         ::ShowWindow(handle(), SW_SHOW);
         ::UpdateWindow(handle());
-
-        if (inMessageLoopOption == Window::StartMessageLoop)
-        {
-            mHasMessageLoop = true;
-            MSG message;
-            while (GetMessage(&message, NULL, 0, 0))
-            {
-                HWND hActive = GetActiveWindow();
-                if (! IsDialogMessage(hActive, &message))
-                {
-                    TranslateMessage(&message);
-                    DispatchMessage(&message);
-                }
-            }
-        }
     }
     
     
@@ -4747,15 +4750,30 @@ namespace XULWin
 
 
     ListBoxImpl::ListBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0)
+        NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
+        mRows(0)
     {
+        mRows.setInvalid();
     }
 
 
     bool ListBoxImpl::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
+        setAttributeController("rows", static_cast<RowsController*>(this));
         return Super::initAttributeControllers();
+    }
+    
+    
+    int ListBoxImpl::getRows() const
+    {
+        return mRows.or(1);
+    }
+
+    
+    void ListBoxImpl::setRows(int inRows)
+    {
+        mRows = inRows;
     }
 
 
@@ -4777,9 +4795,17 @@ namespace XULWin
     int ListBoxImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
+        int itemCount = mRows.or(getChildCount());
+        for (size_t idx = 0; idx != itemCount; ++idx)
         {
-            result += getChild(idx)->calculateHeight(inSizeConstraint);
+            if (idx < getChildCount())
+            {
+                result += getChild(idx)->calculateHeight(inSizeConstraint);
+            }
+            else
+            {
+                result += getChild(0)->calculateHeight(inSizeConstraint);
+            }
         }
         int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
         return result + extraHeight;

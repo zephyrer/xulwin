@@ -1,2 +1,2 @@
-content {{APP_NAME_LCASE}} file:content/
-skin {{APP_NAME_LCASE}} classic/1.0 skin/
+content {{APP_NAME_DOWNCASE}} file:content/
+skin {{APP_NAME_DOWNCASE}} classic/1.0 skin/

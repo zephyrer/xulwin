@@ -1,6 +1,8 @@
 #include "Tester.h"
+#include "TwitterTest.h"
 #include "ConfigSample.h"
 #include "LuaBindingsTest.h"
+#include "XULWin/Lua/XMLHttpRequest.h"
 #include <boost/bind.hpp>
 #include <sstream>
 #include <windows.h>
@@ -34,7 +36,7 @@ void startTest(XULWin::LuaBindingsTest & tester)
 {
     //runConfigSample();
     //runImageViewerSample();    
-    tester.runXULSample("hello");
+    //tester.runXULSample("hello");
     //tester.runXULSample("toolbar");
     //tester.runXULSample("widgets");
     //tester.runXULSample("tabbox");
@@ -56,6 +58,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::LuaBindingsTest tester;
     ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, &tester, _1));
 
-    startTest(tester);
+    TwitterTest twitterTest;
+
+    
     return 0;
 }

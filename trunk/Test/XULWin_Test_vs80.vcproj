@@ -180,30 +180,6 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Header Files"
-			>
-			<File
-				RelativePath=".\Config.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConfigSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ImageViewerSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaBindingsTest.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tester.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="XUL Samples"
 			>
 			<File
@@ -262,10 +238,18 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Source Files"
+			Name="Code"
 			>
 			<File
+				RelativePath=".\Config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ConfigSample.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ConfigSample.h"
 				>
 			</File>
 			<File
@@ -273,7 +257,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ImageViewerSample.h"
+				>
+			</File>
+			<File
 				RelativePath=".\LuaBindingsTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LuaBindingsTest.h"
 				>
 			</File>
 			<File
@@ -282,6 +274,26 @@
 			</File>
 			<File
 				RelativePath=".\Tester.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Tester.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Twitter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Twitter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TwitterTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TwitterTest.h"
 				>
 			</File>
 		</Filter>

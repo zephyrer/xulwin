@@ -37,7 +37,7 @@ void startTest(XULWin::LuaBindingsTest & tester)
     //runImageViewerSample();    
     //tester.runXULSample("hello");
     tester.runXULSample("listbox-simple");
-    tester.runXULSample("listbox-advanced");
+    //tester.runXULSample("listbox-advanced");
     //tester.runXULSample("toolbar");
     //tester.runXULSample("widgets");
     //tester.runXULSample("tabbox");

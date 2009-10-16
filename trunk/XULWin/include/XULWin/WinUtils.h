@@ -143,13 +143,13 @@ namespace Windows
 
     void appendTabPanel(HWND inHandle, const std::string & inTitle);
 
-    bool insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText);
+    void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText);
 
-    bool insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
+    void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
     
-    bool setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled);
+    void setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled);
 
-    bool setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked);
+    void setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked);
 
     typedef boost::function<void()> TimerAction;
     void setTimeout(TimerAction inAction, int inDelayInMilliseconds);

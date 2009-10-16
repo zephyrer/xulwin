@@ -1,4 +1,5 @@
 #include "XULWin/ListBoxImpl.h"
+#include "XULWin/ListBox.h"
 #include "XULWin/WinUtils.h"
 
 
@@ -17,6 +18,15 @@ namespace XULWin
     bool ListBoxImpl::initImpl()
     {
         return Super::initImpl();
+    }
+
+
+    void ListBoxImpl::onChildAdded()
+    {
+        if (ListBox * listBox = el()->downcast<ListBox>())
+        {
+            listBox->ensureNativeImpl();
+        }
     }
 
 

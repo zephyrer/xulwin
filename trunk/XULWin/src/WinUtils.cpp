@@ -17,15 +17,18 @@ namespace Windows
 		INITCOMMONCONTROLSEX icex;
 		icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 		icex.dwICC  = ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_STANDARD_CLASSES | ICC_WIN95_CLASSES;
-		InitCommonControlsEx(&icex);
+		if (TRUE != InitCommonControlsEx(&icex))
+        {
+            throw std::runtime_error("Failed to initialized the Common Controls library.");
+        }
     }
     
 
     CurrentDirectoryChanger::CurrentDirectoryChanger(const std::string & inTargetDir)
 	{
-		::GetCurrentDirectoryW(MAX_PATH, mOldDir);
+        ::GetCurrentDirectoryW(MAX_PATH, mOldDir);
         std::wstring newDir = ToUTF16(inTargetDir);
-		::SetCurrentDirectoryW(newDir.c_str());
+        ::SetCurrentDirectoryW(newDir.c_str());
 	}
 
 
@@ -67,33 +70,49 @@ namespace Windows
     void addStringToComboBox(HWND inHandle, const std::string & inString)
     {
         std::wstring utf16String = ToUTF16(inString);
-        ::SendMessage(inHandle, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str());
+        if (CB_ERR == ::SendMessage(inHandle, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str()))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
     
     void removeStringFromComboBox(HWND inHandle, int inIndex)
     {
-        ::SendMessage(inHandle, CB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0);
+        if (CB_ERR == ::SendMessage(inHandle, CB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
-
 
 
     void addStringToListBox(HWND inHandle, const std::string & inString)
     {
         std::wstring utf16String = ToUTF16(inString);
-        ::SendMessage(inHandle, (UINT)LB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str());
+        if (LB_ERR == ::SendMessage(inHandle, (UINT)LB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str()))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
     
     void removeStringFromListBox(HWND inHandle, int inIndex)
     {
-        ::SendMessage(inHandle, LB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0);
+        if (LB_ERR == ::SendMessage(inHandle, LB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
     
     int getListBoxItemCount(HWND inHandle)
     {
-        return ::SendMessage(inHandle, LB_GETCOUNT, 0, 0);
+        int result = ::SendMessage(inHandle, LB_GETCOUNT, 0, 0);
+        if (LB_ERR == result)
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
+        return result;
     }
 
     
@@ -106,18 +125,31 @@ namespace Windows
     
     void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect)
     {
-        ::SendMessage(inHandle, LB_GETITEMRECT, (WPARAM)inIndex, (LPARAM)&outRect);
+        if (LB_ERR == ::SendMessage(inHandle, LB_GETITEMRECT, (WPARAM)inIndex, (LPARAM)&outRect))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
     
     void setListItemSelected(HWND inHandle, int inIndex)
     {
-        ::SendMessage(inHandle, LB_SETCURSEL, (WPARAM)inIndex, (LPARAM)0);
+        if (LB_ERR == ::SendMessage(inHandle, LB_SETCURSEL, (WPARAM)inIndex, (LPARAM)0))
+        {
+            // If an error occurs, the return value is LB_ERR. If the wParam
+            // parameter is –1, the return value is LB_ERR even though no error
+            // occurred.
+            if (inIndex != -1)
+            {
+                ReportError(getLastError(::GetLastError()));
+            }
+        }
     }
 
 
     void clearComboBox(HWND inHandle)
     {
+        // This message always returns CB_OKAY.
         ::SendMessage(inHandle, CB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
     }
 
@@ -125,13 +157,18 @@ namespace Windows
     int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset)
     {
         std::wstring utf16String = ToUTF16(inString);
-        return ::SendMessage(inHandle, CB_FINDSTRING, (WPARAM)inOffset, (LPARAM)(LPTSTR)utf16String.c_str());
+        return (int)::SendMessage(inHandle, CB_FINDSTRING, (WPARAM)inOffset, (LPARAM)(LPTSTR)utf16String.c_str());
     }
 
 
     int getComboBoxItemCount(HWND inHandle)
     {
-        return ::SendMessage(inHandle, CB_GETCOUNT, 0, 0);
+        int result = ::SendMessage(inHandle, CB_GETCOUNT, 0, 0);
+        if (CB_ERR == result)
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
+        return result;
     }
 
 
@@ -153,7 +190,10 @@ namespace Windows
 
     void selectComboBoxItem(HWND inHandle, int inItemIndex)
     {
-        ::SendMessage(inHandle, (UINT)CB_SETCURSEL, (WPARAM)inItemIndex, (LPARAM)0);
+        if (CB_ERR == ::SendMessage(inHandle, (UINT)CB_SETCURSEL, (WPARAM)inItemIndex, (LPARAM)0))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
     
     
@@ -174,7 +214,10 @@ namespace Windows
         {
             x = rw.left + (inWidth - oldWidth)/2;
         }
-        ::MoveWindow(inHandle, x, rw.top, inWidth, rw.bottom - rw.top, FALSE);
+        if (0 == ::MoveWindow(inHandle, x, rw.top, inWidth, rw.bottom - rw.top, FALSE))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -189,7 +232,10 @@ namespace Windows
         {
             y = rw.top + (inHeight - oldHeight)/2;
         }
-        ::MoveWindow(inHandle, rw.left, y, rw.right - rw.left, inHeight, FALSE);
+        if (0 == ::MoveWindow(inHandle, rw.left, y, rw.right - rw.left, inHeight, FALSE))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
     
@@ -230,7 +276,10 @@ namespace Windows
     void setWindowText(HWND inHandle, const std::string & inText)
     {
         std::wstring utf16String = ToUTF16(inText);
-        ::SetWindowText(inHandle, utf16String.c_str());
+        if (0 == ::SetWindowText(inHandle, utf16String.c_str()))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -318,6 +367,7 @@ namespace Windows
 
     void setCheckBoxState(HWND inHandle, CheckState inState)
     {
+        // This message always returns zero.
         ::SendMessage(inHandle, BM_SETCHECK, (WPARAM)inState, 0);
     }
 
@@ -350,25 +400,34 @@ namespace Windows
 
     void advanceProgressMeter(HWND inHandle)
 	{
+        // When the position exceeds the maximum range value, this message
+        // resets the current position so that the progress indicator starts
+        // over again from the beginning.
         ::SendMessage(inHandle, PBM_STEPIT, 0, 0);
 	}
 		
 
 	void setProgressMeterProgress(HWND inHandle, int inProgress)
 	{
+        // Returns the previous position.
         ::SendMessage(inHandle, PBM_SETPOS, (WPARAM)inProgress, (LPARAM)0);
 	}
 
 
     int getProgressMeterProgress(HWND inHandle)
     {
+        // Returns a UINT value that represents the current position of the
+        // progress bar.
         return (int)::SendMessage(inHandle, PBM_GETPOS, (WPARAM)0, (LPARAM)0);
     }
 
 
     void addWindowStyle(HWND inHandle, LONG inStyle) 
     {
-        ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) | inStyle);
+        if (0 == ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) | inStyle))
+        {            
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -380,13 +439,19 @@ namespace Windows
 
     void setWindowStyle(HWND inHandle, LONG inStyle) 
     {
-        ::SetWindowLong(inHandle, GWL_STYLE, inStyle);
+        if (0 == ::SetWindowLong(inHandle, GWL_STYLE, inStyle))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
     void removeWindowStyle(HWND inHandle, LONG inStyle)
     {
-        ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) & ~inStyle);
+        if (0 == ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) & ~inStyle))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -398,6 +463,8 @@ namespace Windows
 
     void setWindowVisible(HWND inHandle, bool inVisible)
     {
+        // If the window was previously visible, the return value is nonzero.
+        // If the window was previously hidden, the return value is zero.
         ::ShowWindow(inHandle, inVisible ? SW_SHOW : SW_HIDE);
     }
 
@@ -410,7 +477,10 @@ namespace Windows
 
     void setTextBoxReadOnly(HWND inHandle, bool inReadOnly)
     {
-        ::SendMessage(inHandle, EM_SETREADONLY, inReadOnly ? TRUE : FALSE, 0);
+        if (0 != ::SendMessage(inHandle, EM_SETREADONLY, inReadOnly ? TRUE : FALSE, 0))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -430,6 +500,8 @@ namespace Windows
 		si.nPage = inPageHeight;
 		si.nPos = inCurrentPosition;
 		si.nTrackPos = 0; // is ignored by SetScrollInfo
+
+        // The return value is the current position of the scroll box.
         ::SetScrollInfo(inHandle, SB_CTL, &si, TRUE);
     }
 
@@ -441,10 +513,18 @@ namespace Windows
 		si.cbSize = sizeof(SCROLLINFO);
 		si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
 
-        ::GetScrollInfo(inHandle, SB_CTL, &si);
-        outTotalHeight = si.nMax;
-        outPageHeight = si.nPage;
-        outCurrentPosition = si.nPos;
+        // If the function does not retrieve any values, the return value is
+        // zero. To get extended error information, call GetLastError.
+        if (0 != ::GetScrollInfo(inHandle, SB_CTL, &si))
+        {
+            outTotalHeight = si.nMax;
+            outPageHeight = si.nPage;
+            outCurrentPosition = si.nPos;
+        }
+        else
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -456,7 +536,10 @@ namespace Windows
 
     void setScrollPos(HWND inHandle, int inPos)
     {
-        ::SetScrollPos(inHandle, SB_CTL, inPos, TRUE);
+        if (0 == ::SetScrollPos(inHandle, SB_CTL, inPos, TRUE))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -467,14 +550,14 @@ namespace Windows
         tabItem.iImage = -1; 
         std::wstring text = ToUTF16(inTitle);
         tabItem.pszText = const_cast<LPWSTR>(text.c_str());
-        if (TabCtrl_InsertItem(inHandle, TabCtrl_GetItemCount(inHandle), &tabItem) == -1) 
+        if (-1 == TabCtrl_InsertItem(inHandle, TabCtrl_GetItemCount(inHandle), &tabItem)) 
         { 
-            ReportError("Failed to insert a new tab.");
+            ReportError(getLastError(::GetLastError()));
         }
     }
 
 
-    bool insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText)
+    void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText)
     {        
 	    MENUITEMINFO mii;
 	    memset(&mii, 0, sizeof(mii));
@@ -493,11 +576,14 @@ namespace Windows
 	    mii.dwTypeData = (LPTSTR)&buffer[0];    		
 	    mii.cch = (UINT)itemText.size();
 	    mii.wID = inCommandId;
-        return 0 != ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii);
+        if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
     
 
-    bool insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText)
+    void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText)
     {
 	    MENUITEMINFO mii;
 	    memset(&mii, 0, sizeof(mii));
@@ -516,19 +602,28 @@ namespace Windows
 	    mii.cch = (UINT)inText.size();
 	    mii.hSubMenu = inSubMenu;
 
-        return 0 != ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii);
+        if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
     
 
-    bool setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled)
+    void setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled)
     {
-        return 0 != ::EnableMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED);
+        if (0 == ::EnableMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
     
 
-    bool setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked)
+    void setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked)
     {
-        return 0 != ::CheckMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED);
+        if (0 == ::CheckMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 
@@ -552,8 +647,15 @@ namespace Windows
     void setTimeout(TimerAction inAction, int inDelayInMilliseconds)
     {
         UINT_PTR timerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &Windows::TimerCallback);
-        assert (sTimers.find(timerId) == sTimers.end());
-        sTimers.insert(std::make_pair(timerId, inAction));
+        if (timerId != 0)
+        {
+            assert (sTimers.find(timerId) == sTimers.end());
+            sTimers.insert(std::make_pair(timerId, inAction));
+        }
+        else
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
     }
 
 

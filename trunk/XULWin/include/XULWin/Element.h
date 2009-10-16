@@ -46,7 +46,8 @@ namespace XULWin
             result->setStyles(inAttr);
             if (inParent)
             {
-                inParent->addChild(result);
+                // The addChild() method also calls ElementImpl::onChildAdded
+                inParent->addChild(result);                
             }
             return result;
         }

@@ -17,6 +17,8 @@ namespace XULWin
         static const char * Type() { return "listbox"; }
 
         virtual bool init();
+
+        void ensureNativeImpl();
     
     private:
         friend class Element;

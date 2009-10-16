@@ -21,13 +21,11 @@ namespace XULWin
     }
 
 
-    bool ListBox::init()
-    {
+    void ListBox::ensureNativeImpl()
+    {        
         // The decorator is used as a proxy here.
         if (Proxy * proxy = impl()->downcast<Proxy>())
         {
-            //std::vector<Element*> elements;
-            //getElementsByType(ListCols::Type(), elements);
             // If we have a <listcols> element, then we are a ListView
             if (findChildOfType<ListCols>())
             {   
@@ -40,6 +38,12 @@ namespace XULWin
                 proxy->swap(new MarginDecorator(listBox));
             }
         }
+    }
+
+
+    bool ListBox::init()
+    {
+        ensureNativeImpl();
         return Element::init();
     }
 

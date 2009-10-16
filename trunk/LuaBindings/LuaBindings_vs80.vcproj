@@ -165,6 +165,14 @@
 				RelativePath=".\include\XULWin\Lua\XULRunnerWithLua.h"
 				>
 			</File>
+			<Filter
+				Name="Generated Files"
+				>
+				<File
+					RelativePath=".\LuaBindings_wrap.cxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -189,14 +197,6 @@
 			</File>
 			<File
 				RelativePath=".\src\XULRunnerWithLua.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Generated Files"
-			>
-			<File
-				RelativePath=".\LuaBindings_wrap.cxx"
 				>
 			</File>
 		</Filter>

@@ -28,6 +28,8 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
+        virtual void onChildAdded();
+
     private:
         Fallible<int> mRows;
     };

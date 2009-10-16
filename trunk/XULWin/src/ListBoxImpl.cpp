@@ -1,5 +1,7 @@
 #include "XULWin/ListBoxImpl.h"
 #include "XULWin/ListBox.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/ListItemImpl.h"
 #include "XULWin/WinUtils.h"
 
 
@@ -21,11 +23,16 @@ namespace XULWin
     }
 
 
-    void ListBoxImpl::onChildAdded()
+    void ListBoxImpl::onChildAdded(ElementImpl * inChild)
     {
         if (ListBox * listBox = el()->downcast<ListBox>())
         {
-            listBox->ensureNativeImpl();
+            if (ListItemImpl * item = inChild->downcast<ListItemImpl>())
+            {
+                HWND hwnd = this->handle();
+                std::string label = item->getLabel();
+                Windows::addStringToListBox(hwnd, label);
+            }
         }
     }
 

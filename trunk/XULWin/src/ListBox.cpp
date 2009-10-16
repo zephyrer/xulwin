@@ -9,10 +9,9 @@ namespace XULWin
 {
 
     // At this point we don't know yet whether to make a listbox or a listview.
-    // Both have distinct window classnames in the WinAPI.
-    // We'll have to delay creation for the init() method.
-    // However, at this point we still need to have an impl, so we use
-    // temporarily use a PassiveComonent object.
+    // Both have distinct window classnames in the WinAPI, but not in XUL.
+    // So we need to delay the instantiation. However, we still must have an
+    // impl, so we use temporarily use a PassiveComonent object.
     ListBox::ListBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListBox::Type(),
                 inParent,
@@ -20,22 +19,37 @@ namespace XULWin
     {
     }
 
+        
+    void ListBox::addChild(ElementPtr inChild)
+    {
+		// We need a native instance now or otherwise we
+		// can't add the child natively
+        setImpl(inChild->type());
+        Element::addChild(inChild);
+    }
 
-    void ListBox::ensureNativeImpl()
-    {        
+
+    void ListBox::setImpl(const std::string & inType)
+    {
         // The decorator is used as a proxy here.
         if (Proxy * proxy = impl()->downcast<Proxy>())
         {
-            // If we have a <listcols> element, then we are a ListView
-            if (findChildOfType<ListCols>())
-            {   
-                ListViewImpl * listView = new ListViewImpl(parent()->impl(), mAttributes);
-                proxy->swap(new MarginDecorator(listView));
-            }
-            else
-            {
-                ListBoxImpl * listBox = new ListBoxImpl(parent()->impl(), mAttributes);
-                proxy->swap(new MarginDecorator(listBox));
+            if (proxy->downcast<PassiveComponent>())
+            {                
+                // If the first child is of type "listitem" then can be certain
+                // that it is a regular listbox
+                if (inType == "listitem")
+                {   
+                    ListBoxImpl * listBox = new ListBoxImpl(parent()->impl(), mAttributes);
+                    ElementImplPtr prev = proxy->swap(new MarginDecorator(listBox));
+                    listBox->initImpl();
+                }
+                else
+                {
+                    ListViewImpl * listView = new ListViewImpl(parent()->impl(), mAttributes);
+                    ElementImplPtr prev = proxy->swap(new MarginDecorator(listView));
+                    listView->initImpl();
+                }
             }
         }
     }
@@ -43,7 +57,6 @@ namespace XULWin
 
     bool ListBox::init()
     {
-        ensureNativeImpl();
         return Element::init();
     }
 

@@ -55,7 +55,8 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["label"] = inMessage;
-            ListItem::Create(logListBox, attr)->init();
+            ElementPtr listItemPtr = ListItem::Create(logListBox, attr);
+            listItemPtr->init();
         }
     }
 

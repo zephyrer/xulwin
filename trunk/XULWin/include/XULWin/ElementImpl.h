@@ -60,9 +60,12 @@ namespace XULWin
     class NotificationListener
     {
     public:
-        virtual void onChildAdded() {}
+        // This notificion is sent just after the child has been added.
+        virtual void onChildAdded(ElementImpl * inChild) {}
 
-        virtual void onChildRemoved() {}
+        // This notificion is sent after the child has been removed and
+        // just before the child is destroyed.
+        virtual void onChildRemoved(ElementImpl * inChild) {}
 
         virtual void onContentChanged() {}
     };
@@ -1238,9 +1241,9 @@ namespace XULWin
         void show(RECT inExcludeRect);
 
     protected:
-        virtual void onChildAdded();
+        virtual void onChildAdded(ElementImpl * inChild);
 
-        virtual void onChildRemoved();
+        virtual void onChildRemoved(ElementImpl * inChild);
 
     private:
         Windows::PopupMenu * getMenu();

@@ -28,7 +28,7 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void onChildAdded();
+        virtual void onChildAdded(ElementImpl * inChild);
 
     private:
         Fallible<int> mRows;

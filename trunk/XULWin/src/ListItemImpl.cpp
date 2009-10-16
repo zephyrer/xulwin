@@ -16,14 +16,6 @@ namespace XULWin
         
     bool ListItemImpl::initImpl()
     {
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
-        {
-            Windows::addStringToListBox(comp->handle(), getLabel());
-            if (isSelected())
-            {
-                Windows::setListItemSelected(comp->handle(), getIndex());
-            }
-        }
         return Super::initImpl();
     }
 

@@ -17,12 +17,14 @@ namespace XULWin
     Decorator::Decorator(ElementImpl * inDecoratedElement) :
         mDecoratedElement(inDecoratedElement)
     {
+        assert(mDecoratedElement);
     }
 
 
     Decorator::Decorator(ElementImplPtr inDecoratedElement) :
         mDecoratedElement(inDecoratedElement)
     {
+        assert(mDecoratedElement);
     }
 
 
@@ -33,6 +35,7 @@ namespace XULWin
 
     bool Decorator::initImpl()
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->initImpl();
@@ -43,6 +46,7 @@ namespace XULWin
 
     int Decorator::getIndex() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getIndex();
@@ -53,6 +57,7 @@ namespace XULWin
 
     size_t Decorator::getChildCount() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getChildCount();
@@ -63,6 +68,7 @@ namespace XULWin
 
     const ElementImpl * Decorator::getChild(size_t inIndex) const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getChild(inIndex);
@@ -73,6 +79,7 @@ namespace XULWin
 
     ElementImpl * Decorator::getChild(size_t inIndex)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getChild(inIndex);
@@ -83,6 +90,7 @@ namespace XULWin
 
     HWND Decorator::getFirstParentHandle()
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getFirstParentHandle();
@@ -93,6 +101,7 @@ namespace XULWin
 
     int Decorator::getWidth() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getWidth();
@@ -103,6 +112,7 @@ namespace XULWin
 
     void Decorator::setWidth(int inWidth)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setWidth(inWidth);
@@ -112,6 +122,7 @@ namespace XULWin
 
     int Decorator::getHeight() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getHeight();
@@ -122,6 +133,7 @@ namespace XULWin
 
     void Decorator::setHeight(int inHeight)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setHeight(inHeight);
@@ -131,6 +143,7 @@ namespace XULWin
 
     void Decorator::setStroke(const RGBColor & inColor)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setStroke(inColor);
@@ -140,6 +153,7 @@ namespace XULWin
 
     const RGBColor & Decorator::getStroke() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getStroke();
@@ -151,6 +165,7 @@ namespace XULWin
 
     void Decorator::setStrokeWidth(int inStrokeWidth)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->setStrokeWidth(inStrokeWidth);
@@ -160,6 +175,7 @@ namespace XULWin
     
     int Decorator::getStrokeWidth() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getStrokeWidth();
@@ -170,6 +186,7 @@ namespace XULWin
 
     void Decorator::setFill(const RGBColor & inColor)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setFill(inColor);
@@ -179,6 +196,7 @@ namespace XULWin
 
     const RGBColor & Decorator::getFill() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->getFill();
@@ -190,6 +208,7 @@ namespace XULWin
 
     int Decorator::getFlex() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getFlex();
@@ -200,6 +219,7 @@ namespace XULWin
 
     void Decorator::setFlex(int inFlex)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setFlex(inFlex);
@@ -209,6 +229,7 @@ namespace XULWin
     
     int Decorator::getCSSWidth() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getCSSWidth();
@@ -219,6 +240,7 @@ namespace XULWin
 
     void Decorator::setCSSWidth(int inWidth)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setCSSWidth(inWidth);
@@ -228,6 +250,7 @@ namespace XULWin
     
     int Decorator::getCSSHeight() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getCSSHeight();
@@ -238,6 +261,7 @@ namespace XULWin
 
     void Decorator::setCSSHeight(int inHeight)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setCSSHeight(inHeight);
@@ -247,6 +271,7 @@ namespace XULWin
     
     void Decorator::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getCSSMargin(outTop, outLeft, outRight, outBottom);
@@ -256,6 +281,7 @@ namespace XULWin
 
     void Decorator::setCSSMargin(int inTop, int inLeft, int inRight, int inBottom)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setCSSMargin(inTop, inLeft, inRight, inBottom);
@@ -265,6 +291,7 @@ namespace XULWin
 
     void Decorator::setCSSFill(const RGBColor & inColor)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setCSSFill(inColor);
@@ -274,6 +301,7 @@ namespace XULWin
 
     const RGBColor & Decorator::getCSSFill() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->getCSSFill();
@@ -285,6 +313,7 @@ namespace XULWin
 
     void Decorator::setCSSStroke(const RGBColor & inColor)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setCSSStroke(inColor);
@@ -294,6 +323,7 @@ namespace XULWin
 
     const RGBColor & Decorator::getCSSStroke() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->getCSSStroke();
@@ -305,6 +335,7 @@ namespace XULWin
 
     int Decorator::getCSSX() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->getCSSX();
@@ -315,6 +346,7 @@ namespace XULWin
 
     void Decorator::setCSSX(int inX)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setCSSX(inX);
@@ -324,6 +356,7 @@ namespace XULWin
 
     int Decorator::getCSSY() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->getCSSY();
@@ -334,6 +367,7 @@ namespace XULWin
 
     void Decorator::setCSSY(int inY)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setCSSY(inY);
@@ -343,6 +377,7 @@ namespace XULWin
 
     bool Decorator::isHidden() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->isHidden();
@@ -353,6 +388,7 @@ namespace XULWin
 
     void Decorator::setHidden(bool inHidden)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->setHidden(inHidden);
@@ -362,6 +398,7 @@ namespace XULWin
     
     Orient Decorator::getOrient() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getOrient();
@@ -372,6 +409,7 @@ namespace XULWin
 
     void Decorator::setOrient(Orient inOrient)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->setOrient(inOrient);
@@ -381,6 +419,7 @@ namespace XULWin
 
     Align Decorator::getAlign() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getAlign();
@@ -391,6 +430,7 @@ namespace XULWin
 
     void Decorator::setAlign(Align inAlign)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->setAlign(inAlign);
@@ -400,6 +440,7 @@ namespace XULWin
 
     int Decorator::commandId() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->commandId();
@@ -410,6 +451,7 @@ namespace XULWin
 
     int Decorator::getWidth(SizeConstraint inSizeConstraint) const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getWidth(inSizeConstraint);
@@ -420,6 +462,7 @@ namespace XULWin
 
     int Decorator::getHeight(SizeConstraint inSizeConstraint) const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getHeight(inSizeConstraint);
@@ -430,6 +473,7 @@ namespace XULWin
 
     int Decorator::calculateWidth(SizeConstraint inSizeConstraint) const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->calculateWidth(inSizeConstraint);
@@ -440,6 +484,7 @@ namespace XULWin
 
     int Decorator::calculateHeight(SizeConstraint inSizeConstraint) const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->calculateHeight(inSizeConstraint);
@@ -450,6 +495,7 @@ namespace XULWin
     
     bool Decorator::expansive() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->expansive();
@@ -460,6 +506,7 @@ namespace XULWin
 
     void Decorator::move(int x, int y, int w, int h)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->move(x, y, w, h);
@@ -469,12 +516,19 @@ namespace XULWin
 
     Rect Decorator::clientRect() const
     {
-        return mDecoratedElement->clientRect();
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->clientRect();
+        }
+        Rect defaultRect;
+        return defaultRect;
     }
 
 
     void Decorator::setOwningElement(Element * inElement)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setOwningElement(inElement);
@@ -484,6 +538,7 @@ namespace XULWin
 
     Element * Decorator::el() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->el();
@@ -494,6 +549,7 @@ namespace XULWin
 
     ElementImpl * Decorator::parent() const
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->parent();
@@ -504,6 +560,7 @@ namespace XULWin
 
     void Decorator::rebuildLayout()
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->rebuildLayout();
@@ -513,6 +570,7 @@ namespace XULWin
 
     void Decorator::rebuildChildLayouts()
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->rebuildChildLayouts();
@@ -522,6 +580,7 @@ namespace XULWin
 
     bool Decorator::getAttribute(const std::string & inName, std::string & outValue)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getAttribute(inName, outValue);
@@ -532,6 +591,7 @@ namespace XULWin
 
     bool Decorator::getStyle(const std::string & inName, std::string & outValue)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->getStyle(inName, outValue);
@@ -542,6 +602,7 @@ namespace XULWin
 
     bool Decorator::setStyle(const std::string & inName, const std::string & inValue)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->setStyle(inName, inValue);
@@ -552,6 +613,7 @@ namespace XULWin
 
     bool Decorator::setAttribute(const std::string & inName, const std::string & inValue)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->setAttribute(inName, inValue);
@@ -562,6 +624,7 @@ namespace XULWin
 
     bool Decorator::initAttributeControllers()
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->initAttributeControllers();
@@ -572,6 +635,7 @@ namespace XULWin
 
     bool Decorator::initStyleControllers()
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->initStyleControllers();
@@ -582,6 +646,7 @@ namespace XULWin
 
     void Decorator::setAttributeController(const std::string & inAttr, AttributeController * inController)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setAttributeController(inAttr, inController);
@@ -591,6 +656,7 @@ namespace XULWin
 
     void Decorator::setStyleController(const std::string & inAttr, StyleController * inController)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->setStyleController(inAttr, inController);
@@ -600,6 +666,7 @@ namespace XULWin
     
     ElementImplPtr Decorator::decoratedElement() const
     {
+        assert(mDecoratedElement);
         return mDecoratedElement;
     }
     
@@ -607,35 +674,40 @@ namespace XULWin
     void Decorator::setDecoratedElement(ElementImplPtr inElement)
     {
         mDecoratedElement = inElement;
+        assert(mDecoratedElement);
     }
     
     
     void Decorator::setDecoratedElement(ElementImpl * inElement)
     {
         mDecoratedElement.reset(inElement);
+        assert(mDecoratedElement);
     }
 
 
-    void Decorator::onChildAdded()
+    void Decorator::onChildAdded(ElementImpl * inChild)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            mDecoratedElement->onChildAdded();
+            mDecoratedElement->onChildAdded(inChild);
         }
     }
 
 
-    void Decorator::onChildRemoved()
+    void Decorator::onChildRemoved(ElementImpl * inChild)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            mDecoratedElement->onChildRemoved();
+            mDecoratedElement->onChildRemoved(inChild);
         }
     }
 
 
     void Decorator::onContentChanged()
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             mDecoratedElement->onContentChanged();
@@ -645,6 +717,7 @@ namespace XULWin
 
     LRESULT Decorator::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
+        assert(mDecoratedElement);
         if (mDecoratedElement)
         {
             return mDecoratedElement->handleMessage(inMessage, wParam, lParam);

@@ -2529,13 +2529,13 @@ namespace XULWin
     }
     
     
-    void MenuPopupImpl::onChildAdded()
+    void MenuPopupImpl::onChildAdded(ElementImpl * inChild)
     {
         parent()->onContentChanged();
     }
 
 
-    void MenuPopupImpl::onChildRemoved()
+    void MenuPopupImpl::onChildRemoved(ElementImpl * inChild)
     {
         parent()->onContentChanged();
     }

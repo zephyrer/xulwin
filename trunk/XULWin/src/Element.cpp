@@ -105,9 +105,11 @@ namespace XULWin
         Children::iterator it = std::find_if(mChildren.begin(), mChildren.end(), boost::bind(&ElementPtr::get, _1) == inChild);
         if (it != mChildren.end())
         {
+            ElementPtr keepAlive = *it;
             mChildren.erase(it);
             mImpl->rebuildLayout();            
-            mImpl->onChildRemoved();
+            mImpl->onChildRemoved(keepAlive->impl());
+            // keepAlive loses scope here and destroys child
         }
         else
         {
@@ -280,7 +282,7 @@ namespace XULWin
     void Element::addChild(ElementPtr inChild)
     {
         mChildren.push_back(inChild);
-        impl()->onChildAdded();
+        impl()->onChildAdded(inChild->impl());
     }
 
 

@@ -18,9 +18,11 @@ namespace XULWin
 
         virtual bool init();
 
-        void ensureNativeImpl();
+        virtual void addChild(ElementPtr inChild);
     
-    private:
+    private:        
+        void setImpl(const std::string & inType);
+
         friend class Element;
         ListBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };

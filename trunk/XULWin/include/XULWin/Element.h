@@ -155,7 +155,7 @@ namespace XULWin
             return 0;
         }
 
-        // you don't need to call this, the factory method takes care of it
+        // you don't need to call this, Element::Create() does it
         virtual void addChild(ElementPtr inChild);
 
         // highly volatile, use at your own risk

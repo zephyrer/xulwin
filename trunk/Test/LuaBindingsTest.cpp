@@ -21,7 +21,7 @@ namespace XULWin
         mLoggerApp = mLoggerRunner.loadXUL(path);
         if (Window * wnd = mLoggerApp->downcast<Window>())
         {
-            wnd->impl()->move(0, 800, 400, 100);
+            wnd->impl()->move(0, 500, 400, 400);
             wnd->show(Window::DefaultPosition);
         }
         ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, this, _1));

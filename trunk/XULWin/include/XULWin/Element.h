@@ -39,7 +39,7 @@ namespace XULWin
         /**
          * INITIALIZATION ORDER
          * 
-         * When Parser encounters the OPENING tag of a new element:
+         * PART 1: Parser encounters the OPENING tag of a new element:
          * - Element constructor
          * - Construction of any decorators for ElementImpl
          * - ElementImpl constructor
@@ -50,7 +50,9 @@ namespace XULWin
          * - Element::addChild
          * - Element::onChildAdded notification
          * 
-         * When Parser finds CLOSING tag of the element:
+         * PART 2: Creation and initialization of any child elements
+         *
+         * PART 3: Parser finds CLOSING tag of the element:
          * - Element::init
          * - ElementImpl::initImpl
          * 

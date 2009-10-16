@@ -1,7 +1,4 @@
-
-
 Test-Driven-Developement
-- Add script for making XUL samples
 - Add listbox columns
 - Add mouse scrolling
 - Fix horizontal scrolling in Logger window

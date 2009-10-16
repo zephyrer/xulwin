@@ -65,8 +65,7 @@ contents = ""
 File.open(projectpath + projectname, 'r') do |file|
     doc = REXML::Document.new file
 
-    elementsFolder = doc.elements["VisualStudioProject" +
-                                  "/Files"]
+    elementsFolder = doc.elements["VisualStudioProject/Files"]
 
     newFolder = REXML::Element.new("Filter")
     newFolder.attributes["Name"] = classname

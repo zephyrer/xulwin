@@ -128,6 +128,8 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h);
 
+        virtual void move(const Rect & inRect);
+
         virtual Rect clientRect() const;
 
         virtual void setOwningElement(Element * inElement);
@@ -268,6 +270,8 @@ namespace XULWin
         virtual int getHeight(SizeConstraint inSizeConstraint) const;
         
         virtual Rect clientRect() const;
+
+        virtual void move(const Rect & inRect);
 
         virtual void move(int x, int y, int w, int h);
 

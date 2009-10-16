@@ -548,6 +548,12 @@ namespace XULWin
     }
 
     
+    void ConcreteElement::move(const Rect & inRect)
+    {
+        move(inRect.x(), inRect.y(), inRect.width(), inRect.height());
+    }
+
+    
     void ConcreteElement::setOwningElement(Element * inElement)
     {
         mElement = inElement;

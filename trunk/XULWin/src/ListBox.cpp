@@ -43,12 +43,18 @@ namespace XULWin
                     ListBoxImpl * listBox = new ListBoxImpl(parent()->impl(), mAttributes);
                     ElementImplPtr prev = proxy->swap(new MarginDecorator(listBox));
                     listBox->initImpl();
+
+					// We need to apply the clientRect natively
+                    proxy->move(prev->clientRect());
                 }
                 else
                 {
                     ListViewImpl * listView = new ListViewImpl(parent()->impl(), mAttributes);
                     ElementImplPtr prev = proxy->swap(new MarginDecorator(listView));
                     listView->initImpl();
+
+					// We need to apply the clientRect natively
+                    proxy->move(prev->clientRect());
                 }
             }
         }

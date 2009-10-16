@@ -512,6 +512,16 @@ namespace XULWin
             mDecoratedElement->move(x, y, w, h);
         }
     }
+    
+    
+    void Decorator::move(const Rect & inRect)
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->move(inRect);
+        }
+    }
 
 
     Rect Decorator::clientRect() const
@@ -1092,6 +1102,12 @@ namespace XULWin
     }
 
     
+    void MarginDecorator::move(const Rect & inRect)
+    {
+        MarginDecorator::move(inRect.x(), inRect.y(), inRect.width(), inRect.height());
+    }
+
+    
     void MarginDecorator::move(int x, int y, int w, int h)
     {
         mOuterRect = Rect(x, y, w, h);
@@ -1108,6 +1124,7 @@ namespace XULWin
         }
     }
     
+
     int MarginDecorator::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return marginLeft() + Super::getWidth(inSizeConstraint) + marginRight();

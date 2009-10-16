@@ -307,6 +307,8 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h) = 0;
 
+        virtual void move(const Rect & inRect) = 0;
+
         virtual Rect clientRect() const = 0;
 
         virtual void setOwningElement(Element * inElement) = 0;
@@ -489,6 +491,8 @@ namespace XULWin
         bool expansive() const;
 
         virtual void move(int x, int y, int w, int h) = 0;
+
+        virtual void move(const Rect & inRect);
 
         virtual Rect clientRect() const = 0;
 

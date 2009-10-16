@@ -29,13 +29,13 @@ namespace XULWin
         
     int ListViewImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return 1;
+        return 100;
     }
 
     
     int ListViewImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return 1;
+        return 100;
     }
     
 } // namespace XULWin

@@ -9,8 +9,7 @@
 
 namespace XULWin
 {
-            
-   
+
     class ElementFactory
     {
     public:

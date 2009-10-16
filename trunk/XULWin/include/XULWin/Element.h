@@ -35,6 +35,26 @@ namespace XULWin
     class Element : private boost::noncopyable
     {
     public:
+
+        /**
+         * INITIALIZATION ORDER
+         * 
+         * When Parser encounters the OPENING tag of a new element:
+         * - Element constructor
+         * - Construction of any decorators for ElementImpl
+         * - ElementImpl constructor
+         * - Element::initAttributeControllers
+         * - Element::setAttributes
+         * - Element::initStyleControllers
+         * - Element::setStyles
+         * - Element::addChild
+         * - Element::onChildAdded notification
+         * 
+         * When Parser finds CLOSING tag of the element:
+         * - Element::init
+         * - ElementImpl::initImpl
+         * 
+         */  
         template<class ElementType>
         static ElementPtr Create(Element * inParent,
                                  const AttributesMapping & inAttr)

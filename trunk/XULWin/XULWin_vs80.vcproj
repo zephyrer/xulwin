@@ -532,14 +532,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ListView.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ListView.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\ListViewImpl.cpp"
 				>
 			</File>

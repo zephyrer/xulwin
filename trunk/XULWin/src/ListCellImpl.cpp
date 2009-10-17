@@ -1,4 +1,6 @@
 #include "XULWin/ListCellImpl.h"
+#include "XULWin/WinUtils.h"
+#include "XULWin/Defaults.h"
 
 
 namespace XULWin
@@ -25,7 +27,16 @@ namespace XULWin
         
     int ListCellImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return 1;
+        int result = 0;
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(parent()))
+        {
+            int w = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::listViewColumnTextPadding();
+            if (w > result)
+            {
+                result = w;
+            }
+        }
+        return result;
     }
 
     

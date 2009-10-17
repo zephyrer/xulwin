@@ -5,9 +5,12 @@
 <window id="mainWindow"
 		title="listbox-advanced Sample"
         xmlns:html="http://www.w3.org/1999/xhtml"
-        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        width="300"
+        height="300">
+  
   <!-- Creates a two column listbox -->
-  <listbox>
+  <listbox flex="1">
 
     <listhead>
       <listheader label="Name"/>
@@ -15,7 +18,7 @@
     </listhead>
 
     <listcols>
-      <listcol/>
+      <listcol width="150"/>
       <listcol flex="1"/>
     </listcols>
 

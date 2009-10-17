@@ -62,6 +62,8 @@ namespace XULWin
 
         static int toolbarHeight() { return 23; }
 
+        static int listViewColumnTextPadding() { return 15; }
+
         namespace Attributes
         {
             static bool disabled() { return false; }

@@ -4,7 +4,8 @@
 - Remove Proxy class, and move methods to ComponentWrapper
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
-- Add listbox columns
+
+- Support flex attr for listcol
 - Use pull-based initialization (notification based)
 - Add mouse scrolling
 - Fix horizontal scrolling in Logger window
@@ -17,7 +18,7 @@
 - Make sample with menu event handling
 - Checkbox partial checkstate
 - Implement PathInstructions2String
-- Context menu (treeview sample)
+- Add Context menu (treeview sample)
 - Toolbar
 - Add "undetermined" attribute for progressmeter
 - remove items from Tree view

@@ -35,7 +35,7 @@ namespace XULWin
         Windows::CurrentDirectoryChanger cd("../xulrunnersamples/" + inAppname + "/");
 
 #if TEST_WITH_MOZILLA_XULRUNNER
-        system("run.bat");
+        ::ShellExecute(NULL, TEXT("open"), TEXT("run.bat"), NULL, NULL, SW_SHOWNORMAL);
 #endif
 
         Lua::XULRunnerWithLua xulRunner;

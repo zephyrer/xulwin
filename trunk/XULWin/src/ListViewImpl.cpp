@@ -2,6 +2,10 @@
 #include "XULWin/ListBox.h"
 #include "XULWin/ListCell.h"
 #include "XULWin/ListCellImpl.h"
+#include "XULWin/ListCol.h"
+#include "XULWin/ListColImpl.h"
+#include "XULWin/ListCols.h"
+#include "XULWin/ListColsImpl.h"
 #include "XULWin/ListHeaderImpl.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/ListItemImpl.h"
@@ -36,6 +40,25 @@ namespace XULWin
 
     bool ListViewImpl::initImpl()
     {
+		// Apply min widths to columns
+        // XUL Hierarchy: listbox/listcols/listcol
+        if (ListCols * listColsEl = el()->findChildOfType<ListCols>())
+        {
+            // First get the column widths
+            std::vector<int> colWidths;
+            std::vector<ListCol*> cols;
+            listColsEl->getElementsByType<ListCol>(cols);
+            for (size_t colIdx = 0; colIdx != cols.size(); ++colIdx)
+            {
+                colWidths.push_back(cols[colIdx]->impl()->getWidth());
+            }
+
+            // Apply the column widths
+            for (size_t colIdx = 0; colIdx != colWidths.size(); ++colIdx)
+            {
+                ListView_SetColumnWidth(handle(), colIdx, colWidths[colIdx]);
+            }
+        }
         return Super::initImpl();
     }
 
@@ -87,7 +110,7 @@ namespace XULWin
             std::vector<ListItem*> listItems;
             el()->getElementsByType<ListItem>(listItems);
 
-            if (dispInfo->item.iItem >= listItems.size())
+            if (dispInfo->item.iItem >= static_cast<int>(listItems.size()))
             {
                 //
                 return 1;

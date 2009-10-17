@@ -18,6 +18,7 @@ namespace XULWin
     
     bool ListCellImpl::initAttributeControllers()
     {
+        setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
         
@@ -31,6 +32,18 @@ namespace XULWin
     int ListCellImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
+    }
+
+
+    std::string ListCellImpl::getLabel() const
+    {
+        return mLabel;
+    }
+
+    
+    void ListCellImpl::setLabel(const std::string & inLabel)
+    {
+        mLabel = inLabel;
     }
     
 } // namespace XULWin

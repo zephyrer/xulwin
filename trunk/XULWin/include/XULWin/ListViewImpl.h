@@ -17,6 +17,8 @@ namespace XULWin
         ListViewImpl(ElementImpl * inParent,
                      const AttributesMapping & inAttributesMapping);
 
+        virtual ~ListViewImpl();
+
         virtual bool initImpl();
 
         bool initAttributeControllers();
@@ -28,6 +30,11 @@ namespace XULWin
         virtual void onChildAdded(ElementImpl * inChild);
 
         void addListHeader(ListHeaderImpl * inListHeader);
+
+    private:
+        LRESULT handleGetDispInfo(WPARAM wParam, LPARAM lParam);
+
+        ScopedEventListener mEventListener;
     };
 
 } // namespace XULWin

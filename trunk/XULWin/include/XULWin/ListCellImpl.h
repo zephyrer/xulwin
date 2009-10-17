@@ -3,12 +3,14 @@
 
 
 #include "XULWin/ElementImpl.h"
+#include "XULWin/AttributeController.h"
 
 
 namespace XULWin
 {
 
-    class ListCellImpl : public PassiveComponent
+    class ListCellImpl : public PassiveComponent,
+                         public LabelController
     {
     public:
         typedef PassiveComponent Super;
@@ -19,9 +21,16 @@ namespace XULWin
 
         bool initAttributeControllers();
 
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+    private:
+        std::string mLabel;
     };
 
 } // namespace XULWin

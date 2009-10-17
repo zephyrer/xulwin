@@ -160,7 +160,7 @@ namespace Windows
 
         if (-1 == res)
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError("Adding a column to the list view failed. Last error: " + getLastError(::GetLastError()));
         }
         return res;
     }

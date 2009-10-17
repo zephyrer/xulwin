@@ -155,7 +155,6 @@ namespace SVG
 
     bool SVGGroupImpl::initStyleControllers()
     {
-        setStyleController(CSSFillController::PropertyName(), static_cast<CSSFillController*>(this));
         return Super::initStyleControllers();
     }
     

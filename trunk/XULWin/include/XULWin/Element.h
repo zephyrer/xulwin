@@ -18,13 +18,12 @@ namespace XULWin
     class ElementFactory;
     class ElementImpl;
     class Element;
+    class EventListener;
     typedef boost::shared_ptr<Element> ElementPtr;
     typedef std::vector<ElementPtr> Children;
     typedef std::map<std::string, std::string> AttributesMapping;
     typedef std::map<std::string, std::string> StylesMapping;
 
-    class Event;
-    class EventListener;
 
     /**
      * Base class XUL elements.

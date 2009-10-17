@@ -26,7 +26,7 @@ namespace XULWin
         Image(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
-
 } // namespace XULWin
+
 
 #endif // IMAGE_H_INCLUDED

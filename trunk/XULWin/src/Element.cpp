@@ -896,4 +896,4 @@ namespace XULWin
     }
 
 
-} // XULWin
+} // namespace XULWin

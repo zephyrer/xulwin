@@ -531,6 +531,7 @@ namespace XULWin
     void ConcreteElement::setAttributeController(const std::string & inAttr, AttributeController * inController)
     {
         AttributeControllers::iterator it = mAttributeControllers.find(inAttr);
+        assert(it == mAttributeControllers.end());
         if (it == mAttributeControllers.end())
         {
             mAttributeControllers.insert(std::make_pair(inAttr, inController));
@@ -541,6 +542,7 @@ namespace XULWin
     void ConcreteElement::setStyleController(const std::string & inAttr, StyleController * inController)
     {
         StyleControllers::iterator it = mStyleControllers.find(inAttr);
+        assert(it == mStyleControllers.end());
         if (it == mStyleControllers.end())
         {
             mStyleControllers.insert(std::make_pair(inAttr, inController));

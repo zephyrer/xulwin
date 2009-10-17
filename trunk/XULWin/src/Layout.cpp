@@ -212,24 +212,6 @@ namespace XULWin
         }
     }
 
-    // 
-    //void LinearLayoutManager::getRects(const Rect & inRect, const std::vector<int> & inFlexValues, std::vector<Rect> & outRects)
-    //{
-    //    std::vector<int> portions;
-    //    GetSizes(mOrient == Horizontal ? inRect.width() : inRect.height(), inFlexValues, portions);
-    //    int xOffset = inRect.x();
-    //    int yOffset = inRect.y();
-    //    for (size_t idx = 0; idx != portions.size(); ++idx)
-    //    {
-    //        int x = mOrient == Horizontal ? xOffset : inRect.x();
-    //        int y = mOrient  == Vertical ? yOffset : inRect.y();
-    //        int width = mOrient  == Horizontal ? portions[idx] : inRect.width();
-    //        int height = mOrient  == Vertical ? portions[idx] : inRect.height();
-    //        xOffset += width;
-    //        yOffset += height;
-    //        outRects.push_back(Rect(x, y, width, height));
-    //    }
-    //}
     
     void GridLayoutManager::GetOuterRects(const Rect & inRect,
                                           const std::vector<SizeInfo> & inColWidths,

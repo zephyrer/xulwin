@@ -4,6 +4,7 @@
 
 #include "XULWin/AttributeController.h"
 #include "XULWin/Conversions.h"
+#include "XULWin/BoxLayouter.h"
 #include "XULWin/Element.h"
 #include "XULWin/EventListener.h"
 #include "XULWin/Fallible.h"
@@ -525,7 +526,6 @@ namespace XULWin
         void setStyleController(const std::string & inAttr, StyleController * inController);
 
     protected:
-        friend class BoxLayouter;
         ElementImpl * mParent;
         Element * mElement;
         CommandId mCommandId;
@@ -649,43 +649,10 @@ namespace XULWin
     };
 
 
-    class BoxLayouter
-    {
-    public:
-        class ContentProvider
-        {
-        public:
-            virtual Orient BoxLayouter_getOrient() const = 0;
-
-            virtual Align BoxLayouter_getAlign() const = 0;
-
-            virtual size_t BoxLayouter_getChildCount() const = 0;
-
-            virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const = 0;
-
-            virtual ElementImpl * BoxLayouter_getChild(size_t idx) = 0;
-
-            virtual Rect BoxLayouter_clientRect() const = 0;
-
-            virtual void BoxLayouter_rebuildChildLayouts() = 0;
-        };
-        BoxLayouter(ContentProvider * inContentProvider);
-
-        virtual void rebuildLayout();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-    private:
-        ContentProvider * mContentProvider;
-    };
-
     class NativeDialog;
     class MenuImpl;
 
     class NativeWindow : public NativeComponent,
-                         public BoxLayouter,
                          public BoxLayouter::ContentProvider,
                          public virtual TitleController
     {
@@ -778,7 +745,7 @@ namespace XULWin
         friend class NativeDialog;
         void setBlockingDialog(NativeDialog * inDlg);
         NativeDialog * mActiveDialog;
-        
+        BoxLayouter mBoxLayouter;
         HMENU mMenuHandle;
         MenuImpl * mActiveMenu;
         bool mHasMessageLoop;
@@ -787,7 +754,6 @@ namespace XULWin
 
     // NativeDialog is actually a normal Window with some customizations to make it behave like a dialog.
     class NativeDialog : public NativeComponent,
-                         public BoxLayouter,
                          public BoxLayouter::ContentProvider,
                          public virtual TitleController
     {
@@ -871,6 +837,7 @@ namespace XULWin
     private:
         // Invoker is the stored parameter for showModal.
         NativeWindow * mInvoker;
+        BoxLayouter mBoxLayouter;
         DialogResult mDialogResult;
     };
 
@@ -1077,7 +1044,6 @@ namespace XULWin
 
 
     class VirtualBox : public VirtualComponent,
-                       public BoxLayouter,
                        public BoxLayouter::ContentProvider
     {
     public:
@@ -1094,14 +1060,10 @@ namespace XULWin
         virtual void rebuildLayout();
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const
-        {
-            return BoxLayouter::calculateWidth(inSizeConstraint);
-        }
+        { return mBoxLayouter.calculateWidth(inSizeConstraint); }
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const
-        {
-            return BoxLayouter::calculateHeight(inSizeConstraint);
-        }
+        { return mBoxLayouter.calculateHeight(inSizeConstraint); }
 
         virtual Rect clientRect() const
         { return Super::clientRect(); }
@@ -1131,11 +1093,13 @@ namespace XULWin
 
         virtual void BoxLayouter_rebuildChildLayouts()
         { rebuildChildLayouts(); }
+
+    protected:
+        BoxLayouter mBoxLayouter;
     };
 
 
     class NativeBox : public NativeControl,
-                      public BoxLayouter,
                       public BoxLayouter::ContentProvider
     {
     public:
@@ -1182,6 +1146,8 @@ namespace XULWin
         virtual void BoxLayouter_rebuildChildLayouts()
         { rebuildChildLayouts(); }
 
+    private:
+        BoxLayouter mBoxLayouter;
     };
 
 
@@ -1820,7 +1786,6 @@ namespace XULWin
 
 
     class StatusbarImpl : public NativeControl,
-                          public BoxLayouter,
                           public BoxLayouter::ContentProvider
     {
     public:
@@ -1864,6 +1829,9 @@ namespace XULWin
 
         virtual void BoxLayouter_rebuildChildLayouts()
         { rebuildChildLayouts(); }
+
+    private:
+        BoxLayouter mBoxLayouter;
     };
 
 

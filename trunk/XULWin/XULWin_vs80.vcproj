@@ -560,6 +560,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="BoxLayouter"
+			>
+			<File
+				RelativePath=".\src\BoxLayouter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\BoxLayouter.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\Todo.txt"
 			>

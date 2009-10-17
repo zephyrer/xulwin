@@ -919,7 +919,7 @@ namespace XULWin
 
     NativeWindow::NativeWindow(const AttributesMapping & inAttributesMapping) :
         NativeComponent(0, inAttributesMapping),
-        BoxLayouter(this),
+        mBoxLayouter(this),
         mActiveDialog(0),
         mActiveMenu(0),
         mHasMessageLoop(false)
@@ -1057,7 +1057,7 @@ namespace XULWin
     
     void NativeWindow::rebuildLayout()
     {
-        BoxLayouter::rebuildLayout();
+        mBoxLayouter.rebuildLayout();
     }        
 
 
@@ -1373,7 +1373,7 @@ namespace XULWin
 
     NativeDialog::NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping),
-        BoxLayouter(this),
+        mBoxLayouter(this),
         mInvoker(0),
         mDialogResult(DialogResult_Cancel)
     {
@@ -1485,7 +1485,7 @@ namespace XULWin
     
     void NativeDialog::rebuildLayout()
     {
-        BoxLayouter::rebuildLayout();
+        mBoxLayouter.rebuildLayout();
     }        
 
 
@@ -2191,7 +2191,7 @@ namespace XULWin
     
     VirtualBox::VirtualBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping),
-        BoxLayouter(this)
+        mBoxLayouter(this)
     {
     }
         
@@ -2222,124 +2222,14 @@ namespace XULWin
 
     void VirtualBox::rebuildLayout()
     {
-        BoxLayouter::rebuildLayout();
+        mBoxLayouter.rebuildLayout();
     }
 
-
-    BoxLayouter::BoxLayouter(ContentProvider * inContentProvider) :
-        mContentProvider(inContentProvider)
-    {
-    }
-
-
-    int BoxLayouter::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        if (mContentProvider->BoxLayouter_getOrient() == Horizontal)
-        {
-            int result = 0;
-            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
-            {
-                result += mContentProvider->BoxLayouter_getChild(idx)->getWidth(inSizeConstraint);
-            }
-            return result;
-        }
-        else if (mContentProvider->BoxLayouter_getOrient() == Vertical)
-        {
-            int result = 0;
-            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
-            {
-                int width = mContentProvider->BoxLayouter_getChild(idx)->getWidth(inSizeConstraint);
-                if (width > result)
-                {
-                    result = width;
-                }
-            }
-            return result;
-        }
-        else
-        {
-            ReportError("Invalid getOrient in VirtualBox"); 
-            return 0;
-        }
-    }
-
-
-    int BoxLayouter::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        if (mContentProvider->BoxLayouter_getOrient() == Horizontal)
-        {
-            int result = 0;
-            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
-            {
-                int height = mContentProvider->BoxLayouter_getChild(idx)->getHeight(inSizeConstraint);
-                if (height > result)
-                {
-                    result = height;
-                }
-            }
-            return result;
-        }
-        else if (mContentProvider->BoxLayouter_getOrient() == Vertical)
-        {
-            int result = 0;
-            for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
-            {
-                result += mContentProvider->BoxLayouter_getChild(idx)->getHeight(inSizeConstraint);
-            }
-            return result;
-        }
-        else
-        {
-            ReportError("Invalid getOrient in VirtualBox");
-            return 0;
-        }
-    }
-
-    
-    void BoxLayouter::rebuildLayout()
-    {     
-        Rect clientR(mContentProvider->BoxLayouter_clientRect());   
-        LinearLayoutManager layout(mContentProvider->BoxLayouter_getOrient());
-        bool horizontal = mContentProvider->BoxLayouter_getOrient() == Horizontal;
-        std::vector<ExtendedSizeInfo> sizeInfos;
-
-        for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
-        {
-            ElementImpl * child = mContentProvider->BoxLayouter_getChild(idx);
-            std::string flex;
-            if (child->el())
-            {
-                flex = child->el()->getAttribute("flex");
-            }
-            int flexValue = String2Int(flex, 0);
-            int optSize = horizontal ? child->getWidth(Optimal) : child->getHeight(Optimal);
-            int minSize = horizontal ? child->getWidth(Minimum) : child->getHeight(Minimum);
-            int minSizeOpposite = horizontal ? child->getHeight(Minimum) : child->getWidth(Minimum);
-            sizeInfos.push_back(
-                ExtendedSizeInfo(FlexWrap(flexValue),
-                                 MinSizeWrap(minSize),
-                                 OptSizeWrap(optSize),
-                                 MinSizeOppositeWrap(minSizeOpposite),
-                                 child->expansive()));
-        }
-
-        std::vector<Rect> childRects;
-        layout.getRects(clientR, mContentProvider->BoxLayouter_getAlign(), sizeInfos, childRects);
-
-        for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
-        {
-            ElementImpl * child = mContentProvider->BoxLayouter_getChild(idx);
-            const Rect & rect = childRects[idx];
-            child->move(rect.x(), rect.y(), rect.width(), rect.height());
-        }
-
-        mContentProvider->BoxLayouter_rebuildChildLayouts();
-    }
         
 
     NativeBox::NativeBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
-        BoxLayouter(this)
+        mBoxLayouter(this)
     {
     }
 
@@ -2358,19 +2248,19 @@ namespace XULWin
     
     void NativeBox::rebuildLayout()
     {
-        BoxLayouter::rebuildLayout();
+        mBoxLayouter.rebuildLayout();
     }
 
     
     int NativeBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return BoxLayouter::calculateWidth(inSizeConstraint);
+        return mBoxLayouter.calculateWidth(inSizeConstraint);
     }
 
     
     int NativeBox::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return BoxLayouter::calculateHeight(inSizeConstraint);
+        return mBoxLayouter.calculateHeight(inSizeConstraint);
     }
     
     
@@ -3982,14 +3872,14 @@ namespace XULWin
     int GroupBoxImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int textWidth = Defaults::textPadding() + Windows::getTextSize(mGroupBoxHandle, Windows::getWindowText(mGroupBoxHandle)).cx;
-        int contentWidth = BoxLayouter::calculateWidth(inSizeConstraint);
+        int contentWidth = mBoxLayouter.calculateWidth(inSizeConstraint);
         return mMarginLeft + std::max<int>(textWidth, contentWidth) + mMarginRight;
     }
 
 
     int GroupBoxImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return mMarginTop + BoxLayouter::calculateHeight(inSizeConstraint) + mMarginBottom;
+        return mMarginTop + mBoxLayouter.calculateHeight(inSizeConstraint) + mMarginBottom;
     }
     
     
@@ -4002,7 +3892,7 @@ namespace XULWin
                      clientRect.width(),
                      clientRect.height(),
                      FALSE);
-        BoxLayouter::rebuildLayout();
+        mBoxLayouter.rebuildLayout();
     }
 
 
@@ -4392,7 +4282,7 @@ namespace XULWin
 
     StatusbarImpl::StatusbarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
-        BoxLayouter(this)
+        mBoxLayouter(this)
     {
     }
 
@@ -4443,7 +4333,7 @@ namespace XULWin
 
     void StatusbarImpl::rebuildLayout()
     {
-        BoxLayouter::rebuildLayout();
+        mBoxLayouter.rebuildLayout();
     }
 
 

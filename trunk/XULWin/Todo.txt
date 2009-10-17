@@ -4,9 +4,7 @@
 - Remove Proxy class, and move methods to ComponentWrapper
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
-
-- Support flex attr for listcol
-- Use pull-based initialization (notification based)
+- Make samples that reveal bugs for post-parser element insertion.
 - Add mouse scrolling
 - Fix horizontal scrolling in Logger window
 - Add sample for custom xul element
@@ -25,3 +23,7 @@
 - Treeview: implement tree open/closed state, and min size implications
 - Classes inheriting VirtualComponent should not have a 'Native' prefix in their class name.
 - Make sample app with toolbar, status-bar and scrollbar
+
+
+Intential differences from Mozilla XUL
+- Flex attribute on 'listcol' elements is not supported in XULWin

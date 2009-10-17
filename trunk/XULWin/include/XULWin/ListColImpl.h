@@ -3,6 +3,7 @@
 
 
 #include "XULWin/ElementImpl.h"
+#include <string>
 
 
 namespace XULWin

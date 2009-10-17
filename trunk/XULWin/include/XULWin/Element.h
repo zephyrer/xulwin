@@ -47,14 +47,14 @@ namespace XULWin
          * - Element::setAttributes
          * - Element::initStyleControllers
          * - Element::setStyles
-         * - Element::addChild
-         * - Element::onChildAdded notification
+         * - virtual Element::addChild (add element to its parent)
+         * - virtual ElementImpl::onChildAdded notification
          * 
-         * PART 2: Creation and initialization of any child elements
+         * PART 2: Creation and initialization of any child elements.
          *
          * PART 3: Parser finds CLOSING tag of the element:
-         * - Element::init
-         * - ElementImpl::initImpl
+         * - virtual Element::init
+         * - virtual ElementImpl::initImpl
          * 
          */  
         template<class ElementType>
@@ -78,6 +78,12 @@ namespace XULWin
 
         // called by parser at end-element event
         virtual bool init();
+
+        // you don't need to call this, Element::Create() does it
+        virtual void addChild(ElementPtr inChild);
+
+        // highly volatile, use at your own risk
+        virtual void removeChild(const Element * inChild);
 
         const std::string & type() const;
 
@@ -176,12 +182,6 @@ namespace XULWin
             }
             return 0;
         }
-
-        // you don't need to call this, Element::Create() does it
-        virtual void addChild(ElementPtr inChild);
-
-        // highly volatile, use at your own risk
-        virtual void removeChild(const Element * inChild);
 
     protected:
         Element(const std::string & inType, Element * inParent, ElementImpl * inNativeComponent);

@@ -1,6 +1,11 @@
-- Add Element::ReturnValue class
-- Check for push-based inits and replace with pull-based inits (using child-added).
+- Rename ElementImpl to AbstractComponent
+- Rename ConcreteElement to Component
+- Rename Decorator to ComponentWrapper
+- Remove Proxy class, and move methods to ComponentWrapper
+- Add ComponentFactory, and move ElementCreationSupport's code to it
+
 - Add listbox columns
+- Use pull-based initialization (notification based)
 - Add mouse scrolling
 - Fix horizontal scrolling in Logger window
 - Add sample for custom xul element

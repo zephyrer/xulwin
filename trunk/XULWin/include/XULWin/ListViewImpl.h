@@ -7,8 +7,8 @@
 
 namespace XULWin
 {
+    class ListHeaderImpl;
 
-    // This is an impl for ListBox
     class ListViewImpl : public NativeControl
     {
     public:
@@ -24,6 +24,10 @@ namespace XULWin
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
+        
+        virtual void onChildAdded(ElementImpl * inChild);
+
+        void addListHeader(ListHeaderImpl * inListHeader);
     };
 
 } // namespace XULWin

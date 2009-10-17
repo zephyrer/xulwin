@@ -8,6 +8,7 @@
 namespace XULWin
 {
 
+
     class ListBoxImpl : public NativeControl,
                         public RowsController
     {

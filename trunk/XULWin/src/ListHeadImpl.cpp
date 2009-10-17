@@ -1,4 +1,9 @@
 #include "XULWin/ListHeadImpl.h"
+#include "XULWin/ListViewImpl.h"
+#include "XULWin/ListHeadImpl.h"
+#include "XULWin/ListHeaderImpl.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/ErrorReporter.h"
 
 
 namespace XULWin
@@ -32,5 +37,22 @@ namespace XULWin
     {
         return 1;
     }
+
+
+    void ListHeadImpl::onChildAdded(ElementImpl * inChild)
+    {
+        if (ListViewImpl * listViewParent = parent()->downcast<ListViewImpl>())
+        {
+            if (ListHeaderImpl * listHeader = inChild->downcast<ListHeaderImpl>())
+            {
+                listViewParent->addListHeader(listHeader);
+            }
+        }
+        else
+        {
+            ReportError("Invalid container for ListHeader!");
+        }
+    }
+
     
 } // namespace XULWin

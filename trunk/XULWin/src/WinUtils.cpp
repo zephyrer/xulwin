@@ -146,6 +146,25 @@ namespace Windows
         }
     }
 
+    
+    int addColumnToListView(HWND inHandle, int inIndex, const std::string & inText)
+    {
+        static const int cColumnTextPadding = 15;
+        LV_COLUMN colInfo;
+        colInfo.mask = LVCF_TEXT | LVCF_WIDTH;
+        std::wstring utf16Text = ToUTF16(inText);
+        colInfo.pszText = const_cast<TCHAR*>(&utf16Text[0]);
+        colInfo.cchTextMax = utf16Text.size();
+        colInfo.cx = Windows::getTextSize(inHandle, inText).cx + cColumnTextPadding;
+        int res = ListView_InsertColumn(inHandle, inIndex, &colInfo);
+
+        if (-1 == res)
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
+        return res;
+    }
+    
 
     void clearComboBox(HWND inHandle)
     {

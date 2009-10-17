@@ -22,6 +22,8 @@ namespace XULWin
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual void onChildAdded(ElementImpl * inChild);
     };
 
 } // namespace XULWin

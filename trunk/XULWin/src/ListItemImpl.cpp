@@ -21,8 +21,9 @@ namespace XULWin
         
     bool ListItemImpl::initImpl()
     {
+        // XUL hierarchy:
         // listbox/listitem/listcell
-        //    ^---> listbox here has ListViewImpl object
+        //    ^---> listbox here has ListViewImpl object (not ListBoxImpl)
         if (ListViewImpl * listView = parent()->downcast<ListViewImpl>())
         {
             LVITEM lvItem;

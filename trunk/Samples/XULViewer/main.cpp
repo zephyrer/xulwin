@@ -3,10 +3,13 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/Element.h"
 #include "XULWin/ElementImpl.h"
+#include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Unicode.h"
 #include <windows.h>
+#include <shellapi.h>
+#include <sstream>
 
 
 void reportError(const std::string & inMessage)
@@ -33,46 +36,57 @@ LRESULT runXUL(const std::string & inXULDocument)
         return 1;
     }
     
+    wnd->rebuildLayout();
     wnd->showModal(XULWin::Window::DefaultPosition);
+    return 0;
+}
+
+
+LRESULT dropFiles(XULWin::Element * inRootElement, WPARAM wParam, LPARAM lParam)
+{
+    int numFiles = ::DragQueryFile((HDROP)wParam, 0xFFFFFFFF, 0, 0);
+    for (int idx = 0; idx < numFiles; ++idx)
+    {
+        // Get filename and run XUL
+    	TCHAR fileName[MAX_PATH];
+        ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
+        runXUL(XULWin::ToUTF8(&fileName[0]));
+        break; // only consider first file
+    }
     return 0;
 }
 
 
 void runXULViewer()
 {
+    XULWin::ErrorCatcher errorCatcher;
     XULWin::XULRunner runner;
     XULWin::ElementPtr rootElement = runner.loadXUL("XULViewer.xul");
-    if (!rootElement)
+    if (errorCatcher.hasCaught())
     {
-        reportError("No root element");
+        std::stringstream ss;
+        errorCatcher.getErrorMessage(ss);
+        reportError(ss.str());
+        return;
+    }
+
+    XULWin::NativeWindow * wnd = rootElement->impl()->downcast<XULWin::NativeWindow>();
+    if (!wnd)
+    {
+        reportError("Root element is not of type winodw.");
         return;
     }
 
 
-    XULWin::Element * runButton = rootElement->getElementById("runButton");
-    if (!runButton)
-    {
-        reportError("Run button not found");
-        return;
-    }
-    XULWin::Element * pathBox = rootElement->getElementById("pathBox");
-    if (!pathBox)
-    {
-        reportError("Path textbox not found");
-        return;
-    }
+    // Accept drag and drop of files
+    ::DragAcceptFiles(wnd->handle(), TRUE);
 
+    // Connect to WM_DROPFILES message
     XULWin::ScopedEventListener events;
-    events.connect(runButton,
-                   boost::bind(&runXUL,
-                               boost::bind(&XULWin::Element::getAttribute,
-                                           pathBox,
-                                           "value")));
-
-    if (XULWin::NativeWindow * wnd = rootElement->impl()->downcast<XULWin::NativeWindow>())
-    {        
-        wnd->showModal(XULWin::Window::CenterInScreen);
-    }
+    events.connect(wnd->el(),
+                   WM_DROPFILES,
+                   boost::bind(&dropFiles, rootElement.get(), _1, _2));
+    wnd->showModal(XULWin::Window::CenterInScreen);
 }
 
 

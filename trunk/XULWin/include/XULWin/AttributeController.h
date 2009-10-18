@@ -92,6 +92,46 @@ namespace XULWin
 
 
     /**
+     * Attribute: screenX
+     * Type: integer
+     * The horizontal position at which the window appears on the screen.
+     */
+    class ScreenXController : public AttributeController
+    {
+    public:
+        ScreenXController(){}
+
+        virtual void get(std::string & outValue);
+
+        virtual void set(const std::string & inValue);
+
+        virtual int getScreenX() const = 0;
+
+        virtual void setScreenX(int inX) = 0;
+    };  
+
+
+    /**
+     * Attribute: screenY
+     * Type: integer
+     * The vertical position at which the window appears on the screen.
+     */
+    class ScreenYController : public AttributeController
+    {
+    public:
+        ScreenYController(){}
+
+        virtual void get(std::string & outValue);
+
+        virtual void set(const std::string & inValue);
+
+        virtual int getScreenY() const = 0;
+
+        virtual void setScreenY(int inY) = 0;
+    };    
+
+
+    /**
      * Attribute: flex
      * Type: string (representing an integer)
      * Indicates the flexibility of the element, which indicates how

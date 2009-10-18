@@ -10,26 +10,5 @@
   align="stretch"
   title="XULViewer Application"
 >
-  <vbox>
-    <hbox>
-      <vbox>
-        <spacer flex="1"></spacer>
-        <label value="XUL document:"></label>
-        <spacer flex="1"></spacer>
-      </vbox>
-      <textbox id="pathBox" value="" flex="1" width="120"></textbox>
-      <button id="runButton" label="Run"></button>
-    </hbox>
-  </vbox>
-  <vbox>
-    <hbox>
-      <vbox>
-        <spacer flex="1"></spacer>
-        <label value="XUL application.ini:"></label>
-        <spacer flex="1"></spacer>
-      </vbox>
-      <textbox id="pathBox" value="" flex="1" width="120"></textbox>
-      <button id="runButton" label="Run"></button>
-    </hbox>
-  </vbox>
+  <label value="Drag your XUL file here" />
 </window>

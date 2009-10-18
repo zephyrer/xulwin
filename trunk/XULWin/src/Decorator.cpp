@@ -141,6 +141,48 @@ namespace XULWin
     }
 
 
+    int Decorator::getScreenX() const
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getScreenX();
+        }
+        return 0;
+    }
+
+
+    void Decorator::setScreenX(int inX)
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->setScreenX(inX);
+        }
+    }
+
+
+    int Decorator::getScreenY() const
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getScreenY();
+        }
+        return 0;
+    }
+
+
+    void Decorator::setScreenY(int inY)
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->setScreenY(inY);
+        }
+    }
+
+
     void Decorator::setStroke(const RGBColor & inColor)
     {
         assert(mDecoratedElement);

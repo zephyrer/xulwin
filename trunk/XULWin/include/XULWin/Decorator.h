@@ -43,6 +43,16 @@ namespace XULWin
 
         virtual void setHeight(int inHeight);
 
+        // ScreenXController methods
+        virtual int getScreenX() const;
+
+        virtual void setScreenX(int inX);
+
+        // ScreenYController methods
+        virtual int getScreenY() const;
+
+        virtual void setScreenY(int inY);
+
         // StrokeController methods
         virtual void setStroke(const RGBColor & inColor);
 

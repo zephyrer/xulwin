@@ -53,7 +53,6 @@ namespace XULWin
                               const Poco::XML::XMLString& qname,
                               const Poco::XML::Attributes& attributes)
     {
-        ErrorCatcher errorCatcher;
         try
         {
             if (mIgnores == 0)
@@ -138,13 +137,20 @@ namespace XULWin
 
     Poco::XML::InputSource* Parser::resolveEntity(const Poco::XML::XMLString* publicId, const Poco::XML::XMLString& systemId)
     {
-        size_t idx = systemId.find("chrome://");
-        if (idx != std::string::npos)
+        try
         {
-            ChromeURL url(systemId, Defaults::locale());
-            std::string path = url.convertToLocalPath();
-            Poco::XML::EntityResolverImpl entityResolverImpl;
-            return entityResolverImpl.resolveEntity(publicId, path);
+            size_t idx = systemId.find("chrome://");
+            if (idx != std::string::npos)
+            {
+                ChromeURL url(systemId, Defaults::locale());
+                std::string path = url.convertToLocalPath();
+                Poco::XML::EntityResolverImpl entityResolverImpl;
+                return entityResolverImpl.resolveEntity(publicId, path);
+            }
+        }
+        catch (const Poco::Exception & inExc)
+        {
+            ReportError(inExc.displayText());
         }
         return 0;
     }

@@ -108,7 +108,32 @@ namespace XULWin
 	{
 		mPropagate = true;
 	}
-    
+
+
+    void ErrorCatcher::getErrorMessage(std::stringstream & ss) const
+    {
+        for (size_t idx = 0; idx != errors().size(); ++idx)
+        {
+            const Error & error = errors()[idx];
+            if (idx > 0)
+            {
+                ss << "\r\n => ";
+            }
+            ss << error.message();
+            
+            // show the error code, unless if it is the default
+            if (error.code() != Error::FAILED)
+            {
+                ss << " (Code: " << error.code() << ")";
+            }
+            ss << "\n";
+        }
+        if (child())
+        {
+            getErrorMessage(ss);
+        }
+    }
+
     
     void ErrorCatcher::push(const Error & inError)
     {
@@ -214,34 +239,8 @@ namespace XULWin
             return;
         }
 
-        struct Helper
-        {
-            static void GetErrorMessage(const ErrorCatcher & inErrorCatcher, std::stringstream & ss)
-            {
-                for (size_t idx = 0; idx != inErrorCatcher.errors().size(); ++idx)
-                {
-                    const Error & error = inErrorCatcher.errors()[idx];
-                    if (idx > 0)
-                    {
-                        ss << "\r\n => ";
-                    }
-                    ss << error.message();
-                    
-                    // show the error code, unless if it is the default
-                    if (error.code() != Error::FAILED)
-                    {
-                        ss << " (Code: " << error.code() << ")";
-                    }
-                    ss << "\n";
-                }
-                if (inErrorCatcher.child())
-                {
-                    GetErrorMessage(*inErrorCatcher.child(), ss);
-                }
-            }
-        };
         std::stringstream ss;
-        Helper::GetErrorMessage(*inErrorCatcher, ss);
+        inErrorCatcher->getErrorMessage(ss);
 
         std::string message(ss.str());
         if (!message.empty())

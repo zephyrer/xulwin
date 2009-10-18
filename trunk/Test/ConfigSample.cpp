@@ -34,7 +34,7 @@ namespace XULWin
         
         mEvents.connect(mConfigWindow->getElementById("tagsTextBox"),
                         WM_KEYUP,
-                        boost::bind(&ConfigSample::showMessage, this, "WM_KEYUP"));
+                        boost::bind(&ConfigSample::showMessage, this, "Received WM_KEYUP event."));
 
 
         mEvents.connect(mConfigWindow->getElementById("uploadButton"),

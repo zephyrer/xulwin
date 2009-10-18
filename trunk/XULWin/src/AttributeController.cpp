@@ -42,6 +42,30 @@ namespace XULWin
     }
 
 
+    void ScreenXController::get(std::string & outValue)
+    {
+        outValue = Int2String(getScreenX());
+    }
+
+
+    void ScreenXController::set(const std::string & inValue)
+    {
+        setScreenX(String2Int(inValue));
+    }
+
+    
+    void ScreenYController::get(std::string & outValue)
+    {
+        outValue = Int2String(getScreenY());
+    }
+
+
+    void ScreenYController::set(const std::string & inValue)
+    {
+        setScreenY(String2Int(inValue));
+    }
+
+
     void FlexController::get(std::string & outValue)
     {
         outValue = Int2String(getFlex());

@@ -65,7 +65,6 @@ namespace XULWin
 
     bool getPrefs(const std::string & inPrefsFile, Prefs & outPrefs)
     {
-        
         static char str[1024];
         FILE *fp;
         fp = fopen(inPrefsFile.c_str(), "r");
@@ -137,24 +136,42 @@ namespace XULWin
     
     ElementPtr XULRunner::loadApplication(const std::string & inApplicationIniFile)
     {
-        Parser parser;
-        Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
-        std::string mainXULFile = getMainXULFile(topLevelAppDir);
-        parser.parse(mainXULFile);
-        mRootElement = parser.rootElement();
-        return mRootElement;
+        ElementPtr result;
+        try
+        {
+            Parser parser;
+            Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
+            std::string mainXULFile = getMainXULFile(topLevelAppDir);
+            parser.parse(mainXULFile);
+            mRootElement = parser.rootElement();
+            result = mRootElement;
+        }
+        catch (Poco::Exception & exc)
+        {
+            ReportError(exc.displayText());
+        }
+        return result;
     }
 
     
     ElementPtr XULRunner::loadXUL(const std::string & inXULUrl)
     {
-        ChromeURL url(inXULUrl, Defaults::locale());
-        Parser parser;
-        std::string curdir = Windows::getCurrentDirectory();
-        std::string path = url.convertToLocalPath();
-        parser.parse(path);
-        mRootElement = parser.rootElement();
-        return mRootElement;
+        ElementPtr result;
+        try
+        {
+            ChromeURL url(inXULUrl, Defaults::locale());
+            Parser parser;
+            std::string curdir = Windows::getCurrentDirectory();
+            std::string path = url.convertToLocalPath();
+            parser.parse(path);
+            mRootElement = parser.rootElement();
+            result = mRootElement;
+        }
+        catch (Poco::Exception & exc)
+        {
+            ReportError(exc.displayText());
+        } 
+        return result;
     }
     
     

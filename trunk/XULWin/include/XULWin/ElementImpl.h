@@ -79,6 +79,8 @@ namespace XULWin
                         public virtual AlignController,
                         public virtual WidthController,
                         public virtual HeightController,
+                        public virtual ScreenXController,
+                        public virtual ScreenYController,
                         public virtual FillController,
                         public virtual StrokeController,
                         public virtual StrokeWidthController,
@@ -124,6 +126,16 @@ namespace XULWin
         virtual int getHeight() const = 0;
 
         virtual void setHeight(int inHeight) = 0;
+
+        // ScreenXController methods
+        virtual int getScreenX() const = 0;
+
+        virtual void setScreenX(int inX) = 0;
+
+        // ScreenYController methods
+        virtual int getScreenY() const = 0;
+
+        virtual void setScreenY(int inY) = 0;
 
         // StrokeController methods
         virtual void setStroke(const RGBColor & inColor) = 0;
@@ -375,6 +387,16 @@ namespace XULWin
 
         virtual void setHeight(int inHeight);
 
+        // ScreenXController methods
+        virtual int getScreenX() const;
+
+        virtual void setScreenX(int inX);
+
+        // ScreenYController methods
+        virtual int getScreenY() const;
+
+        virtual void setScreenY(int inY);
+
         // StrokeController methods
         virtual void setStroke(const RGBColor & inColor);
 
@@ -532,10 +554,12 @@ namespace XULWin
         bool mExpansive;
         int mFlex;
 
+        Fallible<int> mScreenX;
+        Fallible<int> mScreenY; 
         Fallible<int> mCSSX;
         Fallible<int> mCSSY;
         Fallible<int> mWidth;
-        Fallible<int> mHeight;
+        Fallible<int> mHeight;       
         Fallible<int> mCSSWidth;
         Fallible<int> mCSSHeight;
         Fallible<RGBColor> mFill;

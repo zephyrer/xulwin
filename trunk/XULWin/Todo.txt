@@ -2,6 +2,7 @@
 - Rename ConcreteElement to ConcreteComponent
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
+- Distribute XULViewer for feedback
 - Create XULViewer app
 - Create minimal and complete list of samples
 - Add sample for custom xul element

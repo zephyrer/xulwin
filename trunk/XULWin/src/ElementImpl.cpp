@@ -41,6 +41,8 @@ namespace XULWin
         mCSSY(0),
         mWidth(0),
         mHeight(0),
+        mScreenX(0),
+        mScreenY(0),
         mFill(RGBColor()),
         mStroke(RGBColor(0, 0, 0, 0)),
         mStrokeWidth(1),
@@ -54,6 +56,8 @@ namespace XULWin
         mCSSY.setInvalid();
         mWidth.setInvalid();
         mHeight.setInvalid();
+        mScreenX.setInvalid();
+        mScreenY.setInvalid();
         mFill.setInvalid();
         mStroke.setInvalid();
         mStrokeWidth.setInvalid();
@@ -317,6 +321,50 @@ namespace XULWin
     void ConcreteElement::setHeight(int inHeight)
     {
         mHeight = inHeight;
+    }
+
+
+    int ConcreteElement::getScreenX() const
+    {
+        if (mScreenX.isValid())
+        {
+            return mScreenX.getValue();
+        }
+
+        if (mCSSX.isValid())
+        {
+            return mCSSX.getValue();
+        }
+
+        return 100;
+    }
+
+
+    void ConcreteElement::setScreenX(int inX)
+    {
+        mScreenX = inX;
+    }
+
+
+    int ConcreteElement::getScreenY() const
+    {
+        if (mScreenY.isValid())
+        {
+            return mScreenY.getValue();
+        }
+
+        if (mCSSY.isValid())
+        {
+            return mCSSY.getValue();
+        }
+
+        return 100;
+    }
+
+
+    void ConcreteElement::setScreenY(int inY)
+    {
+        mScreenY = inY;
     }
 
 
@@ -1140,6 +1188,19 @@ namespace XULWin
             int h = getHeight() + sz.cy;
             int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
             int y = (GetSystemMetrics(SM_CYSCREEN) - h)/2;
+            move(x, y, w, h);
+        }
+        else
+        {
+            SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+            if (findChildOfType<MenuBarImpl>())
+            {
+                sz.cy += Defaults::menuBarHeight();
+            }
+            int w = getWidth() + sz.cx;
+            int h = getHeight() + sz.cy;
+            int x = getCSSX();
+            int y = getCSSY();
             move(x, y, w, h);
         }
 

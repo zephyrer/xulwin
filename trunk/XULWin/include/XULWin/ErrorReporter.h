@@ -89,6 +89,13 @@ namespace XULWin
          */
 		void propagate();
 
+        /**
+         * Gets the error messages.
+         * Instead of calling this method everytime you can also set a logger
+         * on the ErrorReporter instance.
+         */
+        void getErrorMessage(std::stringstream & outStream) const;
+
         const std::vector<Error> & errors() const { return mErrors; }
 
         const ErrorCatcher * child() const { return mChild.get(); }

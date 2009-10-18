@@ -208,16 +208,17 @@ namespace XULWin
         virtual void setCSSY(int inY) = 0;
 
         // Downcast that also resolves decorators.
-        // Use this instead of manual cast, because
-        // you may get a decorator instead of the 
-        // actual element.
+        // Don't use dynamic_cast, because that would almost always fail since
+        // ElementImpls are usually wrapped in Decorator objects.
         template<class Type>
         Type * downcast()
         {
             return const_cast<Type*>(static_cast<const ElementImpl*>(this)->downcast<Type>());
         }
 
-
+        // Downcast that also resolves decorators.
+        // Don't use dynamic_cast, because that would almost always fail since
+        // ElementImpls are usually wrapped in Decorator objects.
         template<class Type>
         const Type * downcast() const
         {

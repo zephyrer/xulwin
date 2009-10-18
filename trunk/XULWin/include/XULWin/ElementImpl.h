@@ -258,20 +258,7 @@ namespace XULWin
         template<class Type>
         Type * findChildOfType()
         {
-            if (!el())
-            {
-                return 0;
-            }
-
-            for (size_t idx = 0; idx != getChildCount(); ++idx)
-            {
-                ElementImpl * child = getChild(idx);
-                if (Type * found = child->downcast<Type>())
-                {
-                    return found;
-                }
-            }
-            return 0;
+            return const_cast<Type*>(static_cast<const ElementImpl*>(this)->findChildOfType<Type>());
         }
 
 
@@ -279,7 +266,7 @@ namespace XULWin
         // Returns the first one found.
         // Only searches one level deep.
         template<class Type>
-        const Type * findConstChildOfType() const
+        const Type * findChildOfType() const
         {
             if (!el())
             {

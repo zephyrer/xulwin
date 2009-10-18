@@ -1,3 +1,3 @@
-rmdir /S /Q "C:\Documents and Settings\fr\Local Settings\Application Data\XULWin"
-rmdir /S /Q "C:\Documents and Settings\fr\Application Data\XULWin"
+rmdir /S /Q "%USERPROFILE%\Local Settings\Application Data\XULWin"
+rmdir /S /Q "%APPDATA%\XULWin"
 xulrunner.exe application.ini

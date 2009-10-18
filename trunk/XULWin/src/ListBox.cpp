@@ -9,7 +9,7 @@ namespace XULWin
 {
 
     // At this point we don't know yet whether to make a listbox or a listview.
-    // Both have distinct window classnames in the WinAPI, but not in XUL.
+    // Both have distinct window classnames in the Windows API, but not in XUL.
     // So we need to delay the instantiation. However, we still must have an
     // impl, so we use temporarily use a PassiveComonent object.
     ListBox::ListBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
@@ -22,8 +22,8 @@ namespace XULWin
         
     void ListBox::addChild(ElementPtr inChild)
     {
-		// We need a native instance now or otherwise we
-		// can't add the child natively
+        // The first child should give us the needed information to know
+        // whether we need to create a ListBoxImpl or a ListViewImpl.
         setImpl(inChild->type());
         Element::addChild(inChild);
     }
@@ -34,6 +34,7 @@ namespace XULWin
         // The decorator is used as a proxy here.
         if (Proxy * proxy = impl()->downcast<Proxy>())
         {
+            // Check if impl is still of type PassiveComponent.
             if (proxy->downcast<PassiveComponent>())
             {                
                 // If the first child is of type "listitem" then can be certain

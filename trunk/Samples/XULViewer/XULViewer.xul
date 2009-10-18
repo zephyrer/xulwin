@@ -8,7 +8,9 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   orient="vertical"
   align="stretch"
-  title="XULViewer Application"
+  title="XULViewer"
 >
-  <label value="Drag your XUL file here" />
+  <spacer flex="1"></spacer>
+  <label style="text-align:center" value="Drag your XUL file here" />
+  <spacer flex="1"></spacer>
 </window>

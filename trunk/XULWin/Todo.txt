@@ -1,17 +1,27 @@
+Refactor
 - Rename ElementImpl to Component
 - Rename ConcreteElement to ConcreteComponent
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
-- Distribute XULViewer for feedback
-- Create XULViewer app
-- Create minimal and complete list of samples
-- Add sample for custom xul element
-- 2 Fix horizontal scrolling for listboxes
-- 5 Menubar events
-- 5 Fix toolbar menu sample!
-- Splitter
-- Make sample runner app
+Broken windows
+- Fix horizontal scrolling for listboxes
+- Toolbar menu-button menus appear at the wrong place
+- Menubar popup sucks
 - Fix WS_TABSTOP for multiline TextBoxes
+
+Samples
+- XULViewer
+- Widgets
+- Layouts
+- Event Handling
+- Dialogs
+- Custom XUL elements
+- How to use XUL and Lua
+
+Todo
+- Distribute XULViewer for feedback
+- Add sample for custom xul element
+- Add splitter element
 - Make sample with menu event handling
 - Checkbox partial checkstate
 - Implement PathInstructions2String
@@ -22,7 +32,6 @@
 - Treeview: implement tree open/closed state, and min size implications
 - Classes inheriting VirtualComponent should not have a 'Native' prefix in their class name.
 - Make sample app with toolbar, status-bar and scrollbar
-
 
 Intential differences from Mozilla XUL
 - Flex attribute on 'listcol' elements is not supported in XULWin

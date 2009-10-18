@@ -15,11 +15,11 @@ namespace XULWin
     Element::Element(const std::string & inType, Element * inParent, Component * inNativeComponent) :
         mType(inType),
         mParent(inParent),
-        mImpl(inNativeComponent)
+        mComponent(inNativeComponent)
     {
-        if (mImpl)
+        if (mComponent)
         {
-            mImpl->setOwningElement(this);
+            mComponent->setOwningElement(this);
         }
     }
 
@@ -34,7 +34,7 @@ namespace XULWin
     
     bool Element::init()
     {
-        return impl()->initImpl();
+        return component()->initComponent();
     }
 
     
@@ -107,8 +107,8 @@ namespace XULWin
         {
             ElementPtr keepAlive = *it;
             mChildren.erase(it);
-            mImpl->rebuildLayout();            
-            mImpl->onChildRemoved(keepAlive->impl());
+            mComponent->rebuildLayout();            
+            mComponent->onChildRemoved(keepAlive->component());
             // keepAlive loses scope here and destroys child
         }
         else
@@ -146,7 +146,7 @@ namespace XULWin
     {
         mAttributes = inAttributes;
         
-        if (mImpl)
+        if (mComponent)
         {
             AttributesMapping::iterator it = mAttributes.begin(), end = mAttributes.end();
             for (; it != end; ++it)
@@ -163,18 +163,18 @@ namespace XULWin
 
     void Element::initAttributeControllers()
     {
-        if (mImpl)
+        if (mComponent)
         {
-            mImpl->initAttributeControllers();
+            mComponent->initAttributeControllers();
         }
     }
 
 
     void Element::initStyleControllers()
     {
-        if (mImpl)
+        if (mComponent)
         {
-            mImpl->initStyleControllers();
+            mComponent->initStyleControllers();
         }
     }
 
@@ -182,7 +182,7 @@ namespace XULWin
     std::string Element::getStyle(const std::string & inName) const
     {
         std::string result;
-        if (!mImpl || !mImpl->getStyle(inName, result))
+        if (!mComponent || !mComponent->getStyle(inName, result))
         {
             StylesMapping::const_iterator it = mStyles.find(inName);
             if (it != mStyles.end())
@@ -198,7 +198,7 @@ namespace XULWin
     std::string Element::getAttribute(const std::string & inName) const
     {
         std::string result;
-        if (!mImpl || !mImpl->getAttribute(inName, result))
+        if (!mComponent || !mComponent->getAttribute(inName, result))
         {
             AttributesMapping::const_iterator it = mAttributes.find(inName);
             if (it != mAttributes.end())
@@ -225,7 +225,7 @@ namespace XULWin
     void Element::setStyle(const std::string & inName, const std::string & inValue)
     {
         std::string type = this->type();
-        if (!mImpl || !mImpl->setStyle(inName, inValue))
+        if (!mComponent || !mComponent->setStyle(inName, inValue))
         {
             mStyles[inName] = inValue;
         }
@@ -234,7 +234,7 @@ namespace XULWin
     
     void Element::setAttribute(const std::string & inName, const std::string & inValue)
     {
-        if (!mImpl || !mImpl->setAttribute(inName, inValue))
+        if (!mComponent || !mComponent->setAttribute(inName, inValue))
         {
             mAttributes[inName] = inValue;
         }
@@ -243,12 +243,12 @@ namespace XULWin
     
     bool Element::addEventListener(EventListener * inEventListener)
     {
-        if (!mImpl)
+        if (!mComponent)
         {
             return false;
         }
 
-        if (NativeComponent * comp = mImpl->downcast<NativeComponent>())
+        if (NativeComponent * comp = mComponent->downcast<NativeComponent>())
         {
             comp->addEventListener(inEventListener);
             return true;
@@ -259,12 +259,12 @@ namespace XULWin
 
     bool Element::removeEventListener(EventListener * inEventListener)
     {
-        if (!mImpl)
+        if (!mComponent)
         {
             return false;
         }
 
-        if (NativeComponent * comp = mImpl->downcast<NativeComponent>())
+        if (NativeComponent * comp = mComponent->downcast<NativeComponent>())
         {
             comp->removeEventListener(inEventListener);
             return true;
@@ -273,16 +273,16 @@ namespace XULWin
     }
     
     
-    Component * Element::impl() const
+    Component * Element::component() const
     {
-        return mImpl.get();
+        return mComponent.get();
     }
     
     
     void Element::addChild(ElementPtr inChild)
     {
         mChildren.push_back(inChild);
-        impl()->onChildAdded(inChild->impl());
+        component()->onChildAdded(inChild->component());
     }
 
 
@@ -296,7 +296,7 @@ namespace XULWin
 
     void Window::show(Positioning inPositioning)
     {
-        if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
+        if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
         {
             nativeWindow->show(inPositioning);
         }
@@ -305,7 +305,7 @@ namespace XULWin
 
     void Window::showModal(Positioning inPositioning)
     {
-        if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
+        if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
         {
             nativeWindow->showModal(inPositioning);
         }
@@ -314,7 +314,7 @@ namespace XULWin
 
     void Window::close()
     {
-        if (NativeWindow * nativeWindow = impl()->downcast<NativeWindow>())
+        if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
         {
             nativeWindow->close();
         }
@@ -337,16 +337,16 @@ namespace XULWin
     Dialog::Dialog(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Dialog::Type(),
                 inParent,
-                new NativeDialog(inParent ? inParent->impl() : GetDialogHelper(), inAttributesMapping))
+                new NativeDialog(inParent ? inParent->component() : GetDialogHelper(), inAttributesMapping))
     {
     }
 
 
     DialogResult Dialog::showModal(Window * inInvoker)
     {
-        if (NativeDialog * nativeDialog = impl()->downcast<NativeDialog>())
+        if (NativeDialog * nativeDialog = component()->downcast<NativeDialog>())
         {
-            return nativeDialog->showModal(inInvoker->impl()->downcast<NativeWindow>());
+            return nativeDialog->showModal(inInvoker->component()->downcast<NativeWindow>());
         }
         return DialogResult_Cancel;
     }
@@ -354,7 +354,7 @@ namespace XULWin
 
     void Dialog::endModal(DialogResult inDialogResult)
     {
-        if (NativeDialog * nativeDialog = impl()->downcast<NativeDialog>())
+        if (NativeDialog * nativeDialog = component()->downcast<NativeDialog>())
         {
             nativeDialog->endModal(inDialogResult);
         }
@@ -429,7 +429,7 @@ namespace XULWin
                 inParent,
                 CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
     {
-        impl()->setOrient(Horizontal);
+        component()->setOrient(Horizontal);
     }
 
 
@@ -437,14 +437,14 @@ namespace XULWin
         Element(VBox::Type(),
                 inParent,CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
     {
-        impl()->setOrient(Vertical);
+        component()->setOrient(Vertical);
     }
 
 
     Menu::Menu(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Menu::Type(),
                 inParent,
-                new MenuImpl(inParent->impl(), inAttributesMapping))
+                new MenuImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -452,7 +452,7 @@ namespace XULWin
     MenuBar::MenuBar(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuBar::Type(),
                 inParent,
-                new MenuBarImpl(inParent->impl(), inAttributesMapping))
+                new MenuBarImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -468,7 +468,7 @@ namespace XULWin
     MenuPopup::MenuPopup(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuPopup::Type(),
                 inParent,
-                new MenuPopupImpl(inParent->impl(), inAttributesMapping))
+                new MenuPopupImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -481,7 +481,7 @@ namespace XULWin
     MenuItem::MenuItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuItem::Type(),
                 inParent,
-                new MenuItemImpl(inParent->impl(), inAttributesMapping))
+                new MenuItemImpl(inParent->component(), inAttributesMapping))
     {
     }
         
@@ -519,7 +519,7 @@ namespace XULWin
     Spacer::Spacer(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Spacer::Type(),
                 inParent,
-                new NativeSpacer(inParent->impl(), inAttributesMapping))
+                new NativeSpacer(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -532,7 +532,7 @@ namespace XULWin
     MenuButton::MenuButton(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuButton::Type(),
                 inParent,
-                new MarginDecorator(new NativeMenuButton(inParent->impl(), inAttributesMapping)))
+                new MarginDecorator(new NativeMenuButton(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -558,7 +558,7 @@ namespace XULWin
     Rows::Rows(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Rows::Type(),
                 inParent,
-                new NativeRows(inParent->impl(), inAttributesMapping))
+                new NativeRows(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -571,7 +571,7 @@ namespace XULWin
     Columns::Columns(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Columns::Type(),
                 inParent,
-                new NativeColumns(inParent->impl(), inAttributesMapping))
+                new NativeColumns(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -584,7 +584,7 @@ namespace XULWin
     Row::Row(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Row::Type(),
                 inParent,
-                new NativeRow(inParent->impl(), inAttributesMapping))
+                new NativeRow(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -597,7 +597,7 @@ namespace XULWin
     Column::Column(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Column::Type(),
                 inParent,
-                new NativeColumn(inParent->impl(), inAttributesMapping))
+                new NativeColumn(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -610,7 +610,7 @@ namespace XULWin
     RadioGroup::RadioGroup(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RadioGroup::Type(),
                 inParent,
-                new Decorator(new NativeRadioGroup(inParent->impl(), inAttributesMapping)))
+                new Decorator(new NativeRadioGroup(inParent->component(), inAttributesMapping)))
     { 
     }
 
@@ -623,7 +623,7 @@ namespace XULWin
     Radio::Radio(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Radio::Type(),
                 inParent,
-                new MarginDecorator(new NativeRadio(inParent->impl(), inAttributesMapping)))
+                new MarginDecorator(new NativeRadio(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -636,7 +636,7 @@ namespace XULWin
     ProgressMeter::ProgressMeter(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ProgressMeter::Type(),
                 inParent,
-                new MarginDecorator(new NativeProgressMeter(inParent->impl(), inAttributesMapping)))
+                new MarginDecorator(new NativeProgressMeter(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -649,7 +649,7 @@ namespace XULWin
     Deck::Deck(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Deck::Type(),
                 inParent,
-                new Decorator(new NativeDeck(inParent->impl(), inAttributesMapping)))
+                new Decorator(new NativeDeck(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -662,7 +662,7 @@ namespace XULWin
     Scrollbar::Scrollbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Scrollbar::Type(),
                 inParent,
-                new Decorator(new NativeScrollbar(inParent->impl(), inAttributesMapping)))
+                new Decorator(new NativeScrollbar(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -688,7 +688,7 @@ namespace XULWin
     Tabs::Tabs(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Tabs::Type(),
                 inParent,
-                new TabsImpl(inParent->impl(), inAttributesMapping))
+                new TabsImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -701,7 +701,7 @@ namespace XULWin
     Tab::Tab(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Tab::Type(),
                 inParent,
-                new TabImpl(inParent->impl(), inAttributesMapping))
+                new TabImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -714,7 +714,7 @@ namespace XULWin
     TabPanels::TabPanels(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TabPanels::Type(),
                 inParent,
-                new TabPanelsImpl(inParent->impl(), inAttributesMapping))
+                new TabPanelsImpl(inParent->component(), inAttributesMapping))
     { 
     }
 
@@ -727,7 +727,7 @@ namespace XULWin
     TabPanel::TabPanel(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TabPanel::Type(),
                 inParent,
-                new TabPanelImpl(inParent->impl(), inAttributesMapping))
+                new TabPanelImpl(inParent->component(), inAttributesMapping))
     { 
     }
 
@@ -740,7 +740,7 @@ namespace XULWin
     GroupBox::GroupBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(GroupBox::Type(),
                 inParent,
-                new MarginDecorator(new GroupBoxImpl(inParent->impl(), inAttributesMapping)))
+                new MarginDecorator(new GroupBoxImpl(inParent->component(), inAttributesMapping)))
     { 
     }
 
@@ -748,7 +748,7 @@ namespace XULWin
     Caption::Caption(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Caption::Type(),
                 inParent,
-                new CaptionImpl(inParent->impl(), inAttributesMapping))
+                new CaptionImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -756,7 +756,7 @@ namespace XULWin
     Tree::Tree(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Tree::Type(),
                 inParent,
-                new TreeImpl(inParent->impl(), inAttributesMapping))
+                new TreeImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -769,7 +769,7 @@ namespace XULWin
     TreeChildren::TreeChildren(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeChildren::Type(),
                 inParent,
-                new TreeChildrenImpl(inParent->impl(), inAttributesMapping))
+                new TreeChildrenImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -782,7 +782,7 @@ namespace XULWin
     TreeItem::TreeItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeItem::Type(),
                 inParent,
-                new TreeItemImpl(inParent->impl(), inAttributesMapping))
+                new TreeItemImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -795,7 +795,7 @@ namespace XULWin
     TreeCols::TreeCols(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeCols::Type(),
                 inParent,
-                new TreeColsImpl(inParent->impl(), inAttributesMapping))
+                new TreeColsImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -808,7 +808,7 @@ namespace XULWin
     TreeCol::TreeCol(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeCol::Type(),
                 inParent,
-                new TreeColImpl(inParent->impl(), inAttributesMapping))
+                new TreeColImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -821,7 +821,7 @@ namespace XULWin
     TreeRow::TreeRow(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeRow::Type(),
                 inParent,
-                new TreeRowImpl(inParent->impl(), inAttributesMapping))
+                new TreeRowImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -834,7 +834,7 @@ namespace XULWin
     TreeCell::TreeCell(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeCell::Type(),
                 inParent,
-                new TreeCellImpl(inParent->impl(), inAttributesMapping))
+                new TreeCellImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -847,7 +847,7 @@ namespace XULWin
     Statusbar::Statusbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Statusbar::Type(),
                 inParent,
-                new StatusbarImpl(inParent->impl(), inAttributesMapping))
+                new StatusbarImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -860,7 +860,7 @@ namespace XULWin
     StatusbarPanel::StatusbarPanel(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(StatusbarPanel::Type(),
                 inParent,
-                new StatusbarPanelImpl(inParent->impl(), inAttributesMapping))
+                new StatusbarPanelImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -873,7 +873,7 @@ namespace XULWin
     Toolbar::Toolbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(Toolbar::Type(),
                 inParent,
-                new ToolbarImpl(inParent->impl(), inAttributesMapping))
+                new ToolbarImpl(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -886,7 +886,7 @@ namespace XULWin
     ToolbarButton::ToolbarButton(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ToolbarButton::Type(),
                 inParent,
-                new ToolbarButtonImpl(inParent->impl(), inAttributesMapping))
+                new ToolbarButtonImpl(inParent->component(), inAttributesMapping))
     {
     }
 

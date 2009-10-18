@@ -20,15 +20,15 @@ namespace XULWin
             return new ControlType(0, inAttributesMapping);
         }
         
-        if (ToolbarImpl * toolbar = inParent->impl()->downcast<ToolbarImpl>())
+        if (ToolbarImpl * toolbar = inParent->component()->downcast<ToolbarImpl>())
         {
-                ControlType * control = new ControlType(inParent->impl(), inAttributesMapping);
+                ControlType * control = new ControlType(inParent->component(), inAttributesMapping);
                 boost::weak_ptr<Windows::Toolbar> weakToolbar(toolbar->nativeToolbar());
                 return new ToolbarCustomWindowDecorator(control, weakToolbar);
         }
         else
         {
-            return new ControlType(inParent->impl(), inAttributesMapping);
+            return new ControlType(inParent->component(), inAttributesMapping);
         }
     }
 
@@ -85,7 +85,7 @@ namespace XULWin
         if (overflowX != CSSOverflow_Hidden || overflowY != CSSOverflow_Hidden)
         {
             Component * box = CreateNativeControl<NativeType>(inParent, inAttributesMapping);
-            return new ScrollDecorator(inParent->impl(), box, overflowX, overflowY);
+            return new ScrollDecorator(inParent->component(), box, overflowX, overflowY);
         }
         else
         {

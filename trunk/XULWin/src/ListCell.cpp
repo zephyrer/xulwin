@@ -10,7 +10,7 @@ namespace XULWin
     ListCell::ListCell(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListCell::Type(),
                 inParent,
-                new ListCellImpl(inParent->impl(), inAttributesMapping))
+                new ListCellImpl(inParent->component(), inAttributesMapping))
     {
     }
 

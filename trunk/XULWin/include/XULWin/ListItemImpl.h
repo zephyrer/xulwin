@@ -17,7 +17,7 @@ namespace XULWin
 
         ListItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         virtual bool initAttributeControllers();
 

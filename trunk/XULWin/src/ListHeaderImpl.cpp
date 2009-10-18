@@ -10,9 +10,9 @@ namespace XULWin
     }
 
 
-    bool ListHeaderImpl::initImpl()
+    bool ListHeaderImpl::initComponent()
     {
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
     

@@ -38,7 +38,7 @@ namespace XULWin
     }
 
 
-    bool ListViewImpl::initImpl()
+    bool ListViewImpl::initComponent()
     {
 		// Apply min widths to columns
         // XUL Hierarchy: listbox/listcols/listcol
@@ -50,7 +50,7 @@ namespace XULWin
             listColsEl->getElementsByType<ListCol>(cols);
             for (size_t colIdx = 0; colIdx != cols.size(); ++colIdx)
             {
-                colWidths.push_back(cols[colIdx]->impl()->getWidth());
+                colWidths.push_back(cols[colIdx]->component()->getWidth());
             }
 
             // Apply the column widths
@@ -59,7 +59,7 @@ namespace XULWin
                 ListView_SetColumnWidth(handle(), colIdx, colWidths[colIdx]);
             }
         }
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
     
@@ -122,7 +122,7 @@ namespace XULWin
             assert (columnIndex < listCells.size());
             if (columnIndex < listCells.size())
             {
-                std::string label = listCells[columnIndex]->impl()->downcast<ListCellImpl>()->getLabel();
+                std::string label = listCells[columnIndex]->component()->downcast<ListCellImpl>()->getLabel();
                 static std::wstring utf16Label;
                 utf16Label = ToUTF16(label);
                 dispInfo->item.pszText = const_cast<LPWSTR>(utf16Label.c_str());

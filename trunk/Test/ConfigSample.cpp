@@ -41,7 +41,7 @@ namespace XULWin
                         boost::bind(&ConfigSample::showUpload, this));
 
 
-        if (NativeWindow * win = mConfigWindow->impl()->downcast<NativeWindow>())
+        if (NativeWindow * win = mConfigWindow->component()->downcast<NativeWindow>())
         {
             ::DragAcceptFiles(win->handle(), TRUE);
             mEvents.connect(mConfigWindow.get(),
@@ -116,9 +116,9 @@ namespace XULWin
         mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
         localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeDialog, this, mNewSetDlg.get()));
 
-        if (NativeDialog * dlg = mNewSetDlg->impl()->downcast<NativeDialog>())
+        if (NativeDialog * dlg = mNewSetDlg->component()->downcast<NativeDialog>())
         {
-            if (NativeWindow * wnd = mConfigWindow->impl()->downcast<NativeWindow>())
+            if (NativeWindow * wnd = mConfigWindow->component()->downcast<NativeWindow>())
             {
                 dlg->showModal(wnd);
             }
@@ -130,11 +130,11 @@ namespace XULWin
     LRESULT ConfigSample::newSetOK()
     {        
         AttributesMapping attr;
-        if (NativeTextBox * nativeTextBox = mNewSetTextBox->impl()->downcast<NativeTextBox>())
+        if (NativeTextBox * nativeTextBox = mNewSetTextBox->component()->downcast<NativeTextBox>())
         {
             addNewSet(nativeTextBox->getValue());
         }
-        if (NativeDialog * nativeDialog = mNewSetDlg->impl()->downcast<NativeDialog>())
+        if (NativeDialog * nativeDialog = mNewSetDlg->component()->downcast<NativeDialog>())
         {
             nativeDialog->endModal(XULWin::DialogResult_Ok);
             return 0;
@@ -145,7 +145,7 @@ namespace XULWin
 
     LRESULT ConfigSample::closeDialog(Element * inDialog)
     {
-        if (NativeDialog * nativeDialog = inDialog->impl()->downcast<NativeDialog>())
+        if (NativeDialog * nativeDialog = inDialog->component()->downcast<NativeDialog>())
         {
             nativeDialog->endModal(XULWin::DialogResult_Cancel);
         }

@@ -15,9 +15,9 @@ namespace XULWin
     }
 
 
-    bool ListHeadImpl::initImpl()
+    bool ListHeadImpl::initComponent()
     {
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
     

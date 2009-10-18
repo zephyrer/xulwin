@@ -21,7 +21,7 @@ namespace XULWin
 
         virtual ~Decorator();
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         virtual int getIndex() const;
 
@@ -216,7 +216,7 @@ namespace XULWin
                         CSSOverflow inOverflowX,
                         CSSOverflow inOverflowY);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 

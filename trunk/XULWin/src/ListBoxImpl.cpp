@@ -17,9 +17,9 @@ namespace XULWin
     }
 
     
-    bool ListBoxImpl::initImpl()
+    bool ListBoxImpl::initComponent()
     {
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
 

@@ -87,7 +87,7 @@ namespace XULWin
     }
 
 
-    bool ToolbarCustomWindowDecorator::initImpl()
+    bool ToolbarCustomWindowDecorator::initComponent()
     {
         if (mCustomWindow)
         {
@@ -98,7 +98,7 @@ namespace XULWin
                 toolbar->nativeToolbar()->add(mCustomWindow);
             }
         }
-        return mDecoratedElement->initImpl();
+        return mDecoratedElement->initComponent();
     }
 
 } // namespace XULWin

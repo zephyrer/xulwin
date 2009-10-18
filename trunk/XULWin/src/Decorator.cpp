@@ -33,12 +33,12 @@ namespace XULWin
     }
 
 
-    bool Decorator::initImpl()
+    bool Decorator::initComponent()
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            return mDecoratedElement->initImpl();
+            return mDecoratedElement->initComponent();
         }
         return false;
     }
@@ -810,7 +810,7 @@ namespace XULWin
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mHorizontalScrollbar.get());
 
-            mHorizontalScrollbar->impl()->downcast<NativeScrollbar>()->setEventListener(this);
+            mHorizontalScrollbar->component()->downcast<NativeScrollbar>()->setEventListener(this);
         }
         if (mOverflowY != CSSOverflow_Hidden)
         {
@@ -821,12 +821,12 @@ namespace XULWin
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mVerticalScrollbar.get());
 
-            mVerticalScrollbar->impl()->downcast<NativeScrollbar>()->setEventListener(this);
+            mVerticalScrollbar->component()->downcast<NativeScrollbar>()->setEventListener(this);
         }
     }
 
 
-    bool ScrollDecorator::initImpl()
+    bool ScrollDecorator::initComponent()
     {
         Element * window = 0;
         Element * current = mDecoratedElement->el();
@@ -849,7 +849,7 @@ namespace XULWin
         {
             mEvents.connect(window, WM_MOUSEWHEEL, boost::bind(&ScrollDecorator::handleMouseWheel, this, _1, _2));
         }
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
 
@@ -882,7 +882,7 @@ namespace XULWin
         }
 
         int result = mDecoratedElement->getWidth(inSizeConstraint);
-        if (mVerticalScrollbar && !mVerticalScrollbar->impl()->isHidden())
+        if (mVerticalScrollbar && !mVerticalScrollbar->component()->isHidden())
         {
             result += Defaults::scrollbarWidth();
         }
@@ -898,7 +898,7 @@ namespace XULWin
         }
 
         int result = mDecoratedElement->getHeight(inSizeConstraint);
-        if (mHorizontalScrollbar && !mHorizontalScrollbar->impl()->isHidden())
+        if (mHorizontalScrollbar && !mHorizontalScrollbar->component()->isHidden())
         {
             result += Defaults::scrollbarWidth();
         }
@@ -913,7 +913,7 @@ namespace XULWin
         Rect clientRect(clientRect());
         if (mOverflowX != CSSOverflow_Hidden)
         {
-            mHorizontalScrollbar->impl()->move(
+            mHorizontalScrollbar->component()->move(
                 clientRect.x(),
                 clientRect.y() + clientRect.height(),
                 clientRect.width(),
@@ -922,7 +922,7 @@ namespace XULWin
         }
         if (mOverflowY != CSSOverflow_Hidden)
         {
-            mVerticalScrollbar->impl()->move(
+            mVerticalScrollbar->component()->move(
                 clientRect.x() + clientRect.width(),
                 clientRect.y(),
                 Defaults::scrollbarWidth(),
@@ -947,7 +947,7 @@ namespace XULWin
         int newH = h;
         if (mOverflowX != CSSOverflow_Hidden)
         {
-            NativeScrollbar * scrollbar = mHorizontalScrollbar->impl()->downcast<NativeScrollbar>();
+            NativeScrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<NativeScrollbar>();
             if (scrollbar)
             {
                 int maxpos = Defaults::Attributes::maxpos();
@@ -976,7 +976,7 @@ namespace XULWin
 
         if (mOverflowY != CSSOverflow_Hidden)
         {
-            NativeScrollbar * scrollbar = mVerticalScrollbar->impl()->downcast<NativeScrollbar>();
+            NativeScrollbar * scrollbar = mVerticalScrollbar->component()->downcast<NativeScrollbar>();
             if (scrollbar)
             {
                 int maxpos = Defaults::Attributes::maxpos();
@@ -1025,7 +1025,7 @@ namespace XULWin
 
             if (mHorizontalScrollbar)
             {
-                NativeScrollbar * hscrollbar = mHorizontalScrollbar->impl()->downcast<NativeScrollbar>();
+                NativeScrollbar * hscrollbar = mHorizontalScrollbar->component()->downcast<NativeScrollbar>();
                 int minHorSize = mDecoratedElement->getWidth(Minimum);
                 int horScrollPos = Windows::getScrollPos(hscrollbar->handle());
                 double horRatio = (double)horScrollPos/(double)Defaults::Attributes::maxpos();
@@ -1035,7 +1035,7 @@ namespace XULWin
 
             if (mVerticalScrollbar)
             {
-                NativeScrollbar * vscrollbar = mVerticalScrollbar->impl()->downcast<NativeScrollbar>();
+                NativeScrollbar * vscrollbar = mVerticalScrollbar->component()->downcast<NativeScrollbar>();
                 int minVerSize = mDecoratedElement->getHeight(Minimum);
                 int verScrollPos = Windows::getScrollPos(vscrollbar->handle());
                 double verRatio = (double)verScrollPos/(double)Defaults::Attributes::maxpos();
@@ -1056,7 +1056,7 @@ namespace XULWin
     LRESULT ScrollDecorator::handleMouseWheel(WPARAM wParam, LPARAM lParam)
     {
         // Forward mouse wheel messages to the vertical scrollbar
-        if (NativeScrollbar * vscrollbar = mVerticalScrollbar->impl()->downcast<NativeScrollbar>())
+        if (NativeScrollbar * vscrollbar = mVerticalScrollbar->component()->downcast<NativeScrollbar>())
         {
             ::SendMessage(vscrollbar->handle(), WM_MOUSEWHEEL, wParam, lParam);
             return 0;

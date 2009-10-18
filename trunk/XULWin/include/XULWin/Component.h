@@ -99,7 +99,7 @@ namespace XULWin
     public:
         virtual ~Component() {}        
 
-        virtual bool initImpl() = 0;
+        virtual bool initComponent() = 0;
 
         // Returns this element's index in its parent's children collection.
         virtual int getIndex() const = 0;
@@ -209,7 +209,7 @@ namespace XULWin
 
         // Downcast that also resolves decorators.
         // Don't use dynamic_cast, because that would almost always fail since
-        // ElementImpls are usually wrapped in Decorator objects.
+        // Components are usually wrapped in Decorator objects.
         template<class Type>
         Type * downcast()
         {
@@ -218,7 +218,7 @@ namespace XULWin
 
         // Downcast that also resolves decorators.
         // Don't use dynamic_cast, because that would almost always fail since
-        // ElementImpls are usually wrapped in Decorator objects.
+        // Components are usually wrapped in Decorator objects.
         template<class Type>
         const Type * downcast() const
         {
@@ -245,9 +245,9 @@ namespace XULWin
             {
                 return obj->decoratedElement()->findParentOfType<Type>();
             }
-            else if (el() && el()->parent() && el()->parent()->impl())
+            else if (el() && el()->parent() && el()->parent()->component())
             {
-                return el()->parent()->impl()->findParentOfType<Type>();
+                return el()->parent()->component()->findParentOfType<Type>();
             }
             return 0;
         }
@@ -334,6 +334,9 @@ namespace XULWin
     };
 
 
+    /**
+     * ConcreteComponent is the base class for non-decorator components.
+     */
     class ConcreteComponent : public Component
     {
     public:
@@ -341,7 +344,7 @@ namespace XULWin
 
         virtual ~ConcreteComponent() = 0;
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         virtual int getIndex() const;
 
@@ -669,7 +672,7 @@ namespace XULWin
 
         virtual ~NativeWindow();
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         // BoxLayouter
         virtual Orient getOrient() const;
@@ -1262,7 +1265,7 @@ namespace XULWin
 
         MenuListImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
             
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1587,7 +1590,7 @@ namespace XULWin
 
         TabPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
     };
 
 
@@ -1638,7 +1641,7 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual bool initImpl();
+        virtual bool initComponent();
     };
     
 
@@ -1690,7 +1693,7 @@ namespace XULWin
 
         HTREEITEM addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
     };
 
     
@@ -1716,7 +1719,7 @@ namespace XULWin
 
         TreeItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         const TreeItemInfo & itemInfo() const { return mItemInfo; }
 
@@ -1867,7 +1870,7 @@ namespace XULWin
 
         virtual ~ToolbarImpl();
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         virtual bool initAttributeControllers();
 
@@ -1899,7 +1902,7 @@ namespace XULWin
 
         ToolbarButtonImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         virtual bool initAttributeControllers();
 

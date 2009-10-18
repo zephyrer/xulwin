@@ -26,7 +26,7 @@ namespace XULWin
         const int colIdx = getIndex();
         for (size_t idx = 0; idx != listItems.size(); ++idx)
         {
-            if (ListCellImpl * cell = listItems[idx]->impl()->getChild(colIdx)->downcast<ListCellImpl>())
+            if (ListCellImpl * cell = listItems[idx]->component()->getChild(colIdx)->downcast<ListCellImpl>())
             {
                 res = std::max<int>(res, cell->calculateWidth(inSizeConstraint));
             }
@@ -41,9 +41,9 @@ namespace XULWin
     }
 
 
-    bool ListColImpl::initImpl()
+    bool ListColImpl::initComponent()
     {
-        return Super::initImpl();
+        return Super::initComponent();
     }
     
 } // namespace XULWin

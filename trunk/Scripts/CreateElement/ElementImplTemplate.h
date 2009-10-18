@@ -15,7 +15,7 @@ namespace XULWin
 
         {{ELEMENTIMPL_NAME}}(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         bool initAttributeControllers();
 

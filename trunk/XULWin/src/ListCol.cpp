@@ -10,7 +10,7 @@ namespace XULWin
     ListCol::ListCol(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListCol::Type(),
                 inParent,
-                new ListColImpl(inParent->impl(), inAttributesMapping))
+                new ListColImpl(inParent->component(), inAttributesMapping))
     {
     }
 

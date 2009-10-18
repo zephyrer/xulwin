@@ -12,9 +12,9 @@ namespace XULWin
     }
 
 
-    bool ListCellImpl::initImpl()
+    bool ListCellImpl::initComponent()
     {
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
     

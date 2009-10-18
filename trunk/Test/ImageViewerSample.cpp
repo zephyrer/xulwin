@@ -38,7 +38,7 @@ namespace XULWin
         ScopedEventListener events;
         events.connect(mRootElement.get(), WM_DROPFILES, boost::bind(&ImageViewerSample::dropFiles, this, _1, _2));
        
-        if (mNativeWindow = mRootElement->impl()->downcast<NativeWindow>())
+        if (mNativeWindow = mRootElement->component()->downcast<NativeWindow>())
         {
             ::DragAcceptFiles(mNativeWindow->handle(), TRUE);
             mNativeWindow->showModal(Window::CenterInScreen);

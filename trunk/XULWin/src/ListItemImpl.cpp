@@ -19,7 +19,7 @@ namespace XULWin
     }
         
         
-    bool ListItemImpl::initImpl()
+    bool ListItemImpl::initComponent()
     {
         // XUL hierarchy:
         // listbox/listitem/listcell
@@ -42,7 +42,7 @@ namespace XULWin
 
                 for (size_t idx = 0; idx != listCells.size(); ++idx)
                 {
-                    labels.push_back(ToUTF16(listCells[idx]->impl()->downcast<ListCellImpl>()->getLabel()));
+                    labels.push_back(ToUTF16(listCells[idx]->component()->downcast<ListCellImpl>()->getLabel()));
                 }
                 lvItem.lParam = (LPARAM)labels[0].c_str();
                 lvItem.iItem = getIndex();
@@ -53,7 +53,7 @@ namespace XULWin
                 }
             }
         }
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
 

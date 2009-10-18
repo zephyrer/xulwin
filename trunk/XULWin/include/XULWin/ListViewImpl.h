@@ -19,7 +19,7 @@ namespace XULWin
 
         virtual ~ListViewImpl();
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         bool initAttributeControllers();
 

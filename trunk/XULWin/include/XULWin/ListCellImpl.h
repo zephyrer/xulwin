@@ -17,7 +17,7 @@ namespace XULWin
 
         ListCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool initComponent();
 
         bool initAttributeControllers();
 

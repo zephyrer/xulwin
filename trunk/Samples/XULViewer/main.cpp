@@ -29,7 +29,7 @@ LRESULT runXUL(const std::string & inXULDocument)
         return 1;
     }
 
-    XULWin::NativeWindow * wnd = rootElement->impl()->downcast<XULWin::NativeWindow>();
+    XULWin::NativeWindow * wnd = rootElement->component()->downcast<XULWin::NativeWindow>();
     if (!wnd)
     {
         reportError("Root element is not of type window");
@@ -70,7 +70,7 @@ void runXULViewer()
         return;
     }
 
-    XULWin::NativeWindow * wnd = rootElement->impl()->downcast<XULWin::NativeWindow>();
+    XULWin::NativeWindow * wnd = rootElement->component()->downcast<XULWin::NativeWindow>();
     if (!wnd)
     {
         reportError("Root element is not of type winodw.");

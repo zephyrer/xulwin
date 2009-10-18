@@ -29,7 +29,7 @@ namespace XULWin
      * Base class XUL elements.
      * Class Element provides a string-based interface for UI components.
      * For a C++ interface you need to get the Component object using the 
-     * impl() method.
+     * component() method.
      */
     class Element : private boost::noncopyable
     {
@@ -53,7 +53,7 @@ namespace XULWin
          *
          * PART 3: Parser finds CLOSING tag of the element:
          * - virtual Element::init
-         * - virtual Component::initImpl
+         * - virtual Component::initComponent
          * 
          */  
         template<class ElementType>
@@ -137,7 +137,7 @@ namespace XULWin
 
         bool removeEventListener(EventListener * inEventListener);
 
-        Component * impl() const;
+        Component * component() const;
 
         template<class ElementType>
         const ElementType * downcast() const
@@ -205,7 +205,7 @@ namespace XULWin
         std::string mType;
         StylesMapping mStyles;
         std::string mInnerText;
-        boost::shared_ptr<Component> mImpl;
+        boost::shared_ptr<Component> mComponent;
     };
 
 

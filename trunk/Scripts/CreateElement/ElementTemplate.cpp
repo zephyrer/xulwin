@@ -10,7 +10,7 @@ namespace XULWin
     {{ELEMENT_NAME}}::{{ELEMENT_NAME}}(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element({{ELEMENT_NAME}}::Type(),
                 inParent,
-                new {{ELEMENT_NAME}}Impl(inParent->impl(), inAttributesMapping))
+                new {{ELEMENT_NAME}}Impl(inParent->component(), inAttributesMapping))
     {
     }
 

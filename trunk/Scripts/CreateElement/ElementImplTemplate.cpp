@@ -10,9 +10,9 @@ namespace XULWin
     }
 
 
-    bool {{ELEMENTIMPL_NAME}}::initImpl()
+    bool {{ELEMENTIMPL_NAME}}::initComponent()
     {
-        return Super::initImpl();
+        return Super::initComponent();
     }
 
     

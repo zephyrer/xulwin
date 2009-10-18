@@ -5,7 +5,7 @@
 #include "XULWin/AttributeController.h"
 #include "XULWin/StyleController.h"
 #include "XULWin/Decorator.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Fallible.h"
 #include <boost/bind.hpp>

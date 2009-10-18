@@ -11,7 +11,7 @@ namespace SVG
 {
     
     
-    SVGCanvas::SVGCanvas(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    SVGCanvas::SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
     {
     }
@@ -123,13 +123,13 @@ namespace SVG
     }
 
 
-    SVGElementImpl::SVGElementImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    SVGElementImpl::SVGElementImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
         
-    static SVGElementImpl * findSVGParent(ElementImpl * inEl)
+    static SVGElementImpl * findSVGParent(Component * inEl)
     {
         if (!inEl)
         {
@@ -147,7 +147,7 @@ namespace SVG
     }
 
 
-    SVGGroupImpl::SVGGroupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    SVGGroupImpl::SVGGroupImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         SVGElementImpl(inParent, inAttributesMapping)
     {
     }
@@ -171,7 +171,7 @@ namespace SVG
     }
 
     
-    SVGPolygonImpl::SVGPolygonImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    SVGPolygonImpl::SVGPolygonImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         SVGElementImpl(inParent, inAttributesMapping)
     {
     }
@@ -219,7 +219,7 @@ namespace SVG
     }
 
 
-    SVGRectImpl::SVGRectImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    SVGRectImpl::SVGRectImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         SVGElementImpl(inParent, inAttributesMapping)
     {
     }
@@ -249,7 +249,7 @@ namespace SVG
     }
 
     
-    SVGPathImpl::SVGPathImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    SVGPathImpl::SVGPathImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         SVGElementImpl(inParent, inAttributesMapping)
     {
     }

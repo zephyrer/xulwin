@@ -2,7 +2,7 @@
 #define IMAGEIMPL_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
@@ -16,7 +16,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        ImageImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ImageImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual std::string getSrc() const;
 

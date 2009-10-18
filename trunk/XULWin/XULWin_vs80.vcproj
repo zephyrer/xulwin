@@ -336,19 +336,19 @@
 			Name="Element"
 			>
 			<File
+				RelativePath=".\src\Component.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Component.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Element.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Element.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ElementImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ElementImpl.h"
 				>
 			</File>
 		</Filter>

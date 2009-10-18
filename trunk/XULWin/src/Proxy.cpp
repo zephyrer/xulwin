@@ -4,7 +4,7 @@
 namespace XULWin
 {
 
-    Proxy::Proxy(ElementImpl * inDecoratedElement) :
+    Proxy::Proxy(Component * inDecoratedElement) :
         Super(inDecoratedElement)
     {
     }
@@ -21,7 +21,7 @@ namespace XULWin
     }
 
 
-    ElementImplPtr Proxy::swap(ElementImpl * inNewElementImpl)
+    ElementImplPtr Proxy::swap(Component * inNewElementImpl)
     {
         assert(inNewElementImpl);
         ElementImplPtr old = mDecoratedElement;

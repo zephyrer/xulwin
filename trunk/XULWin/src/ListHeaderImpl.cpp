@@ -4,7 +4,7 @@
 namespace XULWin
 {
 
-    ListHeaderImpl::ListHeaderImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ListHeaderImpl::ListHeaderImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }

@@ -2,7 +2,7 @@
 #include "XULWin/XULRunner.h"
 #include "XULWin/EventListener.h"
 #include "XULWin/Decorator.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/Image.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"

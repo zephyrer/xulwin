@@ -6,7 +6,7 @@
 namespace XULWin
 {
 
-    ListCellImpl::ListCellImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ListCellImpl::ListCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }

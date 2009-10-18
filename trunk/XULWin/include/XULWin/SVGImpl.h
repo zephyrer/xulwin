@@ -2,7 +2,7 @@
 #define SVGIMPL_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/GdiplusLoader.h"
 
@@ -33,7 +33,7 @@ namespace SVG
     public:
         typedef NativeControl Super;
 
-        SVGCanvas(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -53,7 +53,7 @@ namespace SVG
     public:
         typedef PassiveComponent Super;
 
-        SVGElementImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        SVGElementImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
     private:
     };
@@ -65,7 +65,7 @@ namespace SVG
     public:
         typedef SVGElementImpl Super;
 
-        SVGGroupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        SVGGroupImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initStyleControllers();
 
@@ -80,7 +80,7 @@ namespace SVG
     public:
         typedef SVGElementImpl Super;
 
-        SVGPolygonImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPolygonImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -102,7 +102,7 @@ namespace SVG
     public:
         typedef SVGElementImpl Super;
 
-        SVGRectImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        SVGRectImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initStyleControllers();
 
@@ -120,7 +120,7 @@ namespace SVG
     public:
         typedef SVGElementImpl Super;
 
-        SVGPathImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPathImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 

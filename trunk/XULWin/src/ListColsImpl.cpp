@@ -4,7 +4,7 @@
 namespace XULWin
 {
 
-    ListColsImpl::ListColsImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ListColsImpl::ListColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }

@@ -17,7 +17,7 @@ namespace XULWin
      * Attribute controllers must implement the get and set methods.
      * These get and set methods are string based wrappers for the typed
      * C++ getters and setters provided by the subclasses.
-     * ElementImpl subclasses should inherit the attribute controllers that
+     * Component subclasses should inherit the attribute controllers that
      * correspond with their own attributes.
      * For example the Button element has the 'label' attribute, therefore the
      * the NativeButton class should inherit the LabelController, and provide

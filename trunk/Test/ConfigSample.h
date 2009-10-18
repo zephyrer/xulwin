@@ -5,7 +5,7 @@
 #include "ImageViewerSample.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/EventListener.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/ErrorReporter.h"

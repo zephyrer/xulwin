@@ -5,7 +5,7 @@
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/ElementCreationSupport.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/GdiplusLoader.h"
 #include "Poco/Path.h"
 #include "Poco/UnicodeConverter.h"
@@ -18,7 +18,7 @@
 namespace XULWin
 {
 
-    ImageImpl::ImageImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ImageImpl::ImageImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, L"STATIC", 0, 0),
         mKeepAspectRatio(false)
     {

@@ -1,5 +1,5 @@
 #include "XULWin/Initializer.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/Image.h"
 #include "XULWin/ListBox.h"
 #include "XULWin/ListCell.h"

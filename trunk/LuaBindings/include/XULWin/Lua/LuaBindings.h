@@ -4,7 +4,7 @@
 
 #include "XULWin/Element.h"
 #include "XULWin/Decorator.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include <string>
 
 

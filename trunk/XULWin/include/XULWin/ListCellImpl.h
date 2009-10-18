@@ -2,7 +2,7 @@
 #define LISTCELLIMPL_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/AttributeController.h"
 
 
@@ -15,7 +15,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        ListCellImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ListCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
 

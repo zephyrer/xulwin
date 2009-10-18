@@ -2,7 +2,7 @@
 #define ELEMENTCREATIONSUPPORT_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/ToolbarCustomWindowDecorator.h"
 #include "Poco/StringTokenizer.h"
 #include <boost/shared_ptr.hpp>
@@ -13,7 +13,7 @@ namespace XULWin
 {    
 
     template<class ControlType>
-    static ElementImpl * CreateNativeControl(Element * inParent, const AttributesMapping & inAttributesMapping)
+    static Component * CreateNativeControl(Element * inParent, const AttributesMapping & inAttributesMapping)
     {
         if (!inParent)
         {
@@ -76,7 +76,7 @@ namespace XULWin
 
 
     template<class VirtualType, class NativeType>
-    static ElementImpl * CreateContainer(Element * inParent, const AttributesMapping & inAttributesMapping)
+    static Component * CreateContainer(Element * inParent, const AttributesMapping & inAttributesMapping)
     {
         StylesMapping styles;
         GetStyles(inAttributesMapping, styles);
@@ -84,7 +84,7 @@ namespace XULWin
         CSSOverflow overflowY = GetOverflow(styles, "overflow-y");
         if (overflowX != CSSOverflow_Hidden || overflowY != CSSOverflow_Hidden)
         {
-            ElementImpl * box = CreateNativeControl<NativeType>(inParent, inAttributesMapping);
+            Component * box = CreateNativeControl<NativeType>(inParent, inAttributesMapping);
             return new ScrollDecorator(inParent->impl(), box, overflowX, overflowY);
         }
         else

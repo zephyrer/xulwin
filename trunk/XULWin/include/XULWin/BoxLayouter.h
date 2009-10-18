@@ -21,9 +21,9 @@ namespace XULWin
 
             virtual size_t BoxLayouter_getChildCount() const = 0;
 
-            virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const = 0;
+            virtual const Component * BoxLayouter_getChild(size_t idx) const = 0;
 
-            virtual ElementImpl * BoxLayouter_getChild(size_t idx) = 0;
+            virtual Component * BoxLayouter_getChild(size_t idx) = 0;
 
             virtual Rect BoxLayouter_clientRect() const = 0;
 

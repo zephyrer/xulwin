@@ -16,7 +16,7 @@ namespace XULWin
 {
 
     class ElementFactory;
-    class ElementImpl;
+    class Component;
     class Element;
     class EventListener;
     typedef boost::shared_ptr<Element> ElementPtr;
@@ -28,7 +28,7 @@ namespace XULWin
     /**
      * Base class XUL elements.
      * Class Element provides a string-based interface for UI components.
-     * For a C++ interface you need to get the ElementImpl object using the 
+     * For a C++ interface you need to get the Component object using the 
      * impl() method.
      */
     class Element : private boost::noncopyable
@@ -40,20 +40,20 @@ namespace XULWin
          * 
          * PART 1: Parser encounters the OPENING tag of a new element:
          * - Element constructor
-         * - Construction of any decorators for ElementImpl
-         * - ElementImpl constructor
+         * - Construction of any decorators for Component
+         * - Component constructor
          * - Element::initAttributeControllers
          * - Element::setAttributes
          * - Element::initStyleControllers
          * - Element::setStyles
          * - virtual Element::addChild (add element to its parent)
-         * - virtual ElementImpl::onChildAdded notification
+         * - virtual Component::onChildAdded notification
          * 
          * PART 2: Creation and initialization of any child elements.
          *
          * PART 3: Parser finds CLOSING tag of the element:
          * - virtual Element::init
-         * - virtual ElementImpl::initImpl
+         * - virtual Component::initImpl
          * 
          */  
         template<class ElementType>
@@ -67,7 +67,7 @@ namespace XULWin
             result->setStyles(inAttr);
             if (inParent)
             {
-                // The addChild() method also calls ElementImpl::onChildAdded
+                // The addChild() method also calls Component::onChildAdded
                 inParent->addChild(result);                
             }
             return result;
@@ -137,7 +137,7 @@ namespace XULWin
 
         bool removeEventListener(EventListener * inEventListener);
 
-        ElementImpl * impl() const;
+        Component * impl() const;
 
         template<class ElementType>
         const ElementType * downcast() const
@@ -183,7 +183,7 @@ namespace XULWin
         }
 
     protected:
-        Element(const std::string & inType, Element * inParent, ElementImpl * inNativeComponent);
+        Element(const std::string & inType, Element * inParent, Component * inNativeComponent);
 
         Element * mParent;
         Children mChildren;
@@ -205,7 +205,7 @@ namespace XULWin
         std::string mType;
         StylesMapping mStyles;
         std::string mInnerText;
-        boost::shared_ptr<ElementImpl> mImpl;
+        boost::shared_ptr<Component> mImpl;
     };
 
 

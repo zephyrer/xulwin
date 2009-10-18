@@ -1,4 +1,4 @@
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
@@ -28,7 +28,7 @@ namespace XULWin
     MenuImpl::MenusById MenuImpl::sMenusById;
     
 
-    ConcreteElement::ConcreteElement(ElementImpl * inParent) :
+    ConcreteComponent::ConcreteComponent(Component * inParent) :
         mParent(inParent),
         mCommandId(),
         mExpansive(false),
@@ -70,19 +70,19 @@ namespace XULWin
     }
 
 
-    ConcreteElement::~ConcreteElement()
+    ConcreteComponent::~ConcreteComponent()
     {
     }
 
 
-    bool ConcreteElement::initImpl()
+    bool ConcreteComponent::initImpl()
     {
         mIsInitialized = true;
         return true;
     }
     
     
-    int ConcreteElement::getIndex() const
+    int ConcreteComponent::getIndex() const
     {
         size_t idx = 0;
         for (; idx != parent()->getChildCount(); ++idx)
@@ -96,25 +96,25 @@ namespace XULWin
     }
 
 
-    size_t ConcreteElement::getChildCount() const
+    size_t ConcreteComponent::getChildCount() const
     {
         return el()->children().size();
     }
 
 
-    const ElementImpl * ConcreteElement::getChild(size_t inIndex) const
+    const Component * ConcreteComponent::getChild(size_t inIndex) const
     {
         return el()->children()[inIndex]->impl();
     }
 
     
-    ElementImpl * ConcreteElement::getChild(size_t inIndex)
+    Component * ConcreteComponent::getChild(size_t inIndex)
     {
         return el()->children()[inIndex]->impl();
     }
 
     
-    HWND ConcreteElement::getFirstParentHandle()
+    HWND ConcreteComponent::getFirstParentHandle()
     {
         if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(parent()))
         {
@@ -124,7 +124,7 @@ namespace XULWin
     }
 
 
-    const RGBColor & ConcreteElement::getCSSFill() const
+    const RGBColor & ConcreteComponent::getCSSFill() const
     {
         if (mCSSFill.isValid())
         {
@@ -140,25 +140,25 @@ namespace XULWin
     }        
 
 
-    void ConcreteElement::setFill(const RGBColor & inColor)
+    void ConcreteComponent::setFill(const RGBColor & inColor)
     {
         mFill = inColor;
     }
 
 
-    const RGBColor & ConcreteElement::getFill() const
+    const RGBColor & ConcreteComponent::getFill() const
     {
         return mFill;
     }
 
 
-    void ConcreteElement::setStroke(const RGBColor & inColor)
+    void ConcreteComponent::setStroke(const RGBColor & inColor)
     {
         mStroke = inColor;
     }
 
 
-    const RGBColor & ConcreteElement::getStroke() const
+    const RGBColor & ConcreteComponent::getStroke() const
     {
         if (mStroke.isValid())
         {
@@ -174,13 +174,13 @@ namespace XULWin
     }
 
 
-    void ConcreteElement::setStrokeWidth(int inStrokeWidth)
+    void ConcreteComponent::setStrokeWidth(int inStrokeWidth)
     {
         mStrokeWidth = inStrokeWidth;
     }
 
 
-    int ConcreteElement::getStrokeWidth() const
+    int ConcreteComponent::getStrokeWidth() const
     {
         if (mStrokeWidth.isValid())
         {
@@ -196,19 +196,19 @@ namespace XULWin
     }
     
     
-    void ConcreteElement::setCSSFill(const RGBColor & inColor)
+    void ConcreteComponent::setCSSFill(const RGBColor & inColor)
     {
         mCSSFill = inColor;
     }
     
     
-    void ConcreteElement::setCSSStroke(const RGBColor & inColor)
+    void ConcreteComponent::setCSSStroke(const RGBColor & inColor)
     {
         mCSSStroke = inColor;
     }
 
 
-    const RGBColor & ConcreteElement::getCSSStroke() const
+    const RGBColor & ConcreteComponent::getCSSStroke() const
     {
         if (mCSSStroke.isValid())
         {
@@ -224,31 +224,31 @@ namespace XULWin
     }
 
 
-    int ConcreteElement::getCSSX() const
+    int ConcreteComponent::getCSSX() const
     {
         return mCSSX;
     }
 
 
-    void ConcreteElement::setCSSX(int inX)
+    void ConcreteComponent::setCSSX(int inX)
     {
         mCSSX = inX;
     }
 
 
-    int ConcreteElement::getCSSY() const
+    int ConcreteComponent::getCSSY() const
     {
         return mCSSY;
     }
 
 
-    void ConcreteElement::setCSSY(int inY)
+    void ConcreteComponent::setCSSY(int inY)
     {
         mCSSY = inY;
     }
 
 
-    int ConcreteElement::getCSSWidth() const
+    int ConcreteComponent::getCSSWidth() const
     {
         if (mWidth.isValid())
         {
@@ -258,13 +258,13 @@ namespace XULWin
     }
 
 
-    void ConcreteElement::setCSSWidth(int inWidth)
+    void ConcreteComponent::setCSSWidth(int inWidth)
     {
         mCSSWidth = inWidth;
     }
 
     
-    int ConcreteElement::getCSSHeight() const
+    int ConcreteComponent::getCSSHeight() const
     {
         if (mHeight.isValid())
         {
@@ -274,13 +274,13 @@ namespace XULWin
     }
 
 
-    void ConcreteElement::setCSSHeight(int inHeight)
+    void ConcreteComponent::setCSSHeight(int inHeight)
     {
         mCSSHeight = inHeight;
     }
 
 
-    int ConcreteElement::getWidth() const
+    int ConcreteComponent::getWidth() const
     {
         if (mWidth.isValid())
         {
@@ -296,13 +296,13 @@ namespace XULWin
     }
     
     
-    void ConcreteElement::setWidth(int inWidth)
+    void ConcreteComponent::setWidth(int inWidth)
     {
         mWidth = inWidth;
     }
 
 
-    int ConcreteElement::getHeight() const
+    int ConcreteComponent::getHeight() const
     {
         if (mHeight.isValid())
         {
@@ -318,13 +318,13 @@ namespace XULWin
     }
     
     
-    void ConcreteElement::setHeight(int inHeight)
+    void ConcreteComponent::setHeight(int inHeight)
     {
         mHeight = inHeight;
     }
 
 
-    int ConcreteElement::getScreenX() const
+    int ConcreteComponent::getScreenX() const
     {
         if (mScreenX.isValid())
         {
@@ -340,13 +340,13 @@ namespace XULWin
     }
 
 
-    void ConcreteElement::setScreenX(int inX)
+    void ConcreteComponent::setScreenX(int inX)
     {
         mScreenX = inX;
     }
 
 
-    int ConcreteElement::getScreenY() const
+    int ConcreteComponent::getScreenY() const
     {
         if (mScreenY.isValid())
         {
@@ -362,31 +362,31 @@ namespace XULWin
     }
 
 
-    void ConcreteElement::setScreenY(int inY)
+    void ConcreteComponent::setScreenY(int inY)
     {
         mScreenY = inY;
     }
 
 
-    int ConcreteElement::getFlex() const
+    int ConcreteComponent::getFlex() const
     {
         return mFlex;
     }
     
     
-    void ConcreteElement::setFlex(int inFlex)
+    void ConcreteComponent::setFlex(int inFlex)
     {
         mFlex = inFlex;
     }
 
     
-    bool ConcreteElement::isHidden() const
+    bool ConcreteComponent::isHidden() const
     {
         return mHidden;
     }
 
 
-    void ConcreteElement::setHidden(bool inHidden)
+    void ConcreteComponent::setHidden(bool inHidden)
     {
         mHidden = inHidden;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -396,31 +396,31 @@ namespace XULWin
     }
 
     
-    Orient ConcreteElement::getOrient() const
+    Orient ConcreteComponent::getOrient() const
     {
         return mOrient.or(Vertical);
     }
 
 
-    void ConcreteElement::setOrient(Orient inOrient)
+    void ConcreteComponent::setOrient(Orient inOrient)
     {
         mOrient = inOrient;
     }
 
 
-    Align ConcreteElement::getAlign() const
+    Align ConcreteComponent::getAlign() const
     {
         return mAlign.or((getOrient() == Vertical) ? Stretch : Start);
     }
 
 
-    void ConcreteElement::setAlign(Align inAlign)
+    void ConcreteComponent::setAlign(Align inAlign)
     {
         mAlign = inAlign;
     }
 
     
-    void ConcreteElement::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
+    void ConcreteComponent::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {
         int margin = 0;
         if (const MarginDecorator * marginDecorator = downcast<MarginDecorator>())
@@ -430,11 +430,11 @@ namespace XULWin
     }
 
 
-    void ConcreteElement::setCSSMargin(int inTop, int inLeft, int inRight, int inBottom)
+    void ConcreteComponent::setCSSMargin(int inTop, int inLeft, int inRight, int inBottom)
     {
         if (!el())
         {
-            ReportError("ConcreteElement::setCSSMargin failed because no owning element was present.");
+            ReportError("ConcreteComponent::setCSSMargin failed because no owning element was present.");
             return;
         }
 
@@ -460,7 +460,7 @@ namespace XULWin
     }
 
     
-    int ConcreteElement::getWidth(SizeConstraint inSizeConstraint) const
+    int ConcreteComponent::getWidth(SizeConstraint inSizeConstraint) const
     {
         if (isHidden())
         {
@@ -476,7 +476,7 @@ namespace XULWin
     }
 
     
-    int ConcreteElement::getHeight(SizeConstraint inSizeConstraint) const
+    int ConcreteComponent::getHeight(SizeConstraint inSizeConstraint) const
     {
         if (isHidden())
         {
@@ -492,13 +492,13 @@ namespace XULWin
     }
     
     
-    bool ConcreteElement::expansive() const
+    bool ConcreteComponent::expansive() const
     {
         return mExpansive;
     }
     
     
-    bool ConcreteElement::getStyle(const std::string & inName, std::string & outValue)
+    bool ConcreteComponent::getStyle(const std::string & inName, std::string & outValue)
     {
         StyleControllers::iterator it = mStyleControllers.find(inName);
         if (it != mStyleControllers.end())
@@ -510,7 +510,7 @@ namespace XULWin
     }
     
     
-    bool ConcreteElement::getAttribute(const std::string & inName, std::string & outValue)
+    bool ConcreteComponent::getAttribute(const std::string & inName, std::string & outValue)
     {
         AttributeControllers::iterator it = mAttributeControllers.find(inName);
         if (it != mAttributeControllers.end())
@@ -522,7 +522,7 @@ namespace XULWin
     }
     
     
-    bool ConcreteElement::setStyle(const std::string & inName, const std::string & inValue)
+    bool ConcreteComponent::setStyle(const std::string & inName, const std::string & inValue)
     {
         StyleControllers::iterator it = mStyleControllers.find(inName);
         if (it != mStyleControllers.end())
@@ -535,7 +535,7 @@ namespace XULWin
     }
     
     
-    bool ConcreteElement::setAttribute(const std::string & inName, const std::string & inValue)
+    bool ConcreteComponent::setAttribute(const std::string & inName, const std::string & inValue)
     {
         AttributeControllers::iterator it = mAttributeControllers.find(inName);
         if (it != mAttributeControllers.end())
@@ -547,7 +547,7 @@ namespace XULWin
     }
 
 
-    bool ConcreteElement::initAttributeControllers()
+    bool ConcreteComponent::initAttributeControllers()
     {
         // STATIC CAST NEEDED HERE OTHERWISE WE GET COMPILER ERROR:
         // error C2594: '=' : ambiguous conversions from 'Element *const ' to 'AttributeController *'
@@ -563,7 +563,7 @@ namespace XULWin
     }
 
 
-    bool ConcreteElement::initStyleControllers()
+    bool ConcreteComponent::initStyleControllers()
     {
         setStyleController(CSSXController::PropertyName(), static_cast<CSSXController*>(this));
         setStyleController(CSSYController::PropertyName(), static_cast<CSSYController*>(this));
@@ -576,7 +576,7 @@ namespace XULWin
     }
 
 
-    void ConcreteElement::setAttributeController(const std::string & inAttr, AttributeController * inController)
+    void ConcreteComponent::setAttributeController(const std::string & inAttr, AttributeController * inController)
     {
         AttributeControllers::iterator it = mAttributeControllers.find(inAttr);
         assert(it == mAttributeControllers.end());
@@ -587,7 +587,7 @@ namespace XULWin
     }
     
     
-    void ConcreteElement::setStyleController(const std::string & inAttr, StyleController * inController)
+    void ConcreteComponent::setStyleController(const std::string & inAttr, StyleController * inController)
     {
         StyleControllers::iterator it = mStyleControllers.find(inAttr);
         assert(it == mStyleControllers.end());
@@ -598,31 +598,31 @@ namespace XULWin
     }
 
     
-    void ConcreteElement::move(const Rect & inRect)
+    void ConcreteComponent::move(const Rect & inRect)
     {
         move(inRect.x(), inRect.y(), inRect.width(), inRect.height());
     }
 
     
-    void ConcreteElement::setOwningElement(Element * inElement)
+    void ConcreteComponent::setOwningElement(Element * inElement)
     {
         mElement = inElement;
     }
 
     
-    Element * ConcreteElement::el() const
+    Element * ConcreteComponent::el() const
     {
         return mElement;
     }
 
 
-    ElementImpl * ConcreteElement::parent() const
+    Component * ConcreteComponent::parent() const
     {
         return mParent;
     }
 
     
-    void ConcreteElement::rebuildChildLayouts()
+    void ConcreteComponent::rebuildChildLayouts()
     {
         if (!mElement)
         {
@@ -631,7 +631,7 @@ namespace XULWin
 
         for (size_t idx = 0; idx != mElement->children().size(); ++idx)
         {
-            ElementImpl * nativeComp = mElement->children()[idx]->impl();
+            Component * nativeComp = mElement->children()[idx]->impl();
             if (nativeComp)
             {
                 nativeComp->rebuildLayout();
@@ -643,8 +643,8 @@ namespace XULWin
     HMODULE NativeComponent::sModuleHandle(0);
 
 
-    NativeComponent::NativeComponent(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
-        ConcreteElement(inParent),
+    NativeComponent::NativeComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        ConcreteComponent(inParent),
         mHandle(0),
         mModuleHandle(sModuleHandle ? sModuleHandle : ::GetModuleHandle(0)),
         mOrigProc(0),
@@ -1012,7 +1012,7 @@ namespace XULWin
                 {
                     for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
                     {
-                        ElementImpl * childImpl = popup->getChild(idx);
+                        Component * childImpl = popup->getChild(idx);
                         if (MenuImpl * menu = childImpl->downcast<MenuImpl>())
                         {
                             Windows::insertMenuItem(mMenuHandle, idx, menu->commandId(), menu->getLabel());
@@ -1135,7 +1135,7 @@ namespace XULWin
     }
 
 
-    const ElementImpl * NativeWindow::getChild(size_t idx) const
+    const Component * NativeWindow::getChild(size_t idx) const
     {
         if (el())
         {
@@ -1145,7 +1145,7 @@ namespace XULWin
     }
 
 
-    ElementImpl * NativeWindow::getChild(size_t idx)
+    Component * NativeWindow::getChild(size_t idx)
     {
         if (el())
         {
@@ -1434,7 +1434,7 @@ namespace XULWin
     }
 
 
-    NativeDialog::NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeDialog::NativeDialog(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping),
         mBoxLayouter(this),
         mInvoker(0),
@@ -1576,7 +1576,7 @@ namespace XULWin
     }
 
 
-    const ElementImpl * NativeDialog::getChild(size_t idx) const
+    const Component * NativeDialog::getChild(size_t idx) const
     {
         if (el())
         {
@@ -1590,9 +1590,9 @@ namespace XULWin
     }
 
 
-    ElementImpl * NativeDialog::getChild(size_t idx)
+    Component * NativeDialog::getChild(size_t idx)
     {
-        return const_cast<ElementImpl*>(static_cast<const NativeDialog*>(this)->getChild(idx));
+        return const_cast<Component*>(static_cast<const NativeDialog*>(this)->getChild(idx));
     }
 
 
@@ -1745,8 +1745,8 @@ namespace XULWin
     }
 
 
-    VirtualComponent::VirtualComponent(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
-        ConcreteElement(inParent)
+    VirtualComponent::VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        ConcreteComponent(inParent)
     {
         if (!mParent)
         {
@@ -1798,7 +1798,7 @@ namespace XULWin
     }
 
 
-    PassiveComponent::PassiveComponent(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    PassiveComponent::PassiveComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
@@ -1810,7 +1810,7 @@ namespace XULWin
     }
 
 
-    NativeControl::NativeControl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
+    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
         NativeComponent(inParent, inAttributesMapping)
     {
         if (!mParent)
@@ -1855,7 +1855,7 @@ namespace XULWin
     }
 
 
-    NativeControl::NativeControl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping)
     {
     }
@@ -1920,7 +1920,7 @@ namespace XULWin
     }
     
     
-    const NativeComponent * NativeControl::GetNativeThisOrParent(const ElementImpl * inElementImpl)
+    const NativeComponent * NativeControl::GetNativeThisOrParent(const Component * inElementImpl)
     {
         if (const NativeComponent * obj = dynamic_cast<const NativeComponent*>(inElementImpl))
         {
@@ -1938,13 +1938,13 @@ namespace XULWin
     }
     
     
-    NativeComponent * NativeControl::GetNativeThisOrParent(ElementImpl * inElementImpl)
+    NativeComponent * NativeControl::GetNativeThisOrParent(Component * inElementImpl)
     {
-        return const_cast<NativeComponent *>(GetNativeThisOrParent(const_cast<const ElementImpl*>(inElementImpl)));
+        return const_cast<NativeComponent *>(GetNativeThisOrParent(const_cast<const Component*>(inElementImpl)));
     }
     
     
-    NativeButton::NativeButton(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeButton::NativeButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("BUTTON"),
@@ -1969,7 +1969,7 @@ namespace XULWin
     }
     
     
-    NativeCheckBox::NativeCheckBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeCheckBox::NativeCheckBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("BUTTON"), 0, WS_TABSTOP | BS_AUTOCHECKBOX)
     {
     }
@@ -2006,7 +2006,7 @@ namespace XULWin
     }
 
 
-    NativeTextBox::NativeTextBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeTextBox::NativeTextBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("EDIT"),
@@ -2109,7 +2109,7 @@ namespace XULWin
     }
 
 
-    NativeLabel::NativeLabel(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeLabel::NativeLabel(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("STATIC"),
@@ -2215,7 +2215,7 @@ namespace XULWin
     }
 
 
-    NativeDescription::NativeDescription(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeDescription::NativeDescription(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("STATIC"),
@@ -2256,7 +2256,7 @@ namespace XULWin
     }
 
     
-    VirtualBox::VirtualBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    VirtualBox::VirtualBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping),
         mBoxLayouter(this)
     {
@@ -2294,7 +2294,7 @@ namespace XULWin
 
         
 
-    NativeBox::NativeBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeBox::NativeBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
         mBoxLayouter(this)
     {
@@ -2337,13 +2337,13 @@ namespace XULWin
     }
 
     
-    const ElementImpl * NativeBox::getChild(size_t idx) const
+    const Component * NativeBox::getChild(size_t idx) const
     {
         return mElement->children()[idx]->impl();
     }
 
     
-    ElementImpl * NativeBox::getChild(size_t idx)
+    Component * NativeBox::getChild(size_t idx)
     {
         return mElement->children()[idx]->impl();
     }
@@ -2355,7 +2355,7 @@ namespace XULWin
     }
     
 
-    MenuBarImpl::MenuBarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuBarImpl::MenuBarImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
@@ -2382,7 +2382,7 @@ namespace XULWin
     }
 
 
-    MenuImpl::MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuImpl::MenuImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
         assert(sMenusById.find(mCommandId.intValue()) == sMenusById.end());
@@ -2444,7 +2444,7 @@ namespace XULWin
     }
     
     
-    MenuPopupImpl::MenuPopupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuPopupImpl::MenuPopupImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
@@ -2492,19 +2492,19 @@ namespace XULWin
     }
     
     
-    void MenuPopupImpl::onChildAdded(ElementImpl * inChild)
+    void MenuPopupImpl::onChildAdded(Component * inChild)
     {
         parent()->onContentChanged();
     }
 
 
-    void MenuPopupImpl::onChildRemoved(ElementImpl * inChild)
+    void MenuPopupImpl::onChildRemoved(Component * inChild)
     {
         parent()->onContentChanged();
     }
 
     
-    MenuItemImpl::MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuItemImpl::MenuItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
         assert (sMenuItemsById.find(mCommandId.intValue()) == sMenuItemsById.end());
@@ -2573,7 +2573,7 @@ namespace XULWin
     }
 
 
-    MenuListImpl::MenuListImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuListImpl::MenuListImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("COMBOBOX"),
@@ -2665,7 +2665,7 @@ namespace XULWin
     }
 
 
-    NativeSeparator::NativeSeparator(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeSeparator::NativeSeparator(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("STATIC"),
@@ -2688,7 +2688,7 @@ namespace XULWin
     }
 
 
-    NativeSpacer::NativeSpacer(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeSpacer::NativeSpacer(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
@@ -2706,7 +2706,7 @@ namespace XULWin
     }
 
 
-    NativeMenuButton::NativeMenuButton(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeMenuButton::NativeMenuButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("BUTTON"),
@@ -2728,7 +2728,7 @@ namespace XULWin
     }
 
 
-    VirtualGrid::VirtualGrid(ElementImpl * inParent,
+    VirtualGrid::VirtualGrid(Component * inParent,
                            const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
@@ -2889,7 +2889,7 @@ namespace XULWin
                     {
                         if (colIdx < row->getChildCount())
                         {                            
-                            ElementImpl * child = row->el()->children()[colIdx]->impl();
+                            Component * child = row->el()->children()[colIdx]->impl();
                             widgetInfos.set(rowIdx, colIdx,
                                                      CellInfo(child->getWidth(),
                                                      child->getHeight(),
@@ -2921,7 +2921,7 @@ namespace XULWin
                     ElementPtr rowEl = rows->children()[rowIdx];
                     if (colIdx < rowEl->children().size())
                     {
-                        ElementImpl * child = rowEl->children()[colIdx]->impl();
+                        Component * child = rowEl->children()[colIdx]->impl();
                         const Rect & r = innerRects.get(rowIdx, colIdx);
                         child->move(r.x(), r.y(), r.width(), r.height());
                     }
@@ -2936,7 +2936,7 @@ namespace XULWin
     }
 
 
-    NativeGrid::NativeGrid(ElementImpl * inParent,
+    NativeGrid::NativeGrid(Component * inParent,
                            const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP)
     {
@@ -3098,7 +3098,7 @@ namespace XULWin
                     {
                         if (colIdx < row->getChildCount())
                         {
-                            ElementImpl * child = row->el()->children()[colIdx]->impl();
+                            Component * child = row->el()->children()[colIdx]->impl();
                             widgetInfos.set(rowIdx, colIdx,
                                             CellInfo(child->getWidth(),
                                                      child->getHeight(),
@@ -3130,7 +3130,7 @@ namespace XULWin
                     ElementPtr rowEl = rows->children()[rowIdx];
                     if (colIdx < rowEl->children().size())
                     {
-                        ElementImpl * child = rowEl->children()[colIdx]->impl();
+                        Component * child = rowEl->children()[colIdx]->impl();
                         const Rect & r = innerRects.get(rowIdx, colIdx);
                         child->move(r.x(), r.y(), r.width(), r.height());
                     }
@@ -3145,19 +3145,19 @@ namespace XULWin
     }
 
 
-    NativeRows::NativeRows(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeRows::NativeRows(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    NativeColumns::NativeColumns(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeColumns::NativeColumns(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    NativeRow::NativeRow(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeRow::NativeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
@@ -3193,7 +3193,7 @@ namespace XULWin
     }
 
 
-    NativeColumn::NativeColumn(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeColumn::NativeColumn(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
@@ -3273,13 +3273,13 @@ namespace XULWin
     }
 
     
-    NativeRadioGroup::NativeRadioGroup(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeRadioGroup::NativeRadioGroup(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualBox(inParent, inAttributesMapping)
     {
     }
 
     
-    NativeRadio::NativeRadio(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeRadio::NativeRadio(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("BUTTON"),
@@ -3301,7 +3301,7 @@ namespace XULWin
     }
 
     
-    NativeProgressMeter::NativeProgressMeter(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeProgressMeter::NativeProgressMeter(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       PROGRESS_CLASS,
@@ -3343,7 +3343,7 @@ namespace XULWin
     }
 
     
-    NativeDeck::NativeDeck(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeDeck::NativeDeck(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping),
         mSelectedIndex(0)
     {
@@ -3373,7 +3373,7 @@ namespace XULWin
             if (visible)
             {
                 Rect rect = clientRect();
-                ElementImpl * n = element->impl();
+                Component * n = element->impl();
                 n->move(rect.x(), rect.y(), rect.width(), rect.height());
             }
         }
@@ -3442,7 +3442,7 @@ namespace XULWin
     }
     
     
-    NativeScrollbar::NativeScrollbar(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeScrollbar::NativeScrollbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping,
                       TEXT("SCROLLBAR"),
                       0, // exStyle
@@ -3679,13 +3679,13 @@ namespace XULWin
     }
 
 
-    TabsImpl::TabsImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TabsImpl::TabsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    TabImpl::TabImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TabImpl::TabImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
@@ -3694,7 +3694,7 @@ namespace XULWin
     TabPanelsImpl::Instances TabPanelsImpl::sInstances;
 
 
-    TabPanelsImpl::TabPanelsImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TabPanelsImpl::TabPanelsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping),
         mParentHandle(0),
         mTabBarHandle(0),
@@ -3772,7 +3772,7 @@ namespace XULWin
         Rect rect = clientRect();
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementImpl * elementImpl = getChild(idx);
+            Component * elementImpl = getChild(idx);
             elementImpl->move(rect.x(),
                               rect.y() + Defaults::tabHeight(),
                               rect.width(),
@@ -3822,7 +3822,7 @@ namespace XULWin
         }
     }
 
-    static NativeWindow * findParentWindow(ElementImpl * inChild)
+    static NativeWindow * findParentWindow(Component * inChild)
     {
         NativeWindow * result = 0;
         if (result = dynamic_cast<NativeWindow*>(inChild))
@@ -3891,7 +3891,7 @@ namespace XULWin
     }
 
 
-    TabPanelImpl::TabPanelImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TabPanelImpl::TabPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualBox(inParent, inAttributesMapping)
     {
     }
@@ -3907,7 +3907,7 @@ namespace XULWin
     }
 
 
-    GroupBoxImpl::GroupBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    GroupBoxImpl::GroupBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualBox(inParent, inAttributesMapping),
         mGroupBoxHandle(0),
         mMarginLeft(2),
@@ -4005,7 +4005,7 @@ namespace XULWin
     // into account we never return it and return the element after it instead.
     // This requires getChildCount to be overridden as well to make it return
     // the number of children minus one.
-    const ElementImpl * GroupBoxImpl::getChild(size_t idx) const
+    const Component * GroupBoxImpl::getChild(size_t idx) const
     {
         if (Super::getChildCount() > 0)
         {
@@ -4022,9 +4022,9 @@ namespace XULWin
     }
 
     
-    ElementImpl * GroupBoxImpl::getChild(size_t idx)
+    Component * GroupBoxImpl::getChild(size_t idx)
     {
-        return const_cast<ElementImpl *>(static_cast<const GroupBoxImpl*>(this)->getChild(idx));
+        return const_cast<Component *>(static_cast<const GroupBoxImpl*>(this)->getChild(idx));
     }
     
     
@@ -4043,7 +4043,7 @@ namespace XULWin
     }
 
 
-    CaptionImpl::CaptionImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    CaptionImpl::CaptionImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
@@ -4079,7 +4079,7 @@ namespace XULWin
     }
 
 
-    TreeImpl::TreeImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeImpl::TreeImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
     {
     }
@@ -4088,7 +4088,7 @@ namespace XULWin
     int TreeImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = Defaults::controlWidth();
-        if (const TreeChildrenImpl * children = findConstChildOfType<TreeChildrenImpl>())
+        if (const TreeChildrenImpl * children = findChildOfType<TreeChildrenImpl>())
         {
             result = Defaults::treeIndent() + children->calculateWidth(inSizeConstraint);
         }
@@ -4099,7 +4099,7 @@ namespace XULWin
     int TreeImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (const TreeChildrenImpl * children = findConstChildOfType<TreeChildrenImpl>())
+        if (const TreeChildrenImpl * children = findChildOfType<TreeChildrenImpl>())
         {
             result = children->calculateHeight(inSizeConstraint);
         }
@@ -4142,7 +4142,7 @@ namespace XULWin
     {
         if (TreeChildrenImpl * children = findChildOfType<TreeChildrenImpl>())
         {
-            if (ElementImpl * firstChild = children->el()->children()[0]->impl())
+            if (Component * firstChild = children->el()->children()[0]->impl())
             {
                 if (TreeItemImpl * item = firstChild->downcast<TreeItemImpl>())
                 {
@@ -4154,7 +4154,7 @@ namespace XULWin
     }
 
 
-    TreeChildrenImpl::TreeChildrenImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeChildrenImpl::TreeChildrenImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
@@ -4165,7 +4165,7 @@ namespace XULWin
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            const ElementImpl * child = getChild(idx);
+            const Component * child = getChild(idx);
             if (const TreeItemImpl * item = child->downcast<TreeItemImpl>())
             {
                 result += item->calculateHeight(inSizeConstraint);
@@ -4180,7 +4180,7 @@ namespace XULWin
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            const ElementImpl * child = getChild(idx);
+            const Component * child = getChild(idx);
             if (const TreeItemImpl * item = child->downcast<TreeItemImpl>())
             {
                 int minWidth = item->calculateWidth(inSizeConstraint);
@@ -4194,7 +4194,7 @@ namespace XULWin
     }
 
 
-    TreeItemImpl::TreeItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeItemImpl::TreeItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
@@ -4203,7 +4203,7 @@ namespace XULWin
     int TreeItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (const TreeRowImpl * row = findConstChildOfType<TreeRowImpl>())
+        if (const TreeRowImpl * row = findChildOfType<TreeRowImpl>())
         {
             int minHeight = row->calculateHeight(inSizeConstraint);
             if (result < minHeight)
@@ -4211,7 +4211,7 @@ namespace XULWin
                 result = minHeight;
             }
         }
-        if (const TreeChildrenImpl * treeChildren = findConstChildOfType<TreeChildrenImpl>())
+        if (const TreeChildrenImpl * treeChildren = findChildOfType<TreeChildrenImpl>())
         {
             result += treeChildren->calculateHeight(inSizeConstraint);
         }
@@ -4222,7 +4222,7 @@ namespace XULWin
     int TreeItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (const TreeRowImpl * row = findConstChildOfType<TreeRowImpl>())
+        if (const TreeRowImpl * row = findChildOfType<TreeRowImpl>())
         {
             int minWidth = row->calculateWidth(inSizeConstraint);
             if (result < minWidth)
@@ -4230,7 +4230,7 @@ namespace XULWin
                 result = minWidth;
             }
         }
-        if (const TreeChildrenImpl * treeChildren = findConstChildOfType<TreeChildrenImpl>())
+        if (const TreeChildrenImpl * treeChildren = findChildOfType<TreeChildrenImpl>())
         {
             int minWidth = Defaults::treeIndent() + treeChildren->calculateWidth(inSizeConstraint);
             if (result < minWidth)
@@ -4266,7 +4266,7 @@ namespace XULWin
         {
             for (size_t idx = 0; idx != treeChildren->getChildCount(); ++idx)
             {
-                ElementImpl * child = treeChildren->getChild(idx);
+                Component * child = treeChildren->getChild(idx);
                 if (TreeItemImpl * item = child->downcast<TreeItemImpl>())
                 {
                     mItemInfo.addChild(&item->itemInfo());
@@ -4277,19 +4277,19 @@ namespace XULWin
     }
 
 
-    TreeColsImpl::TreeColsImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeColsImpl::TreeColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    TreeColImpl::TreeColImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeColImpl::TreeColImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    TreeRowImpl::TreeRowImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeRowImpl::TreeRowImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
@@ -4300,7 +4300,7 @@ namespace XULWin
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            const ElementImpl * child = getChild(idx);
+            const Component * child = getChild(idx);
             if (const TreeCellImpl * cell = child->downcast<TreeCellImpl>())
             {
                 result += cell->calculateWidth(inSizeConstraint);
@@ -4315,7 +4315,7 @@ namespace XULWin
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            const ElementImpl * child = getChild(idx);
+            const Component * child = getChild(idx);
             if (const TreeCellImpl * cell = child->downcast<TreeCellImpl>())
             {
                 result += cell->calculateHeight(inSizeConstraint);
@@ -4325,7 +4325,7 @@ namespace XULWin
     }
 
 
-    TreeCellImpl::TreeCellImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeCellImpl::TreeCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
@@ -4367,7 +4367,7 @@ namespace XULWin
     }
 
 
-    StatusbarImpl::StatusbarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    StatusbarImpl::StatusbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
         mBoxLayouter(this)
     {
@@ -4385,7 +4385,7 @@ namespace XULWin
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            const ElementImpl * child = getChild(idx);
+            const Component * child = getChild(idx);
             result += child->calculateWidth(inSizeConstraint);
         }
         return result;
@@ -4430,7 +4430,7 @@ namespace XULWin
     }
 
 
-    StatusbarPanelImpl::StatusbarPanelImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    StatusbarPanelImpl::StatusbarPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
     {
     }
@@ -4454,7 +4454,7 @@ namespace XULWin
     }
 
 
-    ToolbarImpl::ToolbarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ToolbarImpl::ToolbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping)
     {            
         if (NativeComponent * nativeComponent = NativeControl::GetNativeThisOrParent(inParent))
@@ -4498,7 +4498,7 @@ namespace XULWin
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            const ElementImpl * child = getChild(idx);
+            const Component * child = getChild(idx);
             result += child->calculateWidth(inSizeConstraint);
         }
         return result;
@@ -4510,7 +4510,7 @@ namespace XULWin
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            const ElementImpl * child = getChild(idx);
+            const Component * child = getChild(idx);
             int minHeight = child->calculateHeight(inSizeConstraint);
             if (minHeight > result)
             {
@@ -4527,7 +4527,7 @@ namespace XULWin
     }
 
 
-    ToolbarButtonImpl::ToolbarButtonImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ToolbarButtonImpl::ToolbarButtonImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping),
         mButton(0),
         mDisabled(false)

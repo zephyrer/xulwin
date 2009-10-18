@@ -18,7 +18,7 @@
 namespace XULWin
 {
 
-    ListViewImpl::ListViewImpl(ElementImpl * inParent,
+    ListViewImpl::ListViewImpl(Component * inParent,
                                const AttributesMapping & inAttributesMapping) :
         Super(inParent,
               inAttributesMapping,
@@ -81,7 +81,7 @@ namespace XULWin
     }
     
     
-    void ListViewImpl::onChildAdded(ElementImpl * inChild)
+    void ListViewImpl::onChildAdded(Component * inChild)
     {
         if (ListBox * listBox = el()->downcast<ListBox>())
         {

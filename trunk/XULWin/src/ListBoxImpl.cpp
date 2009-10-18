@@ -9,7 +9,7 @@ namespace XULWin
 {
 
 
-    ListBoxImpl::ListBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ListBoxImpl::ListBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
         mRows(0)
     {
@@ -23,7 +23,7 @@ namespace XULWin
     }
 
 
-    void ListBoxImpl::onChildAdded(ElementImpl * inChild)
+    void ListBoxImpl::onChildAdded(Component * inChild)
     {
         if (ListBox * listBox = el()->downcast<ListBox>())
         {

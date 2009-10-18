@@ -1,6 +1,6 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/Decorator.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 #include <windows.h>

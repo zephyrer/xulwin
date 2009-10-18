@@ -3,7 +3,7 @@
 #include "XULWin/ElementFactory.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 #include "XULWin/ToolbarCustomWindowDecorator.h"
 #include "XULWin/ErrorReporter.h"
 #include <boost/bind.hpp>
@@ -12,7 +12,7 @@
 namespace XULWin
 {
 
-    Element::Element(const std::string & inType, Element * inParent, ElementImpl * inNativeComponent) :
+    Element::Element(const std::string & inType, Element * inParent, Component * inNativeComponent) :
         mType(inType),
         mParent(inParent),
         mImpl(inNativeComponent)
@@ -273,7 +273,7 @@ namespace XULWin
     }
     
     
-    ElementImpl * Element::impl() const
+    Component * Element::impl() const
     {
         return mImpl.get();
     }

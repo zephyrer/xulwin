@@ -2,7 +2,7 @@
 #define LISTHEADIMPL_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
@@ -13,7 +13,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        ListHeadImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ListHeadImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
 
@@ -23,7 +23,7 @@ namespace XULWin
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void onChildAdded(ElementImpl * inChild);
+        virtual void onChildAdded(Component * inChild);
     };
 
 } // namespace XULWin

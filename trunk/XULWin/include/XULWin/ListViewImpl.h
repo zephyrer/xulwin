@@ -2,7 +2,7 @@
 #define LISTVIEWIMPL_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
@@ -14,7 +14,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        ListViewImpl(ElementImpl * inParent,
+        ListViewImpl(Component * inParent,
                      const AttributesMapping & inAttributesMapping);
 
         virtual ~ListViewImpl();
@@ -27,7 +27,7 @@ namespace XULWin
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
         
-        virtual void onChildAdded(ElementImpl * inChild);
+        virtual void onChildAdded(Component * inChild);
 
         void addListHeader(ListHeaderImpl * inListHeader);
 

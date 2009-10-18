@@ -9,7 +9,7 @@
 namespace XULWin
 {
 
-    ListHeadImpl::ListHeadImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ListHeadImpl::ListHeadImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }
@@ -39,7 +39,7 @@ namespace XULWin
     }
 
 
-    void ListHeadImpl::onChildAdded(ElementImpl * inChild)
+    void ListHeadImpl::onChildAdded(Component * inChild)
     {
         if (ListViewImpl * listViewParent = parent()->downcast<ListViewImpl>())
         {

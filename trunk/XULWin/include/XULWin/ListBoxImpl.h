@@ -2,7 +2,7 @@
 #define LISTBOXIMPL_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
@@ -15,7 +15,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        ListBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ListBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
 
@@ -29,7 +29,7 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void onChildAdded(ElementImpl * inChild);
+        virtual void onChildAdded(Component * inChild);
 
     private:
         Fallible<int> mRows;

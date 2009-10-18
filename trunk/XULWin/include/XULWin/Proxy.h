@@ -14,13 +14,13 @@ namespace XULWin
         typedef Decorator Super;
 
         // Takes ownership.
-        Proxy(ElementImpl * inDecoratedElement);
+        Proxy(Component * inDecoratedElement);
 
         // Returns previous instance.
         ElementImplPtr swap(ElementImplPtr inNewElementImpl);
 
         // Takes ownership, and returns previous instance.
-        ElementImplPtr swap(ElementImpl * inNewElementImpl);
+        ElementImplPtr swap(Component * inNewElementImpl);
     };
 
 } // namespace XULWin

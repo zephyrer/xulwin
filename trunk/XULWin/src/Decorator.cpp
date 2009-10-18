@@ -14,7 +14,7 @@ namespace XULWin
 {
     using namespace Windows;
 
-    Decorator::Decorator(ElementImpl * inDecoratedElement) :
+    Decorator::Decorator(Component * inDecoratedElement) :
         mDecoratedElement(inDecoratedElement)
     {
         assert(mDecoratedElement);
@@ -66,7 +66,7 @@ namespace XULWin
     }
 
 
-    const ElementImpl * Decorator::getChild(size_t inIndex) const
+    const Component * Decorator::getChild(size_t inIndex) const
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
@@ -77,7 +77,7 @@ namespace XULWin
     }
 
 
-    ElementImpl * Decorator::getChild(size_t inIndex)
+    Component * Decorator::getChild(size_t inIndex)
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
@@ -599,7 +599,7 @@ namespace XULWin
     }
 
 
-    ElementImpl * Decorator::parent() const
+    Component * Decorator::parent() const
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
@@ -730,14 +730,14 @@ namespace XULWin
     }
     
     
-    void Decorator::setDecoratedElement(ElementImpl * inElement)
+    void Decorator::setDecoratedElement(Component * inElement)
     {
         mDecoratedElement.reset(inElement);
         assert(mDecoratedElement);
     }
 
 
-    void Decorator::onChildAdded(ElementImpl * inChild)
+    void Decorator::onChildAdded(Component * inChild)
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
@@ -747,7 +747,7 @@ namespace XULWin
     }
 
 
-    void Decorator::onChildRemoved(ElementImpl * inChild)
+    void Decorator::onChildRemoved(Component * inChild)
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
@@ -778,7 +778,7 @@ namespace XULWin
     }
 
 
-    WrapDecorator::WrapDecorator(ElementImpl * inParent, ElementImpl * inDecoratedElement) :
+    WrapDecorator::WrapDecorator(Component * inParent, Component * inDecoratedElement) :
         Decorator(inDecoratedElement),
         mParent(inParent)
     {
@@ -791,8 +791,8 @@ namespace XULWin
     }
 
     
-    ScrollDecorator::ScrollDecorator(ElementImpl * inParent,
-                                     ElementImpl * inDecoratedElement,
+    ScrollDecorator::ScrollDecorator(Component * inParent,
+                                     Component * inDecoratedElement,
                                      CSSOverflow inOverflowX,
                                      CSSOverflow inOverflowY) :
         Decorator(inDecoratedElement),
@@ -1072,7 +1072,7 @@ namespace XULWin
     }
 
 
-    MarginDecorator::MarginDecorator(ElementImpl * inDecoratedElement) :
+    MarginDecorator::MarginDecorator(Component * inDecoratedElement) :
         Decorator(inDecoratedElement),
         mTop(2),
         mLeft(4),

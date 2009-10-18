@@ -9,7 +9,7 @@
 namespace XULWin
 {
 
-    ListColImpl::ListColImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    ListColImpl::ListColImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }

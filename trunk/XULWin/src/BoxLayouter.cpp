@@ -87,7 +87,7 @@ namespace XULWin
 
         for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
         {
-            ElementImpl * child = mContentProvider->BoxLayouter_getChild(idx);
+            Component * child = mContentProvider->BoxLayouter_getChild(idx);
             std::string flex;
             if (child->el())
             {
@@ -110,7 +110,7 @@ namespace XULWin
 
         for (size_t idx = 0; idx != mContentProvider->BoxLayouter_getChildCount(); ++idx)
         {
-            ElementImpl * child = mContentProvider->BoxLayouter_getChild(idx);
+            Component * child = mContentProvider->BoxLayouter_getChild(idx);
             const Rect & rect = childRects[idx];
             child->move(rect.x(), rect.y(), rect.width(), rect.height());
         }

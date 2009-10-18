@@ -11,7 +11,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        NativeScript(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeScript(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -30,7 +30,7 @@ namespace XULWin
     }
 
     
-    NativeScript::NativeScript(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeScript::NativeScript(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }

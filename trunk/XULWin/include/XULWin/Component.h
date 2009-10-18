@@ -1,5 +1,5 @@
-#ifndef NATIVECOMPONENT_H_INCLUDED
-#define NATIVECOMPONENT_H_INCLUDED
+#ifndef COMPONENT_H_INCLUDED
+#define COMPONENT_H_INCLUDED
 
 
 #include "XULWin/AttributeController.h"
@@ -48,11 +48,11 @@ namespace XULWin
 
 
     class Element;
-    class ElementImpl;
+    class Component;
     class Decorator;
     class BoxLayouter;
     class NativeComponent;
-    typedef boost::shared_ptr<ElementImpl> ElementImplPtr;
+    typedef boost::shared_ptr<Component> ElementImplPtr;
 
 
     /**
@@ -62,20 +62,20 @@ namespace XULWin
     {
     public:
         // This notificion is sent just after the child has been added.
-        virtual void onChildAdded(ElementImpl * inChild) {}
+        virtual void onChildAdded(Component * inChild) {}
 
         // This notificion is sent after the child has been removed and
         // just before the child is destroyed.
-        virtual void onChildRemoved(ElementImpl * inChild) {}
+        virtual void onChildRemoved(Component * inChild) {}
 
         virtual void onContentChanged() {}
     };
 
 
     /**
-     * ElementImpl is base class for all native UI elements.
+     * Component is base class for all native UI elements.
      */
-    class ElementImpl : public NotificationListener,
+    class Component : public NotificationListener,
                         public virtual AlignController,
                         public virtual WidthController,
                         public virtual HeightController,
@@ -97,7 +97,7 @@ namespace XULWin
                         private boost::noncopyable
     {
     public:
-        virtual ~ElementImpl() {}        
+        virtual ~Component() {}        
 
         virtual bool initImpl() = 0;
 
@@ -106,9 +106,9 @@ namespace XULWin
 
         virtual size_t getChildCount() const = 0;
 
-        virtual const ElementImpl * getChild(size_t inIndex) const = 0;
+        virtual const Component * getChild(size_t inIndex) const = 0;
 
-        virtual ElementImpl * getChild(size_t inIndex) = 0;
+        virtual Component * getChild(size_t inIndex) = 0;
 
         virtual HWND getFirstParentHandle() = 0;
 
@@ -213,7 +213,7 @@ namespace XULWin
         template<class Type>
         Type * downcast()
         {
-            return const_cast<Type*>(static_cast<const ElementImpl*>(this)->downcast<Type>());
+            return const_cast<Type*>(static_cast<const Component*>(this)->downcast<Type>());
         }
 
         // Downcast that also resolves decorators.
@@ -259,7 +259,7 @@ namespace XULWin
         template<class Type>
         Type * findChildOfType()
         {
-            return const_cast<Type*>(static_cast<const ElementImpl*>(this)->findChildOfType<Type>());
+            return const_cast<Type*>(static_cast<const Component*>(this)->findChildOfType<Type>());
         }
 
 
@@ -276,7 +276,7 @@ namespace XULWin
 
             for (size_t idx = 0; idx != getChildCount(); ++idx)
             {
-                const ElementImpl * child = getChild(idx);
+                const Component * child = getChild(idx);
                 if (const Type * found = child->downcast<Type>())
                 {
                     return found;
@@ -308,7 +308,7 @@ namespace XULWin
 
         virtual Element * el() const = 0;
 
-        virtual ElementImpl * parent() const = 0;
+        virtual Component * parent() const = 0;
 
         virtual void rebuildLayout() = 0;
 
@@ -334,12 +334,12 @@ namespace XULWin
     };
 
 
-    class ConcreteElement : public ElementImpl
+    class ConcreteComponent : public Component
     {
     public:
-        ConcreteElement(ElementImpl * inParent);
+        ConcreteComponent(Component * inParent);
 
-        virtual ~ConcreteElement() = 0;
+        virtual ~ConcreteComponent() = 0;
 
         virtual bool initImpl();
 
@@ -347,9 +347,9 @@ namespace XULWin
 
         virtual size_t getChildCount() const;
 
-        virtual const ElementImpl * getChild(size_t inIndex) const;
+        virtual const Component * getChild(size_t inIndex) const;
 
-        virtual ElementImpl * getChild(size_t inIndex);
+        virtual Component * getChild(size_t inIndex);
 
         virtual HWND getFirstParentHandle();
 
@@ -503,7 +503,7 @@ namespace XULWin
 
         virtual Element * el() const;
 
-        ElementImpl * parent() const;
+        Component * parent() const;
 
         virtual void rebuildLayout() = 0;
 
@@ -528,7 +528,7 @@ namespace XULWin
         void setStyleController(const std::string & inAttr, StyleController * inController);
 
     protected:
-        ElementImpl * mParent;
+        Component * mParent;
         Element * mElement;
         CommandId mCommandId;
         bool mExpansive;
@@ -570,14 +570,14 @@ namespace XULWin
     };
 
 
-    class NativeComponent : public ConcreteElement,
+    class NativeComponent : public ConcreteComponent,
                             public virtual DisabledController,
                             public virtual LabelController
     {
     public:
-        typedef ConcreteElement Super;
+        typedef ConcreteComponent Super;
 
-        NativeComponent(ElementImpl * inParent, const AttributesMapping & inAttributes);
+        NativeComponent(Component * inParent, const AttributesMapping & inAttributes);
 
         virtual ~NativeComponent();             
 
@@ -682,9 +682,9 @@ namespace XULWin
 
         virtual void setTitle(const std::string & inTitle);
 
-        virtual const ElementImpl * getChild(size_t idx) const;
+        virtual const Component * getChild(size_t idx) const;
 
-        virtual ElementImpl * getChild(size_t idx);
+        virtual Component * getChild(size_t idx);
 
         virtual void rebuildChildLayouts()
         { return Super::rebuildChildLayouts(); }
@@ -725,10 +725,10 @@ namespace XULWin
         virtual size_t BoxLayouter_getChildCount() const
         { return getChildCount(); }
 
-        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        virtual const Component * BoxLayouter_getChild(size_t idx) const
         { return getChild(idx); }
 
-        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        virtual Component * BoxLayouter_getChild(size_t idx)
         { return getChild(idx); }
 
         virtual Rect BoxLayouter_clientRect() const
@@ -766,7 +766,7 @@ namespace XULWin
 
         static void Register(HMODULE inModuleHandle);
 
-        NativeDialog(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeDialog(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~NativeDialog();
 
@@ -782,9 +782,9 @@ namespace XULWin
 
         virtual void setTitle(const std::string & inTitle);
 
-        virtual const ElementImpl * getChild(size_t idx) const;
+        virtual const Component * getChild(size_t idx) const;
 
-        virtual ElementImpl * getChild(size_t idx);
+        virtual Component * getChild(size_t idx);
 
         virtual void rebuildChildLayouts()
         { return Super::rebuildChildLayouts(); }
@@ -821,10 +821,10 @@ namespace XULWin
         virtual size_t BoxLayouter_getChildCount() const
         { return getChildCount(); }
 
-        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        virtual const Component * BoxLayouter_getChild(size_t idx) const
         { return getChild(idx); }
 
-        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        virtual Component * BoxLayouter_getChild(size_t idx)
         { return getChild(idx); }
 
         virtual Rect BoxLayouter_clientRect() const
@@ -851,10 +851,10 @@ namespace XULWin
     public:
         typedef NativeComponent Super;
 
-        NativeControl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
+        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
 
         // use this constructor if you want to provide your own handle later using NativeControl::setHandle
-        NativeControl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~NativeControl();
         
@@ -872,17 +872,17 @@ namespace XULWin
         // If this is a NativeComponent, return this.
         // If this is a VirtualComponent, return first parent that is a NativeComponent.
         // If this is a Decorator, resolve until a NativeComponent is found.
-        static NativeComponent * GetNativeThisOrParent(ElementImpl * inElementImpl);
-        static const NativeComponent * GetNativeThisOrParent(const ElementImpl * inElementImpl);
+        static NativeComponent * GetNativeThisOrParent(Component * inElementImpl);
+        static const NativeComponent * GetNativeThisOrParent(const Component * inElementImpl);
     };
 
 
-    class VirtualComponent : public ConcreteElement
+    class VirtualComponent : public ConcreteComponent
     {
     public:
-        typedef ConcreteElement Super;
+        typedef ConcreteComponent Super;
 
-        VirtualComponent(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~VirtualComponent();
 
@@ -912,7 +912,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        PassiveComponent(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        PassiveComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~PassiveComponent();
 
@@ -927,7 +927,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeButton(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeButton(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -942,7 +942,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeLabel(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeLabel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         // StringValueController methods
         virtual std::string getValue() const;
@@ -970,7 +970,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeDescription(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeDescription(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         // StringValueController methods
         virtual std::string getValue() const;
@@ -993,7 +993,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeTextBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeTextBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         // StringValueController methods
         virtual std::string getValue() const;
@@ -1032,7 +1032,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeCheckBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeCheckBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         // CheckedController methods
         virtual bool isChecked() const;
@@ -1053,7 +1053,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        VirtualBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        VirtualBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual Orient getOrient() const;
 
@@ -1086,10 +1086,10 @@ namespace XULWin
         virtual size_t BoxLayouter_getChildCount() const
         { return getChildCount(); }
 
-        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        virtual const Component * BoxLayouter_getChild(size_t idx) const
         { return getChild(idx); }
 
-        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        virtual Component * BoxLayouter_getChild(size_t idx)
         { return getChild(idx); }
 
         virtual Rect BoxLayouter_clientRect() const
@@ -1109,7 +1109,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeBox(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual Orient getOrient() const;
 
@@ -1123,9 +1123,9 @@ namespace XULWin
 
         virtual Rect clientRect() const;
 
-        virtual const ElementImpl * getChild(size_t idx) const;
+        virtual const Component * getChild(size_t idx) const;
 
-        virtual ElementImpl * getChild(size_t idx);
+        virtual Component * getChild(size_t idx);
 
         virtual void rebuildChildLayouts();
         
@@ -1138,10 +1138,10 @@ namespace XULWin
         virtual size_t BoxLayouter_getChildCount() const
         { return getChildCount(); }
 
-        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        virtual const Component * BoxLayouter_getChild(size_t idx) const
         { return getChild(idx); }
 
-        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        virtual Component * BoxLayouter_getChild(size_t idx)
         { return getChild(idx); }
 
         virtual Rect BoxLayouter_clientRect() const
@@ -1167,7 +1167,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        MenuBarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        MenuBarImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1182,7 +1182,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        MenuImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        MenuImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~MenuImpl();
 
@@ -1210,14 +1210,14 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        MenuPopupImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        MenuPopupImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         void show(RECT inExcludeRect);
 
     protected:
-        virtual void onChildAdded(ElementImpl * inChild);
+        virtual void onChildAdded(Component * inChild);
 
-        virtual void onChildRemoved(ElementImpl * inChild);
+        virtual void onChildRemoved(Component * inChild);
 
     private:
         Windows::PopupMenu * getMenu();
@@ -1230,7 +1230,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        MenuItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        MenuItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~MenuItemImpl();
 
@@ -1260,7 +1260,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        MenuListImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        MenuListImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
             
@@ -1286,7 +1286,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeSeparator(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeSeparator(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1299,7 +1299,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        NativeSpacer(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeSpacer(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1312,7 +1312,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeMenuButton(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeMenuButton(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1325,7 +1325,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        VirtualGrid(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        VirtualGrid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1340,7 +1340,7 @@ namespace XULWin
     public:
         typedef NativeComponent Super;
 
-        NativeGrid(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeGrid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1355,7 +1355,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        NativeRows(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeRows(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
 
@@ -1368,7 +1368,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        NativeRow(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1381,7 +1381,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        NativeColumns(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeColumns(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
 
@@ -1394,7 +1394,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        NativeColumn(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeColumn(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual Align getAlign() const;
 
@@ -1409,7 +1409,7 @@ namespace XULWin
     public:
         typedef VirtualBox Super;
 
-        NativeRadioGroup(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeRadioGroup(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -1418,7 +1418,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeRadio(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeRadio(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1432,7 +1432,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeProgressMeter(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeProgressMeter(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         // IntValueController methods
         virtual int getValue() const;
@@ -1453,7 +1453,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        NativeDeck(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeDeck(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         // SelectedIndexController methods
         virtual int getSelectedIndex() const;
@@ -1482,7 +1482,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        NativeScrollbar(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NativeScrollbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int getCurrentPosition() const;
 
@@ -1532,7 +1532,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TabsImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TabsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -1541,7 +1541,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TabImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TabImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -1552,7 +1552,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        TabPanelsImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanelsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~TabPanelsImpl();
         
@@ -1585,7 +1585,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        TabPanelImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
     };
@@ -1596,7 +1596,7 @@ namespace XULWin
     public:
         typedef VirtualBox Super;
 
-        GroupBoxImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        GroupBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~GroupBoxImpl();
 
@@ -1612,9 +1612,9 @@ namespace XULWin
 
         virtual size_t getChildCount() const;
 
-        virtual const ElementImpl * getChild(size_t idx) const;
+        virtual const Component * getChild(size_t idx) const;
 
-        virtual ElementImpl * getChild(size_t idx);
+        virtual Component * getChild(size_t idx);
 
         virtual Rect clientRect() const;
 
@@ -1632,7 +1632,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        CaptionImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        CaptionImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1680,7 +1680,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        TreeImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TreeImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1700,7 +1700,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TreeChildrenImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TreeChildrenImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1714,7 +1714,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TreeItemImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TreeItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
 
@@ -1738,7 +1738,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TreeColsImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TreeColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -1747,7 +1747,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TreeColImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TreeColImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -1757,7 +1757,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TreeRowImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TreeRowImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1771,7 +1771,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        TreeCellImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -1795,7 +1795,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        StatusbarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        StatusbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -1822,10 +1822,10 @@ namespace XULWin
         virtual size_t BoxLayouter_getChildCount() const
         { return getChildCount(); }
 
-        virtual const ElementImpl * BoxLayouter_getChild(size_t idx) const
+        virtual const Component * BoxLayouter_getChild(size_t idx) const
         { return getChild(idx); }
 
-        virtual ElementImpl * BoxLayouter_getChild(size_t idx)
+        virtual Component * BoxLayouter_getChild(size_t idx)
         { return getChild(idx); }
 
         virtual Rect BoxLayouter_clientRect() const
@@ -1845,7 +1845,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        StatusbarPanelImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        StatusbarPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -1863,7 +1863,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        ToolbarImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ToolbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~ToolbarImpl();
 
@@ -1897,7 +1897,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        ToolbarButtonImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        ToolbarButtonImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initImpl();
 
@@ -1938,4 +1938,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // NATIVECOMPONENT_H_INCLUDED
+#endif // COMPONENT_H_INCLUDED

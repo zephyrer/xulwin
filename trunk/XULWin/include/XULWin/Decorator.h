@@ -2,19 +2,19 @@
 #define DECORATOR_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class Decorator : public ElementImpl
+    class Decorator : public Component
     {
     public:
-        typedef ElementImpl Super;
+        typedef Component Super;
 
         // Takes ownership.
-        Decorator(ElementImpl * inDecoratedElement);
+        Decorator(Component * inDecoratedElement);
 
         // This constructor is needed when inserting a new object in the Decorator chain.
         Decorator(ElementImplPtr inDecoratedElement);
@@ -27,9 +27,9 @@ namespace XULWin
 
         virtual size_t getChildCount() const;
 
-        virtual const ElementImpl * getChild(size_t inIndex) const;
+        virtual const Component * getChild(size_t inIndex) const;
 
-        virtual ElementImpl * getChild(size_t inIndex);
+        virtual Component * getChild(size_t inIndex);
 
         virtual HWND getFirstParentHandle();
         
@@ -146,7 +146,7 @@ namespace XULWin
 
         virtual Element * el() const;
 
-        virtual ElementImpl * parent() const;
+        virtual Component * parent() const;
 
         virtual void rebuildLayout();
 
@@ -167,7 +167,7 @@ namespace XULWin
         void setDecoratedElement(ElementImplPtr inElement);
 
         // Takes ownership, and destroys any previously set element
-        void setDecoratedElement(ElementImpl * inElement);
+        void setDecoratedElement(Component * inElement);
 
         virtual bool getAttribute(const std::string & inName, std::string & outValue);
 
@@ -177,9 +177,9 @@ namespace XULWin
 
         virtual bool setStyle(const std::string & inName, const std::string & inValue);
 
-        virtual void onChildAdded(ElementImpl * inChild);
+        virtual void onChildAdded(Component * inChild);
 
-        virtual void onChildRemoved(ElementImpl * inChild);
+        virtual void onChildRemoved(Component * inChild);
 
         virtual void onContentChanged();
 
@@ -193,13 +193,13 @@ namespace XULWin
     public:
         typedef Decorator Super;
 
-        WrapDecorator(ElementImpl * inParent, ElementImpl * inDecoratedElement);
+        WrapDecorator(Component * inParent, Component * inDecoratedElement);
 
         // takes ownership
         void addChild(ElementPtr inChild);
 
     protected:
-        ElementImpl * mParent;
+        Component * mParent;
         std::vector<ElementPtr> mDecoratorChildren;
     };
 
@@ -211,8 +211,8 @@ namespace XULWin
         typedef Decorator Super;
 
         // Takes ownership.
-        ScrollDecorator(ElementImpl * inParent,
-                        ElementImpl * inDecoratedElement,
+        ScrollDecorator(Component * inParent,
+                        Component * inDecoratedElement,
                         CSSOverflow inOverflowX,
                         CSSOverflow inOverflowY);
 
@@ -253,7 +253,7 @@ namespace XULWin
         typedef Decorator Super;
 
         // Takes ownership.
-        MarginDecorator(ElementImpl * inDecoratedElement);
+        MarginDecorator(Component * inDecoratedElement);
 
         // This constructor is needed for insertion of new objects in the Decorator chain.
         MarginDecorator(ElementImplPtr inDecoratedElement);

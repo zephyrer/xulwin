@@ -1,10 +1,7 @@
 Refactor
-- Rename ElementImpl to Component
-- Rename ConcreteElement to ConcreteComponent
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 Broken windows
-- Fix horizontal scrolling for listboxes
 - Toolbar menu-button menus appear at the wrong place
 - Menubar popup sucks
 - Fix WS_TABSTOP for multiline TextBoxes
@@ -33,5 +30,6 @@ Todo
 - Classes inheriting VirtualComponent should not have a 'Native' prefix in their class name.
 - Make sample app with toolbar, status-bar and scrollbar
 
-Intential differences from Mozilla XUL
+Low priority
 - Flex attribute on 'listcol' elements is not supported in XULWin
+- Horizontal scrolling listboxes doesn't work

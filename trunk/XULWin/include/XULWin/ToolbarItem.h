@@ -183,6 +183,7 @@ namespace Windows
 		bool isButton() const;
 
         // forwards call to event handler
+        // Rect must have screen coordinates
         void showToolbarMenu(RECT inToolbarButtonRect);
 
 		virtual void performCommand() {}

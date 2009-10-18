@@ -635,7 +635,9 @@ namespace Windows
 								assert(item);
 								if (item)
 								{
-                                    item->showToolbarMenu(item->getRect());
+                                    RECT itemRect = item->getRect();
+                                    ::MapWindowPoints(pThis->handle(), HWND_DESKTOP, (LPPOINT)&itemRect, 2);                                    
+                                    item->showToolbarMenu(itemRect);
 								}
 							}
 							break;

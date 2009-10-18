@@ -1,4 +1,5 @@
 #include "XULWin/ListBox.h"
+#include "XULWin/ElementCreationSupport.h"
 #include "XULWin/ListCols.h"
 #include "XULWin/ListBoxImpl.h"
 #include "XULWin/ListViewImpl.h"

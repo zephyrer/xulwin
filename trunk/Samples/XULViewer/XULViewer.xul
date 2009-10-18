@@ -1,29 +1,35 @@
 <?xml version="1.0"?>
-<!-- global styles -->
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!-- local styles -->
-<?xml-stylesheet href="../../../FormWidgets/FormWidgets.css" type="text/css"?>
-<?xml-stylesheet href="../../docs.css" type="text/css"?>
-<!-- global xul -->
+
+<!-- Stylesheet ignored by XULWin, inluded for compatibility with Mozilla XUL -->
 <?xul-overlay href="chrome://global/content/globalOverlay.xul"?>
+
 <window id="XULViewerMainWindow"
-        xmlns:html="http://www.w3.org/1999/xhtml"
-        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        orient="vertical"
-        align="stretch"
-        title="XULViewer Application"
-        width="250"
-        >
-  <hbox>
-    <vbox>
-      <spacer flex="1"></spacer>
-      <label value="XUL path:"></label>
-      <spacer flex="1"></spacer>
-    </vbox>
-    <textbox id="pathBox" value="" flex="1"></textbox>
-  </hbox>
-  <hbox>
-    <spacer flex="1"></spacer>
-    <button id="runButton" label="Run"></button>
-  </hbox>
+xmlns:html="http://www.w3.org/1999/xhtml"
+xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+orient="vertical"
+align="stretch"
+title="XULViewer Application"
+>
+  <vbox>
+    <hbox>
+      <vbox>
+        <spacer flex="1"></spacer>
+        <label value="XUL document:"></label>
+        <spacer flex="1"></spacer>
+      </vbox>
+      <textbox id="pathBox" value="" flex="1" width="120"></textbox>
+      <button id="runButton" label="Run"></button>
+    </hbox>
+  </vbox>
+  <vbox>
+    <hbox>
+      <vbox>
+        <spacer flex="1"></spacer>
+        <label value="XUL application.ini:"></label>
+        <spacer flex="1"></spacer>
+      </vbox>
+      <textbox id="pathBox" value="" flex="1" width="120"></textbox>
+      <button id="runButton" label="Run"></button>
+    </hbox>
+  </vbox>
 </window>

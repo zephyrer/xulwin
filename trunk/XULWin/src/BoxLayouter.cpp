@@ -1,5 +1,4 @@
 #include "XULWin/BoxLayouter.h"
-#include "XULWin/BoxLayouterImpl.h"
 #include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"

@@ -1,7 +1,5 @@
-- Rename ElementImpl to AbstractComponent
-- Rename ConcreteElement to Component
-- Rename Decorator to ComponentWrapper
-- Remove Proxy class, and move methods to ComponentWrapper
+- Rename ElementImpl to Component
+- Rename ConcreteElement to ConcreteComponent
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 - Create XULViewer app

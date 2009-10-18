@@ -4,11 +4,11 @@
 <?xul-overlay href="chrome://global/content/globalOverlay.xul"?>
 
 <window id="XULViewerMainWindow"
-xmlns:html="http://www.w3.org/1999/xhtml"
-xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-orient="vertical"
-align="stretch"
-title="XULViewer Application"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  orient="vertical"
+  align="stretch"
+  title="XULViewer Application"
 >
   <vbox>
     <hbox>

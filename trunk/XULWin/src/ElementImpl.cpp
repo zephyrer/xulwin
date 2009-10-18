@@ -1519,7 +1519,11 @@ namespace XULWin
     {
         if (el())
         {
-            return getChild(idx);
+            const Children & children = el()->children();
+            if (idx < children.size())
+            {
+                return children[idx]->impl();
+            }
         }
         return 0;
     }

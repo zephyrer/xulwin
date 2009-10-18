@@ -114,9 +114,15 @@ namespace XULWin
         localEvents.connect(mNewSetOK, boost::bind(&ConfigSample::newSetOK, this));
 
         mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
-        localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeWindow, this, mNewSetDlg.get()));
+        localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeDialog, this, mNewSetDlg.get()));
 
-        mNewSetDlg->impl()->downcast<NativeWindow>()->showModal(Window::CenterInScreen);
+        if (NativeDialog * dlg = mNewSetDlg->impl()->downcast<NativeDialog>())
+        {
+            if (NativeWindow * wnd = mConfigWindow->impl()->downcast<NativeWindow>())
+            {
+                dlg->showModal(wnd);
+            }
+        }
         return 0;
     }
 
@@ -128,20 +134,22 @@ namespace XULWin
         {
             addNewSet(nativeTextBox->getValue());
         }
-        closeWindow(mNewSetDlg.get());
-        return 0;
-    }
-
-
-    LRESULT ConfigSample::closeWindow(Element * inWindow)
-    {
-        if (NativeWindow * nativeWindow = inWindow->impl()->downcast<NativeWindow>())
+        if (NativeDialog * nativeDialog = mNewSetDlg->impl()->downcast<NativeDialog>())
         {
-            ShowWindow(nativeWindow->handle(), SW_HIDE);
-	        PostQuitMessage(0);
+            nativeDialog->endModal(XULWin::DialogResult_Ok);
             return 0;
         }
         return 1;
+    }
+
+
+    LRESULT ConfigSample::closeDialog(Element * inDialog)
+    {
+        if (NativeDialog * nativeDialog = inDialog->impl()->downcast<NativeDialog>())
+        {
+            nativeDialog->endModal(XULWin::DialogResult_Cancel);
+        }
+        return 0;
     }
 
 

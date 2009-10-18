@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<window title="New set"
+<dialog title="New set"
 		    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         orient="vertical"
         align="stretch"
@@ -14,4 +14,4 @@
     <button label="OK" id="newSetOKButton"></button>
     <button label="Cancel" id="newSetCancelButton"></button>
   </hbox>
-</window>
+</dialog>

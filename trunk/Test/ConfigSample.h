@@ -36,7 +36,7 @@ namespace XULWin
 
         LRESULT newSetOK();
 
-        LRESULT closeWindow(Element * inWindow);
+        LRESULT closeDialog(Element * inWindow);
 
     private:
         XULRunner mRunner;   

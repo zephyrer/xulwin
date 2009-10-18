@@ -784,6 +784,33 @@ namespace XULWin
     }
 
 
+    bool ScrollDecorator::initImpl()
+    {
+        Element * window = 0;
+        Element * current = mDecoratedElement->el();
+        while (!window)
+        {
+            if (current->type() == Window::Type())
+            {
+                window = current;
+            }
+            else if (current->parent())
+            {
+                current = current->parent();
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (window)
+        {
+            mEvents.connect(window, WM_MOUSEWHEEL, boost::bind(&ScrollDecorator::handleMouseWheel, this, _1, _2));
+        }
+        return Super::initImpl();
+    }
+
+
     int ScrollDecorator::getWidth(SizeConstraint inSizeConstraint) const
     {
         if (inSizeConstraint == Minimum && mOverflowX != CSSOverflow_Hidden)
@@ -981,6 +1008,18 @@ namespace XULWin
             mOldHorScrollPos = newHorScrollPos;
             mOldVerScrollPos = newVerScrollPos;
         }
+    }
+    
+    
+    LRESULT ScrollDecorator::handleMouseWheel(WPARAM wParam, LPARAM lParam)
+    {
+        // Forward mouse wheel messages to the vertical scrollbar
+        if (NativeScrollbar * vscrollbar = mVerticalScrollbar->impl()->downcast<NativeScrollbar>())
+        {
+            ::SendMessage(vscrollbar->handle(), WM_MOUSEWHEEL, wParam, lParam);
+            return 0;
+        }
+        return 1;
     }
 
 

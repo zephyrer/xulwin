@@ -206,6 +206,8 @@ namespace XULWin
                         CSSOverflow inOverflowX,
                         CSSOverflow inOverflowY);
 
+        virtual bool initImpl();
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
@@ -220,6 +222,8 @@ namespace XULWin
 
         virtual bool curposChanged(NativeScrollbar * inSender, int inOldPos, int inNewPos);
 
+        LRESULT handleMouseWheel(WPARAM wParam, LPARAM lParam);
+
     private:
         void updateWindowScroll();
 
@@ -229,6 +233,7 @@ namespace XULWin
         int mOldVerScrollPos;
         ElementPtr mVerticalScrollbar;
         ElementPtr mHorizontalScrollbar;
+        ScopedEventListener mEvents;
     };
 
 

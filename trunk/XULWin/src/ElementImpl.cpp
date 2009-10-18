@@ -423,7 +423,7 @@ namespace XULWin
     void ConcreteElement::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {
         int margin = 0;
-        if (const MarginDecorator * marginDecorator = constDowncast<MarginDecorator>())
+        if (const MarginDecorator * marginDecorator = downcast<MarginDecorator>())
         {
             marginDecorator->getMargin(outTop, outLeft, outRight, outBottom);
         }
@@ -4166,7 +4166,7 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const ElementImpl * child = getChild(idx);
-            if (const TreeItemImpl * item = child->constDowncast<TreeItemImpl>())
+            if (const TreeItemImpl * item = child->downcast<TreeItemImpl>())
             {
                 result += item->calculateHeight(inSizeConstraint);
             }
@@ -4181,7 +4181,7 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const ElementImpl * child = getChild(idx);
-            if (const TreeItemImpl * item = child->constDowncast<TreeItemImpl>())
+            if (const TreeItemImpl * item = child->downcast<TreeItemImpl>())
             {
                 int minWidth = item->calculateWidth(inSizeConstraint);
                 if (result < minWidth)
@@ -4301,7 +4301,7 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const ElementImpl * child = getChild(idx);
-            if (const TreeCellImpl * cell = child->constDowncast<TreeCellImpl>())
+            if (const TreeCellImpl * cell = child->downcast<TreeCellImpl>())
             {
                 result += cell->calculateWidth(inSizeConstraint);
             }
@@ -4316,7 +4316,7 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const ElementImpl * child = getChild(idx);
-            if (const TreeCellImpl * cell = child->constDowncast<TreeCellImpl>())
+            if (const TreeCellImpl * cell = child->downcast<TreeCellImpl>())
             {
                 result += cell->calculateHeight(inSizeConstraint);
             }

@@ -214,28 +214,20 @@ namespace XULWin
         template<class Type>
         Type * downcast()
         {
-            if (Type * obj = dynamic_cast<Type*>(this))
-            {
-                return obj;
-            }
-            else if (Decorator * obj = dynamic_cast<Decorator*>(this))
-            {
-                return obj->decoratedElement()->downcast<Type>();
-            }
-            return 0;
+            return const_cast<Type*>(static_cast<const ElementImpl*>(this)->downcast<Type>());
         }
 
 
-        template<class ConstType>
-        const ConstType * constDowncast() const
+        template<class Type>
+        const Type * downcast() const
         {
-            if (const ConstType * obj = dynamic_cast<const ConstType*>(this))
+            if (const Type * obj = dynamic_cast<const Type*>(this))
             {
                 return obj;
             }
             else if (const Decorator * obj = dynamic_cast<const Decorator*>(this))
             {
-                return obj->decoratedElement()->constDowncast<ConstType>();
+                return obj->decoratedElement()->downcast<Type>();
             }
             return 0;
         }
@@ -297,7 +289,7 @@ namespace XULWin
             for (size_t idx = 0; idx != getChildCount(); ++idx)
             {
                 const ElementImpl * child = getChild(idx);
-                if (const Type * found = child->constDowncast<Type>())
+                if (const Type * found = child->downcast<Type>())
                 {
                     return found;
                 }
@@ -487,7 +479,7 @@ namespace XULWin
 
 
         template<class ConstType>
-        const ConstType * constDowncast() const
+        const ConstType * downcast() const
         {
             if (const ConstType * obj = dynamic_cast<const ConstType*>(this))
             {
@@ -495,7 +487,7 @@ namespace XULWin
             }
             else if (const Decorator * obj = dynamic_cast<const Decorator*>(this))
             {
-                return obj->decoratedElement()->constDowncast<ConstType>();
+                return obj->decoratedElement()->downcast<ConstType>();
             }
             return 0;
         }

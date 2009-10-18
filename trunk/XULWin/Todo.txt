@@ -4,14 +4,12 @@
 - Remove Proxy class, and move methods to ComponentWrapper
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
-- Add mouse scrolling
-- Fix horizontal scrolling in Logger window
-
-
-- Make samples that reveal bugs for post-parser element insertion.
+- Create XULViewer app
+- Create minimal and complete list of samples
 - Add sample for custom xul element
-- Menubar events
-- Fix toolbar menu sample!
+- 2 Fix horizontal scrolling for listboxes
+- 5 Menubar events
+- 5 Fix toolbar menu sample!
 - Splitter
 - Make sample runner app
 - Fix WS_TABSTOP for multiline TextBoxes

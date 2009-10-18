@@ -3404,7 +3404,7 @@ namespace XULWin
     
     LRESULT NativeScrollbar::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        if (inMessage == WM_VSCROLL || inMessage == WM_HSCROLL)
+        if (WM_VSCROLL == inMessage || WM_HSCROLL == inMessage)
         {
             int currentScrollPos = Windows::getScrollPos(handle());
             int totalHeight = 0;
@@ -3454,7 +3454,27 @@ namespace XULWin
 
             setAttribute("curpos", Int2String(currentPosition));
             return 0;
-        }
+        }        
+        else if (WM_MOUSEWHEEL == inMessage)
+		{
+			short numDelta = HIWORD(wParam);
+			short numPages = numDelta / WHEEL_DELTA;
+            int totalHeight = 0;
+			int pageHeight = 0;
+            int currentPosition = 0;
+            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            currentPosition = currentPosition - numPages*pageHeight;
+            if (currentPosition < 0)
+            {
+                currentPosition = 0;
+            }
+            if (currentPosition > totalHeight)
+            {
+                currentPosition = totalHeight;
+            }
+            setAttribute("curpos", Int2String(currentPosition));
+			return 0;
+		}
         return NativeControl::handleMessage(inMessage, wParam, lParam);
     }
 

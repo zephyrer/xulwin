@@ -2,7 +2,7 @@
 #define TOOLBARITEM_H_INCLUDED
 
 
-#include "XULWin/PopupMenu.h"
+#include "XULWin/PopupMenu.h" 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/utility.hpp>

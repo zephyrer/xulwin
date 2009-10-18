@@ -1,19 +1,19 @@
-#ifndef {{ELEMENTIMPL_NAME_UPPER}}_H_INCLUDED
-#define {{ELEMENTIMPL_NAME_UPPER}}_H_INCLUDED
+#ifndef {{COMPONENT_NAME_UPPER}}_H_INCLUDED
+#define {{COMPONENT_NAME_UPPER}}_H_INCLUDED
 
 
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class {{ELEMENTIMPL_NAME}} : public PassiveComponent
+    class {{COMPONENT_NAME}} : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        {{ELEMENTIMPL_NAME}}(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        {{COMPONENT_NAME}}(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 
@@ -27,4 +27,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // {{ELEMENTIMPL_NAME_UPPER}}_H_INCLUDED
+#endif // {{COMPONENT_NAME_UPPER}}_H_INCLUDED

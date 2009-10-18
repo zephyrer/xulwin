@@ -4,6 +4,7 @@ hppdir = projectpath + 'include/XULWin/'
 cppdir = projectpath + 'src/'
 
 classname = ARGV[0]
+componentname = classname + "Component"
 projectname = "XULWin_vs80.vcproj"
 
 hppfile = classname + ".h"
@@ -12,10 +13,10 @@ hpppath = hppdir + hppfile
 cppfile = classname + ".cpp"
 cpppath = cppdir + cppfile
 
-hppimplfile = classname + "Impl.h"
+hppimplfile = componentname + ".h"
 hppimplpath = hppdir + hppimplfile
 
-cppimplfile = classname + "Impl.cpp"
+cppimplfile = componentname + ".cpp"
 cppimplpath = cppdir + cppimplfile
 
 
@@ -33,24 +34,25 @@ end
 File.open("ElementTemplate.cpp", 'r') do |elCppTemplate|
     File.open(cpppath, 'w') do |out|
         while (line = elCppTemplate.gets())
-            out << line.gsub("{{ELEMENT_NAME}}", classname)
+            out << line.gsub("{{ELEMENT_NAME}}", classname).gsub(
+                             "{{COMPONENT_NAME}}", componentname)
         end
     end
 end
 
-File.open("ElementImplTemplate.h", 'r') do |template|
+File.open("ComponentTemplate.h", 'r') do |template|
     File.open(hppimplpath, 'w') do |out|
         while (line = template.gets())
-            out << line.gsub("{{ELEMENTIMPL_NAME}}", classname + "Impl").gsub(
-                             "{{ELEMENTIMPL_NAME_UPPER}}", (classname + "Impl").upcase())
+            out << line.gsub("{{COMPONENT_NAME}}", componentname).gsub(
+                             "{{COMPONENT_NAME_UPPER}}", componentname.upcase())
         end
     end
 end
 
-File.open("ElementImplTemplate.cpp", 'r') do |template|
+File.open("ComponentTemplate.cpp", 'r') do |template|
     File.open(cppimplpath, 'w') do |out|
         while (line = template.gets())
-            out << line.gsub("{{ELEMENTIMPL_NAME}}", classname + "Impl");
+            out << line.gsub("{{COMPONENT_NAME}}", componentname);
         end
     end
 end

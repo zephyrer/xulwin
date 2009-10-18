@@ -2,9 +2,9 @@ Refactor
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 Broken windows
-- Toolbar menu-button menus appear at the wrong place
-- Menubar popup sucks
+- Menubar menu's are implemented incorrectly (popups instead of normal menus are shown)
 - Fix WS_TABSTOP for multiline TextBoxes
+- Widgets sample partially broken (widths are not always correct)
 
 Samples
 - XULViewer

@@ -1,4 +1,4 @@
-#include "XULWin/Points.h"
+#include "XULWin/Point.h"
 
 
 namespace XULWin

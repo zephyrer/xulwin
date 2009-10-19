@@ -3,7 +3,7 @@
 
 
 #include "XULWin/Enums.h"
-#include "XULWin/Points.h"
+#include "XULWin/Point.h"
 #include "XULWin/PathInstructions.h"
 #include "XULWin/RGBColor.h"
 #include <string>

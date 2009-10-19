@@ -6,16 +6,6 @@
 namespace XULWin
 {
 
-    //void LinearLayoutManager::GetSizes(int inLength, size_t inItemCount, std::vector<int> & outSizes)
-    //{
-    //    assert(outSizes.empty());
-    //    for (size_t idx = 0; idx != inItemCount; ++idx)
-    //    {
-    //        outSizes.push_back((int)(0.5 + (float)inLength/(float)inItemCount));
-    //    }
-    //}
-
-
     void LinearLayoutManager::GetSizes(int inLength,
                                        const std::vector<int> & inFlexValues,
                                        std::vector<int> & outSizes)

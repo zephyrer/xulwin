@@ -3,78 +3,14 @@
 
 
 #include "XULWin/Enums.h"
-#include "XULWin/Points.h"
 #include "XULWin/GenericGrid.h"
+#include "XULWin/Point.h"
+#include "XULWin/Rect.h"
 #include <vector>
 
 
 namespace XULWin
-{
-
-    
-    class Dimension
-    {
-    public:
-        Dimension() : mWidth(0), mHeight(0) {}
-
-        Dimension(int inWidth, int inHeight) : mWidth(inWidth), mHeight(inHeight) {}
-        
-        bool operator==(const Dimension & inOtherDimension)
-        {
-            return mWidth == inOtherDimension.mWidth && mHeight == inOtherDimension.mHeight;
-        }
-        
-        bool operator!=(const Dimension & inOtherDimension)
-        {
-            return mWidth != inOtherDimension.mWidth || mHeight != inOtherDimension.mHeight;
-        }
-
-        int width() const { return mWidth; }
-
-        int height() const { return mHeight; }
-
-    private:
-        int mWidth;
-        int mHeight;        
-    };
-
-
-    class Rect
-    {
-    public:        
-        Rect() : mLocation(), mSize() {}
-        
-        Rect(const Point & inLocation, const Dimension & inSize) : mLocation(inLocation), mSize(inSize) {}
-
-        Rect(int inX, int inY, int inWidth, int inHeight) : mLocation(inX, inY), mSize(inWidth, inHeight) {}
-        
-        bool operator==(const Rect & inOtherRect)
-        {
-            return mLocation == inOtherRect.mLocation && mSize == inOtherRect.mSize;
-        }
-        
-        bool operator!=(const Rect & inOtherRect)
-        {
-            return mLocation != inOtherRect.mLocation || mSize != inOtherRect.mSize;
-        }
-
-        int x() const { return mLocation.x(); }
-
-        int y() const { return mLocation.y(); }
-
-        int width() const { return mSize.width(); }
-
-        int height() const { return mSize.height(); }
-
-        const Point & location() const { return mLocation; }
-
-        const Dimension & size() const { return mSize; }
-
-    private:
-        Point mLocation;
-        Dimension mSize;
-    };
-    
+{    
     
     class Margins
     {

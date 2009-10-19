@@ -1,5 +1,5 @@
-#ifndef POINTS_H_INCLUDED
-#define POINTS_H_INCLUDED
+#ifndef POINT_H_INCLUDED
+#define POINT_H_INCLUDED
 
 
 #include <vector>
@@ -43,4 +43,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // POINTS_H_INCLUDED
+#endif // POINT_H_INCLUDED

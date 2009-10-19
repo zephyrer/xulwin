@@ -2,7 +2,7 @@
 #define PATHINSTRUCTIONS_H_INCLUDED
 
 
-#include "XULWin/Points.h"
+#include "XULWin/Point.h"
 #include <utility>
 
 

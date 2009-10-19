@@ -268,11 +268,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Points.cpp"
+				RelativePath=".\src\Point.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Points.h"
+				RelativePath=".\include\XULWin\Point.h"
 				>
 			</File>
 			<File
@@ -281,6 +281,14 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Proxy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Rect.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Rect.h"
 				>
 			</File>
 			<File
@@ -297,6 +305,14 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Script.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Size.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Size.h"
 				>
 			</File>
 			<File

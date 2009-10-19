@@ -13,7 +13,7 @@ Samples
 - Event Handling
 - Dialogs
 - Custom XUL elements
-- How to use XUL and Lua
+- Scripting XUL using Lua
 
 Todo
 - Distribute XULViewer for feedback

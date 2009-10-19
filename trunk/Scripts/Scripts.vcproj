@@ -98,26 +98,10 @@
 			<File
 				RelativePath=".\CreateElement\ElementTemplate.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\CreateElement\ElementTemplate.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -129,6 +113,38 @@
 			</File>
 			<File
 				RelativePath=".\CreateXULSample\create-xul-sample.rb"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="CreateClass"
+			>
+			<File
+				RelativePath=".\CreateClass\ClassTemplate.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CreateClass\ClassTemplate.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CreateClass\create-class.rb"
 				>
 			</File>
 		</Filter>

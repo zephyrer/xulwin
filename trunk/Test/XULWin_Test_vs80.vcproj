@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\xulrunnersamples\MainWindow\chrome\content\mainwindow.xul"
+				>
+			</File>
+			<File
 				RelativePath="..\xulrunnersamples\configpanel\chrome\content\newsetdialog.xul"
 				>
 			</File>

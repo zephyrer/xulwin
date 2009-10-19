@@ -30,6 +30,12 @@ namespace XULWin
     }
 
 
+    LuaBindingsTest::~LuaBindingsTest()
+    {
+        ErrorReporter::Instance().setLogger(ErrorReporter::LogFunction());
+    }
+
+
     void LuaBindingsTest::runXULSample(const std::string & inAppname)
     {
         Windows::CurrentDirectoryChanger cd("../xulrunnersamples/" + inAppname + "/");

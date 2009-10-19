@@ -441,65 +441,11 @@ namespace XULWin
     }
 
 
-    Menu::Menu(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Menu::Type(),
-                inParent,
-                new MenuImpl(inParent->component(), inAttributesMapping))
-    {
-    }
-
-
-    MenuBar::MenuBar(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuBar::Type(),
-                inParent,
-                new MenuBarImpl(inParent->component(), inAttributesMapping))
-    {
-    }
-
-
     MenuList::MenuList(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuList::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<MenuListImpl>(inParent, inAttributesMapping)))
     {
-    }
-
-    
-    MenuPopup::MenuPopup(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuPopup::Type(),
-                inParent,
-                new MenuPopupImpl(inParent->component(), inAttributesMapping))
-    {
-    }
-
-    
-    MenuPopup::~MenuPopup()
-    {
-    }
-
-    
-    MenuItem::MenuItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuItem::Type(),
-                inParent,
-                new MenuItemImpl(inParent->component(), inAttributesMapping))
-    {
-    }
-        
-    
-    MenuItem::~MenuItem()
-    {
-    }
-
-    
-    std::string MenuItem::label() const
-    {
-        return getAttribute("label");
-    }
-
-    
-    std::string MenuItem::value() const
-    {
-        return getAttribute("value");
     }
 
 

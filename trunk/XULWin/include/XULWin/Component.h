@@ -657,7 +657,7 @@ namespace XULWin
 
 
     class NativeDialog;
-    class MenuImpl;
+    class MenuComponent;
 
     class NativeWindow : public NativeComponent,
                          public BoxLayouter::ContentProvider,
@@ -745,16 +745,11 @@ namespace XULWin
 #endif
 
     private:
-        void showMenu(MenuImpl * inMenu);
-
-        size_t getPositionInMenuBar(MenuImpl * inMenu);
-
         friend class NativeDialog;
         void setBlockingDialog(NativeDialog * inDlg);
         NativeDialog * mActiveDialog;
         BoxLayouter mBoxLayouter;
-        HMENU mMenuHandle;
-        MenuImpl * mActiveMenu;
+        MenuComponent * mActiveMenu;
         bool mHasMessageLoop;
     };
 
@@ -1162,98 +1157,6 @@ namespace XULWin
     {
     public:
         virtual void showPopupMenu(RECT inToolbarButtonRect) = 0;
-    };
-
-
-    class MenuBarImpl : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
-
-        MenuBarImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
-
-
-    class MenuImpl : public PassiveComponent,
-                     public MenuPopupContainer,
-                     public LabelController
-    {
-    public:
-        typedef PassiveComponent Super;
-
-        MenuImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual ~MenuImpl();
-
-        virtual bool initAttributeControllers();
-        
-        // MenuPopupContainer methods
-        virtual void showPopupMenu(RECT inExcludeRect);
-
-        virtual std::string getLabel() const;
-
-        virtual void setLabel(const std::string & inLabel);
-
-        static MenuImpl * FindById(int inId);
-
-    private:
-        typedef std::map<int, MenuImpl*> MenusById;
-        static MenusById sMenusById;
-
-        std::string mLabel;
-    };
-
-
-    class MenuPopupImpl : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
-
-        MenuPopupImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        void show(RECT inExcludeRect);
-
-    protected:
-        virtual void onChildAdded(Component * inChild);
-
-        virtual void onChildRemoved(Component * inChild);
-
-    private:
-        Windows::PopupMenu * getMenu();
-    };
-
-
-    class MenuItemImpl : public PassiveComponent,
-                         public LabelController
-    {
-    public:
-        typedef PassiveComponent Super;
-
-        MenuItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual ~MenuItemImpl();
-
-        virtual bool initAttributeControllers();
-            
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        virtual std::string getLabel() const;
-
-        virtual void setLabel(const std::string & inLabel);
-
-        static MenuItemImpl * FindById(int inId);
-
-    private:
-        typedef std::map<int, MenuItemImpl*> MenuItemsById;
-        static MenuItemsById sMenuItemsById;
-
-        std::string mLabel;
     };
 
 

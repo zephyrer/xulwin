@@ -15,6 +15,8 @@ namespace XULWin
     public:
         LuaBindingsTest();
 
+        ~LuaBindingsTest();
+
         void runXULSample(const std::string & inAppname);
 
         void log(const std::string & inMessage);

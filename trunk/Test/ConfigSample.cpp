@@ -1,4 +1,6 @@
 #include "ConfigSample.h"
+#include "XULWin/MenuItem.h"
+#include "XULWin/MenuPopup.h"
 #include "XULWin/Unicode.h"
 #include <boost/bind.hpp>
 #include <boost/function.hpp>

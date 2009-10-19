@@ -4,6 +4,10 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Layout.h"
+#include "XULWin/MenuComponent.h"
+#include "XULWin/MenuBarComponent.h"
+#include "XULWin/MenuItemComponent.h"
+#include "XULWin/MenuPopupComponent.h"
 #include "XULWin/PopupMenu.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
@@ -16,17 +20,11 @@
 namespace XULWin
 {
 
-
     int CommandId::sId = 101; // start handleCommand Ids at 101 to avoid conflicts with Windows predefined values
     
     NativeComponent::ComponentsByHandle NativeComponent::sComponentsByHandle;
     
-    NativeComponent::ComponentsById NativeComponent::sComponentsById;
-    
-    MenuItemImpl::MenuItemsById MenuItemImpl::sMenuItemsById;
-    
-    MenuImpl::MenusById MenuImpl::sMenusById;
-    
+    NativeComponent::ComponentsById NativeComponent::sComponentsById;    
 
     ConcreteComponent::ConcreteComponent(Component * inParent) :
         mParent(inParent),
@@ -974,7 +972,6 @@ namespace XULWin
         mActiveMenu(0),
         mHasMessageLoop(false)
     {
-        mMenuHandle = ::CreateMenu();
         mHandle = ::CreateWindowEx
         (
             0, 
@@ -983,7 +980,7 @@ namespace XULWin
             WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
             0,
-            (HMENU)mMenuHandle, // must be zero if not menu and not child
+            (HMENU)0, // must be zero if not menu and not child
             mModuleHandle,
             0
         );
@@ -1004,27 +1001,6 @@ namespace XULWin
     
     bool NativeWindow::initComponent()
     {
-        if (MenuBarImpl * menuBar = findChildOfType<MenuBarImpl>())
-        {
-            if (MenuImpl * menu = menuBar->findChildOfType<MenuImpl>())
-            {
-                if (MenuPopupImpl * popup = menu->findChildOfType<MenuPopupImpl>())
-                {
-                    for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
-                    {
-                        Component * childImpl = popup->getChild(idx);
-                        if (MenuImpl * menu = childImpl->downcast<MenuImpl>())
-                        {
-                            Windows::insertMenuItem(mMenuHandle, idx, menu->commandId(), menu->getLabel());
-                        }
-                        else if (MenuItemImpl * item = childImpl->downcast<MenuItemImpl>())
-                        {
-                            Windows::insertMenuItem(mMenuHandle, idx, item->commandId(), item->getLabel());
-                        }
-                    }
-                }
-            }
-        }
         return Super::initComponent();
     }
 
@@ -1180,7 +1156,7 @@ namespace XULWin
         if (inPositioning == Window::CenterInScreen)
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-            if (findChildOfType<MenuBarImpl>())
+            if (findChildOfType<MenuBarComponent>())
             {
                 sz.cy += Defaults::menuBarHeight();
             }
@@ -1193,7 +1169,7 @@ namespace XULWin
         else
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-            if (findChildOfType<MenuBarImpl>())
+            if (findChildOfType<MenuBarComponent>())
             {
                 sz.cy += Defaults::menuBarHeight();
             }
@@ -1215,36 +1191,6 @@ namespace XULWin
         if (mHasMessageLoop)
         {
             ::PostQuitMessage(0);
-        }
-    }
-
-
-    size_t NativeWindow::getPositionInMenuBar(MenuImpl * inMenu)
-    {
-        const int itemCount = ::GetMenuItemCount(mMenuHandle);
-        size_t idx = 0;
-        for (; idx != itemCount; ++idx)
-        {
-            if (::GetMenuItemID(mMenuHandle, idx) == inMenu->commandId())
-            {
-                break;
-            }
-        }
-        return idx;
-    }
-
-
-    void NativeWindow::showMenu(MenuImpl * inMenu)
-    {     
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
-        {
-            size_t menuIndex = getPositionInMenuBar(inMenu);
-            if (::GetMenuItemCount(mMenuHandle) != menuIndex)
-            {
-                RECT itemRect;
-                ::GetMenuItemRect(comp->handle(), mMenuHandle, menuIndex, &itemRect);
-                inMenu->showPopupMenu(itemRect);
-            }
         }
     }
 
@@ -1286,17 +1232,17 @@ namespace XULWin
                 if (lParam == 0) // menu or accelerator
                 {
                     int menuId = LOWORD(wParam);
-                    if (MenuImpl * menu = MenuImpl::FindById(menuId))
+                    if (MenuComponent * menu = MenuComponent::FindById(menuId))
                     {
                         if (mActiveMenu != menu)
                         {
                             mActiveMenu = menu;
-                            showMenu(menu);
+                            //showMenu(menu);
                             return 0;
                         }
                         mActiveMenu = 0;
                     }
-                    else if (MenuItemImpl * menuItem = MenuItemImpl::FindById(menuId))
+                    else if (MenuItemComponent * menuItem = MenuItemComponent::FindById(menuId))
                     {
                         handleMenuCommand(menuId);
                         mActiveMenu = 0;
@@ -2353,224 +2299,6 @@ namespace XULWin
     {
         return Super::rebuildChildLayouts();
     }
-    
-
-    MenuBarImpl::MenuBarImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-    
-
-    int MenuBarImpl::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        std::vector<Element*> items;
-        el()->getElementsByType(MenuItem::Type(), items);
-        for (size_t idx = 0; idx != items.size(); ++idx)
-        {
-            MenuItemImpl * item = items[idx]->component()->downcast<MenuItemImpl>();
-            result += item->calculateWidth(inSizeConstraint) + Defaults::menuBarSpacing();
-        }     
-        return result;
-    }
-
-
-    int MenuBarImpl::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return 0; // does not take part in client rect
-        //return Defaults::menuBarHeight();
-    }
-
-
-    MenuImpl::MenuImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-        assert(sMenusById.find(mCommandId.intValue()) == sMenusById.end());
-        sMenusById.insert(std::make_pair(mCommandId.intValue(), this));  
-    }
-
-
-    MenuImpl::~MenuImpl()
-    {            
-        MenusById::iterator itById = sMenusById.find(mCommandId.intValue());
-        assert(itById != sMenusById.end());
-        if (itById != sMenusById.end())
-        {
-            sMenusById.erase(itById);
-        }
-    }
-    
-    
-    MenuImpl * MenuImpl::FindById(int inId)
-    {          
-        MenusById::iterator itById = sMenusById.find(inId);
-        if (itById != sMenusById.end())
-        {
-            return itById->second;
-        }
-        return 0;
-    }
-
-        
-    bool MenuImpl::initAttributeControllers()
-    {
-        setAttributeController("label", static_cast<LabelController*>(this));
-        return Super::initAttributeControllers();
-    }
-    
-    
-    std::string MenuImpl::getLabel() const
-    {
-        return mLabel;
-    }
-
-     
-    void MenuImpl::setLabel(const std::string & inLabel)
-    {
-        mLabel = inLabel;
-    }
-
-
-    void MenuImpl::showPopupMenu(RECT inExcludeRect)
-    {
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            ElementPtr child = el()->children()[idx];
-            if (MenuPopupImpl * popupMenu = child->component()->downcast<MenuPopupImpl>())
-            {
-                popupMenu->show(inExcludeRect);
-            }
-        }
-    }
-    
-    
-    MenuPopupImpl::MenuPopupImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-        
-    Windows::PopupMenu * MenuPopupImpl::getMenu()
-    {
-        Windows::PopupMenu * popupMenu = new Windows::PopupMenu;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            ElementPtr child = el()->children()[idx];
-            if (MenuItemImpl * menuItem = child->component()->downcast<MenuItemImpl>())
-            {
-                popupMenu->append(new Windows::PopupMenuItem(menuItem->commandId(), menuItem->getLabel()));
-            }
-            else if (MenuImpl * menu = child->component()->downcast<MenuImpl>())
-            {
-                if (!menu->el()->children().empty())
-                {
-                    if (MenuPopupImpl * childPopup = menu->el()->children()[0]->component()->downcast<MenuPopupImpl>())
-                    {
-                        if (MenuImpl * menu = childPopup->parent()->downcast<MenuImpl>())
-                        {
-                            popupMenu->append(menu->getLabel(), childPopup->getMenu());
-                        }
-                    }
-                }
-            }
-        }
-        return popupMenu;
-    }
-
-        
-    void MenuPopupImpl::show(RECT inExcludeRect)
-    {
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
-        {
-            POINT location;
-            location.x = inExcludeRect.left;
-            location.y = inExcludeRect.bottom;
-            //::MapWindowPoints(comp->handle(), HWND_DESKTOP, &location, 1);
-            boost::scoped_ptr<Windows::PopupMenu> menu(getMenu());
-            menu->show(comp->handle(), location, inExcludeRect);
-        }
-    }
-    
-    
-    void MenuPopupImpl::onChildAdded(Component * inChild)
-    {
-        parent()->onContentChanged();
-    }
-
-
-    void MenuPopupImpl::onChildRemoved(Component * inChild)
-    {
-        parent()->onContentChanged();
-    }
-
-    
-    MenuItemImpl::MenuItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-        assert (sMenuItemsById.find(mCommandId.intValue()) == sMenuItemsById.end());
-        sMenuItemsById.insert(std::make_pair(mCommandId.intValue(), this));
-    }
-
-    
-    MenuItemImpl::~MenuItemImpl()
-    {        
-        MenuItemsById::iterator itById = sMenuItemsById.find(mCommandId.intValue());
-        assert (itById != sMenuItemsById.end());
-        if (itById != sMenuItemsById.end())
-        {
-            sMenuItemsById.erase(itById);
-        }
-    }
-
-    
-    MenuItemImpl * MenuItemImpl::FindById(int inId)
-    {
-        MenuItemsById::iterator itById = sMenuItemsById.find(inId);
-        if (itById != sMenuItemsById.end())
-        {
-            return itById->second;
-        }
-        return 0;
-    }
-
-        
-    bool MenuItemImpl::initAttributeControllers()
-    {
-        setAttributeController("label", static_cast<LabelController*>(this));
-        return Super::initAttributeControllers();
-    }
-            
-    
-    int MenuItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItemImpl*>(this)))
-        {
-            return Windows::getTextSize(comp->handle(), getLabel()).cx;
-        }
-        return 0;
-    }
-
-
-    int MenuItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItemImpl*>(this)))
-        {
-            return Windows::getTextSize(comp->handle(), getLabel()).cy;
-        }
-        return 0;
-    }
-
-
-    std::string MenuItemImpl::getLabel() const
-    {
-        return mLabel;
-    }
-
-    
-    void MenuItemImpl::setLabel(const std::string & inLabel)
-    {
-        mLabel = inLabel;
-    }
 
 
     MenuListImpl::MenuListImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
@@ -2592,12 +2320,12 @@ namespace XULWin
 
     void MenuListImpl::fillComboBox()
     {        
-        if (MenuPopupImpl * popup = findChildOfType<MenuPopupImpl>())
+        if (MenuPopupComponent * popup = findChildOfType<MenuPopupComponent>())
         {
             for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
             {
                 ElementPtr child = popup->el()->children()[idx];
-                if (MenuItemImpl * item = child->component()->downcast<MenuItemImpl>())
+                if (MenuItemComponent * item = child->component()->downcast<MenuItemComponent>())
                 {
                     std::string label = item->getLabel();
                     Windows::addStringToComboBox(handle(), label);
@@ -4604,7 +4332,7 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (MenuPopupImpl * popupMenu = child->component()->downcast<MenuPopupImpl>())
+            if (MenuPopupComponent * popupMenu = child->component()->downcast<MenuPopupComponent>())
             {
                 popupMenu->show(inToolbarButtonRect);
             }

@@ -1,29 +1,39 @@
-#ifndef LISTCELL_H_INCLUDED
-#define LISTCELL_H_INCLUDED
+#ifndef LISTCELLIMPL_H_INCLUDED
+#define LISTCELLIMPL_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
+#include "XULWin/AttributeController.h"
 
 
 namespace XULWin
 {
 
-    class ListCell : public Element
+    class ListCellImpl : public PassiveComponent,
+                         public LabelController
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListCell>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "listcell"; }
+        ListCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
-    
+        virtual bool initComponent();
+
+        bool initAttributeControllers();
+
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
+        int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        int calculateHeight(SizeConstraint inSizeConstraint) const;
+
     private:
-        friend class Element;
-        ListCell(Element * inParent, const AttributesMapping & inAttributesMapping);
+        std::string mLabel;
     };
 
 } // namespace XULWin
 
 
-#endif // LISTCELL_H_INCLUDED
+#endif // LISTCELLIMPL_H_INCLUDED

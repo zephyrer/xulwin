@@ -1,9 +1,17 @@
-#ifndef SVG_H_INCLUDED
-#define SVG_H_INCLUDED
+#ifndef SVGIMPL_H_INCLUDED
+#define SVGIMPL_H_INCLUDED
 
 
-#include "XULWin/Element.h"
-#include "XULWin/AttributeController.h"
+#include "XULWin/Component.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/GdiplusLoader.h"
+
+
+namespace Gdiplus
+{
+    class Graphics;
+    class PointF;
+}
 
 
 namespace XULWin
@@ -11,74 +19,142 @@ namespace XULWin
 
 namespace SVG
 {
-
-    class SVG : public Element
+    
+    class SVGPainter
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVG>(inParent, inAttr); }
-
-        static const char * Type() { return "svg"; }
-    
-    private:
-        friend class Element;
-        SVG(Element * inParent, const AttributesMapping & inAttributesMapping);
+        virtual void paint(Gdiplus::Graphics & g) = 0;
     };
 
 
-    class Group : public Element
+    class SVGCanvas : public NativeControl,
+                      public GdiplusLoader
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Group>(inParent, inAttr); }
+        typedef NativeControl Super;
 
-        static const char * Type() { return "g"; }
-    
+        SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
     private:
-        friend class Element;
-        Group(Element * inParent, const AttributesMapping & inAttributesMapping);
+        void bufferedPaint(HDC inHDC);
+
+        virtual void paint(HDC inHDC);
     };
 
 
-    class Polygon : public Element
+    class SVGElementImpl : public PassiveComponent
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Polygon>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "polygon"; }
-    
+        SVGElementImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+
     private:
-        friend class Element;
-        Polygon(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class SVGRect : public Element
+    class SVGGroupImpl : public SVGElementImpl,
+                         public SVGPainter
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVGRect>(inParent, inAttr); }
+        typedef SVGElementImpl Super;
 
-        static const char * Type() { return "rect"; }
-    
-    private:
-        friend class Element;
-        SVGRect(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SVGGroupImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initStyleControllers();
+
+        virtual void paint(Gdiplus::Graphics & g);
     };
 
 
-    class Path : public Element
+    class SVGPolygonImpl : public SVGElementImpl,
+                           public SVGPainter,
+                           public virtual PointsController
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Path>(inParent, inAttr); }
+        typedef SVGElementImpl Super;
 
-        static const char * Type() { return "path"; }
-    
+        SVGPolygonImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initAttributeControllers();
+
+        virtual const Points & getPoints() const;
+
+        virtual void setPoints(const Points & inPoints);
+
+        virtual void paint(Gdiplus::Graphics & g);
+
     private:
-        friend class Element;
-        Path(Element * inParent, const AttributesMapping & inAttributesMapping);
+        Points mPoints;
+        std::vector<Gdiplus::PointF> mNativePoints;
+    };
+
+
+    class SVGRectImpl : public SVGElementImpl,
+                        public SVGPainter
+    {
+    public:
+        typedef SVGElementImpl Super;
+
+        SVGRectImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initStyleControllers();
+
+        virtual void paint(Gdiplus::Graphics & g);
+
+    private:
+        std::vector<Gdiplus::PointF> mNativePoints;
+    };
+
+
+    class SVGPathImpl : public SVGElementImpl,
+                        public virtual PathInstructionsController,
+                        public SVGPainter
+    {
+    public:
+        typedef SVGElementImpl Super;
+
+        SVGPathImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual bool initAttributeControllers();
+
+        virtual bool initStyleControllers();
+
+        virtual void paint(Gdiplus::Graphics & g);
+
+        virtual const PathInstructions & getPathInstructions() const;
+
+        virtual void setPathInstructions(const PathInstructions & inPathInstructions);
+
+    private:        
+        void getFloatPoints(const PathInstruction & instruction,
+                            const Gdiplus::PointF & inPrevPoint,
+                            std::vector<Gdiplus::PointF> & outPoints);
+
+        static void GetAbsolutePositions(const PathInstruction & instruction,
+                                         const PointF & inPrevPoint,
+                                         PointFs & outPoints);
+
+        static void GetAbsolutePositions(const PointFs & inRelativePoints,
+                                         const PointF & inPrevPoint,
+                                         PointFs & outPoints);
+
+        //bool getFillColor(Gdiplus::Color & outColor);
+
+        //bool getStrokeColor(Gdiplus::Color & outColor);
+
+        static void GetPreparedInstructions(const PathInstructions & inData, PathInstructions & outPrepData);
+
+        static void GetPointReflection(const PointF & inPoint, const PointF & inOrigin, PointF & outReflection);
+
+        PathInstructions mInstructions;
+        PathInstructions mPreparedInstructions;
     };
 
 } // namespace SVG
@@ -86,4 +162,4 @@ namespace SVG
 } // namespace XULWin
 
 
-#endif // SVG_H_INCLUDED
+#endif // SVGIMPL_H_INCLUDED

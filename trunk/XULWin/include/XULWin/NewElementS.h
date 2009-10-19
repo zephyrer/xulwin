@@ -1,5 +1,5 @@
-#ifndef NEWELEMENTS_H_INCLUDED
-#define NEWELEMENTS_H_INCLUDED
+#ifndef NEWELEMENTSIMPL_H_INCLUDED
+#define NEWELEMENTSIMPL_H_INCLUDED
 
 
 #include "XULWin/Element.h"
@@ -8,22 +8,23 @@
 namespace XULWin
 {
 
-    class NewElementS : public Element
+    class NewElementSImpl : public PassiveComponent
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<NewElementS>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "newelements"; }
+        NewElementSImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
-    
-    private:
-        friend class Element;
-        NewElementS(Element * inParent, const AttributesMapping & inAttributesMapping);
+        virtual bool initImpl();
+
+        bool initAttributeControllers();
+
+        int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
 } // namespace XULWin
 
 
-#endif // NEWELEMENTS_H_INCLUDED
+#endif // NEWELEMENTSIMPL_H_INCLUDED

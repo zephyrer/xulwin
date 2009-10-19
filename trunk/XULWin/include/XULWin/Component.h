@@ -695,9 +695,9 @@ namespace XULWin
         virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
         { return Super::setAttributeController(inAttr, inController); }
 
-        void show(Window::Positioning inPositioning);
+        void show(WindowElement::Positioning inPositioning);
 
-        void showModal(Window::Positioning inPositioning);
+        void showModal(WindowElement::Positioning inPositioning);
 
         void close();
 
@@ -754,7 +754,7 @@ namespace XULWin
     };
 
 
-    // NativeDialog is actually a normal Window with some customizations to make it behave like a dialog.
+    // NativeDialog is actually a normal WindowElement with some customizations to make it behave like a dialog.
     class NativeDialog : public NativeComponent,
                          public BoxLayouter::ContentProvider,
                          public virtual TitleController
@@ -1763,7 +1763,7 @@ namespace XULWin
 
 
     class ToolbarImpl : public NativeControl,
-                        public Windows::Toolbar::EventHandler,
+                        public Windows::ToolbarElement::EventHandler,
                         public GdiplusLoader
     {
     public:
@@ -1783,13 +1783,13 @@ namespace XULWin
 
         virtual void rebuildLayout();
 
-        // Toolbar::EventHandler methods
+        // ToolbarElement::EventHandler methods
         virtual void onRequestFocus() {}
 
-        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const { return mToolbar; }
+        boost::shared_ptr<Windows::ToolbarElement> nativeToolbar() const { return mToolbar; }
 
     private:
-        boost::shared_ptr<Windows::Toolbar> mToolbar;
+        boost::shared_ptr<Windows::ToolbarElement> mToolbar;
     };
 
 

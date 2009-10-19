@@ -1,23 +1,36 @@
 #include "XULWin/ListCols.h"
-#include "XULWin/ListColsImpl.h"
-#include "XULWin/AttributeController.h"
-#include "XULWin/Decorator.h"
 
 
 namespace XULWin
 {
 
-    ListCols::ListCols(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListCols::Type(),
-                inParent,
-                new ListColsImpl(inParent->component(), inAttributesMapping))
+    ListColsImpl::ListColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool ListCols::init()
+    bool ListColsImpl::initComponent()
     {
-        return Element::init();
+        return Super::initComponent();
     }
 
+    
+    bool ListColsImpl::initAttributeControllers()
+    {
+        return Super::initAttributeControllers();
+    }
+        
+        
+    int ListColsImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+
+    
+    int ListColsImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+    
 } // namespace XULWin

@@ -127,9 +127,9 @@ namespace XULWin
         Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
-        if (Window * window = parser.rootElement()->downcast<Window>())
+        if (WindowElement * window = parser.rootElement()->downcast<WindowElement>())
         {
-            window->showModal(Window::CenterInScreen);
+            window->showModal(WindowElement::CenterInScreen);
         }
     }
 

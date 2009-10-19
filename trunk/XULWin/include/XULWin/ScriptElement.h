@@ -8,11 +8,11 @@
 namespace XULWin
 {
 
-    class Script : public Element
+    class ScriptElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Script>(inParent, inAttr); }
+        { return Element::Create<ScriptElement>(inParent, inAttr); }
 
         static const char * Type() { return "script"; }
 
@@ -20,7 +20,7 @@ namespace XULWin
     
     private:
         friend class Element;
-        Script(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ScriptElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 } // namespace XULWin

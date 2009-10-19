@@ -1,29 +1,30 @@
-#ifndef LISTCOLS_H_INCLUDED
-#define LISTCOLS_H_INCLUDED
+#ifndef LISTCOLSIMPL_H_INCLUDED
+#define LISTCOLSIMPL_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class ListCols : public Element
+    class ListColsImpl : public PassiveComponent
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListCols>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "listcols"; }
+        ListColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
-    
-    private:
-        friend class Element;
-        ListCols(Element * inParent, const AttributesMapping & inAttributesMapping);
+        virtual bool initComponent();
+
+        bool initAttributeControllers();
+
+        int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
 } // namespace XULWin
 
 
-#endif // LISTCOLS_H_INCLUDED
+#endif // LISTCOLSIMPL_H_INCLUDED

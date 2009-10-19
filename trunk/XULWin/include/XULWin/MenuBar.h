@@ -1,27 +1,26 @@
-#ifndef MENUBAR_H_INCLUDED
-#define MENUBAR_H_INCLUDED
+#ifndef MENUBARCOMPONENT_H_INCLUDED
+#define MENUBARCOMPONENT_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class MenuBar : public Element
+    class MenuBarComponent : public PassiveComponent
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuBar>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "menubar"; }
+        MenuBarComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-    private:
-        friend class Element;
-        MenuBar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
 } // namespace XULWin
 
 
-#endif // MENUBAR_H_INCLUDED
+#endif // MENUBARCOMPONENT_H_INCLUDED

@@ -1,29 +1,38 @@
-#ifndef LISTHEADER_H_INCLUDED
-#define LISTHEADER_H_INCLUDED
+#ifndef LISTHEADERIMPL_H_INCLUDED
+#define LISTHEADERIMPL_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class ListHeader : public Element
+    class ListHeaderImpl : public PassiveComponent,
+                           public LabelController
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListHeader>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "listheader"; }
+        ListHeaderImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
-    
+        virtual bool initComponent();
+
+        bool initAttributeControllers();
+
+        int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
     private:
-        friend class Element;
-        ListHeader(Element * inParent, const AttributesMapping & inAttributesMapping);
+        std::string mLabel;
     };
 
 } // namespace XULWin
 
 
-#endif // LISTHEADER_H_INCLUDED
+#endif // LISTHEADERIMPL_H_INCLUDED

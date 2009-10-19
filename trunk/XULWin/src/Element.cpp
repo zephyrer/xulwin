@@ -286,15 +286,15 @@ namespace XULWin
     }
 
 
-    Window::Window(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Window::Type(),
+    WindowElement::WindowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(WindowElement::Type(),
                 inParent,
                 new NativeWindow(inAttributesMapping))
     {
     }
 
 
-    void Window::show(Positioning inPositioning)
+    void WindowElement::show(Positioning inPositioning)
     {
         if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
         {
@@ -303,7 +303,7 @@ namespace XULWin
     }
 
 
-    void Window::showModal(Positioning inPositioning)
+    void WindowElement::showModal(Positioning inPositioning)
     {
         if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
         {
@@ -312,7 +312,7 @@ namespace XULWin
     }
 
 
-    void Window::close()
+    void WindowElement::close()
     {
         if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
         {
@@ -324,7 +324,7 @@ namespace XULWin
 
     // We want the dialog to have a parent because an owning window is needed
     // in order to prevent our dialog from showing in the Windows taskbar.
-    // MSDN Article ID 205158: How To Prevent a Window from Appearing on the Taskbar
+    // MSDN Article ID 205158: How To Prevent a WindowElement from Appearing on the Taskbar
     static NativeWindow * GetDialogHelper()
     {
         AttributesMapping attr;
@@ -334,15 +334,15 @@ namespace XULWin
     }
 
 
-    Dialog::Dialog(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Dialog::Type(),
+    DialogElement::DialogElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(DialogElement::Type(),
                 inParent,
                 new NativeDialog(inParent ? inParent->component() : GetDialogHelper(), inAttributesMapping))
     {
     }
 
 
-    DialogResult Dialog::showModal(Window * inInvoker)
+    DialogResult DialogElement::showModal(WindowElement * inInvoker)
     {
         if (NativeDialog * nativeDialog = component()->downcast<NativeDialog>())
         {
@@ -352,7 +352,7 @@ namespace XULWin
     }
 
 
-    void Dialog::endModal(DialogResult inDialogResult)
+    void DialogElement::endModal(DialogResult inDialogResult)
     {
         if (NativeDialog * nativeDialog = component()->downcast<NativeDialog>())
         {
@@ -361,71 +361,71 @@ namespace XULWin
     }
 
 
-    Button::Button(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Button::Type(),
+    ButtonElement::ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ButtonElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<NativeButton>(inParent, inAttributesMapping)))
     {
     }
 
 
-    Label::Label(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Label::Type(),
+    LabelElement::LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(LabelElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<NativeLabel>(inParent, inAttributesMapping)))
     {
     }
 
 
-    Description::Description(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Description::Type(),
+    DescriptionElement::DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(DescriptionElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<NativeDescription>(inParent, inAttributesMapping)))
     {
     }
 
 
-    bool Description::init()
+    bool DescriptionElement::init()
     {
         setAttribute("value", innerText());
         return Element::init();
     }
 
 
-    Text::Text(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Text::Type(),
+    TextElement::TextElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TextElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<NativeLabel>(inParent, inAttributesMapping)))
     {
     }
 
 
-    TextBox::TextBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TextBox::Type(),
+    TextBoxElement::TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TextBoxElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<NativeTextBox>(inParent, inAttributesMapping)))
     {
     }
 
 
-    CheckBox::CheckBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(CheckBox::Type(),
+    CheckBoxElement::CheckBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(CheckBoxElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<NativeCheckBox>(inParent, inAttributesMapping)))
     {
     }
 
 
-    Box::Box(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Box::Type(),
+    BoxElement::BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(BoxElement::Type(),
                 inParent,
                 CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
     {
     }
 
 
-    HBox::HBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(HBox::Type(),
+    HBoxElement::HBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(HBoxElement::Type(),
                 inParent,
                 CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
     {
@@ -433,411 +433,411 @@ namespace XULWin
     }
 
 
-    VBox::VBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(VBox::Type(),
+    VBoxElement::VBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(VBoxElement::Type(),
                 inParent,CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
     {
         component()->setOrient(Vertical);
     }
 
 
-    MenuList::MenuList(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuList::Type(),
+    MenuListElement::MenuListElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(MenuListElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<MenuListImpl>(inParent, inAttributesMapping)))
     {
     }
 
 
-    Separator::Separator(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Separator::Type(),
+    SeparatorElement::SeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(SeparatorElement::Type(),
                 inParent,
                 new MarginDecorator(CreateNativeControl<NativeSeparator>(inParent, inAttributesMapping)))
     {
     }
 
 
-    Separator::~Separator()
+    SeparatorElement::~SeparatorElement()
     {
     }
 
 
-    Spacer::Spacer(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Spacer::Type(),
+    SpacerElement::SpacerElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(SpacerElement::Type(),
                 inParent,
                 new NativeSpacer(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Spacer::~Spacer()
+    SpacerElement::~SpacerElement()
     {
     }
 
 
-    MenuButton::MenuButton(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuButton::Type(),
+    MenuButtonElement::MenuButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(MenuButtonElement::Type(),
                 inParent,
                 new MarginDecorator(new NativeMenuButton(inParent->component(), inAttributesMapping)))
     {
     }
 
 
-    MenuButton::~MenuButton()
+    MenuButtonElement::~MenuButtonElement()
     {
     }
 
 
-    Grid::Grid(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Grid::Type(),
+    GridElement::GridElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(GridElement::Type(),
                 inParent,
                 CreateContainer<VirtualGrid, NativeGrid>(inParent, inAttributesMapping))
     {
     }
 
 
-    Grid::~Grid()
+    GridElement::~GridElement()
     {
     }
 
 
-    Rows::Rows(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Rows::Type(),
+    RowsElement::RowsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(RowsElement::Type(),
                 inParent,
                 new NativeRows(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Rows::~Rows()
+    RowsElement::~RowsElement()
     {
     }
 
 
-    Columns::Columns(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Columns::Type(),
+    ColumnsElement::ColumnsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ColumnsElement::Type(),
                 inParent,
                 new NativeColumns(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Columns::~Columns()
+    ColumnsElement::~ColumnsElement()
     {
     }
 
 
-    Row::Row(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Row::Type(),
+    RowElement::RowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(RowElement::Type(),
                 inParent,
                 new NativeRow(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Row::~Row()
+    RowElement::~RowElement()
     {
     }
 
 
-    Column::Column(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Column::Type(),
+    ColumnElement::ColumnElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ColumnElement::Type(),
                 inParent,
                 new NativeColumn(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Column::~Column()
+    ColumnElement::~ColumnElement()
     {
     }
 
 
-    RadioGroup::RadioGroup(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RadioGroup::Type(),
+    RadioGroupElement::RadioGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(RadioGroupElement::Type(),
                 inParent,
                 new Decorator(new NativeRadioGroup(inParent->component(), inAttributesMapping)))
     { 
     }
 
 
-    RadioGroup::~RadioGroup()
+    RadioGroupElement::~RadioGroupElement()
     {
     }
 
 
-    Radio::Radio(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Radio::Type(),
+    RadioElement::RadioElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(RadioElement::Type(),
                 inParent,
                 new MarginDecorator(new NativeRadio(inParent->component(), inAttributesMapping)))
     {
     }
 
 
-    Radio::~Radio()
+    RadioElement::~RadioElement()
     {
     }
 
 
-    ProgressMeter::ProgressMeter(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ProgressMeter::Type(),
+    ProgressMeterElement::ProgressMeterElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ProgressMeterElement::Type(),
                 inParent,
                 new MarginDecorator(new NativeProgressMeter(inParent->component(), inAttributesMapping)))
     {
     }
 
 
-    ProgressMeter::~ProgressMeter()
+    ProgressMeterElement::~ProgressMeterElement()
     {
     }
 
 
-    Deck::Deck(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Deck::Type(),
+    DeckElement::DeckElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(DeckElement::Type(),
                 inParent,
                 new Decorator(new NativeDeck(inParent->component(), inAttributesMapping)))
     {
     }
 
 
-    Deck::~Deck()
+    DeckElement::~DeckElement()
     {
     }
 
 
-    Scrollbar::Scrollbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Scrollbar::Type(),
+    ScrollbarElement::ScrollbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ScrollbarElement::Type(),
                 inParent,
                 new Decorator(new NativeScrollbar(inParent->component(), inAttributesMapping)))
     {
     }
 
 
-    Scrollbar::~Scrollbar()
+    ScrollbarElement::~ScrollbarElement()
     {
     }
 
 
-    TabBox::TabBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabBox::Type(),
+    TabBoxElement::TabBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TabBoxElement::Type(),
                 inParent,
                 CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
     { 
     }
 
 
-    TabBox::~TabBox()
+    TabBoxElement::~TabBoxElement()
     {
     }
 
 
-    Tabs::Tabs(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Tabs::Type(),
+    TabsElement::TabsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TabsElement::Type(),
                 inParent,
                 new TabsImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Tabs::~Tabs()
+    TabsElement::~TabsElement()
     {
     }
 
 
-    Tab::Tab(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Tab::Type(),
+    TabElement::TabElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TabElement::Type(),
                 inParent,
                 new TabImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Tab::~Tab()
+    TabElement::~TabElement()
     {
     }
 
 
-    TabPanels::TabPanels(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabPanels::Type(),
+    TabPanelsElement::TabPanelsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TabPanelsElement::Type(),
                 inParent,
                 new TabPanelsImpl(inParent->component(), inAttributesMapping))
     { 
     }
 
 
-    TabPanels::~TabPanels()
+    TabPanelsElement::~TabPanelsElement()
     {
     }
 
 
-    TabPanel::TabPanel(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabPanel::Type(),
+    TabPanelElement::TabPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TabPanelElement::Type(),
                 inParent,
                 new TabPanelImpl(inParent->component(), inAttributesMapping))
     { 
     }
 
 
-    TabPanel::~TabPanel()
+    TabPanelElement::~TabPanelElement()
     {
     }
 
 
-    GroupBox::GroupBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(GroupBox::Type(),
+    GroupBoxElement::GroupBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(GroupBoxElement::Type(),
                 inParent,
                 new MarginDecorator(new GroupBoxImpl(inParent->component(), inAttributesMapping)))
     { 
     }
 
 
-    Caption::Caption(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Caption::Type(),
+    CaptionElement::CaptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(CaptionElement::Type(),
                 inParent,
                 new CaptionImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Tree::Tree(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Tree::Type(),
+    TreeElement::TreeElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TreeElement::Type(),
                 inParent,
                 new TreeImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Tree::~Tree()
+    TreeElement::~TreeElement()
     {
     }
 
 
-    TreeChildren::TreeChildren(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeChildren::Type(),
+    TreeChildrenElement::TreeChildrenElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TreeChildrenElement::Type(),
                 inParent,
                 new TreeChildrenImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeChildren::~TreeChildren()
+    TreeChildrenElement::~TreeChildrenElement()
     {
     }
 
 
-    TreeItem::TreeItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeItem::Type(),
+    TreeItemElement::TreeItemElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TreeItemElement::Type(),
                 inParent,
                 new TreeItemImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeItem::~TreeItem()
+    TreeItemElement::~TreeItemElement()
     {
     }
 
 
-    TreeCols::TreeCols(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeCols::Type(),
+    TreeColsElement::TreeColsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TreeColsElement::Type(),
                 inParent,
                 new TreeColsImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeCols::~TreeCols()
+    TreeColsElement::~TreeColsElement()
     {
     }
 
 
-    TreeCol::TreeCol(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeCol::Type(),
+    TreeColElement::TreeColElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TreeColElement::Type(),
                 inParent,
                 new TreeColImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeCol::~TreeCol()
+    TreeColElement::~TreeColElement()
     {
     }    
     
     
-    TreeRow::TreeRow(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeRow::Type(),
+    TreeRowElement::TreeRowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TreeRowElement::Type(),
                 inParent,
                 new TreeRowImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeRow::~TreeRow()
+    TreeRowElement::~TreeRowElement()
     {
     }
 
     
-    TreeCell::TreeCell(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeCell::Type(),
+    TreeCellElement::TreeCellElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(TreeCellElement::Type(),
                 inParent,
                 new TreeCellImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeCell::~TreeCell()
+    TreeCellElement::~TreeCellElement()
     {
     }
 
     
-    Statusbar::Statusbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Statusbar::Type(),
+    StatusbarElement::StatusbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(StatusbarElement::Type(),
                 inParent,
                 new StatusbarImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Statusbar::~Statusbar()
+    StatusbarElement::~StatusbarElement()
     {
     }
 
     
-    StatusbarPanel::StatusbarPanel(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(StatusbarPanel::Type(),
+    StatusbarPanelElement::StatusbarPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(StatusbarPanelElement::Type(),
                 inParent,
                 new StatusbarPanelImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    StatusbarPanel::~StatusbarPanel()
+    StatusbarPanelElement::~StatusbarPanelElement()
     {
     }
 
     
-    Toolbar::Toolbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Toolbar::Type(),
+    ToolbarElement::ToolbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ToolbarElement::Type(),
                 inParent,
                 new ToolbarImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Toolbar::~Toolbar()
+    ToolbarElement::~ToolbarElement()
     {
     }
 
     
-    ToolbarButton::ToolbarButton(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ToolbarButton::Type(),
+    ToolbarButtonElement::ToolbarButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ToolbarButtonElement::Type(),
                 inParent,
                 new ToolbarButtonImpl(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    ToolbarButton::~ToolbarButton()
+    ToolbarButtonElement::~ToolbarButtonElement()
     {
     }
 

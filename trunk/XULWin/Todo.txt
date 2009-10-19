@@ -2,9 +2,40 @@ Refactor
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 Broken windows
+- Classnames are inconsistent
 - Menubar menu's are implemented incorrectly (popups instead of normal menus are shown)
 - Fix WS_TABSTOP for multiline TextBoxes
 - Widgets sample partially broken (widths are not always correct)
+
+
+Window		WindowComponent
+Dialog		DialogComponent
+Box			VirtualBoxComponent, NativeBoxComponent
+Grid		VirtualGridComponent, NativeGridComponent
+Menu		MenuComponent
+Button		ButtonComponent
+Image		ImageComponent
+
+Element		Component
+XULWindow	Window
+XULDialog   Dialog
+XULBox		NativeBox, VirtualBox
+XULGrid		NativeGrid, VirtualGrid
+XULMenu		Menu
+XULButton	Button
+XULImage	Image
+
+
+Element			Component
+WindowElement	Window
+DialogElement	Dialog
+BoxElement		NativeBox, VirtualBox
+GridElement		NativeGrid, VirtualGrid
+MenuElement		Menu
+ButtonElement	Button
+ImageElement	Image
+
+
 
 Samples
 - XULViewer

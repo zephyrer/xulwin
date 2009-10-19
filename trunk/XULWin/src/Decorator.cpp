@@ -805,7 +805,7 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Horizontal);
-            mHorizontalScrollbar = Scrollbar::Create(inParent->el(), attr);
+            mHorizontalScrollbar = ScrollbarElement::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mHorizontalScrollbar.get());
@@ -816,7 +816,7 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Vertical);
-            mVerticalScrollbar = Scrollbar::Create(inParent->el(), attr);
+            mVerticalScrollbar = ScrollbarElement::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mVerticalScrollbar.get());
@@ -832,7 +832,7 @@ namespace XULWin
         Element * current = mDecoratedElement->el();
         while (!window)
         {
-            if (current->type() == Window::Type())
+            if (current->type() == WindowElement::Type())
             {
                 window = current;
             }

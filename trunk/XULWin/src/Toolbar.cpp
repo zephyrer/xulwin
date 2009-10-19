@@ -21,10 +21,10 @@ namespace Windows
 	extern const int cMarginForCustomWindow = 4;
 	extern const int cSpacingBetweenIconAndText = 4;
 
-	Toolbar::ParentMapping Toolbar::sInstancesParent;
-	Toolbar::InstanceMapping Toolbar::sInstances;
+	ToolbarElement::ParentMapping ToolbarElement::sInstancesParent;
+	ToolbarElement::InstanceMapping ToolbarElement::sInstances;
 
-	Toolbar::Toolbar(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, RECT inRect, int inID) :
+	ToolbarElement::ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, RECT inRect, int inID) :
 		mEventHandler(inEventHandler),
 		mModuleHandle(inModuleHandle),
 		mParentWindow(inParentWindow),
@@ -61,15 +61,15 @@ namespace Windows
         ::SendMessage(mHandle, TB_BUTTONSTRUCTSIZE, (WPARAM) sizeof(TBBUTTON), 0);
 		mFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
 		
-		mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParentWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)Toolbar::ParentProc);
+		mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParentWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)ToolbarElement::ParentProc);
 		sInstancesParent.insert(std::make_pair(this, mParentWindow));
 		
-		mToolbarProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mHandle, GWLP_WNDPROC, (LONG)(LONG_PTR)Toolbar::ToolbarProc);
+		mToolbarProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mHandle, GWLP_WNDPROC, (LONG)(LONG_PTR)ToolbarElement::ToolbarProc);
 		sInstances.insert(std::make_pair(this, mHandle));
 	}
 
 
-	Toolbar::~Toolbar()
+	ToolbarElement::~ToolbarElement()
 	{
 		if (mActiveDropDown)
 		{
@@ -106,7 +106,7 @@ namespace Windows
 	}
 
 
-	void Toolbar::rebuildLayout()
+	void ToolbarElement::rebuildLayout()
 	{
 		if (!mToolbarItems.empty())
 		{
@@ -141,7 +141,7 @@ namespace Windows
 	}
 
 	
-	void Toolbar::buildToolbar()
+	void ToolbarElement::buildToolbar()
 	{
 		buildToolbar(	mHandle,
 						mFont,
@@ -155,7 +155,7 @@ namespace Windows
 	}
 
 
-	void Toolbar::buildToolbar(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems, CustomWindowPositions & outCustomWindowPositions)
+	void ToolbarElement::buildToolbar(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems, CustomWindowPositions & outCustomWindowPositions)
 	{
 		std::vector< TBBUTTON > theToolbarButtons;
 		
@@ -220,7 +220,7 @@ namespace Windows
 	}
 
 
-	void Toolbar::updateToolbarButtonSizes(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems)
+	void ToolbarElement::updateToolbarButtonSizes(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems)
 	{
 		SendMessage((HWND) inToolbarHandle, (UINT) TB_SETEXTENDEDSTYLE, (WPARAM)0, (LPARAM) TBSTYLE_EX_DRAWDDARROWS);
 		
@@ -304,7 +304,7 @@ namespace Windows
 	}
 
 	
-	Toolbar::ToolbarItems::const_iterator Toolbar::findByCommandID(const ToolbarItems & inToolbarItems, int inCommandID)
+	ToolbarElement::ToolbarItems::const_iterator ToolbarElement::findByCommandID(const ToolbarItems & inToolbarItems, int inCommandID)
 	{
 		ToolbarItems::const_iterator it = inToolbarItems.begin(), end = inToolbarItems.end();
 		for (; it != end; ++it)
@@ -319,13 +319,13 @@ namespace Windows
 	}
 
 
-	void Toolbar::setActiveDropDownToNull()
+	void ToolbarElement::setActiveDropDownToNull()
 	{
 		mActiveDropDown = 0;
 	}
 
 	
-	void Toolbar::applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID)
+	void ToolbarElement::applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID)
 	{
 		static const int cWidthReduction = 20;
 		ToolbarItems::const_iterator it = std::find_if(inToolbarItems.begin(), inToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inSpringID);
@@ -374,19 +374,19 @@ namespace Windows
 	}
 
 
-	HMODULE Toolbar::moduleHandle() const
+	HMODULE ToolbarElement::moduleHandle() const
 	{
 		return mModuleHandle;
 	}
 
 
-	HWND Toolbar::handle() const
+	HWND ToolbarElement::handle() const
 	{
 		return mHandle;
 	}
 
 
-	bool Toolbar::hasFocus() const
+	bool ToolbarElement::hasFocus() const
 	{
 		if (::GetFocus() == mHandle)
 		{
@@ -411,7 +411,7 @@ namespace Windows
 	}
 
 
-	void Toolbar::setFocus()
+	void ToolbarElement::setFocus()
 	{
 		ToolbarItems::const_iterator it = mToolbarItems.begin(), end = mToolbarItems.end();
 		for (; it != end; ++it)
@@ -429,7 +429,7 @@ namespace Windows
 	}
 
 
-	AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(int inCommandID)
+	AbstractToolbarItem * ToolbarElement::getToolbarItemByCommandId(int inCommandID)
 	{
 		ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inCommandID);
 		if (it != mToolbarItems.end())
@@ -440,7 +440,7 @@ namespace Windows
 	}
 
 
-	const AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(int inCommandID) const
+	const AbstractToolbarItem * ToolbarElement::getToolbarItemByCommandId(int inCommandID) const
 	{
 		ToolbarItems::const_iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inCommandID);
 		if (it != mToolbarItems.end())
@@ -451,7 +451,7 @@ namespace Windows
 	}
 
 
-	void Toolbar::add(AbstractToolbarItem* inToolbarItem)
+	void ToolbarElement::add(AbstractToolbarItem* inToolbarItem)
 	{
 		ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inToolbarItem->commandId());
 		bool found = it != mToolbarItems.end();
@@ -464,19 +464,19 @@ namespace Windows
 	}
 
 	
-	size_t Toolbar::size() const
+	size_t ToolbarElement::size() const
 	{
 		return mToolbarItems.size();
 	}
 
 	
-	bool Toolbar::empty() const
+	bool ToolbarElement::empty() const
 	{
 		return mToolbarItems.empty();
 	}
 
 
-	void Toolbar::remove(size_t inIndex)
+	void ToolbarElement::remove(size_t inIndex)
 	{
 		ToolbarItems::iterator it = mToolbarItems.begin() + inIndex, end = mToolbarItems.end();
 		bool found = it != end;
@@ -489,7 +489,7 @@ namespace Windows
 	}
 
 
-	void Toolbar::clear()
+	void ToolbarElement::clear()
 	{
 		mActiveDropDown = 0;
 		while(!empty())
@@ -500,33 +500,33 @@ namespace Windows
 	}
 
 	
-	void Toolbar::enable(size_t inIndex)
+	void ToolbarElement::enable(size_t inIndex)
 	{
 		int commandID = get(inIndex)->commandId();
 		::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)commandID, (LPARAM)MAKELONG(TRUE, 0));
 	}
 
 	
-	void Toolbar::disable(size_t inIndex)
+	void ToolbarElement::disable(size_t inIndex)
 	{
 		int commandID = get(inIndex)->commandId();
 		::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)commandID, (LPARAM)MAKELONG(FALSE, 0));
 	}
 
 
-	const AbstractToolbarItem * Toolbar::get(size_t inIndex) const
+	const AbstractToolbarItem * ToolbarElement::get(size_t inIndex) const
 	{
 		return mToolbarItems[inIndex].get();
 	}
 
 	
-	AbstractToolbarItem * Toolbar::get(size_t inIndex)
+	AbstractToolbarItem * ToolbarElement::get(size_t inIndex)
 	{
 		return mToolbarItems[inIndex].get();
 	}
 
 	
-	LRESULT CALLBACK Toolbar::ToolbarProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK ToolbarElement::ToolbarProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
 	{
 		InstanceMapping::iterator it = sInstances.begin(), end = sInstances.end();
 		for (; it != end; ++it)
@@ -543,7 +543,7 @@ namespace Windows
 			return DefWindowProc(hWnd, inMessage, wParam, lParam);
 		}
 
-		Toolbar * pThis = it->first;
+		ToolbarElement * pThis = it->first;
 
 		switch (inMessage)
 		{
@@ -574,7 +574,7 @@ namespace Windows
 	}
 
 
-	LRESULT CALLBACK Toolbar::ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK ToolbarElement::ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
 	{
 		ParentMapping::iterator it = sInstancesParent.begin(), end = sInstancesParent.end();
 		for (; it != end; ++it)
@@ -590,7 +590,7 @@ namespace Windows
 			return DefWindowProc(hWnd, inMessage, wParam, lParam);
 		}
 
-		Toolbar * pThis = it->first;
+		ToolbarElement * pThis = it->first;
 
 		switch (inMessage)
 		{

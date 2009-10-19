@@ -1,29 +1,32 @@
-#ifndef MENUPOPUP_H_INCLUDED
-#define MENUPOPUP_H_INCLUDED
+#ifndef MENUPOPUPCOMPONENT_H_INCLUDED
+#define MENUPOPUPCOMPONENT_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class MenuPopup : public Element
+    class MenuPopupComponent : public PassiveComponent
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuPopup>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        virtual ~MenuPopup();
+        MenuPopupComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        static const char * Type() { return "menupopup"; }
+        void show(RECT inExcludeRect);
+
+    protected:
+        virtual void onChildAdded(Component * inChild);
+
+        virtual void onChildRemoved(Component * inChild);
 
     private:
-        friend class Element;
-        MenuPopup(Element * inParent, const AttributesMapping & inAttributesMapping);
+        Windows::PopupMenu * getMenu();
     };
 
 } // namespace XULWin
 
 
-#endif // MENUPOPUP_H_INCLUDED
+#endif // MENUPOPUPCOMPONENT_H_INCLUDED

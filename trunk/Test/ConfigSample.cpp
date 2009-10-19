@@ -1,6 +1,6 @@
 #include "ConfigSample.h"
-#include "XULWin/MenuItem.h"
-#include "XULWin/MenuPopup.h"
+#include "XULWin/MenuItemElement.h"
+#include "XULWin/MenuPopupElement.h"
 #include "XULWin/Unicode.h"
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -53,7 +53,7 @@ namespace XULWin
             Element * cancelButton = mConfigWindow->getElementById("cancelButton");
             ScopedEventListener::Action closeAction = boost::bind(&closeWindowHelper, win, _1, _2);
             mEvents.connect(cancelButton, closeAction);
-            win->showModal(Window::CenterInScreen);
+            win->showModal(WindowElement::CenterInScreen);
         }
     }
 
@@ -94,9 +94,9 @@ namespace XULWin
         attr["label"] = inSetName;
         if (!mSetsPopup->children().empty())
         {
-            if (MenuPopup * popup = mSetsPopup->children()[0]->downcast<MenuPopup>())
+            if (MenuPopupElement * popup = mSetsPopup->children()[0]->downcast<MenuPopupElement>())
             {
-                ElementPtr item = MenuItem::Create(popup, attr);
+                ElementPtr item = MenuItemElement::Create(popup, attr);
                 item->init();
                 return 0;
             }

@@ -13,7 +13,7 @@ namespace XULWin
                                          public Windows::IECustomWindow
     {
     public:
-        ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar);
+        ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::ToolbarElement> inToolbar);
 
         virtual int commandId() const;
 
@@ -30,7 +30,7 @@ namespace XULWin
         class ConcreteCustomWindow : public Windows::IECustomWindow
         {
         public:
-            ConcreteCustomWindow(boost::weak_ptr<Windows::Toolbar> inToolbar, int inCommandId, HWND inHandle);
+            ConcreteCustomWindow(boost::weak_ptr<Windows::ToolbarElement> inToolbar, int inCommandId, HWND inHandle);
 
             virtual bool hasFocus() const;
 
@@ -41,7 +41,7 @@ namespace XULWin
             virtual int commandId() const;
 
         private:
-            boost::weak_ptr<Windows::Toolbar> mToolbar;
+            boost::weak_ptr<Windows::ToolbarElement> mToolbar;
             HWND mHandle;
             int mCommandId;
         };

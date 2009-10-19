@@ -23,7 +23,7 @@ namespace XULWin
         if (ToolbarImpl * toolbar = inParent->component()->downcast<ToolbarImpl>())
         {
                 ControlType * control = new ControlType(inParent->component(), inAttributesMapping);
-                boost::weak_ptr<Windows::Toolbar> weakToolbar(toolbar->nativeToolbar());
+                boost::weak_ptr<Windows::ToolbarElement> weakToolbar(toolbar->nativeToolbar());
                 return new ToolbarCustomWindowDecorator(control, weakToolbar);
         }
         else

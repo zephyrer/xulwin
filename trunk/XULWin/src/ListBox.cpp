@@ -1,75 +1,92 @@
 #include "XULWin/ListBox.h"
-#include "XULWin/ElementCreationSupport.h"
-#include "XULWin/ListCols.h"
-#include "XULWin/ListBoxImpl.h"
-#include "XULWin/ListViewImpl.h"
-#include "XULWin/Proxy.h"
+#include "XULWin/ListBoxElement.h"
+#include "XULWin/ListItem.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
 
-    // At this point we don't know yet whether to make a listbox or a listview.
-    // Both have distinct window classnames in the Windows API, but not in XUL.
-    // So we need to delay the instantiation. However, we still must have an
-    // component, so we use temporarily use a PassiveComonent object.
-    ListBox::ListBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListBox::Type(),
-                inParent,
-                new Proxy(new PassiveComponent(inParent->component(), inAttributesMapping)))
+
+    ListBoxImpl::ListBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
+        mRows(0)
     {
+        mRows.setInvalid();
     }
 
-        
-    void ListBox::addChild(ElementPtr inChild)
+    
+    bool ListBoxImpl::initComponent()
     {
-        // The first child should give us the needed information to know
-        // whether we need to create a ListBoxImpl or a ListViewImpl.
-        setImpl(inChild->type());
-        Element::addChild(inChild);
+        return Super::initComponent();
     }
 
 
-    void ListBox::setImpl(const std::string & inType)
+    void ListBoxImpl::onChildAdded(Component * inChild)
     {
-        // The decorator is used as a proxy here.
-        if (Proxy * proxy = component()->downcast<Proxy>())
+        if (ListBoxElement * listBox = el()->downcast<ListBoxElement>())
         {
-            // Check if component is still of type PassiveComponent.
-            if (proxy->downcast<PassiveComponent>())
-            {                
-                // If the first child is of type "listitem" then can be certain
-                // that it is a regular listbox
-                if (inType == "listitem")
-                {   
-                    ListBoxImpl * listBox = new ListBoxImpl(parent()->component(), mAttributes);
-                    ElementImplPtr prev = proxy->swap(new MarginDecorator(listBox));
-                    listBox->initComponent();
-
-					// Up until this point all the move() calls were directed
-                    // to the PassiveComponent object. Now we need to re-apply
-                    // this on the native component.
-                    proxy->move(prev->clientRect());
-                }
-                else
-                {
-                    ListViewImpl * listView = new ListViewImpl(parent()->component(), mAttributes);
-                    ElementImplPtr prev = proxy->swap(new MarginDecorator(listView));
-                    listView->initComponent();
-
-					// Up until this point all the move() calls were directed
-                    // to the PassiveComponent object. Now we need to re-apply
-                    // this on the native component.
-                    proxy->move(prev->clientRect());
-                }
+            if (ListItemImpl * item = inChild->downcast<ListItemImpl>())
+            {
+                Windows::addStringToListBox(handle(), item->getLabel());
             }
         }
     }
 
 
-    bool ListBox::init()
+    bool ListBoxImpl::initAttributeControllers()
     {
-        return Element::init();
+        setAttributeController("label", static_cast<LabelController*>(this));
+        setAttributeController("rows", static_cast<RowsController*>(this));
+        return Super::initAttributeControllers();
+    }
+    
+    
+    int ListBoxImpl::getRows() const
+    {
+        return mRows.or(1);
     }
 
+    
+    void ListBoxImpl::setRows(int inRows)
+    {
+        mRows = inRows;
+    }
+
+
+    int ListBoxImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
+        {
+            int width = getChild(idx)->calculateWidth(inSizeConstraint);
+            if (width > result)
+            {
+                result = width;
+            }
+        }
+        return result;
+    }
+
+
+    int ListBoxImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        int itemCount = mRows.or(getChildCount());
+        for (size_t idx = 0; idx != itemCount; ++idx)
+        {
+            if (idx < getChildCount())
+            {
+                result += getChild(idx)->calculateHeight(inSizeConstraint);
+            }
+            else
+            {
+                result += getChild(0)->calculateHeight(inSizeConstraint);
+            }
+        }
+        int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+        return result + extraHeight;
+    }
+    
 } // namespace XULWin

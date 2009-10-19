@@ -25,30 +25,30 @@ namespace XULWin
     void Tester::runNonXULSample()
     {
         AttributesMapping attr;
-        ElementPtr window = Window::Create(0, attr);
-        ElementPtr vbox = VBox::Create(window.get(), attr);
+        ElementPtr window = WindowElement::Create(0, attr);
+        ElementPtr vbox = VBoxElement::Create(window.get(), attr);
 
-        ElementPtr hbox1 = HBox::Create(vbox.get(), attr);
+        ElementPtr hbox1 = HBoxElement::Create(vbox.get(), attr);
 
         attr["value"] = "Username:";
-        ElementPtr label = Label::Create(hbox1.get(), attr);
+        ElementPtr label = LabelElement::Create(hbox1.get(), attr);
         attr.clear();
 
         attr["flex"] = "1";
-        ElementPtr text = TextBox::Create(hbox1.get(), attr);
+        ElementPtr text = TextBoxElement::Create(hbox1.get(), attr);
         attr.clear();
 
-        ElementPtr hbox2 = HBox::Create(vbox.get(), attr);
+        ElementPtr hbox2 = HBoxElement::Create(vbox.get(), attr);
 
         attr["value"] = "Password:";
-        ElementPtr passLabel = Label::Create(hbox2.get(), attr);
+        ElementPtr passLabel = LabelElement::Create(hbox2.get(), attr);
         attr.clear();
 
         attr["flex"] = "1";
-        ElementPtr passText = TextBox::Create(hbox2.get(), attr);
+        ElementPtr passText = TextBoxElement::Create(hbox2.get(), attr);
         attr.clear();
 
-        window->downcast<Window>()->showModal(Window::CenterInScreen);
+        window->downcast<WindowElement>()->showModal(WindowElement::CenterInScreen);
     }
 
 

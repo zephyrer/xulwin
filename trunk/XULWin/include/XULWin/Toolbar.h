@@ -19,7 +19,7 @@ namespace Windows
 	class ToolbarDropDown;
 	class ToolbarSpring;
 
-    class Toolbar
+    class ToolbarElement
 	{		
 		public:
 			class EventHandler
@@ -31,9 +31,9 @@ namespace Windows
 			
 			typedef std::map<HWND, RECT> CustomWindowPositions;
 
-			Toolbar(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, RECT inRect, int inID);
+			ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, RECT inRect, int inID);
 
-			~Toolbar();
+			~ToolbarElement();
 			
 
 			void add(AbstractToolbarItem * inToolbarItem);
@@ -100,10 +100,10 @@ namespace Windows
 			WNDPROC mParentProc;
 			WNDPROC mToolbarProc;
 			
-			typedef std::map<Toolbar*, HWND> ParentMapping;
+			typedef std::map<ToolbarElement*, HWND> ParentMapping;
 			static ParentMapping sInstancesParent;
 
-			typedef std::map<Toolbar*, HWND> InstanceMapping;
+			typedef std::map<ToolbarElement*, HWND> InstanceMapping;
 			static InstanceMapping sInstances;
 
 			ToolbarItems mToolbarItems;

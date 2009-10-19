@@ -1,33 +1,41 @@
-#ifndef LISTBOX_H_INCLUDED
-#define LISTBOX_H_INCLUDED
+#ifndef LISTBOXIMPL_H_INCLUDED
+#define LISTBOXIMPL_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class ListBox : public Element
+
+    class ListBoxImpl : public NativeControl,
+                        public RowsController
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListBox>(inParent, inAttr); }
+        typedef NativeControl Super;
 
-        static const char * Type() { return "listbox"; }
+        ListBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
+        virtual bool initComponent();
 
-        virtual void addChild(ElementPtr inChild);
-    
-    private:        
-        void setImpl(const std::string & inType);
+        virtual bool initAttributeControllers();
 
-        friend class Element;
-        ListBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        virtual int getRows() const;
+
+        virtual void setRows(int inRows);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual void onChildAdded(Component * inChild);
+
+    private:
+        Fallible<int> mRows;
     };
 
 } // namespace XULWin
 
 
-#endif // LISTBOX_H_INCLUDED
+#endif // LISTBOXIMPL_H_INCLUDED

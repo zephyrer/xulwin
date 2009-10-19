@@ -1,23 +1,50 @@
 #include "XULWin/ListHeader.h"
-#include "XULWin/ListHeaderImpl.h"
-#include "XULWin/AttributeController.h"
-#include "XULWin/Decorator.h"
 
 
 namespace XULWin
 {
 
-    ListHeader::ListHeader(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListHeader::Type(),
-                inParent,
-                new ListHeaderImpl(inParent->component(), inAttributesMapping))
+    ListHeaderImpl::ListHeaderImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool ListHeader::init()
+    bool ListHeaderImpl::initComponent()
     {
-        return Element::init();
+        return Super::initComponent();
     }
 
+    
+    bool ListHeaderImpl::initAttributeControllers()
+    {
+        setAttributeController("label", static_cast<LabelController*>(this));
+        return Super::initAttributeControllers();
+    }
+        
+        
+    int ListHeaderImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+
+    
+    int ListHeaderImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+
+
+    std::string ListHeaderImpl::getLabel() const
+    {
+        return mLabel;
+    }
+
+    
+    void ListHeaderImpl::setLabel(const std::string & inLabel)
+    {
+        mLabel = inLabel;
+    }
+
+    
 } // namespace XULWin

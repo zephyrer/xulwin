@@ -1,14 +1,14 @@
-#include "XULWin/ListViewImpl.h"
-#include "XULWin/ListBox.h"
+#include "XULWin/ListView.h"
+#include "XULWin/ListBoxElement.h"
+#include "XULWin/ListCellElement.h"
 #include "XULWin/ListCell.h"
-#include "XULWin/ListCellImpl.h"
+#include "XULWin/ListColElement.h"
 #include "XULWin/ListCol.h"
-#include "XULWin/ListColImpl.h"
+#include "XULWin/ListColsElement.h"
 #include "XULWin/ListCols.h"
-#include "XULWin/ListColsImpl.h"
-#include "XULWin/ListHeaderImpl.h"
+#include "XULWin/ListHeader.h"
+#include "XULWin/ListItemElement.h"
 #include "XULWin/ListItem.h"
-#include "XULWin/ListItemImpl.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
@@ -42,12 +42,12 @@ namespace XULWin
     {
 		// Apply min widths to columns
         // XUL Hierarchy: listbox/listcols/listcol
-        if (ListCols * listColsEl = el()->findChildOfType<ListCols>())
+        if (ListColsElement * listColsEl = el()->findChildOfType<ListColsElement>())
         {
             // First get the column widths
             std::vector<int> colWidths;
-            std::vector<ListCol*> cols;
-            listColsEl->getElementsByType<ListCol>(cols);
+            std::vector<ListColElement*> cols;
+            listColsEl->getElementsByType<ListColElement>(cols);
             for (size_t colIdx = 0; colIdx != cols.size(); ++colIdx)
             {
                 colWidths.push_back(cols[colIdx]->component()->getWidth());
@@ -83,7 +83,7 @@ namespace XULWin
     
     void ListViewImpl::onChildAdded(Component * inChild)
     {
-        if (ListBox * listBox = el()->downcast<ListBox>())
+        if (ListBoxElement * listBox = el()->downcast<ListBoxElement>())
         {
             if (ListItemImpl * item = inChild->downcast<ListItemImpl>())
             {
@@ -107,8 +107,8 @@ namespace XULWin
             NMLVDISPINFO * dispInfo = (NMLVDISPINFO*)lParam;    
             size_t columnIndex = dispInfo->item.iSubItem;
             
-            std::vector<ListItem*> listItems;
-            el()->getElementsByType<ListItem>(listItems);
+            std::vector<ListItemElement*> listItems;
+            el()->getElementsByType<ListItemElement>(listItems);
 
             if (dispInfo->item.iItem >= static_cast<int>(listItems.size()))
             {
@@ -117,8 +117,8 @@ namespace XULWin
             }
 
             // listbox/listitem/listcell
-            std::vector<ListCell*> listCells;
-            listItems[dispInfo->item.iItem]->getElementsByType<ListCell>(listCells);
+            std::vector<ListCellElement*> listCells;
+            listItems[dispInfo->item.iItem]->getElementsByType<ListCellElement>(listCells);
             assert (columnIndex < listCells.size());
             if (columnIndex < listCells.size())
             {

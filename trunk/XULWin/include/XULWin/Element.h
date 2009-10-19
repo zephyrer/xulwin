@@ -209,11 +209,11 @@ namespace XULWin
     };
 
 
-    class Window : public Element
+    class WindowElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Window>(inParent, inAttr); }
+        { return Element::Create<WindowElement>(inParent, inAttr); }
 
         static const char * Type() { return "window"; }
 
@@ -232,7 +232,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        Window(Element * inParent, const AttributesMapping & inAttributesMapping);
+        WindowElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
@@ -245,57 +245,57 @@ namespace XULWin
     };
 
 
-    class Dialog : public Element
+    class DialogElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Dialog>(inParent, inAttr); }
+        { return Element::Create<DialogElement>(inParent, inAttr); }
 
         static const char * Type() { return "dialog"; }
 
-        DialogResult showModal(Window * inInvoker);
+        DialogResult showModal(WindowElement * inInvoker);
 
         void endModal(DialogResult inDialogResult);
 
     private:
         friend class Element;
-        Dialog(Element * inParent, const AttributesMapping & inAttributesMapping);
+        DialogElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Button : public Element
+    class ButtonElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Button>(inParent, inAttr); }
+        { return Element::Create<ButtonElement>(inParent, inAttr); }
 
         static const char * Type() { return "button"; }
     
     private:
         friend class Element;
-        Button(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Label : public Element
+    class LabelElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Label>(inParent, inAttr); }
+        { return Element::Create<LabelElement>(inParent, inAttr); }
 
         static const char * Type() { return "label"; }
     
     private:
         friend class Element;
-        Label(Element * inParent, const AttributesMapping & inAttributesMapping);
+        LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Description : public Element
+    class DescriptionElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Description>(inParent, inAttr); }
+        { return Element::Create<DescriptionElement>(inParent, inAttr); }
 
         static const char * Type() { return "description"; }
 
@@ -303,612 +303,612 @@ namespace XULWin
     
     private:
         friend class Element;
-        Description(Element * inParent, const AttributesMapping & inAttributesMapping);
+        DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    // Text is the same as label
-    class Text : public Element
+    // TextElement is the same as label
+    class TextElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Text>(inParent, inAttr); }
+        { return Element::Create<TextElement>(inParent, inAttr); }
 
         static const char * Type() { return "text"; }
     
     private:
         friend class Element;
-        Text(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TextElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TextBox : public Element
+    class TextBoxElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TextBox>(inParent, inAttr); }
+        { return Element::Create<TextBoxElement>(inParent, inAttr); }
 
         static const char * Type() { return "textbox"; }
     
     private:
         friend class Element;
-        TextBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class CheckBox : public Element
+    class CheckBoxElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<CheckBox>(inParent, inAttr); }
+        { return Element::Create<CheckBoxElement>(inParent, inAttr); }
 
         static const char * Type() { return "checkbox"; }
 
     private:
         friend class Element;
-        CheckBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        CheckBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Box : public Element
+    class BoxElement : public Element
     {
     public: 
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Box>(inParent, inAttr); }
+        { return Element::Create<BoxElement>(inParent, inAttr); }
 
         static const char * Type() { return "box"; }
     private:
         friend class Element;
-        Box(Element * inParent, const AttributesMapping & inAttributesMapping);
+        BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class HBox : public Element
+    class HBoxElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<HBox>(inParent, inAttr); }
+        { return Element::Create<HBoxElement>(inParent, inAttr); }
 
         static const char * Type() { return "hbox"; }
 
     private:
         friend class Element;
-        HBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        HBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class VBox : public Element
+    class VBoxElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<VBox>(inParent, inAttr); }
+        { return Element::Create<VBoxElement>(inParent, inAttr); }
 
         static const char * Type() { return "vbox"; }
 
     private:
         friend class Element;
-        VBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        VBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class MenuList : public Element
+    class MenuListElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuList>(inParent, inAttr); }
+        { return Element::Create<MenuListElement>(inParent, inAttr); }
 
         static const char * Type() { return "menulist"; }
 
     private:
         friend class Element;
-        MenuList(Element * inParent, const AttributesMapping & inAttributesMapping);
+        MenuListElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Separator : public Element
+    class SeparatorElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Separator>(inParent, inAttr); }
+        { return Element::Create<SeparatorElement>(inParent, inAttr); }
 
         static const char * Type() { return "separator"; }
 
-        virtual ~Separator();
+        virtual ~SeparatorElement();
 
     private:
         friend class Element;
-        Separator(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Spacer : public Element
+    class SpacerElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Spacer>(inParent, inAttr); }
+        { return Element::Create<SpacerElement>(inParent, inAttr); }
 
         static const char * Type() { return "spacer"; }
 
-        virtual ~Spacer();
+        virtual ~SpacerElement();
 
     private:
         friend class Element;
-        Spacer(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SpacerElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class MenuButton : public Element
+    class MenuButtonElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuButton>(inParent, inAttr); }
+        { return Element::Create<MenuButtonElement>(inParent, inAttr); }
 
         static const char * Type() { return "menubutton"; }
 
-        virtual ~MenuButton();
+        virtual ~MenuButtonElement();
 
     private:
         friend class Element;
-        MenuButton(Element * inParent, const AttributesMapping & inAttributesMapping);
+        MenuButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Rows;
-    class Columns;
-    class Grid : public Element
+    class RowsElement;
+    class ColumnsElement;
+    class GridElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Grid>(inParent, inAttr); }
+        { return Element::Create<GridElement>(inParent, inAttr); }
 
         static const char * Type() { return "grid"; }
 
-        virtual ~Grid();
+        virtual ~GridElement();
 
-        //void setRows(const Rows & inRows);
+        //void setRows(const RowsElement & inRows);
 
-        //void setColumns(const Columns & inColumns);
+        //void setColumns(const ColumnsElement & inColumns);
 
     private:
         friend class Element;
-        Grid(Element * inParent, const AttributesMapping & inAttributesMapping);
+        GridElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Row;
-    class Rows : public Element
+    class RowElement;
+    class RowsElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Rows>(inParent, inAttr); }
+        { return Element::Create<RowsElement>(inParent, inAttr); }
 
         static const char * Type() { return "rows"; }
 
-        virtual ~Rows();
+        virtual ~RowsElement();
 
     private:
         friend class Element;
-        Rows(Element * inParent, const AttributesMapping & inAttributesMapping);
+        RowsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Column;
-    class Columns : public Element
+    class ColumnElement;
+    class ColumnsElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Columns>(inParent, inAttr); }
+        { return Element::Create<ColumnsElement>(inParent, inAttr); }
 
         static const char * Type() { return "columns"; }
 
-        virtual ~Columns();
+        virtual ~ColumnsElement();
 
-        //void addColumn(const Column & inColumn);
+        //void addColumn(const ColumnElement & inColumn);
 
     private:
         friend class Element;
-        Columns(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ColumnsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Row : public Element
+    class RowElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Row>(inParent, inAttr); }
+        { return Element::Create<RowElement>(inParent, inAttr); }
 
         static const char * Type() { return "row"; }
 
-        virtual ~Row();
+        virtual ~RowElement();
 
     private:
         friend class Element;
-        Row(Element * inParent, const AttributesMapping & inAttributesMapping);
+        RowElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Column : public Element
+    class ColumnElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Column>(inParent, inAttr); }
+        { return Element::Create<ColumnElement>(inParent, inAttr); }
 
         static const char * Type() { return "column"; }
 
-        virtual ~Column();
+        virtual ~ColumnElement();
 
     private:
         friend class Element;
-        Column(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ColumnElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
 
-    class RadioGroup : public Element
+    class RadioGroupElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<RadioGroup>(inParent, inAttr); }
+        { return Element::Create<RadioGroupElement>(inParent, inAttr); }
 
         static const char * Type() { return "radiogroup"; }
 
-        virtual ~RadioGroup();
+        virtual ~RadioGroupElement();
 
     private:
         friend class Element;
-        RadioGroup(Element * inParent, const AttributesMapping & inAttributesMapping);
+        RadioGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
 
-    class Radio : public Element
+    class RadioElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Radio>(inParent, inAttr); }
+        { return Element::Create<RadioElement>(inParent, inAttr); }
 
         static const char * Type() { return "radio"; }
 
-        virtual ~Radio();
+        virtual ~RadioElement();
 
     private:
         friend class Element;
-        Radio(Element * inParent, const AttributesMapping & inAttributesMapping);
+        RadioElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ProgressMeter : public Element
+    class ProgressMeterElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ProgressMeter>(inParent, inAttr); }
+        { return Element::Create<ProgressMeterElement>(inParent, inAttr); }
 
         static const char * Type() { return "progressmeter"; }
 
-        virtual ~ProgressMeter();
+        virtual ~ProgressMeterElement();
 
     private:
         friend class Element;
-        ProgressMeter(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ProgressMeterElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Deck : public Element
+    class DeckElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Deck>(inParent, inAttr); }
+        { return Element::Create<DeckElement>(inParent, inAttr); }
 
         static const char * Type() { return "deck"; }
 
-        virtual ~Deck();
+        virtual ~DeckElement();
 
     private:
         friend class Element;
-        Deck(Element * inParent, const AttributesMapping & inAttributesMapping);
+        DeckElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Scrollbar : public Element
+    class ScrollbarElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Scrollbar>(inParent, inAttr); }
+        { return Element::Create<ScrollbarElement>(inParent, inAttr); }
 
         static const char * Type() { return "scrollbar"; }
 
-        virtual ~Scrollbar();
+        virtual ~ScrollbarElement();
 
     private:
         friend class Element;
-        Scrollbar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ScrollbarElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabBox : public Element
+    class TabBoxElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabBox>(inParent, inAttr); }
+        { return Element::Create<TabBoxElement>(inParent, inAttr); }
 
         static const char * Type() { return "tabbox"; }
 
-        virtual ~TabBox();
+        virtual ~TabBoxElement();
 
     private:
         friend class Element;
-        TabBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TabBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Tabs : public Element
+    class TabsElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Tabs>(inParent, inAttr); }
+        { return Element::Create<TabsElement>(inParent, inAttr); }
 
         static const char * Type() { return "tabs"; }
 
-        virtual ~Tabs();
+        virtual ~TabsElement();
 
-        //void addRow(const Row & inRow);
+        //void addRow(const RowElement & inRow);
 
     private:
         friend class Element;
-        Tabs(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TabsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Tab : public Element
+    class TabElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Tab>(inParent, inAttr); }
+        { return Element::Create<TabElement>(inParent, inAttr); }
 
         static const char * Type() { return "tab"; }
 
-        virtual ~Tab();
+        virtual ~TabElement();
 
     private:
         friend class Element;
-        Tab(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TabElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabPanel;
-    class TabPanels : public Element
+    class TabPanelElement;
+    class TabPanelsElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabPanels>(inParent, inAttr); }
+        { return Element::Create<TabPanelsElement>(inParent, inAttr); }
 
         static const char * Type() { return "tabpanels"; }
 
-        virtual ~TabPanels();
+        virtual ~TabPanelsElement();
 
     private:
         friend class Element;
-        TabPanels(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanelsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabPanel : public Element
+    class TabPanelElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabPanel>(inParent, inAttr); }
+        { return Element::Create<TabPanelElement>(inParent, inAttr); }
 
         static const char * Type() { return "tabpanel"; }
 
-        virtual ~TabPanel();
+        virtual ~TabPanelElement();
 
     private:
         friend class Element;
-        TabPanel(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class GroupBox : public Element
+    class GroupBoxElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<GroupBox>(inParent, inAttr); }
+        { return Element::Create<GroupBoxElement>(inParent, inAttr); }
 
         static const char * Type() { return "groupbox"; }
 
     private:
         friend class Element;
-        GroupBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        GroupBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Caption : public Element
+    class CaptionElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Caption>(inParent, inAttr); }
+        { return Element::Create<CaptionElement>(inParent, inAttr); }
 
         static const char * Type() { return "caption"; }
 
     private:
         friend class Element;
-        Caption(Element * inParent, const AttributesMapping & inAttributesMapping);
+        CaptionElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Tree : public Element
+    class TreeElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Tree>(inParent, inAttr); }
+        { return Element::Create<TreeElement>(inParent, inAttr); }
 
-        virtual ~Tree();
+        virtual ~TreeElement();
 
         static const char * Type() { return "tree"; }
     
     private:
         friend class Element;
-        Tree(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TreeElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeChildren : public Element
+    class TreeChildrenElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeChildren>(inParent, inAttr); }
+        { return Element::Create<TreeChildrenElement>(inParent, inAttr); }
 
         static const char * Type() { return "treechildren"; }
 
-        virtual ~TreeChildren();
+        virtual ~TreeChildrenElement();
 
     private:
         friend class Element;
-        TreeChildren(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TreeChildrenElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeItem : public Element
+    class TreeItemElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeItem>(inParent, inAttr); }
+        { return Element::Create<TreeItemElement>(inParent, inAttr); }
 
         static const char * Type() { return "treeitem"; }
 
-        virtual ~TreeItem();
+        virtual ~TreeItemElement();
 
     private:
         friend class Element;
-        TreeItem(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TreeItemElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeCols : public Element
+    class TreeColsElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeCols>(inParent, inAttr); }
+        { return Element::Create<TreeColsElement>(inParent, inAttr); }
 
         static const char * Type() { return "treecols"; }
 
-        virtual ~TreeCols();
+        virtual ~TreeColsElement();
 
     private:
         friend class Element;
-        TreeCols(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TreeColsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeCol : public Element
+    class TreeColElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeCol>(inParent, inAttr); }
+        { return Element::Create<TreeColElement>(inParent, inAttr); }
 
         static const char * Type() { return "treecol"; }
 
-        virtual ~TreeCol();
+        virtual ~TreeColElement();
 
     private:
         friend class Element;
-        TreeCol(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TreeColElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeRow : public Element
+    class TreeRowElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeRow>(inParent, inAttr); }
+        { return Element::Create<TreeRowElement>(inParent, inAttr); }
 
         static const char * Type() { return "treerow"; }
 
-        virtual ~TreeRow();
+        virtual ~TreeRowElement();
 
     private:
         friend class Element;
-        TreeRow(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TreeRowElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeCell : public Element
+    class TreeCellElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeCell>(inParent, inAttr); }
+        { return Element::Create<TreeCellElement>(inParent, inAttr); }
 
         static const char * Type() { return "treecell"; }
 
-        virtual ~TreeCell();
+        virtual ~TreeCellElement();
 
     private:
         friend class Element;
-        TreeCell(Element * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCellElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Statusbar : public Element
+    class StatusbarElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Statusbar>(inParent, inAttr); }
+        { return Element::Create<StatusbarElement>(inParent, inAttr); }
 
         static const char * Type() { return "statusbar"; }
 
-        virtual ~Statusbar();
+        virtual ~StatusbarElement();
 
     private:
         friend class Element;
-        Statusbar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        StatusbarElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class StatusbarPanel : public Element
+    class StatusbarPanelElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<StatusbarPanel>(inParent, inAttr); }
+        { return Element::Create<StatusbarPanelElement>(inParent, inAttr); }
 
         static const char * Type() { return "statusbarpanel"; }
 
-        virtual ~StatusbarPanel();
+        virtual ~StatusbarPanelElement();
 
     private:
         friend class Element;
-        StatusbarPanel(Element * inParent, const AttributesMapping & inAttributesMapping);
+        StatusbarPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Toolbar : public Element
+    class ToolbarElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Toolbar>(inParent, inAttr); }
+        { return Element::Create<ToolbarElement>(inParent, inAttr); }
 
         static const char * Type() { return "toolbar"; }
 
-        virtual ~Toolbar();
+        virtual ~ToolbarElement();
 
     private:
         friend class Element;
-        Toolbar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ToolbarElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ToolbarButton : public Element
+    class ToolbarButtonElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ToolbarButton>(inParent, inAttr); }
+        { return Element::Create<ToolbarButtonElement>(inParent, inAttr); }
 
         static const char * Type() { return "toolbarbutton"; }
 
-        virtual ~ToolbarButton();
+        virtual ~ToolbarButtonElement();
 
     private:
         friend class Element;
-        ToolbarButton(Element * inParent, const AttributesMapping & inAttributesMapping);
+        ToolbarButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 

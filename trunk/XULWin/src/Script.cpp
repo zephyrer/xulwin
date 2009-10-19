@@ -1,4 +1,4 @@
-#include "XULWin/Script.h"
+#include "XULWin/ScriptElement.h"
 #include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 
@@ -15,15 +15,15 @@ namespace XULWin
     };
 
 
-    Script::Script(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Script::Type(),
+    ScriptElement::ScriptElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(ScriptElement::Type(),
                 inParent,
                 new NativeScript(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    bool Script::init()
+    bool ScriptElement::init()
     {
         setAttribute("value", innerText());
         return Element::init();

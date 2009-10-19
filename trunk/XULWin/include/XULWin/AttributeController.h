@@ -19,7 +19,7 @@ namespace XULWin
      * C++ getters and setters provided by the subclasses.
      * Component subclasses should inherit the attribute controllers that
      * correspond with their own attributes.
-     * For example the Button element has the 'label' attribute, therefore the
+     * For example the ButtonElement element has the 'label' attribute, therefore the
      * the NativeButton class should inherit the LabelController, and provide
      * implementations for the getLabel and setLabel methods.
      */
@@ -449,7 +449,7 @@ namespace XULWin
 
 
     /**
-     * This is a non-standard extension that applies to Image elements only.
+     * This is a non-standard extension that applies to ImageElement elements only.
      * The attribute "keepaspectratio" has a boolean value indicating that the
      * resized width and height should be congruent with the natural width and
      * height.

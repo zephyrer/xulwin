@@ -1,29 +1,32 @@
-#ifndef LISTHEAD_H_INCLUDED
-#define LISTHEAD_H_INCLUDED
+#ifndef LISTHEADIMPL_H_INCLUDED
+#define LISTHEADIMPL_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class ListHead : public Element
+    class ListHeadImpl : public PassiveComponent
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListHead>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "listhead"; }
+        ListHeadImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
-    
-    private:
-        friend class Element;
-        ListHead(Element * inParent, const AttributesMapping & inAttributesMapping);
+        virtual bool initComponent();
+
+        bool initAttributeControllers();
+
+        int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual void onChildAdded(Component * inChild);
     };
 
 } // namespace XULWin
 
 
-#endif // LISTHEAD_H_INCLUDED
+#endif // LISTHEADIMPL_H_INCLUDED

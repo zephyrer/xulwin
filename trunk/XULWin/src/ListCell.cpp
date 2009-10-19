@@ -1,23 +1,60 @@
 #include "XULWin/ListCell.h"
-#include "XULWin/ListCellImpl.h"
-#include "XULWin/AttributeController.h"
-#include "XULWin/Decorator.h"
+#include "XULWin/WinUtils.h"
+#include "XULWin/Defaults.h"
 
 
 namespace XULWin
 {
 
-    ListCell::ListCell(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListCell::Type(),
-                inParent,
-                new ListCellImpl(inParent->component(), inAttributesMapping))
+    ListCellImpl::ListCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool ListCell::init()
+    bool ListCellImpl::initComponent()
     {
-        return Element::init();
+        return Super::initComponent();
     }
 
+    
+    bool ListCellImpl::initAttributeControllers()
+    {
+        setAttributeController("label", static_cast<LabelController*>(this));
+        return Super::initAttributeControllers();
+    }
+        
+        
+    int ListCellImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(parent()))
+        {
+            int w = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::listViewColumnTextPadding();
+            if (w > result)
+            {
+                result = w;
+            }
+        }
+        return result;
+    }
+
+    
+    int ListCellImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+
+
+    std::string ListCellImpl::getLabel() const
+    {
+        return mLabel;
+    }
+
+    
+    void ListCellImpl::setLabel(const std::string & inLabel)
+    {
+        mLabel = inLabel;
+    }
+    
 } // namespace XULWin

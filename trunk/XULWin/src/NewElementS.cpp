@@ -1,23 +1,36 @@
 #include "XULWin/NewElementS.h"
-#include "XULWin/NewElementSImpl.h"
-#include "XULWin/AttributeController.h"
-#include "XULWin/Decorator.h"
 
 
 namespace XULWin
 {
 
-    NewElementS::NewElementS(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(NewElementS::Type(),
-                inParent,
-                new NewElementSImpl(inParent->impl(), inAttributesMapping))
+    NewElementSImpl::NewElementSImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+        Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool NewElementS::init()
+    bool NewElementSImpl::initImpl()
     {
-        return Element::init();
+        return Super::initImpl();
     }
 
+    
+    bool NewElementSImpl::initAttributeControllers()
+    {
+        return Super::initAttributeControllers();
+    }
+        
+        
+    int NewElementSImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+
+    
+    int NewElementSImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+    
 } // namespace XULWin

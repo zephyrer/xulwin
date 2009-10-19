@@ -4,10 +4,10 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Layout.h"
-#include "XULWin/MenuComponent.h"
-#include "XULWin/MenuBarComponent.h"
-#include "XULWin/MenuItemComponent.h"
-#include "XULWin/MenuPopupComponent.h"
+#include "XULWin/Menu.h"
+#include "XULWin/MenuBar.h"
+#include "XULWin/MenuItem.h"
+#include "XULWin/MenuPopup.h"
 #include "XULWin/PopupMenu.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
@@ -956,11 +956,11 @@ namespace XULWin
         wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         wndClass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
         wndClass.lpszMenuName = NULL;
-        wndClass.lpszClassName = TEXT("XULWin::Window");
+        wndClass.lpszClassName = TEXT("XULWin::WindowElement");
         wndClass.hIconSm = 0;
         if (! RegisterClassEx(&wndClass))
         {
-            ReportError("Could not register XUL::Window class.");
+            ReportError("Could not register XUL::WindowElement class.");
         }
     }
 
@@ -975,7 +975,7 @@ namespace XULWin
         mHandle = ::CreateWindowEx
         (
             0, 
-            TEXT("XULWin::Window"),
+            TEXT("XULWin::WindowElement"),
             TEXT(""),
             WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
@@ -1131,7 +1131,7 @@ namespace XULWin
     }
 
 
-    void NativeWindow::showModal(Window::Positioning inPositioning)
+    void NativeWindow::showModal(WindowElement::Positioning inPositioning)
     {
         show(inPositioning);
 
@@ -1149,11 +1149,11 @@ namespace XULWin
     }
 
 
-    void NativeWindow::show(Window::Positioning inPositioning)
+    void NativeWindow::show(WindowElement::Positioning inPositioning)
     {
         rebuildLayout();
 
-        if (inPositioning == Window::CenterInScreen)
+        if (inPositioning == WindowElement::CenterInScreen)
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
             if (findChildOfType<MenuBarComponent>())
@@ -1347,11 +1347,11 @@ namespace XULWin
         wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         wndClass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
         wndClass.lpszMenuName = NULL;
-        wndClass.lpszClassName = TEXT("XULWin::Dialog");
+        wndClass.lpszClassName = TEXT("XULWin::DialogElement");
         wndClass.hIconSm = 0;
         if (! RegisterClassEx(&wndClass))
         {
-            ReportError("Could not register XUL::Dialog class.");
+            ReportError("Could not register XUL::DialogElement class.");
         }
     }
         
@@ -1391,7 +1391,7 @@ namespace XULWin
             mHandle = ::CreateWindowEx
             (
                 0, 
-                TEXT("XULWin::Dialog"), 
+                TEXT("XULWin::DialogElement"), 
                 TEXT(""),
                 WS_POPUPWINDOW | WS_CAPTION | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
                 CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
@@ -2517,36 +2517,36 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->type() == Rows::Type())
+            if (child->type() == RowsElement::Type())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->type() == Columns::Type())
+            else if (child->type() == ColumnsElement::Type())
             {
                 columns = child;
                 numCols = columns->children().size();
             }
             else
             {
-                ReportError("Grid contains incompatible child element: '" + child->type() + "'");
+                ReportError("GridElement contains incompatible child element: '" + child->type() + "'");
             }
         }
         if (!rows || !columns)
         {
-            ReportError("Grid has no rows or no columns!");
+            ReportError("GridElement has no rows or no columns!");
             return;
         }
 
         if (rows->children().empty())
         {
-            ReportError("Grid has no rows!");
+            ReportError("GridElement has no rows!");
             return;
         }
 
         if (columns->children().empty())
         {
-            ReportError("Grid has no columns!");
+            ReportError("GridElement has no columns!");
             return;
         }
 
@@ -2568,7 +2568,7 @@ namespace XULWin
 
         if (colWidths.empty())
         {
-            ReportError("Grid has no columns!");
+            ReportError("GridElement has no columns!");
             return;
         }
 
@@ -2590,7 +2590,7 @@ namespace XULWin
 
         if (rowHeights.empty())
         {
-            ReportError("Grid has no rows!");
+            ReportError("GridElement has no rows!");
             return;
         }
 
@@ -2725,36 +2725,36 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->type() == Rows::Type())
+            if (child->type() == RowsElement::Type())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->type() == Columns::Type())
+            else if (child->type() == ColumnsElement::Type())
             {
                 columns = child;
                 numCols = columns->children().size();
             }
             else
             {
-                ReportError("Grid contains incompatible child element: '" + child->type() + "'");
+                ReportError("GridElement contains incompatible child element: '" + child->type() + "'");
             }
         }
         if (!rows || !columns)
         {
-            ReportError("Grid has no rows or no columns!");
+            ReportError("GridElement has no rows or no columns!");
             return;
         }
 
         if (rows->children().empty())
         {
-            ReportError("Grid has no rows!");
+            ReportError("GridElement has no rows!");
             return;
         }
 
         if (columns->children().empty())
         {
-            ReportError("Grid has no columns!");
+            ReportError("GridElement has no columns!");
             return;
         }
 
@@ -2776,7 +2776,7 @@ namespace XULWin
 
         if (colWidths.empty())
         {
-            ReportError("Grid has no columns!");
+            ReportError("GridElement has no columns!");
             return;
         }
 
@@ -2798,7 +2798,7 @@ namespace XULWin
 
         if (rowHeights.empty())
         {
-            ReportError("Grid has no rows!");
+            ReportError("GridElement has no rows!");
             return;
         }
 
@@ -2941,11 +2941,11 @@ namespace XULWin
         for (size_t idx = 0; idx != grid->children().size(); ++idx)
         {
             ElementPtr child = grid->children()[idx];
-            if (child->type() == Rows::Type())
+            if (child->type() == RowsElement::Type())
             {
                 rows = child;
             }
-            else if (child->type() == Columns::Type())
+            else if (child->type() == ColumnsElement::Type())
             {
                 for (size_t ownI = 0; ownI != child->children().size(); ++ownI)
                 {
@@ -2962,12 +2962,12 @@ namespace XULWin
         }
         if (!rows)
         {
-            ReportError("Could not find 'rows' element in Grid.");
+            ReportError("Could not find 'rows' element in GridElement.");
             return 0;
         }
         if (ownIndex == -1)
         {
-            ReportError("Column was unable to find itself in its parent container.");
+            ReportError("ColumnElement was unable to find itself in its parent container.");
             return 0;
         }
 
@@ -3483,9 +3483,9 @@ namespace XULWin
     {
         for (size_t idx = 0; idx != el()->parent()->children().size(); ++idx)
         {
-            if (el()->parent()->children()[idx]->type() == Tabs::Type())
+            if (el()->parent()->children()[idx]->type() == TabsElement::Type())
             {
-                if (Tabs * tabs = el()->parent()->children()[idx]->downcast<Tabs>())
+                if (TabsElement * tabs = el()->parent()->children()[idx]->downcast<TabsElement>())
                 {
                     return tabs->children()[inIndex]->component()->downcast<TabImpl>();
                 }
@@ -3649,7 +3649,7 @@ namespace XULWin
         // WS_CLIPCHILDREN style defined.
         // There should be some more decent way to fix this. But for now
         // I just remove the flag from the parent. This may result in more
-        // flickering during manual resize of the Window.
+        // flickering during manual resize of the WindowElement.
         Windows::removeWindowStyle(NativeControl::GetNativeThisOrParent(inParent)->handle(), WS_CLIPCHILDREN);
 
 
@@ -3737,7 +3737,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->type() == Caption::Type())
+            if (Super::getChild(0)->el()->type() == CaptionElement::Type())
             {
                 assert (idx + 1 < Super::getChildCount());
                 if (idx + 1 < Super::getChildCount())
@@ -3762,7 +3762,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->type() == Caption::Type())
+            if (Super::getChild(0)->el()->type() == CaptionElement::Type())
             {
                 return Super::getChildCount() - 1;
             }
@@ -4192,7 +4192,7 @@ namespace XULWin
             rect.left = 0;
             rect.bottom = Defaults::toolbarHeight();
             rect.right = 1000;
-            mToolbar.reset(new Windows::Toolbar(this, ::GetModuleHandle(0), nativeComponent->handle(), rect, mCommandId.intValue()));
+            mToolbar.reset(new Windows::ToolbarElement(this, ::GetModuleHandle(0), nativeComponent->handle(), rect, mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
         }
@@ -4297,7 +4297,7 @@ namespace XULWin
             }
             else // buttonType.empty() or buttonType == "button"
             {
-                mButton = new Windows::ToolbarButton(toolbar->nativeToolbar(),
+                mButton = new Windows::ToolbarButtonElement(toolbar->nativeToolbar(),
                                                      mCommandId.intValue(), 
                                                      boost::function<void()>(),
                                                      label,

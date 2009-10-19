@@ -43,15 +43,15 @@ namespace Lua
 
     
     /**
-     * Casts an Element object to a Window object
+     * Casts an Element object to a WindowElement object
      */
-    Window * toWindow(Element * inElement);
+    WindowElement * toWindow(Element * inElement);
 
 
     /**
-     * Casts an Element object to a Dialog object
+     * Casts an Element object to a DialogElement object
      */
-    Dialog * toDialog(Element * inElement);
+    DialogElement * toDialog(Element * inElement);
 
 
     /**

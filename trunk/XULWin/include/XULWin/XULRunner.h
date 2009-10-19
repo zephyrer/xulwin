@@ -14,7 +14,7 @@ namespace XULWin
     public:
         /**
          * Runs a XUL applications. Requires that the main XUL file is a
-         * Window root element.
+         * WindowElement root element.
          */
         void run(const std::string & inApplicationIniFile);
 

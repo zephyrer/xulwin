@@ -2,7 +2,7 @@
 #include "Config.h"
 #include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/ListItem.h"
+#include "XULWin/ListItemElement.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/LuaBindings.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"
@@ -19,10 +19,10 @@ namespace XULWin
         Poco::Path promptFile(__FILE__);
         std::string path = promptFile.parent().append("Logger.xul").toString();
         mLoggerApp = mLoggerRunner.loadXUL(path);
-        if (Window * wnd = mLoggerApp->downcast<Window>())
+        if (WindowElement * wnd = mLoggerApp->downcast<WindowElement>())
         {
             wnd->component()->move(0, 500, 400, 400);
-            wnd->show(Window::DefaultPosition);
+            wnd->show(WindowElement::DefaultPosition);
         }
         ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, this, _1));
         ErrorCatcher errorCatcher;
@@ -48,9 +48,9 @@ namespace XULWin
         xulRunner.Logger = boost::bind(Lua::showMessage, _1);
         ElementPtr rootEl = xulRunner.loadApplication("application.ini");
 
-        if (Window * wnd = rootEl->downcast<Window>())
+        if (WindowElement * wnd = rootEl->downcast<WindowElement>())
         {
-            wnd->showModal(Window::CenterInScreen);
+            wnd->showModal(WindowElement::CenterInScreen);
         }
     }
     
@@ -61,7 +61,7 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["label"] = inMessage;
-            ElementPtr listItemPtr = ListItem::Create(logListBox, attr);
+            ElementPtr listItemPtr = ListItemElement::Create(logListBox, attr);
             listItemPtr->init();
         }
     }

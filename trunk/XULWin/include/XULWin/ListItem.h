@@ -1,29 +1,44 @@
-#ifndef LISTITEM_H_INCLUDED
-#define LISTITEM_H_INCLUDED
+#ifndef LISTITEMIMPL_H_INCLUDED
+#define LISTITEMIMPL_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class ListItem : public Element
+    class ListItemImpl : public PassiveComponent,
+                         public LabelController,
+                         public SelectedController
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListItem>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "listitem"; }
+        ListItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
-    
+        virtual bool initComponent();
+
+        virtual bool initAttributeControllers();
+
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
+        virtual bool isSelected() const;
+
+        virtual void setSelected(bool inSelected);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
     private:
-        friend class Element;
-        ListItem(Element * inParent, const AttributesMapping & inAttributesMapping);
+        std::string mLabel;
+        bool mSelected;
     };
 
 } // namespace XULWin
 
 
-#endif // LISTITEM_H_INCLUDED
+#endif // LISTITEMIMPL_H_INCLUDED

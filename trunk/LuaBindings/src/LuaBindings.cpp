@@ -53,23 +53,23 @@ namespace Lua
     }
     
     
-    Window * toWindow(Element * inElement)
+    WindowElement * toWindow(Element * inElement)
     {
-        Window * result = 0;
+        WindowElement * result = 0;
         if (inElement)
         {
-            result = inElement->downcast<Window>();
+            result = inElement->downcast<WindowElement>();
         }
         return result;
     }
     
     
-    Dialog * toDialog(Element * inElement)
+    DialogElement * toDialog(Element * inElement)
     {
-        Dialog * result = 0;
+        DialogElement * result = 0;
         if (inElement)
         {
-            result = inElement->downcast<Dialog>();
+            result = inElement->downcast<DialogElement>();
         }
         return result;
     }
@@ -84,16 +84,16 @@ namespace Lua
         ElementPtr root = runner.loadXUL(path);
         if (root)
         {
-            if (Dialog * dlg = root->downcast<Dialog>())
+            if (DialogElement * dlg = root->downcast<DialogElement>())
             {         
                 XULRunnerWithLua * parentXULRunner = runner.getParentXULRunner();
                 assert(parentXULRunner);
-                std::vector<Window *> windows;
+                std::vector<WindowElement *> windows;
                 ElementPtr prevRoot = parentXULRunner->rootElement();
-                prevRoot->getElementsByType<Window>(windows);
+                prevRoot->getElementsByType<WindowElement>(windows);
                 if (!windows.empty())
                 {
-                    Window * wnd = windows[0];
+                    WindowElement * wnd = windows[0];
                     if (wnd)
                     {
                         Element * textField = root->getElementById("textInput");

@@ -3,7 +3,7 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Component.h"
 #include "XULWin/Initializer.h"
-#include "XULWin/Script.h"
+#include "XULWin/ScriptElement.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
 #include <sstream>
@@ -133,8 +133,8 @@ namespace Lua
 
     void XULRunnerWithLua::loadScripts(Element * inElement)
     {
-        std::vector<XULWin::Script*> scripts;
-        inElement->getElementsByType<Script>(scripts);
+        std::vector<XULWin::ScriptElement*> scripts;
+        inElement->getElementsByType<ScriptElement>(scripts);
         for (size_t idx = 0; idx != scripts.size(); ++idx)
         {
             loadScript(scripts[idx]->innerText());

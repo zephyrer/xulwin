@@ -1,7 +1,7 @@
 #include "XULWin/Element.h"
-#include "XULWin/ElementImpl.h"
+#include "XULWin/Element.h"
 #include "XULWin/ElementFactory.h"
-#include "XULWin/Image.h"
+#include "XULWin/ImageElement.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/ErrorReporter.h"
@@ -30,30 +30,30 @@ void runXUL(const std::string & inAppName)
 void runNoXULSample()
 {
     AttributesMapping attr;
-    ElementPtr window = Window::Create(0, attr);
-    ElementPtr vbox = VBox::Create(window.get(), attr);
+    ElementPtr window = WindowElement::Create(0, attr);
+    ElementPtr vbox = VBoxElement::Create(window.get(), attr);
 
-    ElementPtr hbox1 = HBox::Create(vbox.get(), attr);
+    ElementPtr hbox1 = HBoxElement::Create(vbox.get(), attr);
 
     attr["value"] = "Username:";
-    ElementPtr label = Label::Create(hbox1.get(), attr);
+    ElementPtr label = LabelElement::Create(hbox1.get(), attr);
     attr.clear();
 
     attr["flex"] = "1";
-    ElementPtr text = TextBox::Create(hbox1.get(), attr);
+    ElementPtr text = TextBoxElement::Create(hbox1.get(), attr);
     attr.clear();
 
-    ElementPtr hbox2 = HBox::Create(vbox.get(), attr);
+    ElementPtr hbox2 = HBoxElement::Create(vbox.get(), attr);
 
     attr["value"] = "Password:";
-    ElementPtr passLabel = Label::Create(hbox2.get(), attr);
+    ElementPtr passLabel = LabelElement::Create(hbox2.get(), attr);
     attr.clear();
 
     attr["flex"] = "1";
-    ElementPtr passText = TextBox::Create(hbox2.get(), attr);
+    ElementPtr passText = TextBoxElement::Create(hbox2.get(), attr);
     attr.clear();
 
-    window->downcast<Window>()->showModal();
+    window->downcast<WindowElement>()->showModal(WindowElement::Center);
     
 }
 

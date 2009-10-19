@@ -1,33 +1,43 @@
-#ifndef MENUITEM_H_INCLUDED
-#define MENUITEM_H_INCLUDED
+#ifndef MENUITEMCOMPONENT_H_INCLUDED
+#define MENUITEMCOMPONENT_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/Component.h"
 
 
 namespace XULWin
 {
 
-    class MenuItem : public Element
+    class MenuItemComponent : public PassiveComponent,
+                              public LabelController
     {
     public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuItem>(inParent, inAttr); }
+        typedef PassiveComponent Super;
 
-        static const char * Type() { return "menuitem"; }
+        MenuItemComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~MenuItem();
+        virtual ~MenuItemComponent();
 
-        std::string label() const;
+        virtual bool initAttributeControllers();
+            
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        std::string value() const;
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
+        static MenuItemComponent * FindById(int inId);
 
     private:
-        friend class Element;
-        MenuItem(Element * inParent, const AttributesMapping & inAttributesMapping);
+        typedef std::map<int, MenuItemComponent*> MenuItemsById;
+        static MenuItemsById sMenuItemsById;
+
+        std::string mLabel;
     };
 
 } // namespace XULWin
 
 
-#endif // MENUITEM_H_INCLUDED
+#endif // MENUITEMCOMPONENT_H_INCLUDED

@@ -248,7 +248,7 @@ namespace XULWin
             return false;
         }
 
-        if (HWNDComponent * comp = m->downcast<HWNDComponent>())
+        if (NativeComponent * comp = m->downcast<NativeComponent>())
         {
             comp->addEventListener(inEventListener);
             return true;
@@ -264,7 +264,7 @@ namespace XULWin
             return false;
         }
 
-        if (HWNDComponent * comp = m->downcast<HWNDComponent>())
+        if (NativeComponent * comp = m->downcast<NativeComponent>())
         {
             comp->removeEventListener(inEventListener);
             return true;

@@ -9,13 +9,13 @@ namespace XULWin
 {
     class ListHeader;
 
-    class ListView : public HWNDControl
+    class ListView : public NativeControl
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         ListView(Component * inParent,
-                     const AttributesMapping & inAttributesMapping);
+                 const AttributesMapping & inAttributesMapping);
 
         virtual ~ListView();
 

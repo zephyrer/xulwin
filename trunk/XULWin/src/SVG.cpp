@@ -8,7 +8,7 @@ namespace XULWin
 {    
     
     SVGCanvas::SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        HWNDControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
+        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
     {
     }
         

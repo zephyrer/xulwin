@@ -26,7 +26,7 @@ namespace XULWin
               WS_EX_CLIENTEDGE,
               LVS_REPORT)
     {
-        if (HWNDComponent * parent = HWNDControl::GetThisOrParent(inParent))
+        if (NativeComponent * parent = NativeControl::GetThisOrParent(inParent))
         {
             mEventListener.connect(parent->el(), WM_NOTIFY, boost::bind(&ListView::handleGetDispInfo, this, _1, _2));
         }

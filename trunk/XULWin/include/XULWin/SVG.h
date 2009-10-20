@@ -24,11 +24,11 @@ namespace XULWin
     };
 
 
-    class SVGCanvas : public HWNDControl,
+    class SVGCanvas : public NativeControl,
                       public GdiplusLoader
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping);
 

@@ -19,7 +19,7 @@ namespace XULWin
 {
 
     Image::Image(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        HWNDControl(inParent, inAttributesMapping, L"STATIC", 0, 0),
+        NativeControl(inParent, inAttributesMapping, L"STATIC", 0, 0),
         mKeepAspectRatio(false)
     {
     }

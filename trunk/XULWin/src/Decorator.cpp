@@ -1013,7 +1013,7 @@ namespace XULWin
             return;
         }
 
-        if (HWNDComponent * native = mDecoratedElement->downcast<HWNDComponent>())
+        if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
         {
             int maxpos = Defaults::Attributes::maxpos();
             Rect clientRect(mDecoratedElement->clientRect());
@@ -1043,7 +1043,7 @@ namespace XULWin
                 dy = newVerScrollPos - mOldVerScrollPos;
             }
 
-            if (HWNDComponent * native = mDecoratedElement->downcast<HWNDComponent>())
+            if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
             {
                 ::ScrollWindowEx(native->handle(), -dx, -dy, 0, 0, 0, 0, SW_SCROLLCHILDREN | SW_INVALIDATE);
             }

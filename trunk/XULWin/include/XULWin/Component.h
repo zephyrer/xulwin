@@ -51,7 +51,7 @@ namespace XULWin
     class Component;
     class Decorator;
     class BoxLayouter;
-    class HWNDComponent;
+    class NativeComponent;
     typedef boost::shared_ptr<Component> ComponentPtr;
 
 
@@ -573,16 +573,16 @@ namespace XULWin
     };
 
 
-    class HWNDComponent : public ConcreteComponent,
+    class NativeComponent : public ConcreteComponent,
                           public virtual DisabledController,
                           public virtual LabelController
     {
     public:
         typedef ConcreteComponent Super;
 
-        HWNDComponent(Component * inParent, const AttributesMapping & inAttributes);
+        NativeComponent(Component * inParent, const AttributesMapping & inAttributes);
 
-        virtual ~HWNDComponent();             
+        virtual ~NativeComponent();             
 
         virtual void setHandle(HWND inHandle, bool inPassOwnership);
 
@@ -623,9 +623,9 @@ namespace XULWin
 #endif
 
     protected:
-        static HWNDComponent * FindByHandle(HWND inHandle);
+        static NativeComponent * FindByHandle(HWND inHandle);
 
-        static HWNDComponent * FindById(int inId);
+        static NativeComponent * FindById(int inId);
 
         void registerHandle();
         
@@ -643,10 +643,10 @@ namespace XULWin
         EventListeners mEventListeners;
 
     private:
-        typedef std::map<int, HWNDComponent*> ComponentsById;
+        typedef std::map<int, NativeComponent*> ComponentsById;
         static ComponentsById sComponentsById;
 
-        typedef std::map<HWND, HWNDComponent*> ComponentsByHandle;
+        typedef std::map<HWND, NativeComponent*> ComponentsByHandle;
         static ComponentsByHandle sComponentsByHandle;
         
         WNDPROC mOrigProc;
@@ -659,12 +659,12 @@ namespace XULWin
     class Dialog;
     class Menu;
 
-    class Window : public HWNDComponent,
+    class Window : public NativeComponent,
                    public BoxLayouter::ContentProvider,
                    public virtual TitleController
     {
     public:
-        typedef HWNDComponent Super;
+        typedef NativeComponent Super;
 
         static void Register(HMODULE inModuleHandle);
 
@@ -755,12 +755,12 @@ namespace XULWin
 
 
     // Dialog is actually a normal WindowElement with some customizations to make it behave like a dialog.
-    class Dialog : public HWNDComponent,
+    class Dialog : public NativeComponent,
                    public BoxLayouter::ContentProvider,
                    public virtual TitleController
     {
     public:
-        typedef HWNDComponent Super;
+        typedef NativeComponent Super;
 
         static void Register(HMODULE inModuleHandle);
 
@@ -844,17 +844,17 @@ namespace XULWin
     };
 
 
-    class HWNDControl : public HWNDComponent
+    class NativeControl : public NativeComponent
     {
     public:
-        typedef HWNDComponent Super;
+        typedef NativeComponent Super;
 
-        HWNDControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
+        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
 
-        // use this constructor if you want to provide your own handle later using HWNDControl::setHandle
-        HWNDControl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        // use this constructor if you want to provide your own handle later using NativeControl::setHandle
+        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~HWNDControl();
+        virtual ~NativeControl();
         
         bool initStyleControllers();
 
@@ -864,14 +864,14 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h);
 
-        // Gets a HWNDComponent object from this object. This
+        // Gets a NativeComponent object from this object. This
         // is only needed in constructors of s, because
         // they need to know which is their native parent handle object.
-        // If this is a HWNDComponent, return this.
-        // If this is a VirtualComponent, return first parent that is a HWNDComponent.
-        // If this is a Decorator, resolve until a HWNDComponent is found.
-        static HWNDComponent * GetThisOrParent(Component * inElement);
-        static const HWNDComponent * GetThisOrParent(const Component * inElement);
+        // If this is a NativeComponent, return this.
+        // If this is a VirtualComponent, return first parent that is a NativeComponent.
+        // If this is a Decorator, resolve until a NativeComponent is found.
+        static NativeComponent * GetThisOrParent(Component * inElement);
+        static const NativeComponent * GetThisOrParent(const Component * inElement);
     };
 
 
@@ -920,10 +920,10 @@ namespace XULWin
     };
 
 
-    class Button : public HWNDControl
+    class Button : public NativeControl
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Button(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -933,12 +933,12 @@ namespace XULWin
     };
 
 
-    class Label : public HWNDControl,
+    class Label : public NativeControl,
                         public virtual StringValueController,
                         public virtual CSSTextAlignController
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Label(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -962,11 +962,11 @@ namespace XULWin
     };
 
 
-    class Description : public HWNDControl,
+    class Description : public NativeControl,
                               public virtual StringValueController
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Description(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -983,13 +983,13 @@ namespace XULWin
     };
 
 
-    class TextBox : public HWNDControl,
+    class TextBox : public NativeControl,
                           public virtual StringValueController,
                           public virtual ReadOnlyController,
                           public virtual RowsController
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         TextBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1024,11 +1024,11 @@ namespace XULWin
     };
 
 
-    class CheckBox : public HWNDControl,
+    class CheckBox : public NativeControl,
                            public virtual CheckedController
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         CheckBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1101,11 +1101,11 @@ namespace XULWin
     };
 
 
-    class Box : public HWNDControl,
+    class Box : public NativeControl,
                       public BoxLayouter::ContentProvider
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Box(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1160,11 +1160,11 @@ namespace XULWin
     };
 
 
-    class MenuList : public HWNDControl,
+    class MenuList : public NativeControl,
                          public MenuPopupContainer
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         MenuList(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1187,10 +1187,10 @@ namespace XULWin
     };
 
 
-    class Separator : public HWNDControl
+    class Separator : public NativeControl
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Separator(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1213,10 +1213,10 @@ namespace XULWin
     };
 
 
-    class MenuButton : public HWNDControl
+    class MenuButton : public NativeControl
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         MenuButton(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1241,10 +1241,10 @@ namespace XULWin
     };
 
 
-    class Grid : public HWNDControl
+    class Grid : public NativeControl
     {
     public:
-        typedef HWNDComponent Super;
+        typedef NativeComponent Super;
 
         Grid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1319,10 +1319,10 @@ namespace XULWin
     };
 
 
-    class Radio : public HWNDControl
+    class Radio : public NativeControl
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Radio(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1332,11 +1332,11 @@ namespace XULWin
     };
 
 
-    class ProgressMeter : public HWNDControl,
+    class ProgressMeter : public NativeControl,
                                 public virtual IntValueController
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         ProgressMeter(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1379,14 +1379,14 @@ namespace XULWin
     };
 
 
-    class Scrollbar : public HWNDControl,
+    class Scrollbar : public NativeControl,
                             public virtual ScrollbarCurrentPositionController,
                             public virtual ScrollbarMaxPositionController,
                             public virtual ScrollbarIncrementController,
                             public virtual ScrollbarPageIncrementController
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Scrollbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1581,10 +1581,10 @@ namespace XULWin
 
 
     class TreeCell;
-    class Tree : public HWNDControl
+    class Tree : public NativeControl
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Tree(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1695,11 +1695,11 @@ namespace XULWin
 
 
 
-    class Statusbar : public HWNDControl,
+    class Statusbar : public NativeControl,
                           public BoxLayouter::ContentProvider
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1746,10 +1746,10 @@ namespace XULWin
 
 
 
-    class StatusbarPanel : public HWNDControl
+    class StatusbarPanel : public NativeControl
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1762,12 +1762,12 @@ namespace XULWin
 
 
 
-    class Toolbar : public HWNDControl,
+    class Toolbar : public NativeControl,
                         public Windows::ToolbarElement::EventHandler,
                         public GdiplusLoader
     {
     public:
-        typedef HWNDControl Super;
+        typedef NativeControl Super;
 
         Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 

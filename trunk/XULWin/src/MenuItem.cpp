@@ -47,7 +47,7 @@ namespace XULWin
     
     int MenuItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (HWNDComponent * comp = HWNDControl::GetThisOrParent(const_cast<MenuItem*>(this)))
+        if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<MenuItem*>(this)))
         {
             return Windows::getTextSize(comp->handle(), getLabel()).cx;
         }
@@ -57,7 +57,7 @@ namespace XULWin
 
     int MenuItem::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (HWNDComponent * comp = HWNDControl::GetThisOrParent(const_cast<MenuItem*>(this)))
+        if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<MenuItem*>(this)))
         {
             return Windows::getTextSize(comp->handle(), getLabel()).cy;
         }

@@ -5,6 +5,7 @@
 #include "XULWin/Enums.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <set>
@@ -190,7 +191,6 @@ namespace XULWin
         AttributesMapping mAttributes;
 
     private:
-
         void setAttributes(const AttributesMapping & inAttributes);
 
         void setStyle(const std::string & inName, const std::string & inValue);
@@ -205,7 +205,7 @@ namespace XULWin
         std::string mType;
         StylesMapping mStyles;
         std::string mInnerText;
-        boost::shared_ptr<Component> mComponent;
+        boost::scoped_ptr<Component> mComponent;
     };
 
 

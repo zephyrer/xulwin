@@ -205,7 +205,7 @@ namespace XULWin
         std::string mType;
         StylesMapping mStyles;
         std::string mInnerText;
-        boost::shared_ptr<Component> m;
+        boost::shared_ptr<Component> mComponents;
     };
 
 

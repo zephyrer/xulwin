@@ -15,11 +15,11 @@ namespace XULWin
     Element::Element(const std::string & inType, Element * inParent, Component * inNative) :
         mType(inType),
         mParent(inParent),
-        m(inNative)
+        mComponents(inNative)
     {
-        if (m)
+        if (mComponents)
         {
-            m->setOwningElement(this);
+            mComponents->setOwningElement(this);
         }
     }
 
@@ -107,8 +107,8 @@ namespace XULWin
         {
             ElementPtr keepAlive = *it;
             mChildren.erase(it);
-            m->rebuildLayout();            
-            m->onChildRemoved(keepAlive->component());
+            mComponents->rebuildLayout();            
+            mComponents->onChildRemoved(keepAlive->component());
             // keepAlive loses scope here and destroys child
         }
         else
@@ -146,7 +146,7 @@ namespace XULWin
     {
         mAttributes = inAttributes;
         
-        if (m)
+        if (mComponents)
         {
             AttributesMapping::iterator it = mAttributes.begin(), end = mAttributes.end();
             for (; it != end; ++it)
@@ -163,18 +163,18 @@ namespace XULWin
 
     void Element::initAttributeControllers()
     {
-        if (m)
+        if (mComponents)
         {
-            m->initAttributeControllers();
+            mComponents->initAttributeControllers();
         }
     }
 
 
     void Element::initStyleControllers()
     {
-        if (m)
+        if (mComponents)
         {
-            m->initStyleControllers();
+            mComponents->initStyleControllers();
         }
     }
 
@@ -182,7 +182,7 @@ namespace XULWin
     std::string Element::getStyle(const std::string & inName) const
     {
         std::string result;
-        if (!m || !m->getStyle(inName, result))
+        if (!mComponents || !mComponents->getStyle(inName, result))
         {
             StylesMapping::const_iterator it = mStyles.find(inName);
             if (it != mStyles.end())
@@ -198,7 +198,7 @@ namespace XULWin
     std::string Element::getAttribute(const std::string & inName) const
     {
         std::string result;
-        if (!m || !m->getAttribute(inName, result))
+        if (!mComponents || !mComponents->getAttribute(inName, result))
         {
             AttributesMapping::const_iterator it = mAttributes.find(inName);
             if (it != mAttributes.end())
@@ -225,7 +225,7 @@ namespace XULWin
     void Element::setStyle(const std::string & inName, const std::string & inValue)
     {
         std::string type = this->type();
-        if (!m || !m->setStyle(inName, inValue))
+        if (!mComponents || !mComponents->setStyle(inName, inValue))
         {
             mStyles[inName] = inValue;
         }
@@ -234,7 +234,7 @@ namespace XULWin
     
     void Element::setAttribute(const std::string & inName, const std::string & inValue)
     {
-        if (!m || !m->setAttribute(inName, inValue))
+        if (!mComponents || !mComponents->setAttribute(inName, inValue))
         {
             mAttributes[inName] = inValue;
         }
@@ -243,12 +243,12 @@ namespace XULWin
     
     bool Element::addEventListener(EventListener * inEventListener)
     {
-        if (!m)
+        if (!mComponents)
         {
             return false;
         }
 
-        if (NativeComponent * comp = m->downcast<NativeComponent>())
+        if (NativeComponent * comp = mComponents->downcast<NativeComponent>())
         {
             comp->addEventListener(inEventListener);
             return true;
@@ -259,12 +259,12 @@ namespace XULWin
 
     bool Element::removeEventListener(EventListener * inEventListener)
     {
-        if (!m)
+        if (!mComponents)
         {
             return false;
         }
 
-        if (NativeComponent * comp = m->downcast<NativeComponent>())
+        if (NativeComponent * comp = mComponents->downcast<NativeComponent>())
         {
             comp->removeEventListener(inEventListener);
             return true;
@@ -275,7 +275,7 @@ namespace XULWin
     
     Component * Element::component() const
     {
-        return m.get();
+        return mComponents.get();
     }
     
     

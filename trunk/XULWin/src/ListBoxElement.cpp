@@ -24,13 +24,13 @@ namespace XULWin
     void ListBoxElement::addChild(ElementPtr inChild)
     {
         // The first child should give us the needed information to know
-        // whether we need to create a ListBoxImpl or a ListViewImpl.
-        setImpl(inChild->type());
+        // whether we need to create a ListBox or a ListView.
+        set(inChild->type());
         Element::addChild(inChild);
     }
 
 
-    void ListBoxElement::setImpl(const std::string & inType)
+    void ListBoxElement::set(const std::string & inType)
     {
         // The decorator is used as a proxy here.
         if (Proxy * proxy = component()->downcast<Proxy>())
@@ -42,7 +42,7 @@ namespace XULWin
                 // that it is a regular listbox
                 if (inType == "listitem")
                 {   
-                    ListBoxImpl * listBox = new ListBoxImpl(parent()->component(), mAttributes);
+                    ListBox * listBox = new ListBox(parent()->component(), mAttributes);
                     ComponentPtr prev = proxy->swap(new MarginDecorator(listBox));
                     listBox->initComponent();
 
@@ -53,7 +53,7 @@ namespace XULWin
                 }
                 else
                 {
-                    ListViewImpl * listView = new ListViewImpl(parent()->component(), mAttributes);
+                    ListView * listView = new ListView(parent()->component(), mAttributes);
                     ComponentPtr prev = proxy->swap(new MarginDecorator(listView));
                     listView->initComponent();
 

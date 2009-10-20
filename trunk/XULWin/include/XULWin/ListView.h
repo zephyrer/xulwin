@@ -7,17 +7,17 @@
 
 namespace XULWin
 {
-    class ListHeaderImpl;
+    class ListHeader;
 
-    class ListViewImpl : public NativeControl
+    class ListView : public NativeControl
     {
     public:
         typedef NativeControl Super;
 
-        ListViewImpl(Component * inParent,
+        ListView(Component * inParent,
                      const AttributesMapping & inAttributesMapping);
 
-        virtual ~ListViewImpl();
+        virtual ~ListView();
 
         virtual bool initComponent();
 
@@ -29,7 +29,7 @@ namespace XULWin
         
         virtual void onChildAdded(Component * inChild);
 
-        void addListHeader(ListHeaderImpl * inListHeader);
+        void addListHeader(ListHeader * inListHeader);
 
     private:
         LRESULT handleGetDispInfo(WPARAM wParam, LPARAM lParam);

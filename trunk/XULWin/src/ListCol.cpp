@@ -9,13 +9,13 @@
 namespace XULWin
 {
 
-    ListColImpl::ListColImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ListCol::ListCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }
         
         
-    int ListColImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListCol::calculateWidth(SizeConstraint inSizeConstraint) const
     {  
         int res = 1;
         // XUL Hierarchy:
@@ -26,7 +26,7 @@ namespace XULWin
         const int colIdx = getIndex();
         for (size_t idx = 0; idx != listItems.size(); ++idx)
         {
-            if (ListCellImpl * cell = listItems[idx]->component()->getChild(colIdx)->downcast<ListCellImpl>())
+            if (ListCell * cell = listItems[idx]->component()->getChild(colIdx)->downcast<ListCell>())
             {
                 res = std::max<int>(res, cell->calculateWidth(inSizeConstraint));
             }
@@ -35,13 +35,13 @@ namespace XULWin
     }
 
     
-    int ListColImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListCol::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
 
-    bool ListColImpl::initComponent()
+    bool ListCol::initComponent()
     {
         return Super::initComponent();
     }

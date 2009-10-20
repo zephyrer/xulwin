@@ -26,59 +26,59 @@ namespace SVG
     };
 
 
-    class Group : public Element
+    class SVGGroupElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Group>(inParent, inAttr); }
+        { return Element::Create<SVGGroupElement>(inParent, inAttr); }
 
         static const char * Type() { return "g"; }
     
     private:
         friend class Element;
-        Group(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SVGGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Polygon : public Element
+    class SVGPolygonElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Polygon>(inParent, inAttr); }
+        { return Element::Create<SVGPolygonElement>(inParent, inAttr); }
 
         static const char * Type() { return "polygon"; }
     
     private:
         friend class Element;
-        Polygon(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPolygonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class SVGRect : public Element
+    class SVGRectElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVGRect>(inParent, inAttr); }
+        { return Element::Create<SVGRectElement>(inParent, inAttr); }
 
         static const char * Type() { return "rect"; }
     
     private:
         friend class Element;
-        SVGRect(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SVGRectElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Path : public Element
+    class SVGPathElement : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<Path>(inParent, inAttr); }
+        { return Element::Create<SVGPathElement>(inParent, inAttr); }
 
         static const char * Type() { return "path"; }
     
     private:
         friend class Element;
-        Path(Element * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPathElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 } // namespace SVG

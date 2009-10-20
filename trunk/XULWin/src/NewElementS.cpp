@@ -4,31 +4,31 @@
 namespace XULWin
 {
 
-    NewElementSImpl::NewElementSImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping) :
+    NewElementS::NewElementS(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool NewElementSImpl::initImpl()
+    bool NewElementS::init()
     {
-        return Super::initImpl();
+        return Super::init();
     }
 
     
-    bool NewElementSImpl::initAttributeControllers()
+    bool NewElementS::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
         
         
-    int NewElementSImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int NewElementS::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
     
-    int NewElementSImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int NewElementS::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }

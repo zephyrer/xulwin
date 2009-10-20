@@ -18,20 +18,20 @@
 namespace XULWin
 {
 
-    ImageImpl::ImageImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Image::Image(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, L"STATIC", 0, 0),
         mKeepAspectRatio(false)
     {
     }
 
 
-    std::string ImageImpl::getSrc() const
+    std::string Image::getSrc() const
     {
         return mSrc;
     }
 
 
-    void ImageImpl::setSrc(const std::string & inSrc)
+    void Image::setSrc(const std::string & inSrc)
     {
         if (inSrc.find("chrome://") != std::string::npos)
         {        
@@ -53,7 +53,7 @@ namespace XULWin
     }
 
 
-    void ImageImpl::getWidthAndHeight(int & width, int & height) const
+    void Image::getWidthAndHeight(int & width, int & height) const
     {
         if (!mImage)
         {
@@ -86,7 +86,7 @@ namespace XULWin
     }
 
     
-    int ImageImpl::getWidth(SizeConstraint inSizeConstraint) const
+    int Image::getWidth(SizeConstraint inSizeConstraint) const
     {
         if (mWidth)
         {
@@ -122,7 +122,7 @@ namespace XULWin
     }
         
     
-    int ImageImpl::getHeight(SizeConstraint inSizeConstraint) const
+    int Image::getHeight(SizeConstraint inSizeConstraint) const
     {        
         if (mHeight)
         {
@@ -158,7 +158,7 @@ namespace XULWin
     }
     
     
-    void ImageImpl::move(int x, int y, int w, int h)
+    void Image::move(int x, int y, int w, int h)
     {
         if (mImage && (w != clientRect().width() || h != clientRect().height()))
         {
@@ -174,19 +174,19 @@ namespace XULWin
     }
     
     
-    bool ImageImpl::getKeepAspectRatio() const
+    bool Image::getKeepAspectRatio() const
     {
         return mKeepAspectRatio;
     }
 
 
-    void ImageImpl::setKeepAspectRatio(bool inKeepAspectRatio)
+    void Image::setKeepAspectRatio(bool inKeepAspectRatio)
     {
         mKeepAspectRatio = inKeepAspectRatio;
     }
 
 
-    int ImageImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int Image::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         if (inSizeConstraint == Minimum)
         {
@@ -202,7 +202,7 @@ namespace XULWin
     }
 
 
-    int ImageImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int Image::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         if (inSizeConstraint == Minimum)
         {
@@ -218,7 +218,7 @@ namespace XULWin
     }
 
 
-    bool ImageImpl::initAttributeControllers()
+    bool Image::initAttributeControllers()
     {
         Super::setAttributeController("src", static_cast<SrcController*>(this));
         Super::setAttributeController("keepaspectratio", static_cast<KeepAspectRatioController*>(this));
@@ -226,7 +226,7 @@ namespace XULWin
     }
 
 
-    void ImageImpl::paintImage(HDC inHDC, const RECT & rc)
+    void Image::paintImage(HDC inHDC, const RECT & rc)
     {
         Gdiplus::Graphics g(inHDC);        
         g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
@@ -242,7 +242,7 @@ namespace XULWin
     }
 
 
-    LRESULT ImageImpl::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    LRESULT Image::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         if (inMessage == WM_PAINT)
         {

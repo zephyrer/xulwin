@@ -870,8 +870,8 @@ namespace XULWin
         // If this is a NativeComponent, return this.
         // If this is a VirtualComponent, return first parent that is a NativeComponent.
         // If this is a Decorator, resolve until a NativeComponent is found.
-        static NativeComponent * GetNativeThisOrParent(Component * inElementImpl);
-        static const NativeComponent * GetNativeThisOrParent(const Component * inElementImpl);
+        static NativeComponent * GetNativeThisOrParent(Component * inElement);
+        static const NativeComponent * GetNativeThisOrParent(const Component * inElement);
     };
 
 
@@ -1160,13 +1160,13 @@ namespace XULWin
     };
 
 
-    class MenuListImpl : public NativeControl,
+    class MenuList : public NativeControl,
                          public MenuPopupContainer
     {
     public:
         typedef NativeControl Super;
 
-        MenuListImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuList(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
             
@@ -1433,36 +1433,36 @@ namespace XULWin
     };
 
 
-    class TabsImpl : public PassiveComponent
+    class Tabs : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        TabsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Tabs(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabImpl : public PassiveComponent
+    class Tab : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        TabImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Tab(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabPanelImpl;
-    class TabImpl;
-    class TabPanelsImpl : public VirtualComponent
+    class TabPanel;
+    class Tab;
+    class TabPanels : public VirtualComponent
     {
     public:
         typedef VirtualComponent Super;
 
-        TabPanelsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~TabPanelsImpl();
+        virtual ~TabPanels();
         
-        void addTabPanel(TabPanelImpl * inPanel);
+        void addTabPanel(TabPanel * inPanel);
 
         virtual void rebuildLayout();
 
@@ -1475,10 +1475,10 @@ namespace XULWin
     private:
         void update();
 
-        TabImpl * getCorrespondingTab(size_t inIndex);
+        Tab * getCorrespondingTab(size_t inIndex);
         HWND mParentHandle;
         HWND mTabBarHandle;
-        typedef std::map<HWND, TabPanelsImpl*> Instances;
+        typedef std::map<HWND, TabPanels*> Instances;
         static Instances sInstances;
         WNDPROC mOrigProc;
         size_t mChildCount;
@@ -1486,25 +1486,25 @@ namespace XULWin
     };
 
 
-    class TabPanelImpl : public VirtualBox
+    class TabPanel : public VirtualBox
     {
     public:
         typedef VirtualComponent Super;
 
-        TabPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
     };
 
 
-    class GroupBoxImpl : public VirtualBox
+    class GroupBox : public VirtualBox
     {
     public:
         typedef VirtualBox Super;
 
-        GroupBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~GroupBoxImpl();
+        virtual ~GroupBox();
 
         void setCaption(const std::string & inLabel);
 
@@ -1533,12 +1533,12 @@ namespace XULWin
     };
 
 
-    class CaptionImpl : public VirtualComponent
+    class Caption : public VirtualComponent
     {
     public:
         typedef VirtualComponent Super;
 
-        CaptionImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Caption(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1580,13 +1580,13 @@ namespace XULWin
     };
 
 
-    class TreeCellImpl;
-    class TreeImpl : public NativeControl
+    class TreeCell;
+    class Tree : public NativeControl
     {
     public:
         typedef NativeControl Super;
 
-        TreeImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Tree(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1600,13 +1600,13 @@ namespace XULWin
     };
 
     
-    class TreeItemImpl;
-    class TreeChildrenImpl : public PassiveComponent
+    class TreeItem;
+    class TreeChildren : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        TreeChildrenImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1614,13 +1614,13 @@ namespace XULWin
     };
 
     
-    class TreeRowImpl;
-    class TreeItemImpl : public PassiveComponent
+    class TreeRow;
+    class TreeItem : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        TreeItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 
@@ -1639,31 +1639,31 @@ namespace XULWin
     };
 
 
-    class TreeColsImpl : public PassiveComponent
+    class TreeCols : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        TreeColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeColImpl : public PassiveComponent
+    class TreeCol : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        TreeColImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeCellImpl;
-    class TreeRowImpl : public PassiveComponent
+    class TreeCell;
+    class TreeRow : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        TreeRowImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1671,13 +1671,13 @@ namespace XULWin
     };
 
 
-    class TreeCellImpl : public PassiveComponent,
+    class TreeCell : public PassiveComponent,
                          public LabelController
     {
     public:
         typedef PassiveComponent Super;
 
-        TreeCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -1695,13 +1695,13 @@ namespace XULWin
 
 
 
-    class StatusbarImpl : public NativeControl,
+    class Statusbar : public NativeControl,
                           public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
 
-        StatusbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -1746,12 +1746,12 @@ namespace XULWin
 
 
 
-    class StatusbarPanelImpl : public NativeControl
+    class StatusbarPanel : public NativeControl
     {
     public:
         typedef NativeControl Super;
 
-        StatusbarPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -1762,16 +1762,16 @@ namespace XULWin
 
 
 
-    class ToolbarImpl : public NativeControl,
+    class Toolbar : public NativeControl,
                         public Windows::ToolbarElement::EventHandler,
                         public GdiplusLoader
     {
     public:
         typedef NativeControl Super;
 
-        ToolbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~ToolbarImpl();
+        virtual ~Toolbar();
 
         virtual bool initComponent();
 
@@ -1793,7 +1793,7 @@ namespace XULWin
     };
 
 
-    class ToolbarButtonImpl : public PassiveComponent,
+    class ToolbarButton : public PassiveComponent,
                               public Windows::ToolbarDropDown::EventHandler,
                               public MenuPopupContainer,
                               public virtual DisabledController,
@@ -1803,7 +1803,7 @@ namespace XULWin
     public:
         typedef PassiveComponent Super;
 
-        ToolbarButtonImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 

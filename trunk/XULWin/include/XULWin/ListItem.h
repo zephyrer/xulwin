@@ -8,14 +8,14 @@
 namespace XULWin
 {
 
-    class ListItemImpl : public PassiveComponent,
+    class ListItem : public PassiveComponent,
                          public LabelController,
                          public SelectedController
     {
     public:
         typedef PassiveComponent Super;
 
-        ListItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 

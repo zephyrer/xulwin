@@ -9,41 +9,41 @@
 namespace XULWin
 {
 
-    ListHeadImpl::ListHeadImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ListHead::ListHead(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool ListHeadImpl::initComponent()
+    bool ListHead::initComponent()
     {
         return Super::initComponent();
     }
 
     
-    bool ListHeadImpl::initAttributeControllers()
+    bool ListHead::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
         
         
-    int ListHeadImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListHead::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
     
-    int ListHeadImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListHead::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
 
-    void ListHeadImpl::onChildAdded(Component * inChild)
+    void ListHead::onChildAdded(Component * inChild)
     {
-        if (ListViewImpl * listViewParent = parent()->downcast<ListViewImpl>())
+        if (ListView * listViewParent = parent()->downcast<ListView>())
         {
-            if (ListHeaderImpl * listHeader = inChild->downcast<ListHeaderImpl>())
+            if (ListHeader * listHeader = inChild->downcast<ListHeader>())
             {
                 listViewParent->addListHeader(listHeader);
             }

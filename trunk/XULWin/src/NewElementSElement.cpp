@@ -10,7 +10,7 @@ namespace XULWin
     NewElementS::NewElementS(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(NewElementS::Type(),
                 inParent,
-                new NewElementSImpl(inParent->impl(), inAttributesMapping))
+                new NewElementS(inParent->impl(), inAttributesMapping))
     {
     }
 

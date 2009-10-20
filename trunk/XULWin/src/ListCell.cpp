@@ -6,26 +6,26 @@
 namespace XULWin
 {
 
-    ListCellImpl::ListCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ListCell::ListCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool ListCellImpl::initComponent()
+    bool ListCell::initComponent()
     {
         return Super::initComponent();
     }
 
     
-    bool ListCellImpl::initAttributeControllers()
+    bool ListCell::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
         
         
-    int ListCellImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListCell::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(parent()))
@@ -40,19 +40,19 @@ namespace XULWin
     }
 
     
-    int ListCellImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListCell::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
 
-    std::string ListCellImpl::getLabel() const
+    std::string ListCell::getLabel() const
     {
         return mLabel;
     }
 
     
-    void ListCellImpl::setLabel(const std::string & inLabel)
+    void ListCell::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }

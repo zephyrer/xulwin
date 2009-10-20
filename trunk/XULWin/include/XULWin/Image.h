@@ -8,7 +8,7 @@
 namespace XULWin
 {
 
-    class ImageImpl : public NativeControl,
+    class Image : public NativeControl,
                       public virtual SrcController,
                       public virtual KeepAspectRatioController,
                       public GdiplusLoader
@@ -16,7 +16,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        ImageImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Image(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual std::string getSrc() const;
 

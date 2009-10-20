@@ -123,20 +123,20 @@ namespace SVG
     }
 
 
-    SVGElementImpl::SVGElementImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    SVGComponent::SVGComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
         
-    static SVGElementImpl * findSVGParent(Component * inEl)
+    static SVGComponent * findSVGParent(Component * inEl)
     {
         if (!inEl)
         {
             return 0;
         }
 
-        if (SVGElementImpl * g = inEl->downcast<SVGElementImpl>())
+        if (SVGComponent * g = inEl->downcast<SVGComponent>())
         {
             return g;
         }
@@ -147,19 +147,19 @@ namespace SVG
     }
 
 
-    SVGGroupImpl::SVGGroupImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGElementImpl(inParent, inAttributesMapping)
+    SVGGroup::SVGGroup(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        SVGComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    bool SVGGroupImpl::initStyleControllers()
+    bool SVGGroup::initStyleControllers()
     {
         return Super::initStyleControllers();
     }
     
     
-    void SVGGroupImpl::paint(Gdiplus::Graphics & g)
+    void SVGGroup::paint(Gdiplus::Graphics & g)
     {
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
@@ -171,26 +171,26 @@ namespace SVG
     }
 
     
-    SVGPolygonImpl::SVGPolygonImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGElementImpl(inParent, inAttributesMapping)
+    SVGPolygon::SVGPolygon(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        SVGComponent(inParent, inAttributesMapping)
     {
     }
         
         
-    bool SVGPolygonImpl::initAttributeControllers()
+    bool SVGPolygon::initAttributeControllers()
     {
         setAttributeController("points", static_cast<PointsController*>(this));
         return Super::initAttributeControllers();
     }
 
 
-    const Points & SVGPolygonImpl::getPoints() const
+    const Points & SVGPolygon::getPoints() const
     {
         return mPoints;
     }
 
 
-    void SVGPolygonImpl::setPoints(const Points & inPoints)
+    void SVGPolygon::setPoints(const Points & inPoints)
     {
         mPoints = inPoints;
         mNativePoints.clear();
@@ -202,12 +202,12 @@ namespace SVG
     }
 
     
-    void SVGPolygonImpl::paint(Gdiplus::Graphics & g)
+    void SVGPolygon::paint(Gdiplus::Graphics & g)
     {
         if (!mNativePoints.empty())
         {
             Gdiplus::Color color(Gdiplus::Color::Black);
-            SVGElementImpl * svg = findSVGParent(this);
+            SVGComponent * svg = findSVGParent(this);
             if (svg)
             {
                 RGBColor fill = svg->getCSSFill();
@@ -219,13 +219,13 @@ namespace SVG
     }
 
 
-    SVGRectImpl::SVGRectImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGElementImpl(inParent, inAttributesMapping)
+    SVGRect::SVGRect(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        SVGComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    bool SVGRectImpl::initStyleControllers()
+    bool SVGRect::initStyleControllers()
     {
         setStyleController("x", static_cast<CSSXController*>(this));
         setStyleController("y", static_cast<CSSYController*>(this));
@@ -236,7 +236,7 @@ namespace SVG
     }
 
 
-    void SVGRectImpl::paint(Gdiplus::Graphics & g)
+    void SVGRect::paint(Gdiplus::Graphics & g)
     {
         Gdiplus::Color color(Gdiplus::Color::Black);
         RGBColor fill = getFill();
@@ -249,26 +249,26 @@ namespace SVG
     }
 
     
-    SVGPathImpl::SVGPathImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGElementImpl(inParent, inAttributesMapping)
+    SVGPath::SVGPath(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        SVGComponent(inParent, inAttributesMapping)
     {
     }
         
         
-    bool SVGPathImpl::initAttributeControllers()
+    bool SVGPath::initAttributeControllers()
     {
         setAttributeController("d", static_cast<PathInstructionsController*>(this));
         return Super::initAttributeControllers();
     }
         
         
-    bool SVGPathImpl::initStyleControllers()
+    bool SVGPath::initStyleControllers()
     {
         return Super::initStyleControllers();
     }
 
 
-    void SVGPathImpl::getFloatPoints(const PathInstruction & instruction,
+    void SVGPath::getFloatPoints(const PathInstruction & instruction,
                                     const Gdiplus::PointF & inPrevPoint,
                                     std::vector<Gdiplus::PointF> & outPoints)
     {
@@ -291,7 +291,7 @@ namespace SVG
     }
 
 
-    void SVGPathImpl::GetAbsolutePositions(const PointFs & inRelativePoints,
+    void SVGPath::GetAbsolutePositions(const PointFs & inRelativePoints,
                                           const PointF & inPrevPoint,
                                           PointFs & outPoints)
     {
@@ -304,7 +304,7 @@ namespace SVG
     }
 
 
-    void SVGPathImpl::GetAbsolutePositions(const PathInstruction & instruction,
+    void SVGPath::GetAbsolutePositions(const PathInstruction & instruction,
                                           const PointF & inPrevPoint,
                                           PointFs & outPoints)
     {
@@ -325,7 +325,7 @@ namespace SVG
     }
 
 
-    void SVGPathImpl::GetPointReflection(const PointF & inPoint,
+    void SVGPath::GetPointReflection(const PointF & inPoint,
                                         const PointF & inOrigin,
                                         PointF & outReflection)
     {
@@ -335,7 +335,7 @@ namespace SVG
     }
 
     
-    void SVGPathImpl::GetPreparedInstructions(const PathInstructions & inData, PathInstructions & outPrepData)
+    void SVGPath::GetPreparedInstructions(const PathInstructions & inData, PathInstructions & outPrepData)
     {
         PointFs preppedPoints;
         PointF prevPoint;
@@ -366,7 +366,7 @@ namespace SVG
                     }
                     else
                     {
-                        ReportError("SVGElement Path of type MoveTo has more than one points.");
+                        ReportError("SVGElement SVGPathElement of type MoveTo has more than one points.");
                     }
                     break;
                 }
@@ -403,7 +403,7 @@ namespace SVG
                     }
                     else
                     {
-                        ReportError("SVGElement Path of type LineTo, HorizontalLineTo or VerticalLineTo has more than one points.");
+                        ReportError("SVGElement SVGPathElement of type LineTo, HorizontalLineTo or VerticalLineTo has more than one points.");
                     }
                     break;
                 }
@@ -576,7 +576,7 @@ namespace SVG
     }
 
     
-    void SVGPathImpl::paint(Gdiplus::Graphics & g)
+    void SVGPath::paint(Gdiplus::Graphics & g)
     {
         RGBColor fillColorRGB(getFill());
         Gdiplus::Color fillColor(fillColorRGB.alpha(),
@@ -661,13 +661,13 @@ namespace SVG
     }
     
     
-    const PathInstructions & SVGPathImpl::getPathInstructions() const
+    const PathInstructions & SVGPath::getPathInstructions() const
     {
         return mInstructions;
     }
 
 
-    void SVGPathImpl::setPathInstructions(const PathInstructions & inPathInstructions)
+    void SVGPath::setPathInstructions(const PathInstructions & inPathInstructions)
     {
         mInstructions = inPathInstructions;
         mPreparedInstructions.clear();

@@ -21,7 +21,7 @@ namespace XULWin
         virtual void addChild(ElementPtr inChild);
     
     private:        
-        void setImpl(const std::string & inType);
+        void set(const std::string & inType);
 
         friend class Element;
         ListBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);

@@ -12,19 +12,19 @@
 namespace XULWin
 {
 
-    ListItemImpl::ListItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ListItem::ListItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping),
         mSelected(false)
     {
     }
         
         
-    bool ListItemImpl::initComponent()
+    bool ListItem::initComponent()
     {
         // XUL hierarchy:
         // listbox/listitem/listcell
-        //    ^---> listbox here has ListViewImpl object (not ListBoxImpl)
-        if (ListViewImpl * listView = parent()->downcast<ListViewImpl>())
+        //    ^---> listbox here has ListView object (not ListBox)
+        if (ListView * listView = parent()->downcast<ListView>())
         {
             LVITEM lvItem;
             lvItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_STATE;
@@ -42,7 +42,7 @@ namespace XULWin
 
                 for (size_t idx = 0; idx != listCells.size(); ++idx)
                 {
-                    labels.push_back(ToUTF16(listCells[idx]->component()->downcast<ListCellImpl>()->getLabel()));
+                    labels.push_back(ToUTF16(listCells[idx]->component()->downcast<ListCell>()->getLabel()));
                 }
                 lvItem.lParam = (LPARAM)labels[0].c_str();
                 lvItem.iItem = getIndex();
@@ -57,31 +57,31 @@ namespace XULWin
     }
 
 
-    std::string ListItemImpl::getLabel() const
+    std::string ListItem::getLabel() const
     {
         return mLabel;
     }
 
     
-    void ListItemImpl::setLabel(const std::string & inLabel)
+    void ListItem::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }
 
 
-    bool ListItemImpl::isSelected() const
+    bool ListItem::isSelected() const
     {
         return mSelected;
     }
 
 
-    void ListItemImpl::setSelected(bool inSelected)
+    void ListItem::setSelected(bool inSelected)
     {
         mSelected = inSelected;
     }
 
 
-    bool ListItemImpl::initAttributeControllers()
+    bool ListItem::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         setAttributeController("selected", static_cast<SelectedController*>(this));
@@ -89,11 +89,11 @@ namespace XULWin
     }
 
 
-    int ListItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         static int cMargin = 4;
         int result = 0; 
-        if (ListBoxImpl * listBox = parent()->downcast<ListBoxImpl>())
+        if (ListBox * listBox = parent()->downcast<ListBox>())
         {
             int width = Windows::getTextSize(listBox->handle(), getLabel()).cx;
             int extraWidth = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(listBox->handle()).cx;
@@ -103,9 +103,9 @@ namespace XULWin
     }
 
 
-    int ListItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListItem::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (ListBoxImpl * listBox = parent()->downcast<ListBoxImpl>())
+        if (ListBox * listBox = parent()->downcast<ListBox>())
         {
             RECT rect;
             Windows::getListBoxItemRect(listBox->handle(), Windows::getListBoxIndexOf(listBox->handle(), getLabel()), rect);

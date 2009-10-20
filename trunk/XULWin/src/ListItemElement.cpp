@@ -10,7 +10,7 @@ namespace XULWin
     ListItemElement::ListItemElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListItemElement::Type(),
                 inParent,
-                new ListItemImpl(inParent->component(), inAttributesMapping))
+                new ListItem(inParent->component(), inAttributesMapping))
     {
     }
 

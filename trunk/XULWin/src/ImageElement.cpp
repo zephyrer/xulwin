@@ -12,7 +12,7 @@ namespace XULWin
     ImageElement::ImageElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ImageElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<ImageImpl>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateNativeControl<Image>(inParent, inAttributesMapping)))
     {
     }
 

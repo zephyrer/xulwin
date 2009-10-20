@@ -4,44 +4,44 @@
 namespace XULWin
 {
 
-    ListHeaderImpl::ListHeaderImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ListHeader::ListHeader(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool ListHeaderImpl::initComponent()
+    bool ListHeader::initComponent()
     {
         return Super::initComponent();
     }
 
     
-    bool ListHeaderImpl::initAttributeControllers()
+    bool ListHeader::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
         
         
-    int ListHeaderImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListHeader::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
     
-    int ListHeaderImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListHeader::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
 
-    std::string ListHeaderImpl::getLabel() const
+    std::string ListHeader::getLabel() const
     {
         return mLabel;
     }
 
     
-    void ListHeaderImpl::setLabel(const std::string & inLabel)
+    void ListHeader::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }

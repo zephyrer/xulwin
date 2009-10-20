@@ -9,7 +9,7 @@ namespace XULWin
 {
 
 
-    ListBoxImpl::ListBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ListBox::ListBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
         mRows(0)
     {
@@ -17,17 +17,17 @@ namespace XULWin
     }
 
     
-    bool ListBoxImpl::initComponent()
+    bool ListBox::initComponent()
     {
         return Super::initComponent();
     }
 
 
-    void ListBoxImpl::onChildAdded(Component * inChild)
+    void ListBox::onChildAdded(Component * inChild)
     {
         if (ListBoxElement * listBox = el()->downcast<ListBoxElement>())
         {
-            if (ListItemImpl * item = inChild->downcast<ListItemImpl>())
+            if (ListItem * item = inChild->downcast<ListItem>())
             {
                 Windows::addStringToListBox(handle(), item->getLabel());
             }
@@ -35,7 +35,7 @@ namespace XULWin
     }
 
 
-    bool ListBoxImpl::initAttributeControllers()
+    bool ListBox::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         setAttributeController("rows", static_cast<RowsController*>(this));
@@ -43,19 +43,19 @@ namespace XULWin
     }
     
     
-    int ListBoxImpl::getRows() const
+    int ListBox::getRows() const
     {
         return mRows.or(1);
     }
 
     
-    void ListBoxImpl::setRows(int inRows)
+    void ListBox::setRows(int inRows)
     {
         mRows = inRows;
     }
 
 
-    int ListBoxImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -70,7 +70,7 @@ namespace XULWin
     }
 
 
-    int ListBoxImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListBox::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         int itemCount = mRows.or(getChildCount());

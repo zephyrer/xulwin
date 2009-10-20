@@ -48,24 +48,24 @@ namespace SVG
     };
 
 
-    class SVGElementImpl : public PassiveComponent
+    class SVGComponent : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        SVGElementImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
 
     private:
     };
 
 
-    class SVGGroupImpl : public SVGElementImpl,
-                         public SVGPainter
+    class SVGGroup : public SVGComponent,
+                     public SVGPainter
     {
     public:
-        typedef SVGElementImpl Super;
+        typedef SVGComponent Super;
 
-        SVGGroupImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGGroup(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initStyleControllers();
 
@@ -73,14 +73,14 @@ namespace SVG
     };
 
 
-    class SVGPolygonImpl : public SVGElementImpl,
-                           public SVGPainter,
-                           public virtual PointsController
+    class SVGPolygon : public SVGComponent,
+                       public SVGPainter,
+                       public virtual PointsController
     {
     public:
-        typedef SVGElementImpl Super;
+        typedef SVGComponent Super;
 
-        SVGPolygonImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPolygon(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 
@@ -96,13 +96,13 @@ namespace SVG
     };
 
 
-    class SVGRectImpl : public SVGElementImpl,
-                        public SVGPainter
+    class SVGRect : public SVGComponent,
+                    public SVGPainter
     {
     public:
-        typedef SVGElementImpl Super;
+        typedef SVGComponent Super;
 
-        SVGRectImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGRect(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initStyleControllers();
 
@@ -113,14 +113,14 @@ namespace SVG
     };
 
 
-    class SVGPathImpl : public SVGElementImpl,
-                        public virtual PathInstructionsController,
-                        public SVGPainter
+    class SVGPath : public SVGComponent,
+                    public virtual PathInstructionsController,
+                    public SVGPainter
     {
     public:
-        typedef SVGElementImpl Super;
+        typedef SVGComponent Super;
 
-        SVGPathImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPath(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();
 

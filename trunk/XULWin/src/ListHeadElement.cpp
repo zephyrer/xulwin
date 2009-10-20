@@ -10,7 +10,7 @@ namespace XULWin
     ListHeadElement::ListHeadElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListHeadElement::Type(),
                 inParent,
-                new ListHeadImpl(inParent->component(), inAttributesMapping))
+                new ListHead(inParent->component(), inAttributesMapping))
     {
     }
 

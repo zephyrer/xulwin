@@ -4,31 +4,31 @@
 namespace XULWin
 {
 
-    ListColsImpl::ListColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ListCols::ListCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
         Super(inParent, inAttributesMapping)
     {
     }
 
 
-    bool ListColsImpl::initComponent()
+    bool ListCols::initComponent()
     {
         return Super::initComponent();
     }
 
     
-    bool ListColsImpl::initAttributeControllers()
+    bool ListCols::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
         
         
-    int ListColsImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ListCols::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
     
-    int ListColsImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ListCols::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }

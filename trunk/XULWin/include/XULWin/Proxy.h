@@ -17,10 +17,10 @@ namespace XULWin
         Proxy(Component * inDecoratedElement);
 
         // Returns previous instance.
-        ComponentPtr swap(ComponentPtr inNewElementImpl);
+        ComponentPtr swap(ComponentPtr inNewElement);
 
         // Takes ownership, and returns previous instance.
-        ComponentPtr swap(Component * inNewElementImpl);
+        ComponentPtr swap(Component * inNewElement);
     };
 
 } // namespace XULWin

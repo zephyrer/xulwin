@@ -8,14 +8,14 @@
 namespace XULWin
 {
 
-    class NewElementSImpl : public PassiveComponent
+    class NewElementS : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        NewElementSImpl(ElementImpl * inParent, const AttributesMapping & inAttributesMapping);
+        NewElementS(Element * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initImpl();
+        virtual bool init();
 
         bool initAttributeControllers();
 

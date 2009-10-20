@@ -9,13 +9,13 @@
 namespace XULWin
 {
 
-    class ListCellImpl : public PassiveComponent,
+    class ListCell : public PassiveComponent,
                          public LabelController
     {
     public:
         typedef PassiveComponent Super;
 
-        ListCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 

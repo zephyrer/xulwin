@@ -29,34 +29,34 @@ namespace SVG
     }
 
         
-    Group::Group(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Group::Type(),
+    SVGGroupElement::SVGGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(SVGGroupElement::Type(),
                 inParent,
-                new SVGGroupImpl(inParent->component(), inAttributesMapping))
+                new SVGGroup(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Polygon::Polygon(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Polygon::Type(),
+    SVGPolygonElement::SVGPolygonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(SVGPolygonElement::Type(),
                 inParent,
-                new SVGPolygonImpl(inParent->component(), inAttributesMapping))
+                new SVGPolygon(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    SVGRect::SVGRect(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SVGRect::Type(),
+    SVGRectElement::SVGRectElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(SVGRectElement::Type(),
                 inParent,
-                new SVGRectImpl(inParent->component(), inAttributesMapping))
+                new SVGRect(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    Path::Path(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(Path::Type(),
+    SVGPathElement::SVGPathElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(SVGPathElement::Type(),
                 inParent,
-                new SVGPathImpl(inParent->component(), inAttributesMapping))
+                new SVGPath(inParent->component(), inAttributesMapping))
     {
     }
 

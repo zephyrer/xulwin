@@ -8,12 +8,12 @@
 namespace XULWin
 {
 
-    class ListColsImpl : public PassiveComponent
+    class ListCols : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        ListColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListCols(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 

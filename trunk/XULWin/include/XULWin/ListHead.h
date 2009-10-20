@@ -8,12 +8,12 @@
 namespace XULWin
 {
 
-    class ListHeadImpl : public PassiveComponent
+    class ListHead : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        ListHeadImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListHead(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 

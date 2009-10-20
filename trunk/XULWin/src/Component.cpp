@@ -1866,17 +1866,17 @@ namespace XULWin
     }
     
     
-    const NativeComponent * NativeControl::GetNativeThisOrParent(const Component * inElementImpl)
+    const NativeComponent * NativeControl::GetNativeThisOrParent(const Component * inElement)
     {
-        if (const NativeComponent * obj = dynamic_cast<const NativeComponent*>(inElementImpl))
+        if (const NativeComponent * obj = dynamic_cast<const NativeComponent*>(inElement))
         {
             return obj;
         }
-        else if (const Decorator * obj = dynamic_cast<const Decorator*>(inElementImpl))
+        else if (const Decorator * obj = dynamic_cast<const Decorator*>(inElement))
         {
             return GetNativeThisOrParent(obj->decoratedElement().get());
         }
-        else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent*>(inElementImpl))
+        else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent*>(inElement))
         {
             return GetNativeThisOrParent(obj->parent());
         }
@@ -1884,9 +1884,9 @@ namespace XULWin
     }
     
     
-    NativeComponent * NativeControl::GetNativeThisOrParent(Component * inElementImpl)
+    NativeComponent * NativeControl::GetNativeThisOrParent(Component * inElement)
     {
-        return const_cast<NativeComponent *>(GetNativeThisOrParent(const_cast<const Component*>(inElementImpl)));
+        return const_cast<NativeComponent *>(GetNativeThisOrParent(const_cast<const Component*>(inElement)));
     }
     
     
@@ -2301,7 +2301,7 @@ namespace XULWin
     }
 
 
-    MenuListImpl::MenuListImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuList::MenuList(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent,
                       inAttributesMapping,
                       TEXT("COMBOBOX"),
@@ -2311,14 +2311,14 @@ namespace XULWin
     }
     
         
-    bool MenuListImpl::initComponent()
+    bool MenuList::initComponent()
     {
         fillComboBox();
         return Super::initComponent();
     }
 
 
-    void MenuListImpl::fillComboBox()
+    void MenuList::fillComboBox()
     {        
         if (MenuPopupComponent * popup = findChildOfType<MenuPopupComponent>())
         {
@@ -2336,7 +2336,7 @@ namespace XULWin
     }
 
     
-    int MenuListImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int MenuList::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int itemWidth = 0;
         for (size_t idx = 0; idx != mItems.size(); ++idx)
@@ -2351,13 +2351,13 @@ namespace XULWin
     }
 
 
-    int MenuListImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int MenuList::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return Defaults::controlHeight();
     }
     
     
-    void MenuListImpl::move(int x, int y, int w, int h)
+    void MenuList::move(int x, int y, int w, int h)
     {
         // The height of a combobox in Win32 is the height of the dropdown menu
         // + the height of the widget itself.
@@ -2376,13 +2376,13 @@ namespace XULWin
     }
 
 
-    void MenuListImpl::showPopupMenu(RECT inToolbarButtonRect)
+    void MenuList::showPopupMenu(RECT inToolbarButtonRect)
     {
         // no implementation needed
     }
     
     
-    void MenuListImpl::onContentChanged()
+    void MenuList::onContentChanged()
     {
         if (mIsInitialized)
         {
@@ -3407,22 +3407,22 @@ namespace XULWin
     }
 
 
-    TabsImpl::TabsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    TabImpl::TabImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    TabPanelsImpl::Instances TabPanelsImpl::sInstances;
+    TabPanels::Instances TabPanels::sInstances;
 
 
-    TabPanelsImpl::TabPanelsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TabPanels::TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping),
         mParentHandle(0),
         mTabBarHandle(0),
@@ -3432,7 +3432,7 @@ namespace XULWin
         NativeComponent * nativeParent = NativeControl::GetNativeThisOrParent(inParent);
         if (!nativeParent)
         {
-            ReportError("TabPanelsImpl constructor failed because no native parent was found.");
+            ReportError("TabPanels constructor failed because no native parent was found.");
             return;
         }
 
@@ -3451,12 +3451,12 @@ namespace XULWin
             0
         );
         ::SendMessage(mTabBarHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
-        mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mParentHandle, GWL_WNDPROC, (LONG)(LONG_PTR)&TabPanelsImpl::MessageHandler);
+        mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mParentHandle, GWL_WNDPROC, (LONG)(LONG_PTR)&TabPanels::MessageHandler);
         sInstances.insert(std::make_pair(mParentHandle, this));
     }
 
 
-    TabPanelsImpl::~TabPanelsImpl()
+    TabPanels::~TabPanels()
     {
         Instances::iterator it = sInstances.find(mParentHandle);
         if (it != sInstances.end())
@@ -3468,9 +3468,9 @@ namespace XULWin
     }
     
     
-    void TabPanelsImpl::addTabPanel(TabPanelImpl * inPanel)
+    void TabPanels::addTabPanel(TabPanel * inPanel)
     {
-        if (TabImpl * tab = getCorrespondingTab(mChildCount))
+        if (Tab * tab = getCorrespondingTab(mChildCount))
         {
             Windows::appendTabPanel(mTabBarHandle, tab->el()->getAttribute("label"));
             mChildCount++;
@@ -3479,7 +3479,7 @@ namespace XULWin
     }
         
     
-    TabImpl * TabPanelsImpl::getCorrespondingTab(size_t inIndex)
+    Tab * TabPanels::getCorrespondingTab(size_t inIndex)
     {
         for (size_t idx = 0; idx != el()->parent()->children().size(); ++idx)
         {
@@ -3487,7 +3487,7 @@ namespace XULWin
             {
                 if (TabsElement * tabs = el()->parent()->children()[idx]->downcast<TabsElement>())
                 {
-                    return tabs->children()[inIndex]->component()->downcast<TabImpl>();
+                    return tabs->children()[inIndex]->component()->downcast<Tab>();
                 }
             }
         }
@@ -3495,13 +3495,13 @@ namespace XULWin
     }
 
 
-    void TabPanelsImpl::rebuildLayout()
+    void TabPanels::rebuildLayout()
     {
         Rect rect = clientRect();
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            Component * elementImpl = getChild(idx);
-            elementImpl->move(rect.x(),
+            Component * element = getChild(idx);
+            element->move(rect.x(),
                               rect.y() + Defaults::tabHeight(),
                               rect.width(),
                               rect.height() - Defaults::tabHeight());
@@ -3511,7 +3511,7 @@ namespace XULWin
     }
 
 
-    int TabPanelsImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int TabPanels::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int res = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -3526,7 +3526,7 @@ namespace XULWin
     }
 
     
-    int TabPanelsImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int TabPanels::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int res = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -3541,7 +3541,7 @@ namespace XULWin
     }
 
 
-    void TabPanelsImpl::update()
+    void TabPanels::update()
     {
         int selectedIndex = TabCtrl_GetCurSel(mTabBarHandle);
         for (size_t idx = 0; idx != mChildCount; ++idx)
@@ -3565,7 +3565,7 @@ namespace XULWin
     }
 
 
-    LRESULT TabPanelsImpl::MessageHandler(HWND inHandle, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    LRESULT TabPanels::MessageHandler(HWND inHandle, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
 
         Instances::iterator it = sInstances.find(inHandle);
@@ -3574,7 +3574,7 @@ namespace XULWin
             return ::DefWindowProc(inHandle, inMessage, wParam, lParam);
         }
 
-        TabPanelsImpl * pThis = it->second;
+        TabPanels * pThis = it->second;
 
         switch (inMessage)
         {
@@ -3619,15 +3619,15 @@ namespace XULWin
     }
 
 
-    TabPanelImpl::TabPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TabPanel::TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualBox(inParent, inAttributesMapping)
     {
     }
         
     
-    bool TabPanelImpl::initComponent()
+    bool TabPanel::initComponent()
     {
-        if (TabPanelsImpl * parent = el()->parent()->component()->downcast<TabPanelsImpl>())
+        if (TabPanels * parent = el()->parent()->component()->downcast<TabPanels>())
         {
             parent->addTabPanel(this);
         }
@@ -3635,7 +3635,7 @@ namespace XULWin
     }
 
 
-    GroupBoxImpl::GroupBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    GroupBox::GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualBox(inParent, inAttributesMapping),
         mGroupBoxHandle(0),
         mMarginLeft(2),
@@ -3666,25 +3666,25 @@ namespace XULWin
     }
 
 
-    GroupBoxImpl::~GroupBoxImpl()
+    GroupBox::~GroupBox()
     {
         ::DestroyWindow(mGroupBoxHandle);
     }
         
         
-    Orient GroupBoxImpl::getOrient() const
+    Orient GroupBox::getOrient() const
     {
         return mOrient.or(Vertical);
     }
 
 
-    void GroupBoxImpl::setCaption(const std::string & inLabel)
+    void GroupBox::setCaption(const std::string & inLabel)
     {
         Windows::setWindowText(mGroupBoxHandle, inLabel);
     }
 
 
-    int GroupBoxImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int GroupBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int textWidth = Defaults::textPadding() + Windows::getTextSize(mGroupBoxHandle, Windows::getWindowText(mGroupBoxHandle)).cx;
         int contentWidth = mBoxLayouter.calculateWidth(inSizeConstraint);
@@ -3692,13 +3692,13 @@ namespace XULWin
     }
 
 
-    int GroupBoxImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int GroupBox::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return mMarginTop + mBoxLayouter.calculateHeight(inSizeConstraint) + mMarginBottom;
     }
     
     
-    void GroupBoxImpl::rebuildLayout()
+    void GroupBox::rebuildLayout()
     {
         Rect clientRect(Super::clientRect());
         ::MoveWindow(mGroupBoxHandle,
@@ -3711,7 +3711,7 @@ namespace XULWin
     }
 
 
-    Rect GroupBoxImpl::clientRect() const
+    Rect GroupBox::clientRect() const
     {
         Rect clientRect(Super::clientRect());
         Rect rect(clientRect.x() + mMarginLeft,
@@ -3733,7 +3733,7 @@ namespace XULWin
     // into account we never return it and return the element after it instead.
     // This requires getChildCount to be overridden as well to make it return
     // the number of children minus one.
-    const Component * GroupBoxImpl::getChild(size_t idx) const
+    const Component * GroupBox::getChild(size_t idx) const
     {
         if (Super::getChildCount() > 0)
         {
@@ -3750,15 +3750,15 @@ namespace XULWin
     }
 
     
-    Component * GroupBoxImpl::getChild(size_t idx)
+    Component * GroupBox::getChild(size_t idx)
     {
-        return const_cast<Component *>(static_cast<const GroupBoxImpl*>(this)->getChild(idx));
+        return const_cast<Component *>(static_cast<const GroupBox*>(this)->getChild(idx));
     }
     
     
     // Returns number of children minus the caption element.
-    // See documention of GroupBoxImpl::getChild method for more information.
-    size_t GroupBoxImpl::getChildCount() const
+    // See documention of GroupBox::getChild method for more information.
+    size_t GroupBox::getChildCount() const
     {
         if (Super::getChildCount() > 0)
         {
@@ -3771,13 +3771,13 @@ namespace XULWin
     }
 
 
-    CaptionImpl::CaptionImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Caption::Caption(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
         
     
-    int CaptionImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int Caption::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(mParent))
         {
@@ -3787,7 +3787,7 @@ namespace XULWin
     }
 
     
-    int CaptionImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int Caption::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(mParent))
         {
@@ -3797,9 +3797,9 @@ namespace XULWin
     }
 
 
-    bool CaptionImpl::initComponent()
+    bool Caption::initComponent()
     {
-        if (GroupBoxImpl * groupBox = mParent->downcast<GroupBoxImpl>())
+        if (GroupBox * groupBox = mParent->downcast<GroupBox>())
         {
             groupBox->setCaption(mElement->getAttribute("label"));
         }
@@ -3807,16 +3807,16 @@ namespace XULWin
     }
 
 
-    TreeImpl::TreeImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Tree::Tree(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
     {
     }
 
 
-    int TreeImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int Tree::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = Defaults::controlWidth();
-        if (const TreeChildrenImpl * children = findChildOfType<TreeChildrenImpl>())
+        if (const TreeChildren * children = findChildOfType<TreeChildren>())
         {
             result = Defaults::treeIndent() + children->calculateWidth(inSizeConstraint);
         }
@@ -3824,10 +3824,10 @@ namespace XULWin
     }
 
 
-    int TreeImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int Tree::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (const TreeChildrenImpl * children = findChildOfType<TreeChildrenImpl>())
+        if (const TreeChildren * children = findChildOfType<TreeChildren>())
         {
             result = children->calculateHeight(inSizeConstraint);
         }
@@ -3835,13 +3835,13 @@ namespace XULWin
     }
 
     
-    void TreeImpl::addInfo(const TreeItemInfo & inInfo)
+    void Tree::addInfo(const TreeItemInfo & inInfo)
     {
         addInfo(TVI_ROOT, TVI_FIRST, inInfo);
     }
 
     
-    HTREEITEM TreeImpl::addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo)
+    HTREEITEM Tree::addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo)
     {
         std::wstring label = ToUTF16(inInfo.label());
 
@@ -3866,13 +3866,13 @@ namespace XULWin
     }
     
     
-    bool TreeImpl::initComponent()
+    bool Tree::initComponent()
     {
-        if (TreeChildrenImpl * children = findChildOfType<TreeChildrenImpl>())
+        if (TreeChildren * children = findChildOfType<TreeChildren>())
         {
             if (Component * firstChild = children->el()->children()[0]->component())
             {
-                if (TreeItemImpl * item = firstChild->downcast<TreeItemImpl>())
+                if (TreeItem * item = firstChild->downcast<TreeItem>())
                 {
                     addInfo(item->itemInfo());
                 }
@@ -3882,19 +3882,19 @@ namespace XULWin
     }
 
 
-    TreeChildrenImpl::TreeChildrenImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
         
     
-    int TreeChildrenImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int TreeChildren::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const Component * child = getChild(idx);
-            if (const TreeItemImpl * item = child->downcast<TreeItemImpl>())
+            if (const TreeItem * item = child->downcast<TreeItem>())
             {
                 result += item->calculateHeight(inSizeConstraint);
             }
@@ -3903,13 +3903,13 @@ namespace XULWin
     }
 
 
-    int TreeChildrenImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int TreeChildren::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const Component * child = getChild(idx);
-            if (const TreeItemImpl * item = child->downcast<TreeItemImpl>())
+            if (const TreeItem * item = child->downcast<TreeItem>())
             {
                 int minWidth = item->calculateWidth(inSizeConstraint);
                 if (result < minWidth)
@@ -3922,16 +3922,16 @@ namespace XULWin
     }
 
 
-    TreeItemImpl::TreeItemImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
         
     
-    int TreeItemImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int TreeItem::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (const TreeRowImpl * row = findChildOfType<TreeRowImpl>())
+        if (const TreeRow * row = findChildOfType<TreeRow>())
         {
             int minHeight = row->calculateHeight(inSizeConstraint);
             if (result < minHeight)
@@ -3939,7 +3939,7 @@ namespace XULWin
                 result = minHeight;
             }
         }
-        if (const TreeChildrenImpl * treeChildren = findChildOfType<TreeChildrenImpl>())
+        if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
         {
             result += treeChildren->calculateHeight(inSizeConstraint);
         }
@@ -3947,10 +3947,10 @@ namespace XULWin
     }
 
 
-    int TreeItemImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int TreeItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (const TreeRowImpl * row = findChildOfType<TreeRowImpl>())
+        if (const TreeRow * row = findChildOfType<TreeRow>())
         {
             int minWidth = row->calculateWidth(inSizeConstraint);
             if (result < minWidth)
@@ -3958,7 +3958,7 @@ namespace XULWin
                 result = minWidth;
             }
         }
-        if (const TreeChildrenImpl * treeChildren = findChildOfType<TreeChildrenImpl>())
+        if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
         {
             int minWidth = Defaults::treeIndent() + treeChildren->calculateWidth(inSizeConstraint);
             if (result < minWidth)
@@ -3970,9 +3970,9 @@ namespace XULWin
     }
     
     
-    bool TreeItemImpl::isOpened() const
+    bool TreeItem::isOpened() const
     {
-        //if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<TreeItemImpl*>(this)))
+        //if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<TreeItem*>(this)))
         //{
         //    TreeView_GetItemState(comp->handle(), hti, mask);
         //}
@@ -3980,22 +3980,22 @@ namespace XULWin
     }
 
 
-    bool TreeItemImpl::initComponent()
+    bool TreeItem::initComponent()
     {
-        if (TreeRowImpl * row = findChildOfType<TreeRowImpl>())
+        if (TreeRow * row = findChildOfType<TreeRow>())
         {
-            if (TreeCellImpl * cell = row->findChildOfType<TreeCellImpl>())
+            if (TreeCell * cell = row->findChildOfType<TreeCell>())
             {
                 std::string label = cell->getLabel();
                 mItemInfo.setLabel(label);
             }
         }
-        if (TreeChildrenImpl * treeChildren = findChildOfType<TreeChildrenImpl>())
+        if (TreeChildren * treeChildren = findChildOfType<TreeChildren>())
         {
             for (size_t idx = 0; idx != treeChildren->getChildCount(); ++idx)
             {
                 Component * child = treeChildren->getChild(idx);
-                if (TreeItemImpl * item = child->downcast<TreeItemImpl>())
+                if (TreeItem * item = child->downcast<TreeItem>())
                 {
                     mItemInfo.addChild(&item->itemInfo());
                 }
@@ -4005,31 +4005,31 @@ namespace XULWin
     }
 
 
-    TreeColsImpl::TreeColsImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    TreeColImpl::TreeColImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    TreeRowImpl::TreeRowImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    int TreeRowImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int TreeRow::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const Component * child = getChild(idx);
-            if (const TreeCellImpl * cell = child->downcast<TreeCellImpl>())
+            if (const TreeCell * cell = child->downcast<TreeCell>())
             {
                 result += cell->calculateWidth(inSizeConstraint);
             }
@@ -4038,13 +4038,13 @@ namespace XULWin
     }
 
 
-    int TreeRowImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int TreeRow::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             const Component * child = getChild(idx);
-            if (const TreeCellImpl * cell = child->downcast<TreeCellImpl>())
+            if (const TreeCell * cell = child->downcast<TreeCell>())
             {
                 result += cell->calculateHeight(inSizeConstraint);
             }
@@ -4053,35 +4053,35 @@ namespace XULWin
     }
 
 
-    TreeCellImpl::TreeCellImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    bool TreeCellImpl::initAttributeControllers()
+    bool TreeCell::initAttributeControllers()
     {
         Super::setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
 
 
-    std::string TreeCellImpl::getLabel() const
+    std::string TreeCell::getLabel() const
     {
         return mLabel;
     }
 
 
-    void TreeCellImpl::setLabel(const std::string & inLabel)
+    void TreeCell::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }
 
     
-    int TreeCellImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int TreeCell::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<TreeCellImpl*>(this)))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<TreeCell*>(this)))
         {
             result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
         }
@@ -4089,26 +4089,26 @@ namespace XULWin
     }
 
 
-    int TreeCellImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int TreeCell::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return Defaults::treeItemHeight();
     }
 
 
-    StatusbarImpl::StatusbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Statusbar::Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
         mBoxLayouter(this)
     {
     }
 
 
-    bool StatusbarImpl::initAttributeControllers()
+    bool Statusbar::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
 
 
-    int StatusbarImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int Statusbar::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -4120,25 +4120,25 @@ namespace XULWin
     }
 
 
-    int StatusbarImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int Statusbar::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return Defaults::statusBarHeight();
     }
 
 
-    Orient StatusbarImpl::getOrient() const
+    Orient Statusbar::getOrient() const
     {
         return Horizontal;
     }
 
 
-    Align StatusbarImpl::getAlign() const
+    Align Statusbar::getAlign() const
     {
         return Center;
     }
 
 
-    Rect StatusbarImpl::clientRect() const
+    Rect Statusbar::clientRect() const
     {
         Rect clientRect(Super::clientRect());
         // Substract from with one square to make place for the resize gripper widget
@@ -4146,43 +4146,43 @@ namespace XULWin
     }
 
 
-    void StatusbarImpl::rebuildLayout()
+    void Statusbar::rebuildLayout()
     {
         mBoxLayouter.rebuildLayout();
     }
 
 
-    void StatusbarImpl::rebuildChildLayouts()
+    void Statusbar::rebuildChildLayouts()
     {
         Super::rebuildChildLayouts();
     }
 
 
-    StatusbarPanelImpl::StatusbarPanelImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    StatusbarPanel::StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
     {
     }
 
 
-    bool StatusbarPanelImpl::initAttributeControllers()
+    bool StatusbarPanel::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
 
 
-    int StatusbarPanelImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int StatusbarPanel::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return Windows::getTextSize(handle(), getLabel()).cx;
     }
 
 
-    int StatusbarPanelImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int StatusbarPanel::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return Windows::getTextSize(handle(), getLabel()).cy;
     }
 
 
-    ToolbarImpl::ToolbarImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping)
     {            
         if (NativeComponent * nativeComponent = NativeControl::GetNativeThisOrParent(inParent))
@@ -4199,14 +4199,14 @@ namespace XULWin
     }
 
 
-    ToolbarImpl::~ToolbarImpl()
+    Toolbar::~Toolbar()
     {
         unregisterHandle();
         mToolbar.reset();
     }
 
 
-    bool ToolbarImpl::initComponent()
+    bool Toolbar::initComponent()
     {
         mToolbar->buildToolbar();
         mToolbar->rebuildLayout();
@@ -4215,13 +4215,13 @@ namespace XULWin
     }
 
 
-    bool ToolbarImpl::initAttributeControllers()
+    bool Toolbar::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
 
 
-    int ToolbarImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int Toolbar::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -4233,7 +4233,7 @@ namespace XULWin
     }
 
 
-    int ToolbarImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int Toolbar::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -4249,18 +4249,18 @@ namespace XULWin
     }
 
 
-    void ToolbarImpl::rebuildLayout()
+    void Toolbar::rebuildLayout()
     {
         mToolbar->rebuildLayout();        
     }
 
 
-    ToolbarButtonImpl::ToolbarButtonImpl(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping),
         mButton(0),
         mDisabled(false)
     {
-        if (ToolbarImpl * toolbar = parent()->downcast<ToolbarImpl>())
+        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
         {
             boost::shared_ptr<Gdiplus::Bitmap> nullImage;
             std::string label = getLabel();
@@ -4315,19 +4315,19 @@ namespace XULWin
     }
 
 
-    bool ToolbarButtonImpl::initComponent()
+    bool ToolbarButton::initComponent()
     {
         return Super::initComponent();
     }
     
 
-    void ToolbarButtonImpl::showToolbarMenu(RECT inToolbarButtonRect)
+    void ToolbarButton::showToolbarMenu(RECT inToolbarButtonRect)
     {
         showPopupMenu(inToolbarButtonRect);
     }
     
 
-    void ToolbarButtonImpl::showPopupMenu(RECT inToolbarButtonRect)
+    void ToolbarButton::showPopupMenu(RECT inToolbarButtonRect)
     {
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
@@ -4340,7 +4340,7 @@ namespace XULWin
     }
 
 
-    bool ToolbarButtonImpl::initAttributeControllers()
+    bool ToolbarButton::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         setAttributeController("disabled", static_cast<DisabledController*>(this));
@@ -4348,18 +4348,18 @@ namespace XULWin
     }
 
 
-    bool ToolbarButtonImpl::initStyleControllers()
+    bool ToolbarButton::initStyleControllers()
     {
         setStyleController(CSSListStyleImageController::PropertyName(), static_cast<CSSListStyleImageController*>(this));
         return Super::initStyleControllers();
     }
 
 
-    int ToolbarButtonImpl::calculateWidth(SizeConstraint inSizeConstraint) const
+    int ToolbarButton::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (ToolbarImpl * toolbarImpl = parent()->downcast<ToolbarImpl>())
+        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
         {
-            int textWidth = Windows::getTextSize(toolbarImpl->handle(), getLabel()).cx;
+            int textWidth = Windows::getTextSize(toolbar->handle(), getLabel()).cx;
             int imageWidth = 0;
             if (mButton && mButton->image())
             {
@@ -4372,12 +4372,12 @@ namespace XULWin
     }
 
 
-    int ToolbarButtonImpl::calculateHeight(SizeConstraint inSizeConstraint) const
+    int ToolbarButton::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = Defaults::toolbarHeight();
-        if (ToolbarImpl * toolbarImpl = parent()->downcast<ToolbarImpl>())
+        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
         {
-            int textHeight = Windows::getTextSize(toolbarImpl->handle(), getLabel()).cy;
+            int textHeight = Windows::getTextSize(toolbar->handle(), getLabel()).cy;
             if (textHeight > result)
             {
                 result = textHeight;
@@ -4395,7 +4395,7 @@ namespace XULWin
     }
     
     
-    std::string ToolbarButtonImpl::getLabel() const
+    std::string ToolbarButton::getLabel() const
     {
         if (mButton)
         {
@@ -4405,7 +4405,7 @@ namespace XULWin
     }
 
     
-    void ToolbarButtonImpl::setLabel(const std::string & inLabel)
+    void ToolbarButton::setLabel(const std::string & inLabel)
     {
         if (mButton)
         {
@@ -4415,17 +4415,17 @@ namespace XULWin
     }
 
 
-    bool ToolbarButtonImpl::isDisabled() const
+    bool ToolbarButton::isDisabled() const
     {
         return mDisabled;
     }
 
 
-    void ToolbarButtonImpl::setDisabled(bool inDisabled)
+    void ToolbarButton::setDisabled(bool inDisabled)
     {
         if (mButton)
         {
-            if (ToolbarImpl * toolbar = parent()->downcast<ToolbarImpl>())
+            if (Toolbar * toolbar = parent()->downcast<Toolbar>())
             {
                 SendMessage(toolbar->handle(), TB_ENABLEBUTTON, (WPARAM)mCommandId.intValue(), (LPARAM)MAKELONG(inDisabled ? FALSE : TRUE, 0));
             }
@@ -4437,7 +4437,7 @@ namespace XULWin
     }
     
     
-    void ToolbarButtonImpl::setCSSListStyleImage(const std::string & inURL)
+    void ToolbarButton::setCSSListStyleImage(const std::string & inURL)
     {
         if (mButton)
         {
@@ -4450,7 +4450,7 @@ namespace XULWin
     }
 
     
-    const std::string & ToolbarButtonImpl::getCSSListStyleImage() const
+    const std::string & ToolbarButton::getCSSListStyleImage() const
     {
         return mCSSListStyleImage;
     }

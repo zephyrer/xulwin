@@ -9,13 +9,13 @@ namespace XULWin
 {
 
 
-    class ListBoxImpl : public NativeControl,
+    class ListBox : public NativeControl,
                         public RowsController
     {
     public:
         typedef NativeControl Super;
 
-        ListBoxImpl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initComponent();
 

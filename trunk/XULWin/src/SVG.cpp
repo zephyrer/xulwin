@@ -5,11 +5,7 @@
 
 
 namespace XULWin
-{
-
-namespace SVG
-{
-    
+{    
     
     SVGCanvas::SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
@@ -673,8 +669,5 @@ namespace SVG
         mPreparedInstructions.clear();
         GetPreparedInstructions(mInstructions, mPreparedInstructions);
     }
-
-
-} // namespace SVG
 
 } // namespace XULWin

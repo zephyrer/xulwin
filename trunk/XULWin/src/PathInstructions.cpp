@@ -4,9 +4,6 @@
 namespace XULWin
 {
 
-namespace SVG
-{
-
     
     PathInstruction::PathInstruction(Type inType, Positioning inPositioning, const PointFs & inPoints) :
         mType(inType),
@@ -56,7 +53,5 @@ namespace SVG
     {
         return mPoints;
     }
-
-} // namespace SVG
 
 } // namespace XULWin

@@ -67,9 +67,9 @@ namespace XULWin
 
     Points String2Points(const std::string & inValue);
 
-    std::string PathInstructions2String(const SVG::PathInstructions & inPathInstructions);
+    std::string PathInstructions2String(const PathInstructions & inPathInstructions);
 
-    SVG::PathInstructions String2PathInstructions(const std::string & inValue);
+    PathInstructions String2PathInstructions(const std::string & inValue);
 
     // URL looks like this:
     // url("chrome://app/skin/logo.png");

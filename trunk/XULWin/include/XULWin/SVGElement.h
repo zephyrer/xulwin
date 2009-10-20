@@ -9,9 +9,6 @@
 namespace XULWin
 {
 
-namespace SVG
-{
-
     class SVGElement : public Element
     {
     public:
@@ -80,8 +77,6 @@ namespace SVG
         friend class Element;
         SVGPathElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
-
-} // namespace SVG
 
 } // namespace XULWin
 

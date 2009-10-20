@@ -17,10 +17,6 @@
 namespace XULWin
 {
 
-namespace SVG
-{
-
-
     SVGElement::SVGElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(SVGElement::Type(),
                 inParent,
@@ -60,8 +56,5 @@ namespace SVG
     {
     }
 
-
-
-} // namespace SVG
 
 } // namespace XULWin

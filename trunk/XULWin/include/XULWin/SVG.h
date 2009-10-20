@@ -16,9 +16,6 @@ namespace Gdiplus
 
 namespace XULWin
 {
-
-namespace SVG
-{
     
     class SVGPainter
     {
@@ -156,8 +153,6 @@ namespace SVG
         PathInstructions mInstructions;
         PathInstructions mPreparedInstructions;
     };
-
-} // namespace SVG
 
 } // namespace XULWin
 

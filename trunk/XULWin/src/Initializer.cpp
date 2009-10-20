@@ -63,11 +63,11 @@ namespace XULWin
         ElementFactory::Instance().registerElement<TabPanelElement>();
         ElementFactory::Instance().registerElement<GroupBoxElement>();
         ElementFactory::Instance().registerElement<CaptionElement>();
-        ElementFactory::Instance().registerElement<SVG::SVGElement>();
-        ElementFactory::Instance().registerElement<SVG::SVGGroupElement>();
-        ElementFactory::Instance().registerElement<SVG::SVGPolygonElement>();
-        ElementFactory::Instance().registerElement<SVG::SVGPathElement>();
-        ElementFactory::Instance().registerElement<SVG::SVGRectElement>();
+        ElementFactory::Instance().registerElement<SVGElement>();
+        ElementFactory::Instance().registerElement<SVGGroupElement>();
+        ElementFactory::Instance().registerElement<SVGPolygonElement>();
+        ElementFactory::Instance().registerElement<SVGPathElement>();
+        ElementFactory::Instance().registerElement<SVGRectElement>();
         ElementFactory::Instance().registerElement<TreeElement>();
         ElementFactory::Instance().registerElement<TreeChildrenElement>();
         ElementFactory::Instance().registerElement<TreeColsElement>();

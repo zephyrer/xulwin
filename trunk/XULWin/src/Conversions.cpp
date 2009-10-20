@@ -8,7 +8,6 @@
 
 namespace XULWin
 {
-    using namespace SVG;
 
 
     template<class T>

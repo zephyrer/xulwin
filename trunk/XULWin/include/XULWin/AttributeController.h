@@ -489,9 +489,9 @@ namespace XULWin
 
         virtual void set(const std::string & inValue);
 
-        virtual const SVG::PathInstructions & getPathInstructions() const = 0;
+        virtual const PathInstructions & getPathInstructions() const = 0;
 
-        virtual void setPathInstructions(const SVG::PathInstructions & inPathInstructions) = 0;
+        virtual void setPathInstructions(const PathInstructions & inPathInstructions) = 0;
     };
 
 

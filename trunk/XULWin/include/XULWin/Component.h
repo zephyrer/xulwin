@@ -9,6 +9,7 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/Fallible.h"
 #include "XULWin/GdiplusLoader.h"
+#include "XULWin/Node.h"
 #include "XULWin/Layout.h"
 #include "XULWin/StyleController.h"
 #include "XULWin/Toolbar.h"
@@ -1546,38 +1547,9 @@ namespace XULWin
 
         virtual bool init();
     };
-    
 
-    class TreeItemInfo
-    {
-    public:
-        TreeItemInfo() {}
 
-        TreeItemInfo(const std::string & inLabel) : mLabel(inLabel){}
-
-        const std::string & label() const
-        { return mLabel; }
-
-        void setLabel(const std::string & inLabel)
-        { mLabel = inLabel; }
-
-        size_t getChildCount() const
-        { return mChildren.size(); }
-
-        const TreeItemInfo * getChild(size_t idx) const
-        { return mChildren[idx]; }
-
-        TreeItemInfo * getChild(size_t idx)
-        { return mChildren[idx]; }
-
-        void addChild(TreeItemInfo * inItem)
-        { mChildren.push_back(inItem); }
-
-    private:
-        std::string mLabel;
-        typedef std::vector<TreeItemInfo* > Children;
-        Children mChildren;
-    };
+    typedef GenericNode<std::string, NormalPointerPolicy> TreeItemInfo;
 
 
     class TreeCell;

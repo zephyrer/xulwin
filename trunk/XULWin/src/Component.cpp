@@ -3843,7 +3843,7 @@ namespace XULWin
     
     HTREEITEM Tree::addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo)
     {
-        std::wstring label = ToUTF16(inInfo.label());
+        std::wstring label = ToUTF16(inInfo.data());
 
         TVITEM tvi; 
         tvi.mask = TVIF_TEXT;
@@ -3987,7 +3987,7 @@ namespace XULWin
             if (TreeCell * cell = row->findChildOfType<TreeCell>())
             {
                 std::string label = cell->getLabel();
-                mItemInfo.setLabel(label);
+                mItemInfo.setData(label);
             }
         }
         if (TreeChildren * treeChildren = findChildOfType<TreeChildren>())

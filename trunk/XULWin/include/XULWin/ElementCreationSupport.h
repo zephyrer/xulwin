@@ -13,7 +13,7 @@ namespace XULWin
 {    
 
     template<class ControlType>
-    static Component * CreateNativeControl(Element * inParent, const AttributesMapping & inAttributesMapping)
+    static Component * CreateControl(Element * inParent, const AttributesMapping & inAttributesMapping)
     {
         if (!inParent)
         {
@@ -75,7 +75,7 @@ namespace XULWin
     }
 
 
-    template<class VirtualType, class NativeType>
+    template<class VirtualType, class Type>
     static Component * CreateContainer(Element * inParent, const AttributesMapping & inAttributesMapping)
     {
         StylesMapping styles;
@@ -84,12 +84,12 @@ namespace XULWin
         CSSOverflow overflowY = GetOverflow(styles, "overflow-y");
         if (overflowX != CSSOverflow_Hidden || overflowY != CSSOverflow_Hidden)
         {
-            Component * box = CreateNativeControl<NativeType>(inParent, inAttributesMapping);
+            Component * box = CreateControl<Type>(inParent, inAttributesMapping);
             return new ScrollDecorator(inParent->component(), box, overflowX, overflowY);
         }
         else
         {
-            return new Decorator(CreateNativeControl<VirtualType>(inParent, inAttributesMapping));
+            return new Decorator(CreateControl<VirtualType>(inParent, inAttributesMapping));
         }
     }
 }

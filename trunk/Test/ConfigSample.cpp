@@ -132,7 +132,7 @@ namespace XULWin
     LRESULT ConfigSample::newSetOK()
     {        
         AttributesMapping attr;
-        if (NativeTextBox * nativeTextBox = mNewSetTextBox->component()->downcast<NativeTextBox>())
+        if (TextBox * nativeTextBox = mNewSetTextBox->component()->downcast<TextBox>())
         {
             addNewSet(nativeTextBox->getValue());
         }

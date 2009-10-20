@@ -10,7 +10,7 @@ namespace XULWin
 
 
     ListBox::ListBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
+        HWNDControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
         mRows(0)
     {
         mRows.setInvalid();

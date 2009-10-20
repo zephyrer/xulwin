@@ -9,7 +9,7 @@ namespace XULWin
         IECustomWindow(),
         mCustomWindow(0)
     {        
-        if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
+        if (HWNDComponent * native = mDecoratedElement->downcast<HWNDComponent>())
         {
             mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedElement->commandId(), native->handle());
         }        

@@ -205,7 +205,7 @@ namespace XULWin
 
 
     class ScrollDecorator : public Decorator,
-                            public NativeScrollbar::EventListener
+                            public Scrollbar::EventListener
     {
     public:
         typedef Decorator Super;
@@ -230,7 +230,7 @@ namespace XULWin
 
         virtual void rebuildLayout();
 
-        virtual bool curposChanged(NativeScrollbar * inSender, int inOldPos, int inNewPos);
+        virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos);
 
         LRESULT handleMouseWheel(WPARAM wParam, LPARAM lParam);
 

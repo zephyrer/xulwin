@@ -8,13 +8,13 @@
 namespace XULWin
 {
 
-    class Image : public NativeControl,
+    class Image : public HWNDControl,
                       public virtual SrcController,
                       public virtual KeepAspectRatioController,
                       public GdiplusLoader
     {
     public:
-        typedef NativeControl Super;
+        typedef HWNDControl Super;
 
         Image(Component * inParent, const AttributesMapping & inAttributesMapping);
 

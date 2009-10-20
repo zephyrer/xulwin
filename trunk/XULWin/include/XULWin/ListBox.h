@@ -9,11 +9,11 @@ namespace XULWin
 {
 
 
-    class ListBox : public NativeControl,
+    class ListBox : public HWNDControl,
                         public RowsController
     {
     public:
-        typedef NativeControl Super;
+        typedef HWNDControl Super;
 
         ListBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 

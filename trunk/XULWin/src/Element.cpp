@@ -248,7 +248,7 @@ namespace XULWin
             return false;
         }
 
-        if (NativeComponent * comp = m->downcast<NativeComponent>())
+        if (HWNDComponent * comp = m->downcast<HWNDComponent>())
         {
             comp->addEventListener(inEventListener);
             return true;
@@ -264,7 +264,7 @@ namespace XULWin
             return false;
         }
 
-        if (NativeComponent * comp = m->downcast<NativeComponent>())
+        if (HWNDComponent * comp = m->downcast<HWNDComponent>())
         {
             comp->removeEventListener(inEventListener);
             return true;
@@ -364,7 +364,7 @@ namespace XULWin
     ButtonElement::ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ButtonElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeButton>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<Button>(inParent, inAttributesMapping)))
     {
     }
 
@@ -372,7 +372,7 @@ namespace XULWin
     LabelElement::LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(LabelElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeLabel>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<Label>(inParent, inAttributesMapping)))
     {
     }
 
@@ -380,7 +380,7 @@ namespace XULWin
     DescriptionElement::DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(DescriptionElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeDescription>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<Description>(inParent, inAttributesMapping)))
     {
     }
 
@@ -395,7 +395,7 @@ namespace XULWin
     TextElement::TextElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TextElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeLabel>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<Label>(inParent, inAttributesMapping)))
     {
     }
 
@@ -403,7 +403,7 @@ namespace XULWin
     TextBoxElement::TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TextBoxElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeTextBox>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<TextBox>(inParent, inAttributesMapping)))
     {
     }
 
@@ -411,7 +411,7 @@ namespace XULWin
     CheckBoxElement::CheckBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(CheckBoxElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeCheckBox>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<CheckBox>(inParent, inAttributesMapping)))
     {
     }
 
@@ -419,7 +419,7 @@ namespace XULWin
     BoxElement::BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(BoxElement::Type(),
                 inParent,
-                CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
+                CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
     {
     }
 
@@ -427,7 +427,7 @@ namespace XULWin
     HBoxElement::HBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(HBoxElement::Type(),
                 inParent,
-                CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
+                CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
     {
         component()->setOrient(Horizontal);
     }
@@ -435,7 +435,7 @@ namespace XULWin
 
     VBoxElement::VBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(VBoxElement::Type(),
-                inParent,CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
+                inParent,CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
     {
         component()->setOrient(Vertical);
     }
@@ -444,7 +444,7 @@ namespace XULWin
     MenuListElement::MenuListElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuListElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<MenuList>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<MenuList>(inParent, inAttributesMapping)))
     {
     }
 
@@ -452,7 +452,7 @@ namespace XULWin
     SeparatorElement::SeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(SeparatorElement::Type(),
                 inParent,
-                new MarginDecorator(CreateNativeControl<NativeSeparator>(inParent, inAttributesMapping)))
+                new MarginDecorator(CreateControl<Separator>(inParent, inAttributesMapping)))
     {
     }
 
@@ -465,7 +465,7 @@ namespace XULWin
     SpacerElement::SpacerElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(SpacerElement::Type(),
                 inParent,
-                new NativeSpacer(inParent->component(), inAttributesMapping))
+                new Spacer(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -478,7 +478,7 @@ namespace XULWin
     MenuButtonElement::MenuButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuButtonElement::Type(),
                 inParent,
-                new MarginDecorator(new NativeMenuButton(inParent->component(), inAttributesMapping)))
+                new MarginDecorator(new MenuButton(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -491,7 +491,7 @@ namespace XULWin
     GridElement::GridElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(GridElement::Type(),
                 inParent,
-                CreateContainer<VirtualGrid, NativeGrid>(inParent, inAttributesMapping))
+                CreateContainer<VirtualGrid, Grid>(inParent, inAttributesMapping))
     {
     }
 
@@ -504,7 +504,7 @@ namespace XULWin
     RowsElement::RowsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RowsElement::Type(),
                 inParent,
-                new NativeRows(inParent->component(), inAttributesMapping))
+                new Rows(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -517,7 +517,7 @@ namespace XULWin
     ColumnsElement::ColumnsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ColumnsElement::Type(),
                 inParent,
-                new NativeColumns(inParent->component(), inAttributesMapping))
+                new Columns(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -530,7 +530,7 @@ namespace XULWin
     RowElement::RowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RowElement::Type(),
                 inParent,
-                new NativeRow(inParent->component(), inAttributesMapping))
+                new Row(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -543,7 +543,7 @@ namespace XULWin
     ColumnElement::ColumnElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ColumnElement::Type(),
                 inParent,
-                new NativeColumn(inParent->component(), inAttributesMapping))
+                new Column(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -556,7 +556,7 @@ namespace XULWin
     RadioGroupElement::RadioGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RadioGroupElement::Type(),
                 inParent,
-                new Decorator(new NativeRadioGroup(inParent->component(), inAttributesMapping)))
+                new Decorator(new RadioGroup(inParent->component(), inAttributesMapping)))
     { 
     }
 
@@ -569,7 +569,7 @@ namespace XULWin
     RadioElement::RadioElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RadioElement::Type(),
                 inParent,
-                new MarginDecorator(new NativeRadio(inParent->component(), inAttributesMapping)))
+                new MarginDecorator(new Radio(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -582,7 +582,7 @@ namespace XULWin
     ProgressMeterElement::ProgressMeterElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ProgressMeterElement::Type(),
                 inParent,
-                new MarginDecorator(new NativeProgressMeter(inParent->component(), inAttributesMapping)))
+                new MarginDecorator(new ProgressMeter(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -595,7 +595,7 @@ namespace XULWin
     DeckElement::DeckElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(DeckElement::Type(),
                 inParent,
-                new Decorator(new NativeDeck(inParent->component(), inAttributesMapping)))
+                new Decorator(new Deck(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -608,7 +608,7 @@ namespace XULWin
     ScrollbarElement::ScrollbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ScrollbarElement::Type(),
                 inParent,
-                new Decorator(new NativeScrollbar(inParent->component(), inAttributesMapping)))
+                new Decorator(new Scrollbar(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -621,7 +621,7 @@ namespace XULWin
     TabBoxElement::TabBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TabBoxElement::Type(),
                 inParent,
-                CreateContainer<VirtualBox, NativeBox>(inParent, inAttributesMapping))
+                CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
     { 
     }
 

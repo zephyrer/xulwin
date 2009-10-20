@@ -24,11 +24,11 @@ namespace XULWin
     };
 
 
-    class SVGCanvas : public NativeControl,
+    class SVGCanvas : public HWNDControl,
                       public GdiplusLoader
     {
     public:
-        typedef NativeControl Super;
+        typedef HWNDControl Super;
 
         SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -89,7 +89,7 @@ namespace XULWin
 
     private:
         Points mPoints;
-        std::vector<Gdiplus::PointF> mNativePoints;
+        std::vector<Gdiplus::PointF> mPointFs;
     };
 
 
@@ -106,7 +106,7 @@ namespace XULWin
         virtual void paint(Gdiplus::Graphics & g);
 
     private:
-        std::vector<Gdiplus::PointF> mNativePoints;
+        std::vector<Gdiplus::PointF> mPoints;
     };
 
 

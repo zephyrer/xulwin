@@ -9,10 +9,10 @@ namespace XULWin
 {
     class ListHeader;
 
-    class ListView : public NativeControl
+    class ListView : public HWNDControl
     {
     public:
-        typedef NativeControl Super;
+        typedef HWNDControl Super;
 
         ListView(Component * inParent,
                      const AttributesMapping & inAttributesMapping);

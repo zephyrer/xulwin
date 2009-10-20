@@ -20,7 +20,7 @@ namespace XULWin
      * Component subclasses should inherit the attribute controllers that
      * correspond with their own attributes.
      * For example the ButtonElement element has the 'label' attribute, therefore the
-     * the NativeButton class should inherit the LabelController, and provide
+     * the Button class should inherit the LabelController, and provide
      * implementations for the getLabel and setLabel methods.
      */
     class AttributeController

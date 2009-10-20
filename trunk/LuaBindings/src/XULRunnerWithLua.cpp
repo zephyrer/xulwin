@@ -144,7 +144,7 @@ namespace Lua
 
     void XULRunnerWithLua::addListeners(Element * inElement)
     {
-        if (NativeComponent * comp = inElement->component()->downcast<NativeComponent>())
+        if (HWNDComponent * comp = inElement->component()->downcast<HWNDComponent>())
         {
             comp->addEventListener(this);
         }

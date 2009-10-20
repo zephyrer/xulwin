@@ -97,7 +97,7 @@ namespace Lua
                     if (wnd)
                     {
                         Element * textField = root->getElementById("textInput");
-                        ::SetFocus(textField->component()->downcast<NativeTextBox>()->handle());
+                        ::SetFocus(textField->component()->downcast<TextBox>()->handle());
                         dlg->showModal(wnd);
                         result = textField->getAttribute("value");
                     }

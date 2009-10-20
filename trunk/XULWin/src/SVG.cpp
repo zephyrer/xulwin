@@ -8,7 +8,7 @@ namespace XULWin
 {    
     
     SVGCanvas::SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
+        HWNDControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
     {
     }
         
@@ -189,18 +189,18 @@ namespace XULWin
     void SVGPolygon::setPoints(const Points & inPoints)
     {
         mPoints = inPoints;
-        mNativePoints.clear();
+        mPointFs.clear();
         for (size_t idx = 0; idx != mPoints.size(); ++idx)
         {
             const Point & point = mPoints[idx];
-            mNativePoints.push_back(Gdiplus::PointF((Gdiplus::REAL)point.x(), (Gdiplus::REAL)point.y()));
+            mPointFs.push_back(Gdiplus::PointF((Gdiplus::REAL)point.x(), (Gdiplus::REAL)point.y()));
         }
     }
 
     
     void SVGPolygon::paint(Gdiplus::Graphics & g)
     {
-        if (!mNativePoints.empty())
+        if (!mPointFs.empty())
         {
             Gdiplus::Color color(Gdiplus::Color::Black);
             SVG * svg = findSVGParent(this);
@@ -210,7 +210,7 @@ namespace XULWin
                 color = Gdiplus::Color(fill.alpha(), fill.red(), fill.green(), fill.blue());
             }
             Gdiplus::SolidBrush solidBrush(color);
-            g.FillPolygon(&solidBrush, &mNativePoints[0], mNativePoints.size());
+            g.FillPolygon(&solidBrush, &mPointFs[0], mPointFs.size());
         }
     }
 

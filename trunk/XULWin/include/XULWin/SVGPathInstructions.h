@@ -54,7 +54,7 @@ namespace XULWin
         Positioning mPositioning;
     };
 
-    typedef std::vector<PathInstruction> PathInstructions;
+    typedef std::vector<PathInstruction> SVGPathInstructions;
 
 } // namespace XULWin
 

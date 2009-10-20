@@ -125,9 +125,9 @@ namespace XULWin
 
         virtual void paint(Gdiplus::Graphics & g);
 
-        virtual const PathInstructions & getPathInstructions() const;
+        virtual const SVGPathInstructions & getPathInstructions() const;
 
-        virtual void setPathInstructions(const PathInstructions & inPathInstructions);
+        virtual void setPathInstructions(const SVGPathInstructions & inPathInstructions);
 
     private:        
         void getFloatPoints(const PathInstruction & instruction,
@@ -146,12 +146,12 @@ namespace XULWin
 
         //bool getStrokeColor(Gdiplus::Color & outColor);
 
-        static void GetPreparedInstructions(const PathInstructions & inData, PathInstructions & outPrepData);
+        static void GetPreparedInstructions(const SVGPathInstructions & inData, SVGPathInstructions & outPrepData);
 
         static void GetPointReflection(const PointF & inPoint, const PointF & inOrigin, PointF & outReflection);
 
-        PathInstructions mInstructions;
-        PathInstructions mPreparedInstructions;
+        SVGPathInstructions mInstructions;
+        SVGPathInstructions mPreparedInstructions;
     };
 
 } // namespace XULWin

@@ -94,7 +94,7 @@ namespace XULWin
                 flex = child->el()->getAttribute("flex");
             }
             int flexValue = String2Int(flex, 0);
-            int optSize = horizontal ? child->getWidth(Optimal) : child->getHeight(Optimal);
+            int optSize = horizontal ? child->getWidth(Preferred) : child->getHeight(Preferred);
             int minSize = horizontal ? child->getWidth(Minimum) : child->getHeight(Minimum);
             int minSizeOpposite = horizontal ? child->getHeight(Minimum) : child->getWidth(Minimum);
             sizeInfos.push_back(

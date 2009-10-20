@@ -10,50 +10,14 @@
 
 
 namespace XULWin
-{    
-    
-    class Margins
-    {
-    public:        
-        Margins() : mLeft(0), mTop(0), mRight(0), mBottom(0) {}
+{
 
-        Margins (int inLeft, int inTop, int inRight, int inBottom) : mLeft(inLeft), mTop(inTop), mRight(inRight), mBottom(inBottom) {}
-
-        int left() const { return mLeft; }
-
-        int top() const { return mTop; }
-
-        int right() const { return mRight; }
-
-        int bottom() const { return mBottom; }
-    
-        bool operator==(const Margins & inOtherMargins)
-        {
-            return mLeft == inOtherMargins.mLeft
-                && mTop == inOtherMargins.mTop
-                && mRight == inOtherMargins.mRight
-                && mBottom == inOtherMargins.mBottom;
-        }
-        
-        bool operator!=(const Margins & inOtherMargins)
-        {
-            return mLeft != inOtherMargins.mLeft
-                || mTop != inOtherMargins.mTop
-                || mRight != inOtherMargins.mRight
-                || mBottom != inOtherMargins.mBottom;
-        }
-
-    private:
-        int mLeft;
-        int mTop;
-        int mRight;
-        int mBottom;
-    };
-
-
-    // Introduced wrapper class so that the compiler will
+    //
+    // Introduced wrapper classes so that the compiler will
     // report an error if we accidentally mix up the order
-    // of parameters in the SizeInfo class.
+    // of parameters in the SizeInfo and ExtendedSizeInfo
+    // constructors.
+    //
     struct FlexWrap
     {
         explicit FlexWrap(int inValue) :

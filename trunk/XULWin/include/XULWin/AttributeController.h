@@ -4,7 +4,7 @@
 
 #include "XULWin/Enums.h"
 #include "XULWin/Point.h"
-#include "XULWin/PathInstructions.h"
+#include "XULWin/SVGPathInstructions.h"
 #include "XULWin/RGBColor.h"
 #include <string>
 
@@ -489,9 +489,9 @@ namespace XULWin
 
         virtual void set(const std::string & inValue);
 
-        virtual const PathInstructions & getPathInstructions() const = 0;
+        virtual const SVGPathInstructions & getPathInstructions() const = 0;
 
-        virtual void setPathInstructions(const PathInstructions & inPathInstructions) = 0;
+        virtual void setPathInstructions(const SVGPathInstructions & inPathInstructions) = 0;
     };
 
 

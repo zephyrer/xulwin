@@ -11,7 +11,7 @@ namespace XULWin
     enum SizeConstraint
     {
         Minimum,
-        Optimal,
+        Preferred,
         Maximum
     };
 

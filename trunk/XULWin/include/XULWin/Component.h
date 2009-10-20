@@ -1761,7 +1761,6 @@ namespace XULWin
     };
 
 
-
     class Toolbar : public NativeControl,
                         public Windows::ToolbarElement::EventHandler,
                         public GdiplusLoader

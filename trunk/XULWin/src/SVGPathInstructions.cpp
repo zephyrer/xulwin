@@ -1,4 +1,4 @@
-#include "XULWin/PathInstructions.h"
+#include "XULWin/SVGPathInstructions.h"
 
 
 namespace XULWin

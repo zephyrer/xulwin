@@ -951,7 +951,7 @@ namespace XULWin
             if (scrollbar)
             {
                 int maxpos = Defaults::Attributes::maxpos();
-                float ratio = (float)newW/(float)mDecoratedElement->getWidth(Optimal);
+                float ratio = (float)newW/(float)mDecoratedElement->getWidth(Preferred);
                 int pageincrement = (int)(maxpos*ratio + 0.5);
                 int curpos = getScrollPos(scrollbar->handle());
                 if (ratio < 1)

@@ -1,5 +1,5 @@
 #include "XULWin/SVG.h"
-#include "XULWin/PathInstructions.h"
+#include "XULWin/SVGPathInstructions.h"
 #include "XULWin/ErrorReporter.h"
 #include <gdiplus.h>
 
@@ -331,7 +331,7 @@ namespace XULWin
     }
 
     
-    void SVGPath::GetPreparedInstructions(const PathInstructions & inData, PathInstructions & outPrepData)
+    void SVGPath::GetPreparedInstructions(const SVGPathInstructions & inData, SVGPathInstructions & outPrepData)
     {
         PointFs preppedPoints;
         PointF prevPoint;
@@ -657,13 +657,13 @@ namespace XULWin
     }
     
     
-    const PathInstructions & SVGPath::getPathInstructions() const
+    const SVGPathInstructions & SVGPath::getPathInstructions() const
     {
         return mInstructions;
     }
 
 
-    void SVGPath::setPathInstructions(const PathInstructions & inPathInstructions)
+    void SVGPath::setPathInstructions(const SVGPathInstructions & inPathInstructions)
     {
         mInstructions = inPathInstructions;
         mPreparedInstructions.clear();

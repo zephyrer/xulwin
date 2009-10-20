@@ -290,7 +290,7 @@ namespace XULWin
             return std::max<int>(mCSSWidth.getValue(), getWidth(Minimum));
         }
 
-        return getWidth(Optimal);
+        return getWidth(Preferred);
     }
     
     
@@ -312,7 +312,7 @@ namespace XULWin
             return std::max<int>(mCSSHeight.getValue(), getHeight(Minimum));
         }
 
-        return getHeight(Optimal);
+        return getHeight(Preferred);
     }
     
     
@@ -2562,7 +2562,7 @@ namespace XULWin
                 colWidths.push_back(
                     SizeInfo(FlexWrap(String2Int(col->el()->getAttribute("flex"), 0)),
                              MinSizeWrap(col->getWidth(Minimum)),
-                             OptSizeWrap(col->getWidth(Optimal))));
+                             OptSizeWrap(col->getWidth(Preferred))));
             }
         }
 
@@ -2584,7 +2584,7 @@ namespace XULWin
                 rowHeights.push_back(
                     SizeInfo(FlexWrap(String2Int(row->el()->getAttribute("flex"), 0)),
                              MinSizeWrap(row->getHeight(Minimum)),
-                             OptSizeWrap(row->getHeight(Optimal))));
+                             OptSizeWrap(row->getHeight(Preferred))));
             }
         }
 
@@ -2770,7 +2770,7 @@ namespace XULWin
                 colWidths.push_back(
                     SizeInfo(FlexWrap(col->getFlex()),
                              MinSizeWrap(col->getWidth(Minimum)),
-                             OptSizeWrap(col->getWidth(Optimal))));
+                             OptSizeWrap(col->getWidth(Preferred))));
             }
         }
 
@@ -2792,7 +2792,7 @@ namespace XULWin
                 rowHeights.push_back(
                     SizeInfo(FlexWrap(row->getFlex()),
                              MinSizeWrap(row->getHeight(Minimum)),
-                             OptSizeWrap(row->getHeight(Optimal))));
+                             OptSizeWrap(row->getHeight(Preferred))));
             }
         }
 

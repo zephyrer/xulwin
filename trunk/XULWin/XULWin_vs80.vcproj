@@ -484,14 +484,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\PathInstructions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\PathInstructions.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Point.cpp"
 				>
 			</File>
@@ -569,6 +561,14 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\SVGElement.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SVGPathInstructions.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\SVGPathInstructions.h"
 				>
 			</File>
 			<File

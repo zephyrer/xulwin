@@ -19,7 +19,7 @@ namespace XULWin
     }
         
         
-    bool ListItem::initComponent()
+    bool ListItem::init()
     {
         // XUL hierarchy:
         // listbox/listitem/listcell
@@ -53,7 +53,7 @@ namespace XULWin
                 }
             }
         }
-        return Super::initComponent();
+        return Super::init();
     }
 
 

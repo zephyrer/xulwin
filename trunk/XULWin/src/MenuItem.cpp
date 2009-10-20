@@ -5,10 +5,10 @@
 namespace XULWin
 {
     
-    MenuItemComponent::MenuItemsById MenuItemComponent::sMenuItemsById;
+    MenuItem::MenuItemsById MenuItem::sMenuItemsById;
 
     
-    MenuItemComponent::MenuItemComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuItem::MenuItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
         assert (sMenuItemsById.find(mCommandId.intValue()) == sMenuItemsById.end());
@@ -16,7 +16,7 @@ namespace XULWin
     }
 
     
-    MenuItemComponent::~MenuItemComponent()
+    MenuItem::~MenuItem()
     {        
         MenuItemsById::iterator itById = sMenuItemsById.find(mCommandId.intValue());
         assert (itById != sMenuItemsById.end());
@@ -27,7 +27,7 @@ namespace XULWin
     }
 
     
-    MenuItemComponent * MenuItemComponent::FindById(int inId)
+    MenuItem * MenuItem::FindById(int inId)
     {
         MenuItemsById::iterator itById = sMenuItemsById.find(inId);
         if (itById != sMenuItemsById.end())
@@ -38,16 +38,16 @@ namespace XULWin
     }
 
         
-    bool MenuItemComponent::initAttributeControllers()
+    bool MenuItem::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
             
     
-    int MenuItemComponent::calculateWidth(SizeConstraint inSizeConstraint) const
+    int MenuItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItemComponent*>(this)))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItem*>(this)))
         {
             return Windows::getTextSize(comp->handle(), getLabel()).cx;
         }
@@ -55,9 +55,9 @@ namespace XULWin
     }
 
 
-    int MenuItemComponent::calculateHeight(SizeConstraint inSizeConstraint) const
+    int MenuItem::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItemComponent*>(this)))
+        if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(const_cast<MenuItem*>(this)))
         {
             return Windows::getTextSize(comp->handle(), getLabel()).cy;
         }
@@ -65,13 +65,13 @@ namespace XULWin
     }
 
 
-    std::string MenuItemComponent::getLabel() const
+    std::string MenuItem::getLabel() const
     {
         return mLabel;
     }
 
     
-    void MenuItemComponent::setLabel(const std::string & inLabel)
+    void MenuItem::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }

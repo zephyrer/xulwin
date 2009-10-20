@@ -99,7 +99,7 @@ namespace XULWin
     public:
         virtual ~Component() {}        
 
-        virtual bool initComponent() = 0;
+        virtual bool init() = 0;
 
         // Returns this element's index in its parent's children collection.
         virtual int getIndex() const = 0;
@@ -344,7 +344,7 @@ namespace XULWin
 
         virtual ~ConcreteComponent() = 0;
 
-        virtual bool initComponent();
+        virtual bool init();
 
         virtual int getIndex() const;
 
@@ -623,9 +623,9 @@ namespace XULWin
 #endif
 
     protected:
-        static NativeComponent * FindComponentByHandle(HWND inHandle);
+        static NativeComponent * FindByHandle(HWND inHandle);
 
-        static NativeComponent * FindComponentById(int inId);
+        static NativeComponent * FindById(int inId);
 
         void registerHandle();
         
@@ -657,11 +657,11 @@ namespace XULWin
 
 
     class Dialog;
-    class MenuComponent;
+    class Menu;
 
     class Window : public NativeComponent,
-                         public BoxLayouter::ContentProvider,
-                         public virtual TitleController
+                   public BoxLayouter::ContentProvider,
+                   public virtual TitleController
     {
     public:
         typedef NativeComponent Super;
@@ -672,7 +672,7 @@ namespace XULWin
 
         virtual ~Window();
 
-        virtual bool initComponent();
+        virtual bool init();
 
         // BoxLayouter
         virtual Orient getOrient() const;
@@ -749,15 +749,15 @@ namespace XULWin
         void setBlockingDialog(Dialog * inDlg);
         Dialog * mActiveDialog;
         BoxLayouter mBoxLayouter;
-        MenuComponent * mActiveMenu;
+        Menu * mActiveMenu;
         bool mHasMessageLoop;
     };
 
 
     // Dialog is actually a normal WindowElement with some customizations to make it behave like a dialog.
     class Dialog : public NativeComponent,
-                         public BoxLayouter::ContentProvider,
-                         public virtual TitleController
+                   public BoxLayouter::ContentProvider,
+                   public virtual TitleController
     {
     public:
         typedef NativeComponent Super;
@@ -865,7 +865,7 @@ namespace XULWin
         virtual void move(int x, int y, int w, int h);
 
         // Gets a NativeComponent object from this object. This
-        // is only needed in constructors of NativeComponents, because
+        // is only needed in constructors of Natives, because
         // they need to know which is their native parent handle object.
         // If this is a NativeComponent, return this.
         // If this is a VirtualComponent, return first parent that is a NativeComponent.
@@ -1168,7 +1168,7 @@ namespace XULWin
 
         MenuList(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initComponent();
+        virtual bool init();
             
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1493,7 +1493,7 @@ namespace XULWin
 
         TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initComponent();
+        virtual bool init();
     };
 
 
@@ -1544,7 +1544,7 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual bool initComponent();
+        virtual bool init();
     };
     
 
@@ -1596,7 +1596,7 @@ namespace XULWin
 
         HTREEITEM addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo);
 
-        virtual bool initComponent();
+        virtual bool init();
     };
 
     
@@ -1622,7 +1622,7 @@ namespace XULWin
 
         TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initComponent();
+        virtual bool init();
 
         const TreeItemInfo & itemInfo() const { return mItemInfo; }
 
@@ -1773,7 +1773,7 @@ namespace XULWin
 
         virtual ~Toolbar();
 
-        virtual bool initComponent();
+        virtual bool init();
 
         virtual bool initAttributeControllers();
 
@@ -1805,7 +1805,7 @@ namespace XULWin
 
         ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initComponent();
+        virtual bool init();
 
         virtual bool initAttributeControllers();
 

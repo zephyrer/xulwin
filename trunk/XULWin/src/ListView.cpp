@@ -38,7 +38,7 @@ namespace XULWin
     }
 
 
-    bool ListView::initComponent()
+    bool ListView::init()
     {
 		// Apply min widths to columns
         // XUL Hierarchy: listbox/listcols/listcol
@@ -59,7 +59,7 @@ namespace XULWin
                 ListView_SetColumnWidth(handle(), colIdx, colWidths[colIdx]);
             }
         }
-        return Super::initComponent();
+        return Super::init();
     }
 
     

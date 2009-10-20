@@ -16,7 +16,7 @@ namespace XULWin
 
         ListCol(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initComponent();
+        virtual bool init();
 
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 

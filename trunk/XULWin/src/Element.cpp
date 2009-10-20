@@ -12,14 +12,14 @@
 namespace XULWin
 {
 
-    Element::Element(const std::string & inType, Element * inParent, Component * inNativeComponent) :
+    Element::Element(const std::string & inType, Element * inParent, Component * inNative) :
         mType(inType),
         mParent(inParent),
-        mComponent(inNativeComponent)
+        m(inNative)
     {
-        if (mComponent)
+        if (m)
         {
-            mComponent->setOwningElement(this);
+            m->setOwningElement(this);
         }
     }
 
@@ -34,7 +34,7 @@ namespace XULWin
     
     bool Element::init()
     {
-        return component()->initComponent();
+        return component()->init();
     }
 
     
@@ -107,8 +107,8 @@ namespace XULWin
         {
             ElementPtr keepAlive = *it;
             mChildren.erase(it);
-            mComponent->rebuildLayout();            
-            mComponent->onChildRemoved(keepAlive->component());
+            m->rebuildLayout();            
+            m->onChildRemoved(keepAlive->component());
             // keepAlive loses scope here and destroys child
         }
         else
@@ -146,7 +146,7 @@ namespace XULWin
     {
         mAttributes = inAttributes;
         
-        if (mComponent)
+        if (m)
         {
             AttributesMapping::iterator it = mAttributes.begin(), end = mAttributes.end();
             for (; it != end; ++it)
@@ -163,18 +163,18 @@ namespace XULWin
 
     void Element::initAttributeControllers()
     {
-        if (mComponent)
+        if (m)
         {
-            mComponent->initAttributeControllers();
+            m->initAttributeControllers();
         }
     }
 
 
     void Element::initStyleControllers()
     {
-        if (mComponent)
+        if (m)
         {
-            mComponent->initStyleControllers();
+            m->initStyleControllers();
         }
     }
 
@@ -182,7 +182,7 @@ namespace XULWin
     std::string Element::getStyle(const std::string & inName) const
     {
         std::string result;
-        if (!mComponent || !mComponent->getStyle(inName, result))
+        if (!m || !m->getStyle(inName, result))
         {
             StylesMapping::const_iterator it = mStyles.find(inName);
             if (it != mStyles.end())
@@ -198,7 +198,7 @@ namespace XULWin
     std::string Element::getAttribute(const std::string & inName) const
     {
         std::string result;
-        if (!mComponent || !mComponent->getAttribute(inName, result))
+        if (!m || !m->getAttribute(inName, result))
         {
             AttributesMapping::const_iterator it = mAttributes.find(inName);
             if (it != mAttributes.end())
@@ -225,7 +225,7 @@ namespace XULWin
     void Element::setStyle(const std::string & inName, const std::string & inValue)
     {
         std::string type = this->type();
-        if (!mComponent || !mComponent->setStyle(inName, inValue))
+        if (!m || !m->setStyle(inName, inValue))
         {
             mStyles[inName] = inValue;
         }
@@ -234,7 +234,7 @@ namespace XULWin
     
     void Element::setAttribute(const std::string & inName, const std::string & inValue)
     {
-        if (!mComponent || !mComponent->setAttribute(inName, inValue))
+        if (!m || !m->setAttribute(inName, inValue))
         {
             mAttributes[inName] = inValue;
         }
@@ -243,12 +243,12 @@ namespace XULWin
     
     bool Element::addEventListener(EventListener * inEventListener)
     {
-        if (!mComponent)
+        if (!m)
         {
             return false;
         }
 
-        if (NativeComponent * comp = mComponent->downcast<NativeComponent>())
+        if (NativeComponent * comp = m->downcast<NativeComponent>())
         {
             comp->addEventListener(inEventListener);
             return true;
@@ -259,12 +259,12 @@ namespace XULWin
 
     bool Element::removeEventListener(EventListener * inEventListener)
     {
-        if (!mComponent)
+        if (!m)
         {
             return false;
         }
 
-        if (NativeComponent * comp = mComponent->downcast<NativeComponent>())
+        if (NativeComponent * comp = m->downcast<NativeComponent>())
         {
             comp->removeEventListener(inEventListener);
             return true;
@@ -275,7 +275,7 @@ namespace XULWin
     
     Component * Element::component() const
     {
-        return mComponent.get();
+        return m.get();
     }
     
     

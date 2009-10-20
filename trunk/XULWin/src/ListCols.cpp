@@ -10,9 +10,9 @@ namespace XULWin
     }
 
 
-    bool ListCols::initComponent()
+    bool ListCols::init()
     {
-        return Super::initComponent();
+        return Super::init();
     }
 
     

@@ -9,9 +9,9 @@ namespace XULWin
         IECustomWindow(),
         mCustomWindow(0)
     {        
-        if (NativeComponent * nativeComponent = mDecoratedElement->downcast<NativeComponent>())
+        if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
         {
-            mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedElement->commandId(), nativeComponent->handle());
+            mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedElement->commandId(), native->handle());
         }        
     }
 
@@ -87,7 +87,7 @@ namespace XULWin
     }
 
 
-    bool ToolbarCustomWindowDecorator::initComponent()
+    bool ToolbarCustomWindowDecorator::init()
     {
         if (mCustomWindow)
         {
@@ -98,7 +98,7 @@ namespace XULWin
                 toolbar->nativeToolbar()->add(mCustomWindow);
             }
         }
-        return mDecoratedElement->initComponent();
+        return mDecoratedElement->init();
     }
 
 } // namespace XULWin

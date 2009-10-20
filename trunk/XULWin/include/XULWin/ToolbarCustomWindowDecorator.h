@@ -23,7 +23,7 @@ namespace XULWin
 
 		virtual HWND handle() const;
 
-        virtual bool initComponent();
+        virtual bool init();
 
     private:
     

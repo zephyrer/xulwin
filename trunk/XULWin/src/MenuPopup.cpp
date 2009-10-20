@@ -7,29 +7,29 @@
 namespace XULWin
 {
     
-    MenuPopupComponent::MenuPopupComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
         
-    Windows::PopupMenu * MenuPopupComponent::getMenu()
+    Windows::PopupMenu * MenuPopup::getMenu()
     {
         Windows::PopupMenu * popupMenu = new Windows::PopupMenu;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (MenuItemComponent * menuItem = child->component()->downcast<MenuItemComponent>())
+            if (MenuItem * menuItem = child->component()->downcast<MenuItem>())
             {
                 popupMenu->append(new Windows::PopupMenuItem(menuItem->commandId(), menuItem->getLabel()));
             }
-            else if (MenuComponent * menu = child->component()->downcast<MenuComponent>())
+            else if (Menu * menu = child->component()->downcast<Menu>())
             {
                 if (!menu->el()->children().empty())
                 {
-                    if (MenuPopupComponent * childPopup = menu->el()->children()[0]->component()->downcast<MenuPopupComponent>())
+                    if (MenuPopup * childPopup = menu->el()->children()[0]->component()->downcast<MenuPopup>())
                     {
-                        if (MenuComponent * menu = childPopup->parent()->downcast<MenuComponent>())
+                        if (Menu * menu = childPopup->parent()->downcast<Menu>())
                         {
                             popupMenu->append(menu->getLabel(), childPopup->getMenu());
                         }
@@ -41,7 +41,7 @@ namespace XULWin
     }
 
         
-    void MenuPopupComponent::show(RECT inExcludeRect)
+    void MenuPopup::show(RECT inExcludeRect)
     {
         if (NativeComponent * comp = NativeControl::GetNativeThisOrParent(this))
         {
@@ -55,13 +55,13 @@ namespace XULWin
     }
     
     
-    void MenuPopupComponent::onChildAdded(Component * inChild)
+    void MenuPopup::onChildAdded(Component * inChild)
     {
         parent()->onContentChanged();
     }
 
 
-    void MenuPopupComponent::onChildRemoved(Component * inChild)
+    void MenuPopup::onChildRemoved(Component * inChild)
     {
         parent()->onContentChanged();
     }

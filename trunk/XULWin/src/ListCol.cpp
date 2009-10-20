@@ -41,9 +41,9 @@ namespace XULWin
     }
 
 
-    bool ListCol::initComponent()
+    bool ListCol::init()
     {
-        return Super::initComponent();
+        return Super::init();
     }
     
 } // namespace XULWin

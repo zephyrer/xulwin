@@ -257,7 +257,7 @@ namespace XULWin
 
     bool HTMLColor2RGBColor(const std::string & inHTMLColor, RGBColor & outResult)
     {
-        std::string colorComponent;
+        std::string color;
         std::vector<int> colors;
         size_t offset = inHTMLColor.find("#");
         if (offset == std::string::npos)
@@ -267,13 +267,13 @@ namespace XULWin
         }
         for (size_t idx = offset + 1; idx < inHTMLColor.size(); ++idx)
         {
-            colorComponent += inHTMLColor[idx];
+            color += inHTMLColor[idx];
             if ((idx-offset-1)%2 == 1)
             {
                 int hex = 0;
-                sscanf(colorComponent.c_str(), "%x", &hex);                    
+                sscanf(color.c_str(), "%x", &hex);                    
                 colors.push_back(hex);
-                colorComponent.clear();
+                color.clear();
             }
         }
         if (colors.size() == 3)

@@ -53,7 +53,7 @@ namespace XULWin
          *
          * PART 3: Parser finds CLOSING tag of the element:
          * - virtual Element::init
-         * - virtual Component::initComponent
+         * - virtual Component::init
          * 
          */  
         template<class ElementType>
@@ -183,7 +183,7 @@ namespace XULWin
         }
 
     protected:
-        Element(const std::string & inType, Element * inParent, Component * inNativeComponent);
+        Element(const std::string & inType, Element * inParent, Component * inNative);
 
         Element * mParent;
         Children mChildren;
@@ -205,7 +205,7 @@ namespace XULWin
         std::string mType;
         StylesMapping mStyles;
         std::string mInnerText;
-        boost::shared_ptr<Component> mComponent;
+        boost::shared_ptr<Component> m;
     };
 
 

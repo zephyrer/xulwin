@@ -73,7 +73,7 @@ namespace XULWin
     }
 
 
-    bool ConcreteComponent::initComponent()
+    bool ConcreteComponent::init()
     {
         mIsInitialized = true;
         return true;
@@ -684,18 +684,18 @@ namespace XULWin
         assert (sComponentsByHandle.find(mHandle) == sComponentsByHandle.end());
         sComponentsByHandle.insert(std::make_pair(mHandle, this));
 
-        assert (sComponentsById.find(mCommandId.intValue()) == sComponentsById.end());
-        sComponentsById.insert(std::make_pair(mCommandId.intValue(), this));
+        assert (sComponentsById.find(mCommandId.intValue()) ==sComponentsById.end());
+       sComponentsById.insert(std::make_pair(mCommandId.intValue(), this));
     }
 
 
     void NativeComponent::unregisterHandle()
     {
-        ComponentsById::iterator itById = sComponentsById.find(mCommandId.intValue());
-        assert (itById != sComponentsById.end());
-        if (itById != sComponentsById.end())
+        ComponentsById::iterator itById =sComponentsById.find(mCommandId.intValue());
+        assert (itById !=sComponentsById.end());
+        if (itById !=sComponentsById.end())
         {
-            sComponentsById.erase(itById);
+           sComponentsById.erase(itById);
         }
         
         ComponentsByHandle::iterator itByHandle = sComponentsByHandle.find(mHandle);
@@ -714,7 +714,7 @@ namespace XULWin
     }
 
     
-    NativeComponent * NativeComponent::FindComponentByHandle(HWND inHandle)
+    NativeComponent * NativeComponent::FindByHandle(HWND inHandle)
     {
         ComponentsByHandle::iterator it = sComponentsByHandle.find(inHandle);
         if (it != sComponentsByHandle.end())
@@ -725,10 +725,10 @@ namespace XULWin
     }
 
     
-    NativeComponent * NativeComponent::FindComponentById(int inId)
+    NativeComponent * NativeComponent::FindById(int inId)
     {
-        ComponentsById::iterator it = sComponentsById.find(inId);
-        if (it != sComponentsById.end())
+        ComponentsById::iterator it =sComponentsById.find(inId);
+        if (it !=sComponentsById.end())
         {
             return it->second;
         }
@@ -879,8 +879,8 @@ namespace XULWin
                     }
                     default:
                     {                        
-                        ComponentsById::iterator it = sComponentsById.find(LOWORD(wParam));
-                        if (it != sComponentsById.end())
+                        ComponentsById::iterator it =sComponentsById.find(LOWORD(wParam));
+                        if (it !=sComponentsById.end())
                         {
                             it->second->handleCommand(wParam, lParam);
                         }
@@ -999,9 +999,9 @@ namespace XULWin
     }
 
     
-    bool Window::initComponent()
+    bool Window::init()
     {
-        return Super::initComponent();
+        return Super::init();
     }
 
 
@@ -1156,7 +1156,7 @@ namespace XULWin
         if (inPositioning == WindowElement::CenterInScreen)
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-            if (findChildOfType<MenuBarComponent>())
+            if (findChildOfType<MenuBar>())
             {
                 sz.cy += Defaults::menuBarHeight();
             }
@@ -1169,7 +1169,7 @@ namespace XULWin
         else
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-            if (findChildOfType<MenuBarComponent>())
+            if (findChildOfType<MenuBar>())
             {
                 sz.cy += Defaults::menuBarHeight();
             }
@@ -1232,7 +1232,7 @@ namespace XULWin
                 if (lParam == 0) // menu or accelerator
                 {
                     int menuId = LOWORD(wParam);
-                    if (MenuComponent * menu = MenuComponent::FindById(menuId))
+                    if (Menu * menu = Menu::FindById(menuId))
                     {
                         if (mActiveMenu != menu)
                         {
@@ -1242,7 +1242,7 @@ namespace XULWin
                         }
                         mActiveMenu = 0;
                     }
-                    else if (MenuItemComponent * menuItem = MenuItemComponent::FindById(menuId))
+                    else if (MenuItem * menuItem = MenuItem::FindById(menuId))
                     {
                         handleMenuCommand(menuId);
                         mActiveMenu = 0;
@@ -1267,7 +1267,7 @@ namespace XULWin
                         case IDTRYAGAIN:
                         case IDCONTINUE:
                         {
-                            NativeComponent * focus = FindComponentByHandle(::GetFocus());
+                            NativeComponent * focus = FindByHandle(::GetFocus());
                             if (focus)
                             {
                                 focus->handleDialogCommand(paramLo, wParam, lParam);
@@ -1277,7 +1277,7 @@ namespace XULWin
                         }
                         default:
                         {                        
-                            NativeComponent * sender = FindComponentById(LOWORD(wParam));
+                            NativeComponent * sender = FindById(LOWORD(wParam));
                             if (sender)
                             {
                                 sender->handleCommand(wParam, lParam);
@@ -1293,7 +1293,7 @@ namespace XULWin
             case WM_VSCROLL:
             case WM_HSCROLL:
             {
-                NativeComponent * sender = FindComponentByHandle((HWND)lParam);
+                NativeComponent * sender = FindByHandle((HWND)lParam);
                 if (sender)
                 {
                     sender->handleMessage(inMessage, wParam, lParam);
@@ -1315,7 +1315,7 @@ namespace XULWin
     
     LRESULT CALLBACK Window::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        NativeComponent * sender = FindComponentByHandle(hWnd);
+        NativeComponent * sender = FindByHandle(hWnd);
         if (sender)
         {
             int result = sender->handleMessage(inMessage, wParam, lParam);
@@ -1641,7 +1641,7 @@ namespace XULWin
                     }
                     default:
                     {      
-                        NativeComponent * sender = FindComponentById(LOWORD(wParam));
+                        NativeComponent * sender = FindById(LOWORD(wParam));
                         if (sender)
                         {
                             sender->handleCommand(wParam, lParam);
@@ -1656,7 +1656,7 @@ namespace XULWin
             case WM_VSCROLL:
             case WM_HSCROLL:
             {
-                NativeComponent * sender = FindComponentByHandle((HWND)lParam);
+                NativeComponent * sender = FindByHandle((HWND)lParam);
                 if (sender)
                 {
                     sender->handleMessage(inMessage, wParam, lParam);
@@ -1678,7 +1678,7 @@ namespace XULWin
     
     LRESULT CALLBACK Dialog::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        NativeComponent * sender = FindComponentByHandle(hWnd);
+        NativeComponent * sender = FindByHandle(hWnd);
         if (sender)
         {
             int result = sender->handleMessage(inMessage, wParam, lParam);
@@ -2311,21 +2311,21 @@ namespace XULWin
     }
     
         
-    bool MenuList::initComponent()
+    bool MenuList::init()
     {
         fillComboBox();
-        return Super::initComponent();
+        return Super::init();
     }
 
 
     void MenuList::fillComboBox()
     {        
-        if (MenuPopupComponent * popup = findChildOfType<MenuPopupComponent>())
+        if (MenuPopup * popup = findChildOfType<MenuPopup>())
         {
             for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
             {
                 ElementPtr child = popup->el()->children()[idx];
-                if (MenuItemComponent * item = child->component()->downcast<MenuItemComponent>())
+                if (MenuItem * item = child->component()->downcast<MenuItem>())
                 {
                     std::string label = item->getLabel();
                     Windows::addStringToComboBox(handle(), label);
@@ -2389,7 +2389,7 @@ namespace XULWin
             Windows::clearComboBox(handle());
             fillComboBox();
         }
-        // else: the initComponent will take care of the initial fill
+        // else: the init will take care of the initial fill
     }
 
 
@@ -3625,13 +3625,13 @@ namespace XULWin
     }
         
     
-    bool TabPanel::initComponent()
+    bool TabPanel::init()
     {
         if (TabPanels * parent = el()->parent()->component()->downcast<TabPanels>())
         {
             parent->addTabPanel(this);
         }
-        return Super::initComponent();
+        return Super::init();
     }
 
 
@@ -3797,13 +3797,13 @@ namespace XULWin
     }
 
 
-    bool Caption::initComponent()
+    bool Caption::init()
     {
         if (GroupBox * groupBox = mParent->downcast<GroupBox>())
         {
             groupBox->setCaption(mElement->getAttribute("label"));
         }
-        return Super::initComponent();
+        return Super::init();
     }
 
 
@@ -3866,7 +3866,7 @@ namespace XULWin
     }
     
     
-    bool Tree::initComponent()
+    bool Tree::init()
     {
         if (TreeChildren * children = findChildOfType<TreeChildren>())
         {
@@ -3878,7 +3878,7 @@ namespace XULWin
                 }
             }
         }
-        return Super::initComponent();
+        return Super::init();
     }
 
 
@@ -3980,7 +3980,7 @@ namespace XULWin
     }
 
 
-    bool TreeItem::initComponent()
+    bool TreeItem::init()
     {
         if (TreeRow * row = findChildOfType<TreeRow>())
         {
@@ -4001,7 +4001,7 @@ namespace XULWin
                 }
             }
         }
-        return Super::initComponent();
+        return Super::init();
     }
 
 
@@ -4185,14 +4185,14 @@ namespace XULWin
     Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping)
     {            
-        if (NativeComponent * nativeComponent = NativeControl::GetNativeThisOrParent(inParent))
+        if (NativeComponent * native = NativeControl::GetNativeThisOrParent(inParent))
         {
             RECT rect;
             rect.top = 0;
             rect.left = 0;
             rect.bottom = Defaults::toolbarHeight();
             rect.right = 1000;
-            mToolbar.reset(new Windows::ToolbarElement(this, ::GetModuleHandle(0), nativeComponent->handle(), rect, mCommandId.intValue()));
+            mToolbar.reset(new Windows::ToolbarElement(this, ::GetModuleHandle(0), native->handle(), rect, mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
         }
@@ -4206,12 +4206,12 @@ namespace XULWin
     }
 
 
-    bool Toolbar::initComponent()
+    bool Toolbar::init()
     {
         mToolbar->buildToolbar();
         mToolbar->rebuildLayout();
         ShowWindow(mToolbar->handle(), SW_SHOW);
-        return Super::initComponent();
+        return Super::init();
     }
 
 
@@ -4315,9 +4315,9 @@ namespace XULWin
     }
 
 
-    bool ToolbarButton::initComponent()
+    bool ToolbarButton::init()
     {
-        return Super::initComponent();
+        return Super::init();
     }
     
 
@@ -4332,7 +4332,7 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (MenuPopupComponent * popupMenu = child->component()->downcast<MenuPopupComponent>())
+            if (MenuPopup * popupMenu = child->component()->downcast<MenuPopup>())
             {
                 popupMenu->show(inToolbarButtonRect);
             }

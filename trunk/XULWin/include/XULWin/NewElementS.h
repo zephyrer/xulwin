@@ -8,10 +8,10 @@
 namespace XULWin
 {
 
-    class NewElementS : public PassiveComponent
+    class NewElementS : public Passive
     {
     public:
-        typedef PassiveComponent Super;
+        typedef Passive Super;
 
         NewElementS(Element * inParent, const AttributesMapping & inAttributesMapping);
 

@@ -10,7 +10,7 @@ namespace XULWin
     MenuBarElement::MenuBarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuBarElement::Type(),
                 inParent,
-                new MenuBarComponent(inParent->component(), inAttributesMapping))
+                new MenuBar(inParent->component(), inAttributesMapping))
     {
     }
 

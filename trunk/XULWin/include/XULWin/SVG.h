@@ -45,22 +45,22 @@ namespace XULWin
     };
 
 
-    class SVGComponent : public PassiveComponent
+    class SVG : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        SVGComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVG(Component * inParent, const AttributesMapping & inAttributesMapping);
 
     private:
     };
 
 
-    class SVGGroup : public SVGComponent,
+    class SVGGroup : public SVG,
                      public SVGPainter
     {
     public:
-        typedef SVGComponent Super;
+        typedef SVG Super;
 
         SVGGroup(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -70,12 +70,12 @@ namespace XULWin
     };
 
 
-    class SVGPolygon : public SVGComponent,
+    class SVGPolygon : public SVG,
                        public SVGPainter,
                        public virtual PointsController
     {
     public:
-        typedef SVGComponent Super;
+        typedef SVG Super;
 
         SVGPolygon(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -93,11 +93,11 @@ namespace XULWin
     };
 
 
-    class SVGRect : public SVGComponent,
+    class SVGRect : public SVG,
                     public SVGPainter
     {
     public:
-        typedef SVGComponent Super;
+        typedef SVG Super;
 
         SVGRect(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -110,12 +110,12 @@ namespace XULWin
     };
 
 
-    class SVGPath : public SVGComponent,
+    class SVGPath : public SVG,
                     public virtual PathInstructionsController,
                     public SVGPainter
     {
     public:
-        typedef SVGComponent Super;
+        typedef SVG Super;
 
         SVGPath(Component * inParent, const AttributesMapping & inAttributesMapping);
 

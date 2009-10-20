@@ -4,9 +4,9 @@
 namespace XULWin
 {
     
-    MenuComponent::MenusById MenuComponent::sMenusById;
+    Menu::MenusById Menu::sMenusById;
 
-    MenuComponent::MenuComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Menu::Menu(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
         assert(sMenusById.find(mCommandId.intValue()) == sMenusById.end());
@@ -14,7 +14,7 @@ namespace XULWin
     }
 
 
-    MenuComponent::~MenuComponent()
+    Menu::~Menu()
     {            
         MenusById::iterator itById = sMenusById.find(mCommandId.intValue());
         assert(itById != sMenusById.end());
@@ -25,7 +25,7 @@ namespace XULWin
     }
     
     
-    MenuComponent * MenuComponent::FindById(int inId)
+    Menu * Menu::FindById(int inId)
     {          
         MenusById::iterator itById = sMenusById.find(inId);
         if (itById != sMenusById.end())
@@ -36,20 +36,20 @@ namespace XULWin
     }
 
         
-    bool MenuComponent::initAttributeControllers()
+    bool Menu::initAttributeControllers()
     {
         setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
     
     
-    std::string MenuComponent::getLabel() const
+    std::string Menu::getLabel() const
     {
         return mLabel;
     }
 
      
-    void MenuComponent::setLabel(const std::string & inLabel)
+    void Menu::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }

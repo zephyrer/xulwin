@@ -10,7 +10,7 @@ namespace XULWin
     MenuPopupElement::MenuPopupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuPopupElement::Type(),
                 inParent,
-                new MenuPopupComponent(inParent->component(), inAttributesMapping))
+                new MenuPopup(inParent->component(), inAttributesMapping))
     {
     }
 

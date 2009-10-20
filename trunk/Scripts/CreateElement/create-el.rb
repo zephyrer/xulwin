@@ -4,7 +4,7 @@ hppdir = projectpath + 'include/XULWin/'
 cppdir = projectpath + 'src/'
 
 classname = ARGV[0]
-componentname = classname + "Component"
+componentname = classname
 projectname = "XULWin_vs80.vcproj"
 
 hppfile = classname + ".h"

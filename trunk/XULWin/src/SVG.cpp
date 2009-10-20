@@ -119,20 +119,20 @@ namespace XULWin
     }
 
 
-    SVGComponent::SVGComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    SVG::SVG(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
         
-    static SVGComponent * findSVGParent(Component * inEl)
+    static SVG * findSVGParent(Component * inEl)
     {
         if (!inEl)
         {
             return 0;
         }
 
-        if (SVGComponent * g = inEl->downcast<SVGComponent>())
+        if (SVG * g = inEl->downcast<SVG>())
         {
             return g;
         }
@@ -144,7 +144,7 @@ namespace XULWin
 
 
     SVGGroup::SVGGroup(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGComponent(inParent, inAttributesMapping)
+        SVG(inParent, inAttributesMapping)
     {
     }
 
@@ -168,7 +168,7 @@ namespace XULWin
 
     
     SVGPolygon::SVGPolygon(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGComponent(inParent, inAttributesMapping)
+        SVG(inParent, inAttributesMapping)
     {
     }
         
@@ -203,7 +203,7 @@ namespace XULWin
         if (!mNativePoints.empty())
         {
             Gdiplus::Color color(Gdiplus::Color::Black);
-            SVGComponent * svg = findSVGParent(this);
+            SVG * svg = findSVGParent(this);
             if (svg)
             {
                 RGBColor fill = svg->getCSSFill();
@@ -216,7 +216,7 @@ namespace XULWin
 
 
     SVGRect::SVGRect(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGComponent(inParent, inAttributesMapping)
+        SVG(inParent, inAttributesMapping)
     {
     }
 
@@ -246,7 +246,7 @@ namespace XULWin
 
     
     SVGPath::SVGPath(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVGComponent(inParent, inAttributesMapping)
+        SVG(inParent, inAttributesMapping)
     {
     }
         

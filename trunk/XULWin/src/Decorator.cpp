@@ -33,12 +33,12 @@ namespace XULWin
     }
 
 
-    bool Decorator::initComponent()
+    bool Decorator::init()
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            return mDecoratedElement->initComponent();
+            return mDecoratedElement->init();
         }
         return false;
     }
@@ -826,7 +826,7 @@ namespace XULWin
     }
 
 
-    bool ScrollDecorator::initComponent()
+    bool ScrollDecorator::init()
     {
         Element * window = 0;
         Element * current = mDecoratedElement->el();
@@ -849,7 +849,7 @@ namespace XULWin
         {
             mEvents.connect(window, WM_MOUSEWHEEL, boost::bind(&ScrollDecorator::handleMouseWheel, this, _1, _2));
         }
-        return Super::initComponent();
+        return Super::init();
     }
 
 
@@ -1013,7 +1013,7 @@ namespace XULWin
             return;
         }
 
-        if (NativeComponent * nativeComponent = mDecoratedElement->downcast<NativeComponent>())
+        if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
         {
             int maxpos = Defaults::Attributes::maxpos();
             Rect clientRect(mDecoratedElement->clientRect());
@@ -1043,9 +1043,9 @@ namespace XULWin
                 dy = newVerScrollPos - mOldVerScrollPos;
             }
 
-            if (NativeComponent * nativeComponent = mDecoratedElement->downcast<NativeComponent>())
+            if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
             {
-                ::ScrollWindowEx(nativeComponent->handle(), -dx, -dy, 0, 0, 0, 0, SW_SCROLLCHILDREN | SW_INVALIDATE);
+                ::ScrollWindowEx(native->handle(), -dx, -dy, 0, 0, 0, 0, SW_SCROLLCHILDREN | SW_INVALIDATE);
             }
             mOldHorScrollPos = newHorScrollPos;
             mOldVerScrollPos = newVerScrollPos;

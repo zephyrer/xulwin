@@ -8,12 +8,12 @@
 namespace XULWin
 {
 
-    class MenuPopupComponent : public PassiveComponent
+    class MenuPopup : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        MenuPopupComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         void show(RECT inExcludeRect);
 

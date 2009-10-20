@@ -8,12 +8,12 @@
 namespace XULWin
 {
 
-    class MenuBarComponent : public PassiveComponent
+    class MenuBar : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        MenuBarComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuBar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 

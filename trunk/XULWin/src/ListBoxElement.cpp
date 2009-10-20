@@ -44,7 +44,7 @@ namespace XULWin
                 {   
                     ListBox * listBox = new ListBox(parent()->component(), mAttributes);
                     ComponentPtr prev = proxy->swap(new MarginDecorator(listBox));
-                    listBox->initComponent();
+                    listBox->init();
 
 					// Up until this point all the move() calls were directed
                     // to the PassiveComponent object. Now we need to re-apply
@@ -55,7 +55,7 @@ namespace XULWin
                 {
                     ListView * listView = new ListView(parent()->component(), mAttributes);
                     ComponentPtr prev = proxy->swap(new MarginDecorator(listView));
-                    listView->initComponent();
+                    listView->init();
 
 					// Up until this point all the move() calls were directed
                     // to the PassiveComponent object. Now we need to re-apply

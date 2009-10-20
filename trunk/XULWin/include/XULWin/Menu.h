@@ -9,15 +9,15 @@
 namespace XULWin
 {
 
-    class MenuComponent : public PassiveComponent,
+    class Menu : public PassiveComponent,
                           public LabelController
     {
     public:
         typedef PassiveComponent Super;
 
-        MenuComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Menu(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~MenuComponent();
+        virtual ~Menu();
 
         virtual bool initAttributeControllers();
 
@@ -25,10 +25,10 @@ namespace XULWin
 
         virtual void setLabel(const std::string & inLabel);
 
-        static MenuComponent * FindById(int inId);
+        static Menu * FindById(int inId);
 
     private:
-        typedef std::map<int, MenuComponent*> MenusById;
+        typedef std::map<int, Menu*> MenusById;
         static MenusById sMenusById;
         std::string mLabel;
         HMENU mMenuHandle;

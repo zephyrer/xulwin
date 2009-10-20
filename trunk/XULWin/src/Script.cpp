@@ -6,19 +6,19 @@
 namespace XULWin
 {
 
-    class NativeScript : public PassiveComponent
+    class Script : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        NativeScript(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Script(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
     ScriptElement::ScriptElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ScriptElement::Type(),
                 inParent,
-                new NativeScript(inParent->component(), inAttributesMapping))
+                new Script(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -30,7 +30,7 @@ namespace XULWin
     }
 
     
-    NativeScript::NativeScript(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Script::Script(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }

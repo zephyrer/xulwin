@@ -560,7 +560,7 @@ namespace XULWin
         // This is a problem because calculation of minimum size depends on
         // visibility of child items. Hidden elements return 0 when asked for
         // their min width or height. This problem becomes apparent when
-        // calling NativeWindow's showModal method which calculates its minimum
+        // calling Window's showModal method which calculates its minimum
         // height *before* the window becomes visible. This would result in a
         // 'minified' window state.
         bool mHidden;
@@ -656,10 +656,10 @@ namespace XULWin
     };
 
 
-    class NativeDialog;
+    class Dialog;
     class MenuComponent;
 
-    class NativeWindow : public NativeComponent,
+    class Window : public NativeComponent,
                          public BoxLayouter::ContentProvider,
                          public virtual TitleController
     {
@@ -668,9 +668,9 @@ namespace XULWin
 
         static void Register(HMODULE inModuleHandle);
 
-        NativeWindow(const AttributesMapping & inAttributesMapping);
+        Window(const AttributesMapping & inAttributesMapping);
 
-        virtual ~NativeWindow();
+        virtual ~Window();
 
         virtual bool initComponent();
 
@@ -745,17 +745,17 @@ namespace XULWin
 #endif
 
     private:
-        friend class NativeDialog;
-        void setBlockingDialog(NativeDialog * inDlg);
-        NativeDialog * mActiveDialog;
+        friend class Dialog;
+        void setBlockingDialog(Dialog * inDlg);
+        Dialog * mActiveDialog;
         BoxLayouter mBoxLayouter;
         MenuComponent * mActiveMenu;
         bool mHasMessageLoop;
     };
 
 
-    // NativeDialog is actually a normal WindowElement with some customizations to make it behave like a dialog.
-    class NativeDialog : public NativeComponent,
+    // Dialog is actually a normal WindowElement with some customizations to make it behave like a dialog.
+    class Dialog : public NativeComponent,
                          public BoxLayouter::ContentProvider,
                          public virtual TitleController
     {
@@ -764,9 +764,9 @@ namespace XULWin
 
         static void Register(HMODULE inModuleHandle);
 
-        NativeDialog(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Dialog(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~NativeDialog();
+        virtual ~Dialog();
 
         // BoxLayouter
         virtual Orient getOrient() const;
@@ -790,7 +790,7 @@ namespace XULWin
         virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
         { return Super::setAttributeController(inAttr, inController); }
 
-        DialogResult showModal(NativeWindow * inInvoker);
+        DialogResult showModal(Window * inInvoker);
 
         LRESULT endModal(DialogResult inDialogResult);
 
@@ -838,7 +838,7 @@ namespace XULWin
 #endif
     private:
         // Invoker is the stored parameter for showModal.
-        NativeWindow * mInvoker;
+        Window * mInvoker;
         BoxLayouter mBoxLayouter;
         DialogResult mDialogResult;
     };

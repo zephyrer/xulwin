@@ -11,7 +11,7 @@ namespace XULWin
 {
 
 
-    LRESULT closeWindowHelper(NativeWindow * inWindow, WPARAM, LPARAM)
+    LRESULT closeWindowHelper(Window * inWindow, WPARAM, LPARAM)
     {
         inWindow->close();
         return 0;
@@ -43,7 +43,7 @@ namespace XULWin
                         boost::bind(&ConfigSample::showUpload, this));
 
 
-        if (NativeWindow * win = mConfigWindow->component()->downcast<NativeWindow>())
+        if (Window * win = mConfigWindow->component()->downcast<Window>())
         {
             ::DragAcceptFiles(win->handle(), TRUE);
             mEvents.connect(mConfigWindow.get(),
@@ -118,9 +118,9 @@ namespace XULWin
         mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
         localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeDialog, this, mNewSetDlg.get()));
 
-        if (NativeDialog * dlg = mNewSetDlg->component()->downcast<NativeDialog>())
+        if (Dialog * dlg = mNewSetDlg->component()->downcast<Dialog>())
         {
-            if (NativeWindow * wnd = mConfigWindow->component()->downcast<NativeWindow>())
+            if (Window * wnd = mConfigWindow->component()->downcast<Window>())
             {
                 dlg->showModal(wnd);
             }
@@ -136,7 +136,7 @@ namespace XULWin
         {
             addNewSet(nativeTextBox->getValue());
         }
-        if (NativeDialog * nativeDialog = mNewSetDlg->component()->downcast<NativeDialog>())
+        if (Dialog * nativeDialog = mNewSetDlg->component()->downcast<Dialog>())
         {
             nativeDialog->endModal(XULWin::DialogResult_Ok);
             return 0;
@@ -147,7 +147,7 @@ namespace XULWin
 
     LRESULT ConfigSample::closeDialog(Element * inDialog)
     {
-        if (NativeDialog * nativeDialog = inDialog->component()->downcast<NativeDialog>())
+        if (Dialog * nativeDialog = inDialog->component()->downcast<Dialog>())
         {
             nativeDialog->endModal(XULWin::DialogResult_Cancel);
         }

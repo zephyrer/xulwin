@@ -23,8 +23,8 @@ namespace XULWin
     Initializer::Initializer(HINSTANCE inModuleHandle)
     {
         ErrorReporter::Initialize();
-        NativeWindow::Register(inModuleHandle);
-        NativeDialog::Register(inModuleHandle);
+        Window::Register(inModuleHandle);
+        Dialog::Register(inModuleHandle);
         ElementFactory::Instance().registerElement<WindowElement>();
         ElementFactory::Instance().registerElement<DialogElement>();
         ElementFactory::Instance().registerElement<ButtonElement>();

@@ -289,14 +289,14 @@ namespace XULWin
     WindowElement::WindowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(WindowElement::Type(),
                 inParent,
-                new NativeWindow(inAttributesMapping))
+                new Window(inAttributesMapping))
     {
     }
 
 
     void WindowElement::show(Positioning inPositioning)
     {
-        if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
+        if (Window * nativeWindow = component()->downcast<Window>())
         {
             nativeWindow->show(inPositioning);
         }
@@ -305,7 +305,7 @@ namespace XULWin
 
     void WindowElement::showModal(Positioning inPositioning)
     {
-        if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
+        if (Window * nativeWindow = component()->downcast<Window>())
         {
             nativeWindow->showModal(inPositioning);
         }
@@ -314,7 +314,7 @@ namespace XULWin
 
     void WindowElement::close()
     {
-        if (NativeWindow * nativeWindow = component()->downcast<NativeWindow>())
+        if (Window * nativeWindow = component()->downcast<Window>())
         {
             nativeWindow->close();
         }
@@ -325,10 +325,10 @@ namespace XULWin
     // We want the dialog to have a parent because an owning window is needed
     // in order to prevent our dialog from showing in the Windows taskbar.
     // MSDN Article ID 205158: How To Prevent a WindowElement from Appearing on the Taskbar
-    static NativeWindow * GetDialogHelper()
+    static Window * GetDialogHelper()
     {
         AttributesMapping attr;
-        static NativeWindow fDialogHelper(attr);
+        static Window fDialogHelper(attr);
         fDialogHelper.setTitle("XULWin::DialogHelper");
         return &fDialogHelper;
     }
@@ -337,16 +337,16 @@ namespace XULWin
     DialogElement::DialogElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(DialogElement::Type(),
                 inParent,
-                new NativeDialog(inParent ? inParent->component() : GetDialogHelper(), inAttributesMapping))
+                new Dialog(inParent ? inParent->component() : GetDialogHelper(), inAttributesMapping))
     {
     }
 
 
     DialogResult DialogElement::showModal(WindowElement * inInvoker)
     {
-        if (NativeDialog * nativeDialog = component()->downcast<NativeDialog>())
+        if (Dialog * nativeDialog = component()->downcast<Dialog>())
         {
-            return nativeDialog->showModal(inInvoker->component()->downcast<NativeWindow>());
+            return nativeDialog->showModal(inInvoker->component()->downcast<Window>());
         }
         return DialogResult_Cancel;
     }
@@ -354,7 +354,7 @@ namespace XULWin
 
     void DialogElement::endModal(DialogResult inDialogResult)
     {
-        if (NativeDialog * nativeDialog = component()->downcast<NativeDialog>())
+        if (Dialog * nativeDialog = component()->downcast<Dialog>())
         {
             nativeDialog->endModal(inDialogResult);
         }

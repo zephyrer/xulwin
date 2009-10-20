@@ -10,7 +10,7 @@
 
 namespace XULWin
 {
-    class NativeWindow;
+    class Window;
     class ImageViewerSample
     {
     public:
@@ -22,7 +22,7 @@ namespace XULWin
 
     private:
         ElementPtr mRootElement;
-        NativeWindow * mNativeWindow;
+        Window * mNativeWindow;
         ScopedEventListener mEvents;
     };
 

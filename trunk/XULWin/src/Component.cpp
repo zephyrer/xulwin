@@ -943,12 +943,12 @@ namespace XULWin
     } 
 
 
-    void NativeWindow::Register(HMODULE inModuleHandle)
+    void Window::Register(HMODULE inModuleHandle)
     {
         WNDCLASSEX wndClass;
         wndClass.cbSize = sizeof(wndClass);
         wndClass.style = 0;
-        wndClass.lpfnWndProc = &NativeWindow::MessageHandler;
+        wndClass.lpfnWndProc = &Window::MessageHandler;
         wndClass.cbClsExtra = 0;
         wndClass.cbWndExtra = 0;
         wndClass.hInstance = inModuleHandle;
@@ -965,7 +965,7 @@ namespace XULWin
     }
 
 
-    NativeWindow::NativeWindow(const AttributesMapping & inAttributesMapping) :
+    Window::Window(const AttributesMapping & inAttributesMapping) :
         NativeComponent(0, inAttributesMapping),
         mBoxLayouter(this),
         mActiveDialog(0),
@@ -994,31 +994,31 @@ namespace XULWin
     }
 
 
-    NativeWindow::~NativeWindow()
+    Window::~Window()
     {
     }
 
     
-    bool NativeWindow::initComponent()
+    bool Window::initComponent()
     {
         return Super::initComponent();
     }
 
 
-    bool NativeWindow::initStyleControllers()
+    bool Window::initStyleControllers()
     {  
         return Super::initStyleControllers();
     }
 
 
-    bool NativeWindow::initAttributeControllers()
+    bool Window::initAttributeControllers()
     {
         setAttributeController("title", static_cast<TitleController*>(this));
         return Super::initAttributeControllers();
     }
     
     
-    Rect NativeWindow::clientRect() const
+    Rect Window::clientRect() const
     {
         RECT rc;
         ::GetClientRect(handle(), &rc);
@@ -1026,7 +1026,7 @@ namespace XULWin
     }
     
     
-    Rect NativeWindow::windowRect() const
+    Rect Window::windowRect() const
     {
         RECT rw;
         ::GetWindowRect(handle(), &rw);
@@ -1034,7 +1034,7 @@ namespace XULWin
     }
     
     
-    int NativeWindow::calculateWidth(SizeConstraint inSizeConstraint) const
+    int Window::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         
@@ -1055,7 +1055,7 @@ namespace XULWin
     }
     
     
-    int NativeWindow::calculateHeight(SizeConstraint inSizeConstraint) const
+    int Window::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -1075,43 +1075,43 @@ namespace XULWin
     }
     
     
-    void NativeWindow::move(int x, int y, int w, int h)
+    void Window::move(int x, int y, int w, int h)
     {
         ::MoveWindow(handle(), x, y, w, h, FALSE);
     }
 
     
-    void NativeWindow::rebuildLayout()
+    void Window::rebuildLayout()
     {
         mBoxLayouter.rebuildLayout();
     }        
 
 
-    Orient NativeWindow::getOrient() const
+    Orient Window::getOrient() const
     {
         return Super::getOrient();
     }
 
 
-    Align NativeWindow::getAlign() const
+    Align Window::getAlign() const
     {
         return Super::getAlign();
     }
 
     
-    std::string NativeWindow::getTitle() const
+    std::string Window::getTitle() const
     {
         return Windows::getWindowText(handle());
     }
 
 
-    void NativeWindow::setTitle(const std::string & inTitle)
+    void Window::setTitle(const std::string & inTitle)
     {
         Windows::setWindowText(handle(), inTitle);
     }
 
 
-    const Component * NativeWindow::getChild(size_t idx) const
+    const Component * Window::getChild(size_t idx) const
     {
         if (el())
         {
@@ -1121,7 +1121,7 @@ namespace XULWin
     }
 
 
-    Component * NativeWindow::getChild(size_t idx)
+    Component * Window::getChild(size_t idx)
     {
         if (el())
         {
@@ -1131,7 +1131,7 @@ namespace XULWin
     }
 
 
-    void NativeWindow::showModal(WindowElement::Positioning inPositioning)
+    void Window::showModal(WindowElement::Positioning inPositioning)
     {
         show(inPositioning);
 
@@ -1149,7 +1149,7 @@ namespace XULWin
     }
 
 
-    void NativeWindow::show(WindowElement::Positioning inPositioning)
+    void Window::show(WindowElement::Positioning inPositioning)
     {
         rebuildLayout();
 
@@ -1185,7 +1185,7 @@ namespace XULWin
     }
     
     
-    void NativeWindow::close()
+    void Window::close()
     {
         setHidden(true);
         if (mHasMessageLoop)
@@ -1195,7 +1195,7 @@ namespace XULWin
     }
 
 
-    LRESULT NativeWindow::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    LRESULT Window::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         switch(inMessage)
         {
@@ -1313,7 +1313,7 @@ namespace XULWin
     }
 
     
-    LRESULT CALLBACK NativeWindow::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    LRESULT CALLBACK Window::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         NativeComponent * sender = FindComponentByHandle(hWnd);
         if (sender)
@@ -1328,18 +1328,18 @@ namespace XULWin
     }
 
 
-    void NativeWindow::setBlockingDialog(NativeDialog * inDlg)
+    void Window::setBlockingDialog(Dialog * inDlg)
     {
         mActiveDialog = inDlg;
     }
 
 
-    void NativeDialog::Register(HMODULE inModuleHandle)
+    void Dialog::Register(HMODULE inModuleHandle)
     {
         WNDCLASSEX wndClass;
         wndClass.cbSize = sizeof(wndClass);
         wndClass.style = 0;
-        wndClass.lpfnWndProc = &NativeDialog::MessageHandler;
+        wndClass.lpfnWndProc = &Dialog::MessageHandler;
         wndClass.cbClsExtra = 0;
         wndClass.cbWndExtra = 0;
         wndClass.hInstance = inModuleHandle;
@@ -1380,7 +1380,7 @@ namespace XULWin
     }
 
 
-    NativeDialog::NativeDialog(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Dialog::Dialog(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping),
         mBoxLayouter(this),
         mInvoker(0),
@@ -1411,25 +1411,25 @@ namespace XULWin
     }
 
 
-    NativeDialog::~NativeDialog()
+    Dialog::~Dialog()
     {
     }
 
 
-    bool NativeDialog::initStyleControllers()
+    bool Dialog::initStyleControllers()
     {  
         return Super::initStyleControllers();
     }
 
 
-    bool NativeDialog::initAttributeControllers()
+    bool Dialog::initAttributeControllers()
     {
         setAttributeController("title", static_cast<TitleController*>(this));
         return Super::initAttributeControllers();
     }
     
     
-    Rect NativeDialog::clientRect() const
+    Rect Dialog::clientRect() const
     {
         RECT rc;
         ::GetClientRect(handle(), &rc);
@@ -1437,7 +1437,7 @@ namespace XULWin
     }
     
     
-    Rect NativeDialog::windowRect() const
+    Rect Dialog::windowRect() const
     {
         RECT rw;
         ::GetWindowRect(handle(), &rw);
@@ -1445,7 +1445,7 @@ namespace XULWin
     }
     
     
-    int NativeDialog::calculateWidth(SizeConstraint inSizeConstraint) const
+    int Dialog::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         
@@ -1466,7 +1466,7 @@ namespace XULWin
     }
     
     
-    int NativeDialog::calculateHeight(SizeConstraint inSizeConstraint) const
+    int Dialog::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -1486,43 +1486,43 @@ namespace XULWin
     }
     
     
-    void NativeDialog::move(int x, int y, int w, int h)
+    void Dialog::move(int x, int y, int w, int h)
     {
         ::MoveWindow(handle(), x, y, w, h, FALSE);
     }
 
     
-    void NativeDialog::rebuildLayout()
+    void Dialog::rebuildLayout()
     {
         mBoxLayouter.rebuildLayout();
     }        
 
 
-    Orient NativeDialog::getOrient() const
+    Orient Dialog::getOrient() const
     {
         return Super::getOrient();
     }
 
 
-    Align NativeDialog::getAlign() const
+    Align Dialog::getAlign() const
     {
         return Super::getAlign();
     }
 
     
-    std::string NativeDialog::getTitle() const
+    std::string Dialog::getTitle() const
     {
         return Windows::getWindowText(handle());
     }
 
 
-    void NativeDialog::setTitle(const std::string & inTitle)
+    void Dialog::setTitle(const std::string & inTitle)
     {
         Windows::setWindowText(handle(), inTitle);
     }
 
 
-    const Component * NativeDialog::getChild(size_t idx) const
+    const Component * Dialog::getChild(size_t idx) const
     {
         if (el())
         {
@@ -1536,13 +1536,13 @@ namespace XULWin
     }
 
 
-    Component * NativeDialog::getChild(size_t idx)
+    Component * Dialog::getChild(size_t idx)
     {
-        return const_cast<Component*>(static_cast<const NativeDialog*>(this)->getChild(idx));
+        return const_cast<Component*>(static_cast<const Dialog*>(this)->getChild(idx));
     }
 
 
-    DialogResult NativeDialog::showModal(NativeWindow * inInvoker)
+    DialogResult Dialog::showModal(Window * inInvoker)
     {
         mInvoker = inInvoker;
         if (mInvoker)
@@ -1579,7 +1579,7 @@ namespace XULWin
     }
     
     
-    LRESULT NativeDialog::endModal(DialogResult inDialogResult)
+    LRESULT Dialog::endModal(DialogResult inDialogResult)
     {
         mDialogResult = inDialogResult;
         // Re-enable all windows
@@ -1597,7 +1597,7 @@ namespace XULWin
     }
 
 
-    LRESULT NativeDialog::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    LRESULT Dialog::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         switch(inMessage)
         {
@@ -1676,7 +1676,7 @@ namespace XULWin
     }
 
     
-    LRESULT CALLBACK NativeDialog::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    LRESULT CALLBACK Dialog::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         NativeComponent * sender = FindComponentByHandle(hWnd);
         if (sender)
@@ -3550,10 +3550,10 @@ namespace XULWin
         }
     }
 
-    static NativeWindow * findParentWindow(Component * inChild)
+    static Window * findParentWindow(Component * inChild)
     {
-        NativeWindow * result = 0;
-        if (result = dynamic_cast<NativeWindow*>(inChild))
+        Window * result = 0;
+        if (result = dynamic_cast<Window*>(inChild))
         {
             return result;
         }
@@ -3593,7 +3593,7 @@ namespace XULWin
                     // This seemingly zero-op has two side effects:
                     // 1. The minmax sizes will be enforced again. 
                     // 2. The content of the tabpanel is refreshed correctly.
-                    NativeWindow * wnd = findParentWindow(pThis);
+                    Window * wnd = findParentWindow(pThis);
                     if (wnd)
                     {
                         RECT rw;

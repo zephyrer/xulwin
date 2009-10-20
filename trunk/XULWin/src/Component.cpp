@@ -3399,10 +3399,10 @@ namespace XULWin
 
     bool Scrollbar::initAttributeControllers()
     {
-        Super::setAttributeController("curpos", static_cast<ScrollbarCurrentPositionController*>(this));
-        Super::setAttributeController("maxpos", static_cast<ScrollbarMaxPositionController*>(this));
-        Super::setAttributeController("increment", static_cast<ScrollbarIncrementController*>(this));
-        Super::setAttributeController("pageincrement", static_cast<ScrollbarPageIncrementController*>(this));
+        setAttributeController("curpos", static_cast<ScrollbarCurrentPositionController*>(this));
+        setAttributeController("maxpos", static_cast<ScrollbarMaxPositionController*>(this));
+        setAttributeController("increment", static_cast<ScrollbarIncrementController*>(this));
+        setAttributeController("pageincrement", static_cast<ScrollbarPageIncrementController*>(this));
         return Super::initAttributeControllers();
     }
 

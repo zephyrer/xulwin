@@ -61,10 +61,10 @@ namespace XULWin
     class NotificationListener
     {
     public:
-        // This notificion is sent just after the child has been added.
+        // This notification is sent just after the child has been added.
         virtual void onChildAdded(Component * inChild) {}
 
-        // This notificion is sent after the child has been removed and
+        // This notification is sent after the child has been removed and
         // just before the child is destroyed.
         virtual void onChildRemoved(Component * inChild) {}
 

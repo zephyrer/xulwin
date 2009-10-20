@@ -36,7 +36,7 @@ namespace XULWin
                   
         bool operator!=(const GenericRect<T> & inOtherRect)
         {
-            return mLocation != inOtherRect.mLocation || mSize != inOtherRect.mSize;
+            return !(inOtherRect == *this);
         }
 
         T x() const { return mLocation.x(); }

@@ -17,7 +17,7 @@ namespace XULWin
         Decorator(Component * inDecoratedElement);
 
         // This constructor is needed when inserting a new object in the Decorator chain.
-        Decorator(ElementImplPtr inDecoratedElement);
+        Decorator(ComponentPtr inDecoratedElement);
 
         virtual ~Decorator();
 
@@ -162,9 +162,9 @@ namespace XULWin
 
         virtual void setStyleController(const std::string & inAttr, StyleController * inController);
 
-        ElementImplPtr decoratedElement() const;
+        ComponentPtr decoratedElement() const;
 
-        void setDecoratedElement(ElementImplPtr inElement);
+        void setDecoratedElement(ComponentPtr inElement);
 
         // Takes ownership, and destroys any previously set element
         void setDecoratedElement(Component * inElement);
@@ -184,7 +184,7 @@ namespace XULWin
         virtual void onContentChanged();
 
     protected:
-        ElementImplPtr mDecoratedElement;
+        ComponentPtr mDecoratedElement;
     };
 
 
@@ -256,7 +256,7 @@ namespace XULWin
         MarginDecorator(Component * inDecoratedElement);
 
         // This constructor is needed for insertion of new objects in the Decorator chain.
-        MarginDecorator(ElementImplPtr inDecoratedElement);
+        MarginDecorator(ComponentPtr inDecoratedElement);
 
         virtual ~MarginDecorator();
 

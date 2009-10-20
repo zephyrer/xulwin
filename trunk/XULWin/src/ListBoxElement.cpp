@@ -43,7 +43,7 @@ namespace XULWin
                 if (inType == "listitem")
                 {   
                     ListBoxImpl * listBox = new ListBoxImpl(parent()->component(), mAttributes);
-                    ElementImplPtr prev = proxy->swap(new MarginDecorator(listBox));
+                    ComponentPtr prev = proxy->swap(new MarginDecorator(listBox));
                     listBox->initComponent();
 
 					// Up until this point all the move() calls were directed
@@ -54,7 +54,7 @@ namespace XULWin
                 else
                 {
                     ListViewImpl * listView = new ListViewImpl(parent()->component(), mAttributes);
-                    ElementImplPtr prev = proxy->swap(new MarginDecorator(listView));
+                    ComponentPtr prev = proxy->swap(new MarginDecorator(listView));
                     listView->initComponent();
 
 					// Up until this point all the move() calls were directed

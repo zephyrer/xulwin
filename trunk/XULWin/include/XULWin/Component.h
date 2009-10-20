@@ -52,7 +52,7 @@ namespace XULWin
     class Decorator;
     class BoxLayouter;
     class NativeComponent;
-    typedef boost::shared_ptr<Component> ElementImplPtr;
+    typedef boost::shared_ptr<Component> ComponentPtr;
 
 
     /**

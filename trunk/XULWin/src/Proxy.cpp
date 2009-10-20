@@ -10,10 +10,10 @@ namespace XULWin
     }
 
 
-    ElementImplPtr Proxy::swap(ElementImplPtr inNewElementImpl)
+    ComponentPtr Proxy::swap(ComponentPtr inNewElementImpl)
     {
         assert(inNewElementImpl);
-        ElementImplPtr old = mDecoratedElement;
+        ComponentPtr old = mDecoratedElement;
         mDecoratedElement = inNewElementImpl;
         assert(mDecoratedElement);
         mDecoratedElement->setOwningElement(old->el());
@@ -21,10 +21,10 @@ namespace XULWin
     }
 
 
-    ElementImplPtr Proxy::swap(Component * inNewElementImpl)
+    ComponentPtr Proxy::swap(Component * inNewElementImpl)
     {
         assert(inNewElementImpl);
-        ElementImplPtr old = mDecoratedElement;
+        ComponentPtr old = mDecoratedElement;
         mDecoratedElement.reset(inNewElementImpl);
         assert(mDecoratedElement);
         mDecoratedElement->setOwningElement(old->el());

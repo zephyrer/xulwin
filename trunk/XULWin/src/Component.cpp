@@ -444,7 +444,7 @@ namespace XULWin
         // If no margin decorator found, insert one, and set the value.
         else if (Decorator * dec = el()->component()->downcast<Decorator>())
         {
-            ElementImplPtr newDec(new MarginDecorator(dec->decoratedElement()));
+            ComponentPtr newDec(new MarginDecorator(dec->decoratedElement()));
             dec->setDecoratedElement(newDec);
             if (MarginDecorator * p = newDec->downcast<MarginDecorator>())
             {

@@ -21,7 +21,7 @@ namespace XULWin
     }
 
 
-    Decorator::Decorator(ElementImplPtr inDecoratedElement) :
+    Decorator::Decorator(ComponentPtr inDecoratedElement) :
         mDecoratedElement(inDecoratedElement)
     {
         assert(mDecoratedElement);
@@ -716,14 +716,14 @@ namespace XULWin
     }
     
     
-    ElementImplPtr Decorator::decoratedElement() const
+    ComponentPtr Decorator::decoratedElement() const
     {
         assert(mDecoratedElement);
         return mDecoratedElement;
     }
     
     
-    void Decorator::setDecoratedElement(ElementImplPtr inElement)
+    void Decorator::setDecoratedElement(ComponentPtr inElement)
     {
         mDecoratedElement = inElement;
         assert(mDecoratedElement);
@@ -1082,7 +1082,7 @@ namespace XULWin
     }
 
 
-    MarginDecorator::MarginDecorator(ElementImplPtr inDecoratedElement) :
+    MarginDecorator::MarginDecorator(ComponentPtr inDecoratedElement) :
         Decorator(inDecoratedElement),
         mTop(2),
         mLeft(4),

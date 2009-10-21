@@ -10,15 +10,18 @@
 namespace XULWin
 {
 
-
     template<class ValueType>
     struct ContainerPolicy_Set
     {
         typedef std::set<ValueType> Container;
         static void insert(Container & ioContainer, const ValueType & inValue)
-        {
-            ioContainer.insert(inValue);
-        }
+        { ioContainer.insert(inValue); }
+
+        static size_t size(const Container & ioContainer)
+        { return ioContainer.size(); }
+
+        static bool empty(const Container & ioContainer)
+        { return ioContainer.empty(); }
     };
 
 
@@ -27,10 +30,15 @@ namespace XULWin
     {
         typedef std::vector<ValueType> Container;
         static void insert(Container & ioContainer, const ValueType & inValue)
-        {
-            ioContainer.push_back(inValue);
-        }
+        { ioContainer.push_back(inValue); }
+
+        static size_t size(const Container & ioContainer)
+        { return ioContainer.size(); }
+
+        static bool empty(const Container & ioContainer)
+        { return ioContainer.empty(); }
     };
+
 
     template <class PointeeType>
     struct PointerPolicy_Normal
@@ -38,10 +46,9 @@ namespace XULWin
         typedef PointeeType* PointerType;
 
         static PointeeType* getRaw(PointerType p)
-        {
-            return p;
-        }
+        { return p; }
     };
+
 
     template <class PointeeType>
     struct PointerPolicy_Shared
@@ -49,9 +56,7 @@ namespace XULWin
         typedef boost::shared_ptr<PointeeType> PointerType;
 
         static PointeeType* getRaw(PointerType p)
-        {
-            return p.get();
-        }
+        { return p.get(); }
     };
 
 
@@ -82,9 +87,11 @@ namespace XULWin
             ContainerPolicy<ChildPtr>::insert(mChildren, item);
         }
 
-        size_t size() const { return mChildren.size(); }
+        size_t size() const
+        { return ContainerPolicy<ChildPtr>::size(mChildren); }
 
-        bool empty() const { return mChildren.empty(); }
+        bool empty() const
+        { return ContainerPolicy<ChildPtr>::empty(mChildren); }
 
         const DataType & data() const
         { return mData; }

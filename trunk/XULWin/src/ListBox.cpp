@@ -16,12 +16,6 @@ namespace XULWin
         mRows.setInvalid();
     }
 
-    
-    bool ListBox::init()
-    {
-        return Super::init();
-    }
-
 
     void ListBox::onChildAdded(Component * inChild)
     {

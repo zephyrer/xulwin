@@ -16,10 +16,6 @@ namespace XULWin
         { return Element::Create<ImageElement>(inParent, inAttr); }
 
         static const char * Type() { return "image"; }
-
-        virtual bool init();
-
-        std::string value() const;
     
     private:
         friend class Element;

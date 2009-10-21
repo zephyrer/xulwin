@@ -1744,8 +1744,6 @@ namespace XULWin
 
         virtual bool init();
 
-        virtual bool initAttributeControllers();
-
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;

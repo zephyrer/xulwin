@@ -17,10 +17,4 @@ namespace XULWin
     }
 
 
-    bool ImageElement::init()
-    {
-        return Element::init();
-    }
-
-
 } // namespace XULWin

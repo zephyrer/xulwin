@@ -998,18 +998,6 @@ namespace XULWin
     {
     }
 
-    
-    bool Window::init()
-    {
-        return Super::init();
-    }
-
-
-    bool Window::initStyleControllers()
-    {  
-        return Super::initStyleControllers();
-    }
-
 
     bool Window::initAttributeControllers()
     {
@@ -4217,12 +4205,6 @@ namespace XULWin
     }
 
 
-    bool Toolbar::initAttributeControllers()
-    {
-        return Super::initAttributeControllers();
-    }
-
-
     int Toolbar::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
@@ -4314,12 +4296,6 @@ namespace XULWin
             setDisabled(mDisabled);
             setCSSListStyleImage(mCSSListStyleImage);
         }
-    }
-
-
-    bool ToolbarButton::init()
-    {
-        return Super::init();
     }
     
 

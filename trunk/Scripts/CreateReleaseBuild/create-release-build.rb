@@ -62,26 +62,27 @@ puts releasedir
 FileUtils.mkdir_p(releasedir)
 
 # Create vs80 and vs90 subfolders
-FileUtils.mkdir_p("#{releasedir}/vs80")
-FileUtils.mkdir_p("#{releasedir}/vs90")
+FileUtils.mkdir_p("#{releasedir}/vs80/Debug")
+FileUtils.mkdir_p("#{releasedir}/vs80/Release")
+FileUtils.mkdir_p("#{releasedir}/vs90/Debug")
+FileUtils.mkdir_p("#{releasedir}/vs90/Release")
 
 # Copy vs80 LuaBindings.lib into the vs80 release folder (same for vs90)
-File.move("#{projectroot}/../Output/Windows/vs80/Debug/LuaBindings/LuaBindings.lib", "#{releasedir}/vs80/Debug")
-File.move("#{projectroot}/../Output/Windows/vs80/Release/LuaBindings/LuaBindings.lib", "#{releasedir}/vs80/Release")
-File.move("#{projectroot}/../Output/Windows/vs90/Debug/LuaBindings/LuaBindings.lib", "#{releasedir}/vs90/Debug")
-File.move("#{projectroot}/../Output/Windows/vs90/Release/LuaBindings/LuaBindings.lib", "#{releasedir}/vs90/Release")
+File.copy("#{projectroot}/../Output/Windows/vs80/Debug/LuaBindings/LuaBindings.lib", "#{releasedir}/vs80/Debug/")
+File.copy("#{projectroot}/../Output/Windows/vs80/Release/LuaBindings/LuaBindings.lib", "#{releasedir}/vs80/Release/")
+File.copy("#{projectroot}/../Output/Windows/vs90/Debug/LuaBindings/LuaBindings.lib", "#{releasedir}/vs90/Debug/")
+File.copy("#{projectroot}/../Output/Windows/vs90/Release/LuaBindings/LuaBindings.lib", "#{releasedir}/vs90/Release/")
 
 # Copy vs80 XULWin.lib into the vs80 release folder (same for vs90)
-File.move("#{projectroot}/../Output/Windows/vs80/Debug/XULWin/XULWin.lib", "#{releasedir}/vs80/Debug")
-File.move("#{projectroot}/../Output/Windows/vs80/Release/XULWin/XULWin.lib", "#{releasedir}/vs80/Release")
-File.move("#{projectroot}/../Output/Windows/vs90/Debug/XULWin/XULWin.lib", "#{releasedir}/vs90/Debug")
-File.move("#{projectroot}/../Output/Windows/vs90/Release/XULWin/XULWin.lib", "#{releasedir}/vs90/Release")
+File.copy("#{projectroot}/../Output/Windows/vs80/Debug/XULWin/XULWin.lib", "#{releasedir}/vs80/Debug/")
+File.copy("#{projectroot}/../Output/Windows/vs80/Release/XULWin/XULWin.lib", "#{releasedir}/vs80/Release/")
+File.copy("#{projectroot}/../Output/Windows/vs90/Debug/XULWin/XULWin.lib", "#{releasedir}/vs90/Debug/")
+File.copy("#{projectroot}/../Output/Windows/vs90/Release/XULWin/XULWin.lib", "#{releasedir}/vs90/Release/")
 
 
 # Compress the release folder
-Dir.chdir(releasedir)
-system("7z a XULWin_rev#{rev}")
-
+Dir.chdir("#{projectroot}/Libs")
+puts "Current dir is now: #{projectroot}/Libs"
 
 # End of script
 puts "Done!"

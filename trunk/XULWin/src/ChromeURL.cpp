@@ -2,7 +2,7 @@
 #include "Poco/String.h"
 
 
-namespace XULWin
+namespace XULWin 
 {
 
     ChromeURL::ChromeURL(const std::string & inURL, const std::string & inLocale) :

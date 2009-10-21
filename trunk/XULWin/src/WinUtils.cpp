@@ -27,9 +27,13 @@ namespace Windows
 
     CurrentDirectoryChanger::CurrentDirectoryChanger(const std::string & inTargetDir)
 	{
-        ::GetCurrentDirectoryW(MAX_PATH, mOldDir);
+        ::GetCurrentDirectory(MAX_PATH, mOldDir);
         std::wstring newDir = ToUTF16(inTargetDir);
-        ::SetCurrentDirectoryW(newDir.c_str());
+        if (0 == ::SetCurrentDirectory(newDir.c_str()))
+        {
+            std::string lastError = Windows::getLastError(::GetLastError());
+            ReportError(lastError);
+        }
 	}
 
 

@@ -14,7 +14,7 @@ namespace XULWin
     class LuaBindingsTest
     {
     public:
-        LuaBindingsTest(HINSTANCE hInstance);
+        LuaBindingsTest(HINSTANCE hInstance, const std::string & inPathToXULRunnerSamples);
 
         ~LuaBindingsTest();
 
@@ -24,6 +24,7 @@ namespace XULWin
 
     private:
         Lua::XULRunnerWithLua mLoggerRunner;
+        std::string mPathToXULRunnerSamples;
         ElementPtr mLoggerApp;
     };
 

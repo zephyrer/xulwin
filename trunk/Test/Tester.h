@@ -14,6 +14,9 @@ namespace XULWin
         void runXULSample(const std::string & inAppName);
 
         void runNonXULSample();
+
+    private:
+        std::string mPathToXULRunnerSamples;
     };
 
 

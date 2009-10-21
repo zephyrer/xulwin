@@ -22,6 +22,8 @@ namespace XULWin
     class ConfigSample
     {
     public:
+        ConfigSample(const std::string & inPathToXULRunnerSamples);
+
         void run();
 
         LRESULT dropFiles(WPARAM wParam, LPARAM lParam);
@@ -48,6 +50,7 @@ namespace XULWin
         XULWin::Fallible<Element*> mNewSetOK;
         XULWin::Fallible<Element*> mNewSetCancel;
         ScopedEventListener mEvents;
+        std::string mPathToXULRunnerSamples;
     };
 
 

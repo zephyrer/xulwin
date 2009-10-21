@@ -1,11 +1,13 @@
 #include "ImageViewerSample.h"
 #include "XULWin/XULRunner.h"
-#include "XULWin/EventListener.h"
-#include "XULWin/Decorator.h"
 #include "XULWin/Component.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/ErrorReporter.h"
+#include "XULWin/EventListener.h"
 #include "XULWin/ImageElement.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
+#include "Poco/Path.h"
 #include <boost/bind.hpp>
 
 
@@ -15,16 +17,17 @@ using namespace XULWin;
 namespace XULWin
 {
     
-    ImageViewerSample::ImageViewerSample() :
-        mNativeWindow(0)
+    ImageViewerSample::ImageViewerSample(const std::string & inPathToXULRunnerSamples) :
+        mNativeWindow(0),
+        mPathToXULRunnerSamples(inPathToXULRunnerSamples)
     {
     }
 
 
     void ImageViewerSample::run()
     {
-        std::string chdir = "../xulrunnersamples/imageviewer/";
-        Windows::CurrentDirectoryChanger curdir(chdir);
+        Poco::Path appPath(mPathToXULRunnerSamples, "imageviewer");
+        Windows::CurrentDirectoryChanger curdir(appPath.toString());
 
         //system("run.bat");
 
@@ -32,6 +35,7 @@ namespace XULWin
         mRootElement = runner.loadXUL("chrome://imageviewer/content/imageviewer.xul");
         if (!mRootElement)
         {
+            ReportError("Failed to load ImageViewerSample");
             return;
         }
 

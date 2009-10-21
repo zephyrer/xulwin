@@ -14,7 +14,7 @@ namespace XULWin
     class ImageViewerSample
     {
     public:
-        ImageViewerSample();
+        ImageViewerSample(const std::string & inPathToXULRunnerSamples);
 
         void run();
 
@@ -24,6 +24,7 @@ namespace XULWin
         ElementPtr mRootElement;
         Window * mNativeWindow;
         ScopedEventListener mEvents;
+        std::string mPathToXULRunnerSamples;
     };
 
 

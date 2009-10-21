@@ -2,6 +2,7 @@
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/MenuPopupElement.h"
 #include "XULWin/Unicode.h"
+#include "Poco/Path.h"
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 #include <sstream>
@@ -17,10 +18,23 @@ namespace XULWin
         return 0;
     }
 
+
+    ConfigSample::ConfigSample(const std::string & inPathToXULRunnerSamples) : 
+        mPathToXULRunnerSamples(inPathToXULRunnerSamples)
+    {
+    }
+
+
     void ConfigSample::run()
     {
-        Windows::CurrentDirectoryChanger curdir("../xulrunnersamples/configpanel/");
+        Poco::Path appPath(mPathToXULRunnerSamples, "configpanel");
+        Windows::CurrentDirectoryChanger curdir(appPath.toString());
         mConfigWindow = mRunner.loadApplication("application.ini");
+        if (!mConfigWindow)
+        {
+            ReportError("Failed to load application.ini file for configpanel.");
+            return;
+        }
         
         mSetsPopup = mConfigWindow->getElementById("setsMenuList");
 

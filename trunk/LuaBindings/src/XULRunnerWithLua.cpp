@@ -108,9 +108,16 @@ namespace Lua
     ElementPtr XULRunnerWithLua::loadApplication(const std::string & inApplicationIniFile)
     {
         ElementPtr result = mXULRunner->loadApplication(inApplicationIniFile);
-        loadScripts(result.get());
-        addListeners(result.get());        
-        mPrevXULRunner = Lua::setXULRunner(this);
+        if (result)
+        {
+            loadScripts(result.get());
+            addListeners(result.get());        
+            mPrevXULRunner = Lua::setXULRunner(this);
+        }
+        else
+        {
+            ReportError("Failed to load: " + inApplicationIniFile);
+        }
         return result; 
     }
 

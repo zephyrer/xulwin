@@ -10,7 +10,7 @@ namespace XULWin
 
     void Tester::runXULSample(const std::string & inAppName)
     {
-        std::string chdir = "../xulrunnersamples/" + inAppName + "/";
+        std::string chdir = mPathToXULRunnerSamples + inAppName + "/";
         Windows::CurrentDirectoryChanger curdir(chdir);
 
 #if TEST_WITH_MOZILLA_XULRUNNER

@@ -90,7 +90,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;"
+				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration

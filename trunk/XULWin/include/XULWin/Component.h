@@ -714,8 +714,6 @@ namespace XULWin
 
         virtual bool initAttributeControllers();
 
-        virtual bool initStyleControllers();
-
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
         virtual Orient BoxLayouter_getOrient() const

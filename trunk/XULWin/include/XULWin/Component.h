@@ -673,8 +673,6 @@ namespace XULWin
 
         virtual ~Window();
 
-        virtual bool init();
-
         // BoxLayouter
         virtual Orient getOrient() const;
 
@@ -1775,8 +1773,6 @@ namespace XULWin
         typedef PassiveComponent Super;
 
         ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual bool init();
 
         virtual bool initAttributeControllers();
 

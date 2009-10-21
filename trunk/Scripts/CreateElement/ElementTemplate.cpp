@@ -14,10 +14,4 @@ namespace XULWin
     {
     }
 
-
-    bool {{ELEMENT_NAME}}::init()
-    {
-        return Element::init();
-    }
-
 } // namespace XULWin

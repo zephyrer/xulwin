@@ -13,7 +13,7 @@ namespace XULWin
     // At this point we don't know yet whether to make a listbox or a listview.
     // Both have distinct window classnames in the Windows API, but not in XUL.
     // So we need to delay the instantiation. However, we still must have an
-    // component, so we use temporarily use a PassiveComonent object.
+    // component, so we use temporarily use a PassiveComponent object.
     ListBoxElement::ListBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListBoxElement::Type(),
                 inParent,

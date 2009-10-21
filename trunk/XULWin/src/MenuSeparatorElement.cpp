@@ -14,10 +14,4 @@ namespace XULWin
     {
     }
 
-
-    bool MenuSeparatorElement::init()
-    {
-        return Element::init();
-    }
-
 } // namespace XULWin

@@ -15,8 +15,6 @@ namespace XULWin
         { return Element::Create<{{ELEMENT_NAME}}>(inParent, inAttr); }
 
         static const char * Type() { return "{{ELEMENT_TYPE}}"; }
-
-        virtual bool init();
     
     private:
         friend class Element;

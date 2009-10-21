@@ -14,14 +14,6 @@ namespace XULWin
         typedef PassiveComponent Super;
 
         {{COMPONENT_NAME}}(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual bool init();
-
-        bool initAttributeControllers();
-
-        int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
 } // namespace XULWin

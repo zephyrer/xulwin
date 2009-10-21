@@ -15,8 +15,6 @@ namespace XULWin
         { return Element::Create<MenuSeparatorElement>(inParent, inAttr); }
 
         static const char * Type() { return "menuseparator"; }
-
-        virtual bool init();
     
     private:
         friend class Element;

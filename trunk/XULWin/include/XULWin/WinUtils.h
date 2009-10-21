@@ -2,6 +2,7 @@
 #define WINUTILS_H_INCLUDED
 
 
+#include "XULWin/Node.h"
 #include <boost/function.hpp>
 #include <windows.h>
 #include <string>
@@ -149,6 +150,19 @@ namespace Windows
     void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText);
 
     void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
+
+    struct MenuItemInfo
+    {
+        MenuItemInfo(const std::string & inLabel, int inId) : label(inLabel), id(inId) {}
+        std::string label;
+        int id;
+    };
+    typedef GenericNode<
+        MenuItemInfo,
+        ContainerPolicy_Vector,
+        PointerPolicy_Shared
+        > MenuNode;
+    HMENU createMenu(const MenuNode & inMenuNode);
     
     void setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled);
 

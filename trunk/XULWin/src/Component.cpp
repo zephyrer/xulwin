@@ -3857,9 +3857,11 @@ namespace XULWin
         inPrev = (HTREEITEM)SendMessage(handle(), TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&tvins);
 
         HTREEITEM prevChild = TVI_FIRST;
-        for (size_t idx = 0; idx != inInfo.getChildCount(); ++idx)
+        TreeItemInfo::const_iterator it = inInfo.begin(), end = inInfo.end();
+        for (; it != end; ++it)
         {
-            prevChild = addInfo(inPrev, prevChild, *inInfo.getChild(idx));
+            const TreeItemInfo * itemInfo = *it;
+            prevChild = addInfo(inPrev, prevChild, *itemInfo);
         }
 
         return inPrev;

@@ -627,6 +627,27 @@ namespace Windows
         }
     }
     
+    
+    HMENU createMenu(const MenuNode & inMenuNode)
+    {
+        HMENU result = CreateMenu();
+        MenuNode::const_iterator it = inMenuNode.begin(), end = inMenuNode.end();
+        size_t idx = 0;
+        for (; it != end; ++it)
+        {
+            MenuNode::ChildPtr subNode(*it);
+            if (!subNode->empty())
+            {
+                insertSubMenu(result, ::GetMenuItemCount(result), createMenu(*subNode), subNode->data().label);
+            }
+            else
+            {
+                insertMenuItem(result, ::GetMenuItemCount(result), subNode->data().id, subNode->data().label);
+            }
+        }
+        return result;
+    }
+
 
     void setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled)
     {

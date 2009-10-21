@@ -180,6 +180,14 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="CreateReleaseBuild"
+			>
+			<File
+				RelativePath=".\CreateReleaseBuild\create-release-build.rb"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

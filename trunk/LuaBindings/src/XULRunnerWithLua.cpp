@@ -111,16 +111,19 @@ namespace Lua
         loadScripts(result.get());
         addListeners(result.get());        
         mPrevXULRunner = Lua::setXULRunner(this);
-        return result;
+        return result; 
     }
 
 
     ElementPtr XULRunnerWithLua::loadXUL(const std::string & inXULUrl)
     {
         ElementPtr result = mXULRunner->loadXUL(inXULUrl);
-        loadScripts(result.get());
-        addListeners(result.get());
-        mPrevXULRunner = Lua::setXULRunner(this);
+        if (result)
+        {
+            loadScripts(result.get());
+            addListeners(result.get());
+            mPrevXULRunner = Lua::setXULRunner(this);
+        }
         return result;
     }
 

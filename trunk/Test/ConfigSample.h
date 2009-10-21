@@ -15,7 +15,7 @@
 #include <string>
 
 
-namespace XULWin
+namespace XULWin 
 {
     class Element;
 

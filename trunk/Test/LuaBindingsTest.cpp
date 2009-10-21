@@ -14,11 +14,11 @@ namespace XULWin
 {
 
 
-    LuaBindingsTest::LuaBindingsTest()
+    LuaBindingsTest::LuaBindingsTest(HINSTANCE hInstance)
     {    
-        Poco::Path promptFile(__FILE__);
-        std::string path = promptFile.parent().append("Logger.xul").toString();
-        mLoggerApp = mLoggerRunner.loadXUL(path);
+        Poco::Path loggerPath(Windows::getApplicationDirectory(hInstance));
+        loggerPath.append("Logger.xul");
+        mLoggerApp = mLoggerRunner.loadXUL(loggerPath.toString());
         if (WindowElement * wnd = mLoggerApp->downcast<WindowElement>())
         {
             wnd->component()->move(0, 500, 400, 400);

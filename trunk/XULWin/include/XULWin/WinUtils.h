@@ -37,6 +37,8 @@ namespace Windows
 
     std::string getCurrentDirectory();
 
+    std::string getApplicationDirectory(HINSTANCE hInstance);
+
     std::string getLastError(DWORD lastError);
 
     SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);

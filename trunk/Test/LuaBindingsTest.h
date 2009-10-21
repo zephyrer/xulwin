@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Lua/XULRunnerWithLua.h"
+#include "XULWin/Windows.h"
 #include <string>
 
 
@@ -13,7 +14,7 @@ namespace XULWin
     class LuaBindingsTest
     {
     public:
-        LuaBindingsTest();
+        LuaBindingsTest(HINSTANCE hInstance);
 
         ~LuaBindingsTest();
 

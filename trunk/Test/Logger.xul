@@ -4,6 +4,8 @@
         xmlns:svg="http://www.w3.org/2000/svg"
         orient="vertical"
         align="stretch"
-        title="XULWin Logger">
+        title="XULWin Logger"
+        width="400"
+        height="200">
   <listbox id="logListBox" flex="1" ></listbox>
 </window>

@@ -1,6 +1,7 @@
 #include "XULWin/WinUtils.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Unicode.h"
+#include "Poco/Path.h"
 #include <boost/lexical_cast.hpp>
 #include <map>
 #include <commctrl.h>
@@ -45,6 +46,15 @@ namespace Windows
         return std::string(ToUTF8(buffer)) + "/";
     }
     
+    
+    std::string getApplicationDirectory(HINSTANCE hInstance)
+    {            
+	    TCHAR fileName[MAX_PATH] = L"";
+        ::GetModuleFileName(hInstance, fileName, MAX_PATH);
+        Poco::Path path(ToUTF8(&fileName[0]));
+        return path.parent().toString();
+    }
+
     
     SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle)
     {

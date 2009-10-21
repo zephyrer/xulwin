@@ -15,6 +15,8 @@ namespace XULWin
 
         MenuBar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
+        virtual bool init();
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;

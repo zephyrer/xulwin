@@ -153,9 +153,9 @@ namespace Windows
 
     struct MenuItemInfo
     {
-        MenuItemInfo(const std::string & inLabel, int inId) : label(inLabel), id(inId) {}
-        std::string label;
+        MenuItemInfo(int inId, const std::string & inLabel) : id(inId), label(inLabel) {}
         int id;
+        std::string label;
     };
     typedef GenericNode<
         MenuItemInfo,

@@ -632,7 +632,6 @@ namespace Windows
     {
         HMENU result = CreateMenu();
         MenuNode::const_iterator it = inMenuNode.begin(), end = inMenuNode.end();
-        size_t idx = 0;
         for (; it != end; ++it)
         {
             MenuNode::ChildPtr subNode(*it);

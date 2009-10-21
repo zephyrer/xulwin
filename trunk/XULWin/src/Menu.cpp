@@ -1,4 +1,7 @@
 #include "XULWin/Menu.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/MenuItem.h"
+#include "XULWin/MenuPopup.h"
 
 
 namespace XULWin
@@ -23,7 +26,41 @@ namespace XULWin
             sMenusById.erase(itById);
         }
     }
-    
+
+
+    bool Menu::init()
+    {
+        return Super::init();
+    }
+
+
+    Windows::MenuNode * Menu::FromMenu(const Menu * inMenu)
+    {
+        // XUL hierarchy:
+        // menu/menupopup/menuitem
+        //               /menu
+        Windows::MenuNode * result = new Windows::MenuNode(
+                                        Windows::MenuItemInfo(inMenu->commandId(),
+                                                              inMenu->getLabel()));
+        const MenuPopup * popup = inMenu->findChildOfType<MenuPopup>();
+        for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
+        {
+            const Component * comp = popup->getChild(idx);
+            if (const MenuItem * menuItem = comp->downcast<MenuItem>())
+            {
+                result->addChild(
+                    new Windows::MenuNode(
+                        Windows::MenuItemInfo(menuItem->commandId(),
+                                              menuItem->getLabel())));
+            }
+            else if (const Menu * menu = comp->downcast<Menu>())
+            {
+                result->addChild(FromMenu(menu));
+            }
+        }
+        return result;
+    }
+
     
     Menu * Menu::FindById(int inId)
     {          

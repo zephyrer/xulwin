@@ -3,14 +3,14 @@
 
 
 #include "XULWin/Component.h"
-#include <windows.h>
+#include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
 
     class Menu : public PassiveComponent,
-                          public LabelController
+                 public LabelController
     {
     public:
         typedef PassiveComponent Super;
@@ -19,6 +19,8 @@ namespace XULWin
 
         virtual ~Menu();
 
+        virtual bool init();
+
         virtual bool initAttributeControllers();
 
         virtual std::string getLabel() const;
@@ -26,6 +28,8 @@ namespace XULWin
         virtual void setLabel(const std::string & inLabel);
 
         static Menu * FindById(int inId);
+
+        static Windows::MenuNode * FromMenu(const Menu * inMenu);
 
     private:
         typedef std::map<int, Menu*> MenusById;

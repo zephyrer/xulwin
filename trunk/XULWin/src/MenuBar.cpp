@@ -1,6 +1,7 @@
 #include "XULWin/MenuBar.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
+#include "XULWin/MenuElement.h"
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/Menu.h"
 #include "XULWin/MenuItem.h"
@@ -13,7 +14,26 @@ namespace XULWin
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
+
+
+    bool MenuBar::init()
+    {
+        std::vector<MenuElement*> menuElements;
+        el()->getElementsByType<MenuElement>(menuElements);
+        Windows::MenuNode node(Windows::MenuItemInfo(commandId(), ""));
+        for (size_t idx = 0; idx != menuElements.size(); ++idx)
+        {
+            Menu * menu = menuElements[idx]->component()->downcast<Menu>();
+            node.addChild(Menu::FromMenu(menu));
+        }
+        if (Window * window = findParentOfType<Window>())
+        {
+            ::SetMenu(window->handle(), Windows::createMenu(node));
+        }
+        return Super::init();
+    }
     
+
 
     int MenuBar::calculateWidth(SizeConstraint inSizeConstraint) const
     {

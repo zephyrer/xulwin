@@ -149,6 +149,8 @@ namespace Windows
 
     void appendTabPanel(HWND inHandle, const std::string & inTitle);
 
+    void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex);
+
     void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText);
 
     void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);

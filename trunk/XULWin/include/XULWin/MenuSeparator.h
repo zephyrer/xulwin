@@ -1,5 +1,5 @@
-#ifndef {{COMPONENT_NAME_UPPER}}_H_INCLUDED
-#define {{COMPONENT_NAME_UPPER}}_H_INCLUDED
+#ifndef MENUSEPARATOR_H_INCLUDED
+#define MENUSEPARATOR_H_INCLUDED
 
 
 #include "XULWin/Component.h"
@@ -8,12 +8,12 @@
 namespace XULWin
 {
 
-    class {{COMPONENT_NAME}} : public PassiveComponent
+    class MenuSeparator : public PassiveComponent
     {
     public:
         typedef PassiveComponent Super;
 
-        {{COMPONENT_NAME}}(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuSeparator(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool init();
 
@@ -27,4 +27,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // {{COMPONENT_NAME_UPPER}}_H_INCLUDED
+#endif // MENUSEPARATOR_H_INCLUDED

@@ -12,6 +12,7 @@
 #include "XULWin/MenuBarElement.h"
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/MenuPopupElement.h"
+#include "XULWin/MenuSeparatorElement.h"
 #include "XULWin/ScriptElement.h"
 #include "XULWin/SVGElement.h"
 #include "XULWin/ErrorReporter.h"
@@ -39,6 +40,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<MenuPopupElement>();
         ElementFactory::Instance().registerElement<MenuItemElement>();
         ElementFactory::Instance().registerElement<MenuListElement>();
+        ElementFactory::Instance().registerElement<MenuSeparatorElement>();
         ElementFactory::Instance().registerElement<TextBoxElement>();
         ElementFactory::Instance().registerElement<SeparatorElement>();
         ElementFactory::Instance().registerElement<MenuButtonElement>();

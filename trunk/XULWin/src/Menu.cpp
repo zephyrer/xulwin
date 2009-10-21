@@ -1,6 +1,7 @@
 #include "XULWin/Menu.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/MenuItem.h"
+#include "XULWin/MenuSeparator.h"
 #include "XULWin/MenuPopup.h"
 
 
@@ -56,6 +57,10 @@ namespace XULWin
             else if (const Menu * menu = comp->downcast<Menu>())
             {
                 result->addChild(FromMenu(menu));
+            }
+            else if (const MenuSeparator * sep = comp->downcast<MenuSeparator>())
+            {
+                result->addChild(new Windows::MenuNode(Windows::MenuItemInfo(0, "")));
             }
         }
         return result;

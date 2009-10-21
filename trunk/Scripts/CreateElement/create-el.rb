@@ -5,12 +5,14 @@ cppdir = projectpath + 'src/'
 
 classname = ARGV[0]
 componentname = classname
+elementtype = classname.downcase()
+classname += "Element"
 projectname = "XULWin_vs80.vcproj"
 
-hppfile = classname + "Element.h"
+hppfile = classname + ".h"
 hpppath = hppdir + hppfile
 
-cppfile = classname + "Element.cpp"
+cppfile = classname + ".cpp"
 cpppath = cppdir + cppfile
 
 hppimplfile = componentname + ".h"
@@ -26,7 +28,7 @@ File.open("ElementTemplate.h", 'r') do |elHeaderTemplate|
         while (line = elHeaderTemplate.gets())
             out << line.gsub("{{ELEMENT_NAME}}", classname).gsub(
                              "{{ELEMENT_NAME_UPPER}}", classname.upcase()).gsub(
-                             "{{ELEMENT_TYPE}}", classname.downcase())
+                             "{{ELEMENT_TYPE}}", elementtype)
         end
     end
 end

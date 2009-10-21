@@ -590,6 +590,20 @@ namespace Windows
     }
 
 
+    void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex)
+    {
+	    MENUITEMINFO mii;
+	    memset(&mii, 0, sizeof(mii));
+	    mii.cbSize = sizeof(mii);	    
+	    mii.fMask = MIIM_FTYPE;
+	    mii.fType = MFT_SEPARATOR;
+        if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
+        {
+            ReportError(getLastError(::GetLastError()));
+        }        
+    }
+
+
     void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText)
     {        
 	    MENUITEMINFO mii;
@@ -653,9 +667,13 @@ namespace Windows
             {
                 insertSubMenu(result, ::GetMenuItemCount(result), createMenu(*subNode), subNode->data().label);
             }
-            else
+            else if (subNode->data().id != 0)
             {
                 insertMenuItem(result, ::GetMenuItemCount(result), subNode->data().id, subNode->data().label);
+            }
+            else
+            {
+                insertMenuSeparator(result, ::GetMenuItemCount(result));
             }
         }
         return result;

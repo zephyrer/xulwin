@@ -10,9 +10,9 @@ namespace XULWin
     }
 
 
-    bool {{COMPONENT_NAME}}::initComponent()
+    bool {{COMPONENT_NAME}}::init()
     {
-        return Super::initComponent();
+        return Super::init();
     }
 
     

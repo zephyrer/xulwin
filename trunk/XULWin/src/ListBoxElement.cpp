@@ -1,6 +1,7 @@
 #include "XULWin/ListBoxElement.h"
 #include "XULWin/ElementCreationSupport.h"
 #include "XULWin/ListColsElement.h"
+#include "XULWin/ListItemElement.h"
 #include "XULWin/ListBox.h"
 #include "XULWin/ListView.h"
 #include "XULWin/Proxy.h"

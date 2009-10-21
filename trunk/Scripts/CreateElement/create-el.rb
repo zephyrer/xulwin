@@ -7,10 +7,10 @@ classname = ARGV[0]
 componentname = classname
 projectname = "XULWin_vs80.vcproj"
 
-hppfile = classname + ".h"
+hppfile = classname + "Element.h"
 hpppath = hppdir + hppfile
 
-cppfile = classname + ".cpp"
+cppfile = classname + "Element.cpp"
 cpppath = cppdir + cppfile
 
 hppimplfile = componentname + ".h"

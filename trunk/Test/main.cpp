@@ -28,19 +28,19 @@ void runImageViewerSample(const std::string & inPathToXULRunnerSamples)
 
 void startTest(XULWin::LuaBindingsTest & tester, const std::string & inPathToXULRunnerSamples)
 {
-    runConfigSample(inPathToXULRunnerSamples);
-    runImageViewerSample(inPathToXULRunnerSamples);    
-    tester.runXULSample("hello");
+    //runConfigSample(inPathToXULRunnerSamples);
+    //runImageViewerSample(inPathToXULRunnerSamples);    
+    //tester.runXULSample("hello");
     tester.runXULSample("MainWindow");
-    tester.runXULSample("listbox-simple");
-    tester.runXULSample("listbox-advanced");
-    tester.runXULSample("toolbar");
-    tester.runXULSample("widgets");
-    tester.runXULSample("tabbox");
-    tester.runXULSample("treeview");
-    tester.runXULSample("configpanel");
-    tester.runXULSample("shout");
-    tester.runXULSample("svg");
+    //tester.runXULSample("listbox-simple");
+    //tester.runXULSample("listbox-advanced");
+    //tester.runXULSample("toolbar");
+    //tester.runXULSample("widgets");
+    //tester.runXULSample("tabbox");
+    //tester.runXULSample("treeview");
+    //tester.runXULSample("configpanel");
+    //tester.runXULSample("shout");
+    //tester.runXULSample("svg");
 }
 
 

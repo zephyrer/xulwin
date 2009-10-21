@@ -26,7 +26,7 @@ namespace XULWin
             wnd->component()->move(0, 500, 400, 400);
             wnd->show(WindowElement::DefaultPosition);
         }
-        //ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, this, _1));
+        ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, this, _1));
         ErrorCatcher errorCatcher;
         ReportError("Test logger"); 
     }

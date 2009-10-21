@@ -10,12 +10,6 @@
 using namespace XULWin;
 
 
-void log(const std::string & inMessage)
-{
-    //MessageBoxA(0, inMessage.c_str(), "XULWin Logger", MB_OK);
-}
-
-
 void runConfigSample()
 {
     ConfigSample test;

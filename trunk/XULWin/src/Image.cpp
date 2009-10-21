@@ -9,6 +9,7 @@
 #include "XULWin/GdiplusLoader.h"
 #include "Poco/Path.h"
 #include "Poco/UnicodeConverter.h"
+#include <limits>
 #include <boost/bind.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -68,8 +69,8 @@ namespace XULWin
             return;
         }
 
-        float resizeFactorX = mWidth.or(mHeight.or(MAXINT32))/optimalWidth;
-        float resizeFactorY = mHeight.or(mWidth.or(MAXINT32))/optimalHeight;
+        float resizeFactorX = mWidth.or(mHeight.or(INT_MAX))/optimalWidth;
+        float resizeFactorY = mHeight.or(mWidth.or(INT_MAX))/optimalHeight;
         float resizeFactor = std::min<float>(resizeFactorX, resizeFactorY);
 		
         width = (int)(resizeFactor*optimalWidth + 0.5f);

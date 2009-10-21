@@ -14,13 +14,13 @@
 #include "XULWin/StyleController.h"
 #include "XULWin/Toolbar.h"
 #include "XULWin/ToolbarItem.h"
+#include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <string>
-#include <windows.h>
 #include <CommCtrl.h>
 
 

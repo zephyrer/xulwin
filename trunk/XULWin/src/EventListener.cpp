@@ -3,7 +3,6 @@
 #include "XULWin/Component.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
-#include <windows.h>
 
 
 namespace XULWin

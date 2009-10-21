@@ -4,8 +4,8 @@
 
 #include "XULWin/Element.h"
 #include "XULWin/EventListener.h"
+#include "XULWin/Windows.h"
 #include <string>
-#include <windows.h>
 
 
 namespace XULWin

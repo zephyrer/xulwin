@@ -4,12 +4,12 @@
 #include "XULWin/Component.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/ScriptElement.h"
+#include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
 #include <sstream>
 #include <lua.hpp>
 #include <map>
-#include <windows.h> // TODO: remove
 
 
 #ifdef __cplusplus

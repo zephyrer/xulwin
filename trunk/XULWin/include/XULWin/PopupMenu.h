@@ -2,13 +2,13 @@
 #define POPUPMENU_H_INCLUDED
 
 
+#include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 #include <map>
 #include <string>
 #include <vector>
-#include <windows.h>
 
 
 namespace XULWin

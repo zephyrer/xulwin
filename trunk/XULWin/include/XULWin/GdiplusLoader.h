@@ -2,7 +2,7 @@
 #define GRAPHICS_H_INCLUDED
 
 
-#include <windows.h>
+#include "XULWin/Windows.h"
 #include <boost/noncopyable.hpp>
 
 

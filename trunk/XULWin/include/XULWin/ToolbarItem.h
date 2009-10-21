@@ -3,10 +3,10 @@
 
 
 #include "XULWin/PopupMenu.h" 
+#include "XULWin/Windows.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/utility.hpp>
-#include <windows.h>
 
 
 namespace Gdiplus

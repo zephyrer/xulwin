@@ -2,11 +2,11 @@
 #define TOOLBAR_H_INCLUDED
 
 
+#include "XULWin/Windows.h"
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <string>
 #include <vector>
-#include <windows.h>
 
 
 namespace XULWin

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="XULWin"
 	ProjectGUID="{D623C05B-BDD9-4D6E-8E51-E3275608DEBE}"
 	RootNamespace="XULWin"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -476,14 +477,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Node.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Node.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Parser.cpp"
 				>
 			</File>
@@ -637,6 +630,18 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\XULRunner.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Node"
+			>
+			<File
+				RelativePath=".\src\Node.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Node.h"
 				>
 			</File>
 		</Filter>

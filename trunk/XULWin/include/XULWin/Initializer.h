@@ -3,8 +3,8 @@
 
 
 #include "XULWin/ElementFactory.h"
+#include "XULWin/Windows.h"
 #include <boost/noncopyable.hpp>
-#include <windows.h>
 
 
 namespace XULWin

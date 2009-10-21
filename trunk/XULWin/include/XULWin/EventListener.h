@@ -2,11 +2,11 @@
 #define EVENTLISTENER_H_INCLUDED
 
 
+#include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <map>
 #include <vector>
-#include <windows.h>
 
 
 namespace XULWin

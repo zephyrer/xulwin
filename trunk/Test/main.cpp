@@ -1,10 +1,9 @@
 #include "Tester.h"
-#include "TwitterTest.h"
 #include "ConfigSample.h"
 #include "LuaBindingsTest.h"
+#include "XULWin/Windows.h"
 #include <boost/bind.hpp>
 #include <sstream>
-#include <windows.h>
 #include <commctrl.h>
 
 
@@ -60,6 +59,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::LuaBindingsTest tester;
     
     startTest(tester);
-    //TwitterTest twitterTest;
     return 0;
 }

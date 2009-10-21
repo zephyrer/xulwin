@@ -3,8 +3,8 @@
 
 
 #include "XULWin/Node.h"
+#include "XULWin/Windows.h"
 #include <boost/function.hpp>
-#include <windows.h>
 #include <string>
 
 

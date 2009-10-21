@@ -10,9 +10,9 @@
 #include "XULWin/XULRunner.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Fallible.h"
+#include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
 #include <string>
-#include <windows.h>
 
 
 namespace XULWin

@@ -2,11 +2,11 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/Unicode.h"
+#include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "Poco/Path.h"
 #include "Poco/Timer.h"
-#include <windows.h> // TODO: remove
 
 
 namespace XULWin

@@ -227,6 +227,11 @@ namespace XULWin
             {
                 return obj;
             }
+            //
+            // NOTE: if you get the following compiler error:
+            //  "error C2680: 'const XULWin::Decorator *' : invalid target type for dynamic_cast"
+            // then that means that you must include "XULWin/Decorator.h" in your code.
+            //
             else if (const Decorator * obj = dynamic_cast<const Decorator*>(this))
             {
                 return obj->decoratedElement()->downcast<Type>();

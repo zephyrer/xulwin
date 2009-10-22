@@ -19,6 +19,8 @@ namespace XULWin
         Initializer(HINSTANCE inModuleHandle);
 
         ~Initializer();
+
+    private:
     };
 
 

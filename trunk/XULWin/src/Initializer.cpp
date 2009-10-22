@@ -16,6 +16,7 @@
 #include "XULWin/ScriptElement.h"
 #include "XULWin/SVGElement.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/WinUtils.h"
 
 
 namespace XULWin
@@ -23,6 +24,7 @@ namespace XULWin
     
     Initializer::Initializer(HINSTANCE inModuleHandle)
     {
+        Windows::CommonControlsInitializer mInitCommonControls;
         ErrorReporter::Initialize();
         Window::Register(inModuleHandle);
         Dialog::Register(inModuleHandle);

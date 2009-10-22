@@ -1,0 +1,1 @@
+pref("toolkit.defaultChromeURI", "chrome://tutapp/content/tutapp.xul");

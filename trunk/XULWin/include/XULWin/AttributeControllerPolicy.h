@@ -29,14 +29,19 @@ namespace XULWin
     class FallibleMemberController
     {
     public:
-        const MemberType & getMember(const MemberType & inDefault) const
-        { return mMemberType.or(inDefault); }
+        FallibleMemberController(const MemberType & inDefaultValue) :
+            mDefaultValue(inDefaultValue)
+        { }
+
+        const MemberType & getMember() const
+        { return mMemberType.or(mDefaultValue); }
 
         void setMember(const MemberType & inMemberType)
         { mMemberType = inMemberType; }
 
     private:
         Fallible<MemberType> mMemberType;
+        MemberType mDefaultValue;
     };
 
 
@@ -57,17 +62,14 @@ namespace XULWin
     {
     public:
         LabelController_AsFallibleMember(const std::string & inDefaultValue)
-            : mDefaultValue(inDefaultValue)
+            : FallibleMemberController(inDefaultValue)
         {}
 
         virtual std::string getLabel() const
-        { return FallibleMemberController<std::string>::getMember(mDefaultValue); }
+        { return FallibleMemberController<std::string>::getMember(); }
 
         virtual void setLabel(const std::string & inLabel)
         { FallibleMemberController<std::string>::setMember(inLabel); }
-
-    private:
-        std::string mDefaultValue;
     };
 
 

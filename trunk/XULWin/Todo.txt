@@ -6,45 +6,20 @@ Broken windows
 - Widgets sample partially broken (widths are not always correct)
 
 
-Window		WindowComponent
-Dialog		DialogComponent
-Box			VirtualBoxComponent, NativeBoxComponent
-Grid		VirtualGridComponent, NativeGridComponent
-Menu		MenuComponent
-Button		ButtonComponent
-Image		ImageComponent
-
-Element		Component
-XULWindow	Window
-XULDialog   Dialog
-XULBox		NativeBox, VirtualBox
-XULGrid		NativeGrid, VirtualGrid
-XULMenu		Menu
-XULButton	Button
-XULImage	Image
-
-
-Element			Component
-WindowElement	Window
-DialogElement	Dialog
-BoxElement		NativeBox, VirtualBox
-GridElement		NativeGrid, VirtualGrid
-MenuElement		Menu
-ButtonElement	Button
-ImageElement	Image
-
-
-
 Samples
 - XULViewer
 - Widgets
-- Layouts
-- Event Handling
 - Dialogs
+- Layouts
+
+Tutorials
+- Getting started
+- Event Handling
 - Custom XUL elements
 - Scripting XUL using Lua
 
 Todo
+- Write some documentation concerning usage
 - Distribute XULViewer for feedback
 - Add sample for custom xul element
 - Add splitter element

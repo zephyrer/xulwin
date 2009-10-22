@@ -7,8 +7,8 @@
 // - Don't forget to set code generation settings the same for all projects.
 //   XULWin uses Multi-threaded (/MT(d)) by default, but you are free to change it.
 // - You need to link with comctl32.lib and GdiPlus.lib (and optionally lua).
-// - Add a manifest file to your project or init common controls will fail.
-//   See Tutorial.exe.manifest for an example.
+// - Add a manifest file to your project or init common controls call will fail.
+//   See this project's Tutorial.exe.manifest for an example of such a manifest file.
 //
 //
 // Feel free to experiment.
@@ -125,5 +125,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         // 'width' and 'height' attributes of the window element in the XUL file.
         window->showModal(XULWin::WindowElement::CenterInScreen);
     }
+
+    // This is the end of our very quick XULWin tutorial.
+    // 
+    // A few topics have not been covered here:
+    // - Event Handling
+    // - Multilingual support by putting the translations in separate DTD documents.
+    // - Using external resources.
+    // - Scriping with Lua
+    // 
+    // Testcases have been designed for these, you'll find a lot of info in the trunk's Test directory.
+    // For an example of event handling see the Test/ConfigSample.h and Test/ConfigSample.cpp files.
+    //
+    // I hope to soon provide you with a decent turial on all of these topics.
+    //
     return 0;
 }

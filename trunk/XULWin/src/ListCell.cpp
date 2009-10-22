@@ -7,21 +7,8 @@ namespace XULWin
 {
 
     ListCell::ListCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        Super(inParent, inAttributesMapping)
+        ListCell_LabelController(inParent, inAttributesMapping)
     {
-    }
-
-
-    bool ListCell::init()
-    {
-        return Super::init();
-    }
-
-    
-    bool ListCell::initAttributeControllers()
-    {
-        setAttributeController("label", static_cast<LabelController*>(this));
-        return Super::initAttributeControllers();
     }
         
         
@@ -43,18 +30,6 @@ namespace XULWin
     int ListCell::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
-    }
-
-
-    std::string ListCell::getLabel() const
-    {
-        return mLabel;
-    }
-
-    
-    void ListCell::setLabel(const std::string & inLabel)
-    {
-        mLabel = inLabel;
     }
     
 } // namespace XULWin

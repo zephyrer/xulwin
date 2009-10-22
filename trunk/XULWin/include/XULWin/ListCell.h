@@ -4,33 +4,22 @@
 
 #include "XULWin/Component.h"
 #include "XULWin/AttributeController.h"
+#include "XULWin/AttributeControllerPolicy.h"
 
 
 namespace XULWin
 {
+    class ListCell;
+    typedef AttributeInitializer<PassiveComponent, ListCell, LabelController_AsMember> ListCell_LabelController;
 
-    class ListCell : public PassiveComponent,
-                         public LabelController
+    class ListCell : public ListCell_LabelController
     {
     public:
-        typedef PassiveComponent Super;
-
         ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual bool init();
-
-        bool initAttributeControllers();
-
-        virtual std::string getLabel() const;
-
-        virtual void setLabel(const std::string & inLabel);
 
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-    private:
-        std::string mLabel;
     };
 
 } // namespace XULWin

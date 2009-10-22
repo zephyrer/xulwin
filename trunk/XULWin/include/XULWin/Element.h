@@ -2,6 +2,7 @@
 #define ELEMENT_H_INCLUDED
 
 
+#include "XULWin/AttributesMapping.h"
 #include "XULWin/Enums.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -22,8 +23,6 @@ namespace XULWin
     class EventListener;
     typedef boost::shared_ptr<Element> ElementPtr;
     typedef std::vector<ElementPtr> Children;
-    typedef std::map<std::string, std::string> AttributesMapping;
-    typedef std::map<std::string, std::string> StylesMapping;
 
 
     /**

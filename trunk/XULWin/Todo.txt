@@ -2,8 +2,6 @@ Refactor
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 Broken windows
-- Classnames are inconsistent
-- Menubar menu's are implemented incorrectly (popups instead of normal menus are shown)
 - Fix WS_TABSTOP for multiline TextBoxes
 - Widgets sample partially broken (widths are not always correct)
 

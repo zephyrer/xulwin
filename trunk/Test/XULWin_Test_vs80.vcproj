@@ -90,7 +90,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;"
+				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -174,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;"
+				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -292,22 +292,6 @@
 			</File>
 			<File
 				RelativePath=".\Tester.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Twitter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Twitter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TwitterTest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TwitterTest.h"
 				>
 			</File>
 		</Filter>

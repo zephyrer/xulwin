@@ -9,7 +9,7 @@ namespace XULWin
 {
 
     class ListHeader : public PassiveComponent,
-                           public LabelController
+                       public LabelController
     {
     public:
         typedef PassiveComponent Super;
@@ -19,10 +19,6 @@ namespace XULWin
         virtual bool init();
 
         bool initAttributeControllers();
-
-        int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        int calculateHeight(SizeConstraint inSizeConstraint) const;
 
         virtual std::string getLabel() const;
 

@@ -21,18 +21,6 @@ namespace XULWin
         setAttributeController("label", static_cast<LabelController*>(this));
         return Super::initAttributeControllers();
     }
-        
-        
-    int ListHeader::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return 1;
-    }
-
-    
-    int ListHeader::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return 1;
-    }
 
 
     std::string ListHeader::getLabel() const

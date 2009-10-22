@@ -171,6 +171,13 @@
 				<File
 					RelativePath=".\LuaBindings_wrap.cxx"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>

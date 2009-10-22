@@ -203,6 +203,8 @@ namespace XULWin
     public:
         HiddenController(){}
 
+        static const char * PropertyName() { return "hidden"; }
+
         virtual void get(std::string & outValue);
 
         virtual void set(const std::string & inValue);
@@ -223,6 +225,8 @@ namespace XULWin
     {
     public:
         LabelController(){}
+
+        static const char * PropertyName() { return "label"; }
 
         virtual void get(std::string & outValue);
 
@@ -287,6 +291,8 @@ namespace XULWin
     {
     public:
         RowsController(){}
+
+        static const char * PropertyName() { return "rows"; }
 
         virtual void get(std::string & outValue);
 

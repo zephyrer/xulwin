@@ -1,4 +1,5 @@
 #include "XULWin/Component.h"
+#include "XULWin/Algorithms.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
@@ -79,6 +80,50 @@ namespace XULWin
         return true;
     }
     
+
+    int ConcreteComponent::calculateMaxChildWidth(SizeConstraint inSizeConstraint) const 
+    {
+        return max_element_value<int>(el()->children().begin(),
+                                      el()->children().end(), 
+                                      0,
+                                      boost::bind(&Component::calculateWidth, 
+                                                  boost::bind(&Element::component, _1),
+                                                  inSizeConstraint));
+    }
+
+
+    int ConcreteComponent::calculateMaxChildHeight(SizeConstraint inSizeConstraint) const 
+    {
+        return max_element_value<int>(el()->children().begin(),
+                                      el()->children().end(), 
+                                      0,
+                                      boost::bind(&Component::calculateHeight, 
+                                                  boost::bind(&Element::component, _1),
+                                                  inSizeConstraint));
+    }
+
+
+    int ConcreteComponent::calculateSumChildWidths(SizeConstraint inSizeConstraint) const 
+    {
+        return sum_element_values<int>(el()->children().begin(),
+                                       el()->children().end(), 
+                                       0,
+                                       boost::bind(&Component::calculateWidth, 
+                                                   boost::bind(&Element::component, _1),
+                                                   inSizeConstraint));
+    }
+
+
+    int ConcreteComponent::calculateSumChildHeights(SizeConstraint inSizeConstraint) const 
+    {
+        return sum_element_values<int>(el()->children().begin(),
+                                       el()->children().end(), 
+                                       0,
+                                       boost::bind(&Component::calculateHeight, 
+                                                   boost::bind(&Element::component, _1),
+                                                   inSizeConstraint));
+    }
+
     
     int ConcreteComponent::getIndex() const
     {
@@ -2290,11 +2335,12 @@ namespace XULWin
 
 
     MenuList::MenuList(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent,
-                      inAttributesMapping,
-                      TEXT("COMBOBOX"),
-                      0, // exStyle
-                      WS_TABSTOP | CBS_DROPDOWNLIST)
+        NativeControl(
+            inParent,
+            inAttributesMapping,
+            TEXT("COMBOBOX"),
+            0, // exStyle
+            WS_TABSTOP | CBS_DROPDOWNLIST)
     {
     }
     
@@ -2326,16 +2372,7 @@ namespace XULWin
     
     int MenuList::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int itemWidth = 0;
-        for (size_t idx = 0; idx != mItems.size(); ++idx)
-        {
-            int w = Windows::getTextSize(handle(), mItems[idx]).cx;
-            if (itemWidth < w)
-            {
-                itemWidth = w;
-            }
-        }        
-        return Defaults::dropDownListMinimumWidth() + itemWidth;
+        return Defaults::menuListMinWidth() + calculateMaxChildWidth(inSizeConstraint);
     }
 
 

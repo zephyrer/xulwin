@@ -168,6 +168,10 @@
 			Name="Code"
 			>
 			<File
+				RelativePath=".\include\XULWin\Algorithms.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\AttributeController.cpp"
 				>
 			</File>

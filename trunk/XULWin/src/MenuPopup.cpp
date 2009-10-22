@@ -40,6 +40,18 @@ namespace XULWin
         return popupMenu;
     }
 
+
+    int MenuPopup::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return calculateMaxChildWidth(inSizeConstraint);
+    }
+
+
+    int MenuPopup::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return calculateSumChildHeights(inSizeConstraint);
+    }
+
         
     void MenuPopup::show(RECT inExcludeRect)
     {

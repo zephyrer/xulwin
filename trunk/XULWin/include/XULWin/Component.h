@@ -77,25 +77,25 @@ namespace XULWin
      * Component is base class for all native UI elements.
      */
     class Component : public NotificationListener,
-                        public virtual AlignController,
-                        public virtual WidthController,
-                        public virtual HeightController,
-                        public virtual ScreenXController,
-                        public virtual ScreenYController,
-                        public virtual FillController,
-                        public virtual StrokeController,
-                        public virtual StrokeWidthController,
-                        public virtual CSSFillController,
-                        public virtual CSSHeightController,
-                        public virtual CSSMarginController,
-                        public virtual CSSStrokeController,
-                        public virtual CSSWidthController,
-                        public virtual CSSXController,
-                        public virtual CSSYController,
-                        public virtual FlexController,
-                        public virtual HiddenController,
-                        public virtual OrientController,
-                        private boost::noncopyable
+                      public virtual AlignController,
+                      public virtual WidthController,
+                      public virtual HeightController,
+                      public virtual ScreenXController,
+                      public virtual ScreenYController,
+                      public virtual FillController,
+                      public virtual StrokeController,
+                      public virtual StrokeWidthController,
+                      public virtual CSSFillController,
+                      public virtual CSSHeightController,
+                      public virtual CSSMarginController,
+                      public virtual CSSStrokeController,
+                      public virtual CSSWidthController,
+                      public virtual CSSXController,
+                      public virtual CSSYController,
+                      public virtual FlexController,
+                      public virtual HiddenController,
+                      public virtual OrientController,
+                      private boost::noncopyable
     {
     public:
         virtual ~Component() {}        
@@ -532,6 +532,14 @@ namespace XULWin
         void setStyleController(const std::string & inAttr, StyleController * inController);
 
     protected:
+        int calculateMaxChildWidth(SizeConstraint inSizeConstraint) const;
+
+        int calculateMaxChildHeight(SizeConstraint inSizeConstraint) const;
+
+        int calculateSumChildWidths(SizeConstraint inSizeConstraint) const;
+
+        int calculateSumChildHeights(SizeConstraint inSizeConstraint) const;
+
         Component * mParent;
         Element * mElement;
         CommandId mCommandId;
@@ -1158,7 +1166,7 @@ namespace XULWin
 
 
     class MenuList : public NativeControl,
-                         public MenuPopupContainer
+                     public MenuPopupContainer
     {
     public:
         typedef NativeControl Super;
@@ -1166,7 +1174,7 @@ namespace XULWin
         MenuList(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool init();
-            
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
@@ -1179,8 +1187,6 @@ namespace XULWin
 
     private:
         void fillComboBox();
-
-        std::vector<std::string> mItems;
     };
 
 

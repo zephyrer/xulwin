@@ -34,7 +34,7 @@ namespace XULWin
 
         static int textPadding() { return 12; }
 
-        static int dropDownListMinimumWidth() { return 24; }
+        static int menuListMinWidth() { return 24; }
 
         static int dropDownListItemHeight() { return 16; }
 

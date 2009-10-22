@@ -2,10 +2,10 @@ Refactor
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 Broken windows
+- Widgets sample: combo-box width is too narrow
+- Parse pref error is logged
 - ErrorCatcher seems to have no effect on the GUI logger
 - Fix WS_TABSTOP for multiline TextBoxes
-
-
 
 Samples
 - XULViewer

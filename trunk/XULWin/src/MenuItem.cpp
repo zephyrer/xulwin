@@ -47,11 +47,12 @@ namespace XULWin
     
     int MenuItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
+        int result = 0;
         if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<MenuItem*>(this)))
         {
-            return Windows::getTextSize(comp->handle(), getLabel()).cx;
+            result = Windows::getTextSize(comp->handle(), getLabel()).cx;
         }
-        return 0;
+        return result;
     }
 
 

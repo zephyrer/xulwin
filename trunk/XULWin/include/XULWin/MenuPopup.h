@@ -8,6 +8,7 @@
 namespace XULWin
 {
 
+
     class MenuPopup : public PassiveComponent
     {
     public:
@@ -16,6 +17,10 @@ namespace XULWin
         MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         void show(RECT inExcludeRect);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
     protected:
         virtual void onChildAdded(Component * inChild);

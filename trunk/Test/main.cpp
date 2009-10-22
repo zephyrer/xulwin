@@ -33,9 +33,9 @@ void startTest(XULWin::LuaBindingsTest & tester, const std::string & inPathToXUL
     //tester.runXULSample("hello");
     //tester.runXULSample("MainWindow");
     //tester.runXULSample("listbox-simple");
-    tester.runXULSample("listbox-advanced");
+    //tester.runXULSample("listbox-advanced");
     //tester.runXULSample("toolbar");
-    //tester.runXULSample("widgets");
+    tester.runXULSample("widgets");
     //tester.runXULSample("tabbox");
     //tester.runXULSample("treeview");
     //tester.runXULSample("configpanel");

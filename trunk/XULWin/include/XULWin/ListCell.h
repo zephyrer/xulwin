@@ -9,6 +9,10 @@
 
 namespace XULWin
 {
+    //
+    // This is an experimental use of the attribute policy classes
+    //
+    //
     class ListCell;
     typedef AttributeInitializer<PassiveComponent, ListCell, LabelController_AsMember> ListCell_LabelController;
 

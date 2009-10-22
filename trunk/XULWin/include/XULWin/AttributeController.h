@@ -14,12 +14,12 @@ namespace XULWin
     
     /**
      * Base class for attribute controllers.
-     * Attribute controllers must implement the get and set methods.
+     * Attribute controllers subclasses must implement the get and set methods.
      * These get and set methods are string based wrappers for the typed
-     * C++ getters and setters provided by the subclasses.
+     * C++ getters and setters.
      * Component subclasses should inherit the attribute controllers that
      * correspond with their own attributes.
-     * For example the ButtonElement element has the 'label' attribute, therefore the
+     * For example the XUL 'button' element has the 'label' attribute, therefore
      * the Button class should inherit the LabelController, and provide
      * implementations for the getLabel and setLabel methods.
      */

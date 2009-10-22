@@ -4,84 +4,67 @@
 
 #include "XULWin/AttributeController.h"
 #include "XULWin/Fallible.h"
+#include <boost/function.hpp>
 #include <map>
 #include <string>
 
 
 namespace XULWin
 {
-
-    template<class MemberType>
-    class MemberController
-    {
-    public:
-        const MemberType & getMember() const
-        { return mMemberType; }
-
-        void setMember(const MemberType & inMemberType)
-        { mMemberType = inMemberType; }
-
-    private:
-        MemberType mMemberType;
-    };
-
-    template<class MemberType>
-    class FallibleMemberController
-    {
-    public:
-        FallibleMemberController(const MemberType & inDefaultValue) :
-            mDefaultValue(inDefaultValue)
-        { }
-
-        const MemberType & getMember() const
-        { return mMemberType.or(mDefaultValue); }
-
-        void setMember(const MemberType & inMemberType)
-        { mMemberType = inMemberType; }
-
-    private:
-        Fallible<MemberType> mMemberType;
-        MemberType mDefaultValue;
-    };
-
-
-    class LabelController_AsMember : public LabelController,
-                                     private MemberController<std::string>
+    
+    class LabelController_AsMember : public LabelController
     {
     public:
         virtual std::string getLabel() const
-        { return MemberController<std::string>::getMember(); }
+        { return mLabel; }
 
         virtual void setLabel(const std::string & inLabel)
-        { MemberController<std::string>::setMember(inLabel); }
+        { mLabel = inLabel; }
+
+    private:
+        std::string mLabel;
     };
 
 
-    class LabelController_AsFallibleMember : public LabelController,
-                                             private FallibleMemberController<std::string>
+    class LabelController_AsFallibleMember : public LabelController
     {
     public:
-        LabelController_AsFallibleMember(const std::string & inDefaultValue)
-            : FallibleMemberController(inDefaultValue)
+        LabelController_AsFallibleMember(const std::string & inDefaultLabel) :
+            mDefaultLabel(inDefaultLabel)
         {}
 
         virtual std::string getLabel() const
-        { return FallibleMemberController<std::string>::getMember(); }
+        { return mFallibleLabel.or(mDefaultLabel); }
 
         virtual void setLabel(const std::string & inLabel)
-        { FallibleMemberController<std::string>::setMember(inLabel); }
+        { mFallibleLabel = inLabel; }
+
+    private:
+        std::string mDefaultLabel;
+        Fallible<std::string> mFallibleLabel;
     };
 
 
-    class RowsController_AsMember : public RowsController,
-                                    private MemberController<int>
+    class LabelController_WithFunctions : public LabelController
     {
     public:
-        virtual int getRows() const
-        { return MemberController<int>::getMember(); }
+        typedef boost::function<void(const std::string & )> Setter;
+        typedef boost::function<std::string()> Getter;
+        LabelController_WithFunctions(const Getter & inGetter, const Setter & inSetter) :
+            mGetter(inGetter),
+            mSetter(inSetter)
+        {
+        }
 
-        virtual void setRows(int inRows)
-        { MemberController<int>::setMember(inRows); }
+        virtual std::string getLabel() const
+        { return mGetter(); }
+
+        virtual void setLabel(const std::string & inLabel)
+        { mSetter(inLabel); }
+
+    private:
+        Getter mGetter;
+        Setter mSetter;
     };
 
 

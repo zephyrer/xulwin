@@ -2028,7 +2028,7 @@ namespace XULWin
 
     int TextBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return 20;
+        return Defaults::textBoxWidth();;
     }
 
 

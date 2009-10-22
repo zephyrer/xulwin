@@ -149,6 +149,22 @@
 	</References>
 	<Files>
 		<Filter
+			Name=".Notes"
+			>
+			<File
+				RelativePath=".\Todo.txt"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+		<Filter
 			Name="Code"
 			>
 			<File
@@ -157,6 +173,14 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\AttributeController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\AttributeControllerPolicy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\AttributesMapping.h"
 				>
 			</File>
 			<File
@@ -656,26 +680,6 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="AttributeControllerPolicy"
-			>
-			<File
-				RelativePath=".\include\XULWin\AttributeControllerPolicy.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="AttributesMapping"
-			>
-			<File
-				RelativePath=".\include\XULWin\AttributesMapping.h"
-				>
-			</File>
-		</Filter>
-		<File
-			RelativePath=".\Todo.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

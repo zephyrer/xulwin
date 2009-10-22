@@ -2,8 +2,9 @@ Refactor
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 Broken windows
+- ErrorCatcher seems to have no effect on the GUI logger
 - Fix WS_TABSTOP for multiline TextBoxes
-- Widgets sample partially broken (widths are not always correct)
+
 
 
 Samples

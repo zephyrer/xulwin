@@ -9,6 +9,7 @@
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "Poco/Path.h"
 #include <boost/bind.hpp>
+#include <sstream>
 
 
 namespace XULWin
@@ -40,6 +41,7 @@ namespace XULWin
 
     void LuaBindingsTest::runXULSample(const std::string & inAppname)
     {
+        ErrorCatcher errorCatcher;
         Poco::Path appPath(mPathToXULRunnerSamples, inAppname);
         Windows::CurrentDirectoryChanger cd(appPath.toString());
 
@@ -53,8 +55,18 @@ namespace XULWin
         if (!rootEl)
         {
             #if FORCE_MESSAGEBOX_LOGGING
-            std::wstring message = XULWin::ToUTF16(appPath.toString() + " not found");
-            ::MessageBox(0, message.c_str(), 0, MB_OK);
+            if (errorCatcher.hasCaught())
+            {
+                std::stringstream ss;
+                errorCatcher.getErrorMessage(ss);
+                std::wstring message = XULWin::ToUTF16(ss.str());
+                ::MessageBox(0, message.c_str(), 0, MB_OK);
+            }
+            else
+            {
+                std::wstring message = XULWin::ToUTF16(appPath.toString() + " not found");
+                ::MessageBox(0, message.c_str(), 0, MB_OK);
+            }
             #endif
 
             ReportError("Failed to load XUL sample: " + inAppname);

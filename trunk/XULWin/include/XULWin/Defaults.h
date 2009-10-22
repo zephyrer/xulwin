@@ -44,6 +44,8 @@ namespace XULWin
 
         static int radioButtonMinimumWidth() { return 20; }
 
+        static int textBoxWidth() { return 137; }
+
         static int textBoxMinimumWidth() { return textPadding(); }
 
         static int checkBoxMinimumWidth() { return 20; }

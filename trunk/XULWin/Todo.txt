@@ -1,6 +1,3 @@
-Broken windows
-- Fix WS_TABSTOP for multiline TextBoxes
-
 Samples
 - XULViewer
 - Widgets

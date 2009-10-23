@@ -2,8 +2,6 @@ Refactor
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
 Broken windows
-- Parser pref error isn't logged for some reason
-- ErrorCatcher seems to have no effect on the GUI logger
 - Fix WS_TABSTOP for multiline TextBoxes
 
 Samples

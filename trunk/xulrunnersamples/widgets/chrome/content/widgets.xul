@@ -187,13 +187,13 @@ end
     function advanceProgress()
       progressMeter = XULWin.getRootElement():getElementById("normal")
       value = tonumber(progressMeter:getAttribute('value'))
-      if value <= 99 then
-        newvalue = value + 1
+      if value <= 90 then
+        newvalue = value + 10
         progressMeter:setAttribute('value', newvalue)
       else
         progressMeter:setAttribute('value', 0)
       end
-      XULWin.setTimeout("advanceProgress()", 30)
+      XULWin.setTimeout("advanceProgress()", 1000)
     end
 
   ]]>
@@ -208,6 +208,6 @@ end
   <separator/>
 
   <!--<scrollbar orient="horizontal" />-->
-  <scrollbar orient="horizontal" curpos="26" maxpos="100" increment="1" pageincrement="60"/>
+  <scrollbar orient="horizontal" curpos="26" maxpos="100" increment="10" pageincrement="20"/>
 
 </window>

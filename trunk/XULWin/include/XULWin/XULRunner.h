@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Parser.h"
+#include "XULWin/Windows.h"
 #include <string>
 
 
@@ -12,6 +13,8 @@ namespace XULWin
     class XULRunner
     {
     public:
+        XULRunner(HMODULE inModuleHandle);
+
         /**
          * Runs a XUL applications. Requires that the main XUL file is a
          * WindowElement root element.
@@ -24,7 +27,10 @@ namespace XULWin
 
         ElementPtr rootElement() const;
 
+        HMODULE getModuleHandle() const;
+
     private:
+        HMODULE mModuleHandle;
         Parser mParser;
         ElementPtr mRootElement;
     

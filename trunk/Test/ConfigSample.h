@@ -22,7 +22,7 @@ namespace XULWin
     class ConfigSample
     {
     public:
-        ConfigSample(const std::string & inPathToXULRunnerSamples);
+        ConfigSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples);
 
         void run();
 

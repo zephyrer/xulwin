@@ -8,6 +8,12 @@
 namespace XULWin
 {
 
+    Tester::Tester(HMODULE inModuleHandle) :
+        mModuleHandle(inModuleHandle)
+    {
+    }
+
+
     void Tester::runXULSample(const std::string & inAppName)
     {
         std::string chdir = mPathToXULRunnerSamples + inAppName + "/";
@@ -17,7 +23,7 @@ namespace XULWin
         system("run.bat");
 #endif
 
-        XULRunner runner;
+        XULRunner runner(mModuleHandle);
         runner.run("application.ini");
     }
 

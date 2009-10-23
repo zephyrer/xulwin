@@ -121,6 +121,12 @@ namespace XULWin
     }
 
 
+    XULRunner::XULRunner(HMODULE inModuleHandle) :
+        mModuleHandle(inModuleHandle)
+    {
+    }
+
+
     void XULRunner::run(const std::string & inApplicationIniFile)
     {
         Parser parser;
@@ -178,6 +184,12 @@ namespace XULWin
     ElementPtr XULRunner::rootElement() const
     {
         return mRootElement;
+    }
+    
+    
+    HMODULE XULRunner::getModuleHandle() const
+    {
+        return mModuleHandle;
     }
 
 

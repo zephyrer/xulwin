@@ -12,16 +12,16 @@
 using namespace XULWin;
 
 
-void runConfigSample(const std::string & inPathToXULRunnerSamples)
+void runConfigSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples)
 {
-    ConfigSample test(inPathToXULRunnerSamples);
+    ConfigSample test(inModuleHandle, inPathToXULRunnerSamples);
     test.run();
 }
 
 
-void runImageViewerSample(const std::string & inPathToXULRunnerSamples)
+void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples)
 {
-    ImageViewerSample sample(inPathToXULRunnerSamples);
+    ImageViewerSample sample(inModuleHandle, inPathToXULRunnerSamples);
     sample.run();
 } 
 

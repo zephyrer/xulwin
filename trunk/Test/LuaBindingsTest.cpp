@@ -16,10 +16,12 @@ namespace XULWin
 {
 
 
-    LuaBindingsTest::LuaBindingsTest(HINSTANCE hInstance, const std::string & inPathToXULRunnerSamples) :
+    LuaBindingsTest::LuaBindingsTest(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples) :
+        mModuleHandle(inModuleHandle),
+        mLoggerRunner(inModuleHandle),
         mPathToXULRunnerSamples(inPathToXULRunnerSamples)
     {    
-        Poco::Path loggerPath(Windows::getApplicationDirectory(hInstance));
+        Poco::Path loggerPath(Windows::getApplicationDirectory(inModuleHandle));
         loggerPath.append("Logger.xul");
         mLoggerApp = mLoggerRunner.loadXUL(loggerPath.toString());
         if (WindowElement * wnd = mLoggerApp->downcast<WindowElement>())
@@ -45,7 +47,7 @@ namespace XULWin
 #if TEST_WITH_MOZILLA_XULRUNNER
         ::ShellExecute(NULL, TEXT("open"), TEXT("run.bat"), NULL, NULL, SW_SHOWNORMAL);
 #endif
-        Lua::XULRunnerWithLua xulRunner;
+        Lua::XULRunnerWithLua xulRunner(mModuleHandle);
         ElementPtr rootEl;
 
         // Extra scope added to have the ErrorCatcher to do its logging on end of scope

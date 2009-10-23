@@ -31,11 +31,13 @@ namespace XULWin
 namespace Lua
 {
     
-    XULRunnerWithLua::XULRunnerWithLua() :
-        mXULRunner(new XULRunner),
+    XULRunnerWithLua::XULRunnerWithLua(HMODULE inModuleHandle) :
+        mModuleHandle(inModuleHandle),
+        mXULRunner(new XULRunner(inModuleHandle)),
         mLuaState(0),
         mPrevXULRunner(0)
     {
+        mPrevXULRunner = Lua::setXULRunner(this);
         mLuaState = lua_open();
         luaopen_base(mLuaState);
         luaopen_table(mLuaState);
@@ -47,14 +49,20 @@ namespace Lua
 
     XULRunnerWithLua::~XULRunnerWithLua()
     {
-        Lua::setXULRunner(mPrevXULRunner);
         lua_close(mLuaState);
+        Lua::setXULRunner(mPrevXULRunner);
     }
 
     
     XULRunnerWithLua * XULRunnerWithLua::getParentXULRunner()
     {
         return mPrevXULRunner;
+    }
+    
+    
+    HMODULE XULRunnerWithLua::getModuleHandle() const
+    {
+        return mXULRunner->getModuleHandle();
     }
 
     
@@ -112,7 +120,6 @@ namespace Lua
         {
             loadScripts(result.get());
             addListeners(result.get());        
-            mPrevXULRunner = Lua::setXULRunner(this);
         }
         else
         {
@@ -129,7 +136,6 @@ namespace Lua
         {
             loadScripts(result.get());
             addListeners(result.get());
-            mPrevXULRunner = Lua::setXULRunner(this);
         }
         return result;
     }

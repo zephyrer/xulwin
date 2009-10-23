@@ -4,6 +4,7 @@
 
 #include "XULWin/Element.h"
 #include "XULWin/EventListener.h"
+#include "XULWin/Windows.h"
 #include <boost/scoped_ptr.hpp>
 #include <string>
 
@@ -28,7 +29,7 @@ namespace Lua
     class XULRunnerWithLua : public EventListener
     {
     public:
-        XULRunnerWithLua();
+        XULRunnerWithLua(HMODULE hModuleHandle);
 
         ~XULRunnerWithLua();
 
@@ -46,6 +47,8 @@ namespace Lua
 
         XULRunnerWithLua * getParentXULRunner();
 
+        HMODULE getModuleHandle() const;
+
     private:
 
         virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode);        
@@ -58,7 +61,8 @@ namespace Lua
         void loadScripts(Element * inEl);
 
         void addListeners(Element * inEl);
-
+        
+        HMODULE mModuleHandle;
         boost::scoped_ptr<XULWin::XULRunner> mXULRunner;
         lua_State * mLuaState;
         XULRunnerWithLua * mPrevXULRunner;

@@ -78,10 +78,10 @@ namespace Lua
     std::string prompt(const std::string & inText, const std::string & inDefault)
     {
         std::string result = inDefault;
-        XULRunnerWithLua runner;
-        Poco::Path promptFile(__FILE__);
-        std::string path = promptFile.parent().parent().append("Prompt.xul").toString();
-        ElementPtr root = runner.loadXUL(path);
+        XULRunnerWithLua runner(gActiveXULRunner->getModuleHandle());
+        Poco::Path promptFilePath(Windows::getApplicationDirectory(gActiveXULRunner->getModuleHandle()));
+        promptFilePath.append("Prompt.xul").toString();
+        ElementPtr root = runner.loadXUL(promptFilePath.toString());
         if (root)
         {
             if (DialogElement * dlg = root->downcast<DialogElement>())

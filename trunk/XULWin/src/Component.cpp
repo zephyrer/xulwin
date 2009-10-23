@@ -2041,10 +2041,39 @@ namespace XULWin
     {
         return Defaults::controlHeight() * getRows();
     }
-
-
-    void TextBox::handleCommand(WPARAM wParam, LPARAM lParam)
+    
+    
+    LRESULT TextBox::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
+        if (inMessage == WM_KEYDOWN)
+		{
+            if (wParam == VK_TAB)
+            {
+                //
+                // Tabbing doesn't work on multiline textboxes.
+                // This code fixes that.
+                //
+			    long style = ::GetWindowLong(handle(), GWL_STYLE);
+			    if ((style & ES_MULTILINE) && (style & WS_TABSTOP))
+			    {
+				    BOOL shift = 0x8000 & GetKeyState(VK_SHIFT);
+				    ::SetFocus(::GetNextDlgTabItem(GetParent(handle()), handle(), shift));                    
+		            return 0;
+			    }
+            }
+            else 
+            {
+                //
+                // CTRL-a select all
+                //
+				const int cKeyboard_a = 65;
+				if (HIWORD(::GetKeyState(VK_CONTROL)) && wParam == cKeyboard_a)
+				{
+					::SendMessage(handle(), EM_SETSEL, 0, -1);
+				}
+            }
+        }
+        return Super::handleMessage(inMessage, wParam, lParam);
     }
 
 

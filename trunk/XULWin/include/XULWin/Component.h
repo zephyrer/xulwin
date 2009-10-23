@@ -1026,7 +1026,7 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void handleCommand(WPARAM wParam, LPARAM lParam);
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
     private:
         bool mReadonly;

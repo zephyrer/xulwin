@@ -151,10 +151,6 @@ namespace XULWin
             AttributesMapping::iterator it = mAttributes.begin(), end = mAttributes.end();
             for (; it != end; ++it)
             {
-                // ignore error reports about failure to apply attributes
-                // it's unlikely to be an issue here
-                ErrorCatcher errorIgnorer;
-                errorIgnorer.disableLogging(true);
                 setAttribute(it->first, it->second);
             }
         }

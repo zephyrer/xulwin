@@ -1,6 +1,15 @@
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Unicode.h"
 #include <sstream>
 #include <assert.h>
+
+#define MESSAGEBOXLOGGING 1
+
+#if MESSAGEBOXLOGGING
+#include <windows.h>
+#endif
+
+
 
 
 namespace XULWin
@@ -62,8 +71,8 @@ namespace XULWin
         if (mOwns)
         {
             ErrorReporter::Instance().pop(this);
-		    if (mPropagate)
-		    {
+            if (mPropagate && !ErrorReporter::Instance().mStack.empty())
+            {
                 ErrorReporter::Instance().mStack.top()->setChild(this);
             }
             else 
@@ -153,11 +162,6 @@ namespace XULWin
 		if (!sInstance)
 		{
 			sInstance = new ErrorReporter();
-
-            // this cannot be done in the constructor
-            // because ErrorCatcher requires that
-            // sInstance has been set.
-            sInstance->mStack.push(new ErrorCatcher);
 		}
 	}
 
@@ -191,11 +195,7 @@ namespace XULWin
     
     ErrorReporter::~ErrorReporter()
     {
-        assert(!mStack.empty());
-        if (!mStack.empty())
-        {
-            delete mStack.top();
-        }
+        assert(mStack.empty());
     }
 
 
@@ -207,10 +207,16 @@ namespace XULWin
 
 	void ErrorReporter::reportError(const Error & inError)
 	{
-        assert (!mStack.empty());
         if (!mStack.empty())
         {
             mStack.top()->push(inError);
+        }
+        else
+        {
+            #if MESSAGEBOXLOGGING
+            std::wstring utf16Message = ToUTF16(inError.message());
+            ::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
+            #endif
         }
 	}
 
@@ -223,29 +229,31 @@ namespace XULWin
 
 	void ErrorReporter::pop(ErrorCatcher * inError)
 	{
-		bool foundOnTop = mStack.top() == inError;
-		assert(foundOnTop);
-		if (foundOnTop)
-		{
-			mStack.pop();
-		}
+        assert (!mStack.empty());
+        if (!mStack.empty())
+        {
+		    bool foundOnTop = mStack.top() == inError;
+		    assert(foundOnTop);
+		    if (foundOnTop)
+		    {
+			    mStack.pop();
+		    }
+        }
 	}
     
     
     void ErrorReporter::log(ErrorCatcher * inErrorCatcher)
     {
-        if (!mLogFunction)
-        {
-            return;
-        }
-
         std::stringstream ss;
         inErrorCatcher->getErrorMessage(ss);
 
         std::string message(ss.str());
         if (!message.empty())
         {
-            mLogFunction(ss.str());
+            if (mLogFunction)
+            {
+                mLogFunction(ss.str());
+            }
         }
     }
 

@@ -28,8 +28,6 @@ namespace XULWin
             wnd->show(WindowElement::DefaultPosition);
         }
         ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, this, _1));
-        ErrorCatcher errorCatcher;
-        ReportError("Test logger"); 
     }
 
 
@@ -41,36 +39,26 @@ namespace XULWin
 
     void LuaBindingsTest::runXULSample(const std::string & inAppname)
     {
-        ErrorCatcher errorCatcher;
         Poco::Path appPath(mPathToXULRunnerSamples, inAppname);
         Windows::CurrentDirectoryChanger cd(appPath.toString());
 
 #if TEST_WITH_MOZILLA_XULRUNNER
         ::ShellExecute(NULL, TEXT("open"), TEXT("run.bat"), NULL, NULL, SW_SHOWNORMAL);
 #endif
+        ElementPtr rootEl;
 
-        Lua::XULRunnerWithLua xulRunner;
-        xulRunner.Logger = boost::bind(Lua::showMessage, _1);
-        ElementPtr rootEl = xulRunner.loadApplication("application.ini");
-        if (!rootEl)
+        // Extra scope added to have the ErrorCatcher to do its logging on end of scope
         {
-            #if FORCE_MESSAGEBOX_LOGGING
-            if (errorCatcher.hasCaught())
-            {
-                std::stringstream ss;
-                errorCatcher.getErrorMessage(ss);
-                std::wstring message = XULWin::ToUTF16(ss.str());
-                ::MessageBox(0, message.c_str(), 0, MB_OK);
-            }
-            else
-            {
-                std::wstring message = XULWin::ToUTF16(appPath.toString() + " not found");
-                ::MessageBox(0, message.c_str(), 0, MB_OK);
-            }
-            #endif
+            ErrorCatcher errorCatcher;
+            Lua::XULRunnerWithLua xulRunner;
+            xulRunner.Logger = boost::bind(Lua::showMessage, _1);
+            rootEl = xulRunner.loadApplication("application.ini");
 
-            ReportError("Failed to load XUL sample: " + inAppname);
-            return;
+            if (!rootEl)
+            {
+                ReportError("Failed to load XUL sample: " + inAppname);
+                return;
+            }
         }
 
         if (WindowElement * wnd = rootEl->downcast<WindowElement>())

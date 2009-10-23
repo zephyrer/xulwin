@@ -311,7 +311,7 @@ namespace Windows
         std::wstring utf16String = ToUTF16(inText);
         if (0 == ::SetWindowText(inHandle, utf16String.c_str()))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError("Setting the text on component failed. Last error: " + getLastError(::GetLastError()));
         }
     }
 
@@ -510,9 +510,9 @@ namespace Windows
 
     void setTextBoxReadOnly(HWND inHandle, bool inReadOnly)
     {
-        if (0 != ::SendMessage(inHandle, EM_SETREADONLY, inReadOnly ? TRUE : FALSE, 0))
+        if (0 == ::SendMessage(inHandle, EM_SETREADONLY, inReadOnly ? TRUE : FALSE, 0))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError("Failed to make a textbox readonly. Last error: " + getLastError(::GetLastError()));
         }
     }
 

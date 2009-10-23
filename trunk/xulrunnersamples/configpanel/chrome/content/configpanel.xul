@@ -55,8 +55,8 @@
           <checkbox flex="1" checked="true" label="Allow comments?" id="allowCommentsCheckBox"></checkbox>
         </hbox>
       </row>
-      <row align="center" flex="1">
-        <spacer/>
+      <row align="end" flex="1">
+        <spacer flex="1"/>
         <vbox>
           <spacer flex="1" />
           <hbox align="center">

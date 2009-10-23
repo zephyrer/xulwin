@@ -536,7 +536,6 @@ namespace XULWin
 
         void setStyleController(const std::string & inAttr, StyleController * inController);
 
-    protected:
         int calculateMaxChildWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateMaxChildHeight(SizeConstraint inSizeConstraint) const;
@@ -545,6 +544,7 @@ namespace XULWin
 
         int calculateSumChildHeights(SizeConstraint inSizeConstraint) const;
 
+    protected:
         Component * mParent;
         Element * mElement;
         CommandId mCommandId;
@@ -1271,9 +1271,9 @@ namespace XULWin
 
         Rows(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const { return 0; }
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
 
@@ -1297,9 +1297,9 @@ namespace XULWin
 
         Columns(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const { return 0; }
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
 

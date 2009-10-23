@@ -1069,40 +1069,21 @@ namespace XULWin
     
     int Window::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            ElementPtr child(el()->children()[idx]);
-            int width = child->component()->getWidth(inSizeConstraint);
-            if (getOrient() == Horizontal)
-            {
-                result += width;
-            }
-            else if (width > result)
-            {
-                result = width;
-            }
-        }
-        return result;
+        return getOrient() == Horizontal ? calculateSumChildWidths(inSizeConstraint)
+                                         : calculateMaxChildWidth(inSizeConstraint);
     }
     
     
     int Window::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
+        if (getOrient() == Vertical)
         {
-            ElementPtr child(el()->children()[idx]);
-            int height = child->component()->getHeight(inSizeConstraint);
-            if (getOrient() == Vertical)
-            {
-                result += height;
-            }
-            else if (height > result)
-            {
-                result = height;
-            }
+            result = calculateSumChildHeights(inSizeConstraint);
+        }
+        else
+        {
+            result = calculateMaxChildHeight(inSizeConstraint);
         }
         return result;
     }
@@ -1480,42 +1461,15 @@ namespace XULWin
     
     int Dialog::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            ElementPtr child(el()->children()[idx]);
-            int width = child->component()->getWidth(inSizeConstraint);
-            if (getOrient() == Horizontal)
-            {
-                result += width;
-            }
-            else if (width > result)
-            {
-                result = width;
-            }
-        }
-        return result;
+        return getOrient() == Horizontal ? calculateSumChildWidths(inSizeConstraint)
+                                         : calculateMaxChildWidth(inSizeConstraint);
     }
     
     
     int Dialog::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            ElementPtr child(el()->children()[idx]);
-            int height = child->component()->getHeight(inSizeConstraint);
-            if (getOrient() == Vertical)
-            {
-                result += height;
-            }
-            else if (height > result)
-            {
-                result = height;
-            }
-        }
-        return result;
+        return getOrient() == Vertical ? calculateSumChildHeights(inSizeConstraint)
+                                       : calculateMaxChildHeight(inSizeConstraint);
     }
     
     
@@ -2486,47 +2440,28 @@ namespace XULWin
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
-        
-        
+       
+                
     int VirtualGrid::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
+		int result = 0;
+        if (const Columns * cols = findChildOfType<Columns>())
         {
-            ElementPtr child = el()->children()[idx];
-            if (Columns * cols = child->component()->downcast<Columns>())
-            {
-                for (size_t idx = 0; idx != cols->getChildCount(); ++idx)
-                {
-                    if (Column * col = cols->getChild(idx)->downcast<Column>())
-                    {
-                        result += col->getWidth(inSizeConstraint);
-                    }
-                }
-            }
+            result = cols->calculateWidth(inSizeConstraint);
         }
-        return result;
+		return result;
+        
     }
 
     
     int VirtualGrid::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
+		int result = 0;
+        if (const Rows * rows = findChildOfType<Rows>())
         {
-            ElementPtr child = el()->children()[idx];
-            if (Rows * rows = child->component()->downcast<Rows>())
-            {
-                for (size_t idx = 0; idx != rows->getChildCount(); ++idx)
-                {
-                    if (Row * row = rows->getChild(idx)->downcast<Row>())
-                    {
-                        result += row->getHeight(inSizeConstraint);
-                    }
-                }
-            }
+            result = rows->calculateHeight(inSizeConstraint);
         }
-        return result;
+		return result;
     }
 
 
@@ -2698,43 +2633,24 @@ namespace XULWin
         
     int Grid::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
+		int result = 0;
+        if (const Columns * cols = findChildOfType<Columns>())
         {
-            ElementPtr child = el()->children()[idx];
-            if (Columns * cols = child->component()->downcast<Columns>())
-            {
-                for (size_t idx = 0; idx != cols->getChildCount(); ++idx)
-                {
-                    if (Column * col = cols->getChild(idx)->downcast<Column>())
-                    {
-                        result += col->getWidth(inSizeConstraint);
-                    }
-                }
-            }
+            result = cols->calculateWidth(inSizeConstraint);
         }
-        return result;
+		return result;
+        
     }
 
     
     int Grid::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
+		int result = 0;
+        if (const Rows * rows = findChildOfType<Rows>())
         {
-            ElementPtr child = el()->children()[idx];
-            if (Rows * rows = child->component()->downcast<Rows>())
-            {
-                for (size_t idx = 0; idx != rows->getChildCount(); ++idx)
-                {
-                    if (Row * row = rows->getChild(idx)->downcast<Row>())
-                    {
-                        result += row->getHeight(inSizeConstraint);
-                    }
-                }
-            }
+            result = rows->calculateHeight(inSizeConstraint);
         }
-        return result;
+		return result;
     }
 
 
@@ -2904,9 +2820,129 @@ namespace XULWin
     }
 
 
+    int Rows::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        
+        std::vector<RowElement*> rows;
+
+        //
+        // 1. Obtain the list of rows from the grid element
+        //
+        if (Component * grid = parent())
+        {
+            if (GridElement::Type() == grid->el()->type())
+            {                
+                grid->el()->getElementsByType<RowElement>(rows);
+            }
+        }
+
+        //
+        // 2. Get the max row width
+        //
+        result = max_element_value(rows.begin(),
+                                   rows.end(),
+                                   0,
+                                   boost::bind(&Component::calculateWidth,     
+                                               boost::bind(&Element::component, _1),
+                                               inSizeConstraint));
+        return result;
+    }
+
+
+    int Rows::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        
+        std::vector<RowElement*> rows;
+
+        //
+        // 1. Obtain the list of rows from the grid element
+        //
+        if (Component * grid = parent())
+        {
+            if (GridElement::Type() == grid->el()->type())
+            {                
+                grid->el()->getElementsByType<RowElement>(rows);
+            }
+        }
+
+        //
+        // 2. Get the sum of row heights
+        //
+        result = sum_element_values(rows.begin(),
+                                    rows.end(),
+                                    0,
+                                    boost::bind(&Component::calculateHeight,     
+                                                boost::bind(&Element::component, _1),
+                                                inSizeConstraint));
+        return result;
+    }
+
+
     Columns::Columns(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
+    }
+
+
+    int Columns::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        
+        std::vector<ColumnElement*> columns;
+
+        //
+        // 1. Obtain the list of columns from the grid element
+        //
+        if (Component * grid = parent())
+        {
+            if (GridElement::Type() == grid->el()->type())
+            {                
+                grid->el()->getElementsByType<ColumnElement>(columns);
+            }
+        }
+
+        //
+        // 2. Get the max column width
+        //
+        result = sum_element_values(columns.begin(),
+                                    columns.end(),
+                                    0,
+                                    boost::bind(&Component::calculateWidth,     
+                                                boost::bind(&Element::component, _1),
+                                                inSizeConstraint));
+        return result;
+    }
+
+
+    int Columns::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        int result = 0;
+        
+        std::vector<ColumnElement*> columns;
+
+        //
+        // 1. Obtain the list of columns from the grid element
+        //
+        if (Component * grid = parent())
+        {
+            if (GridElement::Type() == grid->el()->type())
+            {                
+                grid->el()->getElementsByType<ColumnElement>(columns);
+            }
+        }
+
+        //
+        // 2. Get the sum of column heights
+        //
+        result = max_element_value(columns.begin(),
+                                   columns.end(),
+                                   0,
+                                   boost::bind(&Component::calculateHeight,     
+                                               boost::bind(&Element::component, _1),
+                                               inSizeConstraint));
+        return result;
     }
 
 
@@ -2918,31 +2954,13 @@ namespace XULWin
     
     int Row::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int res = 0;
-        const Children & children = el()->children();
-        for (size_t idx = 0; idx != children.size(); ++idx)
-        {
-            ElementPtr child = children[idx];
-            res += child->component()->getWidth(inSizeConstraint);
-        }
-        return res;
+        return calculateSumChildWidths(inSizeConstraint);
     }
 
 
     int Row::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int res = 0;
-        const Children & children = el()->children();
-        for (size_t idx = 0; idx != children.size(); ++idx)
-        {
-            ElementPtr child = children[idx];
-            int h = child->component()->getHeight(inSizeConstraint);
-            if (h > res)
-            {
-                res = h;
-            }
-        }
-        return res;
+        return calculateMaxChildHeight(inSizeConstraint);
     }
 
 
@@ -2960,6 +2978,8 @@ namespace XULWin
     
     int Column::calculateWidth(SizeConstraint inSizeConstraint) const
     {
+        // This is a special case: we need to get all rows first and calculate
+        // the width of each row's corresponding column
         ElementPtr rows;
         int ownIndex = -1;
         Element * grid = el()->parent()->parent();
@@ -3015,14 +3035,7 @@ namespace XULWin
 
     int Column::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int res = 0;
-        const Children & children = el()->children();
-        for (size_t idx = 0; idx != children.size(); ++idx)
-        {
-            ElementPtr child = children[idx];
-            res += child->component()->getHeight(inSizeConstraint);
-        }
-        return res;
+        return calculateSumChildHeights(inSizeConstraint);
     }
 
     
@@ -3136,31 +3149,13 @@ namespace XULWin
 
     int Deck::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int res = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            int w = getChild(idx)->getWidth(inSizeConstraint);
-            if (w > res)
-            {
-                res = w;
-            }
-        }
-        return res;
+        return calculateMaxChildWidth(inSizeConstraint);
     }
 
     
     int Deck::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int res = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            int h = getChild(idx)->getHeight(inSizeConstraint);
-            if (h > res)
-            {
-                res = h;
-            }
-        }
-        return res;
+        return calculateMaxChildHeight(inSizeConstraint);
     }
 
 
@@ -3538,31 +3533,13 @@ namespace XULWin
 
     int TabPanels::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int res = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            int w = getChild(idx)->getWidth(inSizeConstraint);
-            if (w > res)
-            {
-                res = w;
-            }
-        }
-        return res;
+        return calculateMaxChildWidth(inSizeConstraint);
     }
 
     
     int TabPanels::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int res = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            int h = getChild(idx)->getHeight(inSizeConstraint);
-            if (h > res)
-            {
-                res = h;
-            }
-        }
-        return res + Defaults::tabHeight();
+    {        
+        return Defaults::tabHeight() + calculateMaxChildHeight(inSizeConstraint);
     }
 
 
@@ -4052,16 +4029,7 @@ namespace XULWin
 
     int TreeRow::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            const Component * child = getChild(idx);
-            if (const TreeCell * cell = child->downcast<TreeCell>())
-            {
-                result += cell->calculateWidth(inSizeConstraint);
-            }
-        }
-        return result;
+        return calculateMaxChildWidth(inSizeConstraint);
     }
 
 
@@ -4137,13 +4105,7 @@ namespace XULWin
 
     int Statusbar::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            const Component * child = getChild(idx);
-            result += child->calculateWidth(inSizeConstraint);
-        }
-        return result;
+        return calculateSumChildWidths(inSizeConstraint);
     }
 
 
@@ -4243,30 +4205,14 @@ namespace XULWin
 
 
     int Toolbar::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            const Component * child = getChild(idx);
-            result += child->calculateWidth(inSizeConstraint);
-        }
-        return result;
+    {        
+        return calculateSumChildWidths(inSizeConstraint);
     }
 
 
     int Toolbar::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            const Component * child = getChild(idx);
-            int minHeight = child->calculateHeight(inSizeConstraint);
-            if (minHeight > result)
-            {
-                result = minHeight;
-            }
-        }
-        return result;
+        return calculateMaxChildHeight(inSizeConstraint);
     }
 
 

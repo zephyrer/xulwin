@@ -618,6 +618,8 @@ namespace XULWin
 
         static void SetModuleHandle(HMODULE inModule);
 
+        static HMODULE GetModuleHandle();
+
         virtual HWND handle() const;
 
         virtual bool initAttributeControllers();

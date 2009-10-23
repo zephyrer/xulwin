@@ -689,7 +689,7 @@ namespace XULWin
     NativeComponent::NativeComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
         ConcreteComponent(inParent),
         mHandle(0),
-        mModuleHandle(sModuleHandle ? sModuleHandle : ::GetModuleHandle(0)),
+        mModuleHandle(NativeComponent::GetModuleHandle()),
         mOrigProc(0),
         mOwnsHandle(true)
     {
@@ -815,6 +815,12 @@ namespace XULWin
     void NativeComponent::SetModuleHandle(HMODULE inModule)
     {
         sModuleHandle = inModule;
+    }
+        
+    
+    HMODULE NativeComponent::GetModuleHandle()
+    {
+        return sModuleHandle ? sModuleHandle : ::GetModuleHandle(0);
     }
 
 
@@ -3467,7 +3473,7 @@ namespace XULWin
             0, 0, 0, 0,
             mParentHandle,
             (HMENU)mCommandId.intValue(),
-            GetModuleHandle(0), // TODO: fix this hack
+            NativeComponent::GetModuleHandle(),
             0
         );
         ::SendMessage(mTabBarHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
@@ -3662,7 +3668,7 @@ namespace XULWin
                                          0, 0, 0, 0,
                                          NativeControl::GetThisOrParent(inParent)->handle(),
                                          (HMENU)mCommandId.intValue(),
-                                         GetModuleHandle(0),
+                                         NativeComponent::GetModuleHandle(),
                                          0);
         ::SendMessage(mGroupBoxHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
     }
@@ -4181,7 +4187,7 @@ namespace XULWin
             rect.left = 0;
             rect.bottom = Defaults::toolbarHeight();
             rect.right = 1000;
-            mToolbar.reset(new Windows::ToolbarElement(this, ::GetModuleHandle(0), native->handle(), rect, mCommandId.intValue()));
+            mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), rect, mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
         }

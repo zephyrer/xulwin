@@ -1,7 +1,6 @@
 Refactor
 - Add ComponentFactory, and move ElementCreationSupport's code to it
 
-
 Broken windows
 - Remove usage of GetModuleHandle(0)
 - Fix WS_TABSTOP for multiline TextBoxes

@@ -45,12 +45,12 @@ namespace XULWin
 #if TEST_WITH_MOZILLA_XULRUNNER
         ::ShellExecute(NULL, TEXT("open"), TEXT("run.bat"), NULL, NULL, SW_SHOWNORMAL);
 #endif
+        Lua::XULRunnerWithLua xulRunner;
         ElementPtr rootEl;
 
         // Extra scope added to have the ErrorCatcher to do its logging on end of scope
         {
             ErrorCatcher errorCatcher;
-            Lua::XULRunnerWithLua xulRunner;
             xulRunner.Logger = boost::bind(Lua::showMessage, _1);
             rootEl = xulRunner.loadApplication("application.ini");
 

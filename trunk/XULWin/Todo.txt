@@ -1,12 +1,4 @@
-Samples
-- XULViewer
-- Widgets
-- Dialogs
-- Layouts
-
 Tutorials
-- Getting started
-- Event Handling
 - Custom XUL elements
 - Scripting XUL using Lua
 

@@ -51,16 +51,7 @@ namespace XULWin
 
     int ListBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            int width = getChild(idx)->calculateWidth(inSizeConstraint);
-            if (width > result)
-            {
-                result = width;
-            }
-        }
-        return result;
+        return calculateMaxChildWidth(inSizeConstraint);
     }
 
 

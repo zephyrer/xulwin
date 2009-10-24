@@ -12,37 +12,30 @@
 #include <sstream>
 
 
-void reportError(const std::string & inMessage)
+LRESULT runXUL(HMODULE inModuleHandle, const std::string & inXULDocument)
 {
-    std::wstring utf16Message = XULWin::ToUTF16(inMessage);
-    ::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
-}
-
-
-LRESULT runXUL(const std::string & inXULDocument)
-{
-    XULWin::XULRunner runner;
+    XULWin::XULRunner runner(inModuleHandle);
     XULWin::ElementPtr rootElement = runner.loadXUL(inXULDocument);
     if (!rootElement)
     {
-        reportError("File not found or parser error.");
+        XULWin::ReportError("File not found or parser error.");
         return 1;
     }
 
-    XULWin::NativeWindow * wnd = rootElement->component()->downcast<XULWin::NativeWindow>();
+    XULWin::Window * wnd = rootElement->component()->downcast<XULWin::Window>();
     if (!wnd)
     {
-        reportError("Root element is not of type window");
+        XULWin::ReportError("Root element is not of type window");
         return 1;
     }
     
     wnd->rebuildLayout();
-    wnd->showModal(XULWin::Window::DefaultPosition);
+    wnd->showModal(XULWin::WindowElement::DefaultPosition);
     return 0;
 }
 
 
-LRESULT dropFiles(XULWin::Element * inRootElement, WPARAM wParam, LPARAM lParam)
+LRESULT dropFiles(HMODULE inModuleHandle, XULWin::Element * inRootElement, WPARAM wParam, LPARAM lParam)
 {
     int numFiles = ::DragQueryFile((HDROP)wParam, 0xFFFFFFFF, 0, 0);
     for (int idx = 0; idx < numFiles; ++idx)
@@ -50,30 +43,30 @@ LRESULT dropFiles(XULWin::Element * inRootElement, WPARAM wParam, LPARAM lParam)
         // Get filename and run XUL
     	TCHAR fileName[MAX_PATH];
         ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
-        runXUL(XULWin::ToUTF8(&fileName[0]));
+        runXUL(inModuleHandle, XULWin::ToUTF8(&fileName[0]));
         break; // only consider first file
     }
     return 0;
 }
 
 
-void runXULViewer()
+void runXULViewer(HMODULE inModuleHandle)
 {
     XULWin::ErrorCatcher errorCatcher;
-    XULWin::XULRunner runner;
+    XULWin::XULRunner runner(inModuleHandle);
     XULWin::ElementPtr rootElement = runner.loadXUL("XULViewer.xul");
     if (errorCatcher.hasCaught())
     {
         std::stringstream ss;
         errorCatcher.getErrorMessage(ss);
-        reportError(ss.str());
+        XULWin::ReportError(ss.str());
         return;
     }
 
-    XULWin::NativeWindow * wnd = rootElement->component()->downcast<XULWin::NativeWindow>();
+    XULWin::Window * wnd = rootElement->component()->downcast<XULWin::Window>();
     if (!wnd)
     {
-        reportError("Root element is not of type winodw.");
+        XULWin::ReportError("Root element is not of type winodw.");
         return;
     }
 
@@ -85,8 +78,8 @@ void runXULViewer()
     XULWin::ScopedEventListener events;
     events.connect(wnd->el(),
                    WM_DROPFILES,
-                   boost::bind(&dropFiles, rootElement.get(), _1, _2));
-    wnd->showModal(XULWin::Window::CenterInScreen);
+                   boost::bind(&dropFiles, inModuleHandle, rootElement.get(), _1, _2));
+    wnd->showModal(XULWin::WindowElement::CenterInScreen);
 }
 
 
@@ -98,6 +91,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Ensure that the common control DLL is loaded. 
     XULWin::Windows::CommonControlsInitializer ccInit;
 
-    runXULViewer();
+    runXULViewer(hInstance);
     return 0;
 }

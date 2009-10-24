@@ -3,7 +3,7 @@
 
 
 #include "XULWin/Enums.h"
-#include "XULWin/GenericGrid.h"
+#include "XULWin/Grid.h"
 #include "XULWin/Point.h"
 #include "XULWin/Rect.h"
 #include <vector>

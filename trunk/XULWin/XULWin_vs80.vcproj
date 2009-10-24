@@ -284,10 +284,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\GenericGrid.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Image.cpp"
 				>
 			</File>
@@ -520,27 +516,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Node.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Node.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Parser.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Point.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Point.h"
 				>
 			</File>
 			<File
@@ -557,14 +537,6 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Proxy.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Rect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Rect.h"
 				>
 			</File>
 			<File
@@ -683,6 +655,26 @@
 				RelativePath=".\include\XULWin\XULRunner.h"
 				>
 			</File>
+			<Filter
+				Name="Data structures"
+				>
+				<File
+					RelativePath=".\include\XULWin\Grid.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Node.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Point.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Rect.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

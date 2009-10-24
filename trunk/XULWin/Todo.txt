@@ -11,19 +11,14 @@ Tutorials
 - Scripting XUL using Lua
 
 Todo
-- Distribute XULViewer for feedback
-- Add sample for custom xul element
-- Add splitter element
-- Make sample with menu event handling
-- Checkbox partial checkstate
+- context menu
+- undetermined progressmeter
+- splitter
+- menu event handler test/sample
+- checkbox partial checkstate
 - Implement PathInstructions2String
-- Add Context menu (treeview sample)
-- Toolbar
-- Add "undetermined" attribute for progressmeter
-- remove items from Tree view
-- Treeview: implement tree open/closed state, and min size implications
-- Classes inheriting VirtualComponent should not have a 'Native' prefix in their class name.
-- Make sample app with toolbar, status-bar and scrollbar
+- Treeview: remove item, open/closed state, and min size implications
+- MainWindow sample: toolbar, status-bar and scrollbar
 
 Low priority
 - Flex attribute on 'listcol' elements is not supported in XULWin

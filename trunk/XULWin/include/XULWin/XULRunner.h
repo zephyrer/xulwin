@@ -19,6 +19,9 @@ namespace XULWin
         static std::string GetLocale();
 
         // Sets the desired locale (en-US, fr, nl, ...)
+        // NOTE: the locale statements in the chrome.manifest file
+        // are ignored, instead we depend on the foldernames in the chrome/locale directory.
+        // This means that the locale value should be identical to its foldername.
         static void SetLocale(const std::string & inLocale);
 
 

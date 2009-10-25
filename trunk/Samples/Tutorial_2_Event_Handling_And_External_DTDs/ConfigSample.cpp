@@ -11,7 +11,7 @@
 namespace XULWin
 {
 
-
+    // Helper function for closing the window
     LRESULT onCancel(Window * inWindow, WPARAM, LPARAM)
     {
         inWindow->close();
@@ -40,19 +40,31 @@ namespace XULWin
 
 
         mNewSetButton = mConfigWindow->getElementById("newSetButton");
+
+
+        //
+        // Usage of the ScopedEventListener class is illustrated below.
+        // I think the code is self-explanatory. Let me know if it isn't.
+        // 
+
+
+        // Connect the button click action with the showNewSetDialog method.
         mEvents.connect(mNewSetButton,
                         boost::bind(&ConfigSample::showNewSetDialog, this));
 
         
+        // Connect the checkbox with the showMessage method.
         mEvents.connect(mConfigWindow->getElementById("allowRatingsCheckBox"),
                         boost::bind(&ConfigSample::showMessage, this, "Checked"));
 
         
+        // Connect the key-up event in the tags textbox with a showMessage.
         mEvents.connect(mConfigWindow->getElementById("tagsTextBox"),
                         WM_KEYUP,
                         boost::bind(&ConfigSample::showMessage, this, "Received WM_KEYUP event."));
 
-
+        
+        // Connect the upload button with the showUpload method.
         mEvents.connect(mConfigWindow->getElementById("uploadButton"),
                         boost::bind(&ConfigSample::showUpload, this));
 
@@ -60,12 +72,16 @@ namespace XULWin
         if (Window * win = mConfigWindow->component()->downcast<Window>())
         {
             ::DragAcceptFiles(win->handle(), TRUE);
+
+            // Connect the WM_DROPFILES message with the dropFiles method.
             mEvents.connect(mConfigWindow.get(),
                             WM_DROPFILES,
                             boost::bind(&ConfigSample::dropFiles, this, _1, _2));
 
-            Element * cancelButton = mConfigWindow->getElementById("cancelButton");
-            mEvents.connect(cancelButton, boost::bind(&onCancel, win, _1, _2));
+            // Connect the cancel button with the onCancel function.
+            mEvents.connect(mConfigWindow->getElementById("cancelButton"),
+                            boost::bind(&onCancel, win, _1, _2));
+
             win->showModal(WindowElement::CenterInScreen);
         }
     }
@@ -74,10 +90,14 @@ namespace XULWin
     LRESULT ConfigSample::dropFiles(WPARAM wParam, LPARAM lParam)
     {
         std::vector<std::string> files;
+
+        // Obtain the number of dropped files.
         int numFiles = ::DragQueryFile((HDROP)wParam, 0xFFFFFFFF, 0, 0);
         for (int idx = 0; idx < numFiles; ++idx)
         {
     	    TCHAR fileName[MAX_PATH];
+
+            // Obtain the filename for the dropped file.
             ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
             files.push_back(ToUTF8(&fileName[0]));
         }

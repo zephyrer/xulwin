@@ -1,7 +1,14 @@
 //
 // Tutorial 2: Event Handling and Loading External DTDs.
-// This tutorial illustrates how to handle events and how to enable multilingual
-// support by putting the translations in external DTD files.
+//
+// This tutorial illustrates how to handle events using the ScopedEventListener class.
+// The code that shows the usage of ScopedEventListener is in ConfigSample.cpp.
+//
+// This sample also illustrates multilingual support. However you won't find anything in
+// the code for that. Simply because the is automatically handled by XULWin. Enabling
+// multilanguage support is done exactly the same as in Mozilla XULRunner. Basically you
+// need to add the 'locale' statements to your chrome.manifest file, and add a DTD file
+// per language. Check the Mozilla XUL documentation for more information.
 //
 // Feel free to experiment.
 //

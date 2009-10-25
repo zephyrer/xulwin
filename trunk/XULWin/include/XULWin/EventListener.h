@@ -26,6 +26,9 @@ namespace XULWin
     };
 
 
+    /**
+     * ScopedEventListeners enables connecting events with callbacks.
+     */
     class ScopedEventListener : public EventListener,
                                 boost::noncopyable
     {
@@ -36,12 +39,18 @@ namespace XULWin
 
         typedef boost::function<LRESULT(WPARAM, LPARAM)> Action;
 
+        // Connects element action with a callback. I.e. button push, checkbox check, etc..
+        // Element is of type button, checkbox, etc...
+        // It's the same as calling ScopedEventListener::connect(inEl, WM_COMMAND, inAction);
         void connect(Element * inEl, const Action & inAction);
 
+        // Removes the connection for the element action (WM_COMMAND).
         void disconnect(Element * inEl);
 
+        // Connects a specific windows message with a callback action.
         void connect(Element * inEl, UINT inMessage, const Action & inAction);
 
+        // Removes the connection for a certain message.
         void disconnect(Element * inEl, UINT inMessage);
 
     protected:

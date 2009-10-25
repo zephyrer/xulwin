@@ -105,14 +105,14 @@ end
 
   <hbox align="center">
     <text class="label" value="Foo Label 5:" for="nerp4"/>
-    <menulist label="regular menulist">
+    <menulist label="test">
       <menupopup>
         <menuitem label="foo 1"/>
         <menuitem label="foo 2"/>
         <menuitem label="foo 3"/>
       </menupopup>
     </menulist>
-    <menulist label="disabled menulist" disabled="true">
+    <menulist disabled="true">
       <menupopup>
         <menuitem label="foo 1"/>
         <menuitem label="foo 2"/>

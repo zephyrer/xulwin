@@ -170,6 +170,8 @@ namespace XULWin
 
         void log(ErrorCatcher * inError);
 
+        void log(const std::string & inErrorMessage);
+
 		std::stack<ErrorCatcher*> mStack;
         LogFunction mLogFunction;
 		static ErrorReporter * sInstance;

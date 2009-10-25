@@ -126,7 +126,7 @@ namespace XULWin
             const Error & error = errors()[idx];
             if (idx > 0)
             {
-                ss << "\r\n => ";
+                ss << "Followed by: ";
             }
             ss << error.message();
             
@@ -213,10 +213,7 @@ namespace XULWin
         }
         else
         {
-            #if MESSAGEBOXLOGGING
-            std::wstring utf16Message = ToUTF16(inError.message());
-            ::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
-            #endif
+            log(inError.message());
         }
 	}
 
@@ -246,14 +243,25 @@ namespace XULWin
     {
         std::stringstream ss;
         inErrorCatcher->getErrorMessage(ss);
-
-        std::string message(ss.str());
-        if (!message.empty())
+        log(ss.str());
+    }
+    
+    
+    void ErrorReporter::log(const std::string & inErrorMessage)
+    {
+        if (!inErrorMessage.empty())
         {
             if (mLogFunction)
             {
-                mLogFunction(ss.str());
+                mLogFunction(inErrorMessage);
             }
+            #if MESSAGEBOXLOGGING
+            else
+            {
+                std::wstring utf16Message = XULWin::ToUTF16(inErrorMessage);
+                ::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
+            }
+            #endif
         }
     }
 

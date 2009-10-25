@@ -21,6 +21,24 @@
 namespace XULWin
 {
 
+    
+    void ReportSetterFail(const std::string & inAttributeName,
+                          const std::string & inType,
+                          const std::string & inId)
+    {
+        std::stringstream ss;
+        ss << "Failed to set attribute '" << inAttributeName << "'"
+           << " on the element with type '" << inType << "'";
+
+        if (!inId.empty())
+        {
+            ss << " and with 'id' " << inId;
+        }
+        ss << ".";
+        ReportError(ss.str());
+    }
+
+
     int CommandId::sId = 101; // start handleCommand Ids at 101 to avoid conflicts with Windows predefined values
     
     NativeComponent::ComponentsByHandle NativeComponent::sComponentsByHandle;
@@ -570,8 +588,13 @@ namespace XULWin
         StyleControllers::iterator it = mStyleControllers.find(inName);
         if (it != mStyleControllers.end())
         {
+            ErrorCatcher errorCatcher;
             StyleController * controller = it->second;
             controller->set(inValue);
+            if (errorCatcher.hasCaught())
+            {
+                ReportSetterFail(inName, el()->type(), el()->getAttribute("id"));
+            }
             return true;
         }
         return false;
@@ -583,7 +606,12 @@ namespace XULWin
         AttributeControllers::iterator it = mAttributeControllers.find(inName);
         if (it != mAttributeControllers.end())
         {
+            ErrorCatcher errorCatcher;
             it->second->set(inValue);
+            if (errorCatcher.hasCaught())
+            {
+                ReportSetterFail(inName, el()->type(), el()->getAttribute("id"));
+            }
             return true;
         }
         return false;
@@ -730,7 +758,7 @@ namespace XULWin
         sComponentsByHandle.insert(std::make_pair(mHandle, this));
 
         assert (sComponentsById.find(mCommandId.intValue()) ==sComponentsById.end());
-       sComponentsById.insert(std::make_pair(mCommandId.intValue(), this));
+        sComponentsById.insert(std::make_pair(mCommandId.intValue(), this));
     }
 
 

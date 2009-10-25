@@ -14,11 +14,12 @@
 
 LRESULT runXUL(HMODULE inModuleHandle, const std::string & inXULDocument)
 {
+	XULWin::ErrorCatcher errorCatcher;
     XULWin::XULRunner runner(inModuleHandle);
     XULWin::ElementPtr rootElement = runner.loadXUL(inXULDocument);
     if (!rootElement)
     {
-        XULWin::ReportError("File not found or parser error.");
+        XULWin::ReportError("Failed to load the XUL document.");
         return 1;
     }
 
@@ -55,11 +56,9 @@ void runXULViewer(HMODULE inModuleHandle)
     XULWin::ErrorCatcher errorCatcher;
     XULWin::XULRunner runner(inModuleHandle);
     XULWin::ElementPtr rootElement = runner.loadXUL("XULViewer.xul");
-    if (errorCatcher.hasCaught())
+    if (!rootElement)
     {
-        std::stringstream ss;
-        errorCatcher.getErrorMessage(ss);
-        XULWin::ReportError(ss.str());
+        XULWin::ReportError("Failed to load the root element");
         return;
     }
 

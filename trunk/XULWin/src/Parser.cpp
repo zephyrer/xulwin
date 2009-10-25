@@ -142,7 +142,7 @@ namespace XULWin
             size_t idx = systemId.find("chrome://");
             if (idx != std::string::npos)
             {
-                ChromeURL url(systemId, Defaults::locale());
+                ChromeURL url(systemId);
                 std::string path = url.convertToLocalPath();
                 Poco::XML::EntityResolverImpl entityResolverImpl;
                 return entityResolverImpl.resolveEntity(publicId, path);

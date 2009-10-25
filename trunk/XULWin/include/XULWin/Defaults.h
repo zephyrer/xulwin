@@ -10,7 +10,7 @@ namespace XULWin
 
     namespace Defaults
     {
-        static std::string locale() { return "en-US"; }
+        static std::string defaultLocale() { return "en-US"; }
 
         static int windowWidth() { return 320; }
 

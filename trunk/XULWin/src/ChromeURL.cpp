@@ -1,13 +1,13 @@
 #include "XULWin/ChromeURL.h"
+#include "XULWin/XULRunner.h"
 #include "Poco/String.h"
 
 
 namespace XULWin 
 {
 
-    ChromeURL::ChromeURL(const std::string & inURL, const std::string & inLocale) :
-        mURL(inURL),
-        mLocale(inLocale)
+    ChromeURL::ChromeURL(const std::string & inURL) :
+        mURL(inURL)
     {
     }
 
@@ -45,7 +45,7 @@ namespace XULWin
         size_t localeIdx = result.find(cLocale);
         if (localeIdx != std::string::npos)
         {
-            result.insert(localeIdx + cLocale.size() + 1, mLocale + "/");
+            result.insert(localeIdx + cLocale.size() + 1, XULRunner::GetLocale() + "/");
         }
         return result;
     }

@@ -36,7 +36,7 @@ namespace XULWin
     {
         if (inSrc.find("chrome://") != std::string::npos)
         {        
-            ChromeURL url(inSrc, Defaults::locale());
+            ChromeURL url(inSrc);
             mSrc = url.convertToLocalPath();
         }
         else

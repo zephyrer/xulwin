@@ -113,17 +113,32 @@ namespace XULWin
         if (it != prefs.end())
         {
             // "chrome://myapp/content/myapp.xul"
-            ChromeURL url(it->second, Defaults::locale());
+            ChromeURL url(it->second);
             std::string xulFile = url.convertToLocalPath();
             return xulFile;
         }
         return "";
     }
 
+    
+    Fallible<std::string> XULRunner::sLocale;
+
 
     XULRunner::XULRunner(HMODULE inModuleHandle) :
         mModuleHandle(inModuleHandle)
     {
+    }
+
+
+    std::string XULRunner::GetLocale()
+    {
+        return sLocale.or(Defaults::defaultLocale());
+    }
+
+
+    void XULRunner::SetLocale(const std::string & inLocale)
+    {
+        sLocale = inLocale;
     }
 
 
@@ -165,7 +180,7 @@ namespace XULWin
         ElementPtr result;
         try
         {
-            ChromeURL url(inXULUrl, Defaults::locale());
+            ChromeURL url(inXULUrl);
             Parser parser;
             std::string curdir = Windows::getCurrentDirectory();
             std::string path = url.convertToLocalPath();

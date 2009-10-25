@@ -89,8 +89,6 @@ namespace XULWin
 
     LRESULT ConfigSample::dropFiles(WPARAM wParam, LPARAM lParam)
     {
-        std::vector<std::string> files;
-
         // Obtain the number of dropped files.
         int numFiles = ::DragQueryFile((HDROP)wParam, 0xFFFFFFFF, 0, 0);
         for (int idx = 0; idx < numFiles; ++idx)
@@ -99,7 +97,7 @@ namespace XULWin
 
             // Obtain the filename for the dropped file.
             ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
-            files.push_back(ToUTF8(&fileName[0]));
+            showMessage(ToUTF8(&fileName[0]));
         }
         return 0;
     }

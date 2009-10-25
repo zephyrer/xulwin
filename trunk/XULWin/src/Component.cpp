@@ -4465,7 +4465,7 @@ namespace XULWin
     {
         if (mButton)
         {
-            ChromeURL chromeURL(inURL, Defaults::locale());
+            ChromeURL chromeURL(inURL);
             std::wstring utf16URL = ToUTF16(chromeURL.convertToLocalPath());
             boost::shared_ptr<Gdiplus::Bitmap> img(new Gdiplus::Bitmap(utf16URL.c_str()));
             mButton->setImage(img);

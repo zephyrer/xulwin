@@ -11,7 +11,7 @@ namespace XULWin
     class ChromeURL
     {
     public:
-        ChromeURL(const std::string & inURL, const std::string & inLocale);
+        ChromeURL(const std::string & inURL);
 
         const std::string & stringValue();
 
@@ -19,7 +19,6 @@ namespace XULWin
 
     private:
         std::string mURL;
-        std::string mLocale;
     };
 
 

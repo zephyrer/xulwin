@@ -139,7 +139,10 @@
     <ClCompile Include="src\XULRunner.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\XULWin\Algorithms.h" />
     <ClInclude Include="include\XULWin\AttributeController.h" />
+    <ClInclude Include="include\XULWin\AttributeControllerPolicy.h" />
+    <ClInclude Include="include\XULWin\AttributesMapping.h" />
     <ClInclude Include="include\XULWin\BoxLayouter.h" />
     <ClInclude Include="include\XULWin\ChromeURL.h" />
     <ClInclude Include="include\XULWin\Component.h" />
@@ -155,6 +158,7 @@
     <ClInclude Include="include\XULWin\Fallible.h" />
     <ClInclude Include="include\XULWin\GdiplusLoader.h" />
     <ClInclude Include="include\XULWin\GenericGrid.h" />
+    <ClInclude Include="include\XULWin\Grid.h" />
     <ClInclude Include="include\XULWin\Image.h" />
     <ClInclude Include="include\XULWin\ImageElement.h" />
     <ClInclude Include="include\XULWin\Initializer.h" />
@@ -182,6 +186,8 @@
     <ClInclude Include="include\XULWin\MenuItemElement.h" />
     <ClInclude Include="include\XULWin\MenuPopup.h" />
     <ClInclude Include="include\XULWin\MenuPopupElement.h" />
+    <ClInclude Include="include\XULWin\MenuSeparator.h" />
+    <ClInclude Include="include\XULWin\MenuSeparatorElement.h" />
     <ClInclude Include="include\XULWin\Parser.h" />
     <ClInclude Include="include\XULWin\Point.h" />
     <ClInclude Include="include\XULWin\PopupMenu.h" />

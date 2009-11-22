@@ -477,15 +477,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\XULWin\Node.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Parser.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Point.cpp"
 				>
 			</File>
 			<File
@@ -506,10 +506,6 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Proxy.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Rect.cpp"
 				>
 			</File>
 			<File
@@ -630,18 +626,6 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\XULRunner.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Node"
-			>
-			<File
-				RelativePath=".\src\Node.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Node.h"
 				>
 			</File>
 		</Filter>

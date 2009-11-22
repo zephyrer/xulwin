@@ -477,6 +477,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\MenuSeparator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\MenuSeparator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MenuSeparatorElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\MenuSeparatorElement.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\XULWin\Node.h"
 				>
 			</File>

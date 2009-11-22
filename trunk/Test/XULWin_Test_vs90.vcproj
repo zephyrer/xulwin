@@ -64,6 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib GdiPlus.lib lua51.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)Libs\Poco&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -90,7 +91,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;"
+				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -145,6 +146,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib GdiPlus.lib lua51.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)Libs\Poco&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -173,7 +175,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;"
+				CommandLine="copy Logger.xul &quot;$(OutDir)&quot;&#x0D;&#x0A;copy lua51.dll &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

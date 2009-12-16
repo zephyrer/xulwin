@@ -1281,6 +1281,10 @@ namespace XULWin
             {
                 rebuildLayout();
                 invalidateRect();
+
+                // This works too:
+                //::RedrawWindow(handle(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
+                //::InvalidateRect(handle(), NULL, TRUE);
                 return 0;
             }
             case WM_CLOSE:

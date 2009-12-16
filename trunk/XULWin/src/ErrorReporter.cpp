@@ -304,7 +304,7 @@ namespace XULWin
         {
             static void ReportError_(const std::exception & inException)
             {
-                ReportError(inException.what());
+				XULWin::ReportError(inException.what());
             }
         };
         return TryCatch(inAction, boost::bind(&Helper::ReportError_, _1));

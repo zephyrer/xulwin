@@ -1259,7 +1259,23 @@ namespace XULWin
             case WM_SIZE:
             {
                 rebuildLayout();
-                ::InvalidateRect(handle(), 0, FALSE);
+                // NOTE: refresing on Windows XP only required the call
+                //     InvalidateRect(handle(), 0, FALSE);
+                // on the Window object. This was needed because the parent window has
+                // the WS_CLIPCHILDREN flag.
+                // However, on Windows 7 the child windows won't redraw correctly
+                // using this method. Therefore we use the following workaround:
+                //   1. Do a "soft" invalidate the child windows.
+                //   2. Do a "hard" invalidate on the parent window.
+                // This fixes the rendering problems without introducing any noticable flickering.
+                for (size_t idx = 0; idx != getChildCount(); ++idx)
+                {
+                    if (NativeComponent * comp = getChild(idx)->downcast<NativeComponent>())
+                    {
+                        ::InvalidateRect(comp->handle(), 0, FALSE);
+                    }
+                }
+                ::InvalidateRect(handle(), 0, TRUE);
                 return 0;
             }
             case WM_CLOSE:
@@ -1886,7 +1902,7 @@ namespace XULWin
         return Rect(x, y, rc_self.right - rc_self.left, rc_self.bottom - rc_self.top);
     }
     
-    
+
     const NativeComponent * NativeControl::GetThisOrParent(const Component * inElement)
     {
         if (const NativeComponent * obj = dynamic_cast<const NativeComponent*>(inElement))

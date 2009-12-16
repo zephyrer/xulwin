@@ -1,5 +1,6 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Unicode.h"
+#include <boost/bind.hpp>
 #include <sstream>
 #include <assert.h>
 
@@ -8,8 +9,6 @@
 #if MESSAGEBOXLOGGING
 #include <windows.h>
 #endif
-
-
 
 
 namespace XULWin
@@ -282,6 +281,34 @@ namespace XULWin
 	{
 		ErrorReporter::Instance().reportError(Error(inErrorCode));
 	}
+
+    
+    bool TryCatch(const TryAction & inTryAction, const CatchAction & inCatchAction)
+    {
+        try
+        {
+            inTryAction();
+            return true;
+        }
+        catch (const std::exception & inExc)
+        {
+            inCatchAction(inExc);
+        }
+        return false;
+    }
+
+   
+    bool TryOrReportError(const TryAction & inAction)
+    {
+        struct Helper
+        {
+            static void ReportError_(const std::exception & inException)
+            {
+                ReportError(inException.what());
+            }
+        };
+        return TryCatch(inAction, boost::bind(&Helper::ReportError_, _1));
+    }
 
 
 } // namespace XULWin

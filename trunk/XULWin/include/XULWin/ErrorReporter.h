@@ -201,6 +201,16 @@ namespace XULWin
 	void ReportError(int inErrorCode);
 
 
+    /**
+     * Try to execute a function and log any caught exceptions.
+     */
+    typedef boost::function<void()> TryAction;
+    typedef boost::function<void(const std::exception &)> CatchAction;
+
+    bool TryCatch(const TryAction & inAction, const CatchAction & inCatchAction);
+
+    bool TryOrReportError(const TryAction & inAction);
+
 } // namespace XULWin
 
 

@@ -184,6 +184,16 @@ namespace XULWin
         return 0;
     }
 
+    
+    void ConcreteComponent::invalidateRect() const
+    {
+        // Just forward to all children.
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
+        {
+            getChild(idx)->invalidateRect();
+        }
+    }
+
 
     const RGBColor & ConcreteComponent::getCSSFill() const
     {
@@ -809,6 +819,17 @@ namespace XULWin
     }
     
     
+    void NativeComponent::invalidateRect() const
+    {
+        // First update the children (if any).
+        Super::invalidateRect();
+
+        // Then update self.
+        // We do a erase background in case of children.
+        ::InvalidateRect(handle(), 0, getChildCount() > 0 ? TRUE : FALSE);
+    }
+    
+    
     bool NativeComponent::isDisabled() const
     {
         return Windows::isWindowDisabled(handle());
@@ -1259,23 +1280,7 @@ namespace XULWin
             case WM_SIZE:
             {
                 rebuildLayout();
-                // NOTE: refresing on Windows XP only required the call
-                //     InvalidateRect(handle(), 0, FALSE);
-                // on the Window object. This was needed because the parent window has
-                // the WS_CLIPCHILDREN flag.
-                // However, on Windows 7 the child windows won't redraw correctly
-                // using this method. Therefore we use the following workaround:
-                //   1. Do a "soft" invalidate the child windows.
-                //   2. Do a "hard" invalidate on the parent window.
-                // This fixes the rendering problems without introducing any noticable flickering.
-                for (size_t idx = 0; idx != getChildCount(); ++idx)
-                {
-                    if (NativeComponent * comp = getChild(idx)->downcast<NativeComponent>())
-                    {
-                        ::InvalidateRect(comp->handle(), 0, FALSE);
-                    }
-                }
-                ::InvalidateRect(handle(), 0, TRUE);
+                invalidateRect();
                 return 0;
             }
             case WM_CLOSE:
@@ -1641,7 +1646,7 @@ namespace XULWin
             case WM_SIZE:
             {
                 rebuildLayout();
-                ::InvalidateRect(handle(), 0, FALSE);
+                invalidateRect();
                 return 0;
             }
             case WM_CLOSE:

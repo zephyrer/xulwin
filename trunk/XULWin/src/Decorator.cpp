@@ -97,6 +97,16 @@ namespace XULWin
         }
         return 0;
     }
+    
+    
+    void Decorator::invalidateRect() const
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->invalidateRect();
+        }
+    }
 
 
     int Decorator::getWidth() const

@@ -113,6 +113,8 @@ namespace XULWin
 
         virtual HWND getFirstParentHandle() = 0;
 
+        virtual void invalidateRect() const = 0;
+
 
         // WidthController methods
         // Returns value from last call to setWidth. If setWidth has not yet
@@ -362,6 +364,8 @@ namespace XULWin
 
         virtual HWND getFirstParentHandle();
 
+        virtual void invalidateRect() const;
+
         // WidthController methods
         // Returns value from last call to setWidth. If setWidth has not yet
         // been called, then this method returns the value as defined in XUL
@@ -596,7 +600,9 @@ namespace XULWin
 
         NativeComponent(Component * inParent, const AttributesMapping & inAttributes);
 
-        virtual ~NativeComponent();             
+        virtual ~NativeComponent();
+
+        virtual void invalidateRect() const;             
 
         virtual void setHandle(HWND inHandle, bool inPassOwnership);
 

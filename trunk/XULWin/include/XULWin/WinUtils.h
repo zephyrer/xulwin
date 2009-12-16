@@ -37,7 +37,11 @@ namespace Windows
 
     std::string getCurrentDirectory();
 
+    std::string getEnvironmentVariable(const std::string & inVariableName);
+
     std::string getApplicationDirectory(HINSTANCE hInstance);
+
+    std::string getProgramFilesDirectory();
 
     std::string getLastError(DWORD lastError);
 

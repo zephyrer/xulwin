@@ -59,6 +59,22 @@ namespace Windows
         return path.parent().toString();
     }
 
+
+    std::string getEnvironmentVariable(const std::string & inVariableName)
+    {
+        const int cBufferSize = 1024;
+        TCHAR output[cBufferSize];
+        std::wstring variableNameW = ToUTF16(inVariableName);
+        ExpandEnvironmentStrings(variableNameW.c_str(), &output[0], cBufferSize);
+        return ToUTF8(&output[0]);
+    }
+
+
+    std::string getProgramFilesDirectory()
+    {
+        return getEnvironmentVariable("%ProgramFiles%");
+    }
+
     
     SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle)
     {

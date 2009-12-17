@@ -47,7 +47,7 @@ namespace Windows
     {
         TCHAR buffer[MAX_PATH];
         ::GetCurrentDirectory(sizeof(buffer), &buffer[0]);
-        return std::string(ToUTF8(buffer)) + "/";
+        return std::string(ToUTF8(buffer)) + "\\";
     }
     
     

@@ -26,15 +26,17 @@ namespace XULWin
 
 
     /**
-     * Base class XUL elements.
-     * Class Element provides a string-based interface for UI components.
-     * For a C++ interface you need to get the Component object using the 
-     * component() method.
+     * The Element class provides an interface to the XML aspect
+     * of the XUL user interface. It contains the hierarchy of the
+     * XUL elements and provides string-based getters and setters
+     * for them.
+     * Each Element object refers to its Component object. The Component object
+     * implements the native backend and provides typed getters and setters
+     * using a system of AttributeController objects.
      */
     class Element : private boost::noncopyable
     {
     public:
-
         /**
          * INITIALIZATION ORDER
          * 
@@ -46,7 +48,7 @@ namespace XULWin
          * - Element::setAttributes
          * - Element::initStyleControllers
          * - Element::setStyles
-         * - virtual Element::addChild (add element to its parent)
+         * - virtual Element::addChild (add self to parent)
          * - virtual Component::onChildAdded notification
          * 
          * PART 2: Creation and initialization of any child elements.

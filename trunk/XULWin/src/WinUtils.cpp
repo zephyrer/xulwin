@@ -746,6 +746,48 @@ namespace Windows
     }
 
 
+    Timer::TimerMapping Timer::sMapping;
+    
+    Timer::Timer() :
+        mTimerId(0)
+    {
+    }
+
+
+    Timer::~Timer()
+    {
+        stop();
+    }
+    
+    
+    void Timer::start(const TimerAction & inAction, int inDelayInMilliseconds)
+    {
+        mTimerAction = inAction;
+        mTimerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &Timer::OnTimerEvent);
+        sMapping.insert(std::make_pair(mTimerId, this));
+    }
+
+    void Timer::stop()
+    {
+        if (mTimerId)
+        {
+            sMapping.erase(sMapping.find(mTimerId));
+            ::KillTimer(NULL, mTimerId);
+            mTimerId = 0;
+        }
+    }
+
+
+    void Timer::OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime)
+    {
+        TimerMapping::iterator it = sMapping.find(inTimerId);
+        if (it != sMapping.end())
+        {
+            it->second->mTimerAction();
+        }
+    }
+
+
 } // namespace Windows
 
 } // namespace XULWin

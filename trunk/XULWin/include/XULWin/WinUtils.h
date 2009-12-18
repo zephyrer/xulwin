@@ -5,6 +5,8 @@
 #include "XULWin/Node.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
+#include <boost/noncopyable.hpp>
+#include <map>
 #include <string>
 
 
@@ -178,6 +180,25 @@ namespace Windows
 
     typedef boost::function<void()> TimerAction;
     void setTimeout(TimerAction inAction, int inDelayInMilliseconds);
+
+    class Timer : boost::noncopyable
+    {
+    public:
+        Timer();
+
+        ~Timer();
+
+        void start(const TimerAction & inAction, int inDelayInMilliseconds);
+
+        void stop();
+
+    private:
+        static void CALLBACK OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime);
+        typedef std::map<UINT_PTR, Timer*> TimerMapping;
+        static TimerMapping sMapping;
+        TimerAction mTimerAction;
+        UINT_PTR mTimerId;
+    };
 
 } // namespace Windows
 

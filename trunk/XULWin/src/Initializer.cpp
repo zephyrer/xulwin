@@ -1,5 +1,6 @@
 #include "XULWin/Initializer.h"
 #include "XULWin/Component.h"
+#include "XULWin/ConditionalState.h"
 #include "XULWin/ImageElement.h"
 #include "XULWin/ListBoxElement.h"
 #include "XULWin/ListCellElement.h"
@@ -26,6 +27,7 @@ namespace XULWin
     {
         Windows::CommonControlsInitializer mInitCommonControls;
         ErrorReporter::Initialize();
+        ConditionalState::Initialize(inModuleHandle);
         Window::Register(inModuleHandle);
         Dialog::Register(inModuleHandle);
         ElementFactory::Instance().registerElement<WindowElement>();
@@ -95,6 +97,7 @@ namespace XULWin
 
     Initializer::~Initializer()
     {
+        ConditionalState::Finalize();
         ErrorReporter::Finalize();
     }
 

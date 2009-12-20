@@ -80,6 +80,26 @@ namespace XULWin
         // called by parser at end-element event
         virtual bool init();
 
+        /**
+         * !!! HIGHLY EXPERIMENTAL, USE AT OWN RISK !!!
+         * This method resets the element. It destroys the
+         * contained component object (and thus any contained
+         * native windows) and rebuilds it from scratch.
+         * This is only desirable in very specific situations.
+         * For example when implementing a component for video rendering
+         * and you want to be able toggle between different DirectShow pipelines.
+         */
+        template<class ElementType>
+        void reset()
+        {
+            mComponent.reset(new ElementType(mParent->component(), mAttributes));
+            initAttributeControllers();
+            setAttributes(mAttributes);
+            initStyleControllers();
+            setStyles(mAttributes);
+            mComponent->setOwningElement(this);
+        }
+
         // you don't need to call this, Element::Create() does it
         virtual void addChild(ElementPtr inChild);
 

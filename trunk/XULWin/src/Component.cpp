@@ -979,8 +979,8 @@ namespace XULWin
                     }
                     default:
                     {                        
-                        ComponentsById::iterator it =sComponentsById.find(LOWORD(wParam));
-                        if (it !=sComponentsById.end())
+                        ComponentsById::iterator it = sComponentsById.find(LOWORD(wParam));
+                        if (it != sComponentsById.end())
                         {
                             it->second->handleCommand(wParam, lParam);
                         }

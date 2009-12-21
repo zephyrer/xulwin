@@ -185,6 +185,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ConditionalState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\ConditionalState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Conversions.cpp"
 				>
 			</File>

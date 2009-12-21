@@ -115,12 +115,12 @@ namespace XULWin
 
 
     /**
-     * Shorter syntax for associating a conditional with the "disabled" attribute (but negated then).
+     * Shorter syntax for associating a conditional with the (negated) "disabled" attribute.
      */
     ScopedConditional SetEnabledCondition(const ConditionalState::Condition & inCondition, Element * inElement);
 
     /**
-     * Shorter syntax for associating a conditional with the "hidden" attribute.
+     * Shorter syntax for associating a conditional with the (negated) "hidden" attribute.
      */
     ScopedConditional SetVisibleCondition(const ConditionalState::Condition & inCondition, Element * inElement);
 

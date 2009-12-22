@@ -253,8 +253,8 @@ namespace Windows
 		if (mImage)
 		{
 			double resizeFactor = static_cast<double>(std::min<size_t>(maxIconHeight(), mImage->GetHeight()))/static_cast<double>(mImage->GetHeight());
-			size_t h = static_cast<size_t>(static_cast<double>(mImage->GetHeight() * resizeFactor) + 0.5);
-			size_t w = static_cast<size_t>(static_cast<double>(mImage->GetWidth() * resizeFactor) + 0.5);
+			int h = static_cast<size_t>(static_cast<double>(mImage->GetHeight() * resizeFactor) + 0.5);
+			int w = static_cast<size_t>(static_cast<double>(mImage->GetWidth() * resizeFactor) + 0.5);
 			int x = rect.left + mLeftMargin;
 			int y = rect.top + ((rect.bottom - rect.top) - h)/2;
 			Gdiplus::Graphics g(inHDC);

@@ -767,7 +767,7 @@ namespace XULWin
         assert (sComponentsByHandle.find(mHandle) == sComponentsByHandle.end());
         sComponentsByHandle.insert(std::make_pair(mHandle, this));
 
-        assert (sComponentsById.find(mCommandId.intValue()) ==sComponentsById.end());
+        assert (sComponentsById.find(mCommandId.intValue()) == sComponentsById.end());
         sComponentsById.insert(std::make_pair(mCommandId.intValue(), this));
     }
 
@@ -810,7 +810,7 @@ namespace XULWin
     
     NativeComponent * NativeComponent::FindById(int inId)
     {
-        ComponentsById::iterator it =sComponentsById.find(inId);
+        ComponentsById::iterator it = sComponentsById.find(inId);
         if (it !=sComponentsById.end())
         {
             return it->second;
@@ -923,7 +923,7 @@ namespace XULWin
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
         for (; it != end; ++it)
         {
-            (*it)->handleCommand(el(), notificationCode);
+            (*it)->handleCommand(el(), notificationCode, wParam, lParam);
         }
     }
     
@@ -1350,7 +1350,9 @@ namespace XULWin
                         }
                         default:
                         {                        
-                            NativeComponent * sender = FindById(LOWORD(wParam));
+                            // NOTE TO SELF: don't use "FindById(LOWORD(wParam))" here
+                            //               because that won't work for toolbar buttons.
+                            NativeComponent * sender = FindByHandle((HWND)lParam);
                             if (sender)
                             {
                                 sender->handleCommand(wParam, lParam);
@@ -1850,6 +1852,8 @@ namespace XULWin
     NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeComponent(inParent, inAttributesMapping)
     {
+        // Don't call registerHandle() or subclass() here.
+        // They have to be called in your subclass and after setHandle() has been called.
     }
 
 
@@ -4272,6 +4276,8 @@ namespace XULWin
             mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), rect, mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
+            // No need to call subclass() here unless you need very specific toolbar messages.
+            // In order to receive the WM_COMMAND you need to subclass the parent window, which has normally already been taken care of.
         }
     }
 

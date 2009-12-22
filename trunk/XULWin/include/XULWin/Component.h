@@ -1815,6 +1815,8 @@ namespace XULWin
 
         virtual const std::string & getCSSListStyleImage() const;
 
+        Windows::ConcreteToolbarItem * nativeItem() { return mButton; }
+
     private:
         Windows::ConcreteToolbarItem * mButton;
         bool mDisabled;

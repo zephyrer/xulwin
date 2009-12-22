@@ -252,9 +252,6 @@ namespace Windows
 			}
             else if (const ConcreteToolbarItem * item = dynamic_cast<const ConcreteToolbarItem*>(abstractItem)) // if normal button
 			{
-				RECT rc_button;
-				SendMessage(inToolbarHandle, TB_GETRECT, item->commandId(), (LPARAM)&rc_button);
-
 				TBBUTTONINFO buttonInfo;
 				buttonInfo.cbSize = sizeof(TBBUTTONINFO);
 
@@ -658,9 +655,6 @@ namespace Windows
 							{
 								case CDDS_PREPAINT:
 								{
-                                    bool isVisible = Windows::isWindowVisible(pThis->handle());
-                                    RECT rc;
-                                    ::GetClientRect(pThis->handle(), &rc);
 									return CDRF_NOTIFYITEMDRAW;
 								}
 								case CDDS_ITEMPREPAINT:
@@ -703,30 +697,7 @@ namespace Windows
 				}
                 break;
 			}
-			
-			case WM_COMMAND:
-			{
-				WORD id = LOWORD(wParam);
-				WORD code = HIWORD(wParam);
-				HWND sender = (HWND)lParam;
-				if(sender == pThis->handle())
-				{
-					// find toolbaritem corresponding to it
-					AbstractToolbarItem * item = pThis->getToolbarItemByCommandId(id);
-					assert(item);
-					if (item)
-					{
-						item->performCommand();
-					}
-				}
-				else if (sender == 0 && pThis->mActiveDropDown)
-				{
-					// find toolbaritem corresponding to it
-					pThis->mActiveDropDown->performMenuCommand((short)id); // cast to short to allow negative numbers for menu ids (dirty and hopefully temporary hack)
-					pThis->mActiveDropDown = 0;
-				}
-				return 0;
-			}
+            // WM_COMMAND is handled by the Component class.
 		}
 		return CallWindowProc(pThis->mParentProc, hWnd, inMessage, wParam, lParam);
 	}

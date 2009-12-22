@@ -4272,7 +4272,7 @@ namespace XULWin
             rect.top = 0;
             rect.left = 0;
             rect.bottom = Defaults::toolbarHeight();
-            rect.right = 1000;
+            rect.right = 1280; // it should stretch across he window. TODO: fix hack!
             mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), rect, mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();

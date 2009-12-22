@@ -223,7 +223,8 @@ namespace Windows
 	void ToolbarElement::updateToolbarButtonSizes(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems)
 	{
 		SendMessage((HWND) inToolbarHandle, (UINT) TB_SETEXTENDEDSTYLE, (WPARAM)0, (LPARAM) TBSTYLE_EX_DRAWDDARROWS);
-		
+		int maxButtonHeight = 0;
+
 		// Position custom windows and resize buttons
 		int offset_x = 0;
 		ToolbarItems::const_iterator it = inToolbarItems.begin(), end = inToolbarItems.end();
@@ -237,6 +238,10 @@ namespace Windows
 				int toolbarHeight = HIWORD(buttonSize);
 				RECT rc;
 				::GetWindowRect(customWindow->handle(), &rc);
+                if (maxButtonHeight < rc.bottom - rc.top)
+                {
+                    maxButtonHeight = rc.bottom - rc.bottom;
+                }
 
 				RECT rcToolbar;
 				::GetClientRect(inToolbarHandle, &rcToolbar);
@@ -269,6 +274,10 @@ namespace Windows
 					{
 						buttonInfo.cx += cSpacingBetweenIconAndText;
 					}
+                    if (item->image()->GetHeight() > (UINT)maxButtonHeight)
+                    {
+                        maxButtonHeight = item->image()->GetHeight();
+                    }
 				}
 				if (dynamic_cast<const ToolbarDropDown*>(item))
 				{
@@ -298,6 +307,7 @@ namespace Windows
 				offset_x += buttonInfo.cx;
 			}
 		}
+        ::SendMessage(inToolbarHandle, TB_SETBUTTONSIZE, 0, MAKELPARAM(0, maxButtonHeight));
 	}
 
 	

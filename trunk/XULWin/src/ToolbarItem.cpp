@@ -58,7 +58,7 @@ namespace Windows
 		mRightMargin(4),
 		mMinimumWidth(0),
 		mMaximumWidth(INT_MAX),
-		mMaxIconHeight(18)
+		mMaxIconHeight(512)
 	{
 	}
 

@@ -100,6 +100,9 @@ namespace Windows
 
 		int maxIconHeight() const;
 
+        /**
+         * Use this method to auto-shrink icons that are too large.
+         */
 		void setMaxIconHeight(int inMaxIconHeight);
 
 		// gets the position of this button in its parent toolbar

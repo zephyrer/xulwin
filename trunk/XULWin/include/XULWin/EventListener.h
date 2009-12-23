@@ -46,24 +46,39 @@ namespace XULWin
 
         typedef boost::function<LRESULT(WPARAM, LPARAM)> Action;
 
-        // Connects element action with a callback. I.e. button push, checkbox check, etc..
-        // Element is of type button, checkbox, etc...
-        // It's the same as calling ScopedEventListener::connect(inEl, WM_COMMAND, inAction);
+
+        /**
+         * Connect action callbacks to your component.
+         * Works with normal components (button, checkbox, ...) but also with menu items and
+         * toolbar buttons.
+         * This method is a shorter notation for connect(inEl, WM_COMMAND, inAction).
+         */
         void connect(Element * inEl, const Action & inAction);
 
-        // Connects a specific windows message with a callback action.
+
+        /** 
+         * Connect a callback to a specific Windows message.
+         */
         void connect(Element * inEl, UINT inMessage, const Action & inAction);
 
-        // Connects a specific windows message with a callback action.
+
+        /**
+         * Connect a callback to a Windows message on a XULWin Component where the sender of the
+         * message does not equal the Component that is being listened to.
+         * This applies to menus and toolbar buttons.
+         * Unless you want to do something special, you don't need to call this method. For normal
+         * situations use the connect(Element*, const Action&) overload. It will detect and take
+         * care of the special cases like menu items and toolbar buttons.
+         */
         void connect(Element * inEl, UINT inMessage, int inCommandId, const Action & inAction);
 
-        // Removes the connection for the element action (WM_COMMAND).
+
+        /**
+         * Removes the callback connections. You don't need to call this if your ScopedEventListener
+         * object is properly scoped (RAII).
+         */
         void disconnect(Element * inEl);
-
-        // Removes the connection for a certain message.
         void disconnect(Element * inEl, UINT inMessage);
-
-        // Removes the connection for a certain message and an command id.
         void disconnect(Element * inEl, UINT inMessage, int inCommandId);
 
     protected:

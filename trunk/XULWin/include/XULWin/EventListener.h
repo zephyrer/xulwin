@@ -13,6 +13,13 @@ namespace XULWin
 {
     class Element;
 
+    /**
+     * Usually Windows message return 0 or 1, meaning the messages was handled, or not handled, respectively.
+     * These values allow you to use symbolic names.
+     */
+    static const LRESULT cHandled = 0;
+    static const LRESULT cUnhandled = 1;
+
     class EventListener
     {
     public:
@@ -107,12 +114,12 @@ namespace XULWin
         };
         typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;
 
-        LRESULT processMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
-        LRESULT processMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);
+        LRESULT handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);
+        void invokeCallbacks(MsgId inMsgId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
         bool connectToolbarButton(Element * inEl, const Action & inAction);
         bool connectMenuItem(Element * inEl, const Action & inAction);
-        bool handleToolbarCommand(const MessageCallbacks::iterator & inIterator, WPARAM wParam, LPARAM lParam, LRESULT & ret);
+        bool handleToolbarCommand(MsgId inMessageId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
         MessageCallbacks mMessageCallbacks;
     };

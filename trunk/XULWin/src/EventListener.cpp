@@ -132,27 +132,26 @@ namespace XULWin
      * find the corresponding ToolbarButton element object.
      * Once we found this object we can look for any associated callbacks.
      */
-    bool ScopedEventListener::handleToolbarCommand(const MessageCallbacks::iterator & inIterator,
+    bool ScopedEventListener::handleToolbarCommand(MsgId inMessageId,
                                                    WPARAM wParam,
                                                    LPARAM lParam,
                                                    LRESULT & ret)
     {
-        Element * element = inIterator->first.element();
-        XULWin::Toolbar * toolbar = element->component()->downcast<XULWin::Toolbar>();
+        XULWin::Toolbar * toolbar = inMessageId.element()->component()->downcast<XULWin::Toolbar>();
         if (!toolbar)
         {
             // This is not a toolbar event => return false.
             return false;
         }
-        UINT message = inIterator->first.messageId();
+        UINT message = inMessageId.messageId();
         if (message == WM_COMMAND)
         {            
 	      	WORD id = LOWORD(wParam);
             XULWin::Windows::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
             if (!item)
             {
-                // The command was not sent from one of the toolbar buttons.
-                // It may have been sent from a menu item that has the toolbar as parent window.
+                // The command was not sent from one of the toolbar buttons. (It may have been
+                // sent from a menu item that has the toolbar as a grandparent window.)
                 return false;
             }
             XULWin::ToolbarButton * corrspondingToolbarButton(0);
@@ -174,80 +173,84 @@ namespace XULWin
                 return false;
             }
 
-
-            MessageCallbacks::iterator it = mMessageCallbacks.find(
-                MsgId(corrspondingToolbarButton->el()->parent(),
-                      WM_COMMAND,
-                      corrspondingToolbarButton->commandId()));
-
-            if (it != mMessageCallbacks.end())
-            {
-                std::vector<Action> callbacks = it->second;
-                for (size_t idx = 0; idx != callbacks.size(); ++idx)
-                {
-                    if (callbacks[idx])
-                    {
-                        ret = callbacks[idx](wParam, lParam);
-                    }
-                }
-            }
+            handleMessage(MsgId(corrspondingToolbarButton->el()->parent(),
+                                WM_COMMAND,
+                                corrspondingToolbarButton->commandId()),
+                          wParam,
+                          lParam);
             return true;
         }
         return false;
     }
 
 
-    LRESULT ScopedEventListener::processMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam)
-    {  
-        // Default return value is 1, meaning we didn't handle the message.
-        LRESULT ret(1);
-
+    void ScopedEventListener::invokeCallbacks(MsgId inMsgId, WPARAM wParam, LPARAM lParam, LRESULT & ret)
+    {
         MessageCallbacks::iterator it = mMessageCallbacks.find(inMsgId);
-        if (it != mMessageCallbacks.end())
+        if (it == mMessageCallbacks.end())
         {
-            if (!handleToolbarCommand(it, wParam, lParam, ret))
+            ret = cUnhandled;
+            return;
+        }
+
+        ret = cHandled;
+        std::vector<Action> callbacks = it->second;
+        for (size_t idx = 0; idx != callbacks.size(); ++idx)
+        {
+            if (callbacks[idx])
             {
-                std::vector<Action> callbacks = it->second;
-                for (size_t idx = 0; idx != callbacks.size(); ++idx)
+                if (cUnhandled == callbacks[idx](wParam, lParam))
                 {
-                    if (callbacks[idx])
-                    {
-                        ret = callbacks[idx](wParam, lParam);
-                    }
+                    // If there is one callback that says it didn't handle the message, then
+                    // we consider the entire message unhandled. The reasoning behind this is
+                    // that in case of doubt, we choose to consider the message unhandled. This
+                    // is important because in our subclasses windows we only call the original
+                    // proc (through CallWindowProc) in case of unhandled messages.
+                    ret = cUnhandled;
                 }
             }
         }
-        return ret;
     }
 
 
-    LRESULT ScopedEventListener::processMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-        int commandId = inSender->component()->commandId();
-        if (inMessage == WM_COMMAND)
+    LRESULT ScopedEventListener::handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam)
+    {  
+        LRESULT ret = cUnhandled;
+        if (!handleToolbarCommand(inMsgId, wParam, lParam, ret))
         {
-            commandId = LOWORD(wParam);
+            invokeCallbacks(inMsgId, wParam, lParam, ret);
         }
-        MsgId msg(inSender, inMessage, commandId);
-        return processMessage(msg, wParam, lParam);
+        return ret;
     }
 
         
     LRESULT ScopedEventListener::handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
     {
-        return processMessage(inSender, WM_COMMAND, wParam, lParam);
+        return handleMessage(MsgId(inSender,
+                                   WM_COMMAND,
+                                   LOWORD(wParam)),
+                             wParam,
+                             lParam);
     }
 
 
     LRESULT ScopedEventListener::handleMenuCommand(Element * inSender, WORD inMenuId)
     {
-        return processMessage(MsgId(inSender, WM_COMMAND, inMenuId), 0, 0);
+        return handleMessage(MsgId(inSender,
+                                   WM_COMMAND,
+                                   inMenuId),
+                             0,
+                             0);
     }
     
 
     LRESULT ScopedEventListener::handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        return processMessage(inSender, inMessage, wParam, lParam);
+        return handleMessage(MsgId(inSender,
+                                   inMessage,
+                                   LOWORD(wParam)),
+                             wParam,
+                             lParam);
     }
 
 

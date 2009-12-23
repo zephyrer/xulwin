@@ -22,6 +22,8 @@ namespace XULWin
     public:
         Parser();
 
+        Parser(Element * inRootElement);
+
         // after parsing
         ElementPtr rootElement() const;
     
@@ -68,6 +70,8 @@ namespace XULWin
         int mIgnores;
         ElementPtr mRootElement;
 
+        bool mIsOverlay;
+        int mOverlayWrappers;
     };
 
 } // namespace XULWin

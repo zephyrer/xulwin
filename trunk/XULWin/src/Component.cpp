@@ -1719,11 +1719,6 @@ namespace XULWin
     VirtualComponent::VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
         ConcreteComponent(inParent)
     {
-        if (!mParent)
-        {
-            ReportError("NativeControl constructor failed because parent is NULL.");
-            return;
-        }
     }
         
         

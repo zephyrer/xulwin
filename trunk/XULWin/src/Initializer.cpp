@@ -14,6 +14,7 @@
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/MenuPopupElement.h"
 #include "XULWin/MenuSeparatorElement.h"
+#include "XULWin/OverlayElement.h"
 #include "XULWin/ScriptElement.h"
 #include "XULWin/SVGElement.h"
 #include "XULWin/ErrorReporter.h"
@@ -92,6 +93,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<ListColsElement>();
         ElementFactory::Instance().registerElement<ListHeadElement>();
         ElementFactory::Instance().registerElement<ListHeaderElement>();
+        ElementFactory::Instance().registerElement<OverlayElement>();
     }
 
 

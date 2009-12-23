@@ -154,18 +154,14 @@ namespace XULWin
         }
     }
 
-    
-    ElementPtr XULRunner::loadApplication(const std::string & inApplicationIniFile)
+
+    ElementPtr XULRunner::Parse(Parser & inParser, const std::string & inXULURL)
     {
         ElementPtr result;
         try
         {
-            Parser parser;
-            Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
-            std::string mainXULFile = getMainXULFile(topLevelAppDir);
-            parser.parse(mainXULFile);
-            mRootElement = parser.rootElement();
-            result = mRootElement;
+            inParser.parse(inXULURL);
+            result = inParser.rootElement();
         }
         catch (Poco::Exception & exc)
         {
@@ -175,24 +171,53 @@ namespace XULWin
     }
 
     
-    ElementPtr XULRunner::loadXUL(const std::string & inXULUrl)
+    ElementPtr XULRunner::loadApplication(const std::string & inApplicationIniFile)
     {
-        ElementPtr result;
-        try
+        Parser parser;
+        mRootElement = Parse(parser, getMainXULFile(Windows::getCurrentDirectory()));
+        return mRootElement;
+    }
+
+    
+    ElementPtr XULRunner::loadXUL(const std::string & inXULURL)
+    {
+        Parser parser;
+        ChromeURL url(inXULURL);
+        mRootElement = Parse(parser, url.convertToLocalPath());
+        return mRootElement;
+    }
+
+
+    std::string XULRunner::getOverlayElementId(const std::string & inXULURL)
+    {
+        XULRunner temp(::GetModuleHandle(0));
+        temp.loadXUL(inXULURL);
+        if (!temp.rootElement() || temp.rootElement()->children().empty())
         {
-            ChromeURL url(inXULUrl);
-            Parser parser;
-            std::string curdir = Windows::getCurrentDirectory();
-            std::string path = url.convertToLocalPath();
-            parser.parse(path);
-            mRootElement = parser.rootElement();
-            result = mRootElement;
+            return "";
+        }      
+        Element * child = temp.rootElement()->children()[0].get();
+        if (child)
+        {
+            return child->getAttribute("id");
         }
-        catch (Poco::Exception & exc)
+        return "";
+    }
+    
+    
+    void XULRunner::loadOverlay(const std::string & inXULURL)
+    {
+        Element * targetElement = mRootElement->getElementById(getOverlayElementId(inXULURL));
+        if (targetElement)
         {
-            ReportError(exc.displayText());
-        } 
-        return result;
+            Parser parser(targetElement);
+            ChromeURL url(inXULURL);
+            Parse(parser, url.convertToLocalPath());
+        }
+        else
+        {
+            ReportError("Failed to parse the overlay document.");
+        }
     }
     
     

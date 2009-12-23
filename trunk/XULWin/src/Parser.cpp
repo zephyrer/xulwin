@@ -12,13 +12,31 @@ namespace XULWin
 
     Parser::Parser() :
         mIgnores(0),
-        mLanguage("en")
+        mLanguage("en"),
+        mIsOverlay(false),
+        mOverlayWrappers(0)
     {
         setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, true);
         setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, true);
         
         setContentHandler(this);
         setEntityResolver(this);
+    }
+
+
+    Parser::Parser(Element * inOverlayRoot) :
+        mIgnores(0),
+        mLanguage("en"),
+        mIsOverlay(true),
+        mOverlayWrappers(0)
+    {
+        setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, true);
+        setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, true);
+        
+        setContentHandler(this);
+        setEntityResolver(this);
+
+        mStack.push(inOverlayRoot);
     }
     
     
@@ -36,14 +54,12 @@ namespace XULWin
 
     void Parser::startDocument()
     {
-        assert(mStack.empty());
         assert(mIgnores == 0);
     }
 
 
     void Parser::endDocument()
     {
-        assert(mStack.empty());
         assert(mIgnores == 0);
     }
 
@@ -55,51 +71,56 @@ namespace XULWin
     {
         try
         {
-            if (mIgnores == 0)
+            if (mIsOverlay && mOverlayWrappers < 2)
             {
-                //
-                // Get parent
-                //
-                Element * parent(0);
-                if (!mStack.empty())
-                {
-                    parent = mStack.top();
-                }
+                mOverlayWrappers++;
+                return;
+            }
 
-                //
-                // Get attributes
-                //
-                AttributesMapping attr;
-                for (int idx = 0; idx != attributes.getLength(); ++idx)
-                {
-                    const Poco::XML::XMLString & name = attributes.getLocalName(idx);
-                    const Poco::XML::XMLString & value = attributes.getValue(idx);
-                    attr[name] = value;
-                }
+            if (mIgnores > 0)
+            {
+                mIgnores++;
+                return;
+            }
 
-                //
-                // Create the element
-                //
-                ElementPtr element = ElementFactory::Instance().createElement(localName, parent, attr);
-                if (element)
+            //
+            // Get parent
+            //
+            Element * parent(0);
+            if (!mStack.empty())
+            {
+                parent = mStack.top();
+            }
+
+            //
+            // Get attributes
+            //
+            AttributesMapping attr;
+            for (int idx = 0; idx != attributes.getLength(); ++idx)
+            {
+                const Poco::XML::XMLString & name = attributes.getLocalName(idx);
+                const Poco::XML::XMLString & value = attributes.getValue(idx);
+                attr[name] = value;
+            }
+
+            //
+            // Create the element
+            //
+            ElementPtr element = ElementFactory::Instance().createElement(localName, parent, attr);
+            if (element)
+            {
+                if (mStack.empty())
                 {
-                    if (mStack.empty())
-                    {
-                        assert(!mRootElement);
-                        mRootElement = element;
-                    }
-                    mStack.push(element.get());
+                    assert(!mRootElement);
+                    mRootElement = element;
                 }
-                else
-                {
-                    mIgnores++;
-                    ReportError("Element is null and will be ignored.");
-                    return;
-                }
+                mStack.push(element.get());
             }
             else
             {
                 mIgnores++;
+                ReportError("Element is null and will be ignored.");
+                return;
             }
         }
         catch (const Poco::Exception & inExc)
@@ -113,14 +134,20 @@ namespace XULWin
                             const Poco::XML::XMLString& localName,
                             const Poco::XML::XMLString& qname)
     {
-        if (mIgnores == 0)
+        if (mIgnores > 0)
+        {
+            mIgnores--;
+            return;
+        }
+
+        if (!mIsOverlay || mOverlayWrappers > 2)
         {
             mStack.top()->init();
             mStack.pop();
         }
         else
         {
-            mIgnores--;
+            mOverlayWrappers--;
         }
     }
     

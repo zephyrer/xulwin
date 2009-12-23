@@ -524,6 +524,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Overlay.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Overlay.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OverlayElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\OverlayElement.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Parser.cpp"
 				>
 			</File>

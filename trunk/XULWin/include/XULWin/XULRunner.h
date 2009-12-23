@@ -37,12 +37,17 @@ namespace XULWin
 
         ElementPtr loadXUL(const std::string & inXULUrl);
 
+        void loadOverlay(const std::string & inXULUrl);
+
         ElementPtr rootElement() const;
 
         HMODULE getModuleHandle() const;
 
     private:
         static Fallible<std::string> sLocale;
+
+        static ElementPtr Parse(Parser & inParser, const std::string & inXULURL);
+        std::string getOverlayElementId(const std::string & inXULURL);
 
         HMODULE mModuleHandle;
         Parser mParser;

@@ -13,9 +13,9 @@ namespace XULWin
     public:
         ChromeURL(const std::string & inURL);
 
-        const std::string & stringValue();
+        const std::string & stringValue() const;
 
-        std::string convertToLocalPath();
+        std::string convertToLocalPath() const;
 
     private:
         std::string mURL;

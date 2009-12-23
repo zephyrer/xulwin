@@ -12,13 +12,13 @@ namespace XULWin
     }
 
 
-    const std::string & ChromeURL::stringValue()
+    const std::string & ChromeURL::stringValue() const
     {
         return mURL;
     }
 
 
-    std::string ChromeURL::convertToLocalPath()
+    std::string ChromeURL::convertToLocalPath() const
     {
         static const std::string cChrome = "chrome://";
         if (mURL.empty() || mURL.size() < cChrome.size() || (mURL.find(cChrome) == std::string::npos))

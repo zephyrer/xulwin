@@ -43,13 +43,23 @@ namespace XULWin
 
     int MenuPopup::calculateWidth(SizeConstraint inSizeConstraint) const
     {
+        /**
+         * Popup-menus don't *need* any width in the layouting of the window,
+         * but it may assert its width in order to have the widgets that are aligned
+         * width the popup menu to have the same width as the menu itself.
+         * NOTE: this needs revision (since there will be situations where this behavior
+         *       is absolutely not desired.
+         */
         return calculateMaxChildWidth(inSizeConstraint);
     }
 
 
     int MenuPopup::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return calculateSumChildHeights(inSizeConstraint);
+        /**
+         * Popup menu don't ask for height in the layouting of the window.
+         */
+        return 0;
     }
 
         

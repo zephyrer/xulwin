@@ -24,7 +24,7 @@ namespace Windows
 	ToolbarElement::ParentMapping ToolbarElement::sInstancesParent;
 	ToolbarElement::InstanceMapping ToolbarElement::sInstances;
 
-	ToolbarElement::ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, RECT inRect, int inID) :
+	ToolbarElement::ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID) :
 		mEventHandler(inEventHandler),
 		mModuleHandle(inModuleHandle),
 		mParentWindow(inParentWindow),
@@ -52,7 +52,7 @@ namespace Windows
             | CCS_TOP
             | CCS_NODIVIDER
             | CCS_NORESIZE
-			,inRect.left,inRect.top,inRect.right-inRect.left,inRect.bottom-inRect.top,
+			,0, 0, 0, 0,
 			mParentWindow,
 			(HMENU)(INT_PTR)inID,
 			mModuleHandle,
@@ -707,7 +707,6 @@ namespace Windows
 				}
                 break;
 			}
-            // WM_COMMAND is handled by the Component class.
 		}
 		return CallWindowProc(pThis->mParentProc, hWnd, inMessage, wParam, lParam);
 	}

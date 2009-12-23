@@ -698,7 +698,10 @@ namespace Windows
 
     void setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled)
     {
-        if (0 == ::EnableMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED))
+        // The return value specifies the previous state of the menu item (it
+        // is either MF_DISABLED, MF_ENABLED, or MF_GRAYED). If the menu item
+        // does not exist, the return value is -1.
+        if (-1 == ::EnableMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED))
         {
             ReportError(getLastError(::GetLastError()));
         }
@@ -707,7 +710,9 @@ namespace Windows
 
     void setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked)
     {
-        if (0 == ::CheckMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED))
+        // The return value specifies the previous state of the menu item (either MF_CHECKED or
+        // MF_UNCHECKED). If the menu item does not exist, the return value is -1.
+        if (-1 == ::CheckMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED))
         {
             ReportError(getLastError(::GetLastError()));
         }

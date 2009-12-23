@@ -4268,12 +4268,7 @@ namespace XULWin
     {            
         if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
         {
-            RECT rect;
-            rect.top = 0;
-            rect.left = 0;
-            rect.bottom = Defaults::toolbarHeight();
-            rect.right = 1280; // it should stretch across he window. TODO: fix hack!
-            mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), rect, mCommandId.intValue()));
+            mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
             // No need to call subclass() here unless you need very specific toolbar messages.
@@ -4306,7 +4301,8 @@ namespace XULWin
 
     int Toolbar::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return calculateMaxChildHeight(inSizeConstraint);
+        int result = calculateMaxChildHeight(inSizeConstraint);
+        return result;
     }
 
 

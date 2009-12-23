@@ -31,7 +31,7 @@ namespace Windows
 			
 			typedef std::map<HWND, RECT> CustomWindowPositions;
 
-			ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, RECT inRect, int inID);
+			ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID);
 
 			~ToolbarElement();
 			

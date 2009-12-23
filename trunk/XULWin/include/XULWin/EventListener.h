@@ -65,8 +65,6 @@ namespace XULWin
         virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) { return 1; }
         virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
-        LRESULT processMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
-
         class MsgId
         {
         public:
@@ -109,7 +107,11 @@ namespace XULWin
         };
         typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;
 
+        LRESULT processMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
+        LRESULT processMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);
+
         bool connectToolbarButton(Element * inEl, const Action & inAction);
+        bool connectMenuItem(Element * inEl, const Action & inAction);
         bool handleToolbarCommand(const MessageCallbacks::iterator & inIterator, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
         MessageCallbacks mMessageCallbacks;

@@ -767,7 +767,6 @@ namespace XULWin
         void setBlockingDialog(Dialog * inDlg);
         Dialog * mActiveDialog;
         BoxLayouter mBoxLayouter;
-        Menu * mActiveMenu;
         bool mHasMessageLoop;
     };
 

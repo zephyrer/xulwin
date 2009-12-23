@@ -1,6 +1,8 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Component.h"
+#include "XULWin/ErrorReporter.h"
+#include "XULWin/MenuItemElement.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -52,9 +54,30 @@ namespace XULWin
     }
 
 
+    bool ScopedEventListener::connectMenuItem(Element * inEl, const Action & inAction)
+    {
+        if (0 == inEl->downcast<XULWin::MenuItemElement>())
+        {
+            // This is not a menu item.
+            return false;
+        }
+
+        XULWin::NativeComponent * nativeParent = NativeControl::GetThisOrParent(inEl->component());
+        if (!nativeParent)
+        {
+            ReportError("Received an event from a MenuItem element that has no native parent.");
+            return false;
+        }
+
+        connect(nativeParent->el(), WM_COMMAND, inEl->component()->commandId(), inAction);
+        return true;
+    }
+
+
     void ScopedEventListener::connect(Element * inEl, const Action & inAction)
     {
-        if (!connectToolbarButton(inEl, inAction))
+        if (!connectToolbarButton(inEl, inAction) && 
+            !connectMenuItem(inEl, inAction))
         {
             connect(inEl, WM_COMMAND, inAction);
         }
@@ -126,9 +149,10 @@ namespace XULWin
         {            
 	      	WORD id = LOWORD(wParam);
             XULWin::Windows::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
-            assert(item);
             if (!item)
             {
+                // The command was not sent from one of the toolbar buttons.
+                // It may have been sent from a menu item that has the toolbar as parent window.
                 return false;
             }
             XULWin::ToolbarButton * corrspondingToolbarButton(0);
@@ -173,16 +197,12 @@ namespace XULWin
     }
 
 
-    LRESULT ScopedEventListener::processMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-        LRESULT ret(0);
-        int commandId = inSender->component()->commandId();
-        if (inMessage == WM_COMMAND)
-        {
-            commandId = LOWORD(wParam);
-        }
+    LRESULT ScopedEventListener::processMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam)
+    {  
+        // Default return value is 1, meaning we didn't handle the message.
+        LRESULT ret(1);
 
-        MessageCallbacks::iterator it = mMessageCallbacks.find(MsgId(inSender, inMessage, commandId));
+        MessageCallbacks::iterator it = mMessageCallbacks.find(inMsgId);
         if (it != mMessageCallbacks.end())
         {
             if (!handleToolbarCommand(it, wParam, lParam, ret))
@@ -200,6 +220,18 @@ namespace XULWin
         return ret;
     }
 
+
+    LRESULT ScopedEventListener::processMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        int commandId = inSender->component()->commandId();
+        if (inMessage == WM_COMMAND)
+        {
+            commandId = LOWORD(wParam);
+        }
+        MsgId msg(inSender, inMessage, commandId);
+        return processMessage(msg, wParam, lParam);
+    }
+
         
     LRESULT ScopedEventListener::handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
     {
@@ -209,7 +241,7 @@ namespace XULWin
 
     LRESULT ScopedEventListener::handleMenuCommand(Element * inSender, WORD inMenuId)
     {
-        return processMessage(inSender, WM_COMMAND, 0, 0);
+        return processMessage(MsgId(inSender, WM_COMMAND, inMenuId), 0, 0);
     }
     
 

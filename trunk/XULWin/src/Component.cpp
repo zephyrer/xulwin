@@ -776,7 +776,7 @@ namespace XULWin
     {
         ComponentsById::iterator itById =sComponentsById.find(mCommandId.intValue());
         assert (itById !=sComponentsById.end());
-        if (itById !=sComponentsById.end())
+        if (itById != sComponentsById.end())
         {
            sComponentsById.erase(itById);
         }
@@ -954,39 +954,60 @@ namespace XULWin
         {
             case WM_COMMAND:
             {
-                WORD paramHi = HIWORD(wParam);
-                WORD paramLo = LOWORD(wParam);
-                
-                switch (paramLo)
+                if (lParam == 0) // menu or accelerator
                 {
-                    case IDOK:
-                    case IDCANCEL:
-                    case IDABORT:
-                    case IDRETRY:
-                    case IDIGNORE:
-                    case IDYES:
-                    case IDNO:
-                    case IDHELP:
-                    case IDTRYAGAIN:
-                    case IDCONTINUE:
+                    int menuId = LOWORD(wParam);
+                    if (Menu * menu = Menu::FindById(menuId))
                     {
-                        ComponentsByHandle::iterator focusIt = sComponentsByHandle.find(::GetFocus());
-                        if (focusIt != sComponentsByHandle.end())
-                        {
-                            focusIt->second->handleDialogCommand(paramLo, wParam, lParam);
-                        }
-                        break;
+                        // TODO: what should we do here
+                        assert("What is this?");
                     }
-                    default:
-                    {                        
-                        ComponentsById::iterator it = sComponentsById.find(LOWORD(wParam));
-                        if (it != sComponentsById.end())
-                        {
-                            it->second->handleCommand(wParam, lParam);
-                        }
-                        break;
+                    else if (MenuItem * menuItem = MenuItem::FindById(menuId))
+                    {
+                        handleMenuCommand(menuId);
+                        return 0;
                     }
                 }
+                else
+                {
+                    WORD paramHi = HIWORD(wParam);
+                    WORD paramLo = LOWORD(wParam);
+                
+                    switch (paramLo)
+                    {
+                        case IDOK:
+                        case IDCANCEL:
+                        case IDABORT:
+                        case IDRETRY:
+                        case IDIGNORE:
+                        case IDYES:
+                        case IDNO:
+                        case IDHELP:
+                        case IDTRYAGAIN:
+                        case IDCONTINUE:
+                        {
+                            NativeComponent * focus = FindByHandle(::GetFocus());
+                            if (focus)
+                            {
+                                focus->handleDialogCommand(paramLo, wParam, lParam);
+                                return 0;
+                            }
+                            break;
+                        }
+                        default:
+                        {                        
+                            // NOTE TO SELF: don't use "FindById(LOWORD(wParam))" here
+                            //               because that won't work for toolbar buttons.
+                            NativeComponent * sender = FindByHandle((HWND)lParam);
+                            if (sender)
+                            {
+                                sender->handleCommand(wParam, lParam);
+                                return 0;
+                            }
+                            break;
+                        }
+                    }
+                }                
                 break;
             }
             // These messages get forwarded to the child elements that produced them.
@@ -1031,9 +1052,15 @@ namespace XULWin
         }
     }
 
+    HWND gToolbarHandle(0);
     
     LRESULT CALLBACK NativeComponent::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
+        if (hWnd == gToolbarHandle)
+        {
+            int stop = 0;
+            stop++;
+        }
         ComponentsByHandle::iterator it = sComponentsByHandle.find(hWnd);
         if (it != sComponentsByHandle.end())
         {
@@ -1069,7 +1096,6 @@ namespace XULWin
         NativeComponent(0, inAttributesMapping),
         mBoxLayouter(this),
         mActiveDialog(0),
-        mActiveMenu(0),
         mHasMessageLoop(false)
     {
         mHandle = ::CreateWindowEx
@@ -1300,70 +1326,6 @@ namespace XULWin
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;
                 return 0;
             }
-            case WM_COMMAND:
-            {
-                if (lParam == 0) // menu or accelerator
-                {
-                    int menuId = LOWORD(wParam);
-                    if (Menu * menu = Menu::FindById(menuId))
-                    {
-                        if (mActiveMenu != menu)
-                        {
-                            mActiveMenu = menu;
-                            //showMenu(menu);
-                            return 0;
-                        }
-                        mActiveMenu = 0;
-                    }
-                    else if (MenuItem * menuItem = MenuItem::FindById(menuId))
-                    {
-                        handleMenuCommand(menuId);
-                        mActiveMenu = 0;
-                        return 0;
-                    }
-                }
-                else
-                {
-                    WORD paramHi = HIWORD(wParam);
-                    WORD paramLo = LOWORD(wParam);
-                
-                    switch (paramLo)
-                    {
-                        case IDOK:
-                        case IDCANCEL:
-                        case IDABORT:
-                        case IDRETRY:
-                        case IDIGNORE:
-                        case IDYES:
-                        case IDNO:
-                        case IDHELP:
-                        case IDTRYAGAIN:
-                        case IDCONTINUE:
-                        {
-                            NativeComponent * focus = FindByHandle(::GetFocus());
-                            if (focus)
-                            {
-                                focus->handleDialogCommand(paramLo, wParam, lParam);
-                                return 0;
-                            }
-                            break;
-                        }
-                        default:
-                        {                        
-                            // NOTE TO SELF: don't use "FindById(LOWORD(wParam))" here
-                            //               because that won't work for toolbar buttons.
-                            NativeComponent * sender = FindByHandle((HWND)lParam);
-                            if (sender)
-                            {
-                                sender->handleCommand(wParam, lParam);
-                                return 0;
-                            }
-                            break;
-                        }
-                    }
-                }                
-                break;
-            }
             // These messages get forwarded to the child elements that produced them.
             case WM_VSCROLL:
             case WM_HSCROLL:
@@ -1378,13 +1340,28 @@ namespace XULWin
             }
         }
 
+
+        bool handled = false;
+
         // Forward to event handlers
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
         for (; it != end; ++it)
         {
-            (*it)->handleMessage(el(), inMessage, wParam, lParam);
+            LRESULT result = (*it)->handleMessage(el(), inMessage, wParam, lParam);
+            if (0 == result)
+            {
+                handled = true;
+            }
         }
-        return ::DefWindowProc(handle(), inMessage, wParam, lParam);
+
+        if (handled)
+        {
+            return 0;
+        }
+        else
+        {
+            return Super::handleMessage(inMessage, wParam, lParam);
+        }
     }
 
     
@@ -4270,15 +4247,16 @@ namespace XULWin
         {
             mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
+            gToolbarHandle = mToolbar->handle();
             registerHandle();
-            // No need to call subclass() here unless you need very specific toolbar messages.
-            // In order to receive the WM_COMMAND you need to subclass the parent window, which has normally already been taken care of.
+            subclass();
         }
     }
 
 
     Toolbar::~Toolbar()
     {
+        unsubclass();
         unregisterHandle();
         mToolbar.reset();
     }

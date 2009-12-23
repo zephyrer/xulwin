@@ -573,8 +573,9 @@ namespace Windows
 				if (code == EN_SETFOCUS)
 				{
 					pThis->mEventHandler->onRequestFocus();
-				}
-				return 0;
+    				return 0;
+                }
+                break;
 			}
 		}
 		return CallWindowProc(pThis->mToolbarProc, hWnd, inMessage, wParam, lParam);

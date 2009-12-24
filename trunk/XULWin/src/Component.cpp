@@ -825,12 +825,8 @@ namespace XULWin
     
     void NativeComponent::invalidateRect() const
     {
-        // First update the children (if any).
-        Super::invalidateRect();
-
-        // Then update self.
-        // We do a erase background in case of children.
-        ::InvalidateRect(handle(), 0, getChildCount() > 0 ? TRUE : FALSE);
+        ::RedrawWindow(handle(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
+        ::InvalidateRect(handle(), NULL, TRUE);
     }
     
     
@@ -1311,10 +1307,6 @@ namespace XULWin
             {
                 rebuildLayout();
                 invalidateRect();
-
-                // This works too:
-                //::RedrawWindow(handle(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
-                //::InvalidateRect(handle(), NULL, TRUE);
                 return 0;
             }
             case WM_CLOSE:

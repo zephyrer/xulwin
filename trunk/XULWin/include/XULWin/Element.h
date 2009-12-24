@@ -153,6 +153,8 @@ namespace XULWin
             }
         }
 
+        Children & children() { return mChildren; }
+
         const Children & children() const { return mChildren; }
 
         bool addEventListener(EventListener * inEventListener);

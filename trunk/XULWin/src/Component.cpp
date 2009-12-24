@@ -3194,6 +3194,7 @@ namespace XULWin
     {
         mSelectedIndex = inSelectedIndex;
         rebuildLayout();
+        invalidateRect();
     }
 
 

@@ -540,14 +540,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Parser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\Parser.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\PopupMenu.cpp"
 				>
 			</File>
@@ -669,6 +661,22 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\WinUtils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\XULOverlayParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\XULOverlayParser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\XULParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\XULParser.h"
 				>
 			</File>
 			<File

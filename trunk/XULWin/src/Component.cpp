@@ -148,11 +148,15 @@ namespace XULWin
         size_t idx = 0;
         for (; idx != parent()->getChildCount(); ++idx)
         {
-            if (this == parent()->getChild(idx))
+            if (Component * child = parent()->getChild(idx))
             {
-                return idx;
+                if (this == child->downcast<ConcreteComponent>())
+                {
+                    return idx;
+                }
             }
         }
+        ReportError("Component failed to find itself in its parent's list of children.");
         return idx;
     }
 

@@ -3,7 +3,7 @@
 
 
 #include "XULWin/Fallible.h"
-#include "XULWin/Parser.h"
+#include "XULWin/XULParser.h"
 #include "XULWin/Windows.h"
 #include <string>
 
@@ -46,11 +46,11 @@ namespace XULWin
     private:
         static Fallible<std::string> sLocale;
 
-        static ElementPtr Parse(Parser & inParser, const std::string & inXULURL);
+        static ElementPtr Parse(AbstractXULParser & inParser, const std::string & inXULURL);
         std::string getOverlayElementId(const std::string & inXULURL);
 
         HMODULE mModuleHandle;
-        Parser mParser;
+        XULParser mParser;
         ElementPtr mRootElement;    
     };
 

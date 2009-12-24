@@ -2,6 +2,7 @@
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/XULOverlayParser.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/Path.h"
 #include "Poco/String.h"
@@ -11,7 +12,7 @@ namespace XULWin
 {
 
     typedef std::map<std::string, std::string> Prefs;
-
+ 
 
     bool parsePrefsLine(const std::string & inPrefsLine, std::pair<std::string, std::string> & outPref)
     {
@@ -144,7 +145,7 @@ namespace XULWin
 
     void XULRunner::run(const std::string & inApplicationIniFile)
     {
-        Parser parser;
+        XULParser parser;
         Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
@@ -155,7 +156,7 @@ namespace XULWin
     }
 
 
-    ElementPtr XULRunner::Parse(Parser & inParser, const std::string & inXULURL)
+    ElementPtr XULRunner::Parse(AbstractXULParser & inParser, const std::string & inXULURL)
     {
         ElementPtr result;
         try
@@ -173,7 +174,7 @@ namespace XULWin
     
     ElementPtr XULRunner::loadApplication(const std::string & inApplicationIniFile)
     {
-        Parser parser;
+        XULParser parser;
         mRootElement = Parse(parser, getMainXULFile(Windows::getCurrentDirectory()));
         return mRootElement;
     }
@@ -181,7 +182,7 @@ namespace XULWin
     
     ElementPtr XULRunner::loadXUL(const std::string & inXULURL)
     {
-        Parser parser;
+        XULParser parser;
         ChromeURL url(inXULURL);
         mRootElement = Parse(parser, url.convertToLocalPath());
         return mRootElement;
@@ -210,7 +211,7 @@ namespace XULWin
         Element * targetElement = mRootElement->getElementById(getOverlayElementId(inXULURL));
         if (targetElement)
         {
-            Parser parser(targetElement);
+            XULOverlayParser parser(targetElement);
             ChromeURL url(inXULURL);
             Parse(parser, url.convertToLocalPath());
         }

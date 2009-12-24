@@ -173,11 +173,12 @@ namespace XULWin
                 return false;
             }
 
-            handleMessage(MsgId(corrspondingToolbarButton->el()->parent(),
-                                WM_COMMAND,
-                                corrspondingToolbarButton->commandId()),
-                          wParam,
-                          lParam);
+            LRESULT ret(cUnhandled);
+            invokeCallbacks(MsgId(corrspondingToolbarButton->el()->parent(),
+                                  WM_COMMAND,
+                                  corrspondingToolbarButton->commandId()),
+                            wParam,
+                            lParam, ret);
             return true;
         }
         return false;

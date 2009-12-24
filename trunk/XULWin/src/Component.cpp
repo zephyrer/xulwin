@@ -4194,7 +4194,7 @@ namespace XULWin
     Rect Statusbar::clientRect() const
     {
         Rect clientRect(Super::clientRect());
-        // Substract from with one square to make place for the resize gripper widget
+        // Substract from width one square to make place for the resize gripper widget
         return Rect(clientRect.x(), clientRect.y(), clientRect.width() - Defaults::statusBarHeight(), clientRect.height());
     }
 

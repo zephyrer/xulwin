@@ -22,7 +22,7 @@ namespace XULWin
            
         /**
          * Create the element.
-         * Return true if element creation has succeeded or skipped.
+         * Return true if element creation was succesfully created, or skipped.
          * Return false if element creation has failed.
          */
         bool createElement(const std::string & inLocalName,
@@ -31,7 +31,7 @@ namespace XULWin
                            ElementPtr & outElement);
 
     private:
-        Element * mOverlayElement;
+        Element * mOverlayRoot;
     };
 
 

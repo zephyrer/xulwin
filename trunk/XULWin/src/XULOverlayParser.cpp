@@ -12,7 +12,7 @@ namespace XULWin
     
     
     XULOverlayParser::XULOverlayParser(Element * inOverlayElement) :
-        mOverlayElement(inOverlayElement)
+        mOverlayRoot(inOverlayElement)
     {
     }
     
@@ -21,21 +21,25 @@ namespace XULWin
     {
         if (mStack.empty())
         {
-            // OverlayElement has NULL parent.
+            // The root element naturally has no parent.
             return 0;
         }
-        else if (mStack.size() == 1)
+        if (mStack.size() == 1)
         {
-            // Dummy element takes overlay as parent.
-            return mStack.top();
+            // The <overlay> element is not included in the element hierachy.
+            return 0;
         }
         else if (mStack.size() == 2)
         {
-            // First real element gets overlay element as top.
-            return mOverlayElement;
+            // The second element on the stack is a reference to the element that gets overlaid in 
+            // the original document. Because this element already exists, we don't create it. And
+            // for its children we give the existing element as parent.
+            return mOverlayRoot;
         }
         else
         {
+            // We can revert to default behavior once we get past the overlay initialization
+            // elements.
             return mStack.top();
         }
     }
@@ -46,23 +50,26 @@ namespace XULWin
                                          const AttributesMapping & inAttributes,
                                          ElementPtr & outElement)
     {
-        if (mStack.size() >= 2)
+        if (mStack.size() < 2)
         {
+            // The <overlay> element and its dummy child must not be created.
+            // We return "true" here to indicate that we do want to continue
+            // parsing child elements.
+            return true;
+        }
+        else
+        {
+            // Create the child element. If the factory returns a nil element, then return 
+            // false to indicate that we failed to parse this element, and that all its child
+            // elements have to be ignored as well.
             outElement = ElementFactory::Instance().createElement(inLocalName, inParent, inAttributes);
             return outElement.get() != 0;
         }
-        // This element is not created, but we don't want to skip its children.
-        return true;
     }
 
 
     void XULOverlayParser::pushStack(ElementPtr inElement)
     {       
-        if (mStack.size() == 2)
-        {
-            assert(!mRootElement);
-            mRootElement = inElement;
-        }
         mStack.push(inElement.get());
     }
 

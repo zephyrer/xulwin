@@ -9,7 +9,6 @@
 namespace XULWin
 {
 
-
     template<class T>
     std::string ToString(const T & inValue)
     {
@@ -19,7 +18,7 @@ namespace XULWin
         }
         catch (boost::bad_lexical_cast &)
         {
-            ReportError("String2Int: lexical cast failed");
+            ReportError("ToString: lexical cast failed");
             return "";
         }
     }

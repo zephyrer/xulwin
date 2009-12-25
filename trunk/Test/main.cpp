@@ -26,10 +26,10 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 } 
 
 
-void startTest(XULWin::LuaBindingsTest & tester, const std::string & inPathToXULRunnerSamples)
+void startTest(HINSTANCE hInstance, XULWin::LuaBindingsTest & tester, const std::string & inPathToXULRunnerSamples)
 {
-    runConfigSample(inPathToXULRunnerSamples);
-    runImageViewerSample(inPathToXULRunnerSamples);    
+    runConfigSample(hInstance, inPathToXULRunnerSamples);
+    runImageViewerSample(hInstance, inPathToXULRunnerSamples);    
     tester.runXULSample("hello");
     tester.runXULSample("MainWindow");
     tester.runXULSample("listbox-simple");
@@ -71,6 +71,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     XULWin::LuaBindingsTest tester(hInstance, commandLine);
     
-    startTest(tester, commandLine);
+    startTest(hInstance, tester, commandLine);
     return 0;
 }

@@ -171,7 +171,7 @@ namespace Lua
     }
 
 
-    LRESULT XULRunnerWithLua::handleCommand(Element * inSender, WORD inNotificationCode)
+    LRESULT XULRunnerWithLua::handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
     {
         std::string oncommand = inSender->getAttribute("oncommand");
         if (!oncommand.empty())

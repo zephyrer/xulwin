@@ -51,7 +51,7 @@ namespace Lua
 
     private:
 
-        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode);        
+        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
         virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);        
         virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
         virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);

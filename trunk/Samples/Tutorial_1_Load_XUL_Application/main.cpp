@@ -56,7 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::Windows::CurrentDirectoryChanger cd(commandLine);
 
     // Now that we have the path to the app, let's try to run it.
-    XULWin::XULRunner xulRunner;
+    XULWin::XULRunner xulRunner(hInstance);
       
     // We want to anticipate potential errors occuring during
     // the parsing of the XUL file. A local ErrorCatcher object

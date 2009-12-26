@@ -1119,7 +1119,7 @@ namespace XULWin
 
 
     class Box : public NativeControl,
-                      public BoxLayouter::ContentProvider
+                public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;

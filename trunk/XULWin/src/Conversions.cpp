@@ -60,7 +60,7 @@ namespace XULWin
         }
         catch (std::exception &)
         {
-            ReportError("Int2String: lexical cast failed");
+            ReportError("String2Int: lexical cast failed");
         }
         return result;
     }
@@ -78,7 +78,7 @@ namespace XULWin
         }
         catch (std::exception &)
         {
-            ReportError("Int2String: lexical cast failed");
+            ReportError("String2Float: lexical cast failed");
         }
         return result;
     }

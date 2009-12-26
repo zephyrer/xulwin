@@ -1,0 +1,19 @@
+-- Element:init
+-- Element:type
+-- Element:parent
+-- Element:getAttribute
+-- Element:getDocumentAttribute
+-- Element:getStyle
+-- Element:setAttribute
+-- Element:setInnerText
+-- Element:innerText
+-- Element:getElementById
+-- Element:children
+-- Element:addEventListener
+-- Element:removeEventListener
+-- Element:impl
+-- Element:addChild
+-- Element:removeChild
+
+-- el = XULWin.loadApplication("hello")
+-- XULWin.showModal(el)

@@ -1,0 +1,1 @@
+pref("toolkit.defaultChromeURI", "chrome://listbox-simple/content/listbox-simple.xul");

@@ -4,7 +4,6 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/ElementCreationSupport.h"
 #include "XULWin/Component.h"
 #include "XULWin/GdiplusLoader.h"
 #include "Poco/Path.h"

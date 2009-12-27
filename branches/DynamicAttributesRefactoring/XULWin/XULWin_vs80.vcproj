@@ -248,15 +248,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\DynamicAttribute.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\DynamicAttribute.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Element.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\include\XULWin\Element.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\XULWin\ElementCreationSupport.h"
 				>
 			</File>
 			<File

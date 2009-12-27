@@ -4,6 +4,7 @@
 
 #include "XULWin/AttributeController.h"
 #include "XULWin/Conversions.h"
+#include "XULWin/DynamicAttribute.h"
 #include "XULWin/BoxLayouter.h"
 #include "XULWin/Element.h"
 #include "XULWin/EventListener.h"
@@ -345,7 +346,8 @@ namespace XULWin
     /**
      * ConcreteComponent is the base class for non-decorator components.
      */
-    class ConcreteComponent : public Component
+    class ConcreteComponent : public Component,
+                              public AttributeContainer
     {
     public:
         ConcreteComponent(Component * inParent);
@@ -682,8 +684,7 @@ namespace XULWin
     class Menu;
 
     class Window : public NativeComponent,
-                   public BoxLayouter::ContentProvider,
-                   public virtual TitleController
+                   public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeComponent Super;
@@ -699,11 +700,6 @@ namespace XULWin
 
         // BoxLayouter
         virtual Align getAlign() const;
-
-        // TitleController methods
-        virtual std::string getTitle() const;
-
-        virtual void setTitle(const std::string & inTitle);
 
         virtual const Component * getChild(size_t idx) const;
 

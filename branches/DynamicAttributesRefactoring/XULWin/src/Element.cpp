@@ -324,7 +324,7 @@ namespace XULWin
     {
         AttributesMapping attr;
         static Window fDialogHelper(attr);
-        fDialogHelper.setTitle("XULWin::DialogHelper");
+        fDialogHelper.setAttr<Title>("XULWin::DialogHelper");
         return &fDialogHelper;
     }
 

@@ -60,7 +60,7 @@ namespace XULWin
 
         static int treeItemHeight() { return 16; }
 
-        static int statusBarHeight() { return 14; }
+        static int statusBarHeight() { return 23; }
 
         static int toolbarHeight() { return 23; }
 

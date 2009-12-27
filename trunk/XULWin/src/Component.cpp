@@ -4171,7 +4171,9 @@ namespace XULWin
 
     int Statusbar::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::statusBarHeight();
+        int ownHeight = Windows::getWindowHeight(handle());
+        int maxChildHeight = calculateMaxChildHeight(inSizeConstraint);
+        return std::max<int>(ownHeight, maxChildHeight);
     }
 
 
@@ -4191,7 +4193,7 @@ namespace XULWin
     {
         Rect clientRect(Super::clientRect());
         // Substract from width one square to make place for the resize gripper widget
-        return Rect(clientRect.x(), clientRect.y(), clientRect.width() - Defaults::statusBarHeight(), clientRect.height());
+        return Rect(clientRect.x(), clientRect.y(), clientRect.width() - Windows::getWindowHeight(handle()), clientRect.height());
     }
 
 

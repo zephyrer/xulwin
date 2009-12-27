@@ -1,5 +1,6 @@
 #include "XULWin/Element.h"
 #include "XULWin/ElementCreationSupport.h"
+#include "XULWin/ComponentFactory.h"
 #include "XULWin/ElementFactory.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
@@ -359,7 +360,7 @@ namespace XULWin
     ButtonElement::ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ButtonElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<Button>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, Button>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -367,7 +368,7 @@ namespace XULWin
     LabelElement::LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(LabelElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<Label>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, Label>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -375,7 +376,7 @@ namespace XULWin
     DescriptionElement::DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(DescriptionElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<Description>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, Description>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -390,7 +391,7 @@ namespace XULWin
     TextElement::TextElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TextElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<Label>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, Label>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -398,7 +399,7 @@ namespace XULWin
     TextBoxElement::TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TextBoxElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<TextBox>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, TextBox>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -406,7 +407,7 @@ namespace XULWin
     CheckBoxElement::CheckBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(CheckBoxElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<CheckBox>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, CheckBox>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -414,7 +415,7 @@ namespace XULWin
     BoxElement::BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(BoxElement::Type(),
                 inParent,
-                CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
+                ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -422,7 +423,7 @@ namespace XULWin
     HBoxElement::HBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(HBoxElement::Type(),
                 inParent,
-                CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
+                ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
         component()->setOrient(Horizontal);
     }
@@ -430,7 +431,8 @@ namespace XULWin
 
     VBoxElement::VBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(VBoxElement::Type(),
-                inParent,CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
+                inParent,
+                ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
         component()->setOrient(Vertical);
     }
@@ -439,7 +441,7 @@ namespace XULWin
     MenuListElement::MenuListElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuListElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<MenuList>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, MenuList>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -447,7 +449,7 @@ namespace XULWin
     SeparatorElement::SeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(SeparatorElement::Type(),
                 inParent,
-                new MarginDecorator(CreateControl<Separator>(inParent, inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, Separator>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -460,7 +462,7 @@ namespace XULWin
     SpacerElement::SpacerElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(SpacerElement::Type(),
                 inParent,
-                new Spacer(inParent->component(), inAttributesMapping))
+                ComponentFactory::Instance().createComponent<Decorator, Spacer>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -473,7 +475,7 @@ namespace XULWin
     MenuButtonElement::MenuButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuButtonElement::Type(),
                 inParent,
-                new MarginDecorator(new MenuButton(inParent->component(), inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, MenuButton>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -486,7 +488,7 @@ namespace XULWin
     GridElement::GridElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(GridElement::Type(),
                 inParent,
-                CreateContainer<VirtualGrid, Grid>(inParent, inAttributesMapping))
+                ComponentFactory::Instance().createContainer<Decorator, VirtualGrid, Grid>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -499,7 +501,7 @@ namespace XULWin
     RowsElement::RowsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RowsElement::Type(),
                 inParent,
-                new Rows(inParent->component(), inAttributesMapping))
+                ComponentFactory::Instance().createComponent<Decorator, Rows>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -512,7 +514,7 @@ namespace XULWin
     ColumnsElement::ColumnsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ColumnsElement::Type(),
                 inParent,
-                new Columns(inParent->component(), inAttributesMapping))
+                ComponentFactory::Instance().createComponent<Decorator, Columns>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -525,7 +527,7 @@ namespace XULWin
     RowElement::RowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RowElement::Type(),
                 inParent,
-                new Row(inParent->component(), inAttributesMapping))
+                ComponentFactory::Instance().createComponent<Decorator, Row>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -538,7 +540,7 @@ namespace XULWin
     ColumnElement::ColumnElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ColumnElement::Type(),
                 inParent,
-                new Column(inParent->component(), inAttributesMapping))
+                ComponentFactory::Instance().createComponent<Decorator, Column>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -551,7 +553,7 @@ namespace XULWin
     RadioGroupElement::RadioGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RadioGroupElement::Type(),
                 inParent,
-                new Decorator(new RadioGroup(inParent->component(), inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<Decorator, RadioGroup>(inParent->component(), inAttributesMapping))
     { 
     }
 
@@ -564,7 +566,7 @@ namespace XULWin
     RadioElement::RadioElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(RadioElement::Type(),
                 inParent,
-                new MarginDecorator(new Radio(inParent->component(), inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, Radio>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -577,7 +579,7 @@ namespace XULWin
     ProgressMeterElement::ProgressMeterElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ProgressMeterElement::Type(),
                 inParent,
-                new MarginDecorator(new ProgressMeter(inParent->component(), inAttributesMapping)))
+                ComponentFactory::Instance().createComponent<MarginDecorator, ProgressMeter>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -590,7 +592,7 @@ namespace XULWin
     DeckElement::DeckElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(DeckElement::Type(),
                 inParent,
-                new Decorator(new Deck(inParent->component(), inAttributesMapping)))
+                ComponentFactory::Instance().createContainer<Decorator, Deck, Deck>(inParent->component(), inAttributesMapping))
     {
     }
 
@@ -616,7 +618,7 @@ namespace XULWin
     TabBoxElement::TabBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TabBoxElement::Type(),
                 inParent,
-                CreateContainer<VirtualBox, Box>(inParent, inAttributesMapping))
+                ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     { 
     }
 

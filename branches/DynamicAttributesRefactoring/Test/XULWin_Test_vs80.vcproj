@@ -63,6 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib GdiPlus.lib lua51.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"

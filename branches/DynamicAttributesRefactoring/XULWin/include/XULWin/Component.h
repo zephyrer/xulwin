@@ -1177,8 +1177,7 @@ namespace XULWin
     };
 
 
-    class MenuList : public NativeControl,
-                     public MenuPopupContainer
+    class MenuList : public NativeControl
     {
     public:
         typedef NativeControl Super;
@@ -1192,8 +1191,6 @@ namespace XULWin
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
         virtual void move(int x, int y, int w, int h);
-
-        virtual void showPopupMenu(RECT inToolbarButtonRect);
 
         virtual void onContentChanged();
 
@@ -1369,7 +1366,7 @@ namespace XULWin
 
 
     class Deck : public VirtualComponent,
-                       public virtual SelectedIndexController
+                 public virtual SelectedIndexController
     {
     public:
         typedef VirtualComponent Super;

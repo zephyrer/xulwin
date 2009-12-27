@@ -2413,12 +2413,6 @@ namespace XULWin
         
         NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
     }
-
-
-    void MenuList::showPopupMenu(RECT inToolbarButtonRect)
-    {
-        // no implementation needed
-    }
     
     
     void MenuList::onContentChanged()

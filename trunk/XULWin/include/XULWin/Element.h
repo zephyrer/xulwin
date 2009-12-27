@@ -106,6 +106,8 @@ namespace XULWin
         // highly volatile, use at your own risk
         virtual void removeChild(const Element * inChild);
 
+        virtual void removeAllChildren();
+
         const std::string & type() const;
 
         Element * parent() const { return mParent; }

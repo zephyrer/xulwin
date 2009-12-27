@@ -366,7 +366,6 @@ namespace XULWin
         {
             return std::max<int>(mCSSWidth.getValue(), getWidth(Minimum));
         }
-
         return getWidth(Preferred);
     }
     

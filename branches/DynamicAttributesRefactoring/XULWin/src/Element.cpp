@@ -1,5 +1,4 @@
 #include "XULWin/Element.h"
-#include "XULWin/ElementCreationSupport.h"
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/ElementFactory.h"
 #include "XULWin/Decorator.h"

@@ -3,7 +3,6 @@
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
-#include "XULWin/ElementCreationSupport.h"
 
 
 namespace XULWin

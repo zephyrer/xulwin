@@ -257,7 +257,6 @@ namespace XULWin
                 ::EndPaint(handle(), &ps);
                 return 0;
             }
-
         }
         return Super::handleMessage(inMessage, wParam, lParam);
     }

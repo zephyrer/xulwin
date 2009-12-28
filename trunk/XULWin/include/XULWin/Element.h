@@ -29,7 +29,7 @@ namespace XULWin
      * The Element class provides an interface to the XML aspect
      * of the XUL user interface. It contains the hierarchy of the
      * XUL elements and provides string-based getters and setters
-     * for them.
+     * for the attributes.
      * Each Element object refers to its Component object. The Component object
      * implements the native backend and provides typed getters and setters
      * using a system of AttributeController objects.
@@ -44,18 +44,15 @@ namespace XULWin
          * - Element constructor
          * - Construction of any decorators for Component
          * - Component constructor
-         * - Element::initAttributeControllers
-         * - Element::setAttributes
-         * - Element::initStyleControllers
-         * - Element::setStyles
-         * - virtual Element::addChild (add self to parent)
-         * - virtual Component::onChildAdded notification
+         * - Initialize XUL attributes
+         * - Initialize CSS styles (from the XUL "style" attribute)
+         * - Register the element as a child of the parent element.
          * 
          * PART 2: Creation and initialization of any child elements.
          *
          * PART 3: Parser finds CLOSING tag of the element:
-         * - virtual Element::init
-         * - virtual Component::init
+         * - Call Element::init().
+         * - Call Component::init().
          * 
          */  
         template<class ElementType>

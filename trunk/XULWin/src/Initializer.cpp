@@ -28,7 +28,6 @@ namespace XULWin
     {
         Windows::CommonControlsInitializer mInitCommonControls;
         ErrorReporter::Initialize();
-        ConditionalState::Initialize(inModuleHandle);
         Window::Register(inModuleHandle);
         Dialog::Register(inModuleHandle);
         ElementFactory::Instance().registerElement<WindowElement>();
@@ -94,6 +93,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<ListHeadElement>();
         ElementFactory::Instance().registerElement<ListHeaderElement>();
         ElementFactory::Instance().registerElement<OverlayElement>();
+        ConditionalState::Initialize(inModuleHandle);
     }
 
 

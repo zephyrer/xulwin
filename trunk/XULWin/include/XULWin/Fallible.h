@@ -33,17 +33,18 @@ namespace XULWin
         }
 
 
-        // This method allows setting a default value without making the
-        // object valid. The motivation behind this that in case a value
-        // was queried from a object in fault state, that it would then
-        // be better to return a default value than an uninitialized one.
-        //
-        // Fallible number<int>(0);
-        // number.setInvalid();
-        // int n = number; // 0 returned instead of garbage
-        //
-        // I prefer above approach to raising exceptions.
-        //
+        /**
+         * setInvalid()
+         *
+         * This method allows marking an object as invalid even though
+         * it has a value set. The motivation behind this is to have
+         * the object return a default value instead of garbage when
+         * queried in fault state.
+         *
+         * Fallible number<int>(0); // 0 as default value, object is valid.
+         * number.setInvalid(); // Mark as invalid.
+         * int n = number; // 0 returned instead of garbage
+         */
         void setInvalid()
         {
             mValid = false;

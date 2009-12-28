@@ -1,6 +1,7 @@
 #include "XULWin/EventListener.h"
-#include "XULWin/Decorator.h"
 #include "XULWin/ConditionalState.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/ErrorReporter.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -17,13 +18,14 @@ namespace XULWin
     }
     
     
-    ScopedConditional::ScopedConditional(Element * inElement)
-        : mImpl(new Impl(inElement))
+    ScopedConditional::ScopedConditional(Element * inElement) :
+        mImpl(new Impl(inElement))
     {
     }
 
     
-    ScopedConditional::ScopedConditional(const ScopedConditional & rhs)
+    ScopedConditional::ScopedConditional(const ScopedConditional & rhs) :
+        mImpl(0)
     {
         copy(rhs);
     }
@@ -48,8 +50,11 @@ namespace XULWin
     
     void ScopedConditional::copy(const ScopedConditional & rhs)
     {
-        mImpl = rhs.mImpl;
-        mImpl->mRefCount++;
+        if (rhs.mImpl)
+        {
+            mImpl = rhs.mImpl;
+            mImpl->mRefCount++;
+        }
     }
 
     
@@ -124,6 +129,11 @@ namespace XULWin
                                                   const std::string & inValueIfConditionIsTrue,
                                                   const std::string & inValueIfConditionIsFalse)
     {
+        if (!inElement)
+        {
+            ReportError("Can't create conditional for the '" + inAttributeName + "' attribute because given Element is nil.");
+            return ScopedConditional();
+        }
         mMapping[inElement].push_back(Conditional(inCondition,
                                                   inAttributeName,
                                                   inValueIfConditionIsTrue,

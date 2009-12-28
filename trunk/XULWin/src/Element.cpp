@@ -83,7 +83,12 @@ namespace XULWin
                 return result;
             }
         };
-        return Helper::findChildById(children(), inId);
+        Element * result = Helper::findChildById(children(), inId);
+        if (!result)
+        {
+            ReportError("Element with id '" + inId + "' was not found.");
+        }
+        return result;
     }
     
     

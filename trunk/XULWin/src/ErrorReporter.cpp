@@ -125,7 +125,7 @@ namespace XULWin
             const Error & error = errors()[idx];
             if (idx > 0)
             {
-                ss << "Followed by: ";
+                ss << " Followed by: ";
             }
             ss << error.message();
             

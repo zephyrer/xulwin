@@ -686,8 +686,8 @@ namespace XULWin
     class Menu;
 
     class Window : public NativeComponent,
-                   public BoxLayouter::ContentProvider,
-                   public virtual TitleController
+                   public virtual TitleController,
+                   public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeComponent Super;
@@ -794,7 +794,6 @@ namespace XULWin
 
         // BoxLayouter
         virtual Align getAlign() const;
-
 
         // TitleController methods
         virtual std::string getTitle() const;
@@ -1181,8 +1180,7 @@ namespace XULWin
     };
 
 
-    class MenuList : public NativeControl,
-                     public MenuPopupContainer
+    class MenuList : public NativeControl
     {
     public:
         typedef NativeControl Super;
@@ -1196,8 +1194,6 @@ namespace XULWin
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
         virtual void move(int x, int y, int w, int h);
-
-        virtual void showPopupMenu(RECT inToolbarButtonRect);
 
         virtual void onContentChanged();
 
@@ -1373,7 +1369,7 @@ namespace XULWin
 
 
     class Deck : public VirtualComponent,
-                       public virtual SelectedIndexController
+                 public virtual SelectedIndexController
     {
     public:
         typedef VirtualComponent Super;

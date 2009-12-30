@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)../XULWin/include&quot;;&quot;$(ProjectDir)../LuaBindings/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;;&quot;$(SolutionDir)XULWin/include&quot;;&quot;$(SolutionDir)LuaBindings/include&quot;;&quot;$(SolutionDir)3rdParty/Lua/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -113,7 +113,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)../XULWin/include&quot;;&quot;$(ProjectDir)../LuaBindings/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;;&quot;$(SolutionDir)XULWin/include&quot;;&quot;$(SolutionDir)LuaBindings/include&quot;;&quot;$(SolutionDir)3rdParty/Lua/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"

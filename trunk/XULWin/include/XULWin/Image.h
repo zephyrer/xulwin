@@ -9,9 +9,9 @@ namespace XULWin
 {
 
     class Image : public NativeControl,
-                      public virtual SrcController,
-                      public virtual KeepAspectRatioController,
-                      public GdiplusLoader
+                  public virtual SrcController,
+                  public virtual KeepAspectRatioController,
+                  public GdiplusLoader
     {
     public:
         typedef NativeControl Super;

@@ -2,12 +2,13 @@
 #define BOXLAYOUTER_H_INCLUDED
 
 
-#include "XULWin/Element.h"
-#include "XULWin/Layout.h"
+#include "XULWin/Enums.h"
+#include "XULWin/Rect.h"
 
 
 namespace XULWin
 {
+	class Component;
 
     class BoxLayouter
     {

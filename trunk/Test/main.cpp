@@ -59,7 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     std::string commandLine(unquote(lpCmdLine));
     if (commandLine.empty())
     {
-        ::MessageBox(0, TEXT("Expected argument: path to the 'xulrunnersamples' directory."), 0, MB_OK);
+        ::MessageBox(0, TEXT("Expected argument: path to the 'xulrunnersamples' directory.\nIn \"Project Settings\" -> \"Debugging\" -> \"Command Arguments\"\nset the value \"$(SolutionDir)xulrunnersamples\"."), 0, MB_OK);
         return 1;
     }
 

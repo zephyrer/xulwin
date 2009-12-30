@@ -1134,10 +1134,6 @@ namespace XULWin
 
     bool Window::initAttributeControllers()
     {
-
-        Title::Getter getter = boost::bind(&Windows::getWindowText, handle());
-        Title::Setter setter = boost::bind(&Windows::setWindowText, handle(), _1);
-        registerAttribute<Title>(getter, setter);
         return Super::initAttributeControllers();
     }
     

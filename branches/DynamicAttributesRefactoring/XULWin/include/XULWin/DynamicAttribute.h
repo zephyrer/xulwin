@@ -70,7 +70,7 @@ namespace XULWin
         {
         }
 
-        RefType get() const
+        ValueType get() const
         {
             return mGetter();
         }
@@ -91,8 +91,8 @@ namespace XULWin
         }
 
     private:
-        boost::function<RefType()> mGetter;
-        boost::function<void(RefType)> mSetter;
+        Getter mGetter;
+        Setter mSetter;
     };
 
 
@@ -176,7 +176,7 @@ namespace XULWin
         }
 
         template<class T>
-        typename T::RefType getAttr() const
+        typename T::ValueType getAttr() const
         {
             const T & attr = attribute<T>();
             return attr.get();

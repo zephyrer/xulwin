@@ -1,11 +1,12 @@
 #include "XULWin/Element.h"
+#include "XULWin/Component.h"
 #include "XULWin/ComponentFactory.h"
-#include "XULWin/ElementFactory.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/Component.h"
-#include "XULWin/ToolbarCustomWindowDecorator.h"
+#include "XULWin/ElementFactory.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/ToolbarCustomWindowDecorator.h"
+#include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
 
 
@@ -287,6 +288,10 @@ namespace XULWin
                 inParent,
                 new Window(inAttributesMapping))
     {
+        Window * win = component()->downcast<Window>();
+        win->registerAttribute<Title>(boost::bind(&Windows::getWindowText, win->handle()),
+                                      boost::bind(&Windows::setWindowText, win->handle(), _1));
+        std::string title = win->getAttr<Title>();
     }
 
 

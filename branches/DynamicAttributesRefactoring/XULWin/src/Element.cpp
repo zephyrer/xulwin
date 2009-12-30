@@ -288,10 +288,6 @@ namespace XULWin
                 inParent,
                 new Window(inAttributesMapping))
     {
-        Window * win = component()->downcast<Window>();
-        win->registerAttribute<Title>(boost::bind(&Windows::getWindowText, win->handle()),
-                                      boost::bind(&Windows::setWindowText, win->handle(), _1));
-        std::string title = win->getAttr<Title>();
     }
 
 
@@ -329,7 +325,6 @@ namespace XULWin
     {
         AttributesMapping attr;
         static Window fDialogHelper(attr);
-        fDialogHelper.setAttr<Title>("XULWin::DialogHelper");
         return &fDialogHelper;
     }
 

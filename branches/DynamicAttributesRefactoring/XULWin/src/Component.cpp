@@ -3,7 +3,6 @@
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/DynamicAttribute.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Layout.h"
 #include "XULWin/Menu.h"
@@ -629,12 +628,6 @@ namespace XULWin
             }
             return true;
         }
-        Attribute * attr;
-        if (getAttr(inName, attr))
-        {
-            attr->setStringValue(inValue);
-            return true;
-        }
         return false;
     }
 
@@ -1134,6 +1127,7 @@ namespace XULWin
 
     bool Window::initAttributeControllers()
     {
+		setAttributeController("title", static_cast<TitleController*>(this));
         return Super::initAttributeControllers();
     }
     
@@ -1198,6 +1192,18 @@ namespace XULWin
     {
         return Super::getAlign();
     }
+	
+	
+	std::string Window::getTitle() const
+	{
+		return Windows::getWindowText(handle());
+	}
+
+    
+	void Window::setTitle(const std::string & inTitle)
+	{
+		Windows::setWindowText(handle(), inTitle);
+	}
 
 
     const Component * Window::getChild(size_t idx) const

@@ -654,8 +654,8 @@ namespace XULWin
         setStyleController(CSSWidthController::PropertyName(), static_cast<CSSWidthController*>(this));
         setStyleController(CSSHeightController::PropertyName(), static_cast<CSSHeightController*>(this));
         setStyleController(CSSMarginController::PropertyName(), static_cast<CSSMarginController*>(this));
-        setStyleController(CSSFillController::PropertyName(), static_cast<CSSFillController*>(this));
-        setStyleController(CSSStrokeController::PropertyName(), static_cast<CSSStrokeController*>(this));
+        setStyleController(CSS_SVG_FillController::PropertyName(), static_cast<CSS_SVG_FillController*>(this));
+        setStyleController(CSS_SVG_StrokeController::PropertyName(), static_cast<CSS_SVG_StrokeController*>(this));
         return true;
     }
 
@@ -914,6 +914,14 @@ namespace XULWin
         }
         return false;
     }
+
+
+	bool NativeComponent::getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH)
+	{
+		// No custom coloring.
+		// Subclasses may override this method.
+		return false;
+	}
     
     
     void NativeComponent::handleCommand(WPARAM wParam, LPARAM lParam)
@@ -1022,6 +1030,17 @@ namespace XULWin
                 }
                 break;
             }
+			case WM_CTLCOLORSTATIC:
+			{
+				HDC hDC = (HDC)wParam;
+				HWND hSender = (HWND)lParam;
+				HBRUSH hBrush;
+				if (getCustomBrush(hDC, hSender, hBrush))
+				{
+					return (BOOL)hBrush;
+				}
+				break;
+			}
         }
 
         // Forward to event handlers
@@ -1051,15 +1070,9 @@ namespace XULWin
         }
     }
 
-    HWND gToolbarHandle(0);
     
     LRESULT CALLBACK NativeComponent::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        if (hWnd == gToolbarHandle)
-        {
-            int stop = 0;
-            stop++;
-        }
         ComponentsByHandle::iterator it = sComponentsByHandle.find(hWnd);
         if (it != sComponentsByHandle.end())
         {
@@ -4240,7 +4253,6 @@ namespace XULWin
         {
             mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
-            gToolbarHandle = mToolbar->handle();
             registerHandle();
             subclass();
         }

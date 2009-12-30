@@ -105,12 +105,12 @@ namespace XULWin
 
         virtual void setCSSMargin(int inTop, int inLeft, int inRight, int inBottom);
 
-        // CSSFillController methods
+        // CSS_SVG_FillController methods
         virtual void setCSSFill(const RGBColor & inColor);
 
         virtual const RGBColor & getCSSFill() const;
 
-        // CSSStrokeController methods
+        // CSS_SVG_StrokeController methods
         virtual void setCSSStroke(const RGBColor & inColor);
 
         virtual const RGBColor & getCSSStroke() const;

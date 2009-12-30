@@ -227,7 +227,7 @@ namespace XULWin
         setStyleController("y", static_cast<CSSYController*>(this));
         setStyleController("width", static_cast<CSSWidthController*>(this));
         setStyleController("height", static_cast<CSSHeightController*>(this));
-        setStyleController("fill", static_cast<CSSFillController*>(this));
+        setStyleController("fill", static_cast<CSS_SVG_FillController*>(this));
         return Super::initStyleControllers();
     }
 

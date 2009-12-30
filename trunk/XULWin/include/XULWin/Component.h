@@ -85,10 +85,10 @@ namespace XULWin
                       public virtual FillController,
                       public virtual StrokeController,
                       public virtual StrokeWidthController,
-                      public virtual CSSFillController,
+                      public virtual CSS_SVG_FillController,
                       public virtual CSSHeightController,
                       public virtual CSSMarginController,
-                      public virtual CSSStrokeController,
+                      public virtual CSS_SVG_StrokeController,
                       public virtual CSSWidthController,
                       public virtual CSSXController,
                       public virtual CSSYController,
@@ -190,12 +190,12 @@ namespace XULWin
 
         virtual void setCSSMargin(int inTop, int inLeft, int inRight, int inBottom) = 0;
 
-        // CSSFillController methods
+        // CSS_SVG_FillController methods
         virtual void setCSSFill(const RGBColor & inColor) = 0;
 
         virtual const RGBColor & getCSSFill() const = 0;
 
-        // CSSStrokeController methods
+        // CSS_SVG_StrokeController methods
         virtual void setCSSStroke(const RGBColor & inColor) = 0;
 
         virtual const RGBColor & getCSSStroke() const = 0;
@@ -440,12 +440,12 @@ namespace XULWin
 
         virtual void setCSSMargin(int inTop, int inLeft, int inRight, int inBottom);
 
-        // CSSFillController methods
+        // CSS_SVG_FillController methods
         virtual void setCSSFill(const RGBColor & inColor);
 
         virtual const RGBColor & getCSSFill() const;
 
-        // CSSStrokeController methods
+        // CSS_SVG_StrokeController methods
         virtual void setCSSStroke(const RGBColor & inColor);
 
         virtual const RGBColor & getCSSStroke() const;
@@ -620,7 +620,11 @@ namespace XULWin
 
         virtual void setLabel(const std::string & inLabel);
 
+		// HiddenController methods
         virtual void setHidden(bool inHidden);
+
+		// Override component coloring.
+		virtual bool getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH);
 
         static void SetModuleHandle(HMODULE inModule);
 

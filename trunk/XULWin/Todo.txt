@@ -1,4 +1,6 @@
 Tutorials
+- Implement background-color and stroke CSS attributes
+
 - Custom XUL elements
 - Scripting XUL using Lua
 

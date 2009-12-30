@@ -108,7 +108,7 @@ namespace XULWin
     };
 
 
-    class CSSFillController : public StyleController
+    class CSS_SVG_FillController : public StyleController
     {
     public:
         static const char * PropertyName() { return "fill"; }
@@ -123,7 +123,7 @@ namespace XULWin
     };
 
 
-    class CSSStrokeController : public StyleController
+    class CSS_SVG_StrokeController : public StyleController
     {
     public:
         static const char * PropertyName() { return "stroke"; }

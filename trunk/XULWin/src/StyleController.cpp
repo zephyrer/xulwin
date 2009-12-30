@@ -140,13 +140,13 @@ namespace XULWin
     }
 
 
-    void CSSFillController::get(std::string & outValue)
+    void CSS_SVG_FillController::get(std::string & outValue)
     {
         outValue = RGBColor2String(getCSSFill());
     }
 
 
-    void CSSFillController::set(const std::string & inValue)
+    void CSS_SVG_FillController::set(const std::string & inValue)
     {
         RGBColor result;
         if (String2RGBColor(inValue, result))
@@ -156,13 +156,13 @@ namespace XULWin
     }
 
 
-    void CSSStrokeController::get(std::string & outValue)
+    void CSS_SVG_StrokeController::get(std::string & outValue)
     {
         outValue = RGBColor2String(getCSSStroke());
     }
 
 
-    void CSSStrokeController::set(const std::string & inValue)
+    void CSS_SVG_StrokeController::set(const std::string & inValue)
     {
         RGBColor result;
         if (String2RGBColor(inValue, result))

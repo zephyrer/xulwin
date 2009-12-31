@@ -320,6 +320,28 @@ namespace XULWin
         }
     }
 
+
+    void Decorator::setCSSBackgroundColor(const RGBColor & inColor)
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            mDecoratedElement->setCSSBackgroundColor(inColor);
+        }
+    }
+
+
+    RGBColor Decorator::getCSSBackgroundColor() const
+    {
+        assert(mDecoratedElement);
+        if (mDecoratedElement)
+        {
+            return mDecoratedElement->getCSSBackgroundColor();
+        }
+        RGBColor fallback;(0, 0, 0);
+        return fallback;
+    }
+
     
     void Decorator::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {

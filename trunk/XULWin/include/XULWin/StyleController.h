@@ -152,6 +152,21 @@ namespace XULWin
         virtual const std::string & getCSSListStyleImage() const = 0;
     };
 
+
+    class CSSBackgroundColorController : public StyleController
+    {
+    public:
+        static const char * PropertyName() { return "background-color"; }
+
+        virtual void get(std::string & outValue);
+
+        virtual void set(const std::string & inValue);
+
+        virtual void setCSSBackgroundColor(const RGBColor & inColor) = 0;
+
+        virtual RGBColor getCSSBackgroundColor() const = 0;
+    };
+
 } // namespace XULWin
 
 

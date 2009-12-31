@@ -242,7 +242,16 @@ namespace XULWin
 
     std::string RGBColor2String(const RGBColor & inColor)
     {
-        return "blue";
+        std::string result = "#";
+        char color[3];
+        ::memset(&color[0], 0, sizeof(color)/sizeof(color[0]));
+        sprintf(&color[0], "%02X", inColor.red());
+        result += &color[0];
+        sprintf(&color[0], "%02X", inColor.green());
+        result += &color[0];
+        sprintf(&color[0], "%02X", inColor.blue());
+        result += &color[0];
+        return result;
     }
 
     
@@ -286,7 +295,8 @@ namespace XULWin
 
     bool ColorName2RGBColor(const std::string & inValue, RGBColor & outRGBColor)
     {
-        static std::map<std::string, RGBColor> fMapping;
+        typedef std::map<std::string, RGBColor> ColorMapping;
+        static ColorMapping fMapping;
         if (fMapping.empty())
         {
             fMapping.insert(std::make_pair("aliceblue", HTMLColor2RGBColor("#F0F8FF")));
@@ -431,9 +441,9 @@ namespace XULWin
             fMapping.insert(std::make_pair("yellowgreen", HTMLColor2RGBColor("#9ACD32")));
         }
         
-        std::string lower = inValue;
+        std::string lower = Poco::trim(inValue);        
         std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-        std::map<std::string, RGBColor>::iterator it = fMapping.find(lower);
+        ColorMapping::iterator it = fMapping.find(lower);
         if (it != fMapping.end())
         {
             outRGBColor = it->second;

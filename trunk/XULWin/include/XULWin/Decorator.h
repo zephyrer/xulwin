@@ -100,6 +100,11 @@ namespace XULWin
 
         virtual void setCSSHeight(int inHeight);
 
+        // CSSBackgroundColor methods
+        virtual void setCSSBackgroundColor(const RGBColor & inColor);
+
+        virtual RGBColor getCSSBackgroundColor() const;
+
         // CSSMarginController methods
         virtual void getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const;
 

@@ -82,6 +82,7 @@ namespace XULWin
         mCSSHeight.setInvalid();
         mCSSFill.setInvalid();
         mCSSStroke.setInvalid();
+        mCSSBackgroundColor.setInvalid();
         mOrient.setInvalid();
         mAlign.setInvalid();
     }
@@ -336,6 +337,18 @@ namespace XULWin
     void ConcreteComponent::setCSSWidth(int inWidth)
     {
         mCSSWidth = inWidth;
+    }
+
+
+    void ConcreteComponent::setCSSBackgroundColor(const RGBColor & inColor)
+    {
+        mCSSBackgroundColor = inColor;
+    }
+
+
+    RGBColor ConcreteComponent::getCSSBackgroundColor() const
+    {
+        return mCSSBackgroundColor;
     }
 
     
@@ -652,6 +665,7 @@ namespace XULWin
         setStyleController<CSSWidthController>(this);
         setStyleController<CSSHeightController>(this);
         setStyleController<CSSMarginController>(this);
+        setStyleController<CSSBackgroundColorController>(this);
         setStyleController<CSS_SVG_FillController>(this);
         setStyleController<CSS_SVG_StrokeController>(this);
         return true;
@@ -894,8 +908,14 @@ namespace XULWin
 
     bool NativeComponent::getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH)
     {
-        // No custom coloring.
-        // Subclasses may override this method.
+        if (mCSSBackgroundColor.isValid())
+        {
+            COLORREF colorRef = RGB(mCSSBackgroundColor.getValue().red(),
+                                    mCSSBackgroundColor.getValue().green(),
+                                    mCSSBackgroundColor.getValue().blue());
+            outHBRUSH = ::CreateSolidBrush(colorRef);
+            return true;
+        }        
         return false;
     }
     
@@ -1010,10 +1030,13 @@ namespace XULWin
             {
                 HDC hDC = (HDC)wParam;
                 HWND hSender = (HWND)lParam;
-                HBRUSH hBrush;
-                if (getCustomBrush(hDC, hSender, hBrush))
+                if (XULWin::NativeComponent * sender = NativeComponent::FindByHandle(hSender))
                 {
-                    return (BOOL)hBrush;
+                    HBRUSH hBrush;
+                    if (sender->getCustomBrush(hDC, hSender, hBrush))
+                    {
+                        return (BOOL)hBrush;
+                    }
                 }
                 break;
             }

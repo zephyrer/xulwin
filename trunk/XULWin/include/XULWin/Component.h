@@ -78,23 +78,24 @@ namespace XULWin
      */
     class Component : public NotificationListener,
                       public virtual AlignController,
-                      public virtual WidthController,
-                      public virtual HeightController,
-                      public virtual ScreenXController,
-                      public virtual ScreenYController,
-                      public virtual SVG_FillController,
-                      public virtual SVG_StrokeController,
-                      public virtual SVG_StrokeWidthController,
-                      public virtual CSS_SVG_FillController,
+                      public virtual CSSBackgroundColorController,
                       public virtual CSSHeightController,
                       public virtual CSSMarginController,
-                      public virtual CSS_SVG_StrokeController,
                       public virtual CSSWidthController,
                       public virtual CSSXController,
                       public virtual CSSYController,
+                      public virtual CSS_SVG_FillController,
+                      public virtual CSS_SVG_StrokeController,
                       public virtual FlexController,
+                      public virtual HeightController,
                       public virtual HiddenController,
                       public virtual OrientController,
+                      public virtual SVG_FillController,
+                      public virtual SVG_StrokeController,
+                      public virtual SVG_StrokeWidthController,
+                      public virtual ScreenXController,
+                      public virtual ScreenYController,
+                      public virtual WidthController,
                       private boost::noncopyable
     {
     public:
@@ -174,6 +175,11 @@ namespace XULWin
         virtual Align getAlign() const = 0;
 
         virtual void setAlign(Align inAlign) = 0;
+
+        // CSSBackgroundColor methods
+        virtual void setCSSBackgroundColor(const RGBColor & inColor) = 0;
+
+        virtual RGBColor getCSSBackgroundColor() const = 0;
 
         // CSSWidthController methods
         virtual int getCSSWidth() const = 0;
@@ -426,6 +432,11 @@ namespace XULWin
 
         virtual void setCSSWidth(int inWidth);
 
+        // CSSBackgroundColor methods
+        virtual void setCSSBackgroundColor(const RGBColor & inColor);
+
+        virtual RGBColor getCSSBackgroundColor() const;
+
         // CSSHeightController methods
         virtual int getCSSHeight() const;
 
@@ -582,6 +593,7 @@ namespace XULWin
         Fallible<int> mStrokeWidth;
         Fallible<RGBColor> mCSSFill;
         Fallible<RGBColor> mCSSStroke;
+        Fallible<RGBColor> mCSSBackgroundColor;
         Fallible<Orient> mOrient;
         Fallible<Align> mAlign;
         bool mIsInitialized;
@@ -606,8 +618,8 @@ namespace XULWin
 
 
     class NativeComponent : public ConcreteComponent,
-                          public virtual DisabledController,
-                          public virtual LabelController
+                            public virtual DisabledController,
+                            public virtual LabelController
     {
     public:
         typedef ConcreteComponent Super;

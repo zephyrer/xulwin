@@ -1,8 +1,8 @@
-Tutorials
 - Implement background-color and stroke CSS attributes
+- Make the build entirely self-sufficient
+	- Load Poco from external
+	- Ask for more disk space if needed
 
-- Custom XUL elements
-- Scripting XUL using Lua
 
 Todo
 - context menu

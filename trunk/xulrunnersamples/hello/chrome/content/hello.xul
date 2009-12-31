@@ -10,27 +10,12 @@
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         orient="vertical"
-        align="stretch">
+        align="stretch"
+        width="480"
+        height="480">
 
 
   <!-- A two column listbox with one column flexible -->
-  <listbox flex="1">
-    <listhead>
-      <listheader label="First"/>
-      <listheader label="Last"/>
-    </listhead>
-    <listcols>
-      <listcol/>
-      <listcol/>
-    </listcols>
-    <listitem>
-      <listcell label="Buck"/>
-      <listcell label="Rogers"/>
-    </listitem>
-    <listitem>
-      <listcell label="John"/>
-      <listcell label="Painter"/>
-    </listitem>
-  </listbox>
+  <label value="test" flex="1" style="background-color: blue;"></label>
 
 </window>

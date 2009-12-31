@@ -8,7 +8,7 @@
 
 namespace XULWin
 {
-	class Component;
+    class Component;
 
     class BoxLayouter
     {

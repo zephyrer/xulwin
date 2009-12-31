@@ -288,8 +288,8 @@ namespace XULWin
 
 
     void SVGPath::GetAbsolutePositions(const PointFs & inRelativePoints,
-                                          const PointF & inPrevPoint,
-                                          PointFs & outPoints)
+                                       const PointF & inPrevPoint,
+                                       PointFs & outPoints)
     {
         for (size_t idx = 0; idx != inRelativePoints.size(); ++idx)
         {
@@ -301,8 +301,8 @@ namespace XULWin
 
 
     void SVGPath::GetAbsolutePositions(const PathInstruction & instruction,
-                                          const PointF & inPrevPoint,
-                                          PointFs & outPoints)
+                                       const PointF & inPrevPoint,
+                                       PointFs & outPoints)
     {
         for (size_t idx = 0; idx != instruction.numPoints(); ++idx)
         {
@@ -322,8 +322,8 @@ namespace XULWin
 
 
     void SVGPath::GetPointReflection(const PointF & inPoint,
-                                        const PointF & inOrigin,
-                                        PointF & outReflection)
+                                     const PointF & inOrigin,
+                                     PointF & outReflection)
     {
         float x = inOrigin.x() - inPoint.x();
         float y = inOrigin.y() - inPoint.y();

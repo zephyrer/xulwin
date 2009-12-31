@@ -892,12 +892,12 @@ namespace XULWin
     }
 
 
-	bool NativeComponent::getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH)
-	{
-		// No custom coloring.
-		// Subclasses may override this method.
-		return false;
-	}
+    bool NativeComponent::getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH)
+    {
+        // No custom coloring.
+        // Subclasses may override this method.
+        return false;
+    }
     
     
     void NativeComponent::handleCommand(WPARAM wParam, LPARAM lParam)
@@ -1006,17 +1006,17 @@ namespace XULWin
                 }
                 break;
             }
-			case WM_CTLCOLORSTATIC:
-			{
-				HDC hDC = (HDC)wParam;
-				HWND hSender = (HWND)lParam;
-				HBRUSH hBrush;
-				if (getCustomBrush(hDC, hSender, hBrush))
-				{
-					return (BOOL)hBrush;
-				}
-				break;
-			}
+            case WM_CTLCOLORSTATIC:
+            {
+                HDC hDC = (HDC)wParam;
+                HWND hSender = (HWND)lParam;
+                HBRUSH hBrush;
+                if (getCustomBrush(hDC, hSender, hBrush))
+                {
+                    return (BOOL)hBrush;
+                }
+                break;
+            }
         }
 
         // Forward to event handlers
@@ -1115,7 +1115,7 @@ namespace XULWin
 
     bool Window::initAttributeControllers()
     {
-		setAttributeController<TitleController>(this);
+        setAttributeController<TitleController>(this);
         return Super::initAttributeControllers();
     }
     
@@ -1180,18 +1180,18 @@ namespace XULWin
     {
         return Super::getAlign();
     }
-	
-	
-	std::string Window::getTitle() const
-	{
-		return Windows::getWindowText(handle());
-	}
+    
+    
+    std::string Window::getTitle() const
+    {
+        return Windows::getWindowText(handle());
+    }
 
     
-	void Window::setTitle(const std::string & inTitle)
-	{
-		Windows::setWindowText(handle(), inTitle);
-	}
+    void Window::setTitle(const std::string & inTitle)
+    {
+        Windows::setWindowText(handle(), inTitle);
+    }
 
 
     const Component * Window::getChild(size_t idx) const
@@ -2059,31 +2059,31 @@ namespace XULWin
     LRESULT TextBox::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         if (inMessage == WM_KEYDOWN)
-		{
+        {
             if (wParam == VK_TAB)
             {
                 //
                 // Tabbing doesn't work on multiline textboxes.
                 // This code fixes that.
                 //
-			    long style = ::GetWindowLong(handle(), GWL_STYLE);
-			    if ((style & ES_MULTILINE) && (style & WS_TABSTOP))
-			    {
-				    BOOL shift = 0x8000 & GetKeyState(VK_SHIFT);
-				    ::SetFocus(::GetNextDlgTabItem(GetParent(handle()), handle(), shift));                    
-		            return 0;
-			    }
+                long style = ::GetWindowLong(handle(), GWL_STYLE);
+                if ((style & ES_MULTILINE) && (style & WS_TABSTOP))
+                {
+                    BOOL shift = 0x8000 & GetKeyState(VK_SHIFT);
+                    ::SetFocus(::GetNextDlgTabItem(GetParent(handle()), handle(), shift));                    
+                    return 0;
+                }
             }
             else 
             {
                 //
                 // CTRL-a select all
                 //
-				const int cKeyboard_a = 65;
-				if (HIWORD(::GetKeyState(VK_CONTROL)) && wParam == cKeyboard_a)
-				{
-					::SendMessage(handle(), EM_SETSEL, 0, -1);
-				}
+                const int cKeyboard_a = 65;
+                if (HIWORD(::GetKeyState(VK_CONTROL)) && wParam == cKeyboard_a)
+                {
+                    ::SendMessage(handle(), EM_SETSEL, 0, -1);
+                }
             }
         }
         return Super::handleMessage(inMessage, wParam, lParam);
@@ -2480,24 +2480,24 @@ namespace XULWin
                 
     int VirtualGrid::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-		int result = 0;
+        int result = 0;
         if (const Columns * cols = findChildOfType<Columns>())
         {
             result = cols->calculateWidth(inSizeConstraint);
         }
-		return result;
+        return result;
         
     }
 
     
     int VirtualGrid::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-		int result = 0;
+        int result = 0;
         if (const Rows * rows = findChildOfType<Rows>())
         {
             result = rows->calculateHeight(inSizeConstraint);
         }
-		return result;
+        return result;
     }
 
 
@@ -2669,24 +2669,24 @@ namespace XULWin
         
     int Grid::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-		int result = 0;
+        int result = 0;
         if (const Columns * cols = findChildOfType<Columns>())
         {
             result = cols->calculateWidth(inSizeConstraint);
         }
-		return result;
+        return result;
         
     }
 
     
     int Grid::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-		int result = 0;
+        int result = 0;
         if (const Rows * rows = findChildOfType<Rows>())
         {
             result = rows->calculateHeight(inSizeConstraint);
         }
-		return result;
+        return result;
     }
 
 
@@ -3306,11 +3306,11 @@ namespace XULWin
             return 0;
         }        
         else if (WM_MOUSEWHEEL == inMessage)
-		{
-			short numDelta = HIWORD(wParam);
-			short numPages = numDelta / WHEEL_DELTA;
+        {
+            short numDelta = HIWORD(wParam);
+            short numPages = numDelta / WHEEL_DELTA;
             int totalHeight = 0;
-			int pageHeight = 0;
+            int pageHeight = 0;
             int currentPosition = 0;
             Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
             currentPosition = currentPosition - numPages*pageHeight;
@@ -3323,8 +3323,8 @@ namespace XULWin
                 currentPosition = totalHeight;
             }
             setAttribute("curpos", Int2String(currentPosition));
-			return 0;
-		}
+            return 0;
+        }
         return NativeControl::handleMessage(inMessage, wParam, lParam);
     }
 

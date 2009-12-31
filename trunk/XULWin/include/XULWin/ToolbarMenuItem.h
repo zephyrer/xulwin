@@ -12,23 +12,23 @@ namespace XULWin
 
 namespace Windows
 {
-	
-	class ToolbarMenuItem;
-	
-	typedef boost::shared_ptr<ToolbarMenuItem> TbMenuItemPtr;
-	
+    
+    class ToolbarMenuItem;
+    
+    typedef boost::shared_ptr<ToolbarMenuItem> TbMenuItemPtr;
+    
     class ToolbarMenuItem : public PopupMenuItem
-	{
-		public:
-			ToolbarMenuItem();
-			
-			ToolbarMenuItem(int inId, const std::string & inText, const boost::function<void()> & inAction);
+    {
+        public:
+            ToolbarMenuItem();
+            
+            ToolbarMenuItem(int inId, const std::string & inText, const boost::function<void()> & inAction);
 
-			const boost::function<void()> action() const { return mAction; }
+            const boost::function<void()> action() const { return mAction; }
 
-		private:
-			boost::function<void()> mAction;
-	};
+        private:
+            boost::function<void()> mAction;
+    };
 
 } // namespace Windows
 

@@ -17,11 +17,11 @@ namespace XULWin
 
         virtual int commandId() const;
 
-		virtual bool hasFocus() const;
+        virtual bool hasFocus() const;
 
-		virtual void setFocus() const;
+        virtual void setFocus() const;
 
-		virtual HWND handle() const;
+        virtual HWND handle() const;
 
         virtual bool init();
 
@@ -34,9 +34,9 @@ namespace XULWin
 
             virtual bool hasFocus() const;
 
-		    virtual void setFocus() const;
+            virtual void setFocus() const;
 
-		    virtual HWND handle() const;
+            virtual HWND handle() const;
 
             virtual int commandId() const;
 

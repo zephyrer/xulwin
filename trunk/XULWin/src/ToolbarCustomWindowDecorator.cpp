@@ -24,7 +24,7 @@ namespace XULWin
         }
         return 0;
     }
-		
+        
     
     bool ToolbarCustomWindowDecorator::hasFocus() const
     {

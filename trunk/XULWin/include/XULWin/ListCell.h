@@ -11,25 +11,25 @@ namespace XULWin
 {
 
     class ListCell : public PassiveComponent,
-		             public virtual LabelController
+                     public virtual LabelController
     {
     public:
         ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-		virtual bool initAttributeControllers();
+        virtual bool initAttributeControllers();
 
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-		virtual std::string getLabel() const
-		{ return mLabel; }
+        virtual std::string getLabel() const
+        { return mLabel; }
 
-		virtual void setLabel(const std::string & inLabel)
-		{ mLabel = inLabel; }
+        virtual void setLabel(const std::string & inLabel)
+        { mLabel = inLabel; }
 
-	private:
-		std::string mLabel;
+    private:
+        std::string mLabel;
     };
 
 } // namespace XULWin

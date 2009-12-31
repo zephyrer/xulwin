@@ -14,18 +14,18 @@ namespace Windows
 
 
     PopupMenuItem::PopupMenuItem():
-	    mId(SeparatorID),
-	    mEnabled(true),
-	    mChecked(false)
+        mId(SeparatorID),
+        mEnabled(true),
+        mChecked(false)
     {
     }
 
 
     PopupMenuItem::PopupMenuItem(int inId, const std::string & inText):
-	    mId(inId),
-	    mText(inText),
-	    mEnabled(true),
-	    mChecked(false)
+        mId(inId),
+        mText(inText),
+        mEnabled(true),
+        mChecked(false)
     {
     }
 
@@ -47,37 +47,37 @@ namespace Windows
 
     int PopupMenuItem::id() const
     {
-	    return mId;
+        return mId;
     }
 
 
     const std::string & PopupMenuItem::text() const
     {
-	    return mText;
+        return mText;
     }
 
 
     bool PopupMenuItem::isEnabled() const
     {
-	    return mEnabled;
+        return mEnabled;
     }
 
 
     bool PopupMenuItem::isChecked() const
     {
-	    return mChecked;
+        return mChecked;
     }
 
 
     void PopupMenuItem::setEnabled(bool inEnabled)
     {
-	    mEnabled = inEnabled;
+        mEnabled = inEnabled;
     }
-    				
+                    
 
     void PopupMenuItem::setChecked(bool inChecked)
     {
-	    mChecked = inChecked;
+        mChecked = inChecked;
     }
 
     
@@ -85,15 +85,15 @@ namespace Windows
 
     
     PopupMenu::PopupMenu():
-	    mHandle(0),
+        mHandle(0),
         mOwnerDraw(false),
         mSize(0),
         mSubclassedWindow(0),
         mOrigProc(0)
     {
-	    mHandle = CreatePopupMenu();
+        mHandle = CreatePopupMenu();
     }
-    		
+            
 
     PopupMenu::~PopupMenu()
     {
@@ -104,15 +104,15 @@ namespace Windows
 
         if (mHandle)
         {
-	        DestroyMenu(mHandle);
-	        mHandle = 0;
+            DestroyMenu(mHandle);
+            mHandle = 0;
         }
     }
 
 
     HMENU PopupMenu::handle() const
     {
-	    return mHandle;
+        return mHandle;
     }
 
 
@@ -138,10 +138,10 @@ namespace Windows
 
 
     void PopupMenu::append(const std::string & inText, PopupMenu * inSubmenu)
-    {	
+    {    
         Windows::insertSubMenu(mHandle, mSize++, inSubmenu->handle(), inText);
         boost::shared_ptr<PopupMenu> subMenuPtr(inSubmenu);
-	    mSubmenus.push_back(subMenuPtr);
+        mSubmenus.push_back(subMenuPtr);
     }
 
 
@@ -222,9 +222,9 @@ namespace Windows
         {
             case WM_COMMAND:
             {
-				WORD id = LOWORD(wParam);
-				WORD code = HIWORD(wParam);
-				HWND sender = (HWND)lParam;
+                WORD id = LOWORD(wParam);
+                WORD code = HIWORD(wParam);
+                HWND sender = (HWND)lParam;
                 if (!sender)
                 {
                     Items::iterator itemIt = pThis->mItems.find(id);

@@ -146,7 +146,7 @@ namespace XULWin
         UINT message = inMessageId.messageId();
         if (message == WM_COMMAND)
         {            
-	      	WORD id = LOWORD(wParam);
+              WORD id = LOWORD(wParam);
             XULWin::Windows::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
             if (!item)
             {

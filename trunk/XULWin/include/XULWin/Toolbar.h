@@ -15,100 +15,100 @@ namespace XULWin
 namespace Windows
 {
 
-	class AbstractToolbarItem;
-	class ToolbarDropDown;
-	class ToolbarSpring;
+    class AbstractToolbarItem;
+    class ToolbarDropDown;
+    class ToolbarSpring;
 
     class ToolbarElement
-	{		
-		public:
-			class EventHandler
-			{
-			public:
-				virtual void onRequestFocus() = 0;
-			};
-			typedef std::vector<boost::shared_ptr<AbstractToolbarItem> > ToolbarItems;
-			
-			typedef std::map<HWND, RECT> CustomWindowPositions;
+    {        
+        public:
+            class EventHandler
+            {
+            public:
+                virtual void onRequestFocus() = 0;
+            };
+            typedef std::vector<boost::shared_ptr<AbstractToolbarItem> > ToolbarItems;
+            
+            typedef std::map<HWND, RECT> CustomWindowPositions;
 
-			ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID);
+            ToolbarElement(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID);
 
-			~ToolbarElement();
-			
+            ~ToolbarElement();
+            
 
-			void add(AbstractToolbarItem * inToolbarItem);
+            void add(AbstractToolbarItem * inToolbarItem);
 
-			size_t size() const;
+            size_t size() const;
 
-			bool empty() const;
+            bool empty() const;
 
-			void remove(size_t inIndex);
+            void remove(size_t inIndex);
 
-			void clear();
+            void clear();
 
-			void enable(size_t inIndex);
+            void enable(size_t inIndex);
 
-			void disable(size_t inIndex);
+            void disable(size_t inIndex);
 
-			const AbstractToolbarItem * get(size_t inIndex) const;
+            const AbstractToolbarItem * get(size_t inIndex) const;
 
-			AbstractToolbarItem * get(size_t inIndex);
+            AbstractToolbarItem * get(size_t inIndex);
 
-			const AbstractToolbarItem * getToolbarItemByCommandId(int inCommandID) const;
+            const AbstractToolbarItem * getToolbarItemByCommandId(int inCommandID) const;
 
-			AbstractToolbarItem * getToolbarItemByCommandId(int inCommandID);
+            AbstractToolbarItem * getToolbarItemByCommandId(int inCommandID);
 
 
-			HMODULE moduleHandle() const;
+            HMODULE moduleHandle() const;
 
-			HWND handle() const;
+            HWND handle() const;
 
-			bool hasFocus() const;
+            bool hasFocus() const;
 
-			void setFocus();
+            void setFocus();
 
-			void rebuildLayout();
+            void rebuildLayout();
 
-			void buildToolbar();
+            void buildToolbar();
 
-		private:
-			friend class ToolbarDropDown;
+        private:
+            friend class ToolbarDropDown;
 
-			static LRESULT CALLBACK ToolbarProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
+            static LRESULT CALLBACK ToolbarProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
-			static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
+            static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
-			static void buildToolbar(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems, CustomWindowPositions & outCustomWindowPositions);
+            static void buildToolbar(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems, CustomWindowPositions & outCustomWindowPositions);
 
-			static void updateToolbarButtonSizes(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems);
+            static void updateToolbarButtonSizes(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems);
 
-			static void applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID);
+            static void applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID);
 
-			static ToolbarItems::const_iterator findByCommandID(const ToolbarItems & inToolbarItems, int inCommandID);
+            static ToolbarItems::const_iterator findByCommandID(const ToolbarItems & inToolbarItems, int inCommandID);
 
-			void setActiveDropDownToNull();
+            void setActiveDropDownToNull();
 
-			EventHandler * mEventHandler;
-			
-			HMODULE mModuleHandle;
-			HWND mParentWindow;
-			HWND mHandle;
-			HFONT mFont;
-			int mID;
-			ToolbarDropDown * mActiveDropDown;
+            EventHandler * mEventHandler;
+            
+            HMODULE mModuleHandle;
+            HWND mParentWindow;
+            HWND mHandle;
+            HFONT mFont;
+            int mID;
+            ToolbarDropDown * mActiveDropDown;
 
-			WNDPROC mParentProc;
-			WNDPROC mToolbarProc;
-			
-			typedef std::map<ToolbarElement*, HWND> ParentMapping;
-			static ParentMapping sInstancesParent;
+            WNDPROC mParentProc;
+            WNDPROC mToolbarProc;
+            
+            typedef std::map<ToolbarElement*, HWND> ParentMapping;
+            static ParentMapping sInstancesParent;
 
-			typedef std::map<ToolbarElement*, HWND> InstanceMapping;
-			static InstanceMapping sInstances;
+            typedef std::map<ToolbarElement*, HWND> InstanceMapping;
+            static InstanceMapping sInstances;
 
-			ToolbarItems mToolbarItems;
-			CustomWindowPositions mCustomWindowPositions;
-	};
+            ToolbarItems mToolbarItems;
+            CustomWindowPositions mCustomWindowPositions;
+    };
 
 } // namespace Windows
 

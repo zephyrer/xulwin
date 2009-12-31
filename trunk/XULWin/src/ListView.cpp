@@ -40,7 +40,7 @@ namespace XULWin
 
     bool ListView::init()
     {
-		// Apply min widths to columns
+        // Apply min widths to columns
         // XUL Hierarchy: listbox/listcols/listcol
         if (ListColsElement * listColsEl = el()->findChildOfType<ListColsElement>())
         {

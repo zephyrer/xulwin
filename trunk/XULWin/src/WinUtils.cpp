@@ -15,10 +15,10 @@ namespace Windows
 
     CommonControlsInitializer::CommonControlsInitializer()
     {
-		INITCOMMONCONTROLSEX icex;
-		icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-		icex.dwICC  = ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_STANDARD_CLASSES | ICC_WIN95_CLASSES;
-		if (TRUE != InitCommonControlsEx(&icex))
+        INITCOMMONCONTROLSEX icex;
+        icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+        icex.dwICC  = ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_STANDARD_CLASSES | ICC_WIN95_CLASSES;
+        if (TRUE != InitCommonControlsEx(&icex))
         {
             throw std::runtime_error("Failed to initialized the Common Controls library. Maybe you forgot to add a manifest file to your project?");
         }
@@ -26,7 +26,7 @@ namespace Windows
     
 
     CurrentDirectoryChanger::CurrentDirectoryChanger(const std::string & inTargetDir)
-	{
+    {
         ::GetCurrentDirectory(MAX_PATH, mOldDir);
         std::wstring newDir = ToUTF16(inTargetDir);
         if (0 == ::SetCurrentDirectory(newDir.c_str()))
@@ -34,13 +34,13 @@ namespace Windows
             std::string lastError = Windows::getLastError(::GetLastError());
             ReportError(lastError);
         }
-	}
+    }
 
 
-	CurrentDirectoryChanger::~CurrentDirectoryChanger()
-	{
-		::SetCurrentDirectoryW(mOldDir);
-	}
+    CurrentDirectoryChanger::~CurrentDirectoryChanger()
+    {
+        ::SetCurrentDirectoryW(mOldDir);
+    }
 
 
     std::string getCurrentDirectory()
@@ -53,7 +53,7 @@ namespace Windows
     
     std::string getApplicationDirectory(HINSTANCE hInstance)
     {            
-	    TCHAR fileName[MAX_PATH] = L"";
+        TCHAR fileName[MAX_PATH] = L"";
         ::GetModuleFileName(hInstance, fileName, MAX_PATH);
         Poco::Path path(ToUTF8(&fileName[0]));
         return path.parent().toString();
@@ -78,22 +78,22 @@ namespace Windows
     
     SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle)
     {
-	    RECT rc;
-	    GetClientRect(inHandle, &rc);
-    	
-	    RECT rw;
-	    GetWindowRect(inHandle, &rw);
-    	
-	    int rc_w = rc.right-rc.left;
-	    int rc_h = rc.bottom-rc.top;
-	    int rw_w = rw.right-rw.left;
-	    int rw_h = rw.bottom-rw.top;
-    	
-	    SIZE theDifference;
-	    theDifference.cx = rw_w-rc_w;
-	    theDifference.cy = rw_h-rc_h;
-    	
-	    return theDifference;
+        RECT rc;
+        GetClientRect(inHandle, &rc);
+        
+        RECT rw;
+        GetWindowRect(inHandle, &rw);
+        
+        int rc_w = rc.right-rc.left;
+        int rc_h = rc.bottom-rc.top;
+        int rw_w = rw.right-rw.left;
+        int rw_h = rw.bottom-rw.top;
+        
+        SIZE theDifference;
+        theDifference.cx = rw_w-rc_w;
+        theDifference.cy = rw_h-rc_h;
+        
+        return theDifference;
     }
 
 
@@ -290,35 +290,35 @@ namespace Windows
     
     HFONT getFont(HWND inHandle)
     {
-	    return (HFONT)SendMessage(inHandle, WM_GETFONT, 0, 0);
+        return (HFONT)SendMessage(inHandle, WM_GETFONT, 0, 0);
     }
     
     
     SIZE getTextSize(HWND inHandle, const std::string & inText)
     {
-	    // get the size in pixels for the given text and font
-        SIZE result = {0, 0};    	
-	    HDC hDC = GetDC(inHandle);
-	    SelectObject(hDC, getFont(inHandle));
+        // get the size in pixels for the given text and font
+        SIZE result = {0, 0};        
+        HDC hDC = GetDC(inHandle);
+        SelectObject(hDC, getFont(inHandle));
         std::wstring utf16Text(ToUTF16(inText));
         ::GetTextExtentPoint32(hDC, utf16Text.c_str(), (int)utf16Text.size(), &result);
-	    ReleaseDC(inHandle, hDC);
-	    return result;
+        ReleaseDC(inHandle, hDC);
+        return result;
     }
 
 
     std::string getWindowText(HWND inHandle)
     {
-		std::string result;
-		int length = ::GetWindowTextLength(inHandle);
-		if (length > 0)
-		{
-			TCHAR * buffer = new TCHAR[length+1];
-			::GetWindowText(inHandle, buffer, length+1);
-			result = ToUTF8(buffer);
-			delete [] buffer;
-		}
-		return result;
+        std::string result;
+        int length = ::GetWindowTextLength(inHandle);
+        if (length > 0)
+        {
+            TCHAR * buffer = new TCHAR[length+1];
+            ::GetWindowText(inHandle, buffer, length+1);
+            result = ToUTF8(buffer);
+            delete [] buffer;
+        }
+        return result;
     }
 
     
@@ -334,40 +334,40 @@ namespace Windows
 
     std::string getLastError(DWORD lastError)
     {
-	    LPVOID lpMsgBuf;
-	    ::FormatMessage
-	    (
-		    FORMAT_MESSAGE_ALLOCATE_BUFFER
-		    | FORMAT_MESSAGE_FROM_SYSTEM
-		    | FORMAT_MESSAGE_IGNORE_INSERTS,
-		    NULL,
-		    lastError,
-		    MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),
-		    (LPTSTR)&lpMsgBuf,
-		    0,
-		    NULL
-	    );
-	    if (lpMsgBuf)
-	    {
+        LPVOID lpMsgBuf;
+        ::FormatMessage
+        (
+            FORMAT_MESSAGE_ALLOCATE_BUFFER
+            | FORMAT_MESSAGE_FROM_SYSTEM
+            | FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            lastError,
+            MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),
+            (LPTSTR)&lpMsgBuf,
+            0,
+            NULL
+        );
+        if (lpMsgBuf)
+        {
             std::wstring errorString = (LPTSTR)lpMsgBuf;
-		    LocalFree(lpMsgBuf);
-		    if (errorString.empty())
-		    {
-			    try
-			    {
+            LocalFree(lpMsgBuf);
+            if (errorString.empty())
+            {
+                try
+                {
                     errorString = boost::lexical_cast<std::wstring>(lastError);
-			    }
-			    catch(...)
-			    {
-				    ReportError("Bad cast!");
-			    }
-		    }
-		    return ToUTF8(errorString);
-	    }
-	    else
-	    {
-		    return "";
-	    }
+                }
+                catch(...)
+                {
+                    ReportError("Bad cast!");
+                }
+            }
+            return ToUTF8(errorString);
+        }
+        else
+        {
+            return "";
+        }
     }
 
     
@@ -390,23 +390,23 @@ namespace Windows
         HDC deviceContext(::GetDC(inHandle));
 
         HFONT font = (HFONT)::SendMessage(inHandle, WM_GETFONT, 0, 0);
-		if (font)
+        if (font)
         {
-			::SelectObject(deviceContext, font);
+            ::SelectObject(deviceContext, font);
         }
         
         RECT rc;
         ::GetClientRect(inHandle, &rc);
 
         RECT bounds;
-		bounds.left = 0;
-		bounds.top = 0;
-		bounds.right = rc.right - rc.left;
-		bounds.bottom = INT_MAX;
+        bounds.left = 0;
+        bounds.top = 0;
+        bounds.right = rc.right - rc.left;
+        bounds.bottom = INT_MAX;
 
         std::wstring textUTF16 = ToUTF16(getWindowText(inHandle));
         
-		result = ::DrawText(deviceContext, textUTF16.c_str(), (int)textUTF16.size(), &bounds, DT_CALCRECT | DT_WORDBREAK | DT_EDITCONTROL);
+        result = ::DrawText(deviceContext, textUTF16.c_str(), (int)textUTF16.size(), &bounds, DT_CALCRECT | DT_WORDBREAK | DT_EDITCONTROL);
 
         ::ReleaseDC(inHandle, deviceContext);
 
@@ -441,26 +441,26 @@ namespace Windows
     
     void initializeProgressMeter(HWND inHandle, int inLimit)
     {
-        ::SendMessage(inHandle, PBM_SETRANGE, 0, MAKELPARAM(0, inLimit));	
+        ::SendMessage(inHandle, PBM_SETRANGE, 0, MAKELPARAM(0, inLimit));    
         ::SendMessage(inHandle, PBM_SETSTEP, 1, 0);
         ::SendMessage(inHandle, PBM_SETPOS, 0, 0);
     }
 
 
     void advanceProgressMeter(HWND inHandle)
-	{
+    {
         // When the position exceeds the maximum range value, this message
         // resets the current position so that the progress indicator starts
         // over again from the beginning.
         ::SendMessage(inHandle, PBM_STEPIT, 0, 0);
-	}
-		
+    }
+        
 
-	void setProgressMeterProgress(HWND inHandle, int inProgress)
-	{
+    void setProgressMeterProgress(HWND inHandle, int inProgress)
+    {
         // Returns the previous position.
         ::SendMessage(inHandle, PBM_SETPOS, (WPARAM)inProgress, (LPARAM)0);
-	}
+    }
 
 
     int getProgressMeterProgress(HWND inHandle)
@@ -542,13 +542,13 @@ namespace Windows
     void setScrollInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition)
     {
         SCROLLINFO si;
-		si.cbSize = sizeof(SCROLLINFO);
-		si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
-		si.nMin = 0;
-		si.nMax = inTotalHeight;
-		si.nPage = inPageHeight;
-		si.nPos = inCurrentPosition;
-		si.nTrackPos = 0; // is ignored by SetScrollInfo
+        si.cbSize = sizeof(SCROLLINFO);
+        si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
+        si.nMin = 0;
+        si.nMax = inTotalHeight;
+        si.nPage = inPageHeight;
+        si.nPos = inCurrentPosition;
+        si.nTrackPos = 0; // is ignored by SetScrollInfo
 
         // The return value is the current position of the scroll box.
         ::SetScrollInfo(inHandle, SB_CTL, &si, TRUE);
@@ -559,8 +559,8 @@ namespace Windows
     {
         SCROLLINFO si;
         ::ZeroMemory(&si, sizeof(si));
-		si.cbSize = sizeof(SCROLLINFO);
-		si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
+        si.cbSize = sizeof(SCROLLINFO);
+        si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
 
         // If the function does not retrieve any values, the return value is
         // zero. To get extended error information, call GetLastError.
@@ -608,11 +608,11 @@ namespace Windows
 
     void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex)
     {
-	    MENUITEMINFO mii;
-	    memset(&mii, 0, sizeof(mii));
-	    mii.cbSize = sizeof(mii);	    
-	    mii.fMask = MIIM_FTYPE;
-	    mii.fType = MFT_SEPARATOR;
+        MENUITEMINFO mii;
+        memset(&mii, 0, sizeof(mii));
+        mii.cbSize = sizeof(mii);        
+        mii.fMask = MIIM_FTYPE;
+        mii.fType = MFT_SEPARATOR;
         if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
         {
             ReportError(getLastError(::GetLastError()));
@@ -622,23 +622,23 @@ namespace Windows
 
     void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText)
     {        
-	    MENUITEMINFO mii;
-	    memset(&mii, 0, sizeof(mii));
-	    mii.cbSize = sizeof(mii);	    
-	    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
-	    mii.fType = 0;
+        MENUITEMINFO mii;
+        memset(&mii, 0, sizeof(mii));
+        mii.cbSize = sizeof(mii);        
+        mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
+        mii.fType = 0;
 
-	    std::wstring itemText = ToUTF16(inText);
+        std::wstring itemText = ToUTF16(inText);
         std::vector<TCHAR> buffer;
         buffer.resize(itemText.length() + 1);
-	    for (std::size_t i = 0; i < itemText.length(); i++)
-	    {
-		    buffer[i] = itemText[i];
-	    }
-	    buffer[itemText.length()] = 0;
-	    mii.dwTypeData = (LPTSTR)&buffer[0];    		
-	    mii.cch = (UINT)itemText.size();
-	    mii.wID = inCommandId;
+        for (std::size_t i = 0; i < itemText.length(); i++)
+        {
+            buffer[i] = itemText[i];
+        }
+        buffer[itemText.length()] = 0;
+        mii.dwTypeData = (LPTSTR)&buffer[0];            
+        mii.cch = (UINT)itemText.size();
+        mii.wID = inCommandId;
         if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
         {
             ReportError(getLastError(::GetLastError()));
@@ -648,22 +648,22 @@ namespace Windows
 
     void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText)
     {
-	    MENUITEMINFO mii;
-	    memset(&mii, 0, sizeof(mii));
-	    mii.cbSize = sizeof(mii);
-	    mii.fMask = MIIM_SUBMENU | MIIM_STRING;
-    	
-	    std::wstring text = ToUTF16(inText);
+        MENUITEMINFO mii;
+        memset(&mii, 0, sizeof(mii));
+        mii.cbSize = sizeof(mii);
+        mii.fMask = MIIM_SUBMENU | MIIM_STRING;
+        
+        std::wstring text = ToUTF16(inText);
         std::vector<TCHAR> buffer;
         buffer.resize(text.length() + 1);
         for (std::size_t i = 0; i < text.length(); i++)
-	    {
-		    buffer[i] = text[i];
-	    }
-	    buffer[text.length()] = 0;
-	    mii.dwTypeData = (LPTSTR)&buffer[0];    		
-	    mii.cch = (UINT)inText.size();
-	    mii.hSubMenu = inSubMenu;
+        {
+            buffer[i] = text[i];
+        }
+        buffer[text.length()] = 0;
+        mii.dwTypeData = (LPTSTR)&buffer[0];            
+        mii.cch = (UINT)inText.size();
+        mii.hSubMenu = inSubMenu;
 
         if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
         {
@@ -722,9 +722,9 @@ namespace Windows
     typedef std::map<UINT_PTR, TimerAction> Timers;
 
     static Timers sTimers;
-	
+    
     static void CALLBACK TimerCallback(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime)
-	{
+    {
         Timers::iterator it = sTimers.find(inTimerId);
         assert (it != sTimers.end());
         if (it != sTimers.end())
@@ -733,7 +733,7 @@ namespace Windows
             it->second();
             sTimers.erase(it);
         }
-	}
+    }
 
 
     void setTimeout(TimerAction inAction, int inDelayInMilliseconds)

@@ -6,17 +6,17 @@
 namespace XULWin
 {
 
-	ListCell::ListCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-		PassiveComponent(inParent, inAttributesMapping)
+    ListCell::ListCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
 
-	bool ListCell::initAttributeControllers()
-	{
-		setAttributeController<LabelController>(this);
-		return Super::initAttributeControllers();
-	}
+    bool ListCell::initAttributeControllers()
+    {
+        setAttributeController<LabelController>(this);
+        return Super::initAttributeControllers();
+    }
         
         
     int ListCell::calculateWidth(SizeConstraint inSizeConstraint) const

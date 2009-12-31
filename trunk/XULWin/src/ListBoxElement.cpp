@@ -46,7 +46,7 @@ namespace XULWin
                     ComponentPtr prev = proxy->swap(new MarginDecorator(listBox));
                     listBox->init();
 
-					// Up until this point all the move() calls were directed
+                    // Up until this point all the move() calls were directed
                     // to the PassiveComponent object. Now we need to re-apply
                     // this on the native component.
                     proxy->move(prev->clientRect());
@@ -57,7 +57,7 @@ namespace XULWin
                     ComponentPtr prev = proxy->swap(new MarginDecorator(listView));
                     listView->init();
 
-					// Up until this point all the move() calls were directed
+                    // Up until this point all the move() calls were directed
                     // to the PassiveComponent object. Now we need to re-apply
                     // this on the native component.
                     proxy->move(prev->clientRect());

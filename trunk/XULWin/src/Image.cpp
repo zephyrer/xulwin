@@ -60,7 +60,7 @@ namespace XULWin
             return;
         }
         float optimalWidth = (float)mImage->GetWidth();
-        float optimalHeight = (float)mImage->GetHeight();        	
+        float optimalHeight = (float)mImage->GetHeight();            
         if (optimalWidth < 1.0 || optimalHeight < 1.0)
         {
             width = 1;
@@ -71,14 +71,14 @@ namespace XULWin
         float resizeFactorX = mWidth.or(mHeight.or(INT_MAX))/optimalWidth;
         float resizeFactorY = mHeight.or(mWidth.or(INT_MAX))/optimalHeight;
         float resizeFactor = std::min<float>(resizeFactorX, resizeFactorY);
-		
+        
         width = (int)(resizeFactor*optimalWidth + 0.5f);
         if (width == 0)
         {
             width = 1;
         }
 
-        height = (int)(resizeFactor*optimalHeight + 0.5f);		        
+        height = (int)(resizeFactor*optimalHeight + 0.5f);                
         if (height == 0)
         {
             height = 1;
@@ -164,10 +164,10 @@ namespace XULWin
         {
             // create a resized copy of the original
             mCachedImage.reset(new Gdiplus::Bitmap(w, h, PixelFormat32bppARGB));
-        	
+            
             Gdiplus::Graphics g(mCachedImage.get());
             g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
-            g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);        	
+            g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);            
             g.DrawImage(mImage.get(), Gdiplus::Rect(0, 0, INT(w), INT(h)));
         }
         Super::move(x, y, w, h);

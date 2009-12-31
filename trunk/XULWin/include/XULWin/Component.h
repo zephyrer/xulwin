@@ -532,27 +532,27 @@ namespace XULWin
 
         virtual bool initStyleControllers();
 
-		template<class T>
+        template<class T>
         void setAttributeController(T * inAttributeController)
-		{
-			AttributeControllers::iterator it = mAttributeControllers.find(T::AttributeName());
-			assert(it == mAttributeControllers.end());
-			if (it == mAttributeControllers.end())
-			{
-				mAttributeControllers.insert(std::make_pair(T::AttributeName(), inAttributeController));
-			}
-		}
+        {
+            AttributeControllers::iterator it = mAttributeControllers.find(T::AttributeName());
+            assert(it == mAttributeControllers.end());
+            if (it == mAttributeControllers.end())
+            {
+                mAttributeControllers.insert(std::make_pair(T::AttributeName(), inAttributeController));
+            }
+        }
 
-		template<class T>
+        template<class T>
         void setStyleController(T * inStyleController)
-		{
-			StyleControllers::iterator it = mStyleControllers.find(T::PropertyName());
-			assert(it == mStyleControllers.end());
-			if (it == mStyleControllers.end())
-			{
-				mStyleControllers.insert(std::make_pair(T::PropertyName(), inStyleController));
-			}
-		}
+        {
+            StyleControllers::iterator it = mStyleControllers.find(T::PropertyName());
+            assert(it == mStyleControllers.end());
+            if (it == mStyleControllers.end())
+            {
+                mStyleControllers.insert(std::make_pair(T::PropertyName(), inStyleController));
+            }
+        }
 
         int calculateMaxChildWidth(SizeConstraint inSizeConstraint) const;
 
@@ -634,11 +634,11 @@ namespace XULWin
 
         virtual void setLabel(const std::string & inLabel);
 
-		// HiddenController methods
+        // HiddenController methods
         virtual void setHidden(bool inHidden);
 
-		// Override component coloring.
-		virtual bool getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH);
+        // Override component coloring.
+        virtual bool getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH);
 
         static void SetModuleHandle(HMODULE inModule);
 

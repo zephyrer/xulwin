@@ -174,14 +174,14 @@ namespace XULWin
             }
         }
     }
-	
+    
     
     LRESULT CALLBACK ConditionalState::ForegroundIdleProc(int nCode, DWORD wParam, LONG lParam)
-	{
-		if (nCode < 0) // do not process message 
-		{
-			return ::CallNextHookEx(sInstance->mForegroundIdleProc, nCode, wParam, lParam); 
-		}
+    {
+        if (nCode < 0) // do not process message 
+        {
+            return ::CallNextHookEx(sInstance->mForegroundIdleProc, nCode, wParam, lParam); 
+        }
 
         sInstance->updateStates();
         return ::CallNextHookEx(sInstance->mForegroundIdleProc, nCode, wParam, lParam);

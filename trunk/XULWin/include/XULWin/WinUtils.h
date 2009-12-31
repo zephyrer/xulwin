@@ -19,14 +19,14 @@ namespace Windows
     class CurrentDirectoryChanger
     {
     public:
-	    CurrentDirectoryChanger(const std::string & inTargetDir);
+        CurrentDirectoryChanger(const std::string & inTargetDir);
 
-	    ~CurrentDirectoryChanger();
+        ~CurrentDirectoryChanger();
 
     private:
         CurrentDirectoryChanger(const CurrentDirectoryChanger &);
         CurrentDirectoryChanger & operator=(const CurrentDirectoryChanger &);
-	    TCHAR mOldDir[MAX_PATH];
+        TCHAR mOldDir[MAX_PATH];
     };
 
 
@@ -122,8 +122,8 @@ namespace Windows
     void initializeProgressMeter(HWND inHandle, int inLimit);
     
     void advanceProgressMeter(HWND inHandle);
-		
-	void setProgressMeterProgress(HWND inHandle, int inProgress);
+        
+    void setProgressMeterProgress(HWND inHandle, int inProgress);
 
     int getProgressMeterProgress(HWND inHandle);
 

@@ -543,7 +543,16 @@ namespace XULWin
 			}
 		}
 
-        void setStyleController(const std::string & inAttr, StyleController * inController);
+		template<class T>
+        void setStyleController(T * inStyleController)
+		{
+			StyleControllers::iterator it = mStyleControllers.find(T::PropertyName());
+			assert(it == mStyleControllers.end());
+			if (it == mStyleControllers.end())
+			{
+				mStyleControllers.insert(std::make_pair(T::PropertyName(), inStyleController));
+			}
+		}
 
         int calculateMaxChildWidth(SizeConstraint inSizeConstraint) const;
 

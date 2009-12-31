@@ -647,25 +647,14 @@ namespace XULWin
 
     bool ConcreteComponent::initStyleControllers()
     {
-        setStyleController(CSSXController::PropertyName(), static_cast<CSSXController*>(this));
-        setStyleController(CSSYController::PropertyName(), static_cast<CSSYController*>(this));
-        setStyleController(CSSWidthController::PropertyName(), static_cast<CSSWidthController*>(this));
-        setStyleController(CSSHeightController::PropertyName(), static_cast<CSSHeightController*>(this));
-        setStyleController(CSSMarginController::PropertyName(), static_cast<CSSMarginController*>(this));
-        setStyleController(CSS_SVG_FillController::PropertyName(), static_cast<CSS_SVG_FillController*>(this));
-        setStyleController(CSS_SVG_StrokeController::PropertyName(), static_cast<CSS_SVG_StrokeController*>(this));
+        setStyleController<CSSXController>(this);
+        setStyleController<CSSYController>(this);
+        setStyleController<CSSWidthController>(this);
+        setStyleController<CSSHeightController>(this);
+        setStyleController<CSSMarginController>(this);
+        setStyleController<CSS_SVG_FillController>(this);
+        setStyleController<CSS_SVG_StrokeController>(this);
         return true;
-    }
-    
-    
-    void ConcreteComponent::setStyleController(const std::string & inAttr, StyleController * inController)
-    {
-        StyleControllers::iterator it = mStyleControllers.find(inAttr);
-        assert(it == mStyleControllers.end());
-        if (it == mStyleControllers.end())
-        {
-            mStyleControllers.insert(std::make_pair(inAttr, inController));
-        }
     }
 
     
@@ -2188,7 +2177,7 @@ namespace XULWin
     
     bool Label::initStyleControllers()
     {
-        setStyleController(CSSTextAlignController::PropertyName(), static_cast<CSSTextAlignController*>(this));
+        setStyleController<CSSTextAlignController>(this);
         return Super::initStyleControllers();
     }
 
@@ -4359,7 +4348,7 @@ namespace XULWin
 
     bool ToolbarButton::initStyleControllers()
     {
-        setStyleController(CSSListStyleImageController::PropertyName(), static_cast<CSSListStyleImageController*>(this));
+        setStyleController<CSSListStyleImageController>(this);
         return Super::initStyleControllers();
     }
 

@@ -223,11 +223,11 @@ namespace XULWin
 
     bool SVGRect::initStyleControllers()
     {
-        setStyleController("x", static_cast<CSSXController*>(this));
-        setStyleController("y", static_cast<CSSYController*>(this));
-        setStyleController("width", static_cast<CSSWidthController*>(this));
-        setStyleController("height", static_cast<CSSHeightController*>(this));
-        setStyleController("fill", static_cast<CSS_SVG_FillController*>(this));
+        setStyleController<CSSXController>(this);
+        setStyleController<CSSYController>(this);
+        setStyleController<CSSWidthController>(this);
+        setStyleController<CSSHeightController>(this);
+        setStyleController<CSS_SVG_FillController>(this);
         return Super::initStyleControllers();
     }
 

@@ -469,7 +469,7 @@ namespace XULWin
     };
 
 
-    class PointsController : public AttributeController
+    class SVG_Polygon_PointsController : public AttributeController
     {
     public:
         static const char * AttributeName() { return "points"; }
@@ -484,7 +484,7 @@ namespace XULWin
     };
 
 
-    class PathInstructionsController : public AttributeController
+    class SVG_Path_InstructionsController : public AttributeController
     {
     public:
         static const char * AttributeName()

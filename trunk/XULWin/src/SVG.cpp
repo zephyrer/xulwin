@@ -175,7 +175,7 @@ namespace XULWin
         
     bool SVGPolygon::initAttributeControllers()
     {
-        setAttributeController<PointsController>(this);
+        setAttributeController<SVG_Polygon_PointsController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -253,7 +253,7 @@ namespace XULWin
         
     bool SVGPath::initAttributeControllers()
     {
-        setAttributeController<PathInstructionsController>(this);
+        setAttributeController<SVG_Path_InstructionsController>(this);
         return Super::initAttributeControllers();
     }
         

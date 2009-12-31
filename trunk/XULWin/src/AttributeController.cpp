@@ -295,25 +295,25 @@ namespace XULWin
     }
 
 
-    void PointsController::get(std::string & outValue)
+    void SVG_Polygon_PointsController::get(std::string & outValue)
     {
         outValue = Points2String(getPoints());
     }
 
 
-    void PointsController::set(const std::string & inPoints)
+    void SVG_Polygon_PointsController::set(const std::string & inPoints)
     {
         setPoints(String2Points(inPoints));
     }
 
 
-    void PathInstructionsController::get(std::string & outValue)
+    void SVG_Path_InstructionsController::get(std::string & outValue)
     {
         outValue = SVGPathInstructions2String(getPathInstructions());
     }
 
 
-    void PathInstructionsController::set(const std::string & inPathInstructions)
+    void SVG_Path_InstructionsController::set(const std::string & inPathInstructions)
     {
         setPathInstructions(String2SVGPathInstructions(inPathInstructions));
     }

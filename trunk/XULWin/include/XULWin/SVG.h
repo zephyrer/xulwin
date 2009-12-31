@@ -72,7 +72,7 @@ namespace XULWin
 
     class SVGPolygon : public SVG,
                        public SVGPainter,
-                       public virtual PointsController
+                       public virtual SVG_Polygon_PointsController
     {
     public:
         typedef SVG Super;
@@ -111,7 +111,7 @@ namespace XULWin
 
 
     class SVGPath : public SVG,
-                    public virtual PathInstructionsController,
+                    public virtual SVG_Path_InstructionsController,
                     public SVGPainter
     {
     public:

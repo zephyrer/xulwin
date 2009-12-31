@@ -40,7 +40,7 @@ namespace XULWin
 
         const PointF & getPoint(size_t inIdx) const;
 
-        PointF PathInstruction::getAbsolutePoint(const PointF & inRef, size_t inIdx) const;
+        PointF getAbsolutePoint(const PointF & inRef, size_t inIdx) const;
 
         Positioning positioning() const;
 

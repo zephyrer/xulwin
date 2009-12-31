@@ -82,9 +82,9 @@ namespace XULWin
                       public virtual HeightController,
                       public virtual ScreenXController,
                       public virtual ScreenYController,
-                      public virtual FillController,
-                      public virtual StrokeController,
-                      public virtual StrokeWidthController,
+                      public virtual SVG_FillController,
+                      public virtual SVG_StrokeController,
+                      public virtual SVG_StrokeWidthController,
                       public virtual CSS_SVG_FillController,
                       public virtual CSSHeightController,
                       public virtual CSSMarginController,
@@ -140,20 +140,20 @@ namespace XULWin
 
         virtual void setScreenY(int inY) = 0;
 
-        // StrokeController methods
-        virtual void setStroke(const RGBColor & inColor) = 0;
+        // SVG_StrokeController methods
+        virtual void setSVGStroke(const RGBColor & inColor) = 0;
 
-        virtual const RGBColor & getStroke() const = 0;
+        virtual const RGBColor & getSVGStroke() const = 0;
 
-        // StrokeWidthController methods
-        virtual void setStrokeWidth(int inStrokeWidth) = 0;
+        // SVG_StrokeWidthController methods
+        virtual void setSVGStrokeWidth(int inStrokeWidth) = 0;
 
-        virtual int getStrokeWidth() const = 0;
+        virtual int getSVGStrokeWidth() const = 0;
 
-        // FillController methods
-        virtual void setFill(const RGBColor & inColor) = 0;
+        // SVG_FillController methods
+        virtual void setSVGFill(const RGBColor & inColor) = 0;
 
-        virtual const RGBColor & getFill() const = 0;
+        virtual const RGBColor & getSVGFill() const = 0;
 
         // FlexController methods
         virtual int getFlex() const = 0;
@@ -335,10 +335,6 @@ namespace XULWin
         virtual bool initAttributeControllers() = 0;
 
         virtual bool initStyleControllers() = 0;
-
-        virtual void setAttributeController(const std::string & inAttr, AttributeController * inController) = 0;
-
-        virtual void setStyleController(const std::string & inAttr, StyleController * inController) = 0;
     };
 
 
@@ -390,20 +386,20 @@ namespace XULWin
 
         virtual void setScreenY(int inY);
 
-        // StrokeController methods
-        virtual void setStroke(const RGBColor & inColor);
+        // SVG_StrokeController methods
+        virtual void setSVGStroke(const RGBColor & inColor);
 
-        virtual const RGBColor & getStroke() const;
+        virtual const RGBColor & getSVGStroke() const;
 
-        // StrokeWidthController methods
-        virtual void setStrokeWidth(int inStrokeWidth);
+        // SVG_StrokeWidthController methods
+        virtual void setSVGStrokeWidth(int inStrokeWidth);
 
-        virtual int getStrokeWidth() const;
+        virtual int getSVGStrokeWidth() const;
 
-        // FillController methods
-        virtual void setFill(const RGBColor & inColor);
+        // SVG_FillController methods
+        virtual void setSVGFill(const RGBColor & inColor);
 
-        virtual const RGBColor & getFill() const;
+        virtual const RGBColor & getSVGFill() const;
 
         // FlexController methods
         virtual int getFlex() const;
@@ -536,7 +532,16 @@ namespace XULWin
 
         virtual bool initStyleControllers();
 
-        void setAttributeController(const std::string & inAttr, AttributeController * inController);
+		template<class T>
+        void setAttributeController(T * inAttributeController)
+		{
+			AttributeControllers::iterator it = mAttributeControllers.find(T::AttributeName());
+			assert(it == mAttributeControllers.end());
+			if (it == mAttributeControllers.end())
+			{
+				mAttributeControllers.insert(std::make_pair(T::AttributeName(), inAttributeController));
+			}
+		}
 
         void setStyleController(const std::string & inAttr, StyleController * inController);
 
@@ -716,9 +721,6 @@ namespace XULWin
         virtual void rebuildChildLayouts()
         { return Super::rebuildChildLayouts(); }
 
-        virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
-        { return Super::setAttributeController(inAttr, inController); }
-
         void show(WindowElement::Positioning inPositioning);
 
         void showModal(WindowElement::Positioning inPositioning);
@@ -806,9 +808,6 @@ namespace XULWin
 
         virtual void rebuildChildLayouts()
         { return Super::rebuildChildLayouts(); }
-
-        virtual void setAttributeController(const std::string & inAttr, AttributeController * inController)
-        { return Super::setAttributeController(inAttr, inController); }
 
         DialogResult showModal(Window * inInvoker);
 
@@ -1091,9 +1090,7 @@ namespace XULWin
         { return Super::clientRect(); }
 
         virtual void rebuildChildLayouts()
-        { return Super::rebuildChildLayouts(); }        
-
-        virtual void setAttributeController(const std::string & inAttr, AttributeController * inController);
+        { return Super::rebuildChildLayouts(); }
 
         virtual Orient BoxLayouter_getOrient() const
         { return getOrient(); }

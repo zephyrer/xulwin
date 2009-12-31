@@ -40,7 +40,7 @@ namespace XULWin
         
     bool MenuItem::initAttributeControllers()
     {
-        setAttributeController("label", static_cast<LabelController*>(this));
+        setAttributeController<LabelController>(this);
         return Super::initAttributeControllers();
     }
             

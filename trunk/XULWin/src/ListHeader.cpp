@@ -18,7 +18,7 @@ namespace XULWin
     
     bool ListHeader::initAttributeControllers()
     {
-        setAttributeController("label", static_cast<LabelController*>(this));
+        setAttributeController<LabelController>(this);
         return Super::initAttributeControllers();
     }
 

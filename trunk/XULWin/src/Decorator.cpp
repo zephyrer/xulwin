@@ -193,65 +193,65 @@ namespace XULWin
     }
 
 
-    void Decorator::setStroke(const RGBColor & inColor)
+    void Decorator::setSVGStroke(const RGBColor & inColor)
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            mDecoratedElement->setStroke(inColor);
+            mDecoratedElement->setSVGStroke(inColor);
         }
     }
 
 
-    const RGBColor & Decorator::getStroke() const
+    const RGBColor & Decorator::getSVGStroke() const
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            return mDecoratedElement->getStroke();
+            return mDecoratedElement->getSVGStroke();
         }
         static RGBColor fDefault;
         return fDefault;
     }
     
 
-    void Decorator::setStrokeWidth(int inStrokeWidth)
+    void Decorator::setSVGStrokeWidth(int inStrokeWidth)
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            return mDecoratedElement->setStrokeWidth(inStrokeWidth);
+            return mDecoratedElement->setSVGStrokeWidth(inStrokeWidth);
         }
     }
 
     
-    int Decorator::getStrokeWidth() const
+    int Decorator::getSVGStrokeWidth() const
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            return mDecoratedElement->getStrokeWidth();
+            return mDecoratedElement->getSVGStrokeWidth();
         }
         return 0;
     }
 
 
-    void Decorator::setFill(const RGBColor & inColor)
+    void Decorator::setSVGFill(const RGBColor & inColor)
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            mDecoratedElement->setFill(inColor);
+            mDecoratedElement->setSVGFill(inColor);
         }
     }
 
 
-    const RGBColor & Decorator::getFill() const
+    const RGBColor & Decorator::getSVGFill() const
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            mDecoratedElement->getFill();
+            mDecoratedElement->getSVGFill();
         }
         static RGBColor fDefault;
         return fDefault;
@@ -703,26 +703,6 @@ namespace XULWin
             return mDecoratedElement->initStyleControllers();
         }
         return false;
-    }
-
-
-    void Decorator::setAttributeController(const std::string & inAttr, AttributeController * inController)
-    {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            mDecoratedElement->setAttributeController(inAttr, inController);
-        }
-    }
-
-
-    void Decorator::setStyleController(const std::string & inAttr, StyleController * inController)
-    {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            mDecoratedElement->setStyleController(inAttr, inController);
-        }
     }
     
     

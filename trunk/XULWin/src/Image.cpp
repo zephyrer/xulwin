@@ -220,8 +220,8 @@ namespace XULWin
 
     bool Image::initAttributeControllers()
     {
-        Super::setAttributeController("src", static_cast<SrcController*>(this));
-        Super::setAttributeController("keepaspectratio", static_cast<KeepAspectRatioController*>(this));
+        setAttributeController<SrcController>(this);
+        setAttributeController<KeepAspectRatioController>(this);
         return Super::initAttributeControllers();
     }
 

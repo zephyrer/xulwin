@@ -215,25 +215,25 @@ namespace XULWin
     }        
 
 
-    void ConcreteComponent::setFill(const RGBColor & inColor)
+    void ConcreteComponent::setSVGFill(const RGBColor & inColor)
     {
         mFill = inColor;
     }
 
 
-    const RGBColor & ConcreteComponent::getFill() const
+    const RGBColor & ConcreteComponent::getSVGFill() const
     {
         return mFill;
     }
 
 
-    void ConcreteComponent::setStroke(const RGBColor & inColor)
+    void ConcreteComponent::setSVGStroke(const RGBColor & inColor)
     {
         mStroke = inColor;
     }
 
 
-    const RGBColor & ConcreteComponent::getStroke() const
+    const RGBColor & ConcreteComponent::getSVGStroke() const
     {
         if (mStroke.isValid())
         {
@@ -242,20 +242,20 @@ namespace XULWin
 
         if (parent())
         {
-            return parent()->getStroke();
+            return parent()->getSVGStroke();
         }
 
         return mStroke;
     }
 
 
-    void ConcreteComponent::setStrokeWidth(int inStrokeWidth)
+    void ConcreteComponent::setSVGStrokeWidth(int inStrokeWidth)
     {
         mStrokeWidth = inStrokeWidth;
     }
 
 
-    int ConcreteComponent::getStrokeWidth() const
+    int ConcreteComponent::getSVGStrokeWidth() const
     {
         if (mStrokeWidth.isValid())
         {
@@ -264,7 +264,7 @@ namespace XULWin
 
         if (parent())
         {
-            return parent()->getStrokeWidth();
+            return parent()->getSVGStrokeWidth();
         }
 
         return mStrokeWidth;
@@ -633,16 +633,14 @@ namespace XULWin
 
     bool ConcreteComponent::initAttributeControllers()
     {
-        // STATIC CAST NEEDED HERE OTHERWISE WE GET COMPILER ERROR:
-        // error C2594: '=' : ambiguous conversions from 'Element *const ' to 'AttributeController *'
-        setAttributeController("width", static_cast<WidthController*>(this));
-        setAttributeController("height", static_cast<HeightController*>(this));
-        setAttributeController("fill", static_cast<FillController*>(this));
-        setAttributeController("stroke", static_cast<StrokeController*>(this));
-        setAttributeController("flex", static_cast<FlexController*>(this));
-        setAttributeController("hidden", static_cast<HiddenController*>(this));
-        setAttributeController("align", static_cast<AlignController*>(this));
-        setAttributeController("orient", static_cast<OrientController*>(this));
+        setAttributeController<WidthController>(this);
+        setAttributeController<HeightController>(this);
+        setAttributeController<SVG_FillController>(this);
+        setAttributeController<SVG_StrokeController>(this);
+        setAttributeController<FlexController>(this);
+        setAttributeController<HiddenController>(this);
+        setAttributeController<AlignController>(this);
+        setAttributeController<OrientController>(this);
         return true;
     }
 
@@ -657,17 +655,6 @@ namespace XULWin
         setStyleController(CSS_SVG_FillController::PropertyName(), static_cast<CSS_SVG_FillController*>(this));
         setStyleController(CSS_SVG_StrokeController::PropertyName(), static_cast<CSS_SVG_StrokeController*>(this));
         return true;
-    }
-
-
-    void ConcreteComponent::setAttributeController(const std::string & inAttr, AttributeController * inController)
-    {
-        AttributeControllers::iterator it = mAttributeControllers.find(inAttr);
-        assert(it == mAttributeControllers.end());
-        if (it == mAttributeControllers.end())
-        {
-            mAttributeControllers.insert(std::make_pair(inAttr, inController));
-        }
     }
     
     
@@ -886,8 +873,8 @@ namespace XULWin
     
     bool NativeComponent::initAttributeControllers()
     {
-        setAttributeController("disabled", static_cast<DisabledController*>(this));
-        setAttributeController("label", static_cast<LabelController*>(this));
+        setAttributeController<DisabledController>(this);
+        setAttributeController<LabelController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -1139,7 +1126,7 @@ namespace XULWin
 
     bool Window::initAttributeControllers()
     {
-		setAttributeController("title", static_cast<TitleController*>(this));
+		setAttributeController<TitleController>(this);
         return Super::initAttributeControllers();
     }
     
@@ -1484,7 +1471,7 @@ namespace XULWin
 
     bool Dialog::initAttributeControllers()
     {
-        setAttributeController("title", static_cast<TitleController*>(this));
+        setAttributeController<TitleController>(this);
         return Super::initAttributeControllers();
     }
     
@@ -1977,7 +1964,7 @@ namespace XULWin
     
     bool CheckBox::initAttributeControllers()
     {
-        setAttributeController("checked", static_cast<CheckedController *>(this));
+        setAttributeController<CheckedController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -2061,9 +2048,9 @@ namespace XULWin
     
     bool TextBox::initAttributeControllers()
     {
-        setAttributeController("value", static_cast<StringValueController*>(this));
-        setAttributeController("readonly", static_cast<ReadOnlyController*>(this));
-        setAttributeController("rows", static_cast<RowsController*>(this));
+        setAttributeController<StringValueController>(this);
+        setAttributeController<ReadOnlyController>(this);
+        setAttributeController<RowsController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -2194,7 +2181,7 @@ namespace XULWin
     
     bool Label::initAttributeControllers()
     {
-        setAttributeController("value", static_cast<StringValueController*>(this));
+        setAttributeController<StringValueController>(this);
         return Super::initAttributeControllers();
     }
     
@@ -2244,7 +2231,7 @@ namespace XULWin
 
     bool Description::initAttributeControllers()
     {
-        setAttributeController("value", static_cast<StringValueController*>(this));
+        setAttributeController<StringValueController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -2277,12 +2264,6 @@ namespace XULWin
     Align VirtualBox::getAlign() const
     {
         return mAlign.or(Stretch);
-    }
-    
-    
-    void VirtualBox::setAttributeController(const std::string & inAttr, AttributeController * inController)
-    {
-        Super::setAttributeController(inAttr, inController);
     }
 
 
@@ -3170,7 +3151,7 @@ namespace XULWin
 
     bool ProgressMeter::initAttributeControllers()
     {
-        Super::setAttributeController("value", static_cast<IntValueController*>(this));
+        setAttributeController<IntValueController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -3228,7 +3209,7 @@ namespace XULWin
 
     bool Deck::initAttributeControllers()
     {
-        Super::setAttributeController("selectedIndex", static_cast<SelectedIndexController*>(this));
+        setAttributeController<SelectedIndexController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -3486,10 +3467,10 @@ namespace XULWin
 
     bool Scrollbar::initAttributeControllers()
     {
-        setAttributeController("curpos", static_cast<ScrollbarCurrentPositionController*>(this));
-        setAttributeController("maxpos", static_cast<ScrollbarMaxPositionController*>(this));
-        setAttributeController("increment", static_cast<ScrollbarIncrementController*>(this));
-        setAttributeController("pageincrement", static_cast<ScrollbarPageIncrementController*>(this));
+        setAttributeController<ScrollbarCurrentPositionController>(this);
+        setAttributeController<ScrollbarMaxPositionController>(this);
+        setAttributeController<ScrollbarIncrementController>(this);
+        setAttributeController<ScrollbarPageIncrementController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -4123,7 +4104,7 @@ namespace XULWin
 
     bool TreeCell::initAttributeControllers()
     {
-        Super::setAttributeController("label", static_cast<LabelController*>(this));
+        setAttributeController<LabelController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -4370,8 +4351,8 @@ namespace XULWin
 
     bool ToolbarButton::initAttributeControllers()
     {
-        setAttributeController("label", static_cast<LabelController*>(this));
-        setAttributeController("disabled", static_cast<DisabledController*>(this));
+        setAttributeController<LabelController>(this);
+        setAttributeController<DisabledController>(this);
         return Super::initAttributeControllers();
     }
 

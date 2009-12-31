@@ -55,20 +55,20 @@ namespace XULWin
 
         virtual void setScreenY(int inY);
 
-        // StrokeController methods
-        virtual void setStroke(const RGBColor & inColor);
+        // SVG_StrokeController methods
+        virtual void setSVGStroke(const RGBColor & inColor);
 
-        virtual const RGBColor & getStroke() const;
+        virtual const RGBColor & getSVGStroke() const;
 
-        // StrokeWidthController methods
-        virtual void setStrokeWidth(int inStrokeWidth);
+        // SVG_StrokeWidthController methods
+        virtual void setSVGStrokeWidth(int inStrokeWidth);
 
-        virtual int getStrokeWidth() const;
+        virtual int getSVGStrokeWidth() const;
 
-        // FillController methods
-        virtual void setFill(const RGBColor & inColor);
+        // SVG_FillController methods
+        virtual void setSVGFill(const RGBColor & inColor);
 
-        virtual const RGBColor & getFill() const;
+        virtual const RGBColor & getSVGFill() const;
 
         // FlexController methods
         virtual int getFlex() const;
@@ -159,10 +159,6 @@ namespace XULWin
         virtual bool initAttributeControllers();
 
         virtual bool initStyleControllers();
-
-        virtual void setAttributeController(const std::string & inAttr, AttributeController * inController);
-
-        virtual void setStyleController(const std::string & inAttr, StyleController * inController);
 
         ComponentPtr decoratedElement() const;
 

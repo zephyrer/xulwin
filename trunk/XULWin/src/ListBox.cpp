@@ -31,8 +31,8 @@ namespace XULWin
 
     bool ListBox::initAttributeControllers()
     {
-        setAttributeController("label", static_cast<LabelController*>(this));
-        setAttributeController("rows", static_cast<RowsController*>(this));
+        setAttributeController<LabelController>(this);
+        setAttributeController<RowsController>(this);
         return Super::initAttributeControllers();
     }
     

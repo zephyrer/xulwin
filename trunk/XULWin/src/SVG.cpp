@@ -175,7 +175,7 @@ namespace XULWin
         
     bool SVGPolygon::initAttributeControllers()
     {
-        setAttributeController("points", static_cast<PointsController*>(this));
+        setAttributeController<PointsController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -235,7 +235,7 @@ namespace XULWin
     void SVGRect::paint(Gdiplus::Graphics & g)
     {
         Gdiplus::Color color(Gdiplus::Color::Black);
-        RGBColor fill = getFill();
+        RGBColor fill = getSVGFill();
         color = Gdiplus::Color(fill.alpha(), fill.red(), fill.green(), fill.blue());
         Gdiplus::SolidBrush solidBrush(color);
         g.FillRectangle(&solidBrush, Gdiplus::RectF((Gdiplus::REAL)getCSSX(),
@@ -253,7 +253,7 @@ namespace XULWin
         
     bool SVGPath::initAttributeControllers()
     {
-        setAttributeController("d", static_cast<PathInstructionsController*>(this));
+        setAttributeController<PathInstructionsController>(this);
         return Super::initAttributeControllers();
     }
         
@@ -265,8 +265,8 @@ namespace XULWin
 
 
     void SVGPath::getFloatPoints(const PathInstruction & instruction,
-                                    const Gdiplus::PointF & inPrevPoint,
-                                    std::vector<Gdiplus::PointF> & outPoints)
+                                 const Gdiplus::PointF & inPrevPoint,
+                                 std::vector<Gdiplus::PointF> & outPoints)
     {
         for (size_t idx = 0; idx != instruction.numPoints(); ++idx)
         {
@@ -574,7 +574,7 @@ namespace XULWin
     
     void SVGPath::paint(Gdiplus::Graphics & g)
     {
-        RGBColor fillColorRGB(getFill());
+        RGBColor fillColorRGB(getSVGFill());
         Gdiplus::Color fillColor(fillColorRGB.alpha(),
                                  fillColorRGB.red(),
                                  fillColorRGB.green(),
@@ -582,7 +582,7 @@ namespace XULWin
         Gdiplus::SolidBrush brush(fillColor);
 
 
-        RGBColor strokeColorRGB(getStroke());
+        RGBColor strokeColorRGB(getSVGStroke());
         Gdiplus::Color strokeColor(strokeColorRGB.alpha(),
                                    strokeColorRGB.red(),
                                    strokeColorRGB.green(),

@@ -319,47 +319,47 @@ namespace XULWin
     }
 
 
-    void FillController::get(std::string & outValue)
+    void SVG_FillController::get(std::string & outValue)
     {
-        outValue = RGBColor2String(getFill());
+        outValue = RGBColor2String(getSVGFill());
     }
 
 
-    void FillController::set(const std::string & inValue)
+    void SVG_FillController::set(const std::string & inValue)
     {
         RGBColor result;
         if (String2RGBColor(inValue, result))
         {
-            setFill(result);
+            setSVGFill(result);
         }
     }
 
 
-    void StrokeController::get(std::string & outValue)
+    void SVG_StrokeController::get(std::string & outValue)
     {
-        outValue = RGBColor2String(getStroke());
+        outValue = RGBColor2String(getSVGStroke());
     }
 
 
-    void StrokeController::set(const std::string & inValue)
+    void SVG_StrokeController::set(const std::string & inValue)
     {
         RGBColor result;
         if (String2RGBColor(inValue, result))
         {
-            setStroke(result);
+            setSVGStroke(result);
         }
     }
 
 
-    void StrokeWidthController::get(std::string & outValue)
+    void SVG_StrokeWidthController::get(std::string & outValue)
     {
-        outValue = Int2String(getStrokeWidth());
+        outValue = Int2String(getSVGStrokeWidth());
     }
 
 
-    void StrokeWidthController::set(const std::string & inValue)
+    void SVG_StrokeWidthController::set(const std::string & inValue)
     {
-        setStrokeWidth(String2Int(inValue));
+        setSVGStrokeWidth(String2Int(inValue));
     }
 
 } // namespace XULWin

@@ -39,7 +39,7 @@ namespace XULWin
     class TitleController : public AttributeController
     {
     public:
-        TitleController(){}
+		static const char * AttributeName() { return "title"; }
 
         virtual void get(std::string & outValue);
 
@@ -59,7 +59,7 @@ namespace XULWin
     class WidthController : public AttributeController
     {
     public:
-        WidthController(){}
+		static const char * AttributeName() { return "width"; }
 
         virtual void get(std::string & outValue);
 
@@ -79,7 +79,7 @@ namespace XULWin
     class HeightController : public AttributeController
     {
     public:
-        HeightController(){}
+		static const char * AttributeName() { return "height"; }
 
         virtual void get(std::string & outValue);
 
@@ -99,7 +99,7 @@ namespace XULWin
     class ScreenXController : public AttributeController
     {
     public:
-        ScreenXController(){}
+		static const char * AttributeName() { return "screenx"; }
 
         virtual void get(std::string & outValue);
 
@@ -119,7 +119,7 @@ namespace XULWin
     class ScreenYController : public AttributeController
     {
     public:
-        ScreenYController(){}
+		static const char * AttributeName() { return "screeny"; }
 
         virtual void get(std::string & outValue);
 
@@ -141,7 +141,7 @@ namespace XULWin
     class FlexController : public AttributeController
     {
     public:
-        FlexController(){}
+		static const char * AttributeName() { return "flex"; }
 
         virtual void get(std::string & outValue);
 
@@ -161,7 +161,7 @@ namespace XULWin
     class DisabledController : public AttributeController
     {
     public:
-        DisabledController(){}
+		static const char * AttributeName() { return "disabled"; }
 
         virtual void get(std::string & outValue);
 
@@ -181,7 +181,7 @@ namespace XULWin
     class SelectedController : public AttributeController
     {
     public:
-        SelectedController(){}
+		static const char * AttributeName() { return "selected"; }
 
         virtual void get(std::string & outValue);
 
@@ -201,9 +201,7 @@ namespace XULWin
     class HiddenController : public AttributeController
     {
     public:
-        HiddenController(){}
-
-        static const char * PropertyName() { return "hidden"; }
+		static const char * AttributeName() { return "hidden"; }
 
         virtual void get(std::string & outValue);
 
@@ -224,9 +222,7 @@ namespace XULWin
     class LabelController : public AttributeController
     {
     public:
-        LabelController(){}
-
-        static const char * PropertyName() { return "label"; }
+		static const char * AttributeName() { return "label"; }
 
         virtual void get(std::string & outValue);
 
@@ -247,7 +243,7 @@ namespace XULWin
     class StringValueController : public AttributeController
     {
     public:
-        StringValueController(){}
+		static const char * AttributeName() { return "value"; }
 
         virtual void get(std::string & outValue);
 
@@ -268,7 +264,7 @@ namespace XULWin
     class ReadOnlyController : public AttributeController
     {
     public:
-        ReadOnlyController(){}
+		static const char * AttributeName() { return "readonly"; }
 
         virtual void get(std::string & outValue);
 
@@ -290,9 +286,7 @@ namespace XULWin
     class RowsController : public AttributeController
     {
     public:
-        RowsController(){}
-
-        static const char * PropertyName() { return "rows"; }
+		static const char * AttributeName() { return "rows"; }
 
         virtual void get(std::string & outValue);
 
@@ -307,7 +301,7 @@ namespace XULWin
     class CheckedController : public AttributeController
     {
     public:
-        CheckedController(){}
+		static const char * AttributeName() { return "checked"; }
 
         virtual void get(std::string & outValue);
 
@@ -322,7 +316,7 @@ namespace XULWin
     class OrientController : public AttributeController
     {
     public:
-        OrientController(){}
+		static const char * AttributeName() { return "orient"; }
 
         virtual void get(std::string & outValue);
 
@@ -337,7 +331,7 @@ namespace XULWin
     class AlignController : public AttributeController
     {
     public:
-        AlignController(){}
+		static const char * AttributeName() { return "align"; }
 
         virtual void get(std::string & outValue);
 
@@ -352,7 +346,7 @@ namespace XULWin
     class IntValueController : public AttributeController
     {
     public:
-        IntValueController(){}
+		static const char * AttributeName() { return "value"; }
 
         virtual void get(std::string & outValue);
 
@@ -367,7 +361,7 @@ namespace XULWin
     class SelectedIndexController : public AttributeController
     {
     public:
-        SelectedIndexController(){}
+		static const char * AttributeName() { return "selectedIndex"; }
 
         virtual void get(std::string & outSelectedIndex);
 
@@ -382,7 +376,7 @@ namespace XULWin
     class ScrollbarCurrentPositionController : public AttributeController
     {
     public:
-        ScrollbarCurrentPositionController(){}
+		static const char * AttributeName() { return "curpos"; }
 
         virtual void get(std::string & outCurpos);
 
@@ -397,7 +391,7 @@ namespace XULWin
     class ScrollbarMaxPositionController : public AttributeController
     {
     public:
-        ScrollbarMaxPositionController(){}
+		static const char * AttributeName() { return "maxpos"; }
 
         virtual void get(std::string & outMaxPosition);
 
@@ -412,7 +406,7 @@ namespace XULWin
     class ScrollbarIncrementController : public AttributeController
     {
     public:
-        ScrollbarIncrementController(){}
+		static const char * AttributeName() { return "increment"; }
 
         virtual void get(std::string & outIncrement);
 
@@ -427,7 +421,7 @@ namespace XULWin
     class ScrollbarPageIncrementController : public AttributeController
     {
     public:
-        ScrollbarPageIncrementController(){}
+		static const char * AttributeName() { return "pageincrement"; }
 
         virtual void get(std::string & outPageIncrement);
 
@@ -442,7 +436,7 @@ namespace XULWin
     class SrcController : public AttributeController
     {
     public:
-        SrcController(){}
+		static const char * AttributeName() { return "src"; }
 
         virtual void get(std::string & outPageIncrement);
 
@@ -463,7 +457,7 @@ namespace XULWin
     class KeepAspectRatioController : public AttributeController
     {
     public:
-        KeepAspectRatioController(){}
+		static const char * AttributeName() { return "keepAspectRatio"; }
 
         virtual void get(std::string & outPageIncrement);
 
@@ -478,6 +472,8 @@ namespace XULWin
     class PointsController : public AttributeController
     {
     public:
+		static const char * AttributeName() { return "points"; }
+
         virtual void get(std::string & outValue);
 
         virtual void set(const std::string & inValue);
@@ -491,6 +487,11 @@ namespace XULWin
     class PathInstructionsController : public AttributeController
     {
     public:
+		static const char * AttributeName()
+		{
+			return "d"; // it's really "d", this is not an error
+		}
+
         virtual void get(std::string & outValue);
 
         virtual void set(const std::string & inValue);
@@ -501,42 +502,48 @@ namespace XULWin
     };
 
 
-    class FillController : public AttributeController
+    class SVG_FillController : public AttributeController
     {
     public:
+		static const char * AttributeName() { return "fill"; }
+
         virtual void get(std::string & outValue);
 
         virtual void set(const std::string & inValue);
 
-        virtual void setFill(const RGBColor & inColor) = 0;
+        virtual void setSVGFill(const RGBColor & inColor) = 0;
 
-        virtual const RGBColor & getFill() const = 0;
+        virtual const RGBColor & getSVGFill() const = 0;
     };
 
 
-    class StrokeController : public AttributeController
+    class SVG_StrokeController : public AttributeController
     {
     public:
+		static const char * AttributeName() { return "stroke"; }
+
         virtual void get(std::string & outValue);
 
         virtual void set(const std::string & inValue);
 
-        virtual void setStroke(const RGBColor & inColor) = 0;
+        virtual void setSVGStroke(const RGBColor & inColor) = 0;
 
-        virtual const RGBColor & getStroke() const = 0;
+        virtual const RGBColor & getSVGStroke() const = 0;
     };
 
 
-    class StrokeWidthController : public AttributeController
+    class SVG_StrokeWidthController : public AttributeController
     {
     public:
+		static const char * AttributeName() { return "fill"; }
+
         virtual void get(std::string & outValue);
 
         virtual void set(const std::string & inValue);
 
-        virtual void setStrokeWidth(int inStrokeWidth) = 0;
+        virtual void setSVGStrokeWidth(int inStrokeWidth) = 0;
 
-        virtual int getStrokeWidth() const = 0;
+        virtual int getSVGStrokeWidth() const = 0;
     };
 
 } // namespace XULWin

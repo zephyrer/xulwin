@@ -83,8 +83,8 @@ namespace XULWin
 
     bool ListItem::initAttributeControllers()
     {
-        setAttributeController("label", static_cast<LabelController*>(this));
-        setAttributeController("selected", static_cast<SelectedController*>(this));
+        setAttributeController<LabelController>(this);
+        setAttributeController<SelectedController>(this);
         return Super::initAttributeControllers();
     }
 

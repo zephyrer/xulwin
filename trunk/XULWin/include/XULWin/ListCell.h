@@ -9,21 +9,27 @@
 
 namespace XULWin
 {
-    //
-    // This is an experimental use of the attribute policy classes
-    //
-    //
-    class ListCell;
-    typedef AttributeInitializer<PassiveComponent, ListCell, LabelController_AsMember> ListCell_LabelController;
 
-    class ListCell : public ListCell_LabelController
+    class ListCell : public PassiveComponent,
+		             public virtual LabelController
     {
     public:
         ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 
+		virtual bool initAttributeControllers();
+
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+		virtual std::string getLabel() const
+		{ return mLabel; }
+
+		virtual void setLabel(const std::string & inLabel)
+		{ mLabel = inLabel; }
+
+	private:
+		std::string mLabel;
     };
 
 } // namespace XULWin

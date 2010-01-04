@@ -186,6 +186,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ComponentFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\ComponentFactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ConditionalState.cpp"
 				>
 			</File>
@@ -506,11 +514,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Parser.cpp"
+				RelativePath=".\src\Overlay.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Parser.h"
+				RelativePath=".\include\XULWin\Overlay.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OverlayElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\OverlayElement.h"
 				>
 			</File>
 			<File
@@ -643,6 +659,22 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\WinUtils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\XULOverlayParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\XULOverlayParser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\XULParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\XULParser.h"
 				>
 			</File>
 			<File

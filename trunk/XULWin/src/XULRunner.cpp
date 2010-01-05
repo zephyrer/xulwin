@@ -4,6 +4,7 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/XULOverlayParser.h"
 #include "XULWin/WinUtils.h"
+#include "Poco/File.h"
 #include "Poco/Path.h"
 #include "Poco/String.h"
 
@@ -106,8 +107,7 @@ namespace XULWin
         Prefs prefs;
         if (!getPrefs(cPrefsFile, prefs))
         {
-            ReportError("Could not parse prefs file.");
-            return "";
+            throw std::exception("Could not parse prefs file. This implicates that the main XUL file path remains unknown and that the application can't be started.");
         }
         
         Prefs::iterator it = prefs.find("toolkit.defaultChromeURI");
@@ -174,6 +174,15 @@ namespace XULWin
     
     ElementPtr XULRunner::loadApplication(const std::string & inApplicationIniFile)
     {
+        Poco::File file(inApplicationIniFile);
+        if (!file.exists())
+        {
+            std::string msg = "The current working directory does not contain a file named ";
+            msg += "'" + inApplicationIniFile + "'.";
+            msg += " Please set the current directory to the one that contains this file.";
+            throw std::exception(msg.c_str());
+        }
+
         XULParser parser;
         mRootElement = Parse(parser, getMainXULFile(Windows::getCurrentDirectory()));
         return mRootElement;

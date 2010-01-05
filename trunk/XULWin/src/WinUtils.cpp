@@ -31,8 +31,8 @@ namespace Windows
         std::wstring newDir = ToUTF16(inTargetDir);
         if (0 == ::SetCurrentDirectory(newDir.c_str()))
         {
-            std::string lastError = Windows::getLastError(::GetLastError());
-            ReportError(lastError);
+            std::string msg = "Failed to change the directory to '" + inTargetDir + "'. Reason: " + Windows::getLastError(::GetLastError());
+            throw std::runtime_error(msg.c_str());
         }
     }
 

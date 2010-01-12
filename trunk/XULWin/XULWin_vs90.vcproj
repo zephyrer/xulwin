@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;"
+				AdditionalIncludeDirectories="&quot;$(POCO_DEV)Foundation\include&quot;;&quot;$(POCO_DEV)XML\include&quot;;&quot;$(ProjectDir)include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -110,7 +110,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)include&quot;"
+				AdditionalIncludeDirectories="&quot;$(POCO_DEV)Foundation\include&quot;;&quot;$(POCO_DEV)XML\include&quot;;&quot;$(ProjectDir)include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"

@@ -17,7 +17,7 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
+			Name="debug_static|Win32"
 			OutputDirectory="$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\"
 			IntermediateDirectory="$(OutDir)Intermediate"
 			ConfigurationType="10"
@@ -37,9 +37,50 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
+			Name="release_static|Win32"
 			OutputDirectory="$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\"
 			IntermediateDirectory="$(OutDir)Intermediate"
+			ConfigurationType="10"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="debug_shared|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="10"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="release_shared|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="10"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -68,7 +109,15 @@
 				RelativePath=".\CreateElement\ComponentTemplate.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="debug_static|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="debug_shared|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -80,7 +129,15 @@
 				RelativePath=".\CreateElement\ComponentTemplate.h"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="debug_static|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="debug_shared|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -100,7 +157,7 @@
 				RelativePath=".\CreateElement\ElementTemplate.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="debug_static|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -108,7 +165,23 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="release_static|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="debug_shared|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="release_shared|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -120,7 +193,7 @@
 				RelativePath=".\CreateElement\ElementTemplate.h"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="debug_static|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -128,7 +201,23 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="release_static|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="debug_shared|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="release_shared|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -156,7 +245,15 @@
 				RelativePath=".\CreateClass\ClassTemplate.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="debug_static|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="debug_shared|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -168,7 +265,15 @@
 				RelativePath=".\CreateClass\ClassTemplate.h"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="debug_static|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="debug_shared|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool

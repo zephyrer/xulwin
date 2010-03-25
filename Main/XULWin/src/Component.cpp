@@ -60,8 +60,6 @@ namespace XULWin
         mHeight(0),
         mScreenX(0),
         mScreenY(0),
-        mFill(RGBColor()),
-        mStroke(RGBColor(0, 0, 0, 0)),
         mStrokeWidth(1),
         mCSSWidth(0),
         mCSSHeight(0),
@@ -75,8 +73,6 @@ namespace XULWin
         mHeight.setInvalid();
         mScreenX.setInvalid();
         mScreenY.setInvalid();
-        mFill.setInvalid();
-        mStroke.setInvalid();
         mStrokeWidth.setInvalid();
         mCSSWidth.setInvalid();
         mCSSHeight.setInvalid();
@@ -213,71 +209,15 @@ namespace XULWin
         }
 
         return mCSSFill; // default value
-    }        
+    }  
 
 
-    void ConcreteComponent::setSVGFill(const RGBColor & inColor)
-    {
-        mFill = inColor;
-    }
-
-
-    const RGBColor & ConcreteComponent::getSVGFill() const
-    {
-        return mFill;
-    }
-
-
-    void ConcreteComponent::setSVGStroke(const RGBColor & inColor)
-    {
-        mStroke = inColor;
-    }
-
-
-    const RGBColor & ConcreteComponent::getSVGStroke() const
-    {
-        if (mStroke.isValid())
-        {
-            return mStroke.getValue();
-        }
-
-        if (parent())
-        {
-            return parent()->getSVGStroke();
-        }
-
-        return mStroke;
-    }
-
-
-    void ConcreteComponent::setSVGStrokeWidth(int inStrokeWidth)
-    {
-        mStrokeWidth = inStrokeWidth;
-    }
-
-
-    int ConcreteComponent::getSVGStrokeWidth() const
-    {
-        if (mStrokeWidth.isValid())
-        {
-            return mStrokeWidth.getValue();
-        }
-
-        if (parent())
-        {
-            return parent()->getSVGStrokeWidth();
-        }
-
-        return mStrokeWidth;
-    }
-    
-    
     void ConcreteComponent::setCSSFill(const RGBColor & inColor)
     {
         mCSSFill = inColor;
     }
-    
-    
+
+
     void ConcreteComponent::setCSSStroke(const RGBColor & inColor)
     {
         mCSSStroke = inColor;
@@ -288,7 +228,7 @@ namespace XULWin
     {
         if (mCSSStroke.isValid())
         {
-            return mCSSStroke;
+            return mCSSStroke.getValue();
         }
 
         if (parent())
@@ -296,9 +236,9 @@ namespace XULWin
             return parent()->getCSSStroke();
         }
 
-        return mCSSStroke; // default value
-    }
-
+        return mCSSStroke;
+    }        
+    
 
     int ConcreteComponent::getCSSX() const
     {
@@ -648,8 +588,6 @@ namespace XULWin
     {
         setAttributeController<WidthController>(this);
         setAttributeController<HeightController>(this);
-        setAttributeController<SVG_FillController>(this);
-        setAttributeController<SVG_StrokeController>(this);
         setAttributeController<FlexController>(this);
         setAttributeController<HiddenController>(this);
         setAttributeController<AlignController>(this);
@@ -666,8 +604,8 @@ namespace XULWin
         setStyleController<CSSHeightController>(this);
         setStyleController<CSSMarginController>(this);
         setStyleController<CSSBackgroundColorController>(this);
-        setStyleController<CSS_SVG_FillController>(this);
-        setStyleController<CSS_SVG_StrokeController>(this);
+        setStyleController<CSSFillController>(this);
+        setStyleController<CSSStrokeController>(this);
         return true;
     }
 

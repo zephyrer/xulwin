@@ -120,8 +120,91 @@ namespace XULWin
 
 
     SVG::SVG(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        PassiveComponent(inParent, inAttributesMapping),
+        mSVGFill(RGBColor(0, 0, 0)),
+        mSVGStroke(RGBColor(0, 0, 0, 0)),
+        mSVGStrokeWidth(1)
     {
+        mSVGFill.setInvalid();
+        mSVGStroke.setInvalid();
+        mSVGStrokeWidth.setInvalid();
+    }
+
+
+    bool SVG::initAttributeControllers()
+    {
+        setAttributeController<SVG_FillController>(this);
+        setAttributeController<SVG_StrokeController>(this);
+        setAttributeController<SVG_StrokeWidthController>(this);
+        return Super::initAttributeControllers();
+    }
+
+
+    bool SVG::initStyleControllers()
+    {
+        return Super::initStyleControllers();
+    }
+
+
+    void SVG::setSVGFill(const RGBColor & inColor)
+    {
+        mSVGFill = inColor;
+    }
+
+
+    const RGBColor & SVG::getSVGFill() const
+    {
+        return mSVGFill;
+    }
+
+
+    void SVG::setSVGStroke(const RGBColor & inColor)
+    {
+        mSVGStroke = inColor;
+    }
+
+
+    const RGBColor & SVG::getSVGStroke() const
+    {
+        if (mSVGStroke.isValid())
+        {
+            return mSVGStroke.getValue();
+        }
+
+        if (parent())
+        {
+            if (const SVG * svg = parent()->downcast<SVG>())
+            {
+                return svg->getSVGStroke();
+            }
+        }
+
+        return mSVGStroke;
+    }
+
+
+    void SVG::setSVGStrokeWidth(int inStrokeWidth)
+    {
+        mStrokeWidth = inStrokeWidth;
+    }
+
+
+    int SVG::getSVGStrokeWidth() const
+    {
+        if (mStrokeWidth.isValid())
+        {
+            return mStrokeWidth.getValue();
+        }
+
+        if (parent())
+        {
+            if (const SVG * svg = parent()->downcast<SVG>())
+            {
+                return svg->getSVGStrokeWidth();
+            }
+        }
+
+        return mStrokeWidth;
     }
 
         
@@ -227,7 +310,6 @@ namespace XULWin
         setStyleController<CSSYController>(this);
         setStyleController<CSSWidthController>(this);
         setStyleController<CSSHeightController>(this);
-        setStyleController<CSS_SVG_FillController>(this);
         return Super::initStyleControllers();
     }
 
@@ -587,7 +669,8 @@ namespace XULWin
                                    strokeColorRGB.red(),
                                    strokeColorRGB.green(),
                                    strokeColorRGB.blue());
-        Gdiplus::Pen pen(strokeColor, 3.0f);
+                
+        Gdiplus::Pen pen(strokeColor, static_cast<float>(getSVGStrokeWidth()));
 
         Gdiplus::GraphicsPath path;
         path.SetFillMode(Gdiplus::FillModeWinding);

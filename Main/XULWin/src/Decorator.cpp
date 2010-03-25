@@ -195,21 +195,23 @@ namespace XULWin
 
     void Decorator::setSVGStroke(const RGBColor & inColor)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            mDecoratedElement->setSVGStroke(inColor);
-        }
+        assert(false); // TODO: remove this method
+        //assert(mDecoratedElement);
+        //if (mDecoratedElement)
+        //{
+        //    mDecoratedElement->setSVGStroke(inColor);
+        //}
     }
 
 
     const RGBColor & Decorator::getSVGStroke() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            return mDecoratedElement->getSVGStroke();
-        }
+        assert(false); // TODO: remove this method
+        //assert(mDecoratedElement);
+        //if (mDecoratedElement)
+        //{
+        //    return mDecoratedElement->getSVGStroke();
+        //}
         static RGBColor fDefault;
         return fDefault;
     }
@@ -217,42 +219,46 @@ namespace XULWin
 
     void Decorator::setSVGStrokeWidth(int inStrokeWidth)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            return mDecoratedElement->setSVGStrokeWidth(inStrokeWidth);
-        }
+        assert(false); // TODO: remove this method
+        //assert(mDecoratedElement);
+        //if (mDecoratedElement)
+        //{
+        //    return mDecoratedElement->setSVGStrokeWidth(inStrokeWidth);
+        //}
     }
 
     
     int Decorator::getSVGStrokeWidth() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            return mDecoratedElement->getSVGStrokeWidth();
-        }
+        assert(false); // TODO: remove this method
+        //assert(mDecoratedElement);
+        //if (mDecoratedElement)
+        //{
+        //    return mDecoratedElement->getSVGStrokeWidth();
+        //}
         return 0;
     }
 
 
     void Decorator::setSVGFill(const RGBColor & inColor)
-    {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            mDecoratedElement->setSVGFill(inColor);
-        }
+    {        
+        assert(false); // TODO: remove this method
+        //assert(mDecoratedElement);
+        //if (mDecoratedElement)
+        //{
+        //    mDecoratedElement->setSVGFill(inColor);
+        //}
     }
 
 
     const RGBColor & Decorator::getSVGFill() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            mDecoratedElement->getSVGFill();
-        }
+        assert(false); // TODO: remove this method
+        //assert(mDecoratedElement);
+        //if (mDecoratedElement)
+        //{
+        //    mDecoratedElement->getSVGFill();
+        //}
         static RGBColor fDefault;
         return fDefault;
     }

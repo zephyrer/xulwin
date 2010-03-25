@@ -535,7 +535,7 @@ namespace XULWin
     class SVG_StrokeWidthController : public AttributeController
     {
     public:
-        static const char * AttributeName() { return "fill"; }
+        static const char * AttributeName() { return "stroke-width"; }
 
         virtual void get(std::string & outValue);
 

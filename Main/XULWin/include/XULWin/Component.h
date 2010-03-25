@@ -84,15 +84,12 @@ namespace XULWin
                       public virtual CSSWidthController,
                       public virtual CSSXController,
                       public virtual CSSYController,
-                      public virtual CSS_SVG_FillController,
-                      public virtual CSS_SVG_StrokeController,
+                      public virtual CSSFillController,
+                      public virtual CSSStrokeController,
                       public virtual FlexController,
                       public virtual HeightController,
                       public virtual HiddenController,
                       public virtual OrientController,
-                      public virtual SVG_FillController,
-                      public virtual SVG_StrokeController,
-                      public virtual SVG_StrokeWidthController,
                       public virtual ScreenXController,
                       public virtual ScreenYController,
                       public virtual WidthController,
@@ -140,21 +137,6 @@ namespace XULWin
         virtual int getScreenY() const = 0;
 
         virtual void setScreenY(int inY) = 0;
-
-        // SVG_StrokeController methods
-        virtual void setSVGStroke(const RGBColor & inColor) = 0;
-
-        virtual const RGBColor & getSVGStroke() const = 0;
-
-        // SVG_StrokeWidthController methods
-        virtual void setSVGStrokeWidth(int inStrokeWidth) = 0;
-
-        virtual int getSVGStrokeWidth() const = 0;
-
-        // SVG_FillController methods
-        virtual void setSVGFill(const RGBColor & inColor) = 0;
-
-        virtual const RGBColor & getSVGFill() const = 0;
 
         // FlexController methods
         virtual int getFlex() const = 0;
@@ -391,22 +373,6 @@ namespace XULWin
         virtual int getScreenY() const;
 
         virtual void setScreenY(int inY);
-
-        // SVG_StrokeController methods
-        virtual void setSVGStroke(const RGBColor & inColor);
-
-        virtual const RGBColor & getSVGStroke() const;
-
-        // SVG_StrokeWidthController methods
-        virtual void setSVGStrokeWidth(int inStrokeWidth);
-
-        virtual int getSVGStrokeWidth() const;
-
-        // SVG_FillController methods
-        virtual void setSVGFill(const RGBColor & inColor);
-
-        virtual const RGBColor & getSVGFill() const;
-
         // FlexController methods
         virtual int getFlex() const;
 
@@ -447,12 +413,12 @@ namespace XULWin
 
         virtual void setCSSMargin(int inTop, int inLeft, int inRight, int inBottom);
 
-        // CSS_SVG_FillController methods
+        // CSSFillController methods
         virtual void setCSSFill(const RGBColor & inColor);
 
         virtual const RGBColor & getCSSFill() const;
 
-        // CSS_SVG_StrokeController methods
+        // CSSStrokeController methods
         virtual void setCSSStroke(const RGBColor & inColor);
 
         virtual const RGBColor & getCSSStroke() const;
@@ -588,8 +554,6 @@ namespace XULWin
         Fallible<int> mHeight;       
         Fallible<int> mCSSWidth;
         Fallible<int> mCSSHeight;
-        Fallible<RGBColor> mFill;
-        Fallible<RGBColor> mStroke;
         Fallible<int> mStrokeWidth;
         Fallible<RGBColor> mCSSFill;
         Fallible<RGBColor> mCSSStroke;

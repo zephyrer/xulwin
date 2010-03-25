@@ -45,14 +45,36 @@ namespace XULWin
     };
 
 
-    class SVG : public PassiveComponent
+    class SVG : public PassiveComponent,
+                public virtual SVG_FillController,
+                public virtual SVG_StrokeController,
+                public virtual SVG_StrokeWidthController
     {
     public:
         typedef PassiveComponent Super;
 
         SVG(Component * inParent, const AttributesMapping & inAttributesMapping);
 
+        virtual void setSVGFill(const RGBColor & inColor);
+
+        const RGBColor & getSVGFill() const;
+
+        virtual void setSVGStroke(const RGBColor & inColor);
+
+        virtual const RGBColor & getSVGStroke() const;
+
+        virtual void setSVGStrokeWidth(int inStrokeWidth);
+
+        virtual int getSVGStrokeWidth() const;
+
+        virtual bool initAttributeControllers();
+
+        virtual bool initStyleControllers();
+
     private:
+        Fallible<RGBColor> mSVGFill;
+        Fallible<RGBColor> mSVGStroke;
+        Fallible<int> mSVGStrokeWidth;
     };
 
 

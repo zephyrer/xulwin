@@ -6,6 +6,7 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/ImageElement.h"
 #include "XULWin/Unicode.h"
+#include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/Path.h"
 #include <boost/bind.hpp>

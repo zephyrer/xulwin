@@ -2,6 +2,7 @@
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/MenuPopupElement.h"
 #include "XULWin/Unicode.h"
+#include "XULWin/Window.h"
 #include "Poco/Path.h"
 #include <boost/bind.hpp>
 #include <boost/function.hpp>

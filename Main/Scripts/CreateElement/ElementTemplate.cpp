@@ -8,11 +8,13 @@
 namespace XULWin
 {
 
+
     {{ELEMENT_NAME}}::{{ELEMENT_NAME}}(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element({{ELEMENT_NAME}}::Type(),
                 inParent,
                 new {{COMPONENT_NAME}}(inParent->component(), inAttributesMapping))
     {
     }
+
 
 } // namespace XULWin

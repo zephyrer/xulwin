@@ -5,6 +5,7 @@
 #include "XULWin/ListItemElement.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/WindowElement.h"
 #include "XULWin/Lua/LuaBindings.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "Poco/Path.h"

@@ -8,6 +8,7 @@
 namespace XULWin
 {
 
+
     class {{COMPONENT_NAME}} : public PassiveComponent
     {
     public:
@@ -15,6 +16,7 @@ namespace XULWin
 
         {{COMPONENT_NAME}}(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
+
 
 } // namespace XULWin
 

@@ -20,6 +20,7 @@
 #include "XULWin/SVGElement.h"
 #include "XULWin/TextElement.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 
 

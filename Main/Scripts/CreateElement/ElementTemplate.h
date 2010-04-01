@@ -8,6 +8,7 @@
 namespace XULWin
 {
 
+
     class {{ELEMENT_NAME}} : public Element
     {
     public:
@@ -20,6 +21,7 @@ namespace XULWin
         friend class Element;
         {{ELEMENT_NAME}}(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
+
 
 } // namespace XULWin
 

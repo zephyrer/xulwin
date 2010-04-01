@@ -3,6 +3,7 @@
 #include "XULWin/Initializer.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Windows.h"
+#include "XULWin/WindowElement.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "Poco/Path.h"

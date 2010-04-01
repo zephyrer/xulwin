@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "XULWin/Element.h"
 #include "XULWin/LabelElement.h"
+#include "XULWin/WindowElement.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/WinUtils.h"
 

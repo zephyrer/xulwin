@@ -5,6 +5,7 @@
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/Menu.h"
 #include "XULWin/MenuItem.h"
+#include "XULWin/Window.h"
 
 
 namespace XULWin

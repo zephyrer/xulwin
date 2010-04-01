@@ -3,6 +3,7 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/XULOverlayParser.h"
+#include "XULWin/WindowElement.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/File.h"
 #include "Poco/Path.h"

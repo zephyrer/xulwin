@@ -231,33 +231,6 @@ namespace XULWin
     };
 
 
-    class WindowElement : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<WindowElement>(inParent, inAttr); }
-
-        static const char * Type() { return "window"; }
-
-
-        enum Positioning
-        {
-            DefaultPosition,
-            CenterInScreen
-        };
-
-        void show(Positioning inPositioning);
-
-        void showModal(Positioning inPositioning);
-
-        void close();
-
-    private:
-        friend class Element;
-        WindowElement(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
     enum DialogResult
     {
         DialogResult_Error = -1,
@@ -266,7 +239,7 @@ namespace XULWin
         DialogResult_Custom
     };
 
-
+    class WindowElement;
     class DialogElement : public Element
     {
     public:

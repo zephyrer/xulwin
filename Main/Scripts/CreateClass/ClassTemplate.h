@@ -5,6 +5,7 @@
 namespace XULWin
 {
 
+
     class {{CLASS_NAME}}
     {
     public:
@@ -12,6 +13,7 @@ namespace XULWin
 
         virtual ~{{CLASS_NAME}}();
     };
+
 
 } // namespace XULWin
 

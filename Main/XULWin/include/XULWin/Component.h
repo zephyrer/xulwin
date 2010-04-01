@@ -1516,7 +1516,7 @@ namespace XULWin
     };
 
 
-    typedef GenericNode<std::string, ContainerPolicy_Vector, PointerPolicy_Normal> TreeItemInfo;
+    typedef GenericNode<std::string, ContainerPolicy_Vector, PointerPolicy_Normal_NoOwnership> TreeItemInfo;
 
 
     class TreeCell;

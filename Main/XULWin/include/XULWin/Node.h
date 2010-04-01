@@ -41,12 +41,27 @@ namespace XULWin
 
 
     template <class PointeeType>
-    struct PointerPolicy_Normal
+    struct PointerPolicy_Normal_NoOwnership
     {
         typedef PointeeType* PointerType;
 
         static PointeeType* getRaw(PointerType p)
         { return p; }
+
+        static void destroy(PointerType p) { }
+    };
+
+
+    template <class PointeeType>
+    struct PointerPolicy_Normal_WithOwnership
+    {
+        typedef PointeeType* PointerType;
+
+        static PointeeType* getRaw(PointerType p)
+        { return p; }
+
+        static void destroy(PointerType p)
+        { delete p; }
     };
 
 
@@ -57,6 +72,8 @@ namespace XULWin
 
         static PointeeType* getRaw(PointerType p)
         { return p.get(); }
+
+        static void destroy(PointerType p) { }
     };
 
 
@@ -75,12 +92,24 @@ namespace XULWin
         typedef typename Container::iterator iterator;
         typedef typename Container::const_iterator const_iterator;
 
+        ~GenericNode()
+        {
+            const_iterator it = this->begin(), endIt = this->end();
+            for (; it != endIt; ++it)
+            {
+                PointerPolicy<This>::destroy(*it);
+            }
+        }
+
         iterator begin() { return mChildren.begin(); }
         iterator end() { return mChildren.end(); }
 
         const_iterator begin() const { return mChildren.begin(); }
         const_iterator end() const { return mChildren.end(); }
 
+        /**
+         * Takes ownership.
+         */
         void addChild(This * inItem)
         { 
             ChildPtr item(inItem);

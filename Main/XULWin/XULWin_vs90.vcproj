@@ -699,10 +699,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ElementCreationSupport.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\ElementFactory.h"
 					>
 				</File>

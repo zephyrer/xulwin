@@ -87,7 +87,7 @@ namespace XULWin
             if (Toolbar * toolbar = inParent->downcast<Toolbar>())
             {
                 DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttributesMapping));
-                boost::weak_ptr<Windows::ToolbarElement> theNativeToolbar(toolbar->nativeToolbar());
+                boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());
                 result = new ToolbarCustomWindowDecorator(decoratedComponent, theNativeToolbar);
                 return true;
             }

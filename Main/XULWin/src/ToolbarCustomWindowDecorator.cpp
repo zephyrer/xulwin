@@ -4,7 +4,7 @@
 namespace XULWin
 {    
     
-    ToolbarCustomWindowDecorator::ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::ToolbarElement> inToolbar) :
+    ToolbarCustomWindowDecorator::ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar) :
         Decorator(inDecoratedElement),
         IECustomWindow(),
         mCustomWindow(0)
@@ -55,7 +55,7 @@ namespace XULWin
     }
 
 
-    ToolbarCustomWindowDecorator::ConcreteCustomWindow::ConcreteCustomWindow(boost::weak_ptr<Windows::ToolbarElement> inToolbar, int inCommandId, HWND inHandle) :
+    ToolbarCustomWindowDecorator::ConcreteCustomWindow::ConcreteCustomWindow(boost::weak_ptr<Windows::Toolbar> inToolbar, int inCommandId, HWND inHandle) :
         mToolbar(inToolbar),
         mHandle(inHandle),
         mCommandId(inCommandId)

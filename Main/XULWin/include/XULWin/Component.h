@@ -1635,7 +1635,7 @@ namespace XULWin
 
 
     class Statusbar : public NativeControl,
-                          public BoxLayouter::ContentProvider
+                      public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
@@ -1701,8 +1701,8 @@ namespace XULWin
 
 
     class Toolbar : public NativeControl,
-                        public Windows::ToolbarElement::EventHandler,
-                        public GdiplusLoader
+                    public Windows::Toolbar::EventHandler,
+                    public GdiplusLoader
     {
     public:
         typedef NativeControl Super;
@@ -1722,10 +1722,10 @@ namespace XULWin
         // ToolbarElement::EventHandler methods
         virtual void onRequestFocus() {}
 
-        boost::shared_ptr<Windows::ToolbarElement> nativeToolbar() const { return mToolbar; }
+        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const { return mToolbar; }
 
     private:
-        boost::shared_ptr<Windows::ToolbarElement> mToolbar;
+        boost::shared_ptr<Windows::Toolbar> mToolbar;
     };
 
 

@@ -42,7 +42,7 @@ namespace Windows
 
     ConcreteToolbarItem::ConcreteToolbarItem
     (
-        boost::weak_ptr<ToolbarElement> inToolbar,
+        boost::weak_ptr<Toolbar> inToolbar,
         int inCommandID,
         const std::string & inText,
         const std::string & inTooltipText,
@@ -142,7 +142,7 @@ namespace Windows
 
     bool ConcreteToolbarItem::getIndex(size_t & outIndex) const
     {
-        if (boost::shared_ptr<ToolbarElement> ieToolbar = mToolbar.lock())
+        if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
         {
             for (size_t idx = 0; idx != ieToolbar->size(); ++idx)
             {
@@ -160,7 +160,7 @@ namespace Windows
     RECT ConcreteToolbarItem::getRect() const
     {
         RECT result = {0, 0, 0, 0};
-        if (boost::shared_ptr<ToolbarElement> ieToolbar = mToolbar.lock())
+        if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
         {
             size_t index;
             if (getIndex(index))
@@ -174,7 +174,7 @@ namespace Windows
 
     void ConcreteToolbarItem::setVisible(bool inVisible)
     {
-        if (boost::shared_ptr<ToolbarElement> ieToolbar = mToolbar.lock())
+        if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
         {
             SendMessage(ieToolbar->handle(), TB_HIDEBUTTON, (WPARAM)(INT)commandId(), (LPARAM)MAKELONG(inVisible ? FALSE : TRUE, 0));
         }
@@ -183,7 +183,7 @@ namespace Windows
 
     bool ConcreteToolbarItem::isVisible() const
     {
-        if (boost::shared_ptr<ToolbarElement> ieToolbar = mToolbar.lock())
+        if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
         {
             return 0 == SendMessage(ieToolbar->handle(), TB_ISBUTTONHIDDEN, (WPARAM)(INT)commandId(), (LPARAM)0);
         }
@@ -212,7 +212,7 @@ namespace Windows
     void ConcreteToolbarItem::setText( const std::string & inText)
     {
         mText = inText;
-        boost::shared_ptr<ToolbarElement> toolbar = mToolbar.lock();
+        boost::shared_ptr<Toolbar> toolbar = mToolbar.lock();
         if (toolbar)
         {
             toolbar->rebuildLayout();
@@ -239,7 +239,7 @@ namespace Windows
     void ConcreteToolbarItem::setImage(boost::shared_ptr<Gdiplus::Bitmap> inImage)
     {
         mImage = inImage;
-        if (boost::shared_ptr<ToolbarElement> toolbar = mToolbar.lock())
+        if (boost::shared_ptr<Toolbar> toolbar = mToolbar.lock())
         {
             toolbar->rebuildLayout();
         }
@@ -290,7 +290,7 @@ namespace Windows
 
     ToolbarButtonElement::ToolbarButtonElement
     (
-        boost::weak_ptr<ToolbarElement> inToolbar,
+        boost::weak_ptr<Toolbar> inToolbar,
         int inCommandID,
         const boost::function<void()> & inAction,
         const std::string & inText,
@@ -332,7 +332,7 @@ namespace Windows
 
     ToolbarDropDown::ToolbarDropDown
     (
-        boost::weak_ptr<ToolbarElement> inToolbar,
+        boost::weak_ptr<Toolbar> inToolbar,
         ToolbarDropDown::EventHandler * inEventHandler,
         int inCommandID,
         const std::string & inText,
@@ -386,7 +386,7 @@ namespace Windows
 
     ToolbarSeparator::ToolbarSeparator
     (
-        boost::weak_ptr<ToolbarElement> inToolbar,
+        boost::weak_ptr<Toolbar> inToolbar,
         int inCommandID
     ):
         ConcreteToolbarItem
@@ -428,7 +428,7 @@ namespace Windows
 
     ToolbarSpring::ToolbarSpring
     (
-        boost::weak_ptr<ToolbarElement> inToolbar,
+        boost::weak_ptr<Toolbar> inToolbar,
         int inCommandID
     ):
         ConcreteToolbarItem

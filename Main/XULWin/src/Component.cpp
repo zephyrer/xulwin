@@ -4070,7 +4070,7 @@ namespace XULWin
     {            
         if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
         {
-            mToolbar.reset(new Windows::ToolbarElement(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
+            mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
             subclass();

@@ -21,13 +21,13 @@ namespace XULWin
 namespace Windows
 {
 
-    class ToolbarElement;
+    class Toolbar;
     class ConcreteToolbarItem;
 
     class AbstractToolbarItem : public boost::noncopyable
     {
     public:            
-        friend class ToolbarElement;
+        friend class Toolbar;
         
         virtual ~AbstractToolbarItem() = 0{}
         
@@ -38,7 +38,7 @@ namespace Windows
         virtual int commandId() const = 0;
 
     protected:
-        friend class ToolbarElement;
+        friend class Toolbar;
         friend class ConcreteToolbarItem;
 
         virtual void onPostRebuildLayout(){}
@@ -50,10 +50,10 @@ namespace Windows
     class ConcreteToolbarItem : public AbstractToolbarItem
     {
     public:            
-        friend class ToolbarElement;
+        friend class Toolbar;
         ConcreteToolbarItem
         (
-            boost::weak_ptr<ToolbarElement> inToolbar,
+            boost::weak_ptr<Toolbar> inToolbar,
             int inCommandID,
             const std::string & inText,
             const std::string & inTooltipText,
@@ -122,7 +122,7 @@ namespace Windows
 
         virtual void onPostRebuildLayout() {}
 
-        boost::weak_ptr<ToolbarElement> mToolbar;
+        boost::weak_ptr<Toolbar> mToolbar;
         
     private:
         int mCommandId;
@@ -142,7 +142,7 @@ namespace Windows
     public:
         ToolbarButtonElement
         (
-            boost::weak_ptr<ToolbarElement> inToolbar,
+            boost::weak_ptr<Toolbar> inToolbar,
             int inCommandID,
             const boost::function<void()> & inAction,
             const std::string & inText,
@@ -170,7 +170,7 @@ namespace Windows
 
         ToolbarDropDown
         (
-            boost::weak_ptr<ToolbarElement> inToolbar,
+            boost::weak_ptr<Toolbar> inToolbar,
             EventHandler * inEventHandler,
             int inCommandID,
             const std::string & inText,
@@ -204,7 +204,7 @@ namespace Windows
     public:
         ToolbarSpring
         (
-            boost::weak_ptr<ToolbarElement> inToolbar,
+            boost::weak_ptr<Toolbar> inToolbar,
             int inCommandID // only serves as id, no command can be associated with it
         );
 
@@ -257,7 +257,7 @@ namespace Windows
     public:
         ToolbarSeparator
         (
-            boost::weak_ptr<ToolbarElement> inToolbar,
+            boost::weak_ptr<Toolbar> inToolbar,
             int inCommandID // only serves as id, no command can be associated with it
         );
 

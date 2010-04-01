@@ -382,14 +382,6 @@ namespace XULWin
     }
 
 
-    LabelElement::LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(LabelElement::Type(),
-                inParent,
-                ComponentFactory::Instance().createComponent<MarginDecorator, Label>(inParent->component(), inAttributesMapping))
-    {
-    }
-
-
     DescriptionElement::DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(DescriptionElement::Type(),
                 inParent,
@@ -402,14 +394,6 @@ namespace XULWin
     {
         setAttribute("value", innerText());
         return Element::init();
-    }
-
-
-    TextElement::TextElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TextElement::Type(),
-                inParent,
-                ComponentFactory::Instance().createComponent<MarginDecorator, Label>(inParent->component(), inAttributesMapping))
-    {
     }
 
 

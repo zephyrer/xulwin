@@ -2,6 +2,7 @@
 #include "XULWin/Component.h"
 #include "XULWin/ConditionalState.h"
 #include "XULWin/ImageElement.h"
+#include "XULWin/LabelElement.h"
 #include "XULWin/ListBoxElement.h"
 #include "XULWin/ListCellElement.h"
 #include "XULWin/ListColElement.h"
@@ -17,6 +18,7 @@
 #include "XULWin/OverlayElement.h"
 #include "XULWin/ScriptElement.h"
 #include "XULWin/SVGElement.h"
+#include "XULWin/TextElement.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/WinUtils.h"
 

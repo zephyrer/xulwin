@@ -444,6 +444,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Label.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Label.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\LabelElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\LabelElement.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Layout.cpp"
 				>
 			</File>
@@ -749,6 +765,22 @@
 			</File>
 			<File
 				RelativePath=".\include\XULWin\SVGPathInstructions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Text.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Text.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\TextElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\TextElement.h"
 				>
 			</File>
 			<File

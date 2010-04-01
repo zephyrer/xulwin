@@ -299,20 +299,6 @@ namespace XULWin
     };
 
 
-    class LabelElement : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<LabelElement>(inParent, inAttr); }
-
-        static const char * Type() { return "label"; }
-    
-    private:
-        friend class Element;
-        LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
     class DescriptionElement : public Element
     {
     public:
@@ -327,22 +313,6 @@ namespace XULWin
         friend class Element;
         DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
-
-
-    // TextElement is the same as label
-    class TextElement : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TextElement>(inParent, inAttr); }
-
-        static const char * Type() { return "text"; }
-    
-    private:
-        friend class Element;
-        TextElement(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
 
     class TextBoxElement : public Element
     {

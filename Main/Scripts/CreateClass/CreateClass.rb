@@ -1,5 +1,6 @@
 require "rexml/document"
 
+
 # Usage should be:
 # ruby create-element.rb classname
 input = ARGV[0]

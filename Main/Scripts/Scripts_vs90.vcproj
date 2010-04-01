@@ -150,7 +150,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CreateElement\create-el.rb"
+				RelativePath=".\CreateElement\CreateElement.rb"
 				>
 			</File>
 			<File
@@ -234,7 +234,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CreateXULSample\create-xul-sample.rb"
+				RelativePath=".\CreateXULSample\CreateXULSample.rb"
 				>
 			</File>
 		</Filter>
@@ -282,7 +282,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\CreateClass\create-class.rb"
+				RelativePath=".\CreateClass\CreateClass.rb"
 				>
 			</File>
 		</Filter>

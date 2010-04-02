@@ -1,399 +1,803 @@
-<?xml version='1.0' encoding='WINDOWS-1252'?>
-<VisualStudioProject Name='XULWin' TargetFrameworkVersion='131072' Version="9,00" ProjectGUID='{D623C05B-BDD9-4D6E-8E51-E3275608DEBE}' RootNamespace='XULWin' ProjectType='Visual C++' Keyword='Win32Proj'>
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="XULWin"
+	ProjectGUID="{D623C05B-BDD9-4D6E-8E51-E3275608DEBE}"
+	RootNamespace="XULWin"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
 	<Platforms>
-		<Platform Name='Win32'/>
+		<Platform
+			Name="Win32"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration Name='debug_static|Win32' OutputDirectory='$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\' CharacterSet='1' IntermediateDirectory='$(OutDir)Intermediate' ConfigurationType='4'>
-			<Tool Name='VCPreBuildEventTool'/>
-			<Tool Name='VCCustomBuildTool'/>
-			<Tool Name='VCXMLDataGeneratorTool'/>
-			<Tool Name='VCWebServiceProxyGeneratorTool'/>
-			<Tool Name='VCMIDLTool'/>
-			<Tool Name='VCCLCompilerTool' WarningLevel='3' MinimalRebuild='true' UsePrecompiledHeader='0' Optimization='0' BrowseInformation='1' RuntimeLibrary='1' DebugInformationFormat='4' AdditionalIncludeDirectories='&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;' PreprocessorDefinitions='WIN32;_DEBUG;_WINDOWS' BasicRuntimeChecks='3'/>
-			<Tool Name='VCManagedResourceCompilerTool'/>
-			<Tool Name='VCResourceCompilerTool'/>
-			<Tool Name='VCPreLinkEventTool'/>
-			<Tool Name='VCLibrarianTool'/>
-			<Tool Name='VCALinkTool'/>
-			<Tool Name='VCXDCMakeTool'/>
-			<Tool Name='VCBscMakeTool'/>
-			<Tool Name='VCFxCopTool'/>
-			<Tool Name='VCPostBuildEventTool'/>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\"
+			IntermediateDirectory="$(OutDir)Intermediate"
+			ConfigurationType="4"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				StringPooling="true"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				UsePrecompiledHeader="0"
+				BrowseInformation="1"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				LinkLibraryDependencies="false"
+				OutputFile="$(OutDir)\$(ProjectName).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
-		<Configuration Name='release_static|Win32' WholeProgramOptimization='1' OutputDirectory='$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\' CharacterSet='1' IntermediateDirectory='$(OutDir)Intermediate' ConfigurationType='4'>
-			<Tool Name='VCPreBuildEventTool'/>
-			<Tool Name='VCCustomBuildTool'/>
-			<Tool Name='VCXMLDataGeneratorTool'/>
-			<Tool Name='VCWebServiceProxyGeneratorTool'/>
-			<Tool Name='VCMIDLTool'/>
-			<Tool Name='VCCLCompilerTool' WarningLevel='3' UsePrecompiledHeader='0' FavorSizeOrSpeed='1' Optimization='2' InlineFunctionExpansion='2' EnableIntrinsicFunctions='true' RuntimeLibrary='2' OmitFramePointers='true' EnableFiberSafeOptimizations='true' EnableFunctionLevelLinking='true' DebugInformationFormat='3' AdditionalIncludeDirectories='&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;' PreprocessorDefinitions='WIN32;NDEBUG;_WINDOWS'/>
-			<Tool Name='VCManagedResourceCompilerTool'/>
-			<Tool Name='VCResourceCompilerTool'/>
-			<Tool Name='VCPreLinkEventTool'/>
-			<Tool Name='VCLibrarianTool'/>
-			<Tool Name='VCALinkTool'/>
-			<Tool Name='VCXDCMakeTool'/>
-			<Tool Name='VCBscMakeTool'/>
-			<Tool Name='VCFxCopTool'/>
-			<Tool Name='VCPostBuildEventTool'/>
-		</Configuration>
-		<Configuration Name='debug_shared|Win32' OutputDirectory='$(SolutionDir)$(ConfigurationName)' CharacterSet='1' IntermediateDirectory='$(ConfigurationName)' ConfigurationType='2'>
-			<Tool Name='VCPreBuildEventTool'/>
-			<Tool Name='VCCustomBuildTool'/>
-			<Tool Name='VCXMLDataGeneratorTool'/>
-			<Tool Name='VCWebServiceProxyGeneratorTool'/>
-			<Tool Name='VCMIDLTool'/>
-			<Tool Name='VCCLCompilerTool' WarningLevel='3' MinimalRebuild='true' UsePrecompiledHeader='0' Optimization='0' BrowseInformation='1' RuntimeLibrary='3' DebugInformationFormat='4' AdditionalIncludeDirectories='&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;' PreprocessorDefinitions='WIN32;_DEBUG;_WINDOWS' BasicRuntimeChecks='3'/>
-			<Tool Name='VCManagedResourceCompilerTool'/>
-			<Tool Name='VCResourceCompilerTool'/>
-			<Tool Name='VCPreLinkEventTool'/>
-			<Tool Name='VCLinkerTool'/>
-			<Tool Name='VCALinkTool'/>
-			<Tool Name='VCManifestTool'/>
-			<Tool Name='VCXDCMakeTool'/>
-			<Tool Name='VCBscMakeTool'/>
-			<Tool Name='VCFxCopTool'/>
-			<Tool Name='VCAppVerifierTool'/>
-			<Tool Name='VCPostBuildEventTool'/>
-		</Configuration>
-		<Configuration Name='release_shared|Win32' WholeProgramOptimization='1' OutputDirectory='$(SolutionDir)$(ConfigurationName)' CharacterSet='1' IntermediateDirectory='$(ConfigurationName)' ConfigurationType='2'>
-			<Tool Name='VCPreBuildEventTool'/>
-			<Tool Name='VCCustomBuildTool'/>
-			<Tool Name='VCXMLDataGeneratorTool'/>
-			<Tool Name='VCWebServiceProxyGeneratorTool'/>
-			<Tool Name='VCMIDLTool'/>
-			<Tool Name='VCCLCompilerTool' WarningLevel='3' UsePrecompiledHeader='0' FavorSizeOrSpeed='1' Optimization='2' InlineFunctionExpansion='2' EnableIntrinsicFunctions='true' RuntimeLibrary='2' OmitFramePointers='true' EnableFiberSafeOptimizations='true' EnableFunctionLevelLinking='true' DebugInformationFormat='3' AdditionalIncludeDirectories='&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;' PreprocessorDefinitions='WIN32;NDEBUG;_WINDOWS'/>
-			<Tool Name='VCManagedResourceCompilerTool'/>
-			<Tool Name='VCResourceCompilerTool'/>
-			<Tool Name='VCPreLinkEventTool'/>
-			<Tool Name='VCLinkerTool'/>
-			<Tool Name='VCALinkTool'/>
-			<Tool Name='VCManifestTool'/>
-			<Tool Name='VCXDCMakeTool'/>
-			<Tool Name='VCBscMakeTool'/>
-			<Tool Name='VCFxCopTool'/>
-			<Tool Name='VCAppVerifierTool'/>
-			<Tool Name='VCPostBuildEventTool'/>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\"
+			IntermediateDirectory="$(OutDir)Intermediate"
+			ConfigurationType="4"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				EnableFiberSafeOptimizations="true"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				LinkLibraryDependencies="false"
+				OutputFile="$(OutDir)\$(ProjectName).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
-		<Filter Name='Elements'>
-			<Filter Name='Header Files'>
-				<File RelativePath='.\include\XULWin\ImageElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\LabelElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListBoxElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListCellElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListColElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListColsElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListHeadElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListHeaderElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListItemElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuItemElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuPopupElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuSeparatorElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\OverlayElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ScriptElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\TextElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ToolbarCustomWindowDecorator.h'>
-				</File>
-			<File RelativePath='.\include\XULWin\WindowElement.h'/></Filter>
-			<Filter Name='Source Files'>
-				<File RelativePath='.\src\ImageElement.cpp'>
-				</File>
-				<File RelativePath='.\src\LabelElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ListBoxElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ListCellElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ListColElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ListColsElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ListHeadElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ListHeaderElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ListItemElement.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuElement.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuItemElement.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuPopupElement.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuSeparatorElement.cpp'>
-				</File>
-				<File RelativePath='.\src\OverlayElement.cpp'>
-				</File>
-				<File RelativePath='.\src\Script.cpp'>
-				</File>
-				<File RelativePath='.\src\TextElement.cpp'>
-				</File>
-				<File RelativePath='.\src\ToolbarCustomWindowDecorator.cpp'>
-				</File>
-			<File RelativePath='.\src\WindowElement.cpp'/></Filter>
-		</Filter>
-		<Filter Name='Components'>
-			<Filter Name='Header Files'>
-				<File RelativePath='.\include\XULWin\Image.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\Label.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListBox.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListCell.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListCol.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListCols.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListHead.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListHeader.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListItem.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ListView.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\Menu.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuBar.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuBarElement.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuItem.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuPopup.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\MenuSeparator.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\Proxy.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\Text.h'>
-				</File>
-			<File RelativePath='.\include\XULWin\Window.h'/></Filter>
-			<Filter Name='Source Files'>
-				<File RelativePath='.\src\Image.cpp'>
-				</File>
-				<File RelativePath='.\src\Label.cpp'>
-				</File>
-				<File RelativePath='.\src\ListBox.cpp'>
-				</File>
-				<File RelativePath='.\src\ListCell.cpp'>
-				</File>
-				<File RelativePath='.\src\ListCol.cpp'>
-				</File>
-				<File RelativePath='.\src\ListCols.cpp'>
-				</File>
-				<File RelativePath='.\src\ListHead.cpp'>
-				</File>
-				<File RelativePath='.\src\ListHeader.cpp'>
-				</File>
-				<File RelativePath='.\src\ListItem.cpp'>
-				</File>
-				<File RelativePath='.\src\ListView.cpp'>
-				</File>
-				<File RelativePath='.\src\Menu.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuBar.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuBarElement.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuItem.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuPopup.cpp'>
-				</File>
-				<File RelativePath='.\src\MenuSeparator.cpp'>
-				</File>
-				<File RelativePath='.\src\Proxy.cpp'>
-				</File>
-				<File RelativePath='.\src\Text.cpp'>
-				</File>
-			<File RelativePath='.\src\Window.cpp'/></Filter>
-		</Filter>
-		<Filter Name='WinAPI'>
-			<Filter Name='Header Files'>
-				<File RelativePath='.\include\XULWin\PopupMenu.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\Toolbar.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ToolbarItem.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\ToolbarMenuItem.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\Windows.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\WinUtils.h'>
+		<Filter
+			Name="Elements"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\include\XULWin\ImageElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\LabelElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListBoxElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListCellElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListColElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListColsElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListHeadElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListHeaderElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ListItemElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\MenuElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\MenuItemElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\MenuPopupElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\MenuSeparatorElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\OverlayElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ScriptElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\TextElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\WindowElement.h"
+					>
 				</File>
 			</Filter>
-			<Filter Name='Source Files'>
-				<File RelativePath='.\src\PopupMenu.cpp'>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\src\ImageElement.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Toolbar.cpp'>
+				<File
+					RelativePath=".\src\LabelElement.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\ToolbarItem.cpp'>
+				<File
+					RelativePath=".\src\ListBoxElement.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\ToolbarMenuItem.cpp'>
+				<File
+					RelativePath=".\src\ListCellElement.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\WinUtils.cpp'>
+				<File
+					RelativePath=".\src\ListColElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListColsElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListHeadElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListHeaderElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ListItemElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MenuElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MenuItemElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MenuPopupElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MenuSeparatorElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\OverlayElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Script.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TextElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowElement.cpp"
+					>
 				</File>
 			</Filter>
 		</Filter>
-		<Filter Name='Core'>
-			<Filter Name='Header Files'>
-				<File RelativePath='.\include\XULWin\AttributeController.h'>
+		<Filter
+			Name="Components"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\include\XULWin\Image.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\BoxLayouter.h'>
+				<File
+					RelativePath=".\include\XULWin\Label.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\ChromeURL.h'>
+				<File
+					RelativePath=".\include\XULWin\ListBox.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Component.h'>
+				<File
+					RelativePath=".\include\XULWin\ListCell.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\ComponentFactory.h'>
+				<File
+					RelativePath=".\include\XULWin\ListCol.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\ConditionalState.h'>
+				<File
+					RelativePath=".\include\XULWin\ListCols.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Conversions.h'>
+				<File
+					RelativePath=".\include\XULWin\ListHead.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Decorator.h'>
+				<File
+					RelativePath=".\include\XULWin\ListHeader.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Defaults.h'>
+				<File
+					RelativePath=".\include\XULWin\ListItem.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Element.h'>
+				<File
+					RelativePath=".\include\XULWin\ListView.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\ElementFactory.h'>
+				<File
+					RelativePath=".\include\XULWin\Menu.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Enums.h'>
+				<File
+					RelativePath=".\include\XULWin\MenuBar.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\ErrorReporter.h'>
+				<File
+					RelativePath=".\include\XULWin\MenuBarElement.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\EventListener.h'>
+				<File
+					RelativePath=".\include\XULWin\MenuItem.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Fallible.h'>
+				<File
+					RelativePath=".\include\XULWin\MenuPopup.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\GdiplusLoader.h'>
+				<File
+					RelativePath=".\include\XULWin\MenuSeparator.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Initializer.h'>
+				<File
+					RelativePath=".\include\XULWin\Proxy.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Layout.h'>
+				<File
+					RelativePath=".\include\XULWin\Text.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Overlay.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\RGBColor.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\StyleController.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\Unicode.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\XULOverlayParser.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\XULParser.h'>
-				</File>
-				<File RelativePath='.\include\XULWin\XULRunner.h'>
+				<File
+					RelativePath=".\include\XULWin\Window.h"
+					>
 				</File>
 			</Filter>
-			<Filter Name='Source Files'>
-				<File RelativePath='.\src\AttributeController.cpp'>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\src\Image.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\BoxLayouter.cpp'>
+				<File
+					RelativePath=".\src\Label.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\ChromeURL.cpp'>
+				<File
+					RelativePath=".\src\ListBox.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Component.cpp'>
+				<File
+					RelativePath=".\src\ListCell.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\ComponentFactory.cpp'>
+				<File
+					RelativePath=".\src\ListCol.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\ConditionalState.cpp'>
+				<File
+					RelativePath=".\src\ListCols.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Conversions.cpp'>
+				<File
+					RelativePath=".\src\ListHead.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Decorator.cpp'>
+				<File
+					RelativePath=".\src\ListHeader.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Element.cpp'>
+				<File
+					RelativePath=".\src\ListItem.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\ElementFactory.cpp'>
+				<File
+					RelativePath=".\src\ListView.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\ErrorReporter.cpp'>
+				<File
+					RelativePath=".\src\Menu.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\EventListener.cpp'>
+				<File
+					RelativePath=".\src\MenuBar.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\GdiplusLoader.cpp'>
+				<File
+					RelativePath=".\src\MenuBarElement.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Initializer.cpp'>
+				<File
+					RelativePath=".\src\MenuItem.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Layout.cpp'>
+				<File
+					RelativePath=".\src\MenuPopup.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Overlay.cpp'>
+				<File
+					RelativePath=".\src\MenuSeparator.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\RGBColor.cpp'>
+				<File
+					RelativePath=".\src\Proxy.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\StyleController.cpp'>
+				<File
+					RelativePath=".\src\Text.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\Unicode.cpp'>
-				</File>
-				<File RelativePath='.\src\XULOverlayParser.cpp'>
-				</File>
-				<File RelativePath='.\src\XULParser.cpp'>
-				</File>
-				<File RelativePath='.\src\XULRunner.cpp'>
+				<File
+					RelativePath=".\src\Window.cpp"
+					>
 				</File>
 			</Filter>
 		</Filter>
-		<Filter Name='SVG'>
-			<Filter Name='Header Files'>
-				<File RelativePath='.\include\XULWin\SVG.h'>
+		<Filter
+			Name="WinAPI"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\include\XULWin\PopupMenu.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\SVGElement.h'>
+				<File
+					RelativePath=".\include\XULWin\Toolbar.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\SVGPathInstructions.h'>
+				<File
+					RelativePath=".\include\XULWin\ToolbarItem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ToolbarMenuItem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Windows.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\WinUtils.h"
+					>
 				</File>
 			</Filter>
-			<Filter Name='Source Files'>
-				<File RelativePath='.\src\SVG.cpp'>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\src\PopupMenu.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\SVGElement.cpp'>
+				<File
+					RelativePath=".\src\Toolbar.cpp"
+					>
 				</File>
-				<File RelativePath='.\src\SVGPathInstructions.cpp'>
+				<File
+					RelativePath=".\src\ToolbarItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ToolbarMenuItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WinUtils.cpp"
+					>
 				</File>
 			</Filter>
 		</Filter>
-		<Filter Name='DataTypes'>
-			<Filter Name='Header Files'>
-				<File RelativePath='.\include\XULWin\Grid.h'>
+		<Filter
+			Name="Core"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\include\XULWin\AttributeController.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Node.h'>
+				<File
+					RelativePath=".\include\XULWin\BoxLayouter.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Point.h'>
+				<File
+					RelativePath=".\include\XULWin\ChromeURL.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Rect.h'>
+				<File
+					RelativePath=".\include\XULWin\Component.h"
+					>
 				</File>
-				<File RelativePath='.\include\XULWin\Size.h'>
+				<File
+					RelativePath=".\include\XULWin\ComponentFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ConditionalState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Conversions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Decorator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Defaults.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Element.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ElementFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Enums.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ErrorReporter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\EventListener.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Fallible.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\GdiplusLoader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Initializer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Layout.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Overlay.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\RGBColor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\StyleController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Unicode.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\XULOverlayParser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\XULParser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\XULRunner.h"
+					>
 				</File>
 			</Filter>
-			<Filter Name='Source Files'>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\src\AttributeController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\BoxLayouter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ChromeURL.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Component.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ComponentFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ConditionalState.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Conversions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Decorator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Element.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ElementFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ErrorReporter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\EventListener.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GdiplusLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Initializer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Layout.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Overlay.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\RGBColor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\StyleController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Unicode.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\XULOverlayParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\XULParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\XULRunner.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="SVG"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\include\XULWin\SVG.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\SVGElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\SVGPathInstructions.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\src\SVG.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SVGElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SVGPathInstructions.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="DataTypes"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\include\XULWin\Grid.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Node.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Point.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Rect.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Size.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				>
 			</Filter>
 		</Filter>
 	</Files>

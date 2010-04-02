@@ -1,8 +1,5 @@
-#ifndef STYLES_H_INCLUDED
-#define STYLES_H_INCLUDED
-
-
-#include <string>
+#ifndef ENUMS_H_INCLUDED
+#define ENUMS_H_INCLUDED
 
 
 namespace XULWin
@@ -52,4 +49,5 @@ namespace XULWin
     
 } // namespace XULWin
 
-#endif // STYLES_H_INCLUDED
+
+#endif // ENUMS_H_INCLUDED

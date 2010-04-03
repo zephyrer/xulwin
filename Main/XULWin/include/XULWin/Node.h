@@ -15,13 +15,19 @@ namespace XULWin
     {
         typedef std::set<ValueType> Container;
         static void insert(Container & ioContainer, const ValueType & inValue)
-        { ioContainer.insert(inValue); }
+        {
+            ioContainer.insert(inValue);
+        }
 
         static size_t size(const Container & ioContainer)
-        { return ioContainer.size(); }
+        {
+            return ioContainer.size();
+        }
 
         static bool empty(const Container & ioContainer)
-        { return ioContainer.empty(); }
+        {
+            return ioContainer.empty();
+        }
     };
 
 
@@ -30,23 +36,31 @@ namespace XULWin
     {
         typedef std::vector<ValueType> Container;
         static void insert(Container & ioContainer, const ValueType & inValue)
-        { ioContainer.push_back(inValue); }
+        {
+            ioContainer.push_back(inValue);
+        }
 
         static size_t size(const Container & ioContainer)
-        { return ioContainer.size(); }
+        {
+            return ioContainer.size();
+        }
 
         static bool empty(const Container & ioContainer)
-        { return ioContainer.empty(); }
+        {
+            return ioContainer.empty();
+        }
     };
 
 
     template <class PointeeType>
     struct PointerPolicy_Normal_NoOwnership
     {
-        typedef PointeeType* PointerType;
+        typedef PointeeType * PointerType;
 
-        static PointeeType* getRaw(PointerType p)
-        { return p; }
+        static PointeeType * getRaw(PointerType p)
+        {
+            return p;
+        }
 
         static void destroy(PointerType p) { }
     };
@@ -55,13 +69,17 @@ namespace XULWin
     template <class PointeeType>
     struct PointerPolicy_Normal_WithOwnership
     {
-        typedef PointeeType* PointerType;
+        typedef PointeeType * PointerType;
 
-        static PointeeType* getRaw(PointerType p)
-        { return p; }
+        static PointeeType * getRaw(PointerType p)
+        {
+            return p;
+        }
 
         static void destroy(PointerType p)
-        { delete p; }
+        {
+            delete p;
+        }
     };
 
 
@@ -70,8 +88,10 @@ namespace XULWin
     {
         typedef boost::shared_ptr<PointeeType> PointerType;
 
-        static PointeeType* getRaw(PointerType p)
-        { return p.get(); }
+        static PointeeType * getRaw(PointerType p)
+        {
+            return p.get();
+        }
 
         static void destroy(PointerType p) { }
     };
@@ -80,7 +100,7 @@ namespace XULWin
     template <class DataType, template <class> class ContainerPolicy, template <class> class PointerPolicy>
     class GenericNode
     {
-    public:    
+    public:
         GenericNode() { }
 
         GenericNode(const DataType & inData) : mData(inData) { }
@@ -101,32 +121,52 @@ namespace XULWin
             }
         }
 
-        iterator begin() { return mChildren.begin(); }
-        iterator end() { return mChildren.end(); }
+        iterator begin()
+        {
+            return mChildren.begin();
+        }
+        iterator end()
+        {
+            return mChildren.end();
+        }
 
-        const_iterator begin() const { return mChildren.begin(); }
-        const_iterator end() const { return mChildren.end(); }
+        const_iterator begin() const
+        {
+            return mChildren.begin();
+        }
+        const_iterator end() const
+        {
+            return mChildren.end();
+        }
 
         /**
          * Takes ownership.
          */
         void addChild(This * inItem)
-        { 
+        {
             ChildPtr item(inItem);
             ContainerPolicy<ChildPtr>::insert(mChildren, item);
         }
 
         size_t size() const
-        { return ContainerPolicy<ChildPtr>::size(mChildren); }
+        {
+            return ContainerPolicy<ChildPtr>::size(mChildren);
+        }
 
         bool empty() const
-        { return ContainerPolicy<ChildPtr>::empty(mChildren); }
+        {
+            return ContainerPolicy<ChildPtr>::empty(mChildren);
+        }
 
         const DataType & data() const
-        { return mData; }
+        {
+            return mData;
+        }
 
         void setData(const DataType & inData)
-        { mData = inData; }
+        {
+            mData = inData;
+        }
 
     private:
         DataType mData;

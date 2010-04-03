@@ -23,10 +23,10 @@ namespace XULWin
     class EventListener
     {
     public:
-        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;        
+        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;
 
         virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId) = 0;
-        
+
         virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;
 
         virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam) = 0;
@@ -37,7 +37,7 @@ namespace XULWin
      * ScopedEventListeners enables connecting events with callbacks.
      */
     class ScopedEventListener : public EventListener,
-                                boost::noncopyable
+        boost::noncopyable
     {
     public:
         ScopedEventListener();
@@ -56,7 +56,7 @@ namespace XULWin
         void connect(Element * inEl, const Action & inAction);
 
 
-        /** 
+        /**
          * Connect a callback to a specific Windows message.
          */
         void connect(Element * inEl, UINT inMessage, const Action & inAction);
@@ -84,7 +84,10 @@ namespace XULWin
     protected:
         virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
         virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
-        virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) { return 1; }
+        virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
+        {
+            return 1;
+        }
         virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
         class MsgId
@@ -114,17 +117,23 @@ namespace XULWin
             }
 
             Element * element() const
-            { return mElement; }
+            {
+                return mElement;
+            }
 
             UINT messageId() const
-            { return mMessageId; }
+            {
+                return mMessageId;
+            }
 
             int commandId() const
-            { return mCommandId; }
+            {
+                return mCommandId;
+            }
 
         private:
             Element * mElement;
-            UINT mMessageId;            
+            UINT mMessageId;
             int mCommandId; // needed to identify toolbar buttons
         };
         typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;

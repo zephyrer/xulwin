@@ -53,7 +53,7 @@ namespace XULWin
         setScreenX(String2Int(inValue));
     }
 
-    
+
     void ScreenYController::get(std::string & outValue)
     {
         outValue = Int2String(getScreenY());
@@ -149,7 +149,7 @@ namespace XULWin
     {
         setReadOnly(String2Bool(inValue, Defaults::Attributes::readonly()));
     }
-    
+
 
     void RowsController::get(std::string & outValue)
     {

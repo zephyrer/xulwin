@@ -6,7 +6,7 @@
 
 namespace XULWin
 {
-    
+
     MenuPopupElement::MenuPopupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(MenuPopupElement::Type(),
                 inParent,
@@ -14,7 +14,7 @@ namespace XULWin
     {
     }
 
-    
+
     MenuPopupElement::~MenuPopupElement()
     {
     }

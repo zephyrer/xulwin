@@ -28,8 +28,8 @@ namespace XULWin
         mErrorCode(inErrorCode)
     {
     }
-        
-        
+
+
     Error::Error(const std::string & inErrorMessage) :
         mErrorCode(Error::FAILED),
         mErrorMessage(inErrorMessage)
@@ -74,7 +74,7 @@ namespace XULWin
             {
                 ErrorReporter::Instance().mStack.top()->setChild(this);
             }
-            else 
+            else
             {
                 if (!mDisableLogging)
                 {
@@ -84,7 +84,7 @@ namespace XULWin
         }
     }
 
-    
+
     ErrorCatcher::ErrorCatcher(const ErrorCatcher & rhs) :
         mOwns(false), // copy is not responsible for cleanup
         mErrors(rhs.mErrors),
@@ -92,8 +92,8 @@ namespace XULWin
         mPropagate(rhs.mPropagate)
     {
     }
-        
-        
+
+
     void ErrorCatcher::disableLogging(bool inDisableLogging)
     {
         mDisableLogging = inDisableLogging;
@@ -128,7 +128,7 @@ namespace XULWin
                 ss << " Followed by: ";
             }
             ss << error.message();
-            
+
             // show the error code, unless if it is the default
             if (error.code() != Error::FAILED)
             {
@@ -142,13 +142,13 @@ namespace XULWin
         }
     }
 
-    
+
     void ErrorCatcher::push(const Error & inError)
     {
         mErrors.push_back(inError);
     }
-    
-    
+
+
     void ErrorCatcher::setChild(const ErrorCatcher * inErrorCatcher)
     {
         mChild.reset(new ErrorCatcher(*inErrorCatcher));
@@ -190,8 +190,8 @@ namespace XULWin
     ErrorReporter::ErrorReporter()
     {
     }
-    
-    
+
+
     ErrorReporter::~ErrorReporter()
     {
         assert(mStack.empty());
@@ -225,7 +225,7 @@ namespace XULWin
 
     void ErrorReporter::pop(ErrorCatcher * inError)
     {
-        assert (!mStack.empty());
+        assert(!mStack.empty());
         if (!mStack.empty())
         {
             bool foundOnTop = mStack.top() == inError;
@@ -236,16 +236,16 @@ namespace XULWin
             }
         }
     }
-    
-    
+
+
     void ErrorReporter::log(ErrorCatcher * inErrorCatcher)
     {
         std::stringstream ss;
         inErrorCatcher->getErrorMessage(ss);
         log(ss.str());
     }
-    
-    
+
+
     void ErrorReporter::log(const std::string & inErrorMessage)
     {
         if (!inErrorMessage.empty())
@@ -254,23 +254,23 @@ namespace XULWin
             {
                 mLogFunction(inErrorMessage);
             }
-            #if MESSAGEBOXLOGGING
+#if MESSAGEBOXLOGGING
             else
             {
                 std::wstring utf16Message = XULWin::ToUTF16(inErrorMessage);
                 ::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
             }
-            #endif
+#endif
         }
     }
 
-    
+
     void ReportError(int inErrorCode, const std::string & inErrorMessage)
     {
         ErrorReporter::Instance().reportError(Error(inErrorCode, inErrorMessage));
     }
-    
-    
+
+
     void ReportError(const std::string & inErrorMessage)
     {
         ErrorReporter::Instance().reportError(Error(inErrorMessage));
@@ -282,7 +282,7 @@ namespace XULWin
         ErrorReporter::Instance().reportError(Error(inErrorCode));
     }
 
-    
+
     bool TryCatch(const TryAction & inTryAction, const CatchAction & inCatchAction)
     {
         try
@@ -297,7 +297,7 @@ namespace XULWin
         return false;
     }
 
-   
+
     bool TryOrReportError(const TryAction & inAction)
     {
         struct Helper

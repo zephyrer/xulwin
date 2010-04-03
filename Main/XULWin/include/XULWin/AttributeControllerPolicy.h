@@ -11,7 +11,7 @@
 
 namespace XULWin
 {
-    
+
     //class LabelController_AsMember : public LabelController
     //{
     //public:
@@ -86,7 +86,7 @@ namespace XULWin
     //        pThis->setAttributeController(AttributeControllerType::PropertyName(),
     //                                      static_cast<AttributeControllerType*>(pThis));
     //        return pThis->SuperClass::initAttributeControllers();
-    //    }        
+    //    }
     //};
 
 } // namespace XULWin

@@ -17,8 +17,8 @@ namespace XULWin
         setAttributeController<LabelController>(this);
         return Super::initAttributeControllers();
     }
-        
-        
+
+
     int ListCell::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
@@ -33,10 +33,10 @@ namespace XULWin
         return result;
     }
 
-    
+
     int ListCell::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
-    
+
 } // namespace XULWin

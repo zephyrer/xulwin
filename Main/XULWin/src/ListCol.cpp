@@ -13,15 +13,15 @@ namespace XULWin
         Super(inParent, inAttributesMapping)
     {
     }
-        
-        
+
+
     int ListCol::calculateWidth(SizeConstraint inSizeConstraint) const
-    {  
+    {
         int res = 1;
         // XUL Hierarchy:
         // listbox/listcols/listcol
         // listbox/listitem/listcell
-        std::vector<ListItemElement*> listItems;
+        std::vector<ListItemElement *> listItems;
         parent()->parent()->el()->getElementsByType<ListItemElement>(listItems);
         const int colIdx = getIndex();
         for (size_t idx = 0; idx != listItems.size(); ++idx)
@@ -34,7 +34,7 @@ namespace XULWin
         return res;
     }
 
-    
+
     int ListCol::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
@@ -45,5 +45,5 @@ namespace XULWin
     {
         return Super::init();
     }
-    
+
 } // namespace XULWin

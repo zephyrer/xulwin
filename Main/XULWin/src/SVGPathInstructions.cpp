@@ -4,15 +4,15 @@
 namespace XULWin
 {
 
-    
+
     PathInstruction::PathInstruction(Type inType, Positioning inPositioning, const PointFs & inPoints) :
         mType(inType),
         mPoints(inPoints),
         mPositioning(inPositioning)
     {
     }
-        
-        
+
+
     PathInstruction::Type PathInstruction::type() const
     {
         return mType;
@@ -29,26 +29,26 @@ namespace XULWin
     {
         return mPoints[inIdx];
     }
-    
-    
+
+
     PointF PathInstruction::getAbsolutePoint(const PointF & inRef, size_t inIdx) const
     {
         return PointF(inRef.x() + mPoints[inIdx].x(), inRef.y() + mPoints[inIdx].y());
     }
-    
-    
+
+
     PathInstruction::Positioning PathInstruction::positioning() const
     {
         return mPositioning;
     }
-    
-    
+
+
     const PointFs & PathInstruction::points() const
     {
         return mPoints;
     }
-    
-    
+
+
     PointFs & PathInstruction::points()
     {
         return mPoints;

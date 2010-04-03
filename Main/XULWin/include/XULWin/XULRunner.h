@@ -10,7 +10,7 @@
 
 namespace XULWin
 {
-    
+
     class XULRunner
     {
     public:
@@ -39,7 +39,7 @@ namespace XULWin
          * Loads a XUL application:
          *
          *  - Finds out which is the main XUL file. The location of the main XUL file
-         *    must be specified in the file prefs.js which is found in the 
+         *    must be specified in the file prefs.js which is found in the
          *    "<Application>/defaults/preferences" folder.
          *  - Parses the main XUL file.
          *  - Returns the root element of the parsed XUL file.
@@ -64,7 +64,7 @@ namespace XULWin
          * loadOverlay
          *
          * Loads a XUL overlay.
-         * 
+         *
          * The parameter is a chrome url to the overlay XUL document.
          * This document must have a <overlay> element as root element.
          * See the Mozilla documention on XUL overlays for more information.
@@ -83,7 +83,7 @@ namespace XULWin
 
         HMODULE mModuleHandle;
         XULParser mParser;
-        ElementPtr mRootElement;    
+        ElementPtr mRootElement;
     };
 
 } // XULWin

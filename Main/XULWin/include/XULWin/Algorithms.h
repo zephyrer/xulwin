@@ -4,7 +4,7 @@
 
 namespace XULWin
 {
-    
+
     template<class DataType, class FwdIt, class GetValueFunction>
     DataType max_element_value(FwdIt begin, FwdIt end, DataType inDefault, GetValueFunction getValue)
     {
@@ -22,7 +22,7 @@ namespace XULWin
         }
         return result;
     }
-    
+
     template<class DataType, class FwdIt, class GetValueFunction>
     DataType sum_element_values(FwdIt begin, FwdIt end, DataType inDefault, GetValueFunction getValue)
     {

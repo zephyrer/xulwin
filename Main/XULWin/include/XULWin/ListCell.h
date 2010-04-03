@@ -11,7 +11,7 @@ namespace XULWin
 {
 
     class ListCell : public PassiveComponent,
-                     public virtual LabelController
+        public virtual LabelController
     {
     public:
         ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);
@@ -23,10 +23,14 @@ namespace XULWin
         int calculateHeight(SizeConstraint inSizeConstraint) const;
 
         virtual std::string getLabel() const
-        { return mLabel; }
+        {
+            return mLabel;
+        }
 
         virtual void setLabel(const std::string & inLabel)
-        { mLabel = inLabel; }
+        {
+            mLabel = inLabel;
+        }
 
     private:
         std::string mLabel;

@@ -10,7 +10,7 @@ namespace XULWin
     {
     public:
         Fallible() :
-          mValid(false)
+            mValid(false)
         {
         }
 
@@ -56,7 +56,7 @@ namespace XULWin
             return mValid;
         }
 
-        
+
         operator const T &() const
         {
             return mValue;

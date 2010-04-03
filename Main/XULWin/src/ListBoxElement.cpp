@@ -20,7 +20,7 @@ namespace XULWin
     {
     }
 
-        
+
     void ListBoxElement::addChild(ElementPtr inChild)
     {
         // The first child should give us the needed information to know
@@ -37,11 +37,11 @@ namespace XULWin
         {
             // Check if component is still of type PassiveComponent.
             if (proxy->downcast<PassiveComponent>())
-            {                
+            {
                 // If the first child is of type "listitem" then can be certain
                 // that it is a regular listbox
                 if (inType == "listitem")
-                {   
+                {
                     ListBox * listBox = new ListBox(parent()->component(), mAttributes);
                     ComponentPtr prev = proxy->swap(new MarginDecorator(listBox));
                     listBox->init();

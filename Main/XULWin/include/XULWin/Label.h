@@ -9,8 +9,8 @@ namespace XULWin
 {
 
     class Label : public NativeControl,
-                  public virtual StringValueController,
-                  public virtual CSSTextAlignController
+        public virtual StringValueController,
+        public virtual CSSTextAlignController
     {
     public:
         typedef NativeControl Super;

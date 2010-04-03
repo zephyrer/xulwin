@@ -34,7 +34,7 @@ namespace XULWin
     void Image::setSrc(const std::string & inSrc)
     {
         if (inSrc.find("chrome://") != std::string::npos)
-        {        
+        {
             ChromeURL url(inSrc);
             mSrc = url.convertToLocalPath();
         }
@@ -60,7 +60,7 @@ namespace XULWin
             return;
         }
         float optimalWidth = (float)mImage->GetWidth();
-        float optimalHeight = (float)mImage->GetHeight();            
+        float optimalHeight = (float)mImage->GetHeight();
         if (optimalWidth < 1.0 || optimalHeight < 1.0)
         {
             width = 1;
@@ -71,21 +71,21 @@ namespace XULWin
         float resizeFactorX = mWidth.or(mHeight.or(INT_MAX))/optimalWidth;
         float resizeFactorY = mHeight.or(mWidth.or(INT_MAX))/optimalHeight;
         float resizeFactor = std::min<float>(resizeFactorX, resizeFactorY);
-        
+
         width = (int)(resizeFactor*optimalWidth + 0.5f);
         if (width == 0)
         {
             width = 1;
         }
 
-        height = (int)(resizeFactor*optimalHeight + 0.5f);                
+        height = (int)(resizeFactor*optimalHeight + 0.5f);
         if (height == 0)
         {
             height = 1;
         }
     }
 
-    
+
     int Image::getWidth(SizeConstraint inSizeConstraint) const
     {
         if (mWidth)
@@ -93,7 +93,7 @@ namespace XULWin
             if (mHeight && getKeepAspectRatio())
             {
                 int width = 0;
-                int height = 0;  
+                int height = 0;
                 getWidthAndHeight(width, height);
                 return width;
             }
@@ -106,7 +106,7 @@ namespace XULWin
         else if (mHeight && !mWidth)
         {
             int width = 0;
-            int height = 0;  
+            int height = 0;
             getWidthAndHeight(width, height);
             return width;
         }
@@ -120,16 +120,16 @@ namespace XULWin
             return Super::getWidth(inSizeConstraint);
         }
     }
-        
-    
+
+
     int Image::getHeight(SizeConstraint inSizeConstraint) const
-    {        
+    {
         if (mHeight)
         {
             if (mWidth && getKeepAspectRatio())
             {
                 int width = 0;
-                int height = 0;  
+                int height = 0;
                 getWidthAndHeight(width, height);
                 return height;
             }
@@ -142,7 +142,7 @@ namespace XULWin
         else if (mWidth && !mHeight)
         {
             int width = 0;
-            int height = 0;  
+            int height = 0;
             getWidthAndHeight(width, height);
             return height;
         }
@@ -156,24 +156,24 @@ namespace XULWin
             return Super::getHeight(inSizeConstraint);
         }
     }
-    
-    
+
+
     void Image::move(int x, int y, int w, int h)
     {
         if (mImage && (w != clientRect().width() || h != clientRect().height()))
         {
             // create a resized copy of the original
             mCachedImage.reset(new Gdiplus::Bitmap(w, h, PixelFormat32bppARGB));
-            
+
             Gdiplus::Graphics g(mCachedImage.get());
             g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
-            g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);            
+            g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
             g.DrawImage(mImage.get(), Gdiplus::Rect(0, 0, INT(w), INT(h)));
         }
         Super::move(x, y, w, h);
     }
-    
-    
+
+
     bool Image::getKeepAspectRatio() const
     {
         return mKeepAspectRatio;
@@ -228,7 +228,7 @@ namespace XULWin
 
     void Image::paintImage(HDC inHDC, const RECT & rc)
     {
-        Gdiplus::Graphics g(inHDC);        
+        Gdiplus::Graphics g(inHDC);
         g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
         g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
         if (mCachedImage)

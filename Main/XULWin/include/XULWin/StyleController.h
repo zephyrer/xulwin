@@ -21,7 +21,10 @@ namespace XULWin
     class CSSXController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "x"; }
+        static const char * PropertyName()
+        {
+            return "x";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -36,7 +39,10 @@ namespace XULWin
     class CSSYController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "y"; }
+        static const char * PropertyName()
+        {
+            return "y";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -51,7 +57,10 @@ namespace XULWin
     class CSSWidthController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "width"; }
+        static const char * PropertyName()
+        {
+            return "width";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -66,7 +75,10 @@ namespace XULWin
     class CSSHeightController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "height"; }
+        static const char * PropertyName()
+        {
+            return "height";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -81,7 +93,10 @@ namespace XULWin
     class CSSTextAlignController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "text-align"; }
+        static const char * PropertyName()
+        {
+            return "text-align";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -96,7 +111,10 @@ namespace XULWin
     class CSSMarginController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "margin"; }
+        static const char * PropertyName()
+        {
+            return "margin";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -111,7 +129,10 @@ namespace XULWin
     class CSSFillController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "fill"; }
+        static const char * PropertyName()
+        {
+            return "fill";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -126,7 +147,10 @@ namespace XULWin
     class CSSStrokeController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "stroke"; }
+        static const char * PropertyName()
+        {
+            return "stroke";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -140,7 +164,10 @@ namespace XULWin
     class CSSListStyleImageController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "list-style-image"; }
+        static const char * PropertyName()
+        {
+            return "list-style-image";
+        }
 
         virtual void get(std::string & outValue);
 
@@ -155,7 +182,10 @@ namespace XULWin
     class CSSBackgroundColorController : public StyleController
     {
     public:
-        static const char * PropertyName() { return "background-color"; }
+        static const char * PropertyName()
+        {
+            return "background-color";
+        }
 
         virtual void get(std::string & outValue);
 

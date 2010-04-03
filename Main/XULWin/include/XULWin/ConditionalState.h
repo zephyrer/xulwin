@@ -24,7 +24,7 @@ namespace XULWin
         ScopedConditional();
         ScopedConditional(Element * inElement);
         ScopedConditional(const ScopedConditional & rhs);
-        ScopedConditional & operator=(const ScopedConditional & rhs);            
+        ScopedConditional & operator=(const ScopedConditional & rhs);
         ~ScopedConditional();
 
     private:
@@ -69,7 +69,7 @@ namespace XULWin
          *          not be an expensive one.
          */
         ScopedConditional associate(const Condition & inCondition,
-                                    Element * inElement,               
+                                    Element * inElement,
                                     const std::string & inAttributeName,
                                     const std::string & inValueIfConditionIsTrue,
                                     const std::string & inValueIfConditionIsFalse);
@@ -82,13 +82,13 @@ namespace XULWin
 
         ConditionalState(HINSTANCE hInstance);
         ~ConditionalState();
-        
+
         void remove(Element * inElement);
-        
+
         void updateStates();
 
         struct Conditional
-        {       
+        {
             Conditional(Condition inCondition,
                         const std::string & inAttributeName,
                         const std::string & inValueIfTrue,
@@ -99,14 +99,14 @@ namespace XULWin
                 ValueIfConditionIsFalse(inValueIfFalse)
             {
             }
-            Condition aCondition; 
+            Condition aCondition;
             std::string AttributeName;
             std::string ValueIfConditionIsTrue;
             std::string ValueIfConditionIsFalse;
         };
         typedef std::vector<Conditional> Conditionals;
-        typedef std::map<Element*, Conditionals> Mapping;
-        Mapping mMapping; 
+        typedef std::map<Element *, Conditionals> Mapping;
+        Mapping mMapping;
         HHOOK mForegroundIdleProc;
 
         static LRESULT CALLBACK ForegroundIdleProc(int nCode, DWORD wParam, LONG lParam);

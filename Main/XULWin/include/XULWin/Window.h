@@ -14,8 +14,8 @@ namespace XULWin
     class Menu;
 
     class Window : public NativeComponent,
-                   public virtual TitleController,
-                   public BoxLayouter::ContentProvider
+        public virtual TitleController,
+        public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeComponent Super;
@@ -36,7 +36,9 @@ namespace XULWin
         virtual Component * getChild(size_t idx);
 
         virtual void rebuildChildLayouts()
-        { return Super::rebuildChildLayouts(); }
+        {
+            return Super::rebuildChildLayouts();
+        }
 
         void show(WindowElement::Positioning inPositioning);
 
@@ -61,25 +63,39 @@ namespace XULWin
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
         virtual Orient BoxLayouter_getOrient() const
-        { return getOrient(); }
+        {
+            return getOrient();
+        }
 
         virtual Align BoxLayouter_getAlign() const
-        { return getAlign(); }
+        {
+            return getAlign();
+        }
 
         virtual size_t BoxLayouter_getChildCount() const
-        { return getChildCount(); }
+        {
+            return getChildCount();
+        }
 
         virtual const Component * BoxLayouter_getChild(size_t idx) const
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Component * BoxLayouter_getChild(size_t idx)
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Rect BoxLayouter_clientRect() const
-        { return clientRect(); }
+        {
+            return clientRect();
+        }
 
         virtual void BoxLayouter_rebuildChildLayouts()
-        { rebuildChildLayouts(); }
+        {
+            rebuildChildLayouts();
+        }
 
 #ifndef SWIG
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);

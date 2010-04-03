@@ -21,13 +21,13 @@ namespace XULWin
         {
         }
 
-    
+
         const T & width() const
         {
             return mWidth;
         }
 
-    
+
         const T & height() const
         {
             return mHeight;

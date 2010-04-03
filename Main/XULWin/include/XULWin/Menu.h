@@ -10,7 +10,7 @@ namespace XULWin
 {
 
     class Menu : public PassiveComponent,
-                 public LabelController
+        public LabelController
     {
     public:
         typedef PassiveComponent Super;
@@ -32,7 +32,7 @@ namespace XULWin
         static Windows::MenuNode * FromMenu(const Menu * inMenu);
 
     private:
-        typedef std::map<int, Menu*> MenusById;
+        typedef std::map<int, Menu *> MenusById;
         static MenusById sMenusById;
         std::string mLabel;
         HMENU mMenuHandle;

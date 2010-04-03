@@ -28,14 +28,14 @@ namespace XULWin
      */
     class GdiplusLoader : boost::noncopyable
     {
-        public:
-            GdiplusLoader();
+    public:
+        GdiplusLoader();
 
-            ~GdiplusLoader();
+        ~GdiplusLoader();
 
-        private:
-            ULONG_PTR mGdiPlusToken;
-            static int sRefCount;
+    private:
+        ULONG_PTR mGdiPlusToken;
+        static int sRefCount;
     };
 
 

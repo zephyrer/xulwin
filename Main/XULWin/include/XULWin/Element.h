@@ -61,7 +61,7 @@ namespace XULWin
      *     => UI update.
      *
      * This requires that the Button class inherits and implements the LabelController class.
-     * 
+     *
      * Not all attributes need to have a corresponding AttributeController class.
      * If the Component object has not registered the AttributeController then
      * any changes to the attribute will simply be stored as a normal XML attribute.
@@ -75,7 +75,7 @@ namespace XULWin
     public:
         /**
          * INITIALIZATION ORDER
-         * 
+         *
          * PART 1: Parser encounters the OPENING tag of a new element:
          * - Element constructor
          * - Construction of any decorators for Component
@@ -83,14 +83,14 @@ namespace XULWin
          * - Initialize XUL attributes
          * - Initialize CSS styles (from the XUL "style" attribute)
          * - Register the element as a child of the parent element.
-         * 
+         *
          * PART 2: Creation and initialization of any child elements.
          *
          * PART 3: Parser finds CLOSING tag of the element:
          * - Call Element::init().
          * - Call Component::init().
-         * 
-         */  
+         *
+         */
         template<class ElementType>
         static ElementPtr Create(Element * inParent,
                                  const AttributesMapping & inAttr)
@@ -103,7 +103,7 @@ namespace XULWin
             if (inParent)
             {
                 // The addChild() method also calls Component::onChildAdded
-                inParent->addChild(result);                
+                inParent->addChild(result);
             }
             return result;
         }
@@ -143,7 +143,10 @@ namespace XULWin
 
         const std::string & type() const;
 
-        Element * parent() const { return mParent; }
+        Element * parent() const
+        {
+            return mParent;
+        }
 
         // Gets the attribute value from the attribute controller.
         // If no attribute controller was found then it will search
@@ -173,10 +176,10 @@ namespace XULWin
 
         Element * getElementById(const std::string & inId);
 
-        void getElementsByType(const std::string & inType, std::vector<Element*> & outElements);
+        void getElementsByType(const std::string & inType, std::vector<Element *> & outElements);
 
         template<class ElementType>
-        void getElementsByType(std::vector<ElementType*> & outElements)
+        void getElementsByType(std::vector<ElementType *> & outElements)
         {
             if (ElementType * element = downcast<ElementType>())
             {
@@ -188,9 +191,15 @@ namespace XULWin
             }
         }
 
-        Children & children() { return mChildren; }
+        Children & children()
+        {
+            return mChildren;
+        }
 
-        const Children & children() const { return mChildren; }
+        const Children & children() const
+        {
+            return mChildren;
+        }
 
         bool addEventListener(EventListener * inEventListener);
 
@@ -203,7 +212,7 @@ namespace XULWin
         {
             if (type() == ElementType::Type())
             {
-                return static_cast<ElementType*>(this);
+                return static_cast<ElementType *>(this);
             }
             return 0;
         }
@@ -213,7 +222,7 @@ namespace XULWin
         {
             if (type() == ElementType::Type())
             {
-                return static_cast<ElementType*>(this);
+                return static_cast<ElementType *>(this);
             }
             return 0;
         }
@@ -225,7 +234,7 @@ namespace XULWin
         template<class ElementType>
         ElementType * findChildOfType()
         {
-            return const_cast<ElementType*>(static_cast<const Element*>(this)->findChildOfType<ElementType>());
+            return const_cast<ElementType *>(static_cast<const Element *>(this)->findChildOfType<ElementType>());
         }
 
         template<class ElementType>
@@ -280,9 +289,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<DialogElement>(inParent, inAttr); }
+        {
+            return Element::Create<DialogElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "dialog"; }
+        static const char * Type()
+        {
+            return "dialog";
+        }
 
         DialogResult showModal(WindowElement * inInvoker);
 
@@ -298,10 +312,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ButtonElement>(inParent, inAttr); }
+        {
+            return Element::Create<ButtonElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "button"; }
-    
+        static const char * Type()
+        {
+            return "button";
+        }
+
     private:
         friend class Element;
         ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -312,12 +331,17 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<DescriptionElement>(inParent, inAttr); }
+        {
+            return Element::Create<DescriptionElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "description"; }
+        static const char * Type()
+        {
+            return "description";
+        }
 
         virtual bool init();
-    
+
     private:
         friend class Element;
         DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -327,10 +351,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TextBoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<TextBoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "textbox"; }
-    
+        static const char * Type()
+        {
+            return "textbox";
+        }
+
     private:
         friend class Element;
         TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -341,9 +370,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<CheckBoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<CheckBoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "checkbox"; }
+        static const char * Type()
+        {
+            return "checkbox";
+        }
 
     private:
         friend class Element;
@@ -353,11 +387,16 @@ namespace XULWin
 
     class BoxElement : public Element
     {
-    public: 
+    public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<BoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<BoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "box"; }
+        static const char * Type()
+        {
+            return "box";
+        }
     private:
         friend class Element;
         BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -368,9 +407,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<HBoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<HBoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "hbox"; }
+        static const char * Type()
+        {
+            return "hbox";
+        }
 
     private:
         friend class Element;
@@ -382,9 +426,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<VBoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<VBoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "vbox"; }
+        static const char * Type()
+        {
+            return "vbox";
+        }
 
     private:
         friend class Element;
@@ -396,9 +445,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuListElement>(inParent, inAttr); }
+        {
+            return Element::Create<MenuListElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "menulist"; }
+        static const char * Type()
+        {
+            return "menulist";
+        }
 
     private:
         friend class Element;
@@ -410,9 +464,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SeparatorElement>(inParent, inAttr); }
+        {
+            return Element::Create<SeparatorElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "separator"; }
+        static const char * Type()
+        {
+            return "separator";
+        }
 
         virtual ~SeparatorElement();
 
@@ -426,9 +485,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SpacerElement>(inParent, inAttr); }
+        {
+            return Element::Create<SpacerElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "spacer"; }
+        static const char * Type()
+        {
+            return "spacer";
+        }
 
         virtual ~SpacerElement();
 
@@ -442,9 +506,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuButtonElement>(inParent, inAttr); }
+        {
+            return Element::Create<MenuButtonElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "menubutton"; }
+        static const char * Type()
+        {
+            return "menubutton";
+        }
 
         virtual ~MenuButtonElement();
 
@@ -460,9 +529,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<GridElement>(inParent, inAttr); }
+        {
+            return Element::Create<GridElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "grid"; }
+        static const char * Type()
+        {
+            return "grid";
+        }
 
         virtual ~GridElement();
 
@@ -481,9 +555,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<RowsElement>(inParent, inAttr); }
+        {
+            return Element::Create<RowsElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "rows"; }
+        static const char * Type()
+        {
+            return "rows";
+        }
 
         virtual ~RowsElement();
 
@@ -498,9 +577,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ColumnsElement>(inParent, inAttr); }
+        {
+            return Element::Create<ColumnsElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "columns"; }
+        static const char * Type()
+        {
+            return "columns";
+        }
 
         virtual ~ColumnsElement();
 
@@ -516,9 +600,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<RowElement>(inParent, inAttr); }
+        {
+            return Element::Create<RowElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "row"; }
+        static const char * Type()
+        {
+            return "row";
+        }
 
         virtual ~RowElement();
 
@@ -532,9 +621,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ColumnElement>(inParent, inAttr); }
+        {
+            return Element::Create<ColumnElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "column"; }
+        static const char * Type()
+        {
+            return "column";
+        }
 
         virtual ~ColumnElement();
 
@@ -549,9 +643,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<RadioGroupElement>(inParent, inAttr); }
+        {
+            return Element::Create<RadioGroupElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "radiogroup"; }
+        static const char * Type()
+        {
+            return "radiogroup";
+        }
 
         virtual ~RadioGroupElement();
 
@@ -566,9 +665,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<RadioElement>(inParent, inAttr); }
+        {
+            return Element::Create<RadioElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "radio"; }
+        static const char * Type()
+        {
+            return "radio";
+        }
 
         virtual ~RadioElement();
 
@@ -582,9 +686,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ProgressMeterElement>(inParent, inAttr); }
+        {
+            return Element::Create<ProgressMeterElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "progressmeter"; }
+        static const char * Type()
+        {
+            return "progressmeter";
+        }
 
         virtual ~ProgressMeterElement();
 
@@ -598,9 +707,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<DeckElement>(inParent, inAttr); }
+        {
+            return Element::Create<DeckElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "deck"; }
+        static const char * Type()
+        {
+            return "deck";
+        }
 
         virtual ~DeckElement();
 
@@ -614,9 +728,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ScrollbarElement>(inParent, inAttr); }
+        {
+            return Element::Create<ScrollbarElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "scrollbar"; }
+        static const char * Type()
+        {
+            return "scrollbar";
+        }
 
         virtual ~ScrollbarElement();
 
@@ -630,9 +749,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabBoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<TabBoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "tabbox"; }
+        static const char * Type()
+        {
+            return "tabbox";
+        }
 
         virtual ~TabBoxElement();
 
@@ -646,9 +770,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabsElement>(inParent, inAttr); }
+        {
+            return Element::Create<TabsElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "tabs"; }
+        static const char * Type()
+        {
+            return "tabs";
+        }
 
         virtual ~TabsElement();
 
@@ -664,9 +793,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabElement>(inParent, inAttr); }
+        {
+            return Element::Create<TabElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "tab"; }
+        static const char * Type()
+        {
+            return "tab";
+        }
 
         virtual ~TabElement();
 
@@ -681,9 +815,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabPanelsElement>(inParent, inAttr); }
+        {
+            return Element::Create<TabPanelsElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "tabpanels"; }
+        static const char * Type()
+        {
+            return "tabpanels";
+        }
 
         virtual ~TabPanelsElement();
 
@@ -697,9 +836,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TabPanelElement>(inParent, inAttr); }
+        {
+            return Element::Create<TabPanelElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "tabpanel"; }
+        static const char * Type()
+        {
+            return "tabpanel";
+        }
 
         virtual ~TabPanelElement();
 
@@ -713,9 +857,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<GroupBoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<GroupBoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "groupbox"; }
+        static const char * Type()
+        {
+            return "groupbox";
+        }
 
     private:
         friend class Element;
@@ -727,9 +876,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<CaptionElement>(inParent, inAttr); }
+        {
+            return Element::Create<CaptionElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "caption"; }
+        static const char * Type()
+        {
+            return "caption";
+        }
 
     private:
         friend class Element;
@@ -741,12 +895,17 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeElement>(inParent, inAttr); }
+        {
+            return Element::Create<TreeElement>(inParent, inAttr);
+        }
 
         virtual ~TreeElement();
 
-        static const char * Type() { return "tree"; }
-    
+        static const char * Type()
+        {
+            return "tree";
+        }
+
     private:
         friend class Element;
         TreeElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -757,9 +916,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeChildrenElement>(inParent, inAttr); }
+        {
+            return Element::Create<TreeChildrenElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "treechildren"; }
+        static const char * Type()
+        {
+            return "treechildren";
+        }
 
         virtual ~TreeChildrenElement();
 
@@ -773,9 +937,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeItemElement>(inParent, inAttr); }
+        {
+            return Element::Create<TreeItemElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "treeitem"; }
+        static const char * Type()
+        {
+            return "treeitem";
+        }
 
         virtual ~TreeItemElement();
 
@@ -789,9 +958,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeColsElement>(inParent, inAttr); }
+        {
+            return Element::Create<TreeColsElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "treecols"; }
+        static const char * Type()
+        {
+            return "treecols";
+        }
 
         virtual ~TreeColsElement();
 
@@ -805,9 +979,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeColElement>(inParent, inAttr); }
+        {
+            return Element::Create<TreeColElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "treecol"; }
+        static const char * Type()
+        {
+            return "treecol";
+        }
 
         virtual ~TreeColElement();
 
@@ -821,9 +1000,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeRowElement>(inParent, inAttr); }
+        {
+            return Element::Create<TreeRowElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "treerow"; }
+        static const char * Type()
+        {
+            return "treerow";
+        }
 
         virtual ~TreeRowElement();
 
@@ -837,9 +1021,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TreeCellElement>(inParent, inAttr); }
+        {
+            return Element::Create<TreeCellElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "treecell"; }
+        static const char * Type()
+        {
+            return "treecell";
+        }
 
         virtual ~TreeCellElement();
 
@@ -853,9 +1042,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<StatusbarElement>(inParent, inAttr); }
+        {
+            return Element::Create<StatusbarElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "statusbar"; }
+        static const char * Type()
+        {
+            return "statusbar";
+        }
 
         virtual ~StatusbarElement();
 
@@ -869,9 +1063,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<StatusbarPanelElement>(inParent, inAttr); }
+        {
+            return Element::Create<StatusbarPanelElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "statusbarpanel"; }
+        static const char * Type()
+        {
+            return "statusbarpanel";
+        }
 
         virtual ~StatusbarPanelElement();
 
@@ -885,9 +1084,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ToolbarElement>(inParent, inAttr); }
+        {
+            return Element::Create<ToolbarElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "toolbar"; }
+        static const char * Type()
+        {
+            return "toolbar";
+        }
 
         virtual ~ToolbarElement();
 
@@ -901,9 +1105,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ToolbarButtonElement>(inParent, inAttr); }
+        {
+            return Element::Create<ToolbarButtonElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "toolbarbutton"; }
+        static const char * Type()
+        {
+            return "toolbarbutton";
+        }
 
         virtual ~ToolbarButtonElement();
 

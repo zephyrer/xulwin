@@ -44,7 +44,7 @@ namespace XULWin
         {
             return false;
         }
-        
+
         if (XULWin::ToolbarElement * toolbar = inEl->parent()->downcast<XULWin::ToolbarElement>())
         {
             connect(toolbar, WM_COMMAND, inEl->component()->commandId(), inAction);
@@ -76,8 +76,8 @@ namespace XULWin
 
     void ScopedEventListener::connect(Element * inEl, const Action & inAction)
     {
-        if (!connectToolbarButton(inEl, inAction) && 
-            !connectMenuItem(inEl, inAction))
+        if (!connectToolbarButton(inEl, inAction) &&
+                !connectMenuItem(inEl, inAction))
         {
             connect(inEl, WM_COMMAND, inAction);
         }
@@ -105,13 +105,13 @@ namespace XULWin
         disconnect(inEl, WM_COMMAND, inEl->component()->commandId());
     }
 
-    
+
     void ScopedEventListener::disconnect(Element * inEl, UINT inMessage)
     {
         disconnect(inEl, inMessage, inEl->component()->commandId());
     }
 
-    
+
     void ScopedEventListener::disconnect(Element * inEl, UINT inMessage, int inCommandId)
     {
         if (inEl)
@@ -145,8 +145,8 @@ namespace XULWin
         }
         UINT message = inMessageId.messageId();
         if (message == WM_COMMAND)
-        {            
-              WORD id = LOWORD(wParam);
+        {
+            WORD id = LOWORD(wParam);
             XULWin::Windows::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
             if (!item)
             {
@@ -215,7 +215,7 @@ namespace XULWin
 
 
     LRESULT ScopedEventListener::handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam)
-    {  
+    {
         LRESULT ret = cUnhandled;
         if (!handleToolbarCommand(inMsgId, wParam, lParam, ret))
         {
@@ -224,7 +224,7 @@ namespace XULWin
         return ret;
     }
 
-        
+
     LRESULT ScopedEventListener::handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
     {
         return handleMessage(MsgId(inSender,
@@ -243,7 +243,7 @@ namespace XULWin
                              0,
                              0);
     }
-    
+
 
     LRESULT ScopedEventListener::handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {

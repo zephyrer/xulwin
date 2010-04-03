@@ -13,9 +13,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<WindowElement>(inParent, inAttr); }
+        {
+            return Element::Create<WindowElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "window"; }
+        static const char * Type()
+        {
+            return "window";
+        }
 
 
         enum Positioning

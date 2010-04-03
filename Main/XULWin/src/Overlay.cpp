@@ -9,5 +9,5 @@ namespace XULWin
     {
     }
 
-    
+
 } // namespace XULWin

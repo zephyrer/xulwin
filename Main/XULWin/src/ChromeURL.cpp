@@ -3,7 +3,7 @@
 #include "Poco/String.h"
 
 
-namespace XULWin 
+namespace XULWin
 {
 
     ChromeURL::ChromeURL(const std::string & inURL) :
@@ -29,7 +29,7 @@ namespace XULWin
         // Change this pattern: chrome://myapp/skin/icons/myimg.jpg
         // Into this pattern:   chrome/skin/icons/myimg.jpg
         std::string result;
-        
+
         // remove "chrome://"
         result = mURL.substr(cChrome.size(), mURL.size() - cChrome.size());
 
@@ -50,5 +50,5 @@ namespace XULWin
         return result;
     }
 
-    
+
 } // XULWin

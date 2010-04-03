@@ -12,9 +12,14 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuBarElement>(inParent, inAttr); }
+        {
+            return Element::Create<MenuBarElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "menubar"; }
+        static const char * Type()
+        {
+            return "menubar";
+        }
 
     private:
         friend class Element;

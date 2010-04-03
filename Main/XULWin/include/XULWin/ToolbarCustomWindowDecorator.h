@@ -10,7 +10,7 @@ namespace XULWin
 {
 
     class ToolbarCustomWindowDecorator : public Decorator,
-                                         public Windows::IECustomWindow
+        public Windows::IECustomWindow
     {
     public:
         ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar);
@@ -26,7 +26,7 @@ namespace XULWin
         virtual bool init();
 
     private:
-    
+
         class ConcreteCustomWindow : public Windows::IECustomWindow
         {
         public:

@@ -35,14 +35,14 @@ namespace XULWin
         setAttributeController<RowsController>(this);
         return Super::initAttributeControllers();
     }
-    
-    
+
+
     int ListBox::getRows() const
     {
         return mRows.or(1);
     }
 
-    
+
     void ListBox::setRows(int inRows)
     {
         mRows = inRows;
@@ -73,5 +73,5 @@ namespace XULWin
         int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
         return result + extraHeight;
     }
-    
+
 } // namespace XULWin

@@ -11,7 +11,7 @@ namespace XULWin
                                        std::vector<int> & outSizes)
     {
         assert(outSizes.empty());
-        
+
         int sumOfProportions = 0;
         for (size_t idx = 0; idx != inFlexValues.size(); ++idx)
         {
@@ -38,7 +38,7 @@ namespace XULWin
     )
     {
         assert(outSizes.empty());
-        
+
         int sumOfProportions = 0;
         int availableLength = inLength;
         int spacerCount = 0;
@@ -67,7 +67,7 @@ namespace XULWin
         for (size_t idx = 0; idx != inFlexValues.size(); ++idx)
         {
             if (inFlexValues[idx].Flex != 0)
-            {    
+            {
                 int size = sizes[sizesIdx];
                 if (size < inFlexValues[idx].MinSize)
                 {
@@ -122,9 +122,9 @@ namespace XULWin
         return mOrient;
     }
 
-    
+
     void LinearLayoutManager::getRects(const Rect & inRect,
-                                       Align inAlign, 
+                                       Align inAlign,
                                        const std::vector<ExtendedSizeInfo> & inSizeInfos,
                                        std::vector<Rect> & outRects)
     {
@@ -202,7 +202,7 @@ namespace XULWin
         }
     }
 
-    
+
     void GridLayoutManager::GetOuterRects(const Rect & inRect,
                                           const std::vector<SizeInfo> & inColWidths,
                                           const std::vector<SizeInfo> & inRowHeights,
@@ -248,7 +248,7 @@ namespace XULWin
 
                 if (info.ColAlign == Center)
                 {
-                    x = x + (outerRect.width() - info.MinWidgetWidth)/2;                    
+                    x = x + (outerRect.width() - info.MinWidgetWidth)/2;
                 }
                 else if (info.ColAlign == End)
                 {

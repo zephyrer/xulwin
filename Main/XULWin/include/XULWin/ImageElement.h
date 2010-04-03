@@ -13,10 +13,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ImageElement>(inParent, inAttr); }
+        {
+            return Element::Create<ImageElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "image"; }
-    
+        static const char * Type()
+        {
+            return "image";
+        }
+
     private:
         friend class Element;
         ImageElement(Element * inParent, const AttributesMapping & inAttributesMapping);

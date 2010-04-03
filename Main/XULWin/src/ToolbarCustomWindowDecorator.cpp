@@ -2,17 +2,17 @@
 
 
 namespace XULWin
-{    
-    
+{
+
     ToolbarCustomWindowDecorator::ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar) :
         Decorator(inDecoratedElement),
         IECustomWindow(),
         mCustomWindow(0)
-    {        
+    {
         if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
         {
             mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedElement->commandId(), native->handle());
-        }        
+        }
     }
 
 
@@ -24,8 +24,8 @@ namespace XULWin
         }
         return 0;
     }
-        
-    
+
+
     bool ToolbarCustomWindowDecorator::hasFocus() const
     {
         if (mCustomWindow)
@@ -44,7 +44,7 @@ namespace XULWin
         }
     }
 
-    
+
     HWND ToolbarCustomWindowDecorator::handle() const
     {
         if (mCustomWindow)

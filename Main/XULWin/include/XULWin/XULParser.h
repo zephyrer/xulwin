@@ -16,21 +16,21 @@ namespace XULWin
 {
 
     class AbstractXULParser : public Poco::XML::SAXParser,
-                              public Poco::XML::ContentHandler,
-                              public Poco::XML::EntityResolver
+        public Poco::XML::ContentHandler,
+        public Poco::XML::EntityResolver
     {
     public:
         AbstractXULParser();
 
         /**
          * Returns the root element of the parsed XUL doc.
-         * In case of parsing overlays, this will be the 
+         * In case of parsing overlays, this will be the
          */
         ElementPtr rootElement() const;
 
     protected:
         virtual Element * getCurrentParentElement() = 0;
-        
+
         /**
          * Create the element.
          * Return true if element creation has succeeded or skipped.
@@ -44,54 +44,54 @@ namespace XULWin
         virtual void pushStack(ElementPtr inElement) = 0;
 
         virtual void popStack() = 0;
-    
+
     protected:
         // ContentHandler
         virtual void setDocumentLocator(const Poco::XML::Locator * inLocator);
-        
+
         virtual void startDocument();
-        
+
         virtual void endDocument();
-        
-        virtual void startElement(const Poco::XML::XMLString& uri,
-                                  const Poco::XML::XMLString& localName,
-                                  const Poco::XML::XMLString& qname,
-                                  const Poco::XML::Attributes& attributes);
-        
-        virtual void endElement(const Poco::XML::XMLString& uri,
-                                const Poco::XML::XMLString& localName,
-                                const Poco::XML::XMLString& qname);
+
+        virtual void startElement(const Poco::XML::XMLString & uri,
+                                  const Poco::XML::XMLString & localName,
+                                  const Poco::XML::XMLString & qname,
+                                  const Poco::XML::Attributes & attributes);
+
+        virtual void endElement(const Poco::XML::XMLString & uri,
+                                const Poco::XML::XMLString & localName,
+                                const Poco::XML::XMLString & qname);
 
         virtual void characters(const Poco::XML::XMLChar ch[], int start, int length);
-    
+
         virtual void ignorableWhitespace(const Poco::XML::XMLChar ch[], int start, int length) {}
-    
-        virtual void processingInstruction(const Poco::XML::XMLString& target, const Poco::XML::XMLString& data) {}
-    
-        virtual void startPrefixMapping(const Poco::XML::XMLString& prefix, const Poco::XML::XMLString& uri) {}
-    
-        virtual void endPrefixMapping(const Poco::XML::XMLString& prefix) {}
-    
-        virtual void skippedEntity(const Poco::XML::XMLString& name) {}
 
-        virtual Poco::XML::InputSource* resolveEntity(const Poco::XML::XMLString* publicId, const Poco::XML::XMLString& systemId);
-        
-        virtual void releaseInputSource(Poco::XML::InputSource* pSource);
+        virtual void processingInstruction(const Poco::XML::XMLString & target, const Poco::XML::XMLString & data) {}
+
+        virtual void startPrefixMapping(const Poco::XML::XMLString & prefix, const Poco::XML::XMLString & uri) {}
+
+        virtual void endPrefixMapping(const Poco::XML::XMLString & prefix) {}
+
+        virtual void skippedEntity(const Poco::XML::XMLString & name) {}
+
+        virtual Poco::XML::InputSource * resolveEntity(const Poco::XML::XMLString * publicId, const Poco::XML::XMLString & systemId);
+
+        virtual void releaseInputSource(Poco::XML::InputSource * pSource);
 
 
-    protected:        
+    protected:
         // needed to know which one is the parent element
-        std::stack<Element*> mStack; 
-        
+        std::stack<Element *> mStack;
+
         // depth of ignoration
         int mIgnores;
         ElementPtr mRootElement;
-    
+
     private:
         void getAttributes(const Poco::XML::Attributes & inXMLAttributes,
                            AttributesMapping & outXULAttributes);
 
-        const Poco::XML::Locator* mLocator;
+        const Poco::XML::Locator * mLocator;
         std::string mLanguage;
     };
 
@@ -106,7 +106,7 @@ namespace XULWin
         virtual void pushStack(ElementPtr inElement);
 
         virtual void popStack();
-           
+
         /**
          * Create the element.
          * Return true if element creation has succeeded or skipped.

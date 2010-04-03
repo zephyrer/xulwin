@@ -10,7 +10,7 @@
 
 namespace XULWin
 {
-    
+
     MenuBar::MenuBar(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
@@ -19,7 +19,7 @@ namespace XULWin
 
     bool MenuBar::init()
     {
-        std::vector<MenuElement*> menuElements;
+        std::vector<MenuElement *> menuElements;
         el()->getElementsByType<MenuElement>(menuElements);
         Windows::MenuNode node(Windows::MenuItemInfo(commandId(), ""));
         for (size_t idx = 0; idx != menuElements.size(); ++idx)
@@ -33,19 +33,19 @@ namespace XULWin
         }
         return Super::init();
     }
-    
+
 
 
     int MenuBar::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        std::vector<Element*> items;
+        std::vector<Element *> items;
         el()->getElementsByType(MenuItemElement::Type(), items);
         for (size_t idx = 0; idx != items.size(); ++idx)
         {
             MenuItem * item = items[idx]->component()->downcast<MenuItem>();
             result += item->calculateWidth(inSizeConstraint) + Defaults::menuBarSpacing();
-        }     
+        }
         return result;
     }
 
@@ -55,5 +55,5 @@ namespace XULWin
         return 0; // does not take part in client rect
         //return Defaults::menuBarHeight();
     }
-    
+
 } // namespace XULWin

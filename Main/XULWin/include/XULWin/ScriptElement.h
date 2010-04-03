@@ -12,12 +12,17 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ScriptElement>(inParent, inAttr); }
+        {
+            return Element::Create<ScriptElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "script"; }
+        static const char * Type()
+        {
+            return "script";
+        }
 
         virtual bool init();
-    
+
     private:
         friend class Element;
         ScriptElement(Element * inParent, const AttributesMapping & inAttributesMapping);

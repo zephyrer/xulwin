@@ -7,7 +7,7 @@
 
 namespace XULWin
 {
-    
+
 
     BoxLayouter::BoxLayouter(ContentProvider * inContentProvider) :
         mContentProvider(inContentProvider)
@@ -41,7 +41,7 @@ namespace XULWin
         }
         else
         {
-            ReportError("Invalid getOrient in VirtualBox"); 
+            ReportError("Invalid getOrient in VirtualBox");
             return 0;
         }
     }
@@ -78,10 +78,10 @@ namespace XULWin
         }
     }
 
-    
+
     void BoxLayouter::rebuildLayout()
-    {     
-        Rect clientR(mContentProvider->BoxLayouter_clientRect());   
+    {
+        Rect clientR(mContentProvider->BoxLayouter_clientRect());
         LinearLayoutManager layout(mContentProvider->BoxLayouter_getOrient());
         bool horizontal = mContentProvider->BoxLayouter_getOrient() == Horizontal;
         std::vector<ExtendedSizeInfo> sizeInfos;

@@ -14,10 +14,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<TextElement>(inParent, inAttr); }
+        {
+            return Element::Create<TextElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "text"; }
-    
+        static const char * Type()
+        {
+            return "text";
+        }
+
     private:
         friend class Element;
         TextElement(Element * inParent, const AttributesMapping & inAttributesMapping);

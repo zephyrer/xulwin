@@ -13,10 +13,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVGElement>(inParent, inAttr); }
+        {
+            return Element::Create<SVGElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "svg"; }
-    
+        static const char * Type()
+        {
+            return "svg";
+        }
+
     private:
         friend class Element;
         SVGElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -27,10 +32,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVGGroupElement>(inParent, inAttr); }
+        {
+            return Element::Create<SVGGroupElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "g"; }
-    
+        static const char * Type()
+        {
+            return "g";
+        }
+
     private:
         friend class Element;
         SVGGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -41,10 +51,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVGPolygonElement>(inParent, inAttr); }
+        {
+            return Element::Create<SVGPolygonElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "polygon"; }
-    
+        static const char * Type()
+        {
+            return "polygon";
+        }
+
     private:
         friend class Element;
         SVGPolygonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -55,10 +70,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVGRectElement>(inParent, inAttr); }
+        {
+            return Element::Create<SVGRectElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "rect"; }
-    
+        static const char * Type()
+        {
+            return "rect";
+        }
+
     private:
         friend class Element;
         SVGRectElement(Element * inParent, const AttributesMapping & inAttributesMapping);
@@ -69,10 +89,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<SVGPathElement>(inParent, inAttr); }
+        {
+            return Element::Create<SVGPathElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "path"; }
-    
+        static const char * Type()
+        {
+            return "path";
+        }
+
     private:
         friend class Element;
         SVGPathElement(Element * inParent, const AttributesMapping & inAttributesMapping);

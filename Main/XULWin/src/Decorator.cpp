@@ -98,8 +98,8 @@ namespace XULWin
         }
         return 0;
     }
-    
-    
+
+
     void Decorator::invalidateRect() const
     {
         assert(mDecoratedElement);
@@ -216,7 +216,7 @@ namespace XULWin
         static RGBColor fDefault;
         return fDefault;
     }
-    
+
 
     void Decorator::setSVGStrokeWidth(int inStrokeWidth)
     {
@@ -228,7 +228,7 @@ namespace XULWin
         //}
     }
 
-    
+
     int Decorator::getSVGStrokeWidth() const
     {
         assert(false); // TODO: remove this method
@@ -242,7 +242,7 @@ namespace XULWin
 
 
     void Decorator::setSVGFill(const RGBColor & inColor)
-    {        
+    {
         assert(false); // TODO: remove this method
         //assert(mDecoratedElement);
         //if (mDecoratedElement)
@@ -285,7 +285,7 @@ namespace XULWin
         }
     }
 
-    
+
     int Decorator::getCSSWidth() const
     {
         assert(mDecoratedElement);
@@ -306,7 +306,7 @@ namespace XULWin
         }
     }
 
-    
+
     int Decorator::getCSSHeight() const
     {
         assert(mDecoratedElement);
@@ -345,11 +345,12 @@ namespace XULWin
         {
             return mDecoratedElement->getCSSBackgroundColor();
         }
-        RGBColor fallback;(0, 0, 0);
+        RGBColor fallback;
+        (0, 0, 0);
         return fallback;
     }
 
-    
+
     void Decorator::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {
         assert(mDecoratedElement);
@@ -476,7 +477,7 @@ namespace XULWin
         }
     }
 
-    
+
     Orient Decorator::getOrient() const
     {
         assert(mDecoratedElement);
@@ -573,7 +574,7 @@ namespace XULWin
         return 0;
     }
 
-    
+
     bool Decorator::expansive() const
     {
         assert(mDecoratedElement);
@@ -593,8 +594,8 @@ namespace XULWin
             mDecoratedElement->move(x, y, w, h);
         }
     }
-    
-    
+
+
     void Decorator::move(const Rect & inRect)
     {
         assert(mDecoratedElement);
@@ -733,22 +734,22 @@ namespace XULWin
         }
         return false;
     }
-    
-    
+
+
     ComponentPtr Decorator::decoratedElement() const
     {
         assert(mDecoratedElement);
         return mDecoratedElement;
     }
-    
-    
+
+
     void Decorator::setDecoratedElement(ComponentPtr inElement)
     {
         mDecoratedElement = inElement;
         assert(mDecoratedElement);
     }
-    
-    
+
+
     void Decorator::setDecoratedElement(Component * inElement)
     {
         mDecoratedElement.reset(inElement);
@@ -809,7 +810,7 @@ namespace XULWin
         mDecoratorChildren.push_back(inChild);
     }
 
-    
+
     ScrollDecorator::ScrollDecorator(Component * inParent,
                                      Component * inDecoratedElement,
                                      CSSOverflow inOverflowX,
@@ -891,8 +892,8 @@ namespace XULWin
         }
         return Super::getHeight(inSizeConstraint);
     }
-            
-            
+
+
     int ScrollDecorator::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         if (inSizeConstraint == Minimum && mOverflowX != CSSOverflow_Hidden)
@@ -923,8 +924,8 @@ namespace XULWin
         }
         return result;
     }
-    
-    
+
+
     void ScrollDecorator::rebuildLayout()
     {
         bool refreshScroll = mOldHorScrollPos != 0 || mOldVerScrollPos != 0;
@@ -985,7 +986,7 @@ namespace XULWin
 
 
     void ScrollDecorator::updateVerticalScrollInfo()
-    {        
+    {
         Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
         if (scrollbar)
         {
@@ -1007,8 +1008,8 @@ namespace XULWin
             }
         }
     }
-    
-    
+
+
     void ScrollDecorator::move(int x, int y, int w, int h)
     {
         // Update page height of scroll boxes
@@ -1056,7 +1057,7 @@ namespace XULWin
         {
             int maxpos = Defaults::Attributes::maxpos();
             Rect clientRect(mDecoratedElement->clientRect());
-            
+
             int newHorScrollPos = 0;
             int newVerScrollPos = 0;
             int dx = 0;
@@ -1090,8 +1091,8 @@ namespace XULWin
             mOldVerScrollPos = newVerScrollPos;
         }
     }
-    
-    
+
+
     LRESULT ScrollDecorator::handleMouseWheel(WPARAM wParam, LPARAM lParam)
     {
         // Forward mouse wheel messages to the vertical scrollbar
@@ -1159,25 +1160,25 @@ namespace XULWin
         return mTop;
     }
 
-    
+
     int MarginDecorator::marginLeft() const
     {
         return mLeft;
     }
 
-    
+
     int MarginDecorator::marginRight() const
     {
         return mRight;
     }
 
-    
+
     int MarginDecorator::marginBottom() const
     {
         return mBottom;
     }
 
-    
+
     Rect MarginDecorator::clientRect() const
     {
         return mOuterRect;
@@ -1221,13 +1222,13 @@ namespace XULWin
         return marginTop() + Super::getHeight(inSizeConstraint) + marginBottom();
     }
 
-    
+
     void MarginDecorator::move(const Rect & inRect)
     {
         MarginDecorator::move(inRect.x(), inRect.y(), inRect.width(), inRect.height());
     }
 
-    
+
     void MarginDecorator::move(int x, int y, int w, int h)
     {
         mOuterRect = Rect(x, y, w, h);
@@ -1243,14 +1244,14 @@ namespace XULWin
                                     mInnerRect.height());
         }
     }
-    
+
 
     int MarginDecorator::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return marginLeft() + Super::getWidth(inSizeConstraint) + marginRight();
     }
 
-    
+
     int MarginDecorator::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return marginTop() + Super::getHeight(inSizeConstraint) + marginBottom();

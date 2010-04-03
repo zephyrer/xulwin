@@ -9,9 +9,9 @@ namespace XULWin
 {
 
     class Image : public NativeControl,
-                  public virtual SrcController,
-                  public virtual KeepAspectRatioController,
-                  public GdiplusLoader
+        public virtual SrcController,
+        public virtual KeepAspectRatioController,
+        public GdiplusLoader
     {
     public:
         typedef NativeControl Super;
@@ -21,13 +21,13 @@ namespace XULWin
         virtual std::string getSrc() const;
 
         virtual void setSrc(const std::string & inSrc);
-        
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-        
+
         virtual int getWidth(SizeConstraint inSizeConstraint) const;
-        
+
         virtual int getHeight(SizeConstraint inSizeConstraint) const;
 
         virtual void move(int x, int y, int w, int h);
@@ -37,7 +37,7 @@ namespace XULWin
         virtual void setKeepAspectRatio(bool inKeepAspectRatio);
 
         virtual bool initAttributeControllers();
-        
+
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
     private:

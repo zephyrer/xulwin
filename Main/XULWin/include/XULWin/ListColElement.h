@@ -12,12 +12,17 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListColElement>(inParent, inAttr); }
+        {
+            return Element::Create<ListColElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "listcol"; }
+        static const char * Type()
+        {
+            return "listcol";
+        }
 
         virtual bool init();
-    
+
     private:
         friend class Element;
         ListColElement(Element * inParent, const AttributesMapping & inAttributesMapping);

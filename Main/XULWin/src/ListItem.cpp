@@ -17,8 +17,8 @@ namespace XULWin
         mSelected(false)
     {
     }
-        
-        
+
+
     bool ListItem::init()
     {
         // XUL hierarchy:
@@ -28,16 +28,16 @@ namespace XULWin
         {
             LVITEM lvItem;
             lvItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_STATE;
-            lvItem.state = 0; 
-            lvItem.stateMask = 0; 
+            lvItem.state = 0;
+            lvItem.stateMask = 0;
             lvItem.iSubItem = 0;
             lvItem.lParam = (LPARAM)0;
-            std::vector<ListCellElement*> listCells;
+            std::vector<ListCellElement *> listCells;
             el()->getElementsByType<ListCellElement>(listCells);
-            
+
             if (!listCells.empty())
-            {    
-                static std::vector<std::wstring> labels;            
+            {
+                static std::vector<std::wstring> labels;
                 labels.clear();
 
                 for (size_t idx = 0; idx != listCells.size(); ++idx)
@@ -62,7 +62,7 @@ namespace XULWin
         return mLabel;
     }
 
-    
+
     void ListItem::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
@@ -92,7 +92,7 @@ namespace XULWin
     int ListItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         static int cMargin = 4;
-        int result = 0; 
+        int result = 0;
         if (ListBox * listBox = parent()->downcast<ListBox>())
         {
             int width = Windows::getTextSize(listBox->handle(), getLabel()).cx;
@@ -113,5 +113,5 @@ namespace XULWin
         }
         return 0;
     }
-    
+
 } // namespace XULWin

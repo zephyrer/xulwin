@@ -6,13 +6,13 @@
 
 namespace XULWin
 {
-    
+
     MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
     }
 
-        
+
     Windows::PopupMenu * MenuPopup::getMenu()
     {
         Windows::PopupMenu * popupMenu = new Windows::PopupMenu;
@@ -62,7 +62,7 @@ namespace XULWin
         return 0;
     }
 
-        
+
     void MenuPopup::show(RECT inExcludeRect)
     {
         if (NativeComponent * comp = NativeControl::GetThisOrParent(this))
@@ -75,8 +75,8 @@ namespace XULWin
             menu->show(comp->handle(), location, inExcludeRect);
         }
     }
-    
-    
+
+
     void MenuPopup::onChildAdded(Component * inChild)
     {
         parent()->onContentChanged();
@@ -87,5 +87,5 @@ namespace XULWin
     {
         parent()->onContentChanged();
     }
-    
+
 } // namespace XULWin

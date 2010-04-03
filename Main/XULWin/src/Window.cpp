@@ -39,23 +39,23 @@ namespace XULWin
         mHasMessageLoop(false)
     {
         mHandle = ::CreateWindowEx
-        (
-            0, 
-            TEXT("XULWin::WindowElement"),
-            TEXT(""),
-            WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
-            CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
-            0,
-            (HMENU)0, // must be zero if not menu and not child
-            mModuleHandle,
-            0
-        );
+                  (
+                      0,
+                      TEXT("XULWin::WindowElement"),
+                      TEXT(""),
+                      WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
+                      CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
+                      0,
+                      (HMENU)0, // must be zero if not menu and not child
+                      mModuleHandle,
+                      0
+                  );
 
         std::string error = Windows::getLastError(::GetLastError());
 
 
         // set default font
-        ::SendMessage(mHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));        
+        ::SendMessage(mHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
         registerHandle();
     }
 
@@ -70,31 +70,31 @@ namespace XULWin
         setAttributeController<TitleController>(this);
         return Super::initAttributeControllers();
     }
-    
-    
+
+
     Rect Window::clientRect() const
     {
         RECT rc;
         ::GetClientRect(handle(), &rc);
         return Rect(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
     }
-    
-    
+
+
     Rect Window::windowRect() const
     {
         RECT rw;
         ::GetWindowRect(handle(), &rw);
         return Rect(rw.left, rw.top, rw.right - rw.left, rw.bottom - rw.top);
     }
-    
-    
+
+
     int Window::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return getOrient() == Horizontal ? calculateSumChildWidths(inSizeConstraint)
-                                         : calculateMaxChildWidth(inSizeConstraint);
+               : calculateMaxChildWidth(inSizeConstraint);
     }
-    
-    
+
+
     int Window::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
@@ -108,26 +108,26 @@ namespace XULWin
         }
         return result;
     }
-    
-    
+
+
     void Window::move(int x, int y, int w, int h)
     {
         ::MoveWindow(handle(), x, y, w, h, FALSE);
     }
 
-    
+
     void Window::rebuildLayout()
     {
         mBoxLayouter.rebuildLayout();
     }
-    
-    
+
+
     std::string Window::getTitle() const
     {
         return Windows::getWindowText(handle());
     }
 
-    
+
     void Window::setTitle(const std::string & inTitle)
     {
         Windows::setWindowText(handle(), inTitle);
@@ -206,8 +206,8 @@ namespace XULWin
         ::ShowWindow(handle(), SW_SHOW);
         ::UpdateWindow(handle());
     }
-    
-    
+
+
     void Window::close()
     {
         setHidden(true);
@@ -220,7 +220,7 @@ namespace XULWin
 
     LRESULT Window::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        switch(inMessage)
+        switch (inMessage)
         {
             case WM_SETFOCUS:
             {
@@ -245,7 +245,7 @@ namespace XULWin
             case WM_GETMINMAXINFO:
             {
                 SIZE sizeDiff = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-                MINMAXINFO * minMaxInfo = (MINMAXINFO*)lParam;
+                MINMAXINFO * minMaxInfo = (MINMAXINFO *)lParam;
                 minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;
                 return 0;
@@ -288,7 +288,7 @@ namespace XULWin
         }
     }
 
-    
+
     LRESULT CALLBACK Window::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         NativeComponent * sender = FindByHandle(hWnd);
@@ -309,5 +309,5 @@ namespace XULWin
         mActiveDialog = inDlg;
     }
 
-    
+
 } // namespace XULWin

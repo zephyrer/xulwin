@@ -15,25 +15,25 @@ namespace XULWin
     template<class T>
     class GenericGrid
     {
-        public:
-            GenericGrid(size_t numRows, size_t numColumns);
+    public:
+        GenericGrid(size_t numRows, size_t numColumns);
 
-            GenericGrid(size_t numRows, size_t numColumns, const T & inInitialValue);
+        GenericGrid(size_t numRows, size_t numColumns, const T & inInitialValue);
 
-            const T & get(size_t row, size_t col) const;
+        const T & get(size_t row, size_t col) const;
 
-            T & get(size_t row, size_t col);
+        T & get(size_t row, size_t col);
 
-            void set(size_t row, size_t col, const T & inT);
+        void set(size_t row, size_t col, const T & inT);
 
-            size_t numRows() const;
+        size_t numRows() const;
 
-            size_t numColumns() const;
+        size_t numColumns() const;
 
-        private:
-            size_t mNumRows;
-            size_t mNumColumns;
-            std::vector<T> mData;
+    private:
+        size_t mNumRows;
+        size_t mNumColumns;
+        std::vector<T> mData;
     };
 
 
@@ -72,7 +72,7 @@ namespace XULWin
     template<class T>
     void GenericGrid<T>::set(size_t rowIdx, size_t colIdx, const T & inT)
     {
-        mData[rowIdx*mNumColumns + colIdx] = inT;
+        mData[rowIdx * mNumColumns + colIdx] = inT;
     }
 
 

@@ -16,12 +16,12 @@ namespace XULWin
     {
         setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, true);
         setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, true);
-        
+
         setContentHandler(this);
         setEntityResolver(this);
     }
-    
-    
+
+
     ElementPtr AbstractXULParser::rootElement() const
     {
         return mRootElement;
@@ -58,10 +58,10 @@ namespace XULWin
     }
 
 
-    void AbstractXULParser::startElement(const Poco::XML::XMLString& uri,
-                              const Poco::XML::XMLString& localName,
-                              const Poco::XML::XMLString& qname,
-                              const Poco::XML::Attributes& attributes)
+    void AbstractXULParser::startElement(const Poco::XML::XMLString & uri,
+                                         const Poco::XML::XMLString & localName,
+                                         const Poco::XML::XMLString & qname,
+                                         const Poco::XML::Attributes & attributes)
     {
         try
         {
@@ -93,9 +93,9 @@ namespace XULWin
     }
 
 
-    void AbstractXULParser::endElement(const Poco::XML::XMLString& uri,
-                            const Poco::XML::XMLString& localName,
-                            const Poco::XML::XMLString& qname)
+    void AbstractXULParser::endElement(const Poco::XML::XMLString & uri,
+                                       const Poco::XML::XMLString & localName,
+                                       const Poco::XML::XMLString & qname)
     {
         if (mIgnores > 0)
         {
@@ -104,8 +104,8 @@ namespace XULWin
         }
         popStack();
     }
-    
-    
+
+
     void AbstractXULParser::characters(const Poco::XML::XMLChar ch[], int start, int length)
     {
         if (!mStack.empty() && mStack.top())
@@ -116,7 +116,7 @@ namespace XULWin
     }
 
 
-    Poco::XML::InputSource* AbstractXULParser::resolveEntity(const Poco::XML::XMLString* publicId, const Poco::XML::XMLString& systemId)
+    Poco::XML::InputSource * AbstractXULParser::resolveEntity(const Poco::XML::XMLString * publicId, const Poco::XML::XMLString & systemId)
     {
         try
         {
@@ -137,23 +137,23 @@ namespace XULWin
     }
 
 
-    void AbstractXULParser::releaseInputSource(Poco::XML::InputSource* pSource)
+    void AbstractXULParser::releaseInputSource(Poco::XML::InputSource * pSource)
     {
         Poco::XML::EntityResolverImpl entityResolverImpl;
         return entityResolverImpl.releaseInputSource(pSource);
-    } 
+    }
 
 
     bool XULParser::createElement(const std::string & inLocalName,
-                                        Element * inParent,
-                                        const AttributesMapping & inAttributes,
-                                        ElementPtr & outElement)
+                                  Element * inParent,
+                                  const AttributesMapping & inAttributes,
+                                  ElementPtr & outElement)
     {
         outElement = ElementFactory::Instance().createElement(inLocalName, inParent, inAttributes);
         return outElement.get() != 0;
     }
-    
-    
+
+
     Element * XULParser::getCurrentParentElement()
     {
         Element * parent(0);
@@ -166,7 +166,7 @@ namespace XULWin
 
 
     void XULParser::pushStack(ElementPtr inElement)
-    {   
+    {
         if (inElement)
         {
             if (mStack.empty())
@@ -177,11 +177,11 @@ namespace XULWin
             mStack.push(inElement.get());
         }
     }
-    
-    
+
+
     void XULParser::popStack()
     {
-        assert (!mStack.empty());
+        assert(!mStack.empty());
         if (!mStack.empty())
         {
             mStack.top()->init();

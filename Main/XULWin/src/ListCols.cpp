@@ -15,22 +15,22 @@ namespace XULWin
         return Super::init();
     }
 
-    
+
     bool ListCols::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
-        
-        
+
+
     int ListCols::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
-    
+
     int ListCols::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
-    
+
 } // namespace XULWin

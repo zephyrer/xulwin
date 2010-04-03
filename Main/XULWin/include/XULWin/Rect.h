@@ -12,7 +12,7 @@ namespace XULWin
     template<class T>
     class GenericRect
     {
-    public:        
+    public:
         GenericRect()
         {
         }
@@ -28,28 +28,46 @@ namespace XULWin
             mSize(inWidth, inHeight)
         {
         }
-        
+
         bool operator==(const GenericRect<T> & inOtherRect)
         {
             return mLocation == inOtherRect.mLocation && mSize == inOtherRect.mSize;
         }
-                  
+
         bool operator!=(const GenericRect<T> & inOtherRect)
         {
             return !(inOtherRect == *this);
         }
 
-        T x() const { return mLocation.x(); }
+        T x() const
+        {
+            return mLocation.x();
+        }
 
-        T y() const { return mLocation.y(); }
+        T y() const
+        {
+            return mLocation.y();
+        }
 
-        T width() const { return mSize.width(); }
+        T width() const
+        {
+            return mSize.width();
+        }
 
-        T height() const { return mSize.height(); }
+        T height() const
+        {
+            return mSize.height();
+        }
 
-        const GenericPoint<T> & location() const { return mLocation; }
+        const GenericPoint<T> & location() const
+        {
+            return mLocation;
+        }
 
-        const GenericSize<T> & size() const { return mSize; }
+        const GenericSize<T> & size() const
+        {
+            return mSize;
+        }
 
     private:
         GenericPoint<T> mLocation;

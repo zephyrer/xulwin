@@ -40,7 +40,10 @@ namespace XULWin
 
         CommandId(int inId) : mId(inId) {}
 
-        int intValue() const { return mId; }
+        int intValue() const
+        {
+            return mId;
+        }
 
     private:
         int mId;
@@ -79,33 +82,33 @@ namespace XULWin
      * The Component class represents the C++ side of a XUL element.
      * It provides methods for getting and setting attributes. This by means
      * of a system of AttributeController classes.
-     * 
-     * Each xul attribute that has an effect on what the native UI looks like 
+     *
+     * Each xul attribute that has an effect on what the native UI looks like
      * requires a matching AttributeController class (a class that inherits
      * AttributeController) that implements the conversion from/to the typed
      * attribute value to a string value (XML attributes are strings).
      */
     class Component : public NotificationListener,
-                      public virtual AlignController,
-                      public virtual CSSBackgroundColorController,
-                      public virtual CSSHeightController,
-                      public virtual CSSMarginController,
-                      public virtual CSSWidthController,
-                      public virtual CSSXController,
-                      public virtual CSSYController,
-                      public virtual CSSFillController,
-                      public virtual CSSStrokeController,
-                      public virtual FlexController,
-                      public virtual HeightController,
-                      public virtual HiddenController,
-                      public virtual OrientController,
-                      public virtual ScreenXController,
-                      public virtual ScreenYController,
-                      public virtual WidthController,
-                      private boost::noncopyable
+        public virtual AlignController,
+        public virtual CSSBackgroundColorController,
+        public virtual CSSHeightController,
+        public virtual CSSMarginController,
+        public virtual CSSWidthController,
+        public virtual CSSXController,
+        public virtual CSSYController,
+        public virtual CSSFillController,
+        public virtual CSSStrokeController,
+        public virtual FlexController,
+        public virtual HeightController,
+        public virtual HiddenController,
+        public virtual OrientController,
+        public virtual ScreenXController,
+        public virtual ScreenYController,
+        public virtual WidthController,
+        private boost::noncopyable
     {
     public:
-        virtual ~Component() {}        
+        virtual ~Component() {}
 
         virtual bool init() = 0;
 
@@ -159,7 +162,7 @@ namespace XULWin
 
         // OrientController methods
         virtual Orient getOrient() const = 0;
-        
+
         virtual void setOrient(Orient inOrient) = 0;
 
         // AlignController methods
@@ -213,7 +216,7 @@ namespace XULWin
         template<class Type>
         Type * downcast()
         {
-            return const_cast<Type*>(static_cast<const Component*>(this)->downcast<Type>());
+            return const_cast<Type *>(static_cast<const Component *>(this)->downcast<Type>());
         }
 
         // Downcast that also resolves decorators.
@@ -222,7 +225,7 @@ namespace XULWin
         template<class Type>
         const Type * downcast() const
         {
-            if (const Type * obj = dynamic_cast<const Type*>(this))
+            if (const Type * obj = dynamic_cast<const Type *>(this))
             {
                 return obj;
             }
@@ -231,7 +234,7 @@ namespace XULWin
             //  "error C2680: 'const XULWin::Decorator *' : invalid target type for dynamic_cast"
             // then that means that you must include "XULWin/Decorator.h" in your code.
             //
-            else if (const Decorator * obj = dynamic_cast<const Decorator*>(this))
+            else if (const Decorator * obj = dynamic_cast<const Decorator *>(this))
             {
                 return obj->decoratedElement()->downcast<Type>();
             }
@@ -242,11 +245,11 @@ namespace XULWin
         template<class Type>
         Type * findParentOfType()
         {
-            if (Type * obj = dynamic_cast<Type*>(this))
+            if (Type * obj = dynamic_cast<Type *>(this))
             {
                 return obj;
             }
-            else if (const Decorator * obj = dynamic_cast<const Decorator*>(this))
+            else if (const Decorator * obj = dynamic_cast<const Decorator *>(this))
             {
                 return obj->decoratedElement()->findParentOfType<Type>();
             }
@@ -264,7 +267,7 @@ namespace XULWin
         template<class Type>
         Type * findChildOfType()
         {
-            return const_cast<Type*>(static_cast<const Component*>(this)->findChildOfType<Type>());
+            return const_cast<Type *>(static_cast<const Component *>(this)->findChildOfType<Type>());
         }
 
 
@@ -394,7 +397,7 @@ namespace XULWin
 
         // OrientController methods
         virtual Orient getOrient() const;
-        
+
         virtual void setOrient(Orient inOrient);
 
         // AlignController methods
@@ -444,16 +447,16 @@ namespace XULWin
 
         // Downcast that also resolves decorators.
         // Use this instead of manual cast, because
-        // you may get a decorator instead of the 
+        // you may get a decorator instead of the
         // actual element.
         template<class Type>
         Type * downcast()
         {
-            if (Type * obj = dynamic_cast<Type*>(this))
+            if (Type * obj = dynamic_cast<Type *>(this))
             {
                 return obj;
             }
-            else if (Decorator * obj = dynamic_cast<Decorator*>(this))
+            else if (Decorator * obj = dynamic_cast<Decorator *>(this))
             {
                 return obj->decoratedElement()->downcast<Type>();
             }
@@ -464,18 +467,21 @@ namespace XULWin
         template<class ConstType>
         const ConstType * downcast() const
         {
-            if (const ConstType * obj = dynamic_cast<const ConstType*>(this))
+            if (const ConstType * obj = dynamic_cast<const ConstType *>(this))
             {
                 return obj;
             }
-            else if (const Decorator * obj = dynamic_cast<const Decorator*>(this))
+            else if (const Decorator * obj = dynamic_cast<const Decorator *>(this))
             {
                 return obj->decoratedElement()->downcast<ConstType>();
             }
             return 0;
         }
 
-        int commandId() const { return mCommandId.intValue(); }
+        int commandId() const
+        {
+            return mCommandId.intValue();
+        }
 
         virtual int getWidth(SizeConstraint inSizeConstraint) const;
 
@@ -556,11 +562,11 @@ namespace XULWin
         int mFlex;
 
         Fallible<int> mScreenX;
-        Fallible<int> mScreenY; 
+        Fallible<int> mScreenY;
         Fallible<int> mCSSX;
         Fallible<int> mCSSY;
         Fallible<int> mWidth;
-        Fallible<int> mHeight;       
+        Fallible<int> mHeight;
         Fallible<int> mCSSWidth;
         Fallible<int> mCSSHeight;
         Fallible<int> mStrokeWidth;
@@ -581,7 +587,7 @@ namespace XULWin
         // height *before* the window becomes visible. This would result in a
         // 'minified' window state.
         bool mHidden;
-        
+
         typedef std::map<std::string, AttributeController *> AttributeControllers;
         AttributeControllers mAttributeControllers;
 
@@ -597,8 +603,8 @@ namespace XULWin
      * This is the base class for any native component.
      */
     class NativeComponent : public ConcreteComponent,
-                            public virtual DisabledController,
-                            public virtual LabelController
+        public virtual DisabledController,
+        public virtual LabelController
     {
     public:
         typedef ConcreteComponent Super;
@@ -607,7 +613,7 @@ namespace XULWin
 
         virtual ~NativeComponent();
 
-        virtual void invalidateRect() const;             
+        virtual void invalidateRect() const;
 
         virtual void setHandle(HWND inHandle, bool inPassOwnership);
 
@@ -659,7 +665,7 @@ namespace XULWin
         static NativeComponent * FindById(int inId);
 
         void registerHandle();
-        
+
         void subclass();
 
         void unsubclass();
@@ -670,16 +676,16 @@ namespace XULWin
         HMODULE mModuleHandle;
 
 
-        typedef std::set<EventListener*> EventListeners;
+        typedef std::set<EventListener *> EventListeners;
         EventListeners mEventListeners;
 
     private:
-        typedef std::map<int, NativeComponent*> ComponentsById;
+        typedef std::map<int, NativeComponent *> ComponentsById;
         static ComponentsById sComponentsById;
 
-        typedef std::map<HWND, NativeComponent*> ComponentsByHandle;
+        typedef std::map<HWND, NativeComponent *> ComponentsByHandle;
         static ComponentsByHandle sComponentsByHandle;
-        
+
         WNDPROC mOrigProc;
 
         static HMODULE sModuleHandle;
@@ -697,8 +703,8 @@ namespace XULWin
      * In reality it is a Window with some customizations for Dialog-like behavior.
      */
     class Dialog : public NativeComponent,
-                   public BoxLayouter::ContentProvider,
-                   public virtual TitleController
+        public BoxLayouter::ContentProvider,
+        public virtual TitleController
     {
     public:
         typedef NativeComponent Super;
@@ -725,7 +731,9 @@ namespace XULWin
         virtual Component * getChild(size_t idx);
 
         virtual void rebuildChildLayouts()
-        { return Super::rebuildChildLayouts(); }
+        {
+            return Super::rebuildChildLayouts();
+        }
 
         DialogResult showModal(Window * inInvoker);
 
@@ -748,25 +756,39 @@ namespace XULWin
         virtual bool initStyleControllers();
 
         virtual Orient BoxLayouter_getOrient() const
-        { return getOrient(); }
+        {
+            return getOrient();
+        }
 
         virtual Align BoxLayouter_getAlign() const
-        { return getAlign(); }
+        {
+            return getAlign();
+        }
 
         virtual size_t BoxLayouter_getChildCount() const
-        { return getChildCount(); }
+        {
+            return getChildCount();
+        }
 
         virtual const Component * BoxLayouter_getChild(size_t idx) const
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Component * BoxLayouter_getChild(size_t idx)
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Rect BoxLayouter_clientRect() const
-        { return clientRect(); }
+        {
+            return clientRect();
+        }
 
         virtual void BoxLayouter_rebuildChildLayouts()
-        { rebuildChildLayouts(); }
+        {
+            rebuildChildLayouts();
+        }
 
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
@@ -799,7 +821,7 @@ namespace XULWin
         NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~NativeControl();
-        
+
         bool initStyleControllers();
 
         virtual void rebuildLayout();
@@ -871,9 +893,15 @@ namespace XULWin
 
         virtual ~PassiveComponent();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const
+        {
+            return 0;
+        }
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const { return 0; }
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const
+        {
+            return 0;
+        }
     };
 
 
@@ -895,13 +923,13 @@ namespace XULWin
     };
 
 
-     /**
-     * Description
-     *
-     * Native implementation for a XUL description element.
-     */
+    /**
+    * Description
+    *
+    * Native implementation for a XUL description element.
+    */
     class Description : public NativeControl,
-                        public virtual StringValueController
+        public virtual StringValueController
     {
     public:
         typedef NativeControl Super;
@@ -922,9 +950,9 @@ namespace XULWin
 
 
     class TextBox : public NativeControl,
-                    public virtual StringValueController,
-                    public virtual ReadOnlyController,
-                    public virtual RowsController
+        public virtual StringValueController,
+        public virtual ReadOnlyController,
+        public virtual RowsController
     {
     public:
         typedef NativeControl Super;
@@ -961,7 +989,7 @@ namespace XULWin
 
 
     class CheckBox : public NativeControl,
-                           public virtual CheckedController
+        public virtual CheckedController
     {
     public:
         typedef NativeControl Super;
@@ -982,7 +1010,7 @@ namespace XULWin
 
 
     class VirtualBox : public VirtualComponent,
-                       public BoxLayouter::ContentProvider
+        public BoxLayouter::ContentProvider
     {
     public:
         typedef VirtualComponent Super;
@@ -998,37 +1026,59 @@ namespace XULWin
         virtual void rebuildLayout();
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const
-        { return mBoxLayouter.calculateWidth(inSizeConstraint); }
+        {
+            return mBoxLayouter.calculateWidth(inSizeConstraint);
+        }
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const
-        { return mBoxLayouter.calculateHeight(inSizeConstraint); }
+        {
+            return mBoxLayouter.calculateHeight(inSizeConstraint);
+        }
 
         virtual Rect clientRect() const
-        { return Super::clientRect(); }
+        {
+            return Super::clientRect();
+        }
 
         virtual void rebuildChildLayouts()
-        { return Super::rebuildChildLayouts(); }
+        {
+            return Super::rebuildChildLayouts();
+        }
 
         virtual Orient BoxLayouter_getOrient() const
-        { return getOrient(); }
+        {
+            return getOrient();
+        }
 
         virtual Align BoxLayouter_getAlign() const
-        { return getAlign(); }
+        {
+            return getAlign();
+        }
 
         virtual size_t BoxLayouter_getChildCount() const
-        { return getChildCount(); }
+        {
+            return getChildCount();
+        }
 
         virtual const Component * BoxLayouter_getChild(size_t idx) const
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Component * BoxLayouter_getChild(size_t idx)
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Rect BoxLayouter_clientRect() const
-        { return clientRect(); }
+        {
+            return clientRect();
+        }
 
         virtual void BoxLayouter_rebuildChildLayouts()
-        { rebuildChildLayouts(); }
+        {
+            rebuildChildLayouts();
+        }
 
     protected:
         BoxLayouter mBoxLayouter;
@@ -1036,7 +1086,7 @@ namespace XULWin
 
 
     class Box : public NativeControl,
-                public BoxLayouter::ContentProvider
+        public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
@@ -1060,27 +1110,41 @@ namespace XULWin
         virtual Component * getChild(size_t idx);
 
         virtual void rebuildChildLayouts();
-        
+
         virtual Orient BoxLayouter_getOrient() const
-        { return getOrient(); }
+        {
+            return getOrient();
+        }
 
         virtual Align BoxLayouter_getAlign() const
-        { return getAlign(); }
+        {
+            return getAlign();
+        }
 
         virtual size_t BoxLayouter_getChildCount() const
-        { return getChildCount(); }
+        {
+            return getChildCount();
+        }
 
         virtual const Component * BoxLayouter_getChild(size_t idx) const
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Component * BoxLayouter_getChild(size_t idx)
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Rect BoxLayouter_clientRect() const
-        { return clientRect(); }
+        {
+            return clientRect();
+        }
 
         virtual void BoxLayouter_rebuildChildLayouts()
-        { rebuildChildLayouts(); }
+        {
+            rebuildChildLayouts();
+        }
 
     private:
         BoxLayouter mBoxLayouter;
@@ -1262,7 +1326,7 @@ namespace XULWin
 
 
     class ProgressMeter : public NativeControl,
-                                public virtual IntValueController
+        public virtual IntValueController
     {
     public:
         typedef NativeControl Super;
@@ -1283,7 +1347,7 @@ namespace XULWin
 
 
     class Deck : public VirtualComponent,
-                 public virtual SelectedIndexController
+        public virtual SelectedIndexController
     {
     public:
         typedef VirtualComponent Super;
@@ -1309,10 +1373,10 @@ namespace XULWin
 
 
     class Scrollbar : public NativeControl,
-                            public virtual ScrollbarCurrentPositionController,
-                            public virtual ScrollbarMaxPositionController,
-                            public virtual ScrollbarIncrementController,
-                            public virtual ScrollbarPageIncrementController
+        public virtual ScrollbarCurrentPositionController,
+        public virtual ScrollbarMaxPositionController,
+        public virtual ScrollbarIncrementController,
+        public virtual ScrollbarPageIncrementController
     {
     public:
         typedef NativeControl Super;
@@ -1341,10 +1405,15 @@ namespace XULWin
             virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
         };
 
-        EventListener * eventHandler() { return mEventListener; }
+        EventListener * eventHandler()
+        {
+            return mEventListener;
+        }
 
         void setEventListener(EventListener * inEventListener)
-        { mEventListener = inEventListener; }
+        {
+            mEventListener = inEventListener;
+        }
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1390,7 +1459,7 @@ namespace XULWin
         TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual ~TabPanels();
-        
+
         void addTabPanel(TabPanel * inPanel);
 
         virtual void rebuildLayout();
@@ -1407,7 +1476,7 @@ namespace XULWin
         Tab * getCorrespondingTab(size_t inIndex);
         HWND mParentHandle;
         HWND mTabBarHandle;
-        typedef std::map<HWND, TabPanels*> Instances;
+        typedef std::map<HWND, TabPanels *> Instances;
         static Instances sInstances;
         WNDPROC mOrigProc;
         size_t mChildCount;
@@ -1499,7 +1568,7 @@ namespace XULWin
         virtual bool init();
     };
 
-    
+
     class TreeItem;
     class TreeChildren : public PassiveComponent
     {
@@ -1513,7 +1582,7 @@ namespace XULWin
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
-    
+
     class TreeRow;
     class TreeItem : public PassiveComponent
     {
@@ -1524,9 +1593,15 @@ namespace XULWin
 
         virtual bool init();
 
-        const TreeItemInfo & itemInfo() const { return mItemInfo; }
+        const TreeItemInfo & itemInfo() const
+        {
+            return mItemInfo;
+        }
 
-        TreeItemInfo & itemInfo() { return mItemInfo; }
+        TreeItemInfo & itemInfo()
+        {
+            return mItemInfo;
+        }
 
         bool isOpened() const;
 
@@ -1572,7 +1647,7 @@ namespace XULWin
 
 
     class TreeCell : public PassiveComponent,
-                         public LabelController
+        public LabelController
     {
     public:
         typedef PassiveComponent Super;
@@ -1596,7 +1671,7 @@ namespace XULWin
 
 
     class Statusbar : public NativeControl,
-                      public BoxLayouter::ContentProvider
+        public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
@@ -1620,25 +1695,39 @@ namespace XULWin
         virtual void rebuildLayout();
 
         virtual Orient BoxLayouter_getOrient() const
-        { return getOrient(); }
+        {
+            return getOrient();
+        }
 
         virtual Align BoxLayouter_getAlign() const
-        { return getAlign(); }
+        {
+            return getAlign();
+        }
 
         virtual size_t BoxLayouter_getChildCount() const
-        { return getChildCount(); }
+        {
+            return getChildCount();
+        }
 
         virtual const Component * BoxLayouter_getChild(size_t idx) const
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Component * BoxLayouter_getChild(size_t idx)
-        { return getChild(idx); }
+        {
+            return getChild(idx);
+        }
 
         virtual Rect BoxLayouter_clientRect() const
-        { return clientRect(); }
+        {
+            return clientRect();
+        }
 
         virtual void BoxLayouter_rebuildChildLayouts()
-        { rebuildChildLayouts(); }
+        {
+            rebuildChildLayouts();
+        }
 
     private:
         BoxLayouter mBoxLayouter;
@@ -1662,8 +1751,8 @@ namespace XULWin
 
 
     class Toolbar : public NativeControl,
-                    public Windows::Toolbar::EventHandler,
-                    public GdiplusLoader
+        public Windows::Toolbar::EventHandler,
+        public GdiplusLoader
     {
     public:
         typedef NativeControl Super;
@@ -1683,7 +1772,10 @@ namespace XULWin
         // ToolbarElement::EventHandler methods
         virtual void onRequestFocus() {}
 
-        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const { return mToolbar; }
+        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const
+        {
+            return mToolbar;
+        }
 
     private:
         boost::shared_ptr<Windows::Toolbar> mToolbar;
@@ -1691,11 +1783,11 @@ namespace XULWin
 
 
     class ToolbarButton : public PassiveComponent,
-                          public Windows::ToolbarDropDown::EventHandler,
-                          public MenuPopupContainer,
-                          public virtual DisabledController,
-                          public virtual LabelController,
-                          public virtual CSSListStyleImageController
+        public Windows::ToolbarDropDown::EventHandler,
+        public MenuPopupContainer,
+        public virtual DisabledController,
+        public virtual LabelController,
+        public virtual CSSListStyleImageController
     {
     public:
         typedef PassiveComponent Super;
@@ -1728,7 +1820,10 @@ namespace XULWin
 
         virtual const std::string & getCSSListStyleImage() const;
 
-        Windows::ConcreteToolbarItem * nativeItem() { return mButton; }
+        Windows::ConcreteToolbarItem * nativeItem()
+        {
+            return mButton;
+        }
 
     private:
         Windows::ConcreteToolbarItem * mButton;

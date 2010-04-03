@@ -12,15 +12,20 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListBoxElement>(inParent, inAttr); }
+        {
+            return Element::Create<ListBoxElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "listbox"; }
+        static const char * Type()
+        {
+            return "listbox";
+        }
 
         virtual bool init();
 
         virtual void addChild(ElementPtr inChild);
-    
-    private:        
+
+    private:
         void set(const std::string & inType);
 
         friend class Element;

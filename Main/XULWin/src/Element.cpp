@@ -33,13 +33,13 @@ namespace XULWin
         mChildren.clear();
     }
 
-    
+
     bool Element::init()
     {
         return component()->init();
     }
 
-    
+
     const std::string & Element::type() const
     {
         return mType;
@@ -57,7 +57,7 @@ namespace XULWin
         return mInnerText;
     }
 
-    
+
     Element * Element::getElementById(const std::string & inId)
     {
         struct Helper
@@ -92,9 +92,9 @@ namespace XULWin
         }
         return result;
     }
-    
-    
-    void Element::getElementsByType(const std::string & inType, std::vector<Element*> & outElements)
+
+
+    void Element::getElementsByType(const std::string & inType, std::vector<Element *> & outElements)
     {
         if (type() == inType)
         {
@@ -114,7 +114,7 @@ namespace XULWin
         {
             ElementPtr keepAlive = *it;
             mChildren.erase(it);
-            mComponent->rebuildLayout();            
+            mComponent->rebuildLayout();
             mComponent->onChildRemoved(keepAlive->component());
             // keepAlive loses scope here and destroys child
         }
@@ -131,7 +131,7 @@ namespace XULWin
         {
             ElementPtr keepAlive = *mChildren.begin();
             mChildren.erase(mChildren.begin());
-            mComponent->rebuildLayout();            
+            mComponent->rebuildLayout();
             mComponent->onChildRemoved(keepAlive->component());
             // keepAlive loses scope here and destroys child
         }
@@ -165,7 +165,7 @@ namespace XULWin
     void Element::setAttributes(const AttributesMapping & inAttributes)
     {
         mAttributes = inAttributes;
-        
+
         if (mComponent)
         {
             AttributesMapping::iterator it = mAttributes.begin(), end = mAttributes.end();
@@ -194,7 +194,7 @@ namespace XULWin
         }
     }
 
-    
+
     std::string Element::getStyle(const std::string & inName) const
     {
         std::string result;
@@ -224,8 +224,8 @@ namespace XULWin
         }
         return result;
     }
-    
-    
+
+
     std::string Element::getDocumentAttribute(const std::string & inName) const
     {
         std::string result;
@@ -236,8 +236,8 @@ namespace XULWin
         }
         return result;
     }
-    
-    
+
+
     void Element::setStyle(const std::string & inName, const std::string & inValue)
     {
         std::string type = this->type();
@@ -246,8 +246,8 @@ namespace XULWin
             mStyles[inName] = inValue;
         }
     }
-    
-    
+
+
     void Element::setAttribute(const std::string & inName, const std::string & inValue)
     {
         if (!mComponent || !mComponent->setAttribute(inName, inValue))
@@ -255,8 +255,8 @@ namespace XULWin
             mAttributes[inName] = inValue;
         }
     }
-    
-    
+
+
     bool Element::addEventListener(EventListener * inEventListener)
     {
         if (!mComponent)
@@ -287,14 +287,14 @@ namespace XULWin
         }
         return false;
     }
-    
-    
+
+
     Component * Element::component() const
     {
         return mComponent.get();
     }
-    
-    
+
+
     void Element::addChild(ElementPtr inChild)
     {
         mChildren.push_back(inChild);
@@ -521,7 +521,7 @@ namespace XULWin
         Element(RadioGroupElement::Type(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, RadioGroup>(inParent->component(), inAttributesMapping))
-    { 
+    {
     }
 
 
@@ -586,7 +586,7 @@ namespace XULWin
         Element(TabBoxElement::Type(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
-    { 
+    {
     }
 
 
@@ -625,7 +625,7 @@ namespace XULWin
         Element(TabPanelsElement::Type(),
                 inParent,
                 new TabPanels(inParent->component(), inAttributesMapping))
-    { 
+    {
     }
 
 
@@ -638,7 +638,7 @@ namespace XULWin
         Element(TabPanelElement::Type(),
                 inParent,
                 new TabPanel(inParent->component(), inAttributesMapping))
-    { 
+    {
     }
 
 
@@ -651,7 +651,7 @@ namespace XULWin
         Element(GroupBoxElement::Type(),
                 inParent,
                 new MarginDecorator(new GroupBox(inParent->component(), inAttributesMapping)))
-    { 
+    {
     }
 
 
@@ -725,9 +725,9 @@ namespace XULWin
 
     TreeColElement::~TreeColElement()
     {
-    }    
-    
-    
+    }
+
+
     TreeRowElement::TreeRowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeRowElement::Type(),
                 inParent,
@@ -740,7 +740,7 @@ namespace XULWin
     {
     }
 
-    
+
     TreeCellElement::TreeCellElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(TreeCellElement::Type(),
                 inParent,
@@ -753,7 +753,7 @@ namespace XULWin
     {
     }
 
-    
+
     StatusbarElement::StatusbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(StatusbarElement::Type(),
                 inParent,
@@ -766,7 +766,7 @@ namespace XULWin
     {
     }
 
-    
+
     StatusbarPanelElement::StatusbarPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(StatusbarPanelElement::Type(),
                 inParent,
@@ -779,7 +779,7 @@ namespace XULWin
     {
     }
 
-    
+
     ToolbarElement::ToolbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ToolbarElement::Type(),
                 inParent,
@@ -792,7 +792,7 @@ namespace XULWin
     {
     }
 
-    
+
     ToolbarButtonElement::ToolbarButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ToolbarButtonElement::Type(),
                 inParent,

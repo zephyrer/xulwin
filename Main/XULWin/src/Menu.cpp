@@ -7,19 +7,19 @@
 
 namespace XULWin
 {
-    
+
     Menu::MenusById Menu::sMenusById;
 
     Menu::Menu(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
         assert(sMenusById.find(mCommandId.intValue()) == sMenusById.end());
-        sMenusById.insert(std::make_pair(mCommandId.intValue(), this));  
+        sMenusById.insert(std::make_pair(mCommandId.intValue(), this));
     }
 
 
     Menu::~Menu()
-    {            
+    {
         MenusById::iterator itById = sMenusById.find(mCommandId.intValue());
         assert(itById != sMenusById.end());
         if (itById != sMenusById.end())
@@ -41,8 +41,8 @@ namespace XULWin
         // menu/menupopup/menuitem
         //               /menu
         Windows::MenuNode * result = new Windows::MenuNode(
-                                        Windows::MenuItemInfo(inMenu->commandId(),
-                                                              inMenu->getLabel()));
+            Windows::MenuItemInfo(inMenu->commandId(),
+                                  inMenu->getLabel()));
         const MenuPopup * popup = inMenu->findChildOfType<MenuPopup>();
         for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
         {
@@ -66,9 +66,9 @@ namespace XULWin
         return result;
     }
 
-    
+
     Menu * Menu::FindById(int inId)
-    {          
+    {
         MenusById::iterator itById = sMenusById.find(inId);
         if (itById != sMenusById.end())
         {
@@ -77,23 +77,23 @@ namespace XULWin
         return 0;
     }
 
-        
+
     bool Menu::initAttributeControllers()
     {
         setAttributeController<LabelController>(this);
         return Super::initAttributeControllers();
     }
-    
-    
+
+
     std::string Menu::getLabel() const
     {
         return mLabel;
     }
 
-     
+
     void Menu::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }
-    
+
 } // namespace XULWin

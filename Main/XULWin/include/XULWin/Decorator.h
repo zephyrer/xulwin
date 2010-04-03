@@ -34,7 +34,7 @@ namespace XULWin
         virtual HWND getFirstParentHandle();
 
         virtual void invalidateRect() const;
-        
+
         // WidthController methods
         virtual int getWidth() const;
 
@@ -82,7 +82,7 @@ namespace XULWin
 
         // OrientController methods
         virtual Orient getOrient() const;
-        
+
         virtual void setOrient(Orient inOrient);
 
         // AlignController methods
@@ -208,7 +208,7 @@ namespace XULWin
 
 
     class ScrollDecorator : public Decorator,
-                            public Scrollbar::EventListener
+        public Scrollbar::EventListener
     {
     public:
         typedef Decorator Super;
@@ -276,7 +276,7 @@ namespace XULWin
         int marginRight() const;
 
         int marginBottom() const;
-      
+
         virtual int getWidth() const;
 
         virtual void setWidth(int inWidth);
@@ -288,7 +288,7 @@ namespace XULWin
         virtual int getWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int getHeight(SizeConstraint inSizeConstraint) const;
-        
+
         virtual Rect clientRect() const;
 
         virtual void move(const Rect & inRect);

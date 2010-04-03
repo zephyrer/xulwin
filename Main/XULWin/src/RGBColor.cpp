@@ -7,7 +7,7 @@ namespace XULWin
 
     RGBColor::RGBColor() :
         mAlpha(0),
-        mRed(0),    
+        mRed(0),
         mGreen(0),
         mBlue(0)
     {
@@ -16,17 +16,17 @@ namespace XULWin
 
     RGBColor::RGBColor(int inRed, int inGreen, int inBlue) :
         mAlpha(255),
-        mRed(inRed),    
+        mRed(inRed),
         mGreen(inGreen),
         mBlue(inBlue)
-        
+
     {
     }
 
 
-    RGBColor::RGBColor(int inAlpha, int inRed, int inGreen, int inBlue) :    
+    RGBColor::RGBColor(int inAlpha, int inRed, int inGreen, int inBlue) :
         mAlpha(inAlpha),
-        mRed(inRed),    
+        mRed(inRed),
         mGreen(inGreen),
         mBlue(inBlue)
     {

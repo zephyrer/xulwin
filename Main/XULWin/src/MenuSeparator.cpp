@@ -8,5 +8,5 @@ namespace XULWin
         Super(inParent, inAttributesMapping)
     {
     }
-    
+
 } // namespace XULWin

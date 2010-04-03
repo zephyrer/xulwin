@@ -9,8 +9,8 @@ namespace XULWin
 {
 
     class ListItem : public PassiveComponent,
-                         public LabelController,
-                         public SelectedController
+        public LabelController,
+        public SelectedController
     {
     public:
         typedef PassiveComponent Super;

@@ -74,7 +74,7 @@ namespace XULWin
          * This is handy for creating a 'error silencer' object.
          */
         void disableLogging(bool inDisable);
-        
+
 
         /**
          * Returns true if an error was reported during the lifetime of this object
@@ -96,9 +96,15 @@ namespace XULWin
          */
         void getErrorMessage(std::stringstream & outStream) const;
 
-        const std::vector<Error> & errors() const { return mErrors; }
+        const std::vector<Error> & errors() const
+        {
+            return mErrors;
+        }
 
-        const ErrorCatcher * child() const { return mChild.get(); }
+        const ErrorCatcher * child() const
+        {
+            return mChild.get();
+        }
 
     private:
         friend class ErrorReporter;
@@ -108,7 +114,7 @@ namespace XULWin
          * Log the error message using the callback set on the ErrorReporter.
          */
         void log();
-        
+
         void push(const Error & inError);
 
         void setChild(const ErrorCatcher * inErrorCatcher);
@@ -132,13 +138,13 @@ namespace XULWin
          * before any ErrorCatcher objects are created.
          */
         static void Initialize();
-        
+
 
         /**
          * Returns the singleton object.
          */
         static ErrorReporter & Instance();
-        
+
         /**
          * Finalize should be called before shutting down your program.
          */
@@ -172,15 +178,15 @@ namespace XULWin
 
         void log(const std::string & inErrorMessage);
 
-        std::stack<ErrorCatcher*> mStack;
+        std::stack<ErrorCatcher *> mStack;
         LogFunction mLogFunction;
         static ErrorReporter * sInstance;
     };
 
 
     /**
-     * ReportError and its overloads are shorter versions 
-     * for ErrorReporter::Instance().reportError(..) 
+     * ReportError and its overloads are shorter versions
+     * for ErrorReporter::Instance().reportError(..)
      * NOTE: These functions don't throw an actual C++ exception. They only
      *       notify the nearest ErrorCatcher that an error has occured. So
      *       you still need to write the return statement (if returning

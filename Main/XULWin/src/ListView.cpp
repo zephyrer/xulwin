@@ -19,7 +19,7 @@ namespace XULWin
 {
 
     ListView::ListView(Component * inParent,
-                               const AttributesMapping & inAttributesMapping) :
+                       const AttributesMapping & inAttributesMapping) :
         Super(inParent,
               inAttributesMapping,
               WC_LISTVIEW,
@@ -46,7 +46,7 @@ namespace XULWin
         {
             // First get the column widths
             std::vector<int> colWidths;
-            std::vector<ListColElement*> cols;
+            std::vector<ListColElement *> cols;
             listColsEl->getElementsByType<ListColElement>(cols);
             for (size_t colIdx = 0; colIdx != cols.size(); ++colIdx)
             {
@@ -62,25 +62,25 @@ namespace XULWin
         return Super::init();
     }
 
-    
+
     bool ListView::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
-        
-        
+
+
     int ListView::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 100;
     }
 
-    
+
     int ListView::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 100;
     }
-    
-    
+
+
     void ListView::onChildAdded(Component * inChild)
     {
         if (ListBoxElement * listBox = el()->downcast<ListBoxElement>())
@@ -104,10 +104,10 @@ namespace XULWin
         LPNMHDR messageHeader = (LPNMHDR)lParam;
         if (LVN_GETDISPINFO == messageHeader->code)
         {
-            NMLVDISPINFO * dispInfo = (NMLVDISPINFO*)lParam;    
+            NMLVDISPINFO * dispInfo = (NMLVDISPINFO *)lParam;
             size_t columnIndex = dispInfo->item.iSubItem;
-            
-            std::vector<ListItemElement*> listItems;
+
+            std::vector<ListItemElement *> listItems;
             el()->getElementsByType<ListItemElement>(listItems);
 
             if (dispInfo->item.iItem >= static_cast<int>(listItems.size()))
@@ -117,9 +117,9 @@ namespace XULWin
             }
 
             // listbox/listitem/listcell
-            std::vector<ListCellElement*> listCells;
+            std::vector<ListCellElement *> listCells;
             listItems[dispInfo->item.iItem]->getElementsByType<ListCellElement>(listCells);
-            assert (columnIndex < listCells.size());
+            assert(columnIndex < listCells.size());
             if (columnIndex < listCells.size())
             {
                 std::string label = listCells[columnIndex]->component()->downcast<ListCell>()->getLabel();
@@ -130,5 +130,5 @@ namespace XULWin
         }
         return 0;
     }
-    
+
 } // namespace XULWin

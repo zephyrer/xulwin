@@ -26,7 +26,7 @@
 
 namespace XULWin
 {
-    
+
     Initializer::Initializer(HINSTANCE inModuleHandle)
     {
         Windows::CommonControlsInitializer mInitCommonControls;

@@ -26,7 +26,7 @@ namespace XULWin
         virtual void pushStack(ElementPtr inElement);
 
         virtual void popStack();
-           
+
         /**
          * Create the element.
          * Return true if element creation was succesfully created, or skipped.

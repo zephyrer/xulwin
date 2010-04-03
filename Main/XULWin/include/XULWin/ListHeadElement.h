@@ -12,12 +12,17 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<ListHeadElement>(inParent, inAttr); }
+        {
+            return Element::Create<ListHeadElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "listhead"; }
+        static const char * Type()
+        {
+            return "listhead";
+        }
 
         virtual bool init();
-    
+
     private:
         friend class Element;
         ListHeadElement(Element * inParent, const AttributesMapping & inAttributesMapping);

@@ -14,7 +14,7 @@ namespace XULWin
 {
 
     typedef std::map<std::string, std::string> Prefs;
- 
+
 
     bool parsePrefsLine(const std::string & inPrefsLine, std::pair<std::string, std::string> & outPref)
     {
@@ -36,11 +36,11 @@ namespace XULWin
             if (end == std::string::npos)
             {
                 end = inPrefsLine.find_first_of("'", begin);
-            }     
-            
-            outPref.first = inPrefsLine.substr(begin, end - begin);       
+            }
+
+            outPref.first = inPrefsLine.substr(begin, end - begin);
             end++;
-            
+
             begin = inPrefsLine.find_first_of("\"", end);
             if (begin == std::string::npos)
             {
@@ -69,19 +69,19 @@ namespace XULWin
     bool getPrefs(const std::string & inPrefsFile, Prefs & outPrefs)
     {
         static char str[1024];
-        FILE *fp;
+        FILE * fp;
         fp = fopen(inPrefsFile.c_str(), "r");
-        if(!fp)
+        if (!fp)
         {
             ReportError("Failed to open prefs file: " + inPrefsFile);
             return false;
         }
-        
+
         while (fgets(str, sizeof(str), fp) != NULL)
         {
             // strip trailing '\n' if it exists
             int len = strlen(str)-1;
-            if(str[len] == '\n')
+            if (str[len] == '\n')
             {
                 str[len] = 0;
             }
@@ -115,7 +115,7 @@ namespace XULWin
         {
             throw std::exception("Could not parse prefs file. This implicates that the main XUL file path remains unknown and that the application can't be started.");
         }
-        
+
         Prefs::iterator it = prefs.find("toolkit.defaultChromeURI");
         if (it != prefs.end())
         {
@@ -127,7 +127,7 @@ namespace XULWin
         return "";
     }
 
-    
+
     Fallible<std::string> XULRunner::sLocale;
 
 
@@ -177,7 +177,7 @@ namespace XULWin
         return result;
     }
 
-    
+
     ElementPtr XULRunner::loadApplication(const std::string & inApplicationIniFile)
     {
         Poco::File file(inApplicationIniFile);
@@ -194,7 +194,7 @@ namespace XULWin
         return mRootElement;
     }
 
-    
+
     ElementPtr XULRunner::loadXUL(const std::string & inXULURL)
     {
         XULParser parser;
@@ -211,7 +211,7 @@ namespace XULWin
         if (!temp.rootElement() || temp.rootElement()->children().empty())
         {
             return "";
-        }      
+        }
         Element * child = temp.rootElement()->children()[0].get();
         if (child)
         {
@@ -219,8 +219,8 @@ namespace XULWin
         }
         return "";
     }
-    
-    
+
+
     void XULRunner::loadOverlay(const std::string & inXULURL)
     {
         Element * targetElement = mRootElement->getElementById(getOverlayElementId(inXULURL));
@@ -235,14 +235,14 @@ namespace XULWin
             ReportError("Failed to parse the overlay document.");
         }
     }
-    
-    
+
+
     ElementPtr XULRunner::rootElement() const
     {
         return mRootElement;
     }
-    
-    
+
+
     HMODULE XULRunner::getModuleHandle() const
     {
         return mModuleHandle;

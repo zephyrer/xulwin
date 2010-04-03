@@ -5,26 +5,26 @@
 
 
 namespace XULWin
-{    
-    
+{
+
     SVGCanvas::SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping) :
         NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
     {
     }
-        
-        
+
+
     int SVGCanvas::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 250;
     }
 
-    
+
     int SVGCanvas::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 250;
     }
-    
-    
+
+
     void SVGCanvas::paint(HDC inHDC)
     {
         Gdiplus::Graphics g(inHDC);
@@ -38,8 +38,8 @@ namespace XULWin
             }
         }
     }
-    
-    
+
+
     void SVGCanvas::bufferedPaint(HDC inHDC)
     {
 
@@ -48,10 +48,10 @@ namespace XULWin
         //
         RECT rc;
         GetClientRect(handle(), &rc);
-        
+
         HDC compatibleDC = CreateCompatibleDC(inHDC);
-        
-        
+
+
         //
         // Create a bitmap big enough for our client rectangle.
         //
@@ -75,7 +75,7 @@ namespace XULWin
         // Render the image into the offscreen DC.
         //
         SetBkMode(compatibleDC, TRANSPARENT);
-        
+
 
         paint(compatibleDC);
 
@@ -101,7 +101,7 @@ namespace XULWin
         DeleteDC(compatibleDC);
     }
 
-    
+
     LRESULT SVGCanvas::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         if (inMessage == WM_PAINT)
@@ -207,7 +207,7 @@ namespace XULWin
         return mStrokeWidth;
     }
 
-        
+
     static SVG * findSVGParent(Component * inEl)
     {
         if (!inEl)
@@ -236,8 +236,8 @@ namespace XULWin
     {
         return Super::initStyleControllers();
     }
-    
-    
+
+
     void SVGGroup::paint(Gdiplus::Graphics & g)
     {
         for (size_t idx = 0; idx != getChildCount(); ++idx)
@@ -249,13 +249,13 @@ namespace XULWin
         }
     }
 
-    
+
     SVGPolygon::SVGPolygon(Component * inParent, const AttributesMapping & inAttributesMapping) :
         SVG(inParent, inAttributesMapping)
     {
     }
-        
-        
+
+
     bool SVGPolygon::initAttributeControllers()
     {
         setAttributeController<SVG_Polygon_PointsController>(this);
@@ -280,7 +280,7 @@ namespace XULWin
         }
     }
 
-    
+
     void SVGPolygon::paint(Gdiplus::Graphics & g)
     {
         if (!mPointFs.empty())
@@ -326,20 +326,20 @@ namespace XULWin
                                                     (Gdiplus::REAL)getHeight()));
     }
 
-    
+
     SVGPath::SVGPath(Component * inParent, const AttributesMapping & inAttributesMapping) :
         SVG(inParent, inAttributesMapping)
     {
     }
-        
-        
+
+
     bool SVGPath::initAttributeControllers()
     {
         setAttributeController<SVG_Path_InstructionsController>(this);
         return Super::initAttributeControllers();
     }
-        
-        
+
+
     bool SVGPath::initStyleControllers()
     {
         return Super::initStyleControllers();
@@ -412,7 +412,7 @@ namespace XULWin
         outReflection = PointF(x, y);
     }
 
-    
+
     void SVGPath::GetPreparedInstructions(const SVGPathInstructions & inData, SVGPathInstructions & outPrepData)
     {
         PointFs preppedPoints;
@@ -511,13 +511,13 @@ namespace XULWin
                     // We'll convert it to a curve instruction
                     PathInstruction curveInstruction = instruction;
                     if (prevInstruction.type() == PathInstruction::CurveTo)
-                    {  
+                    {
                         PointF c2 = instruction.getPoint(0);
                         PointF endPoint = instruction.getPoint(1);
 
                         // S produces the same type of curve as C, but if it
-                        // follows another S command or a C command, the first 
-                        // control point is assumed to be a reflection of the 
+                        // follows another S command or a C command, the first
+                        // control point is assumed to be a reflection of the
                         // one used previously.
                         PointF c1;
                         if (instruction.positioning() == PathInstruction::Relative)
@@ -542,8 +542,8 @@ namespace XULWin
                         PointF endPoint = instruction.getPoint(1);
 
                         // S produces the same type of curve as C, but if it
-                        // follows another S command or a C command, the first 
-                        // control point is assumed to be a reflection of the 
+                        // follows another S command or a C command, the first
+                        // control point is assumed to be a reflection of the
                         // one used previously.
                         PointF c1;
                         if (instruction.positioning() == PathInstruction::Relative)
@@ -636,7 +636,7 @@ namespace XULWin
                     else
                     {
                         // How could inData be empty if we are inside the for loop??
-                        assert(false); 
+                        assert(false);
                     }
                     break;
                 }
@@ -653,7 +653,7 @@ namespace XULWin
         }
     }
 
-    
+
     void SVGPath::paint(Gdiplus::Graphics & g)
     {
         RGBColor fillColorRGB(getSVGFill());
@@ -669,7 +669,7 @@ namespace XULWin
                                    strokeColorRGB.red(),
                                    strokeColorRGB.green(),
                                    strokeColorRGB.blue());
-                
+
         Gdiplus::Pen pen(strokeColor, static_cast<float>(getSVGStrokeWidth()));
 
         Gdiplus::GraphicsPath path;
@@ -725,7 +725,7 @@ namespace XULWin
                 }
                 case PathInstruction::ClosePath: // should not be found in mPreparedInstructions
                 {
-                    assert(false); 
+                    assert(false);
                     break;
                 }
                 default:
@@ -738,8 +738,8 @@ namespace XULWin
         g.FillPath(&brush, &path);
         g.DrawPath(&pen, &path);
     }
-    
-    
+
+
     const SVGPathInstructions & SVGPath::getPathInstructions() const
     {
         return mInstructions;

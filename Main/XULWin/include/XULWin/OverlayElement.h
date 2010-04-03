@@ -13,11 +13,16 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<OverlayElement>(inParent, inAttr); }
+        {
+            return Element::Create<OverlayElement>(inParent, inAttr);
+        }
 
         OverlayElement(Element * inParent, const AttributesMapping & inAttributesMapping);
 
-        static const char * Type() { return "overlay"; }
+        static const char * Type()
+        {
+            return "overlay";
+        }
     };
 
 } // namespace XULWin

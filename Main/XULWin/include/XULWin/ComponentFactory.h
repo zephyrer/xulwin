@@ -81,9 +81,9 @@ namespace XULWin
                                        Component *& result)
         {
             if (!inParent)
-            {     
+            {
                 return false;
-            }                 
+            }
             if (Toolbar * toolbar = inParent->downcast<Toolbar>())
             {
                 DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttributesMapping));

@@ -11,8 +11,8 @@ namespace XULWin
     {
         outValue = CSSTextAlign2String(getCSSTextAlign());
     }
-    
-    
+
+
     void CSSTextAlignController::set(const std::string & inValue)
     {
         setCSSTextAlign(String2CSSTextAlign(inValue, CSSTextAlign_Left));
@@ -73,22 +73,22 @@ namespace XULWin
         getCSSMargin(top, left, bottom, right);
 
         // Four values apply to top, right, bottom and left in that order.
-        std::stringstream ss;        
+        std::stringstream ss;
         ss << Int2String(top) << "px ";
         ss << Int2String(right) << "px ";
         ss << Int2String(bottom) << "px ";
         ss << Int2String(left) << "px ";
         outValue = ss.str();
     }
-    
-    
+
+
     void CSSMarginController::set(const std::string & inValue)
     {
         int top = 0;
         int left = 0;
         int bottom = 0;
         int right = 0;
-        
+
         Poco::StringTokenizer tokenizer(inValue,
                                         " ",
                                         Poco::StringTokenizer::TOK_IGNORE_EMPTY

@@ -4,21 +4,21 @@
 namespace XULWin
 {
 
-namespace Windows
-{
-
-
-    ToolbarMenuItem::ToolbarMenuItem()
+    namespace Windows
     {
-    }
 
 
-    ToolbarMenuItem::ToolbarMenuItem(int inId, const std::string & inText, const boost::function<void()> & inAction) :
-        mAction(inAction)
-    {
-    }
+        ToolbarMenuItem::ToolbarMenuItem()
+        {
+        }
 
 
-} // namespace Windows
+        ToolbarMenuItem::ToolbarMenuItem(int inId, const std::string & inText, const boost::function<void()> & inAction) :
+            mAction(inAction)
+        {
+        }
+
+
+    } // namespace Windows
 
 } // namespace XULWin

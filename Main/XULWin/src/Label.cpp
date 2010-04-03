@@ -14,8 +14,8 @@ namespace XULWin
                       SS_LEFT)
     {
     }
-    
-        
+
+
     std::string Label::getValue() const
     {
         return Windows::getWindowText(handle());
@@ -26,8 +26,8 @@ namespace XULWin
     {
         Windows::setWindowText(handle(), inStringValue);
     }
-    
-    
+
+
     CSSTextAlign Label::getCSSTextAlign() const
     {
         LONG styles = Windows::getWindowStyles(handle());
@@ -83,14 +83,14 @@ namespace XULWin
         Windows::setWindowStyle(handle(), styles);
     }
 
-    
+
     bool Label::initAttributeControllers()
     {
         setAttributeController<StringValueController>(this);
         return Super::initAttributeControllers();
     }
-    
-    
+
+
     bool Label::initStyleControllers()
     {
         setStyleController<CSSTextAlignController>(this);
@@ -105,10 +105,10 @@ namespace XULWin
         return width;
     }
 
-    
+
     int Label::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return Windows::getTextSize(handle(), Windows::getWindowText(handle())).cy;
     }
-    
+
 } // namespace XULWin

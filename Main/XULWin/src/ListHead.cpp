@@ -20,19 +20,19 @@ namespace XULWin
         return Super::init();
     }
 
-    
+
     bool ListHead::initAttributeControllers()
     {
         return Super::initAttributeControllers();
     }
-        
-        
+
+
     int ListHead::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return 1;
     }
 
-    
+
     int ListHead::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return 1;
@@ -54,5 +54,5 @@ namespace XULWin
         }
     }
 
-    
+
 } // namespace XULWin

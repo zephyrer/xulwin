@@ -8,15 +8,15 @@
 
 
 namespace XULWin
-{      
-    
-    
+{
+
+
     XULOverlayParser::XULOverlayParser(Element * inOverlayElement) :
         mOverlayRoot(inOverlayElement)
     {
     }
-    
-    
+
+
     Element * XULOverlayParser::getCurrentParentElement()
     {
         if (mStack.empty())
@@ -31,7 +31,7 @@ namespace XULWin
         }
         else if (mStack.size() == 2)
         {
-            // The second element on the stack is a reference to the element that gets overlaid in 
+            // The second element on the stack is a reference to the element that gets overlaid in
             // the original document. Because this element already exists, we don't create it. And
             // for its children we give the existing element as parent.
             return mOverlayRoot;
@@ -59,7 +59,7 @@ namespace XULWin
         }
         else
         {
-            // Create the child element. If the factory returns a nil element, then return 
+            // Create the child element. If the factory returns a nil element, then return
             // false to indicate that we failed to parse this element, and that all its child
             // elements have to be ignored as well.
             outElement = ElementFactory::Instance().createElement(inLocalName, inParent, inAttributes);
@@ -69,13 +69,13 @@ namespace XULWin
 
 
     void XULOverlayParser::pushStack(ElementPtr inElement)
-    {       
+    {
         mStack.push(inElement.get());
     }
 
 
     void XULOverlayParser::popStack()
-    {   
+    {
         if (mStack.size() > 2)
         {
             mStack.top()->init();

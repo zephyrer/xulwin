@@ -12,7 +12,7 @@ namespace XULWin
 
 
     void ComponentFactory::GetStyles(const AttributesMapping & inAttributesMapping, StylesMapping & styles)
-    {        
+    {
         StylesMapping::const_iterator it = inAttributesMapping.find("style");
         if (it != inAttributesMapping.end())
         {

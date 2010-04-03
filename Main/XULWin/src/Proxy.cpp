@@ -30,5 +30,5 @@ namespace XULWin
         mDecoratedElement->setOwningElement(old->el());
         return old;
     }
-    
+
 } // namespace XULWin

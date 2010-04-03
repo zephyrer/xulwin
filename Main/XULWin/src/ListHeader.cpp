@@ -15,7 +15,7 @@ namespace XULWin
         return Super::init();
     }
 
-    
+
     bool ListHeader::initAttributeControllers()
     {
         setAttributeController<LabelController>(this);
@@ -28,11 +28,11 @@ namespace XULWin
         return mLabel;
     }
 
-    
+
     void ListHeader::setLabel(const std::string & inLabel)
     {
         mLabel = inLabel;
     }
 
-    
+
 } // namespace XULWin

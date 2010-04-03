@@ -12,10 +12,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<MenuSeparatorElement>(inParent, inAttr); }
+        {
+            return Element::Create<MenuSeparatorElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "menuseparator"; }
-    
+        static const char * Type()
+        {
+            return "menuseparator";
+        }
+
     private:
         friend class Element;
         MenuSeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping);

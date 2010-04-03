@@ -4,7 +4,7 @@
 
 
 namespace XULWin
-{    
+{
 
     int GdiplusLoader::sRefCount(0);
 

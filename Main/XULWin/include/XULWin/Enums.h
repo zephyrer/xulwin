@@ -46,7 +46,7 @@ namespace XULWin
         CSSOverflow_Auto
     };
 
-    
+
 } // namespace XULWin
 
 

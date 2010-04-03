@@ -24,7 +24,7 @@ namespace XULWin
     {
     }
 
-        
+
     SVGGroupElement::SVGGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(SVGGroupElement::Type(),
                 inParent,

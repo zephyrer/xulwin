@@ -3,7 +3,7 @@
 
 
 namespace XULWin
-{    
+{
 
     std::string ToUTF8(const std::wstring & inText)
     {

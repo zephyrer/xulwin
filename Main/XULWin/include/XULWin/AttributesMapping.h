@@ -17,8 +17,8 @@ namespace XULWin
     // * Provides type-safety (can't mix up AttributesMappping or StylesMapping objects)
     // * Can be forward declared
     // * Enables template typedefs (the code below is not an example of that however)
-    // 
-    class AttributesMapping : public std::map<std::string, std::string>{ };
+    //
+    class AttributesMapping : public std::map<std::string, std::string> { };
     class StylesMapping : public std::map<std::string, std::string> { };
 
 

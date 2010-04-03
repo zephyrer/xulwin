@@ -9,7 +9,7 @@ namespace XULWin
 {
 
     class MenuItem : public PassiveComponent,
-                     public LabelController
+        public LabelController
     {
     public:
         typedef PassiveComponent Super;
@@ -19,7 +19,7 @@ namespace XULWin
         virtual ~MenuItem();
 
         virtual bool initAttributeControllers();
-            
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
@@ -31,7 +31,7 @@ namespace XULWin
         static MenuItem * FindById(int inId);
 
     private:
-        typedef std::map<int, MenuItem*> MenuItemsById;
+        typedef std::map<int, MenuItem *> MenuItemsById;
         static MenuItemsById sMenuItemsById;
 
         std::string mLabel;

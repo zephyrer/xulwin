@@ -12,10 +12,15 @@ namespace XULWin
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        { return Element::Create<LabelElement>(inParent, inAttr); }
+        {
+            return Element::Create<LabelElement>(inParent, inAttr);
+        }
 
-        static const char * Type() { return "label"; }
-    
+        static const char * Type()
+        {
+            return "label";
+        }
+
     private:
         friend class Element;
         LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping);

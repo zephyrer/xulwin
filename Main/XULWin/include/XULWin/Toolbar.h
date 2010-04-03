@@ -12,15 +12,15 @@
 namespace XULWin
 {
 
-namespace Windows
-{
+    namespace Windows
+    {
 
-    class AbstractToolbarItem;
-    class ToolbarDropDown;
-    class ToolbarSpring;
+        class AbstractToolbarItem;
+        class ToolbarDropDown;
+        class ToolbarSpring;
 
-    class Toolbar
-    {        
+        class Toolbar
+        {
         public:
             class EventHandler
             {
@@ -28,13 +28,13 @@ namespace Windows
                 virtual void onRequestFocus() = 0;
             };
             typedef std::vector<boost::shared_ptr<AbstractToolbarItem> > ToolbarItems;
-            
+
             typedef std::map<HWND, RECT> CustomWindowPositions;
 
             Toolbar(EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID);
 
             ~Toolbar();
-            
+
 
             void add(AbstractToolbarItem * inToolbarItem);
 
@@ -89,7 +89,7 @@ namespace Windows
             void setActiveDropDownToNull();
 
             EventHandler * mEventHandler;
-            
+
             HMODULE mModuleHandle;
             HWND mParentWindow;
             HWND mHandle;
@@ -99,18 +99,18 @@ namespace Windows
 
             WNDPROC mParentProc;
             WNDPROC mToolbarProc;
-            
-            typedef std::map<Toolbar*, HWND> ParentMapping;
+
+            typedef std::map<Toolbar *, HWND> ParentMapping;
             static ParentMapping sInstancesParent;
 
-            typedef std::map<Toolbar*, HWND> InstanceMapping;
+            typedef std::map<Toolbar *, HWND> InstanceMapping;
             static InstanceMapping sInstances;
 
             ToolbarItems mToolbarItems;
             CustomWindowPositions mCustomWindowPositions;
-    };
+        };
 
-} // namespace Windows
+    } // namespace Windows
 
 } // namespace XULWin
 

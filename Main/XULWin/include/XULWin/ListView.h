@@ -26,7 +26,7 @@ namespace XULWin
         int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
-        
+
         virtual void onChildAdded(Component * inChild);
 
         void addListHeader(ListHeader * inListHeader);

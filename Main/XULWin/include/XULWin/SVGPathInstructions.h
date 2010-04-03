@@ -31,7 +31,7 @@ namespace XULWin
             Relative,
             Absolute
         };
-        
+
         PathInstruction(Type inType, Positioning inPositioning, const PointFs & inPoints);
 
         Type type() const;

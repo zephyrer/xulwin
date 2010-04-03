@@ -88,7 +88,7 @@ namespace XULWin
 
         void getRects(const Rect & inRect, Align inAlign, const std::vector<ExtendedSizeInfo> & inSizeInfos, std::vector<Rect> & outRects);
         static void GetSizes(int inLength, const std::vector<SizeInfo> & inSizeInfos, std::vector<int> & outSizes);
-        static void GetSizes(int inLength, const std::vector<int> & inSizeInfos, std::vector<int> & outSizes);        
+        static void GetSizes(int inLength, const std::vector<int> & inSizeInfos, std::vector<int> & outSizes);
 
         Orient orientation() const;
 
@@ -115,7 +115,7 @@ namespace XULWin
         Align RowAlign;
         Align ColAlign;
     };
-    
+
 
     class GridLayoutManager
     {

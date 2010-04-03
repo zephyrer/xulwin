@@ -29,7 +29,7 @@ namespace XULWin
         return Element::init();
     }
 
-    
+
     Script::Script(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {

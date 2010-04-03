@@ -8,22 +8,22 @@
 
 namespace XULWin
 {
-    
+
     ConditionalState * ConditionalState::sInstance(0);
 
-    
+
     ScopedConditional::ScopedConditional() :
         mImpl(0)
     {
     }
-    
-    
+
+
     ScopedConditional::ScopedConditional(Element * inElement) :
         mImpl(new Impl(inElement))
     {
     }
 
-    
+
     ScopedConditional::ScopedConditional(const ScopedConditional & rhs) :
         mImpl(0)
     {
@@ -40,14 +40,14 @@ namespace XULWin
         }
         return *this;
     }
-    
-    
+
+
     ScopedConditional::~ScopedConditional()
     {
         destroy();
     }
 
-    
+
     void ScopedConditional::copy(const ScopedConditional & rhs)
     {
         if (rhs.mImpl)
@@ -57,7 +57,7 @@ namespace XULWin
         }
     }
 
-    
+
     void ScopedConditional::destroy()
     {
         if (mImpl)
@@ -71,7 +71,7 @@ namespace XULWin
         }
     }
 
-    
+
     ScopedConditional::Impl::Impl(Element * inElement) :
         mElement(inElement),
         mRefCount(1)
@@ -110,20 +110,20 @@ namespace XULWin
     ConditionalState::ConditionalState(HINSTANCE hInstance) :
         mForegroundIdleProc(0)
     {
-        mForegroundIdleProc = ::SetWindowsHookEx(WH_FOREGROUNDIDLE, 
+        mForegroundIdleProc = ::SetWindowsHookEx(WH_FOREGROUNDIDLE,
                                                  (HOOKPROC)&ConditionalState::ForegroundIdleProc,
                                                  hInstance,
                                                  ::GetCurrentThreadId());
     }
-    
-    
+
+
     ConditionalState::~ConditionalState()
     {
         ::UnhookWindowsHookEx(mForegroundIdleProc);
     }
 
 
-    ScopedConditional ConditionalState::associate(const Condition & inCondition,                 
+    ScopedConditional ConditionalState::associate(const Condition & inCondition,
                                                   Element * inElement,
                                                   const std::string & inAttributeName,
                                                   const std::string & inValueIfConditionIsTrue,
@@ -140,8 +140,8 @@ namespace XULWin
                                                   inValueIfConditionIsFalse));
         return ScopedConditional(inElement);
     }
-    
-    
+
+
     void ConditionalState::remove(Element * inElement)
     {
         Mapping::iterator it = mMapping.find(inElement);
@@ -152,7 +152,7 @@ namespace XULWin
         }
     }
 
-    
+
     void ConditionalState::updateStates()
     {
         Mapping::iterator it = mMapping.begin(), end = mMapping.end();
@@ -174,13 +174,13 @@ namespace XULWin
             }
         }
     }
-    
-    
+
+
     LRESULT CALLBACK ConditionalState::ForegroundIdleProc(int nCode, DWORD wParam, LONG lParam)
     {
-        if (nCode < 0) // do not process message 
+        if (nCode < 0) // do not process message
         {
-            return ::CallNextHookEx(sInstance->mForegroundIdleProc, nCode, wParam, lParam); 
+            return ::CallNextHookEx(sInstance->mForegroundIdleProc, nCode, wParam, lParam);
         }
 
         sInstance->updateStates();

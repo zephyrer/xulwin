@@ -15,7 +15,7 @@ namespace XULWin
      *
      * This class initializes the GDI+ library in its constructor.
      * If a previous instance of the class already existed a refcount
-     * is augmented.
+     * is augmented instead.
      *
      * During destruction the object decrements its refcount. Once
      * this refcount reaches zero, the GDI+ library is finalized.

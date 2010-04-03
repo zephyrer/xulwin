@@ -239,6 +239,8 @@ namespace XULWin
 
     private:
         void updateWindowScroll();
+        void updateHorizontalScrollInfo();
+        void updateVerticalScrollInfo();
 
         CSSOverflow mOverflowX;
         CSSOverflow mOverflowY;

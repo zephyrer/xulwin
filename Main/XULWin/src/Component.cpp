@@ -2969,7 +2969,7 @@ namespace XULWin
         }
         if (curPos > totalHeight)
         {
-            totalHeight += 1;
+            totalHeight = curPos + 1;
         }
         if (inPageIncrement >= totalHeight)
         {

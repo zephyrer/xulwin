@@ -957,6 +957,56 @@ namespace XULWin
             updateWindowScroll();
         }
     }
+
+
+    void ScrollDecorator::updateHorizontalScrollInfo()
+    {
+        Scrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
+        if (scrollbar)
+        {
+            int maxpos = Defaults::Attributes::maxpos();
+            float ratio = (float)mDecoratedElement->clientRect().width()/(float)mDecoratedElement->getWidth(Minimum);
+            int pageincrement = (int)(maxpos*ratio + 0.5);
+            int curpos = getScrollPos(scrollbar->handle());
+            if (ratio < 1)
+            {
+                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+                scrollbar->setHidden(mOverflowX == CSSOverflow_Hidden);
+                scrollbar->setDisabled(false);
+            }
+            else
+            {
+                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+                scrollbar->setHidden(mOverflowX != CSSOverflow_Scroll);
+                scrollbar->setDisabled(true);
+            }
+        }
+    }
+
+
+    void ScrollDecorator::updateVerticalScrollInfo()
+    {        
+        Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
+        if (scrollbar)
+        {
+            int maxpos = Defaults::Attributes::maxpos();
+            float ratio = (float)mDecoratedElement->clientRect().height()/(float)mDecoratedElement->getHeight(Minimum);
+            int pageincrement = (int)(maxpos*ratio + 0.5);
+            int curpos = Windows::getScrollPos(scrollbar->handle());
+            if (ratio < 1)
+            {
+                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+                scrollbar->setHidden(mOverflowY == CSSOverflow_Hidden);
+                scrollbar->setDisabled(false);
+            }
+            else
+            {
+                scrollbar->setHidden(mOverflowY != CSSOverflow_Scroll);
+                scrollbar->setDisabled(true);
+                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+            }
+        }
+    }
     
     
     void ScrollDecorator::move(int x, int y, int w, int h)
@@ -969,22 +1019,6 @@ namespace XULWin
             Scrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
             if (scrollbar)
             {
-                int maxpos = Defaults::Attributes::maxpos();
-                float ratio = (float)newW/(float)mDecoratedElement->getWidth(Preferred);
-                int pageincrement = (int)(maxpos*ratio + 0.5);
-                int curpos = getScrollPos(scrollbar->handle());
-                if (ratio < 1)
-                {
-                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
-                    scrollbar->setHidden(mOverflowX == CSSOverflow_Hidden);
-                    scrollbar->setDisabled(false);
-                }
-                else
-                {
-                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
-                    scrollbar->setHidden(mOverflowX != CSSOverflow_Scroll);
-                    scrollbar->setDisabled(true);
-                }
                 if (!scrollbar->isHidden())
                 {
                     newH -= Defaults::scrollbarWidth();
@@ -998,22 +1032,6 @@ namespace XULWin
             Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
             if (scrollbar)
             {
-                int maxpos = Defaults::Attributes::maxpos();
-                float ratio = (float)newH/(float)mDecoratedElement->getHeight(Minimum);
-                int pageincrement = (int)(maxpos*ratio + 0.5);
-                int curpos = Windows::getScrollPos(scrollbar->handle());
-                if (ratio < 1)
-                {
-                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
-                    scrollbar->setHidden(mOverflowY == CSSOverflow_Hidden);
-                    scrollbar->setDisabled(false);
-                }
-                else
-                {
-                    scrollbar->setHidden(mOverflowY != CSSOverflow_Scroll);
-                    scrollbar->setDisabled(true);
-                    Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
-                }
                 if (!scrollbar->isHidden())
                 {
                     newW -= Defaults::scrollbarWidth();
@@ -1022,6 +1040,8 @@ namespace XULWin
             }
         }
         Super::move(x, y, newW, newH);
+        updateHorizontalScrollInfo();
+        updateVerticalScrollInfo();
     }
 
 

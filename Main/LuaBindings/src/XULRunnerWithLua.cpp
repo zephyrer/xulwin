@@ -12,16 +12,15 @@
 #include <map>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern "C"
+{
 
-extern int luaopen_XULWin(lua_State* L); // declare the wrapped module
+// Declare the wrapped module
+extern int luaopen_XULWin(lua_State* L);
 #define LUA_EXTRALIBS {"XULWin",luaopen_LuaBindings}
 
-#ifdef __cplusplus
 }
-#endif
+
 
 
 namespace XULWin

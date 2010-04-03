@@ -10,7 +10,7 @@ namespace XULWin
 
 
     class ListBox : public NativeControl,
-                        public RowsController
+                    public RowsController
     {
     public:
         typedef NativeControl Super;

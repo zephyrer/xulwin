@@ -163,6 +163,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\include\XULWin\Element.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\ImageElement.h"
 					>
 				</File>
@@ -238,6 +242,10 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\src\Element.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\src\ImageElement.cpp"
 					>
@@ -319,6 +327,14 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\include\XULWin\Component.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Decorator.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Image.h"
 					>
 				</File>
@@ -383,6 +399,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\Overlay.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Proxy.h"
 					>
 				</File>
@@ -398,6 +418,14 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\src\Component.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Decorator.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\src\Image.cpp"
 					>
@@ -460,6 +488,10 @@
 				</File>
 				<File
 					RelativePath=".\src\MenuSeparator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Overlay.cpp"
 					>
 				</File>
 				<File
@@ -543,39 +575,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\BoxLayouter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ChromeURL.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Component.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\ComponentFactory.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ConditionalState.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Conversions.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Decorator.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Defaults.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Element.h"
 					>
 				</File>
 				<File
@@ -587,19 +591,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ErrorReporter.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\EventListener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Fallible.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\GdiplusLoader.h"
 					>
 				</File>
 				<File
@@ -607,23 +599,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Layout.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Overlay.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\RGBColor.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\StyleController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Unicode.h"
 					>
 				</File>
 				<File
@@ -647,35 +623,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\BoxLayouter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ChromeURL.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Component.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\ComponentFactory.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ConditionalState.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Conversions.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Decorator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Element.cpp"
 					>
 				</File>
 				<File
@@ -683,15 +631,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ErrorReporter.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\EventListener.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\GdiplusLoader.cpp"
 					>
 				</File>
 				<File
@@ -699,23 +639,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Layout.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Overlay.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\RGBColor.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\StyleController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Unicode.cpp"
 					>
 				</File>
 				<File
@@ -791,6 +715,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\RGBColor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Size.h"
 					>
 				</File>
@@ -798,6 +726,90 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\src\RGBColor.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Utilities"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\include\XULWin\BoxLayouter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ChromeURL.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ConditionalState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Conversions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ErrorReporter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Fallible.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\GdiplusLoader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Layout.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Unicode.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\src\BoxLayouter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ChromeURL.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ConditionalState.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Conversions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ErrorReporter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\GdiplusLoader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Layout.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Unicode.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

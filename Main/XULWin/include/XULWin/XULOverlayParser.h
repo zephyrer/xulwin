@@ -8,6 +8,13 @@
 namespace XULWin
 {
 
+
+    /**
+     * XULOverlayParser
+     *
+     * This class is used for parsing XUL overlays.
+     * See the XULRunner::loadOverlay method.
+     */
     class XULOverlayParser : public AbstractXULParser
     {
     public:

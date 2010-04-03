@@ -12,6 +12,7 @@
 #include "XULWin/Fallible.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/Js/XULRunnerJs.h"
 #include <string>
 
 
@@ -41,14 +42,14 @@ namespace XULWin
         LRESULT closeDialog(Element * inWindow);
 
     private:
-        XULRunner mRunner;   
         ElementPtr mConfigWindow;
-        ElementPtr mNewSetDlg;
-        XULWin::Fallible<Element*> mNewSetButton;
-        XULWin::Fallible<Element*> mSetsPopup;    
-        XULWin::Fallible<Element*> mNewSetTextBox;
-        XULWin::Fallible<Element*> mNewSetOK;
-        XULWin::Fallible<Element*> mNewSetCancel;
+        ElementPtr mNewSetDlg;        
+        Js::XULRunnerJs mRunner;   
+        Fallible<Element*> mNewSetButton;
+        Fallible<Element*> mSetsPopup;    
+        Fallible<Element*> mNewSetTextBox;
+        Fallible<Element*> mNewSetOK;
+        Fallible<Element*> mNewSetCancel;
         ScopedEventListener mEvents;
         std::string mPathToXULRunnerSamples;
     };

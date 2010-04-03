@@ -1,6 +1,5 @@
 #include "Tester.h"
 #include "ConfigSample.h"
-#include "LuaBindingsTest.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Windows.h"
@@ -26,22 +25,22 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 } 
 
 
-void startTest(HINSTANCE hInstance, XULWin::LuaBindingsTest & tester, const std::string & inPathToXULRunnerSamples)
-{
-    runConfigSample(hInstance, inPathToXULRunnerSamples);
-    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);    
-    //tester.runXULSample("hello");
-    //tester.runXULSample("MainWindow");
-    //tester.runXULSample("listbox-simple");
-    //tester.runXULSample("listbox-advanced");
-    //tester.runXULSample("toolbar");
-    //tester.runXULSample("widgets");
-    //tester.runXULSample("tabbox");
-    //tester.runXULSample("treeview");
-    //tester.runXULSample("configpanel");
-    //tester.runXULSample("shout");
-    //tester.runXULSample("svg");
-}
+//void startTest(HINSTANCE hInstance, XULWin::LuaBindingsTest & tester, const std::string & inPathToXULRunnerSamples)
+//{
+//    runConfigSample(hInstance, inPathToXULRunnerSamples);
+//    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);    
+//    //tester.runXULSample("hello");
+//    //tester.runXULSample("MainWindow");
+//    //tester.runXULSample("listbox-simple");
+//    //tester.runXULSample("listbox-advanced");
+//    //tester.runXULSample("toolbar");
+//    //tester.runXULSample("widgets");
+//    //tester.runXULSample("tabbox");
+//    //tester.runXULSample("treeview");
+//    //tester.runXULSample("configpanel");
+//    //tester.runXULSample("shout");
+//    //tester.runXULSample("svg");
+//}
 
 
 std::string unquote(const std::string & inString)
@@ -69,8 +68,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Ensure that the common control DLL is loaded. 
     Windows::CommonControlsInitializer ccInit;
 
-    XULWin::LuaBindingsTest tester(hInstance, commandLine);
+    //XULWin::LuaBindingsTest tester(hInstance, commandLine);
+    runConfigSample(hInstance, commandLine);
     
-    startTest(hInstance, tester, commandLine);
+    //startTest(hInstance, tester, commandLine);
     return 0;
 }

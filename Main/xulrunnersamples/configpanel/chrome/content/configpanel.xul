@@ -28,7 +28,7 @@
               <menuitem label="Friends" />
             </menupopup>
           </menulist>
-          <button label="&NEW_SET;" id="newSetButton"></button>
+          <button label="&NEW_SET;" id="newSetButton" oncommand="alert('Hello from V8!');"></button>
         </hbox>
       </row>
       <row align="center">

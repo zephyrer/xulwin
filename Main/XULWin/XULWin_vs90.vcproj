@@ -407,10 +407,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Text.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Window.h"
 					>
 				</File>
@@ -496,10 +492,6 @@
 				</File>
 				<File
 					RelativePath=".\src\Proxy.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Text.cpp"
 					>
 				</File>
 				<File

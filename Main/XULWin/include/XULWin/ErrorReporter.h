@@ -213,7 +213,7 @@ namespace XULWin
     typedef boost::function<void()> TryAction;
     typedef boost::function<void(const std::exception &)> CatchAction;
 
-    bool TryCatch(const TryAction & inAction, const CatchAction & inCatchAction);
+    //bool TryCatch(const TryAction & inAction, const CatchAction & inCatchAction);
 
     bool TryOrReportError(const TryAction & inAction);
 

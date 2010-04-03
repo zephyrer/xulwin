@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\V8\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)JavaScriptBindings\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -63,9 +63,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib GdiPlus.lib lua51.lib Iphlpapi.lib"
+				AdditionalDependencies="comctl32.lib GdiPlus.lib Iphlpapi.lib wsock32.lib WS2_32.lib Winmm.lib v8.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)3rdParty\Lua\lib&quot;;&quot;$(SolutionDir)3rdParty\Poco\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)3rdParty\V8&quot;;&quot;$(SolutionDir)3rdParty\Lua\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -126,7 +126,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\V8\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)JavaScriptBindings\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -146,9 +146,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib GdiPlus.lib lua51.lib Iphlpapi.lib"
+				AdditionalDependencies="comctl32.lib GdiPlus.lib Iphlpapi.lib wsock32.lib WS2_32.lib Winmm.lib v8.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)3rdParty\Lua\lib&quot;;&quot;$(SolutionDir)3rdParty\Poco\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)3rdParty\V8&quot;;&quot;$(SolutionDir)3rdParty\Lua\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -275,14 +275,6 @@
 			</File>
 			<File
 				RelativePath=".\ImageViewerSample.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaBindingsTest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LuaBindingsTest.h"
 				>
 			</File>
 			<File

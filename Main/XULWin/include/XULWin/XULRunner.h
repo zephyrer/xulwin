@@ -33,10 +33,42 @@ namespace XULWin
          */
         void run(const std::string & inApplicationIniFile);
 
+        /**
+         * loadApplication
+         *
+         * Loads a XUL application:
+         *
+         *  - Finds out which is the main XUL file. The location of the main XUL file
+         *    must be specified in the file prefs.js which is found in the 
+         *    "<Application>/defaults/preferences" folder.
+         *  - Parses the main XUL file.
+         *  - Returns the root element of the parsed XUL file.
+         */
         ElementPtr loadApplication(const std::string & inApplicationIniFile);
 
+
+        /**
+         * loadXUL
+         *
+         * Load a XUL file:
+         *
+         *  - Finds the requested XUL file. This requires the
+         *    chrome url to be translated to a native path.
+         *  - Parses the XUL file.
+         *  - Returns the root element of the parsed XUL file.
+         */
         ElementPtr loadXUL(const std::string & inXULUrl);
 
+
+        /**
+         * loadOverlay
+         *
+         * Loads a XUL overlay.
+         * 
+         * The parameter is a chrome url to the overlay XUL document.
+         * This document must have a <overlay> element as root element.
+         * See the Mozilla documention on XUL overlays for more information.
+         */
         void loadOverlay(const std::string & inXULUrl);
 
         ElementPtr rootElement() const;

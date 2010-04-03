@@ -955,10 +955,8 @@ namespace XULWin
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
     private:
-        bool mReadonly;
         int mRows;
         static DWORD GetFlags(const AttributesMapping & inAttributesMapping);
-        static bool IsReadOnly(const AttributesMapping & inAttributesMapping);
     };
 
 

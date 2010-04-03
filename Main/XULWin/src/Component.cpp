@@ -1614,10 +1614,8 @@ namespace XULWin
                       TEXT("EDIT"),
                       WS_EX_CLIENTEDGE, // exStyle
                       WS_TABSTOP | GetFlags(inAttributesMapping)),
-        mReadonly(IsReadOnly(inAttributesMapping)),
         mRows(1)
-    {
-        
+    {        
     }
 
 
@@ -1639,13 +1637,6 @@ namespace XULWin
             flags |= ES_AUTOHSCROLL;            
         }
         return flags;
-    } 
-
-
-    bool TextBox::IsReadOnly(const AttributesMapping & inAttributesMapping)
-    {
-        AttributesMapping::const_iterator it = inAttributesMapping.find("readonly");
-        return it != inAttributesMapping.end() && it->second == "true";
     } 
 
 

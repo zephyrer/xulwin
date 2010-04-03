@@ -9,7 +9,7 @@ namespace XULWin
 {
 
     class MenuItem : public PassiveComponent,
-                              public LabelController
+                     public LabelController
     {
     public:
         typedef PassiveComponent Super;

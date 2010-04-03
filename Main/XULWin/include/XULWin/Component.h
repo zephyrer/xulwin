@@ -581,6 +581,12 @@ namespace XULWin
     };
 
 
+    /**
+     * NativeComponent
+     *
+     * Native components are UI components that map to a native HWND.
+     * This is the base class for any native component.
+     */
     class NativeComponent : public ConcreteComponent,
                             public virtual DisabledController,
                             public virtual LabelController
@@ -675,7 +681,12 @@ namespace XULWin
     class Window;
 
 
-    // Dialog is actually a normal WindowElement with some customizations to make it behave like a dialog.
+    /**
+     * Dialog
+     *
+     * Represents a XUL dialog window.
+     * In reality it is a Window with some customizations for Dialog-like behavior.
+     */
     class Dialog : public NativeComponent,
                    public BoxLayouter::ContentProvider,
                    public virtual TitleController
@@ -761,6 +772,13 @@ namespace XULWin
     };
 
 
+    /**
+     * NativeControl
+     *
+     * A native control is a control that is not a Window
+     * or a Dialog and that maps to a native HWND.
+     * It is the base class for native WinAPI controls.
+     */
     class NativeControl : public NativeComponent
     {
     public:
@@ -792,6 +810,12 @@ namespace XULWin
     };
 
 
+    /**
+     * VirtualComponent
+     *
+     * A virtual component is a widget that does not map to a native HWND.
+     * Layout elements (box, grid, deck ..) are implemented as virtual components.
+     */
     class VirtualComponent : public ConcreteComponent
     {
     public:
@@ -822,6 +846,13 @@ namespace XULWin
     };
 
 
+    /**
+     * PassiveComponent
+     *
+     * A passive component represents XUL elements that do not map to
+     * a native HWND and that also do not ask for layout space. Often
+     * they are not a widget at all, for example "listcols".
+     */
     class PassiveComponent : public VirtualComponent
     {
     public:
@@ -837,6 +868,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Button
+     *
+     * Native implementation for a XUL button.
+     */
     class Button : public NativeControl
     {
     public:
@@ -850,8 +886,13 @@ namespace XULWin
     };
 
 
+     /**
+     * Description
+     *
+     * Native implementation for a XUL description element.
+     */
     class Description : public NativeControl,
-                              public virtual StringValueController
+                        public virtual StringValueController
     {
     public:
         typedef NativeControl Super;
@@ -872,9 +913,9 @@ namespace XULWin
 
 
     class TextBox : public NativeControl,
-                          public virtual StringValueController,
-                          public virtual ReadOnlyController,
-                          public virtual RowsController
+                    public virtual StringValueController,
+                    public virtual ReadOnlyController,
+                    public virtual RowsController
     {
     public:
         typedef NativeControl Super;
@@ -1125,7 +1166,7 @@ namespace XULWin
     class Grid : public NativeControl
     {
     public:
-        typedef NativeComponent Super;
+        typedef NativeControl Super;
 
         Grid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1643,11 +1684,11 @@ namespace XULWin
 
 
     class ToolbarButton : public PassiveComponent,
-                              public Windows::ToolbarDropDown::EventHandler,
-                              public MenuPopupContainer,
-                              public virtual DisabledController,
-                              public virtual LabelController,
-                              public virtual CSSListStyleImageController
+                          public Windows::ToolbarDropDown::EventHandler,
+                          public MenuPopupContainer,
+                          public virtual DisabledController,
+                          public virtual LabelController,
+                          public virtual CSSListStyleImageController
     {
     public:
         typedef PassiveComponent Super;

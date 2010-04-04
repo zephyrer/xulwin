@@ -12,7 +12,7 @@
 #include "XULWin/Fallible.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
-#include "XULWin/Js/XULRunnerJs.h"
+#include "XULWin/Js/JsXULRunner.h"
 #include <string>
 
 
@@ -44,7 +44,7 @@ namespace XULWin
     private:
         ElementPtr mConfigWindow;
         ElementPtr mNewSetDlg;        
-        Js::XULRunnerJs mRunner;   
+        Js::JsXULRunner mRunner;   
         Fallible<Element*> mNewSetButton;
         Fallible<Element*> mSetsPopup;    
         Fallible<Element*> mNewSetTextBox;

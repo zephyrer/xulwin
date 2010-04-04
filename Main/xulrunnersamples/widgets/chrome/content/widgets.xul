@@ -34,35 +34,34 @@
         style="x:100px; y:100px">
 
   <script id="sayHelloScript">
-<![CDATA[
---Written for 5.0; could be made slightly cleaner with 5.1
---Splits a string based on a separator string or pattern;
---returns an array of pieces of the string.
---(May optionally supply a table as the third parameter which will be filled 
---with the results.)
-function string:split( inSplitPattern, outResults )
-  if not outResults then
-    outResults = { }
-  end
-  local theStart = 1
-  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, 
-theStart )
-  while theSplitStart do
-    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
-    theStart = theSplitEnd + 1
-    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
-  end
-  table.insert( outResults, string.sub( self, theStart ) )
-  return outResults
-end
-function testProperty(id)
-  el = XULWin.getRootElement():getElementById(id)
-  input = XULWin.prompt("Key, value:", "")
-  keys = input:split(",")
-  if #keys ~= 2 then return end
-  el:setAttribute(keys[1], keys[2])
-end
-]]>
+  <![CDATA[
+  function testProperty(id)
+  {
+    var el = document.getElementById(id);
+    if (!el)
+    {
+      alert("The element with id " + id + " was not found");
+      return;
+    }
+    
+    var input = prompt("Enter key and value separated by a comma:");
+    if (input === null)
+    {
+      // Cancel was pressed
+      return;
+    }
+    
+    
+    var keys = input.split(",");
+    if (keys.length !== 2)
+    {
+      alert("Invalid input.");
+      return;
+    }   
+    
+    el.setAttribute(keys[1], keys[2]);
+  }
+  ]]>
   </script>
 
   <hbox align="center">

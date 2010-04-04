@@ -4,6 +4,15 @@
 <window title="Config Panel"
 		    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 >
+  <script type="application/x-javascript" >
+      <![CDATA[
+      var ConfigPanel = {};
+      ConfigPanel.sayHello = function()
+      {
+        alert("Hello!");
+      }
+      ]]>
+  </script>
   <grid flex="1" style="overflow:auto">
     <columns>
       <column flex="0" align="end" ></column>
@@ -28,7 +37,7 @@
               <menuitem label="Friends" />
             </menupopup>
           </menulist>
-          <button label="&NEW_SET;" id="newSetButton" oncommand="alert('Hello from V8!');"></button>
+          <button label="&NEW_SET;" id="newSetButton" oncommand="ConfigPanel.sayHello();"></button>
         </hbox>
       </row>
       <row align="center">

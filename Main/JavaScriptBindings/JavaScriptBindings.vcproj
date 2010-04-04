@@ -148,7 +148,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\XULRunnerJs.cpp"
+				RelativePath=".\src\JsSimpleContext.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\JsUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\JsXULRunner.cpp"
 				>
 			</File>
 		</Filter>
@@ -158,7 +166,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\XULWin\Js\XULRunnerJs.h"
+				RelativePath=".\include\XULWin\Js\JsSimpleContext.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Js\JsUtilities.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Js\JsXULRunner.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\Js\V8Includes.h"
 				>
 			</File>
 		</Filter>

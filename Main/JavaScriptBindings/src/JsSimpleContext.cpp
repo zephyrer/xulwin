@@ -1,10 +1,5 @@
 #include "XULWin/Js/JsSimpleContext.h"
 #include "XULWin/Js/JsUtilities.h"
-#ifdef _DEBUG
-#include "v8-debug.h"
-#else
-#include "v8.h"
-#endif
 
 
 using namespace v8;

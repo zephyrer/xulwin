@@ -2,61 +2,58 @@
 #include "Config.h"
 #include "XULWin/Element.h"
 #include "XULWin/LabelElement.h"
+#include "XULWin/Unicode.h"
 #include "XULWin/WindowElement.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/Js/JsException.h"
+#include "XULWin/Js/JsXULRunner.h"
+#include "Poco/Path.h"
+#include <boost/bind.hpp>
 
 
 namespace XULWin
 {
 
-    Tester::Tester(HMODULE inModuleHandle) :
-        mModuleHandle(inModuleHandle)
+    Tester::Tester(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples, Features inFeatures) :
+        mModuleHandle(inModuleHandle),
+        mPathToXULRunnerSamples(inPathToXULRunnerSamples),
+        mFeatures(inFeatures)
     {
     }
 
 
-    void Tester::runXULSample(const std::string & inAppName)
+    void LogJavaScriptException(const Js::JsException & inException)
     {
-        std::string chdir = mPathToXULRunnerSamples + inAppName + "/";
-        Windows::CurrentDirectoryChanger curdir(chdir);
-
-#if TEST_WITH_MOZILLA_XULRUNNER
-        system("run.bat");
-#endif
-
-        XULRunner runner(mModuleHandle);
-        runner.run("application.ini");
+        std::wstring utf16Message = ToUTF16(inException.message());
+        ::MessageBoxW(0, utf16Message.c_str(), L"XULRunner Tester: JavaScript exception", MB_OK);
     }
 
 
-    void Tester::runNonXULSample()
+    void Tester::runXULSample(const std::string & inAppName) const
     {
-        AttributesMapping attr;
-        ElementPtr window = WindowElement::Create(0, attr);
-        ElementPtr vbox = VBoxElement::Create(window.get(), attr);
+        // Change the current directory to the application dir.
+        Poco::Path path(mPathToXULRunnerSamples);
+        path.append(inAppName);
+        Windows::CurrentDirectoryChanger curdir(path.toString());
 
-        ElementPtr hbox1 = HBoxElement::Create(vbox.get(), attr);
+        if (mFeatures & Features_EnableJavaScript)
+        {
+            Js::JsXULRunner runner(mModuleHandle);
+            runner.setExceptionLogger(boost::bind(&LogJavaScriptException, _1));
+            runner.run("application.ini");
+        }
+        else
+        {
+            XULRunner runner(mModuleHandle);
+            runner.run("application.ini");
+        }
 
-        attr["value"] = "Username:";
-        ElementPtr label = LabelElement::Create(hbox1.get(), attr);
-        attr.clear();
-
-        attr["flex"] = "1";
-        ElementPtr text = TextBoxElement::Create(hbox1.get(), attr);
-        attr.clear();
-
-        ElementPtr hbox2 = HBoxElement::Create(vbox.get(), attr);
-
-        attr["value"] = "Password:";
-        ElementPtr passLabel = LabelElement::Create(hbox2.get(), attr);
-        attr.clear();
-
-        attr["flex"] = "1";
-        ElementPtr passText = TextBoxElement::Create(hbox2.get(), attr);
-        attr.clear();
-
-        window->downcast<WindowElement>()->showModal(WindowElement::CenterInScreen);
+        // The application dir should contain a run.bat file.
+        if (mFeatures & Features_TestWithMozillaXULRunner)
+        {
+            system("run.bat");
+        }
     }
 
 

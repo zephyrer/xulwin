@@ -11,20 +11,21 @@ namespace XULWin
 
     namespace Js
     {
-        
-        POCO_IMPLEMENT_EXCEPTION(JsException, Poco::RuntimeException, "JavaScript Exception")
-
 
         JsSimpleContext::JsSimpleContext()
         {
-            // Create a template for the globl object.
             mGlobalObject = v8::ObjectTemplate::New();
-
-            //associates "plus" on script to the Plus function
+            if (mGlobalObject.IsEmpty())
+            {
+                throw std::runtime_error("Failed to create the global JavaScript object.");
+            }
             mGlobalObject->Set(v8::String::New("alert"), v8::FunctionTemplate::New(XULWin::Js::Alert));
 
-            //create context for the script
             mContext = v8::Context::New(NULL, mGlobalObject);
+            if (mContext.IsEmpty())
+            {
+                throw std::runtime_error("Failed to create a context for the global JavaScript object.");
+            }
         }
 
 

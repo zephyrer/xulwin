@@ -4,6 +4,7 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/ScriptElement.h"
+#include "XULWin/Window.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
@@ -54,6 +55,26 @@ namespace XULWin
         HMODULE JsXULRunner::getModuleHandle() const
         {
             return mXULRunner->getModuleHandle();
+        }
+
+
+        void JsXULRunner::run(const std::string & inApplicationIniFile)
+        {
+            ElementPtr rootEl = loadApplication(inApplicationIniFile);
+            if (!rootEl)
+            {
+                ReportError("Failed to load the application. Probably due to parser error.");
+                return;
+            }
+                
+            WindowElement * window = rootEl->downcast<WindowElement>();
+            if (!window)
+            {
+                ReportError("Root element is not of type window.");
+                return;
+            }
+
+            window->showModal(WindowElement::CenterInScreen);
         }
 
 

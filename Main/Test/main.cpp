@@ -25,22 +25,24 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 } 
 
 
-//void startTest(HINSTANCE hInstance, XULWin::LuaBindingsTest & tester, const std::string & inPathToXULRunnerSamples)
-//{
-//    runConfigSample(hInstance, inPathToXULRunnerSamples);
-//    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);    
-//    //tester.runXULSample("hello");
-//    //tester.runXULSample("MainWindow");
-//    //tester.runXULSample("listbox-simple");
-//    //tester.runXULSample("listbox-advanced");
-//    //tester.runXULSample("toolbar");
-//    //tester.runXULSample("widgets");
-//    //tester.runXULSample("tabbox");
-//    //tester.runXULSample("treeview");
-//    //tester.runXULSample("configpanel");
-//    //tester.runXULSample("shout");
-//    //tester.runXULSample("svg");
-//}
+void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
+{
+    //runConfigSample(hInstance, inPathToXULRunnerSamples);
+    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);    
+    
+    tester.runXULSample("configpanel");
+
+    //tester.runXULSample("hello");
+    //tester.runXULSample("MainWindow");
+    //tester.runXULSample("listbox-simple");
+    //tester.runXULSample("listbox-advanced");
+    //tester.runXULSample("toolbar");
+    //tester.runXULSample("widgets");
+    //tester.runXULSample("tabbox");
+    //tester.runXULSample("treeview");
+    //tester.runXULSample("shout");
+    //tester.runXULSample("svg");
+}
 
 
 std::string unquote(const std::string & inString)
@@ -63,14 +65,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     // Initialize all kinds of stuff
-    XULWin::Initializer initializer(hInstance);
+    Initializer initializer(hInstance);
 
     // Ensure that the common control DLL is loaded. 
     Windows::CommonControlsInitializer ccInit;
 
-    //XULWin::LuaBindingsTest tester(hInstance, commandLine);
-    runConfigSample(hInstance, commandLine);
+    Tester tester(hInstance, commandLine, Tester::Features_EnableJavaScript);
     
-    //startTest(hInstance, tester, commandLine);
+    startTest(hInstance, tester, commandLine);
     return 0;
 }

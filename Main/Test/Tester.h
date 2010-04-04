@@ -12,14 +12,19 @@ namespace XULWin
     class Tester
     {
     public:
-        Tester(HMODULE inModuleHandle);
+        enum Features
+        {
+            Features_EnableJavaScript           = 1 << 0, // Executes JavaScript code in the XUL documents.
+            Features_TestWithMozillaXULRunner   = 1 << 1  // Also launches the app with Mozilla XULRunner
+        };
 
-        void runXULSample(const std::string & inAppName);
+        Tester(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples, Features inFeatures);
 
-        void runNonXULSample();
+        void runXULSample(const std::string & inAppName) const;
 
     private:
         HMODULE mModuleHandle;
+        Features mFeatures;
         std::string mPathToXULRunnerSamples;
     };
 

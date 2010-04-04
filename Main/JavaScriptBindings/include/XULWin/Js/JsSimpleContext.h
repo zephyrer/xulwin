@@ -3,12 +3,8 @@
 
 
 #include "XULWin/Js/V8Includes.h"
+#include "XULWin/Js/JsException.h"
 #include "Poco/Exception.h"
-
-
-#ifndef XULWIN_API
-#define XULWIN_API
-#endif // XULWIN_API
 
 
 namespace XULWin
@@ -18,14 +14,11 @@ namespace XULWin
     namespace Js
     {
 
-        // Declare the JsException class. It inherits Poco::RuntimeException.
-        POCO_DECLARE_EXCEPTION(XULWIN_API, JsException, Poco::RuntimeException)
-
-
         /**
          * JsSimpleContext
          *
          * This class simplifies the usage of the V8 JavaScript library.
+         * Each object defines a new JavaScript context.
          */
         class JsSimpleContext
         {

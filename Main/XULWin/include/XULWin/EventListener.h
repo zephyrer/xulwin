@@ -34,7 +34,9 @@ namespace XULWin
 
 
     /**
-     * ScopedEventListeners enables connecting events with callbacks.
+     * ScopedEventListener
+     *
+     * Enables connecting events with callbacks.
      */
     class ScopedEventListener : public EventListener,
         boost::noncopyable

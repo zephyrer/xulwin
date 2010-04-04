@@ -22,6 +22,7 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/XULRunner.h"
 
 
 namespace XULWin
@@ -29,6 +30,7 @@ namespace XULWin
 
     Initializer::Initializer(HINSTANCE inModuleHandle)
     {
+        XULRunner::SetModuleHandle(inModuleHandle);
         Windows::CommonControlsInitializer mInitCommonControls;
         ErrorReporter::Initialize();
         Window::Register(inModuleHandle);

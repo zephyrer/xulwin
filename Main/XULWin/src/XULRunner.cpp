@@ -129,6 +129,17 @@ namespace XULWin
 
 
     Fallible<std::string> XULRunner::sLocale;
+    HMODULE XULRunner::sModuleHandle(0);
+
+
+    XULRunner::XULRunner()
+    {
+        if (sModuleHandle == 0)
+        {
+            throw std::runtime_error("No module handle set for XULRunner class. Did you forget to create the XULWin::Initializer object?");
+        }
+        mModuleHandle = GetModuleHandle();
+    }
 
 
     XULRunner::XULRunner(HMODULE inModuleHandle) :
@@ -141,11 +152,23 @@ namespace XULWin
     {
         return sLocale.or(Defaults::defaultLocale());
     }
-
-
+    
+    
     void XULRunner::SetLocale(const std::string & inLocale)
     {
         sLocale = inLocale;
+    }
+    
+
+    HMODULE XULRunner::GetModuleHandle()
+    {
+        return sModuleHandle;
+    }
+
+    
+    void XULRunner::SetModuleHandle(HMODULE inModuleHandle)
+    {
+        sModuleHandle = inModuleHandle;
     }
 
 
@@ -162,12 +185,28 @@ namespace XULWin
     }
 
 
-    ElementPtr XULRunner::Parse(AbstractXULParser & inParser, const std::string & inXULURL)
+    ElementPtr XULRunner::ParseFile(AbstractXULParser & inParser, const std::string & inXULURL)
     {
         ElementPtr result;
         try
         {
             inParser.parse(inXULURL);
+            result = inParser.rootElement();
+        }
+        catch (Poco::Exception & exc)
+        {
+            ReportError(exc.displayText());
+        }
+        return result;
+    }
+
+
+    ElementPtr XULRunner::ParseString(AbstractXULParser & inParser, const std::string & inXULString)
+    {
+        ElementPtr result;
+        try
+        {
+            inParser.parseString(inXULString);
             result = inParser.rootElement();
         }
         catch (Poco::Exception & exc)
@@ -186,20 +225,28 @@ namespace XULWin
             std::string msg = "The current working directory does not contain a file named ";
             msg += "'" + inApplicationIniFile + "'.";
             msg += " Please set the current directory to the one that contains this file.";
-            throw std::exception(msg.c_str());
+            throw std::runtime_error(msg.c_str());
         }
 
         XULParser parser;
-        mRootElement = Parse(parser, getMainXULFile(Windows::getCurrentDirectory()));
+        mRootElement = ParseFile(parser, getMainXULFile(Windows::getCurrentDirectory()));
         return mRootElement;
     }
 
 
-    ElementPtr XULRunner::loadXUL(const std::string & inXULURL)
+    ElementPtr XULRunner::loadXULFromFile(const std::string & inXULURL)
     {
         XULParser parser;
         ChromeURL url(inXULURL);
-        mRootElement = Parse(parser, url.convertToLocalPath());
+        mRootElement = ParseFile(parser, url.convertToLocalPath());
+        return mRootElement;
+    }
+
+
+    ElementPtr XULRunner::loadXULFromString(const std::string & inXULString)
+    {
+        XULParser parser;
+        mRootElement = ParseString(parser, inXULString);
         return mRootElement;
     }
 
@@ -207,7 +254,7 @@ namespace XULWin
     std::string XULRunner::getOverlayElementId(const std::string & inXULURL)
     {
         XULRunner temp(::GetModuleHandle(0));
-        temp.loadXUL(inXULURL);
+        temp.loadXULFromFile(inXULURL);
         if (!temp.rootElement() || temp.rootElement()->children().empty())
         {
             return "";
@@ -228,7 +275,7 @@ namespace XULWin
         {
             XULOverlayParser parser(targetElement);
             ChromeURL url(inXULURL);
-            Parse(parser, url.convertToLocalPath());
+            ParseFile(parser, url.convertToLocalPath());
         }
         else
         {

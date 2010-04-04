@@ -24,6 +24,11 @@ namespace XULWin
         // This means that the locale value should be identical to its foldername.
         static void SetLocale(const std::string & inLocale);
 
+        static HMODULE GetModuleHandle();
+
+        static void SetModuleHandle(HMODULE inModuleHandle);
+
+        XULRunner();
 
         XULRunner(HMODULE inModuleHandle);
 
@@ -48,7 +53,7 @@ namespace XULWin
 
 
         /**
-         * loadXUL
+         * loadXULFromFile
          *
          * Load a XUL file:
          *
@@ -57,7 +62,15 @@ namespace XULWin
          *  - Parses the XUL file.
          *  - Returns the root element of the parsed XUL file.
          */
-        ElementPtr loadXUL(const std::string & inXULUrl);
+        ElementPtr loadXULFromFile(const std::string & inXULUrl);
+
+
+        /**
+         * loadXULFromString
+         *
+         * Parses a XUL String.
+         */
+        ElementPtr loadXULFromString(const std::string & inXULString);
 
 
         /**
@@ -77,8 +90,10 @@ namespace XULWin
 
     private:
         static Fallible<std::string> sLocale;
+        static HMODULE sModuleHandle;
 
-        static ElementPtr Parse(AbstractXULParser & inParser, const std::string & inXULURL);
+        static ElementPtr ParseFile(AbstractXULParser & inParser, const std::string & inXULURL);
+        static ElementPtr ParseString(AbstractXULParser & inParser, const std::string & inXULURL);
         std::string getOverlayElementId(const std::string & inXULURL);
 
         HMODULE mModuleHandle;

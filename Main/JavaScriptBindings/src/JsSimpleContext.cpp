@@ -12,14 +12,20 @@ namespace XULWin
     namespace Js
     {
 
-        JsSimpleContext::JsSimpleContext()
+        std::stack<JsSimpleContext*> JsSimpleContext::sInstances;
+
+        JsSimpleContext::JsSimpleContext(Element * inRootElement) :
+            mRootElement(inRootElement)
         {
+            sInstances.push(this);
             mGlobalObject = v8::ObjectTemplate::New();
             if (mGlobalObject.IsEmpty())
             {
                 throw std::runtime_error("Failed to create the global JavaScript object.");
             }
-            mGlobalObject->Set(v8::String::New("alert"), v8::FunctionTemplate::New(XULWin::Js::Alert));
+            
+            registerFunction("alert", Js::Alert);
+            registerFunction("prompt", Js::Prompt);
 
             mContext = v8::Context::New(NULL, mGlobalObject);
             if (mContext.IsEmpty())
@@ -31,8 +37,20 @@ namespace XULWin
 
         JsSimpleContext::~JsSimpleContext()
         {
+            sInstances.pop();
         }
 
+
+        const std::stack<JsSimpleContext*> & JsSimpleContext::Instances()
+        {
+            return sInstances;
+        }
+
+        
+        void JsSimpleContext::registerFunction(const std::string & inName, v8::InvocationCallback inCallback)
+        {
+            mGlobalObject->Set(v8::String::New(inName.c_str()), v8::FunctionTemplate::New(inCallback));
+        }
 
         /**
          * executeString
@@ -57,6 +75,12 @@ namespace XULWin
                 throw std::runtime_error(*error);
             }
             return true;
+        }
+
+
+        Element * JsSimpleContext::rootElement() const
+        {
+            return mRootElement;
         }
 
 

@@ -43,7 +43,9 @@ namespace XULWin
 
             ElementPtr loadApplication(const std::string & inApplicationIniFile);
 
-            ElementPtr loadXUL(const std::string & inXULUrl);
+            ElementPtr loadXULFromFile(const std::string & inXULUrl);
+
+            ElementPtr loadXULFromString(const std::string & inXULString);
 
             ElementPtr rootElement() const;
 
@@ -54,6 +56,8 @@ namespace XULWin
             virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
             virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
             virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
+            
+            void initializeJavaScript(Element * inRootElement);
             
             void logJsException(const JsException & inJsException);
 

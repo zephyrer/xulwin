@@ -34,7 +34,7 @@ namespace XULWin
         //system("run.bat");
 
         XULRunner runner(mModuleHandle);
-        mRootElement = runner.loadXUL("chrome://imageviewer/content/imageviewer.xul");
+        mRootElement = runner.loadXULFromFile("chrome://imageviewer/content/imageviewer.xul");
         if (!mRootElement)
         {
             ReportError("Failed to load ImageViewerSample");

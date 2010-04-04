@@ -10,7 +10,20 @@
       ConfigPanel.sayHello = function()
       {
         alert("Hello!");
-      }
+      };
+      
+      ConfigPanel.onNewSetButtonPressed = function()
+      {
+        var setname = prompt("Set name: ", "");
+        if (setname)
+        {
+          alert("New set is named:" + setname + ". Todo: add it to the menulist.");
+        }
+        else
+        {
+          alert("Cancel was pressed");
+        }
+      };
       ]]>
   </script>
   <grid flex="1" style="overflow:auto">
@@ -37,7 +50,7 @@
               <menuitem label="Friends" />
             </menupopup>
           </menulist>
-          <button label="&NEW_SET;" id="newSetButton" oncommand="ConfigPanel.sayHello();"></button>
+          <button label="&NEW_SET;" id="newSetButton" oncommand="ConfigPanel.onNewSetButtonPressed();"></button>
         </hbox>
       </row>
       <row align="center">

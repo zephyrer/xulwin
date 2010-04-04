@@ -19,10 +19,8 @@ namespace XULWin
         /**
          * JsException
          *
-         * Propagation of JavaScript exceptions into C++ land.         
-         * 
-         * JsExeption inherits Poco::RuntimeException.
-         * The implementation is defined as a macro in JsSimpleContext.cpp. 
+         * Propagates JavaScript exceptions into C++ land.
+         * Inherits from Poco::RuntimeException.
          */
         POCO_DECLARE_EXCEPTION(XULWIN_API, JsException, Poco::RuntimeException)
 

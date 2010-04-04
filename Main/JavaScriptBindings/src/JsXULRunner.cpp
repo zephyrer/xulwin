@@ -1,14 +1,14 @@
 #include "XULWin/Js/JsXULRunner.h"
-#include "XULWin/ErrorReporter.h"
+#include "XULWin/Js/JsSimpleContext.h"
 #include "XULWin/Component.h"
 #include "XULWin/Decorator.h"
+#include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/ScriptElement.h"
 #include "XULWin/Window.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
-#include "XULWin/Js/JsSimpleContext.h"
 #include <sstream>
 #include <map>
 
@@ -26,8 +26,7 @@ namespace XULWin
 
         JsXULRunner::JsXULRunner(HMODULE inModuleHandle) :
             mModuleHandle(inModuleHandle),
-            mXULRunner(new XULRunner(inModuleHandle)),
-            mSimpleContext(new JsSimpleContext)
+            mXULRunner(new XULRunner(inModuleHandle))
         {
         }
 
@@ -78,30 +77,48 @@ namespace XULWin
         }
 
 
+        void JsXULRunner::initializeJavaScript(Element * inRootElement)
+        {
+            mSimpleContext.reset(new JsSimpleContext(inRootElement));
+            loadScripts(inRootElement);
+            addListeners(inRootElement);
+        }
+
+
         ElementPtr JsXULRunner::loadApplication(const std::string & inApplicationIniFile)
         {
             ElementPtr result = mXULRunner->loadApplication(inApplicationIniFile);
-            if (result)
+            if (!result)
             {
-                loadScripts(result.get());
-                addListeners(result.get());
+                throw std::runtime_error("Failed to load: " + inApplicationIniFile);
             }
-            else
-            {
-                ReportError("Failed to load: " + inApplicationIniFile);
-            }
+            initializeJavaScript(result.get());
             return result;
         }
 
 
-        ElementPtr JsXULRunner::loadXUL(const std::string & inXULUrl)
+        ElementPtr JsXULRunner::loadXULFromFile(const std::string & inXULUrl)
         {
-            ElementPtr result = mXULRunner->loadXUL(inXULUrl);
-            if (result)
+            ElementPtr result = mXULRunner->loadXULFromFile(inXULUrl);
+            if (!result)
             {
-                loadScripts(result.get());
-                addListeners(result.get());
+                std::string msg = "Failed to load: " + inXULUrl + ".";
+                throw std::runtime_error(msg.c_str());
             }
+            initializeJavaScript(result.get());
+            return result;
+        }
+
+
+        ElementPtr JsXULRunner::loadXULFromString(const std::string & inXULString)
+        {
+            ElementPtr result = mXULRunner->loadXULFromString(inXULString);
+            if (!result)
+            {
+                std::string msg = "Failed to parse the XULString. Reason:\n" + inXULString;
+                throw std::runtime_error(msg.c_str());
+            }
+            initializeJavaScript(result.get());
             return result;
         }
 

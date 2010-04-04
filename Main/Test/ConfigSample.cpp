@@ -123,7 +123,7 @@ namespace XULWin
 
     LRESULT ConfigSample::showNewSetDialog()
     {
-        mNewSetDlg = mRunner.loadXUL("chrome://configpanel/content/newsetdialog.xul");
+        mNewSetDlg = mRunner.loadXULFromFile("chrome://configpanel/content/newsetdialog.xul");
 
         mNewSetTextBox = mNewSetDlg->getElementById("settextbox");
         

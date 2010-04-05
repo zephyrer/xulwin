@@ -1,3 +1,0 @@
-* Why are are there two classes Element and Component for representing a XUL element. Why not just an Element class that implements it all?
-
-Splitting the class in two gives us an extra level of indirection. This enables us to implement the decorator pattern.

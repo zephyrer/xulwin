@@ -24,9 +24,8 @@ namespace XULWin
     {
 
 
-        JsXULRunner::JsXULRunner(HMODULE inModuleHandle) :
-            mModuleHandle(inModuleHandle),
-            mXULRunner2(new XULRunner2(inModuleHandle))
+        JsXULRunner::JsXULRunner() :
+            mXULRunner2(new XULRunner2)
         {
         }
 
@@ -48,12 +47,6 @@ namespace XULWin
             {
                 mLogger(inJsException);
             }
-        }
-
-
-        HMODULE JsXULRunner::getModuleHandle() const
-        {
-            return mXULRunner2->getModuleHandle();
         }
 
 

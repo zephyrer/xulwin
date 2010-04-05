@@ -18,8 +18,7 @@ using namespace XULWin;
 namespace XULWin
 {
     
-    ImageViewerSample::ImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples) :
-        mModuleHandle(inModuleHandle),
+    ImageViewerSample::ImageViewerSample(const std::string & inPathToXULRunnerSamples) :
         mNativeWindow(0),
         mPathToXULRunnerSamples(inPathToXULRunnerSamples)
     {
@@ -33,7 +32,7 @@ namespace XULWin
 
         //system("run.bat");
 
-        XULRunner runner(mModuleHandle);
+        XULRunner runner;
         mRootElement = runner.loadXULFromFile("chrome://imageviewer/content/imageviewer.xul");
         if (!mRootElement)
         {

@@ -11,24 +11,24 @@
 using namespace XULWin;
 
 
-void runConfigSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples)
+void runConfigSample(const std::string & inPathToXULRunnerSamples)
 {
-    ConfigSample test(inModuleHandle, inPathToXULRunnerSamples);
+    ConfigSample test(inPathToXULRunnerSamples);
     test.run();
 }
 
 
-void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples)
+void runImageViewerSample(const std::string & inPathToXULRunnerSamples)
 {
-    ImageViewerSample sample(inModuleHandle, inPathToXULRunnerSamples);
+    ImageViewerSample sample(inPathToXULRunnerSamples);
     sample.run();
 } 
 
 
-void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
+void startTest(Tester & tester, const std::string & inPathToXULRunnerSamples)
 {
-    //runConfigSample(hInstance, inPathToXULRunnerSamples);
-    runImageViewerSample(hInstance, inPathToXULRunnerSamples);        
+    //runConfigSample(inPathToXULRunnerSamples);
+    runImageViewerSample(inPathToXULRunnerSamples);
     tester.runXULSample("configpanel");
     //tester.runXULSample("hello");
     //tester.runXULSample("MainWindow");
@@ -68,8 +68,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Ensure that the common control DLL is loaded. 
     Windows::CommonControlsInitializer ccInit;
 
-    Tester tester(hInstance, commandLine, Tester::Features_EnableJavaScript);
+    Tester tester(commandLine, Tester::Features_EnableJavaScript);
     
-    startTest(hInstance, tester, commandLine);
+    startTest(tester, commandLine);
     return 0;
 }

@@ -20,8 +20,7 @@ namespace XULWin
     }
 
 
-    ConfigSample::ConfigSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples) : 
-        mRunner(inModuleHandle),
+    ConfigSample::ConfigSample(const std::string & inPathToXULRunnerSamples) : 
         mPathToXULRunnerSamples(inPathToXULRunnerSamples)
     {
     }

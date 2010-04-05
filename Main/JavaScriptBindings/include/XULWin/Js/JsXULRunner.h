@@ -31,7 +31,7 @@ namespace XULWin
         class JsXULRunner : public EventListener
         {
         public:
-            JsXULRunner(HMODULE hModuleHandle);
+            JsXULRunner();
 
             ~JsXULRunner();
 
@@ -49,8 +49,6 @@ namespace XULWin
 
             ElementPtr rootElement() const;
 
-            HMODULE getModuleHandle() const;
-
         private:
             virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
             virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
@@ -65,7 +63,6 @@ namespace XULWin
 
             void addListeners(Element * inEl);
 
-            HMODULE mModuleHandle;
             boost::scoped_ptr<XULWin::XULRunner2> mXULRunner2;
             boost::scoped_ptr<JsSimpleContext> mSimpleContext;
             JsExceptionLogger mLogger;

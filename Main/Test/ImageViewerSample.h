@@ -14,14 +14,13 @@ namespace XULWin
     class ImageViewerSample
     {
     public:
-        ImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples);
+        ImageViewerSample(const std::string & inPathToXULRunnerSamples);
 
         void run();
 
         LRESULT dropFiles(WPARAM wParam, LPARAM lParam);
 
     private:
-        HMODULE mModuleHandle;
         ElementPtr mRootElement;
         Window * mNativeWindow;
         ScopedEventListener mEvents;

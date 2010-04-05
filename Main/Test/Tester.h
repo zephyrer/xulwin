@@ -18,12 +18,11 @@ namespace XULWin
             Features_TestWithMozillaXULRunner   = 1 << 1  // Also launches the app with Mozilla XULRunner
         };
 
-        Tester(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples, Features inFeatures);
+        Tester(const std::string & inPathToXULRunnerSamples, Features inFeatures);
 
         void runXULSample(const std::string & inAppName) const;
 
     private:
-        HMODULE mModuleHandle;
         Features mFeatures;
         std::string mPathToXULRunnerSamples;
     };

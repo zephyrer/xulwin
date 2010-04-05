@@ -8,7 +8,7 @@
 #include "XULWin/Window.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
-#include "XULWin/XULRunner2.h"
+#include "XULWin/XULRunner.h"
 #include <sstream>
 #include <map>
 
@@ -25,7 +25,7 @@ namespace XULWin
 
 
         JsXULRunner::JsXULRunner() :
-            mXULRunner2(new XULRunner2)
+            mXULRunner2(new XULRunner)
         {
         }
 

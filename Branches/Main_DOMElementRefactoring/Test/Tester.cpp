@@ -45,7 +45,17 @@ namespace XULWin
         else
         {
             XULRunner runner;
-            runner.run("application.ini");
+            ElementPtr rootEl = runner.loadApplication("application.ini");
+            if (!rootEl)
+            {
+                throw std::runtime_error("Failed to load the application: " + inAppName + ".");
+            }
+
+            if (WindowElement * win = rootEl->downcast<WindowElement>())
+            {
+                win->showModal(WindowElement::CenterInScreen);
+            }
+
         }
 
         // The application dir should contain a run.bat file.

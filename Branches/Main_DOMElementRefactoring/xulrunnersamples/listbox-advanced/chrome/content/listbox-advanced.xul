@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<!-- Ignored by XULWin, included for compatiblity with Mozilla XUL -->
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<window id="mainWindow"
+		title="listbox-advanced Sample"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        width="300"
+        height="300">
+  
+  <!-- Creates a two column listbox -->
+  <listbox flex="1">
+
+    <listhead>
+      <listheader label="Name"/>
+      <listheader label="Occupation"/>
+    </listhead>
+
+    <listcols>
+      <listcol width="150"/>
+      <listcol flex="1"/>
+    </listcols>
+
+    <listitem>
+      <listcell label="George"/>
+      <listcell label="House Painter"/>
+    </listitem>
+    <listitem>
+      <listcell label="Mary Ellen"/>
+      <listcell label="Candle Maker"/>
+    </listitem>
+    <listitem>
+      <listcell label="Roger"/>
+      <listcell label="Swashbuckler"/>
+    </listitem>
+
+  </listbox>
+
+</window>

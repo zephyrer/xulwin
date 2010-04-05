@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- Stylesheet ignored by XULWin, inluded for compatibility with Mozilla XUL -->
+<?xul-overlay href="chrome://global/content/globalOverlay.xul"?>
+
+<window id="XULViewerMainWindow"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  orient="vertical"
+  align="stretch"
+  title="XULViewer"
+>
+  <spacer flex="1"></spacer>
+  <label style="text-align:center" value="Drag your XUL file here" />
+  <spacer flex="1"></spacer>
+</window>

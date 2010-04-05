@@ -8,7 +8,7 @@
 #include "XULWin/Window.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
-#include "XULWin/XULRunner.h"
+#include "XULWin/XULRunner2.h"
 #include <sstream>
 #include <map>
 
@@ -26,7 +26,7 @@ namespace XULWin
 
         JsXULRunner::JsXULRunner(HMODULE inModuleHandle) :
             mModuleHandle(inModuleHandle),
-            mXULRunner(new XULRunner(inModuleHandle))
+            mXULRunner2(new XULRunner2(inModuleHandle))
         {
         }
 
@@ -53,7 +53,7 @@ namespace XULWin
 
         HMODULE JsXULRunner::getModuleHandle() const
         {
-            return mXULRunner->getModuleHandle();
+            return mXULRunner2->getModuleHandle();
         }
 
 
@@ -87,7 +87,7 @@ namespace XULWin
 
         ElementPtr JsXULRunner::loadApplication(const std::string & inApplicationIniFile)
         {
-            ElementPtr result = mXULRunner->loadApplication(inApplicationIniFile);
+            ElementPtr result = mXULRunner2->loadApplication(inApplicationIniFile);
             if (!result)
             {
                 throw std::runtime_error("Failed to load: " + inApplicationIniFile);
@@ -99,7 +99,7 @@ namespace XULWin
 
         ElementPtr JsXULRunner::loadXULFromFile(const std::string & inXULUrl)
         {
-            ElementPtr result = mXULRunner->loadXULFromFile(inXULUrl);
+            ElementPtr result = mXULRunner2->loadXULFromFile(inXULUrl);
             if (!result)
             {
                 std::string msg = "Failed to load: " + inXULUrl + ".";
@@ -112,7 +112,7 @@ namespace XULWin
 
         ElementPtr JsXULRunner::loadXULFromString(const std::string & inXULString)
         {
-            ElementPtr result = mXULRunner->loadXULFromString(inXULString);
+            ElementPtr result = mXULRunner2->loadXULFromString(inXULString);
             if (!result)
             {
                 std::string msg = "Failed to parse the XULString. Reason:\n" + inXULString;
@@ -125,7 +125,7 @@ namespace XULWin
 
         ElementPtr JsXULRunner::rootElement() const
         {
-            return mXULRunner->rootElement();
+            return mXULRunner2->rootElement();
         }
 
 

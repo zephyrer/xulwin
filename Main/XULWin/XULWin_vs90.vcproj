@@ -804,6 +804,18 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="__Refactor"
+			>
+			<File
+				RelativePath=".\src\XULRunner2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\XULWin\XULRunner2.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

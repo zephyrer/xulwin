@@ -28,10 +28,8 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
 {
     //runConfigSample(hInstance, inPathToXULRunnerSamples);
-    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);    
-    
+    runImageViewerSample(hInstance, inPathToXULRunnerSamples);        
     tester.runXULSample("configpanel");
-
     //tester.runXULSample("hello");
     //tester.runXULSample("MainWindow");
     //tester.runXULSample("listbox-simple");

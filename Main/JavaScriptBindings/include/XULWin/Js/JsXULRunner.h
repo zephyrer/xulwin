@@ -14,7 +14,7 @@ namespace XULWin
 {
 
 
-    class XULRunner;
+    class XULRunner2;
 
 
     namespace Js
@@ -23,7 +23,7 @@ namespace XULWin
         class JsException;
 
         /**
-         * Js::JsXULRunner bundles a XULWin::XULRunner and a Js state.
+         * Js::JsXULRunner bundles a XULWin::XULRunner2 and a Js state.
          * You should use a separate JsXULRunner object for each XUL document
          * that you want to parse. This ensures that a separate Js state will be
          * created per XUL document.
@@ -66,7 +66,7 @@ namespace XULWin
             void addListeners(Element * inEl);
 
             HMODULE mModuleHandle;
-            boost::scoped_ptr<XULWin::XULRunner> mXULRunner;
+            boost::scoped_ptr<XULWin::XULRunner2> mXULRunner2;
             boost::scoped_ptr<JsSimpleContext> mSimpleContext;
             JsExceptionLogger mLogger;
         };

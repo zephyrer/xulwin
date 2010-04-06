@@ -163,14 +163,6 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\include\XULWin\Component.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Decorator.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Image.h"
 					>
 				</File>
@@ -190,14 +182,6 @@
 			<Filter
 				Name="Source Files"
 				>
-				<File
-					RelativePath=".\src\Component.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Decorator.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\src\Image.cpp"
 					>
@@ -259,7 +243,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\Component.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\ComponentFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Decorator.h"
 					>
 				</File>
 				<File
@@ -295,7 +287,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\Component.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\ComponentFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Decorator.cpp"
 					>
 				</File>
 				<File
@@ -371,7 +371,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\ComponentUtilities.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Conversions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ElementUtilities.h"
 					>
 				</File>
 				<File
@@ -407,7 +415,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ComponentUtilities.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Conversions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ElementUtilities.cpp"
 					>
 				</File>
 				<File

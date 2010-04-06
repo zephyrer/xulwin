@@ -7,9 +7,11 @@
 #include "Poco/DOM/DOMParser.h"
 #include "Poco/DOM/Element.h"
 #include "Poco/SAX/InputSource.h"
+#include "Poco/XML/XMLStream.h"
 #include "Poco/File.h"
 #include "Poco/Path.h"
 #include "Poco/String.h"
+#include <sstream>
 
 
 namespace XULWin
@@ -174,15 +176,32 @@ namespace XULWin
     }
 
 
-    Poco::XML::Element * XULRunner::parseFile(const std::string & inFilePath)
+    Poco::XML::Document * XULRunner::ParseFile(const std::string & inFilePath)
     {
-        Poco::XML::Element * result(0);
+        Poco::XML::Document * result(0);
         Poco::XML::InputSource src(inFilePath);
 	    try
 	    {
 		    Poco::XML::DOMParser parser;
-		    mDocument = parser.parse(&src);
-            result = mDocument->documentElement();
+		    result = parser.parse(&src);
+        }
+        catch (const Poco::Exception & exc)
+	    {
+            ReportError(exc.displayText());
+	    }
+        return result;
+    }
+
+
+    Poco::XML::Document * XULRunner::ParseString(const std::string & inXULString)
+    {
+        Poco::XML::Document * result(0);
+        std::istringstream inputStream(inXULString);
+        Poco::XML::InputSource src(inputStream);
+	    try
+	    {
+		    Poco::XML::DOMParser parser;
+		    result = parser.parse(&src);
 	    }
         catch (const Poco::Exception & exc)
 	    {
@@ -192,29 +211,7 @@ namespace XULWin
     }
 
 
-    Poco::XML::Element * XULRunner::parseString(const std::string & inXULString)
-    {
-        Poco::XML::Element * result(0);
-        //try
-        //{
-        //    // Somewhat hackish solution to make both XULParser and DOMBuilder content handlers.
-        //    Poco::XML::ContentHandler * myContentHandler = ioParser.getContentHandler();
-        //    Poco::XML::DOMBuilder domBuilder(ioParser); // here the content handler gets overwritten
-        //    Poco::XML::ContentHandler * pocoContentHandler = ioParser.getContentHandler();
-        //    ioParser.setContentHandler(myContentHandler);
-        //    ioParser.setExtraContentHander(pocoContentHandler);
-        //    mDocument = domBuilder.parseMemoryNP(inXULString.c_str(), inXULString.size());
-        //    result = ioParser.();
-        //}
-        //catch (Poco::Exception & exc)
-        //{
-        //    ReportError(exc.displayText());
-        //}
-        return result;
-    }
-
-
-    Poco::XML::Element * XULRunner::loadApplication(const std::string & inApplicationIniFile)
+    Poco::XML::Document * XULRunner::loadApplication(const std::string & inApplicationIniFile)
     {
         Poco::File file(inApplicationIniFile);
         if (!file.exists())
@@ -224,23 +221,26 @@ namespace XULWin
             msg += " Please set the current directory to the one that contains this file.";
             throw std::runtime_error(msg.c_str());
         }
-        mRootElement = parseFile(getMainXULFile(Windows::getCurrentDirectory()));
-        return mRootElement;
+        mDocument.assign(ParseFile(getMainXULFile(Windows::getCurrentDirectory())));
+        CreateComponents(mDocument.get());
+        return mDocument.get();
     }
 
 
-    Poco::XML::Element * XULRunner::loadXULFromFile(const std::string & inXULURL)
+    Poco::XML::Document * XULRunner::loadXULFromFile(const std::string & inXULURL)
     {
         ChromeURL url(inXULURL);
-        mRootElement = parseFile(url.convertToLocalPath());
-        return mRootElement;
+        mDocument.assign(ParseFile(url.convertToLocalPath()));
+        CreateComponents(mDocument.get());
+        return mDocument.get();
     }
 
 
-    Poco::XML::Element * XULRunner::loadXULFromString(const std::string & inXULString)
+    Poco::XML::Document * XULRunner::loadXULFromString(const std::string & inXULString)
     {
-        mRootElement = parseString(inXULString);
-        return mRootElement;
+        mDocument.assign(ParseString(inXULString));
+        CreateComponents(mDocument.get());
+        return mDocument.get();
     }
 
 
@@ -269,7 +269,7 @@ namespace XULWin
         //{
         //    XULOverlayParser parser();
         //    ChromeURL url(inXULURL);
-        //    parseFile(url.convertToLocalPath());
+        //    ParseFile(url.convertToLocalPath());
         //}
         //else
         //{
@@ -280,7 +280,13 @@ namespace XULWin
 
     Poco::XML::Element * XULRunner::rootElement() const
     {
-        return mRootElement;
+        return mDocument->documentElement();
+    }
+
+
+    void XULRunner::CreateComponents(Poco::XML::Document * inDocument)
+    {
+        --; // Implement this!
     }
 
 

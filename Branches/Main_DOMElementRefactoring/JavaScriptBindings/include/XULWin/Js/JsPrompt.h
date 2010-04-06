@@ -4,8 +4,8 @@
 
 #include "XULWin/Js/V8Includes.h"
 #include "XULWin/Element.h"
+#include "XULWin/Window.h"
 #include "XULWin/EventListener.h"
-#include "XULWin/WindowElement.h"
 #include "XULWin/XULRunner.h"
 
 
@@ -51,7 +51,7 @@ namespace Js
          *
          * @param inParentWindow    The parent window. May be nil, but makes a non-modal dialog.
          */
-        JsPrompt(WindowElement * inParentWindow);
+        JsPrompt(Window * inParentWindow);
         
         /**
          * show
@@ -71,9 +71,9 @@ namespace Js
         LRESULT onCancelButtonPressed(WPARAM wParam, LPARAM lParam);
 
         XULRunner mXULRunner;
-        Element * mTextField;
-        DialogElement * mDialog;
-        WindowElement * mParentWindow;
+        Poco::XML::Element * mTextField;
+        Dialog * mDialog;
+        Window * mParentWindow;
         ScopedEventListener mEvents;
     };
 

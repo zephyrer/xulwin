@@ -9,52 +9,52 @@
 namespace XULWin
 {
 
-    class PathInstruction
-    {
-    public:
-        enum Type
-        {
-            MoveTo,                         // M
-            LineTo,                         // L
-            HorizontalLineTo,               // H
-            VerticalLineTo,                 // V
-            CurveTo,                        // C
-            SmoothCurveTo,                  // S
-            QuadraticBelzierCurve,          // Q
-            SmoothQuadraticBelzierCurveTo,  // T
-            EllipticalArc,                  // A
-            ClosePath                       // Z
-        };
+    //class PathInstruction
+    //{
+    //public:
+    //    enum Type
+    //    {
+    //        MoveTo,                         // M
+    //        LineTo,                         // L
+    //        HorizontalLineTo,               // H
+    //        VerticalLineTo,                 // V
+    //        CurveTo,                        // C
+    //        SmoothCurveTo,                  // S
+    //        QuadraticBelzierCurve,          // Q
+    //        SmoothQuadraticBelzierCurveTo,  // T
+    //        EllipticalArc,                  // A
+    //        ClosePath                       // Z
+    //    };
 
-        enum Positioning
-        {
-            Relative,
-            Absolute
-        };
+    //    enum Positioning
+    //    {
+    //        Relative,
+    //        Absolute
+    //    };
 
-        PathInstruction(Type inType, Positioning inPositioning, const PointFs & inPoints);
+    //    PathInstruction(Type inType, Positioning inPositioning, const PointFs & inPoints);
 
-        Type type() const;
+    //    Type type() const;
 
-        size_t numPoints() const;
+    //    size_t numPoints() const;
 
-        const PointF & getPoint(size_t inIdx) const;
+    //    const PointF & getPoint(size_t inIdx) const;
 
-        PointF getAbsolutePoint(const PointF & inRef, size_t inIdx) const;
+    //    PointF getAbsolutePoint(const PointF & inRef, size_t inIdx) const;
 
-        Positioning positioning() const;
+    //    Positioning positioning() const;
 
-        const PointFs & points() const;
+    //    const PointFs & points() const;
 
-        PointFs & points();
+    //    PointFs & points();
 
-    private:
-        Type mType;
-        PointFs mPoints;
-        Positioning mPositioning;
-    };
+    //private:
+    //    Type mType;
+    //    PointFs mPoints;
+    //    Positioning mPositioning;
+    //};
 
-    typedef std::vector<PathInstruction> SVGPathInstructions;
+    //typedef std::vector<PathInstruction> SVGPathInstructions;
 
 } // namespace XULWin
 

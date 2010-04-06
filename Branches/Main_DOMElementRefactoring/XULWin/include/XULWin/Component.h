@@ -59,53 +59,6 @@ namespace XULWin
     typedef boost::shared_ptr<Component> ComponentPtr;
 
 
-    class ComponentManager
-    {
-    public:
-        static ComponentManager & Instance()
-        {
-            static ComponentManager fInstance;
-            return fInstance;
-        }
-        
-        Component * getComponent(Poco::XML::Node * inElementNode)
-        {
-            return 0; // TODO: implement
-        }
-
-    private:
-        ComponentManager() {}
-    };
-
-
-    template<class T>
-    T * GetComp(Poco::XML::Node * inElementNode)
-    {
-        return ComponentManager::Instance().getComponent(inElementNode)->downcast<T>();
-    }
-
-
-    template<class T>
-    void GetChildComponents(Poco::XML::Element * inElement, std::vector<T*> & outComponents)
-    {
-        Poco::XML::NodeList * nodes = inElement->getElementsByTagName(T::TagName());
-        if (nodes->length() == 0)
-        {
-            return;
-        }
-        
-        Poco::XML::Node * node = nodes->item(0);
-        while (node)
-        {
-            outComponents.push_back(GetComp<T>(node));
-            node = node->nextSibling();
-        }
-    }
-
-
-    Poco::XML::Element * Node2Element(Poco::XML::Node * inNode);
-
-
 
     /**
      * Listener for XUL notifications

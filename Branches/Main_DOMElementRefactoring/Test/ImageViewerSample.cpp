@@ -1,15 +1,17 @@
 #include "ImageViewerSample.h"
+#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ElementUtilities.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/Component.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/EventListener.h"
-#include "XULWin/ImageElement.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/Path.h"
 #include <boost/bind.hpp>
+#include <Shellapi.h>
 
 
 using namespace XULWin;
@@ -19,9 +21,11 @@ namespace XULWin
 {
     
     ImageViewerSample::ImageViewerSample(const std::string & inPathToXULRunnerSamples) :
+        mXULRunner(new XULRunner),
         mNativeWindow(0),
         mPathToXULRunnerSamples(inPathToXULRunnerSamples)
     {
+        
     }
 
 
@@ -32,28 +36,30 @@ namespace XULWin
 
         //system("run.bat");
 
-        XULRunner runner;
-        mRootElement = runner.loadXULFromFile("chrome://imageviewer/content/imageviewer.xul");
-        if (!mRootElement)
+        
+        mXULRunner->loadXULFromFile("chrome://imageviewer/content/imageviewer.xul");
+        if (!mXULRunner->rootElement())
         {
             ReportError("Failed to load ImageViewerSample");
             return;
         }
 
         ScopedEventListener events;
-        events.connect(mRootElement.get(), WM_DROPFILES, boost::bind(&ImageViewerSample::dropFiles, this, _1, _2));
+        events.connect(GetComponent<NativeComponent>(mXULRunner->rootElement()),
+                       WM_DROPFILES,
+                       boost::bind(&ImageViewerSample::dropFiles, this, _1, _2));
        
-        if (mNativeWindow = mRootElement->component()->downcast<Window>())
+        if (mNativeWindow = GetComponent<Window>(mXULRunner->rootElement()))
         {
             ::DragAcceptFiles(mNativeWindow->handle(), TRUE);
-            mNativeWindow->showModal(WindowElement::CenterInScreen);
+            mNativeWindow->showModal(WindowPos_CenterInScreen);
         }
     }
 
 
     LRESULT ImageViewerSample::dropFiles(WPARAM wParam, LPARAM lParam)
     {
-        Element * imageArea = mRootElement->getElementById("imagearea");
+        Poco::XML::Element * imageArea = mXULRunner->rootElement()->getElementById("id", "imagearea");
         if (!imageArea)
         {
             return 1;
@@ -67,14 +73,15 @@ namespace XULWin
             ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
 
             // Create the image element
-            AttributesMapping attr;
-            attr["src"] = ToUTF8(&fileName[0]);
-            attr["flex"] = "1";
-            attr["width"] = "160";
-            attr["flex"] = "0";
-            attr["keepaspectratio"] = "1";
-            ElementPtr image = ImageElement::Create(imageArea, attr);
-            image->init();
+            Poco::XML::Element* image(mXULRunner->document()->createElement("image"));
+            image->autoRelease();            
+            image->setAttribute("src", ToUTF8(&fileName[0]));
+            image->setAttribute("flex", "1");
+            image->setAttribute("width", "160");
+            image->setAttribute("flex", "0");
+            image->setAttribute("keepaspectratio", "1");
+            mXULRunner->document()->documentElement()->appendChild(image);
+            throw std::runtime_error("Create the corresponding component object!");
         }
         mNativeWindow->rebuildLayout();
         ::RedrawWindow(mNativeWindow->handle(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);

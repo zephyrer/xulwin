@@ -1,4 +1,5 @@
 #include "XULWin/Js/JsUtilities.h"
+#include "XULWin/ComponentUtilities.h"
 #include "XULWin/Js/JsPrompt.h"
 #include "XULWin/Js/JsSimpleContext.h"
 #include "Windows.h"
@@ -38,10 +39,10 @@ namespace Js
         }
 
         const JsSimpleContext * currentContext = JsSimpleContext::Instances().top();
-        WindowElement * windowElement = 0;
+        Window * windowElement = 0;
         if (currentContext->rootElement())
         {
-            windowElement = currentContext->rootElement()->downcast<WindowElement>();
+            windowElement = GetComponent<Window>(currentContext->rootElement());
         }
 
         std::string arg0, arg1;

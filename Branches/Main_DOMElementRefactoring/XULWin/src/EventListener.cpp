@@ -175,7 +175,7 @@ namespace XULWin
     //            return false;
     //        }
 
-    //        LRESULT ret(cUnhandled);
+    //        LRESULT ret(EventResult_NotHandled);
     //        invokeCallbacks(MsgId(corrspondingToolbarButton->el()->parentNode(),
     //                              WM_COMMAND,
     //                              corrspondingToolbarButton->commandId()),
@@ -192,24 +192,24 @@ namespace XULWin
         MessageCallbacks::iterator it = mMessageCallbacks.find(inMsgId);
         if (it == mMessageCallbacks.end())
         {
-            ret = cUnhandled;
+            ret = EventResult_NotHandled;
             return;
         }
 
-        ret = cHandled;
+        ret = EventResult_Handled;
         std::vector<Action> callbacks = it->second;
         for (size_t idx = 0; idx != callbacks.size(); ++idx)
         {
             if (callbacks[idx])
             {
-                if (cUnhandled == callbacks[idx](wParam, lParam))
+                if (EventResult_NotHandled == callbacks[idx](wParam, lParam))
                 {
                     // If there is one callback that says it didn't handle the message, then
                     // we consider the entire message unhandled. The reasoning behind this is
                     // that in case of doubt, we choose to consider the message unhandled. This
                     // is important because in our subclasses windows we only call the original
                     // proc (through CallWindowProc) in case of unhandled messages.
-                    ret = cUnhandled;
+                    ret = EventResult_NotHandled;
                 }
             }
         }
@@ -218,7 +218,7 @@ namespace XULWin
 
     LRESULT ScopedEventListener::handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam)
     {
-        LRESULT ret = cUnhandled;
+        LRESULT ret = EventResult_NotHandled;
         //if (!handleToolbarCommand(inMsgId, wParam, lParam, ret))
         //{
             invokeCallbacks(inMsgId, wParam, lParam, ret);

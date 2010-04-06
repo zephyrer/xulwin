@@ -1,4 +1,6 @@
 #include "XULWin/Component.h"
+#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ElementUtilities.h"
 #include "XULWin/Algorithms.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Decorator.h"
@@ -38,17 +40,6 @@ namespace XULWin
         }
         ss << ".";
         ReportError(ss.str());
-    }
-
-    
-    Poco::XML::Element * Node2Element(Poco::XML::Node * inNode) 
-    {
-        Poco::XML::Element * result = dynamic_cast<Poco::XML::Element *>(inNode);
-        if (!result)
-        {
-            throw std::bad_cast("Downcast from Node toPoco::XML::Element failed.");
-        }
-        return result;
     }
 
 
@@ -183,13 +174,13 @@ namespace XULWin
 
     const Component * ConcreteComponent::getChild(size_t inIndex) const
     {
-        return GetComp<Component>(el()->childNodes()->item(inIndex));
+        return GetComponent<Component>(el()->childNodes()->item(inIndex));
     }
 
 
     Component * ConcreteComponent::getChild(size_t inIndex)
     {
-        return GetComp<Component>(el()->childNodes()->item(inIndex));
+        return GetComponent<Component>(el()->childNodes()->item(inIndex));
     }
 
 
@@ -483,12 +474,12 @@ namespace XULWin
         }
 
         // Find a margin decorator, and set the margin value.
-        if (MarginDecorator * obj = GetComp<MarginDecorator>(el()))
+        if (MarginDecorator * obj = GetComponent<MarginDecorator>(el()))
         {
             obj->setMargin(inTop, inLeft, inRight, inBottom);
         }
         // If no margin decorator found, insert one, and set the value.
-        else if (Decorator * dec = GetComp<Decorator>(el()))
+        else if (Decorator * dec = GetComponent<Decorator>(el()))
         {
             ComponentPtr newDec(new MarginDecorator(dec->decoratedComponent()));
             dec->setDecoratedElement(newDec);
@@ -660,7 +651,7 @@ namespace XULWin
         // TODO: improve performance!! (childNodes is a list!)
         for (size_t idx = 0; idx != mElement->childNodes()->length(); ++idx)
         {
-            Component * nativeComp = GetComp<Component>(el()->childNodes()->item(idx));
+            Component * nativeComp = GetComponent<Component>(el()->childNodes()->item(idx));
             if (nativeComp)
             {
                 nativeComp->rebuildLayout();
@@ -1845,13 +1836,13 @@ namespace XULWin
 
     const Component * Box::getChild(size_t idx) const
     {
-        return GetComp<Component>(mElement->childNodes()->item(idx));
+        return GetComponent<Component>(mElement->childNodes()->item(idx));
     }
 
 
     Component * Box::getChild(size_t idx)
     {
-        return GetComp<Component>(mElement->childNodes()->item(idx));
+        return GetComponent<Component>(mElement->childNodes()->item(idx));
     }
 
 
@@ -1880,7 +1871,7 @@ namespace XULWin
             for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
             {
                 Poco::XML::Node * child = popup->el()->childNodes()->item(idx);
-                if (MenuItem * item = GetComp<MenuItem>(child))
+                if (MenuItem * item = GetComponent<MenuItem>(child))
                 {
                     std::string label = item->getLabel();
                     Windows::addStringToComboBox(handle(), label);
@@ -2078,7 +2069,7 @@ namespace XULWin
         std::vector<SizeInfo> colWidths;
         for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
         {
-            if (Column * col = GetComp<Column>(columns->childNodes()->item(colIdx)))
+            if (Column * col = GetComponent<Column>(columns->childNodes()->item(colIdx)))
             {
                 colWidths.push_back(
                     SizeInfo(FlexWrap(String2Int(col->el()->getAttribute("flex"), 0)),
@@ -2100,7 +2091,7 @@ namespace XULWin
         std::vector<SizeInfo> rowHeights;
         for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
         {
-            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
+            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
             {
                 rowHeights.push_back(
                     SizeInfo(FlexWrap(String2Int(row->el()->getAttribute("flex"), 0)),
@@ -2129,16 +2120,16 @@ namespace XULWin
         GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
         for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
         {
-            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
+            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
             {
                 int rowHeight = row->getHeight();
                 for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
                 {
-                    if (Column * column = GetComp<Column>(columns->childNodes()->item(colIdx)))
+                    if (Column * column = GetComponent<Column>(columns->childNodes()->item(colIdx)))
                     {
                         if (colIdx < row->getChildCount())
                         {
-                            Component * child = GetComp<Component>(row->el()->childNodes()->item(colIdx));
+                            Component * child = GetComponent<Component>(row->el()->childNodes()->item(colIdx));
                             widgetInfos.set(rowIdx, colIdx,
                                             CellInfo(child->getWidth(),
                                                      child->getHeight(),
@@ -2170,7 +2161,7 @@ namespace XULWin
                     Poco::XML::Element * rowEl = Node2Element(rows->childNodes()->item(rowIdx));
                     if (colIdx < rowEl->childNodes()->length())
                     {
-                        Component * child = GetComp<Component>(rowEl->childNodes()->item(colIdx));
+                        Component * child = GetComponent<Component>(rowEl->childNodes()->item(colIdx));
                         const Rect & r = innerRects.get(rowIdx, colIdx);
                         child->move(r.x(), r.y(), r.width(), r.height());
                     }
@@ -2267,7 +2258,7 @@ namespace XULWin
         std::vector<SizeInfo> colWidths;
         for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
         {
-            if (Column * col = GetComp<Column>(columns->childNodes()->item(colIdx)))
+            if (Column * col = GetComponent<Column>(columns->childNodes()->item(colIdx)))
             {
                 colWidths.push_back(
                     SizeInfo(FlexWrap(col->getFlex()),
@@ -2289,7 +2280,7 @@ namespace XULWin
         std::vector<SizeInfo> rowHeights;
         for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
         {
-            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
+            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
             {
                 rowHeights.push_back(
                     SizeInfo(FlexWrap(row->getFlex()),
@@ -2319,16 +2310,16 @@ namespace XULWin
         GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
         for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
         {
-            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
+            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
             {
                 int rowHeight = row->getHeight();
                 for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
                 {
-                    if (Column * column = GetComp<Column>(columns->childNodes()->item(colIdx)))
+                    if (Column * column = GetComponent<Column>(columns->childNodes()->item(colIdx)))
                     {
                         if (colIdx < row->getChildCount())
                         {
-                            Component * child = GetComp<Component>(row->el()->childNodes()->item(colIdx));
+                            Component * child = GetComponent<Component>(row->el()->childNodes()->item(colIdx));
                             widgetInfos.set(rowIdx, colIdx,
                                             CellInfo(child->getWidth(),
                                                      child->getHeight(),
@@ -2360,7 +2351,7 @@ namespace XULWin
                     Poco::XML::Node * rowEl = rows->childNodes()->item(rowIdx);
                     if (colIdx < rowEl->childNodes()->length())
                     {
-                        Component * child = GetComp<Component>(rowEl->childNodes()->item(colIdx));
+                        Component * child = GetComponent<Component>(rowEl->childNodes()->item(colIdx));
                         const Rect & r = innerRects.get(rowIdx, colIdx);
                         child->move(r.x(), r.y(), r.width(), r.height());
                     }
@@ -2390,7 +2381,7 @@ namespace XULWin
         //
         // 1. Obtain the list of rows from the grid element
         //
-        if (Component * grid = GetComp<Component>(el()->parentNode()))
+        if (Component * grid = GetComponent<Component>(el()->parentNode()))
         {
             if (Grid::TagName() == grid->el()->tagName())
             {
@@ -2418,7 +2409,7 @@ namespace XULWin
         //
         // 1. Obtain the list of rows from the grid element
         //
-        if (Component * grid = GetComp<Component>(el()->parentNode()))
+        if (Component * grid = GetComponent<Component>(el()->parentNode()))
         {
             if (Grid::TagName() == grid->el()->tagName())
             {
@@ -2452,7 +2443,7 @@ namespace XULWin
         //
         // 1. Obtain the list of columns from the grid element
         //
-        if (Component * grid = GetComp<Component>(el()->parentNode()))
+        if (Component * grid = GetComponent<Component>(el()->parentNode()))
         {
             if (Grid::TagName() == grid->el()->tagName())
             {
@@ -2480,7 +2471,7 @@ namespace XULWin
         //
         // 1. Obtain the list of columns from the grid element
         //
-        if (Component * grid = GetComp<Component>(el()->parentNode()))
+        if (Component * grid = GetComponent<Component>(el()->parentNode()))
         {
             if (Grid::TagName() == grid->el()->tagName())
             {
@@ -2547,7 +2538,7 @@ namespace XULWin
             {
                 for (size_t ownI = 0; ownI != child->childNodes()->length(); ++ownI)
                 {
-                    if (GetComp<Component>(child->childNodes()->item(ownI))->commandId() == commandId())
+                    if (GetComponent<Component>(child->childNodes()->item(ownI))->commandId() == commandId())
                     {
                         ownIndex = ownI;
                     }
@@ -2575,7 +2566,7 @@ namespace XULWin
             Poco::XML::Element * row = Node2Element(rows->childNodes()->item(rowIdx));
             if (ownIndex < row->childNodes()->length())
             {
-                int w = GetComp<Component>(row->childNodes()->item(ownIndex))->getWidth(inSizeConstraint);
+                int w = GetComponent<Component>(row->childNodes()->item(ownIndex))->getWidth(inSizeConstraint);
                 if (w > res)
                 {
                     res = w;
@@ -2689,7 +2680,7 @@ namespace XULWin
         {
             Poco::XML::Element * element = Node2Element(el()->childNodes()->item(idx));
             bool visible = idx == mSelectedIndex;
-            Component * comp = GetComp<Component>(element);
+            Component * comp = GetComponent<Component>(element);
             comp->setHidden(!visible);
             if (visible)
             {
@@ -3058,7 +3049,7 @@ namespace XULWin
     //    {
     //        if ((el()->parentNode()->childNodes()->item(idx))->tagName() == Tabs::TagName())
     //        {
-    //            if (Tabs * tabs = GetComp<Tabs>(el()->parentNode()->childNodes()->item(idx)))
+    //            if (Tabs * tabs = GetComponent<Tabs>(el()->parentNode()->childNodes()->item(idx)))
     //            {
     //                return tabs->childNodes()->item(inIndex)->downcast<Tab>();
     //            }

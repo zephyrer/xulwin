@@ -10,6 +10,18 @@
 #include <string>
 
 
+namespace Poco
+{
+    namespace XML
+    {
+        class Document;
+        class Element;
+        class Node;
+        class NodeList;
+    }
+}
+
+
 namespace XULWin
 {
 
@@ -28,7 +40,7 @@ namespace XULWin
          * that you want to parse. This ensures that a separate Js state will be
          * created per XUL document.
          */
-        class JsXULRunner : public EventListener
+        class JsXULRunner : public XULWin::NativeEventListener
         {
         public:
             JsXULRunner();
@@ -41,29 +53,33 @@ namespace XULWin
 
             void run(const std::string & inApplicationIniFile);
 
-            ElementPtr loadApplication(const std::string & inApplicationIniFile);
+            Poco::XML::Document * loadApplication(const std::string & inApplicationIniFile);
 
-            ElementPtr loadXULFromFile(const std::string & inXULUrl);
+            Poco::XML::Document * loadXULFromFile(const std::string & inXULUrl);
 
-            ElementPtr loadXULFromString(const std::string & inXULString);
+            Poco::XML::Document * loadXULFromString(const std::string & inXULString);
+            
+            Poco::XML::Document * document();
 
-            ElementPtr rootElement() const;
+            Poco::XML::Element * rootElement() const;
 
         private:
-            virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
-            virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
-            virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
-            virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
+            virtual LRESULT handleCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
+            //virtual LRESULT handleMenuCommand(Component * inSender, WORD inMenuId);
+            virtual LRESULT handleDialogCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
+            virtual LRESULT handleMessage(Component * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
             
-            void initializeJavaScript(Element * inRootElement);
+            void initializeJavaScript(Poco::XML::Element * inRootElement);
             
             void logJsException(const JsException & inJsException);
 
-            void loadScripts(Element * inEl);
+            void loadScripts(Poco::XML::Element * inEl);
 
-            void addListeners(Element * inEl);
+            void loadScript(const std::string & inText);
 
-            boost::scoped_ptr<XULWin::XULRunner> mXULRunner2;
+            void addListeners(Poco::XML::Element * inEl);
+
+            boost::scoped_ptr<XULWin::XULRunner> mXULRunner;
             boost::scoped_ptr<JsSimpleContext> mSimpleContext;
             JsExceptionLogger mLogger;
         };

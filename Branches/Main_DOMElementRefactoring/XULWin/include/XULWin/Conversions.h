@@ -4,7 +4,7 @@
 
 #include "XULWin/Enums.h"
 #include "XULWin/Point.h"
-#include "XULWin/SVGPathInstructions.h"
+//#include "XULWin/SVGPathInstructions.h"
 #include "XULWin/RGBColor.h"
 #include <string>
 
@@ -67,9 +67,9 @@ namespace XULWin
 
     Points String2Points(const std::string & inValue);
 
-    std::string SVGPathInstructions2String(const SVGPathInstructions & inPathInstructions);
+    //std::string SVGPathInstructions2String(const SVGPathInstructions & inPathInstructions);
 
-    SVGPathInstructions String2SVGPathInstructions(const std::string & inValue);
+    //SVGPathInstructions String2SVGPathInstructions(const std::string & inValue);
 
     // URL looks like this:
     // url("chrome://app/skin/logo.png");

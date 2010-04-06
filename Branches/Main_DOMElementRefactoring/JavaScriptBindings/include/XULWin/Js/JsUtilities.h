@@ -3,7 +3,6 @@
 
 
 #include "XULWin/Js/V8Includes.h"
-#include "XULWin/WindowElement.h"
 
 
 namespace XULWin

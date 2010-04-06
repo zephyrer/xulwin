@@ -9,12 +9,12 @@ namespace XULWin
 {
 
 
-    class WindowElement : public Element
+    class Window : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<WindowElement>(inParent, inAttr);
+            return Element::Create<Window>(inParent, inAttr);
         }
 
         static const char * Type()
@@ -37,7 +37,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        WindowElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        Window(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 

@@ -12,14 +12,19 @@
 namespace XULWin
 {
 
+    class Component;
+
+
     /**
      * Usually Windows message return 0 or 1, meaning the messages was handled, or not handled, respectively.
      * These values allow you to use symbolic names.
      */
-    static const LRESULT cHandled = 0;
-    static const LRESULT cUnhandled = 1;
+    enum EventResult
+    {
+        EventResult_Handled = 0,
+        EventResult_NotHandled = 1
+    };
 
-    class Component;
 
     class NativeEventListener
     {

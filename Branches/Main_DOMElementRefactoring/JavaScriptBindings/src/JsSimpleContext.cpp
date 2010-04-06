@@ -14,7 +14,7 @@ namespace XULWin
 
         std::stack<JsSimpleContext*> JsSimpleContext::sInstances;
 
-        JsSimpleContext::JsSimpleContext(Element * inRootElement) :
+        JsSimpleContext::JsSimpleContext(Poco::XML::Element * inRootElement) :
             mRootElement(inRootElement)
         {
             sInstances.push(this);
@@ -78,13 +78,13 @@ namespace XULWin
         }
 
 
-        Element * JsSimpleContext::rootElement() const
+        Poco::XML::Element * JsSimpleContext::rootElement() const
         {
             return mRootElement;
         }
 
 
-        bool JsSimpleContext::loadScript(const std::string & inScript)
+        void JsSimpleContext::loadScript(const std::string & inScript)
         {
             //convert the string with the script to a v8 string
             v8::Handle<v8::String> source = v8::String::New(inScript.c_str());
@@ -94,7 +94,6 @@ namespace XULWin
 
             //simple javascritp to test
             executeString(source, name);
-            return true;
         }
 
 

@@ -2,9 +2,9 @@
 #define SIMPLEJSCONTEXT_H_INCLUDED
 
 
-#include "XULWin/WindowElement.h"
 #include "XULWin/Js/V8Includes.h"
 #include "XULWin/Js/JsException.h"
+#include "Poco/DOM/Element.h"
 #include "Poco/Exception.h"
 #include <stack>
 
@@ -25,15 +25,15 @@ namespace XULWin
         class JsSimpleContext
         {
         public:
-            JsSimpleContext(Element * inRootElement);
+            JsSimpleContext(Poco::XML::Element * inRootElement);
 
             ~JsSimpleContext();
 
             static const std::stack<JsSimpleContext*> & Instances();
 
-            Element * rootElement() const;
+            Poco::XML::Element * rootElement() const;
             
-            bool loadScript(const std::string & inScript);
+            void loadScript(const std::string & inScript);
 
         private:
             void registerFunction(const std::string & inName, v8::InvocationCallback inCallback);
@@ -46,7 +46,7 @@ namespace XULWin
 
             static std::stack<JsSimpleContext*> sInstances;
 
-            Element * mRootElement;
+            Poco::XML::Element * mRootElement;
         };
 
 

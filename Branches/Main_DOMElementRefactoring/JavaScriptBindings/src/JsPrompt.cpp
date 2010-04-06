@@ -1,4 +1,5 @@
 #include "XULWin/Js/JsPrompt.h"
+#include "XULWin/ComponentUtilities.h"
 #include <boost/bind.hpp>
 
 
@@ -11,7 +12,7 @@ namespace XULWin
 namespace Js
 {
 
-    JsPrompt::JsPrompt(WindowElement * inParentWindow) :
+    JsPrompt::JsPrompt(Window * inParentWindow) :
         mParentWindow(inParentWindow),
         mDialog(0),
         mTextField(0)
@@ -22,8 +23,8 @@ namespace Js
     Fallible<std::string> JsPrompt::show(const std::string & inText, const std::string & inValue)
     {
         Fallible<std::string> result;
-        ElementPtr root = mXULRunner.loadXULFromString(JsPrompt::GetPromptXUL());        
-        mDialog = root->downcast<DialogElement>();
+        mXULRunner.loadXULFromString(JsPrompt::GetPromptXUL());
+        mDialog = GetComponent<Dialog>(mXULRunner.rootElement());
         if (!mDialog)
         {
             throw std::runtime_error("Prompt root element is not of type 'dialog'.");
@@ -48,14 +49,14 @@ namespace Js
             throw std::logic_error("Dialog has not yet been initialized.");
         }
 
-        Element * textLabel = mDialog->getElementById("textLabel");
+        Poco::XML::Element * textLabel = mXULRunner.document()->getElementById("textLabel");
         if (!textLabel)
         {
             throw std::runtime_error("Promt dialog does not have an element with id 'textLabel'");
         }
         textLabel->setAttribute("value", inText);
         
-        mTextField = mDialog->getElementById("textInput");
+        mTextField = mXULRunner.document()->getElementById("textInput");
         if (!mTextField)
         {
             throw std::runtime_error("Promt dialog does not have an element with id 'textInput'.");
@@ -66,20 +67,20 @@ namespace Js
 
     void JsPrompt::registerEventListeners()
     {        
-        Element * okButton = mDialog->getElementById("okButton");
+        Poco::XML::Element * okButton = mXULRunner.document()->getElementById("okButton");
         if (!okButton)
         {
             throw std::runtime_error("Prompt dialog does not contain an element with id 'okButton'.");
         }
 
-        Element * cancelButton = mDialog->getElementById("cancelButton");
+        Poco::XML::Element * cancelButton = mXULRunner.document()->getElementById("cancelButton");
         if (!cancelButton)
         {
             throw std::runtime_error("Prompt dialog does not contain an element with id 'cancelButton'.");
         }
 
-        mEvents.connect(okButton, boost::bind(&JsPrompt::onOkButtonPressed, this, _1, _2));
-        mEvents.connect(cancelButton, boost::bind(&JsPrompt::onCancelButtonPressed, this, _1, _2));
+        mEvents.connect(GetComponent<Component>(okButton), boost::bind(&JsPrompt::onOkButtonPressed, this, _1, _2));
+        mEvents.connect(GetComponent<Component>(cancelButton), boost::bind(&JsPrompt::onCancelButtonPressed, this, _1, _2));
     }
 
 
@@ -90,7 +91,7 @@ namespace Js
             throw std::logic_error("Dialog is not initialized.");
         }
         mDialog->endModal(DialogResult_Ok);
-        return XULWin::cHandled;
+        return XULWin::EventResult_Handled;
     }
 
     
@@ -101,7 +102,7 @@ namespace Js
             throw std::logic_error("Dialog is not initialized.");
         }
         mDialog->endModal(DialogResult_Cancel);
-        return XULWin::cHandled;
+        return XULWin::EventResult_Handled;
     }
 
 } // namespace Js

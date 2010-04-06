@@ -1,14 +1,20 @@
 #include "XULWin/Js/JsXULRunner.h"
+#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ElementUtilities.h"
 #include "XULWin/Js/JsSimpleContext.h"
 #include "XULWin/Component.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
-#include "XULWin/ScriptElement.h"
 #include "XULWin/Window.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
+#include "Poco/DOM/Element.h"
+#include "Poco/DOM/Node.h"
+#include "Poco/DOM/NodeList.h"
+#include "Poco/DOM/Document.h"
+#include <boost/bind.hpp>
 #include <sstream>
 #include <map>
 
@@ -25,7 +31,7 @@ namespace XULWin
 
 
         JsXULRunner::JsXULRunner() :
-            mXULRunner2(new XULRunner)
+            mXULRunner(new XULRunner)
         {
         }
 
@@ -52,25 +58,25 @@ namespace XULWin
 
         void JsXULRunner::run(const std::string & inApplicationIniFile)
         {
-            ElementPtr rootEl = loadApplication(inApplicationIniFile);
-            if (!rootEl)
+            Poco::XML::Document * document = loadApplication(inApplicationIniFile);
+            if (!document)
             {
                 ReportError("Failed to load the application. Probably due to parser error.");
                 return;
             }
-                
-            WindowElement * window = rootEl->downcast<WindowElement>();
+
+            Window * window = GetComponent<Window>(document->documentElement());
             if (!window)
             {
                 ReportError("Root element is not of type window.");
                 return;
             }
 
-            window->showModal(WindowElement::CenterInScreen);
+            window->showModal(WindowPos_CenterInScreen);
         }
 
 
-        void JsXULRunner::initializeJavaScript(Element * inRootElement)
+        void JsXULRunner::initializeJavaScript(Poco::XML::Element * inRootElement)
         {
             mSimpleContext.reset(new JsSimpleContext(inRootElement));
             loadScripts(inRootElement);
@@ -78,119 +84,133 @@ namespace XULWin
         }
 
 
-        ElementPtr JsXULRunner::loadApplication(const std::string & inApplicationIniFile)
+        Poco::XML::Document * JsXULRunner::loadApplication(const std::string & inApplicationIniFile)
         {
-            ElementPtr result = mXULRunner2->loadApplication(inApplicationIniFile);
+            Poco::XML::Document * result = mXULRunner->loadApplication(inApplicationIniFile);
             if (!result)
             {
                 throw std::runtime_error("Failed to load: " + inApplicationIniFile);
             }
-            initializeJavaScript(result.get());
+            initializeJavaScript(result->documentElement());
             return result;
         }
 
 
-        ElementPtr JsXULRunner::loadXULFromFile(const std::string & inXULUrl)
+        Poco::XML::Document * JsXULRunner::loadXULFromFile(const std::string & inXULUrl)
         {
-            ElementPtr result = mXULRunner2->loadXULFromFile(inXULUrl);
+            Poco::XML::Document * result = mXULRunner->loadXULFromFile(inXULUrl);
             if (!result)
             {
                 std::string msg = "Failed to load: " + inXULUrl + ".";
                 throw std::runtime_error(msg.c_str());
             }
-            initializeJavaScript(result.get());
+            initializeJavaScript(result->documentElement());
             return result;
         }
 
 
-        ElementPtr JsXULRunner::loadXULFromString(const std::string & inXULString)
+        Poco::XML::Document * JsXULRunner::loadXULFromString(const std::string & inXULString)
         {
-            ElementPtr result = mXULRunner2->loadXULFromString(inXULString);
+            Poco::XML::Document * result = mXULRunner->loadXULFromString(inXULString);
             if (!result)
             {
                 std::string msg = "Failed to parse the XULString. Reason:\n" + inXULString;
                 throw std::runtime_error(msg.c_str());
             }
-            initializeJavaScript(result.get());
+            initializeJavaScript(result->documentElement());
             return result;
         }
 
 
-        ElementPtr JsXULRunner::rootElement() const
+        Poco::XML::Document * JsXULRunner::document()
         {
-            return mXULRunner2->rootElement();
+            return mXULRunner->document();
         }
 
 
-        void JsXULRunner::loadScripts(Element * inElement)
+        Poco::XML::Element * JsXULRunner::rootElement() const
         {
-            std::vector<XULWin::ScriptElement *> scripts;
-            inElement->getElementsByType<ScriptElement>(scripts);
-            for (size_t idx = 0; idx != scripts.size(); ++idx)
+            return mXULRunner->rootElement();
+        }
+
+
+        void JsXULRunner::loadScript(const std::string & inText)
+        {
+            if (!mSimpleContext)
+            {
+                throw std::logic_error("JavaScript is not yet initialized.");
+            }
+            mSimpleContext->loadScript(inText);            
+        }
+
+
+        void JsXULRunner::loadScripts(Poco::XML::Element * inElement)
+        {
+            Poco::XML::NodeList * nodeList = inElement->getElementsByTagName("script");
+            if (nodeList->length() == 0)
+            {
+                return;
+            }
+
+            Poco::XML::Node * currentNode = nodeList->item(0);
+            while (currentNode)
             {
                 try
                 {
-                    if (mSimpleContext)
-                    {
-                        mSimpleContext->loadScript(scripts[idx]->innerText());
-                    }
+                    loadScript(currentNode->innerText());
                 }
                 catch (const JsException & inException)
                 {
                     logJsException(inException);
                 }
+                currentNode = currentNode->nextSibling();
             }
         }
 
 
-        void JsXULRunner::addListeners(Element * inElement)
+        void JsXULRunner::addListeners(Poco::XML::Element * inElement)
         {
-            if (NativeComponent * comp = inElement->component()->downcast<NativeComponent>())
+            if (NativeComponent * comp = GetComponent<NativeComponent>(inElement))
             {
                 comp->addEventListener(this);
             }
-            for (size_t idx = 0; idx != inElement->children().size(); ++idx)
-            {
-                addListeners(inElement->children()[idx].get());
-            }
+            XULWin::ForEach(inElement->childNodes(),
+                            boost::bind(&JsXULRunner::addListeners, this, boost::bind(&Node2Element, _1)));
         }
 
 
-        LRESULT JsXULRunner::handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
+        LRESULT JsXULRunner::handleCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
         {
             try
             {
-                std::string oncommand = inSender->getAttribute("oncommand");
+                std::string oncommand = inSender->el()->getAttribute("oncommand");
                 if (!oncommand.empty())
                 {
-                    if (mSimpleContext)
-                    {
-                        mSimpleContext->loadScript(oncommand);
-                        return 0;
-                    }
+                    loadScript(oncommand);
+                    return EventResult_Handled;
                 }
             }
             catch (const JsException & inException)
             {
                 logJsException(inException);
             }
-            return 1;
+            return EventResult_NotHandled;
         }
 
 
-        LRESULT JsXULRunner::handleMenuCommand(Element * inSender, WORD inMenuId)
+        //LRESULT JsXULRunner::handleMenuCommand(Component * inSender, WORD inMenuId)
+        //{
+        //    return 1;
+        //}
+
+
+        LRESULT JsXULRunner::handleDialogCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
         {
             return 1;
         }
 
 
-        LRESULT JsXULRunner::handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
-        {
-            return 1;
-        }
-
-
-        LRESULT JsXULRunner::handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
+        LRESULT JsXULRunner::handleMessage(Component * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
         {
             return 1;
         }

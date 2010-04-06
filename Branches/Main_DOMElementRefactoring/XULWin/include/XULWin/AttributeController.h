@@ -4,7 +4,6 @@
 
 #include "XULWin/Enums.h"
 #include "XULWin/Point.h"
-#include "XULWin/SVGPathInstructions.h"
 #include "XULWin/RGBColor.h"
 #include <string>
 
@@ -541,94 +540,94 @@ namespace XULWin
     };
 
 
-    class SVG_Polygon_PointsController : public AttributeController
-    {
-    public:
-        static const char * AttributeName()
-        {
-            return "points";
-        }
+    //class SVG_Polygon_PointsController : public AttributeController
+    //{
+    //public:
+    //    static const char * AttributeName()
+    //    {
+    //        return "points";
+    //    }
 
-        virtual void get(std::string & outValue);
+    //    virtual void get(std::string & outValue);
 
-        virtual void set(const std::string & inValue);
+    //    virtual void set(const std::string & inValue);
 
-        virtual const Points & getPoints() const = 0;
+    //    virtual const Points & getPoints() const = 0;
 
-        virtual void setPoints(const Points & inPoints) = 0;
-    };
-
-
-    class SVG_Path_InstructionsController : public AttributeController
-    {
-    public:
-        static const char * AttributeName()
-        {
-            return "d"; // it's really "d", this is not an error
-        }
-
-        virtual void get(std::string & outValue);
-
-        virtual void set(const std::string & inValue);
-
-        virtual const SVGPathInstructions & getPathInstructions() const = 0;
-
-        virtual void setPathInstructions(const SVGPathInstructions & inPathInstructions) = 0;
-    };
+    //    virtual void setPoints(const Points & inPoints) = 0;
+    //};
 
 
-    class SVG_FillController : public AttributeController
-    {
-    public:
-        static const char * AttributeName()
-        {
-            return "fill";
-        }
+    //class SVG_Path_InstructionsController : public AttributeController
+    //{
+    //public:
+    //    static const char * AttributeName()
+    //    {
+    //        return "d"; // it's really "d", this is not an error
+    //    }
 
-        virtual void get(std::string & outValue);
+    //    virtual void get(std::string & outValue);
 
-        virtual void set(const std::string & inValue);
+    //    virtual void set(const std::string & inValue);
 
-        virtual void setSVGFill(const RGBColor & inColor) = 0;
+    //    virtual const SVGPathInstructions & getPathInstructions() const = 0;
 
-        virtual const RGBColor & getSVGFill() const = 0;
-    };
-
-
-    class SVG_StrokeController : public AttributeController
-    {
-    public:
-        static const char * AttributeName()
-        {
-            return "stroke";
-        }
-
-        virtual void get(std::string & outValue);
-
-        virtual void set(const std::string & inValue);
-
-        virtual void setSVGStroke(const RGBColor & inColor) = 0;
-
-        virtual const RGBColor & getSVGStroke() const = 0;
-    };
+    //    virtual void setPathInstructions(const SVGPathInstructions & inPathInstructions) = 0;
+    //};
 
 
-    class SVG_StrokeWidthController : public AttributeController
-    {
-    public:
-        static const char * AttributeName()
-        {
-            return "stroke-width";
-        }
+    //class SVG_FillController : public AttributeController
+    //{
+    //public:
+    //    static const char * AttributeName()
+    //    {
+    //        return "fill";
+    //    }
 
-        virtual void get(std::string & outValue);
+    //    virtual void get(std::string & outValue);
 
-        virtual void set(const std::string & inValue);
+    //    virtual void set(const std::string & inValue);
 
-        virtual void setSVGStrokeWidth(int inStrokeWidth) = 0;
+    //    virtual void setSVGFill(const RGBColor & inColor) = 0;
 
-        virtual int getSVGStrokeWidth() const = 0;
-    };
+    //    virtual const RGBColor & getSVGFill() const = 0;
+    //};
+
+
+    //class SVG_StrokeController : public AttributeController
+    //{
+    //public:
+    //    static const char * AttributeName()
+    //    {
+    //        return "stroke";
+    //    }
+
+    //    virtual void get(std::string & outValue);
+
+    //    virtual void set(const std::string & inValue);
+
+    //    virtual void setSVGStroke(const RGBColor & inColor) = 0;
+
+    //    virtual const RGBColor & getSVGStroke() const = 0;
+    //};
+
+
+    //class SVG_StrokeWidthController : public AttributeController
+    //{
+    //public:
+    //    static const char * AttributeName()
+    //    {
+    //        return "stroke-width";
+    //    }
+
+    //    virtual void get(std::string & outValue);
+
+    //    virtual void set(const std::string & inValue);
+
+    //    virtual void setSVGStrokeWidth(int inStrokeWidth) = 0;
+
+    //    virtual int getSVGStrokeWidth() const = 0;
+    //};
 
 } // namespace XULWin
 

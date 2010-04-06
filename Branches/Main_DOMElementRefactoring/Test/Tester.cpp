@@ -1,9 +1,9 @@
 #include "Tester.h"
 #include "Config.h"
+#include "XULWin/ComponentUtilities.h"
 #include "XULWin/Element.h"
-#include "XULWin/LabelElement.h"
 #include "XULWin/Unicode.h"
-#include "XULWin/WindowElement.h"
+#include "XULWin/Window.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Js/JsException.h"
@@ -45,17 +45,16 @@ namespace XULWin
         else
         {
             XULRunner runner;
-            ElementPtr rootEl = runner.loadApplication("application.ini");
-            if (!rootEl)
+            Poco::XML::Document * document = runner.loadApplication("application.ini");
+            if (!document)
             {
                 throw std::runtime_error("Failed to load the application: " + inAppName + ".");
             }
 
-            if (WindowElement * win = rootEl->downcast<WindowElement>())
+            if (Window * win = GetComponent<Window>(document->documentElement()))
             {
-                win->showModal(WindowElement::CenterInScreen);
+                win->showModal(WindowPos_CenterInScreen);
             }
-
         }
 
         // The application dir should contain a run.bat file.

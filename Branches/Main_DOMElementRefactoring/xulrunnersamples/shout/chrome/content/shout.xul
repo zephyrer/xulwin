@@ -6,7 +6,7 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         align="center"
         orient="horizontal">
-  <image id="Toolbar-ShoutDialog-ImageElement"
+  <image id="Toolbar-ShoutDialog-Image"
          src="chrome://shout/skin/StackedCrooked.jpg"
          style="margin:4px;" />
   <vbox align="stretch">

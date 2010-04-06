@@ -18,7 +18,6 @@
 
 namespace XULWin 
 {
-    class Element;
 
     class ConfigSample
     {
@@ -33,23 +32,23 @@ namespace XULWin
 
         LRESULT showUpload();
 
-        LRESULT addNewSet(const std::string & inSetName);
+        //LRESULT addNewSet(const std::string & inSetName);
 
-        LRESULT showNewSetDialog();
+        //LRESULT showNewSetDialog();
 
-        LRESULT newSetOK();
+        //LRESULT newSetOK();
 
-        LRESULT closeDialog(Element * inWindow);
+        LRESULT closeDialog(Poco::XML::Element * inWindow);
 
     private:
-        ElementPtr mConfigWindow;
-        ElementPtr mNewSetDlg;        
-        Js::JsXULRunner mRunner;   
-        Fallible<Element*> mNewSetButton;
-        Fallible<Element*> mSetsPopup;    
-        Fallible<Element*> mNewSetTextBox;
-        Fallible<Element*> mNewSetOK;
-        Fallible<Element*> mNewSetCancel;
+        Poco::XML::Element * mConfigWindow;
+        Poco::XML::Element * mNewSetDlg;
+        Js::JsXULRunner mXULRunner;
+        Poco::XML::Element* mNewSetButton;
+        Poco::XML::Element* mSetsPopup;    
+        Poco::XML::Element* mNewSetTextBox;
+        Poco::XML::Element* mNewSetOK;
+        Poco::XML::Element* mNewSetCancel;
         ScopedEventListener mEvents;
         std::string mPathToXULRunnerSamples;
     };

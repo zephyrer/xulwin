@@ -295,71 +295,71 @@ namespace XULWin
     }
 
 
-    void SVG_Polygon_PointsController::get(std::string & outValue)
-    {
-        outValue = Points2String(getPoints());
-    }
+    //void SVG_Polygon_PointsController::get(std::string & outValue)
+    //{
+    //    outValue = Points2String(getPoints());
+    //}
 
 
-    void SVG_Polygon_PointsController::set(const std::string & inPoints)
-    {
-        setPoints(String2Points(inPoints));
-    }
+    //void SVG_Polygon_PointsController::set(const std::string & inPoints)
+    //{
+    //    setPoints(String2Points(inPoints));
+    //}
 
 
-    void SVG_Path_InstructionsController::get(std::string & outValue)
-    {
-        outValue = SVGPathInstructions2String(getPathInstructions());
-    }
+    //void SVG_Path_InstructionsController::get(std::string & outValue)
+    //{
+    //    outValue = SVGPathInstructions2String(getPathInstructions());
+    //}
 
 
-    void SVG_Path_InstructionsController::set(const std::string & inPathInstructions)
-    {
-        setPathInstructions(String2SVGPathInstructions(inPathInstructions));
-    }
+    //void SVG_Path_InstructionsController::set(const std::string & inPathInstructions)
+    //{
+    //    setPathInstructions(String2SVGPathInstructions(inPathInstructions));
+    //}
 
 
-    void SVG_FillController::get(std::string & outValue)
-    {
-        outValue = RGBColor2String(getSVGFill());
-    }
+    //void SVG_FillController::get(std::string & outValue)
+    //{
+    //    outValue = RGBColor2String(getSVGFill());
+    //}
 
 
-    void SVG_FillController::set(const std::string & inValue)
-    {
-        RGBColor result;
-        if (String2RGBColor(inValue, result))
-        {
-            setSVGFill(result);
-        }
-    }
+    //void SVG_FillController::set(const std::string & inValue)
+    //{
+    //    RGBColor result;
+    //    if (String2RGBColor(inValue, result))
+    //    {
+    //        setSVGFill(result);
+    //    }
+    //}
 
 
-    void SVG_StrokeController::get(std::string & outValue)
-    {
-        outValue = RGBColor2String(getSVGStroke());
-    }
+    //void SVG_StrokeController::get(std::string & outValue)
+    //{
+    //    outValue = RGBColor2String(getSVGStroke());
+    //}
 
 
-    void SVG_StrokeController::set(const std::string & inValue)
-    {
-        RGBColor result;
-        if (String2RGBColor(inValue, result))
-        {
-            setSVGStroke(result);
-        }
-    }
+    //void SVG_StrokeController::set(const std::string & inValue)
+    //{
+    //    RGBColor result;
+    //    if (String2RGBColor(inValue, result))
+    //    {
+    //        setSVGStroke(result);
+    //    }
+    //}
 
 
-    void SVG_StrokeWidthController::get(std::string & outValue)
-    {
-        outValue = Int2String(getSVGStrokeWidth());
-    }
+    //void SVG_StrokeWidthController::get(std::string & outValue)
+    //{
+    //    outValue = Int2String(getSVGStrokeWidth());
+    //}
 
 
-    void SVG_StrokeWidthController::set(const std::string & inValue)
-    {
-        setSVGStrokeWidth(String2Int(inValue));
-    }
+    //void SVG_StrokeWidthController::set(const std::string & inValue)
+    //{
+    //    setSVGStrokeWidth(String2Int(inValue));
+    //}
 
 } // namespace XULWin

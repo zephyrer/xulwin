@@ -157,170 +157,6 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Elements"
-			>
-			<Filter
-				Name="Header Files"
-				>
-				<File
-					RelativePath=".\include\XULWin\Element.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ImageElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\LabelElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListBoxElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCellElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListColElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListColsElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHeadElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHeaderElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListItemElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuItemElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuPopupElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuSeparatorElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\OverlayElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ScriptElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\TextElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\WindowElement.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Source Files"
-				>
-				<File
-					RelativePath=".\src\Element.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ImageElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\LabelElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListBoxElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListCellElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListColElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListColsElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListHeadElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListHeaderElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListItemElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuItemElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuPopupElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuSeparatorElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\OverlayElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Script.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\TextElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\WindowElement.cpp"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
 			Name="Components"
 			>
 			<Filter
@@ -340,66 +176,6 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\Label.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListBox.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCell.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCol.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCols.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHead.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHeader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListItem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListView.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Menu.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuBar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuBarElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuItem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuPopup.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuSeparator.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\Overlay.h"
 					>
 				</File>
 				<File
@@ -431,66 +207,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListBox.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListCell.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListCol.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListCols.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListHead.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListHeader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListItem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListView.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Menu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuBarElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuItem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuPopup.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuSeparator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Overlay.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\Proxy.cpp"
 					>
 				</File>
@@ -511,18 +227,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Toolbar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarItem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarMenuItem.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Windows.h"
 					>
 				</File>
@@ -536,18 +240,6 @@
 				>
 				<File
 					RelativePath=".\src\PopupMenu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Toolbar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ToolbarItem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ToolbarMenuItem.cpp"
 					>
 				</File>
 				<File
@@ -575,10 +267,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ElementFactory.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Enums.h"
 					>
 				</File>
@@ -592,14 +280,6 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\StyleController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XULOverlayParser.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XULParser.h"
 					>
 				</File>
 				<File
@@ -619,10 +299,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ElementFactory.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\EventListener.cpp"
 					>
 				</File>
@@ -635,51 +311,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\XULOverlayParser.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XULParser.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\XULRunner.cpp"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="SVG"
-			>
-			<Filter
-				Name="Header Files"
-				>
-				<File
-					RelativePath=".\include\XULWin\SVG.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\SVGElement.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\SVGPathInstructions.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Source Files"
-				>
-				<File
-					RelativePath=".\src\SVG.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\SVGElement.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\SVGPathInstructions.cpp"
 					>
 				</File>
 			</Filter>
@@ -739,10 +371,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ConditionalState.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Conversions.h"
 					>
 				</File>
@@ -776,10 +404,6 @@
 				</File>
 				<File
 					RelativePath=".\src\ChromeURL.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ConditionalState.cpp"
 					>
 				</File>
 				<File

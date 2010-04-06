@@ -3,7 +3,6 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/WindowElement.h"
 
 
 namespace XULWin
@@ -31,18 +30,14 @@ namespace XULWin
 
         virtual void setTitle(const std::string & inTitle);
 
-        virtual const Component * getChild(size_t idx) const;
-
-        virtual Component * getChild(size_t idx);
-
         virtual void rebuildChildLayouts()
         {
             return Super::rebuildChildLayouts();
         }
 
-        void show(WindowElement::Positioning inPositioning);
+        void show(WindowPos inPositioning);
 
-        void showModal(WindowElement::Positioning inPositioning);
+        void showModal(WindowPos inPositioning);
 
         void close();
 

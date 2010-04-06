@@ -2,7 +2,6 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Component.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/MenuItemElement.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -21,14 +20,14 @@ namespace XULWin
         while (!mMessageCallbacks.empty())
         {
             const MsgId & id = mMessageCallbacks.begin()->first;
-            id.element()->removeEventListener(this);
+            id.component()->downcast<NativeComponent>()->removeEventListener(this);
             mMessageCallbacks.erase(mMessageCallbacks.begin());
         }
     }
 
 
     /**
-     * We can't connect to a ToolbarButtonElement because in the WinAPI the
+     * We can't connect to a  because in the WinAPI the
      * toolbar buttons aren't really windows and they don't send WM_COMMAND
      * events. It's the toolbar window that sends the messages, and the buttons
      * are identified with their ids.
@@ -38,88 +37,91 @@ namespace XULWin
      * The event handling code must be redirected as well of course. And this is
      * taken care of in the handleToolbarCommand() call below.
      */
-    bool ScopedEventListener::connectToolbarButton(Element * inEl, const Action & inAction)
+    //bool ScopedEventListener::connectToolbarButton(Component * inComponent, const Action & inAction)
+    //{
+    //    if (!inComponent->parentNode())
+    //    {
+    //        return false;
+    //    }
+
+    //    if (XULWin:: * toolbar = inComponent->parentNode()->downcast<XULWin::>())
+    //    {
+    //        connect(toolbar, WM_COMMAND, inComponent->commandId(), inAction);
+    //        return true;
+    //    }
+    //    return false;
+    //}
+
+
+    //bool ScopedEventListener::connectMenuItem(Component * inComponent, const Action & inAction)
+    //{
+    //    if (0 == inComponent->downcast<XULWin::MenuItem>())
+    //    {
+    //        // This is not a menu item.
+    //        return false;
+    //    }
+
+    //    XULWin::NativeComponent * nativeParent = NativeControl::GetThisOrParent(inComponent);
+    //    if (!nativeParent)
+    //    {
+    //        ReportError("Received an event from a MenuItem element that has no native parent.");
+    //        return false;
+    //    }
+
+    //    connect(nativeParent->el(), WM_COMMAND, inComponent->commandId(), inAction);
+    //    return true;
+    //}
+
+
+    void ScopedEventListener::connect(Component * inComponent, const Action & inAction)
     {
-        if (!inEl->parent())
+        //if (  !connectToolbarButton(inComponent, inAction) && 
+        //        !connectMenuItem(inComponent, inAction))
+        //{
+            connect(inComponent, WM_COMMAND, inAction);
+        //}
+    }
+
+
+    void ScopedEventListener::connect(Component * inComponent, UINT inMessage, const Action & inAction)
+    {
+        connect(inComponent, inMessage, inComponent->commandId(), inAction);
+    }
+
+
+    void ScopedEventListener::connect(Component * inComponent, UINT inMessage, int inCommandId, const Action & inAction)
+    {
+        if (inComponent)
         {
-            return false;
+            if (NativeComponent * nativeComp = inComponent->downcast<NativeComponent>())
+            {
+                nativeComp->addEventListener(this);
+                mMessageCallbacks[MsgId(inComponent, inMessage, inCommandId)].push_back(inAction);
+            }
         }
+    }
 
-        if (XULWin::ToolbarElement * toolbar = inEl->parent()->downcast<XULWin::ToolbarElement>())
+
+    void ScopedEventListener::disconnect(Component * inComponent)
+    {
+        disconnect(inComponent, WM_COMMAND, inComponent->commandId());
+    }
+
+
+    void ScopedEventListener::disconnect(Component * inComponent, UINT inMessage)
+    {
+        disconnect(inComponent, inMessage, inComponent->commandId());
+    }
+
+
+    void ScopedEventListener::disconnect(Component * inComponent, UINT inMessage, int inCommandId)
+    {
+        if (inComponent)
         {
-            connect(toolbar, WM_COMMAND, inEl->component()->commandId(), inAction);
-            return true;
-        }
-        return false;
-    }
-
-
-    bool ScopedEventListener::connectMenuItem(Element * inEl, const Action & inAction)
-    {
-        if (0 == inEl->downcast<XULWin::MenuItemElement>())
-        {
-            // This is not a menu item.
-            return false;
-        }
-
-        XULWin::NativeComponent * nativeParent = NativeControl::GetThisOrParent(inEl->component());
-        if (!nativeParent)
-        {
-            ReportError("Received an event from a MenuItem element that has no native parent.");
-            return false;
-        }
-
-        connect(nativeParent->el(), WM_COMMAND, inEl->component()->commandId(), inAction);
-        return true;
-    }
-
-
-    void ScopedEventListener::connect(Element * inEl, const Action & inAction)
-    {
-        if (!connectToolbarButton(inEl, inAction) &&
-                !connectMenuItem(inEl, inAction))
-        {
-            connect(inEl, WM_COMMAND, inAction);
-        }
-    }
-
-
-    void ScopedEventListener::connect(Element * inEl, UINT inMessage, const Action & inAction)
-    {
-        connect(inEl, inMessage, inEl->component()->commandId(), inAction);
-    }
-
-
-    void ScopedEventListener::connect(Element * inEl, UINT inMessage, int inCommandId, const Action & inAction)
-    {
-        if (inEl)
-        {
-            inEl->addEventListener(this);
-            mMessageCallbacks[MsgId(inEl, inMessage, inCommandId)].push_back(inAction);
-        }
-    }
-
-
-    void ScopedEventListener::disconnect(Element * inEl)
-    {
-        disconnect(inEl, WM_COMMAND, inEl->component()->commandId());
-    }
-
-
-    void ScopedEventListener::disconnect(Element * inEl, UINT inMessage)
-    {
-        disconnect(inEl, inMessage, inEl->component()->commandId());
-    }
-
-
-    void ScopedEventListener::disconnect(Element * inEl, UINT inMessage, int inCommandId)
-    {
-        if (inEl)
-        {
-            MessageCallbacks::iterator it = mMessageCallbacks.find(MsgId(inEl, inMessage, inCommandId));
+            MessageCallbacks::iterator it = mMessageCallbacks.find(MsgId(inComponent, inMessage, inCommandId));
             if (it != mMessageCallbacks.end())
             {
-                it->first.element()->removeEventListener(this);
+                it->first.component()->downcast<NativeComponent>()->removeEventListener(this);
                 mMessageCallbacks.erase(it);
             }
         }
@@ -132,57 +134,57 @@ namespace XULWin
      * find the corresponding ToolbarButton element object.
      * Once we found this object we can look for any associated callbacks.
      */
-    bool ScopedEventListener::handleToolbarCommand(MsgId inMessageId,
-                                                   WPARAM wParam,
-                                                   LPARAM lParam,
-                                                   LRESULT & ret)
-    {
-        XULWin::Toolbar * toolbar = inMessageId.element()->component()->downcast<XULWin::Toolbar>();
-        if (!toolbar)
-        {
-            // This is not a toolbar event => return false.
-            return false;
-        }
-        UINT message = inMessageId.messageId();
-        if (message == WM_COMMAND)
-        {
-            WORD id = LOWORD(wParam);
-            XULWin::Windows::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
-            if (!item)
-            {
-                // The command was not sent from one of the toolbar buttons. (It may have been
-                // sent from a menu item that has the toolbar as a grandparent window.)
-                return false;
-            }
-            XULWin::ToolbarButton * corrspondingToolbarButton(0);
-            for (size_t idx = 0; idx != toolbar->getChildCount(); ++idx)
-            {
-                if (XULWin::ToolbarButton * button = toolbar->getChild(idx)->downcast<XULWin::ToolbarButton>())
-                {
-                    if (button->nativeItem() == item)
-                    {
-                        corrspondingToolbarButton = button;
-                        break;
-                    }
-                }
-            }
+    //bool ScopedEventListener::handleToolbarCommand(MsgId inMessageId,
+    //                                               WPARAM wParam,
+    //                                               LPARAM lParam,
+    //                                               LRESULT & ret)
+    //{
+    //    XULWin::Toolbar * toolbar = inMessageId.element()->downcast<XULWin::Toolbar>();
+    //    if (!toolbar)
+    //    {
+    //        // This is not a toolbar event => return false.
+    //        return false;
+    //    }
+    //    UINT message = inMessageId.messageId();
+    //    if (message == WM_COMMAND)
+    //    {
+    //        WORD id = LOWORD(wParam);
+    //        XULWin::Windows::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
+    //        if (!item)
+    //        {
+    //            // The command was not sent from one of the toolbar buttons. (It may have been
+    //            // sent from a menu item that has the toolbar as a grandparent window.)
+    //            return false;
+    //        }
+    //        XULWin::ToolbarButton * corrspondingToolbarButton(0);
+    //        for (size_t idx = 0; idx != toolbar->getChildCount(); ++idx)
+    //        {
+    //            if (XULWin::ToolbarButton * button = toolbar->getChild(idx)->downcast<XULWin::ToolbarButton>())
+    //            {
+    //                if (button->nativeItem() == item)
+    //                {
+    //                    corrspondingToolbarButton = button;
+    //                    break;
+    //                }
+    //            }
+    //        }
 
-            assert(corrspondingToolbarButton);
-            if (!corrspondingToolbarButton)
-            {
-                return false;
-            }
+    //        assert(corrspondingToolbarButton);
+    //        if (!corrspondingToolbarButton)
+    //        {
+    //            return false;
+    //        }
 
-            LRESULT ret(cUnhandled);
-            invokeCallbacks(MsgId(corrspondingToolbarButton->el()->parent(),
-                                  WM_COMMAND,
-                                  corrspondingToolbarButton->commandId()),
-                            wParam,
-                            lParam, ret);
-            return true;
-        }
-        return false;
-    }
+    //        LRESULT ret(cUnhandled);
+    //        invokeCallbacks(MsgId(corrspondingToolbarButton->el()->parentNode(),
+    //                              WM_COMMAND,
+    //                              corrspondingToolbarButton->commandId()),
+    //                        wParam,
+    //                        lParam, ret);
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
 
     void ScopedEventListener::invokeCallbacks(MsgId inMsgId, WPARAM wParam, LPARAM lParam, LRESULT & ret)
@@ -217,15 +219,15 @@ namespace XULWin
     LRESULT ScopedEventListener::handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam)
     {
         LRESULT ret = cUnhandled;
-        if (!handleToolbarCommand(inMsgId, wParam, lParam, ret))
-        {
+        //if (!handleToolbarCommand(inMsgId, wParam, lParam, ret))
+        //{
             invokeCallbacks(inMsgId, wParam, lParam, ret);
-        }
+        //}
         return ret;
     }
 
 
-    LRESULT ScopedEventListener::handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
+    LRESULT ScopedEventListener::handleCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
     {
         return handleMessage(MsgId(inSender,
                                    WM_COMMAND,
@@ -235,17 +237,17 @@ namespace XULWin
     }
 
 
-    LRESULT ScopedEventListener::handleMenuCommand(Element * inSender, WORD inMenuId)
-    {
-        return handleMessage(MsgId(inSender,
-                                   WM_COMMAND,
-                                   inMenuId),
-                             0,
-                             0);
-    }
+    //LRESULT ScopedEventListener::handleMenuCommand(Component * inSender, WORD inMenuId)
+    //{
+    //    return handleMessage(MsgId(inSender,
+    //                               WM_COMMAND,
+    //                               inMenuId),
+    //                         0,
+    //                         0);
+    //}
 
 
-    LRESULT ScopedEventListener::handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    LRESULT ScopedEventListener::handleMessage(Component * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
         return handleMessage(MsgId(inSender,
                                    inMessage,

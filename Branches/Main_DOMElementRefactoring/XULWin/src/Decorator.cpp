@@ -1,7 +1,7 @@
 #include "XULWin/Decorator.h"
+#include "XULWin/ComponentFactory.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/WindowElement.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/Path.h"
 #include "Poco/UnicodeConverter.h"
@@ -16,16 +16,16 @@ namespace XULWin
     using namespace Windows;
 
     Decorator::Decorator(Component * inDecoratedElement) :
-        mDecoratedElement(inDecoratedElement)
+        mDecoratedComponent(inDecoratedElement)
     {
-        assert(mDecoratedElement);
+        assert(mDecoratedComponent);
     }
 
 
     Decorator::Decorator(ComponentPtr inDecoratedElement) :
-        mDecoratedElement(inDecoratedElement)
+        mDecoratedComponent(inDecoratedElement)
     {
-        assert(mDecoratedElement);
+        assert(mDecoratedComponent);
     }
 
 
@@ -36,32 +36,32 @@ namespace XULWin
 
     bool Decorator::init()
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->init();
+            return mDecoratedComponent->init();
         }
         return false;
     }
 
 
-    int Decorator::getIndex() const
-    {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
-        {
-            return mDecoratedElement->getIndex();
-        }
-        return 0;
-    }
+    //int Decorator::getIndex() const
+    //{
+    //    assert(mDecoratedComponent);
+    //    if (mDecoratedComponent)
+    //    {
+    //        return mDecoratedComponent->getIndex();
+    //    }
+    //    return 0;
+    //}
 
 
     size_t Decorator::getChildCount() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getChildCount();
+            return mDecoratedComponent->getChildCount();
         }
         return 0;
     }
@@ -69,10 +69,10 @@ namespace XULWin
 
     const Component * Decorator::getChild(size_t inIndex) const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getChild(inIndex);
+            return mDecoratedComponent->getChild(inIndex);
         }
         return 0;
     }
@@ -80,10 +80,10 @@ namespace XULWin
 
     Component * Decorator::getChild(size_t inIndex)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getChild(inIndex);
+            return mDecoratedComponent->getChild(inIndex);
         }
         return 0;
     }
@@ -91,10 +91,10 @@ namespace XULWin
 
     HWND Decorator::getFirstParentHandle()
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getFirstParentHandle();
+            return mDecoratedComponent->getFirstParentHandle();
         }
         return 0;
     }
@@ -102,20 +102,20 @@ namespace XULWin
 
     void Decorator::invalidateRect() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->invalidateRect();
+            mDecoratedComponent->invalidateRect();
         }
     }
 
 
     int Decorator::getWidth() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getWidth();
+            return mDecoratedComponent->getWidth();
         }
         return 0;
     }
@@ -123,20 +123,20 @@ namespace XULWin
 
     void Decorator::setWidth(int inWidth)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setWidth(inWidth);
+            mDecoratedComponent->setWidth(inWidth);
         }
     }
 
 
     int Decorator::getHeight() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getHeight();
+            return mDecoratedComponent->getHeight();
         }
         return 0;
     }
@@ -144,20 +144,20 @@ namespace XULWin
 
     void Decorator::setHeight(int inHeight)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setHeight(inHeight);
+            mDecoratedComponent->setHeight(inHeight);
         }
     }
 
 
     int Decorator::getScreenX() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getScreenX();
+            return mDecoratedComponent->getScreenX();
         }
         return 0;
     }
@@ -165,20 +165,20 @@ namespace XULWin
 
     void Decorator::setScreenX(int inX)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setScreenX(inX);
+            mDecoratedComponent->setScreenX(inX);
         }
     }
 
 
     int Decorator::getScreenY() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getScreenY();
+            return mDecoratedComponent->getScreenY();
         }
         return 0;
     }
@@ -186,10 +186,10 @@ namespace XULWin
 
     void Decorator::setScreenY(int inY)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setScreenY(inY);
+            mDecoratedComponent->setScreenY(inY);
         }
     }
 
@@ -197,10 +197,10 @@ namespace XULWin
     void Decorator::setSVGStroke(const RGBColor & inColor)
     {
         assert(false); // TODO: remove this method
-        //assert(mDecoratedElement);
-        //if (mDecoratedElement)
+        //assert(mDecoratedComponent);
+        //if (mDecoratedComponent)
         //{
-        //    mDecoratedElement->setSVGStroke(inColor);
+        //    mDecoratedComponent->setSVGStroke(inColor);
         //}
     }
 
@@ -208,10 +208,10 @@ namespace XULWin
     const RGBColor & Decorator::getSVGStroke() const
     {
         assert(false); // TODO: remove this method
-        //assert(mDecoratedElement);
-        //if (mDecoratedElement)
+        //assert(mDecoratedComponent);
+        //if (mDecoratedComponent)
         //{
-        //    return mDecoratedElement->getSVGStroke();
+        //    return mDecoratedComponent->getSVGStroke();
         //}
         static RGBColor fDefault;
         return fDefault;
@@ -221,10 +221,10 @@ namespace XULWin
     void Decorator::setSVGStrokeWidth(int inStrokeWidth)
     {
         assert(false); // TODO: remove this method
-        //assert(mDecoratedElement);
-        //if (mDecoratedElement)
+        //assert(mDecoratedComponent);
+        //if (mDecoratedComponent)
         //{
-        //    return mDecoratedElement->setSVGStrokeWidth(inStrokeWidth);
+        //    return mDecoratedComponent->setSVGStrokeWidth(inStrokeWidth);
         //}
     }
 
@@ -232,10 +232,10 @@ namespace XULWin
     int Decorator::getSVGStrokeWidth() const
     {
         assert(false); // TODO: remove this method
-        //assert(mDecoratedElement);
-        //if (mDecoratedElement)
+        //assert(mDecoratedComponent);
+        //if (mDecoratedComponent)
         //{
-        //    return mDecoratedElement->getSVGStrokeWidth();
+        //    return mDecoratedComponent->getSVGStrokeWidth();
         //}
         return 0;
     }
@@ -244,10 +244,10 @@ namespace XULWin
     void Decorator::setSVGFill(const RGBColor & inColor)
     {
         assert(false); // TODO: remove this method
-        //assert(mDecoratedElement);
-        //if (mDecoratedElement)
+        //assert(mDecoratedComponent);
+        //if (mDecoratedComponent)
         //{
-        //    mDecoratedElement->setSVGFill(inColor);
+        //    mDecoratedComponent->setSVGFill(inColor);
         //}
     }
 
@@ -255,10 +255,10 @@ namespace XULWin
     const RGBColor & Decorator::getSVGFill() const
     {
         assert(false); // TODO: remove this method
-        //assert(mDecoratedElement);
-        //if (mDecoratedElement)
+        //assert(mDecoratedComponent);
+        //if (mDecoratedComponent)
         //{
-        //    mDecoratedElement->getSVGFill();
+        //    mDecoratedComponent->getSVGFill();
         //}
         static RGBColor fDefault;
         return fDefault;
@@ -267,10 +267,10 @@ namespace XULWin
 
     int Decorator::getFlex() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getFlex();
+            return mDecoratedComponent->getFlex();
         }
         return 0;
     }
@@ -278,20 +278,20 @@ namespace XULWin
 
     void Decorator::setFlex(int inFlex)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setFlex(inFlex);
+            mDecoratedComponent->setFlex(inFlex);
         }
     }
 
 
     int Decorator::getCSSWidth() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getCSSWidth();
+            return mDecoratedComponent->getCSSWidth();
         }
         return 0;
     }
@@ -299,20 +299,20 @@ namespace XULWin
 
     void Decorator::setCSSWidth(int inWidth)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSWidth(inWidth);
+            mDecoratedComponent->setCSSWidth(inWidth);
         }
     }
 
 
     int Decorator::getCSSHeight() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getCSSHeight();
+            return mDecoratedComponent->getCSSHeight();
         }
         return 0;
     }
@@ -320,30 +320,30 @@ namespace XULWin
 
     void Decorator::setCSSHeight(int inHeight)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSHeight(inHeight);
+            mDecoratedComponent->setCSSHeight(inHeight);
         }
     }
 
 
     void Decorator::setCSSBackgroundColor(const RGBColor & inColor)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSBackgroundColor(inColor);
+            mDecoratedComponent->setCSSBackgroundColor(inColor);
         }
     }
 
 
     RGBColor Decorator::getCSSBackgroundColor() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getCSSBackgroundColor();
+            return mDecoratedComponent->getCSSBackgroundColor();
         }
         RGBColor fallback;
         (0, 0, 0);
@@ -353,40 +353,40 @@ namespace XULWin
 
     void Decorator::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getCSSMargin(outTop, outLeft, outRight, outBottom);
+            return mDecoratedComponent->getCSSMargin(outTop, outLeft, outRight, outBottom);
         }
     }
 
 
     void Decorator::setCSSMargin(int inTop, int inLeft, int inRight, int inBottom)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSMargin(inTop, inLeft, inRight, inBottom);
+            mDecoratedComponent->setCSSMargin(inTop, inLeft, inRight, inBottom);
         }
     }
 
 
     void Decorator::setCSSFill(const RGBColor & inColor)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSFill(inColor);
+            mDecoratedComponent->setCSSFill(inColor);
         }
     }
 
 
     const RGBColor & Decorator::getCSSFill() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->getCSSFill();
+            mDecoratedComponent->getCSSFill();
         }
         static RGBColor fDefault;
         return fDefault;
@@ -395,20 +395,20 @@ namespace XULWin
 
     void Decorator::setCSSStroke(const RGBColor & inColor)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSStroke(inColor);
+            mDecoratedComponent->setCSSStroke(inColor);
         }
     }
 
 
     const RGBColor & Decorator::getCSSStroke() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->getCSSStroke();
+            mDecoratedComponent->getCSSStroke();
         }
         static RGBColor fDefault;
         return fDefault;
@@ -417,10 +417,10 @@ namespace XULWin
 
     int Decorator::getCSSX() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->getCSSX();
+            mDecoratedComponent->getCSSX();
         }
         return 0;
     }
@@ -428,20 +428,20 @@ namespace XULWin
 
     void Decorator::setCSSX(int inX)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSX(inX);
+            mDecoratedComponent->setCSSX(inX);
         }
     }
 
 
     int Decorator::getCSSY() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->getCSSY();
+            mDecoratedComponent->getCSSY();
         }
         return 0;
     }
@@ -449,20 +449,20 @@ namespace XULWin
 
     void Decorator::setCSSY(int inY)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setCSSY(inY);
+            mDecoratedComponent->setCSSY(inY);
         }
     }
 
 
     bool Decorator::isHidden() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->isHidden();
+            return mDecoratedComponent->isHidden();
         }
         return false;
     }
@@ -470,20 +470,20 @@ namespace XULWin
 
     void Decorator::setHidden(bool inHidden)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->setHidden(inHidden);
+            return mDecoratedComponent->setHidden(inHidden);
         }
     }
 
 
     Orient Decorator::getOrient() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getOrient();
+            return mDecoratedComponent->getOrient();
         }
         return Vertical;
     }
@@ -491,20 +491,20 @@ namespace XULWin
 
     void Decorator::setOrient(Orient inOrient)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->setOrient(inOrient);
+            return mDecoratedComponent->setOrient(inOrient);
         }
     }
 
 
     Align Decorator::getAlign() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getAlign();
+            return mDecoratedComponent->getAlign();
         }
         return Start;
     }
@@ -512,20 +512,20 @@ namespace XULWin
 
     void Decorator::setAlign(Align inAlign)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->setAlign(inAlign);
+            return mDecoratedComponent->setAlign(inAlign);
         }
     }
 
 
     int Decorator::commandId() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->commandId();
+            return mDecoratedComponent->commandId();
         }
         return 0;
     }
@@ -533,10 +533,10 @@ namespace XULWin
 
     int Decorator::getWidth(SizeConstraint inSizeConstraint) const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getWidth(inSizeConstraint);
+            return mDecoratedComponent->getWidth(inSizeConstraint);
         }
         return 0;
     }
@@ -544,10 +544,10 @@ namespace XULWin
 
     int Decorator::getHeight(SizeConstraint inSizeConstraint) const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getHeight(inSizeConstraint);
+            return mDecoratedComponent->getHeight(inSizeConstraint);
         }
         return 0;
     }
@@ -555,10 +555,10 @@ namespace XULWin
 
     int Decorator::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->calculateWidth(inSizeConstraint);
+            return mDecoratedComponent->calculateWidth(inSizeConstraint);
         }
         return 0;
     }
@@ -566,10 +566,10 @@ namespace XULWin
 
     int Decorator::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->calculateHeight(inSizeConstraint);
+            return mDecoratedComponent->calculateHeight(inSizeConstraint);
         }
         return 0;
     }
@@ -577,10 +577,10 @@ namespace XULWin
 
     bool Decorator::expansive() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->expansive();
+            return mDecoratedComponent->expansive();
         }
         return false;
     }
@@ -588,63 +588,63 @@ namespace XULWin
 
     void Decorator::move(int x, int y, int w, int h)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->move(x, y, w, h);
+            mDecoratedComponent->move(x, y, w, h);
         }
     }
 
 
     void Decorator::move(const Rect & inRect)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->move(inRect);
+            mDecoratedComponent->move(inRect);
         }
     }
 
 
     Rect Decorator::clientRect() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->clientRect();
+            return mDecoratedComponent->clientRect();
         }
         Rect defaultRect;
         return defaultRect;
     }
 
 
-    void Decorator::setOwningElement(Element * inElement)
+    void Decorator::setOwningElement(Poco::XML::Element * inElement)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->setOwningElement(inElement);
+            mDecoratedComponent->setOwningElement(inElement);
         }
     }
 
 
-    Element * Decorator::el() const
+    Poco::XML::Element * Decorator::el() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->el();
+            return mDecoratedComponent->el();
         }
         return 0;
     }
 
 
-    Component * Decorator::parent() const
+    Component * Decorator::parentComponent() const
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->parent();
+            return mDecoratedComponent->parentComponent();
         }
         return 0;
     }
@@ -652,30 +652,30 @@ namespace XULWin
 
     void Decorator::rebuildLayout()
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->rebuildLayout();
+            mDecoratedComponent->rebuildLayout();
         }
     }
 
 
     void Decorator::rebuildChildLayouts()
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->rebuildChildLayouts();
+            mDecoratedComponent->rebuildChildLayouts();
         }
     }
 
 
     bool Decorator::getAttribute(const std::string & inName, std::string & outValue)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getAttribute(inName, outValue);
+            return mDecoratedComponent->getAttribute(inName, outValue);
         }
         return false;
     }
@@ -683,10 +683,10 @@ namespace XULWin
 
     bool Decorator::getStyle(const std::string & inName, std::string & outValue)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->getStyle(inName, outValue);
+            return mDecoratedComponent->getStyle(inName, outValue);
         }
         return false;
     }
@@ -694,10 +694,10 @@ namespace XULWin
 
     bool Decorator::setStyle(const std::string & inName, const std::string & inValue)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->setStyle(inName, inValue);
+            return mDecoratedComponent->setStyle(inName, inValue);
         }
         return false;
     }
@@ -705,10 +705,10 @@ namespace XULWin
 
     bool Decorator::setAttribute(const std::string & inName, const std::string & inValue)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->setAttribute(inName, inValue);
+            return mDecoratedComponent->setAttribute(inName, inValue);
         }
         return false;
     }
@@ -716,10 +716,10 @@ namespace XULWin
 
     bool Decorator::initAttributeControllers()
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->initAttributeControllers();
+            return mDecoratedComponent->initAttributeControllers();
         }
         return false;
     }
@@ -727,95 +727,82 @@ namespace XULWin
 
     bool Decorator::initStyleControllers()
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->initStyleControllers();
+            return mDecoratedComponent->initStyleControllers();
         }
         return false;
     }
 
 
-    ComponentPtr Decorator::decoratedElement() const
+    ComponentPtr Decorator::decoratedComponent() const
     {
-        assert(mDecoratedElement);
-        return mDecoratedElement;
+        assert(mDecoratedComponent);
+        return mDecoratedComponent;
     }
 
 
     void Decorator::setDecoratedElement(ComponentPtr inElement)
     {
-        mDecoratedElement = inElement;
-        assert(mDecoratedElement);
+        mDecoratedComponent = inElement;
+        assert(mDecoratedComponent);
     }
 
 
     void Decorator::setDecoratedElement(Component * inElement)
     {
-        mDecoratedElement.reset(inElement);
-        assert(mDecoratedElement);
+        mDecoratedComponent.reset(inElement);
+        assert(mDecoratedComponent);
     }
 
 
     void Decorator::onChildAdded(Component * inChild)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->onChildAdded(inChild);
+            mDecoratedComponent->onChildAdded(inChild);
         }
     }
 
 
     void Decorator::onChildRemoved(Component * inChild)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->onChildRemoved(inChild);
+            mDecoratedComponent->onChildRemoved(inChild);
         }
     }
 
 
     void Decorator::onContentChanged()
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->onContentChanged();
+            mDecoratedComponent->onContentChanged();
         }
     }
 
 
     LRESULT Decorator::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        assert(mDecoratedElement);
-        if (mDecoratedElement)
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
         {
-            return mDecoratedElement->handleMessage(inMessage, wParam, lParam);
+            return mDecoratedComponent->handleMessage(inMessage, wParam, lParam);
         }
         return FALSE;
     }
 
 
-    WrapDecorator::WrapDecorator(Component * inParent, Component * inDecoratedElement) :
-        Decorator(inDecoratedElement),
-        mParent(inParent)
-    {
-    }
-
-
-    void WrapDecorator::addChild(ElementPtr inChild)
-    {
-        mDecoratorChildren.push_back(inChild);
-    }
-
-
     ScrollDecorator::ScrollDecorator(Component * inParent,
-                                     Component * inDecoratedElement,
+                                     Component * inDecoratedComponent,
                                      CSSOverflow inOverflowX,
                                      CSSOverflow inOverflowY) :
-        Decorator(inDecoratedElement),
+        Decorator(inDecoratedComponent),
         mOverflowX(inOverflowX),
         mOverflowY(inOverflowY),
         mOldHorScrollPos(0),
@@ -825,50 +812,26 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Horizontal);
-            mHorizontalScrollbar = ScrollbarElement::Create(inParent->el(), attr);
 
-            // Remove it from the parent so that it is untouched by its layout manager
-            inParent->el()->removeChild(mHorizontalScrollbar.get());
-
-            mHorizontalScrollbar->component()->downcast<Scrollbar>()->setEventListener(this);
+            Component * comp = ComponentFactory::Instance().createComponent<Decorator, Scrollbar>(inParent, attr);
+            mHorizontalScrollbar.reset(comp->downcast<Scrollbar>());
+            mHorizontalScrollbar->downcast<Scrollbar>()->setEventHandler(this);
         }
         if (mOverflowY != CSSOverflow_Hidden)
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Vertical);
-            mVerticalScrollbar = ScrollbarElement::Create(inParent->el(), attr);
 
-            // Remove it from the parent so that it is untouched by its layout manager
-            inParent->el()->removeChild(mVerticalScrollbar.get());
-
-            mVerticalScrollbar->component()->downcast<Scrollbar>()->setEventListener(this);
+            Component * comp = ComponentFactory::Instance().createComponent<Decorator, Scrollbar>(inParent, attr);
+            mVerticalScrollbar.reset(comp->downcast<Scrollbar>());
+            mVerticalScrollbar->downcast<Scrollbar>()->setEventHandler(this);
         }
     }
 
 
     bool ScrollDecorator::init()
     {
-        Element * window = 0;
-        Element * current = mDecoratedElement->el();
-        while (!window)
-        {
-            if (current->type() == WindowElement::Type())
-            {
-                window = current;
-            }
-            else if (current->parent())
-            {
-                current = current->parent();
-            }
-            else
-            {
-                break;
-            }
-        }
-        if (window)
-        {
-            mEvents.connect(window, WM_MOUSEWHEEL, boost::bind(&ScrollDecorator::handleMouseWheel, this, _1, _2));
-        }
+        // TODO: enable mousewheel
         return Super::init();
     }
 
@@ -901,8 +864,8 @@ namespace XULWin
             return 0;
         }
 
-        int result = mDecoratedElement->getWidth(inSizeConstraint);
-        if (mVerticalScrollbar && !mVerticalScrollbar->component()->isHidden())
+        int result = mDecoratedComponent->getWidth(inSizeConstraint);
+        if (mVerticalScrollbar && !mVerticalScrollbar->isHidden())
         {
             result += Defaults::scrollbarWidth();
         }
@@ -917,8 +880,8 @@ namespace XULWin
             return 0;
         }
 
-        int result = mDecoratedElement->getHeight(inSizeConstraint);
-        if (mHorizontalScrollbar && !mHorizontalScrollbar->component()->isHidden())
+        int result = mDecoratedComponent->getHeight(inSizeConstraint);
+        if (mHorizontalScrollbar && !mHorizontalScrollbar->isHidden())
         {
             result += Defaults::scrollbarWidth();
         }
@@ -933,7 +896,7 @@ namespace XULWin
         Rect clientRect(clientRect());
         if (mOverflowX != CSSOverflow_Hidden)
         {
-            mHorizontalScrollbar->component()->move(
+            mHorizontalScrollbar->move(
                 clientRect.x(),
                 clientRect.y() + clientRect.height(),
                 clientRect.width(),
@@ -942,7 +905,7 @@ namespace XULWin
         }
         if (mOverflowY != CSSOverflow_Hidden)
         {
-            mVerticalScrollbar->component()->move(
+            mVerticalScrollbar->move(
                 clientRect.x() + clientRect.width(),
                 clientRect.y(),
                 Defaults::scrollbarWidth(),
@@ -962,11 +925,11 @@ namespace XULWin
 
     void ScrollDecorator::updateHorizontalScrollInfo()
     {
-        Scrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
+        Scrollbar * scrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
         if (scrollbar)
         {
             int maxpos = Defaults::Attributes::maxpos();
-            float ratio = (float)mDecoratedElement->clientRect().width()/(float)mDecoratedElement->getWidth(Minimum);
+            float ratio = (float)mDecoratedComponent->clientRect().width()/(float)mDecoratedComponent->getWidth(Minimum);
             int pageincrement = (int)(maxpos*ratio + 0.5);
             int curpos = getScrollPos(scrollbar->handle());
             if (ratio < 1)
@@ -987,11 +950,11 @@ namespace XULWin
 
     void ScrollDecorator::updateVerticalScrollInfo()
     {
-        Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
+        Scrollbar * scrollbar = mVerticalScrollbar->downcast<Scrollbar>();
         if (scrollbar)
         {
             int maxpos = Defaults::Attributes::maxpos();
-            float ratio = (float)mDecoratedElement->clientRect().height()/(float)mDecoratedElement->getHeight(Minimum);
+            float ratio = (float)mDecoratedComponent->clientRect().height()/(float)mDecoratedComponent->getHeight(Minimum);
             int pageincrement = (int)(maxpos*ratio + 0.5);
             int curpos = Windows::getScrollPos(scrollbar->handle());
             if (ratio < 1)
@@ -1017,7 +980,7 @@ namespace XULWin
         int newH = h;
         if (mOverflowX != CSSOverflow_Hidden)
         {
-            Scrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
+            Scrollbar * scrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
             if (scrollbar)
             {
                 if (!scrollbar->isHidden())
@@ -1030,7 +993,7 @@ namespace XULWin
 
         if (mOverflowY != CSSOverflow_Hidden)
         {
-            Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
+            Scrollbar * scrollbar = mVerticalScrollbar->downcast<Scrollbar>();
             if (scrollbar)
             {
                 if (!scrollbar->isHidden())
@@ -1053,10 +1016,10 @@ namespace XULWin
             return;
         }
 
-        if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
+        if (NativeComponent * native = mDecoratedComponent->downcast<NativeComponent>())
         {
             int maxpos = Defaults::Attributes::maxpos();
-            Rect clientRect(mDecoratedElement->clientRect());
+            Rect clientRect(mDecoratedComponent->clientRect());
 
             int newHorScrollPos = 0;
             int newVerScrollPos = 0;
@@ -1065,8 +1028,8 @@ namespace XULWin
 
             if (mHorizontalScrollbar)
             {
-                Scrollbar * hscrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
-                int minHorSize = mDecoratedElement->getWidth(Minimum);
+                Scrollbar * hscrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
+                int minHorSize = mDecoratedComponent->getWidth(Minimum);
                 int horScrollPos = Windows::getScrollPos(hscrollbar->handle());
                 double horRatio = (double)horScrollPos/(double)Defaults::Attributes::maxpos();
                 newHorScrollPos = (int)((horRatio * (double)minHorSize) + 0.5);
@@ -1075,15 +1038,15 @@ namespace XULWin
 
             if (mVerticalScrollbar)
             {
-                Scrollbar * vscrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
-                int minVerSize = mDecoratedElement->getHeight(Minimum);
+                Scrollbar * vscrollbar = mVerticalScrollbar->downcast<Scrollbar>();
+                int minVerSize = mDecoratedComponent->getHeight(Minimum);
                 int verScrollPos = Windows::getScrollPos(vscrollbar->handle());
                 double verRatio = (double)verScrollPos/(double)Defaults::Attributes::maxpos();
                 newVerScrollPos = (int)((verRatio * (double)minVerSize) + 0.5);
                 dy = newVerScrollPos - mOldVerScrollPos;
             }
 
-            if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
+            if (NativeComponent * native = mDecoratedComponent->downcast<NativeComponent>())
             {
                 ::ScrollWindowEx(native->handle(), -dx, -dy, 0, 0, 0, 0, SW_SCROLLCHILDREN | SW_INVALIDATE);
             }
@@ -1096,7 +1059,7 @@ namespace XULWin
     LRESULT ScrollDecorator::handleMouseWheel(WPARAM wParam, LPARAM lParam)
     {
         // Forward mouse wheel messages to the vertical scrollbar
-        if (Scrollbar * vscrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>())
+        if (Scrollbar * vscrollbar = mVerticalScrollbar->downcast<Scrollbar>())
         {
             ::SendMessage(vscrollbar->handle(), WM_MOUSEWHEEL, wParam, lParam);
             return 0;
@@ -1236,9 +1199,9 @@ namespace XULWin
                           y + marginTop(),
                           w - marginLeft() - marginRight(),
                           h - marginTop() - marginBottom());
-        if (mDecoratedElement)
+        if (mDecoratedComponent)
         {
-            mDecoratedElement->move(mInnerRect.x(),
+            mDecoratedComponent->move(mInnerRect.x(),
                                     mInnerRect.y(),
                                     mInnerRect.width(),
                                     mInnerRect.height());

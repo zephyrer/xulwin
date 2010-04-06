@@ -18,7 +18,7 @@ namespace XULWin
     }
 
 
-    ScopedConditional::ScopedConditional(Element * inElement) :
+    ScopedConditional::ScopedConditional(Poco::XML::Element * inElement) :
         mImpl(new Impl(inElement))
     {
     }
@@ -72,7 +72,7 @@ namespace XULWin
     }
 
 
-    ScopedConditional::Impl::Impl(Element * inElement) :
+    ScopedConditional::Impl::Impl(Poco::XML::Element * inElement) :
         mElement(inElement),
         mRefCount(1)
     {
@@ -124,14 +124,14 @@ namespace XULWin
 
 
     ScopedConditional ConditionalState::associate(const Condition & inCondition,
-                                                  Element * inElement,
+                                                  Poco::XML::Element * inElement,
                                                   const std::string & inAttributeName,
                                                   const std::string & inValueIfConditionIsTrue,
                                                   const std::string & inValueIfConditionIsFalse)
     {
         if (!inElement)
         {
-            ReportError("Can't create conditional for the '" + inAttributeName + "' attribute because given Element is nil.");
+            ReportError("Can't create conditional for the '" + inAttributeName + "' attribute because given Poco::XML::Element is nil.");
             return ScopedConditional();
         }
         mMapping[inElement].push_back(Conditional(inCondition,
@@ -142,7 +142,7 @@ namespace XULWin
     }
 
 
-    void ConditionalState::remove(Element * inElement)
+    void ConditionalState::remove(Poco::XML::Element * inElement)
     {
         Mapping::iterator it = mMapping.find(inElement);
         assert(it != mMapping.end());
@@ -158,7 +158,7 @@ namespace XULWin
         Mapping::iterator it = mMapping.begin(), end = mMapping.end();
         for (; it != end; ++it)
         {
-            Element * element = it->first;
+            Poco::XML::Element * element = it->first;
             const Conditionals & conditionals = it->second;
             for (size_t idx = 0; idx != conditionals.size(); ++idx)
             {
@@ -188,13 +188,13 @@ namespace XULWin
     }
 
 
-    ScopedConditional SetEnabledCondition(const ConditionalState::Condition & inCondition, Element * inElement)
+    ScopedConditional SetEnabledCondition(const ConditionalState::Condition & inCondition, Poco::XML::Element * inElement)
     {
         return ConditionalState::Instance().associate(inCondition, inElement, "disabled", "false", "true");
     }
 
 
-    ScopedConditional SetVisibleCondition(const ConditionalState::Condition & inCondition, Element * inElement)
+    ScopedConditional SetVisibleCondition(const ConditionalState::Condition & inCondition, Poco::XML::Element * inElement)
     {
         return ConditionalState::Instance().associate(inCondition, inElement, "hidden", "false", "true");
     }

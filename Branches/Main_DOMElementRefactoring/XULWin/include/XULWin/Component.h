@@ -3,10 +3,10 @@
 
 
 #include "XULWin/AttributeController.h"
+#include "XULWin/AttributesMapping.h"
 #include "XULWin/Conversions.h"
 #include "XULWin/BoxLayouter.h"
-#include "XULWin/Element.h"
-#include "XULWin/EventListener.h"
+#include "XULWin/EventListener.h" // TODO: rename to NativeEventListener.h
 #include "XULWin/Fallible.h"
 #include "XULWin/GdiplusLoader.h"
 #include "XULWin/Node.h"
@@ -15,6 +15,7 @@
 #include "XULWin/Toolbar.h"
 #include "XULWin/ToolbarItem.h"
 #include "XULWin/Windows.h"
+#include "Poco/DOM/Element.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -51,12 +52,59 @@ namespace XULWin
     };
 
 
-    class Element;
     class Component;
     class Decorator;
     class BoxLayouter;
     class NativeComponent;
     typedef boost::shared_ptr<Component> ComponentPtr;
+
+
+    class ComponentManager
+    {
+    public:
+        static ComponentManager & Instance()
+        {
+            static ComponentManager fInstance;
+            return fInstance;
+        }
+        
+        Component * getComponent(Poco::XML::Node * inElementNode)
+        {
+            return 0; // TODO: implement
+        }
+
+    private:
+        ComponentManager() {}
+    };
+
+
+    template<class T>
+    T * GetComp(Poco::XML::Node * inElementNode)
+    {
+        return ComponentManager::Instance().getComponent(inElementNode)->downcast<T>();
+    }
+
+
+    template<class T>
+    void GetChildComponents(Poco::XML::Element * inElement, std::vector<T*> & outComponents)
+    {
+        Poco::XML::NodeList * nodes = inElement->getElementsByTagName(T::TagName());
+        if (nodes->length() == 0)
+        {
+            return;
+        }
+        
+        Poco::XML::Node * node = nodes->item(0);
+        while (node)
+        {
+            outComponents.push_back(GetComp<T>(node));
+            node = node->nextSibling();
+        }
+    }
+
+
+    Poco::XML::Element * Node2Element(Poco::XML::Node * inNode);
+
 
 
     /**
@@ -112,8 +160,8 @@ namespace XULWin
 
         virtual bool init() = 0;
 
-        // Returns this element's index in its parent's children collection.
-        virtual int getIndex() const = 0;
+        // Returns this element's index in its parent's childNodes collection.
+        //virtual int getIndex() const = 0;
 
         virtual size_t getChildCount() const = 0;
 
@@ -124,6 +172,8 @@ namespace XULWin
         virtual HWND getFirstParentHandle() = 0;
 
         virtual void invalidateRect() const = 0;
+
+        virtual void setOwningElement(Poco::XML::Element * inElement) = 0;
 
 
         // WidthController methods
@@ -236,7 +286,7 @@ namespace XULWin
             //
             else if (const Decorator * obj = dynamic_cast<const Decorator *>(this))
             {
-                return obj->decoratedElement()->downcast<Type>();
+                return obj->decoratedComponent()->downcast<Type>();
             }
             return 0;
         }
@@ -251,11 +301,11 @@ namespace XULWin
             }
             else if (const Decorator * obj = dynamic_cast<const Decorator *>(this))
             {
-                return obj->decoratedElement()->findParentOfType<Type>();
+                return obj->decoratedComponent()->findParentOfType<Type>();
             }
-            else if (el() && el()->parent() && el()->parent()->component())
+            else if (el() && el()->parentNode() && el()->parentNode())
             {
-                return el()->parent()->component()->findParentOfType<Type>();
+                return el()->parentNode()->findParentOfType<Type>();
             }
             return 0;
         }
@@ -312,11 +362,9 @@ namespace XULWin
 
         virtual Rect clientRect() const = 0;
 
-        virtual void setOwningElement(Element * inElement) = 0;
+        virtual Poco::XML::Element * el() const = 0;
 
-        virtual Element * el() const = 0;
-
-        virtual Component * parent() const = 0;
+        virtual Component * parentComponent() const = 0;
 
         virtual void rebuildLayout() = 0;
 
@@ -350,7 +398,7 @@ namespace XULWin
 
         virtual bool init();
 
-        virtual int getIndex() const;
+        //virtual int getIndex() const;
 
         virtual size_t getChildCount() const;
 
@@ -458,7 +506,7 @@ namespace XULWin
             }
             else if (Decorator * obj = dynamic_cast<Decorator *>(this))
             {
-                return obj->decoratedElement()->downcast<Type>();
+                return obj->decoratedComponent()->downcast<Type>();
             }
             return 0;
         }
@@ -473,7 +521,7 @@ namespace XULWin
             }
             else if (const Decorator * obj = dynamic_cast<const Decorator *>(this))
             {
-                return obj->decoratedElement()->downcast<ConstType>();
+                return obj->decoratedComponent()->downcast<ConstType>();
             }
             return 0;
         }
@@ -500,11 +548,11 @@ namespace XULWin
 
         virtual Rect clientRect() const = 0;
 
-        virtual void setOwningElement(Element * inElement);
+        virtual void setOwningElement(Poco::XML::Element * inElement);
 
-        virtual Element * el() const;
+        virtual Poco::XML::Element * el() const;
 
-        Component * parent() const;
+        Component * parentComponent() const;
 
         virtual void rebuildLayout() = 0;
 
@@ -555,8 +603,8 @@ namespace XULWin
         int calculateSumChildHeights(SizeConstraint inSizeConstraint) const;
 
     protected:
-        Component * mParent;
-        Element * mElement;
+        Component * mParentComponent;
+        Poco::XML::Element * mElement;
         CommandId mCommandId;
         bool mExpansive;
         int mFlex;
@@ -617,9 +665,9 @@ namespace XULWin
 
         virtual void setHandle(HWND inHandle, bool inPassOwnership);
 
-        bool addEventListener(EventListener * inEventListener);
+        bool addEventListener(NativeEventListener * inEventListener);
 
-        bool removeEventListener(EventListener * inEventListener);
+        bool removeEventListener(NativeEventListener * inEventListener);
 
         // DisabledController methods
         virtual bool isDisabled() const;
@@ -649,7 +697,7 @@ namespace XULWin
 
         virtual void handleCommand(WPARAM wParam, LPARAM lParam);
 
-        virtual void handleMenuCommand(WORD inMenuId);
+        //virtual void handleMenuCommand(WORD inMenuId);
 
         virtual void handleDialogCommand(WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
 
@@ -676,7 +724,7 @@ namespace XULWin
         HMODULE mModuleHandle;
 
 
-        typedef std::set<EventListener *> EventListeners;
+        typedef std::set<NativeEventListener *> EventListeners;
         EventListeners mEventListeners;
 
     private:
@@ -725,15 +773,6 @@ namespace XULWin
         virtual std::string getTitle() const;
 
         virtual void setTitle(const std::string & inTitle);
-
-        virtual const Component * getChild(size_t idx) const;
-
-        virtual Component * getChild(size_t idx);
-
-        virtual void rebuildChildLayouts()
-        {
-            return Super::rebuildChildLayouts();
-        }
 
         DialogResult showModal(Window * inInvoker);
 
@@ -1109,8 +1148,6 @@ namespace XULWin
 
         virtual Component * getChild(size_t idx);
 
-        virtual void rebuildChildLayouts();
-
         virtual Orient BoxLayouter_getOrient() const
         {
             return getOrient();
@@ -1224,6 +1261,11 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
+        static const char * TagName()
+        {
+            return "grid";
+        }
+
         VirtualGrid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
@@ -1238,6 +1280,11 @@ namespace XULWin
     {
     public:
         typedef NativeControl Super;
+
+        static const char * TagName()
+        {
+            return "grid";
+        }
 
         Grid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1254,6 +1301,11 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
+        static const char * TagName()
+        {
+            return "rows";
+        }
+
         Rows(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
@@ -1266,6 +1318,11 @@ namespace XULWin
     {
     public:
         typedef VirtualComponent Super;
+
+        static const char * TagName()
+        {
+            return "row";
+        }
 
         Row(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1280,6 +1337,11 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
+        static const char * TagName()
+        {
+            return "columns";
+        }
+
         Columns(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
@@ -1292,6 +1354,11 @@ namespace XULWin
     {
     public:
         typedef VirtualComponent Super;
+
+        static const char * TagName()
+        {
+            return "column";
+        }
 
         Column(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1399,20 +1466,20 @@ namespace XULWin
 
         virtual void setPageIncrement(int inPageIncrement);
 
-        class EventListener
+        class EventHandler
         {
         public:
             virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
         };
 
-        EventListener * eventHandler()
+        EventHandler * eventHandler()
         {
-            return mEventListener;
+            return mEventHandler;
         }
 
-        void setEventListener(EventListener * inEventListener)
+        void setEventHandler(EventHandler * inEventHandler)
         {
-            mEventListener = inEventListener;
+            mEventHandler = inEventHandler;
         }
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
@@ -1426,411 +1493,417 @@ namespace XULWin
     private:
         static DWORD GetFlags(const AttributesMapping & inAttributesMapping);
 
-        EventListener * mEventListener;
+        EventHandler * mEventHandler;
+        ScopedEventListener mEventListener;
         int mIncrement;
     };
 
 
-    class Tabs : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
+    //class Tabs : public PassiveComponent
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
-        Tabs(Component * inParent, const AttributesMapping & inAttributesMapping);
-    };
+    //    static const char * TagName()
+    //    {
+    //        return "tabs";
+    //    }
 
+    //    Tabs(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //};
 
-    class Tab : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        Tab(Component * inParent, const AttributesMapping & inAttributesMapping);
-    };
+    //class Tab : public PassiveComponent
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
+    //    Tab(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //};
 
-    class TabPanel;
-    class Tab;
-    class TabPanels : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
 
-        TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class TabPanel;
+    //class Tab;
+    //class TabPanels : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        virtual ~TabPanels();
+    //    TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        void addTabPanel(TabPanel * inPanel);
+    //    virtual ~TabPanels();
 
-        virtual void rebuildLayout();
+    //    void addTabPanel(TabPanel * inPanel);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual void rebuildLayout();
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        static LRESULT MessageHandler(HWND inHandle, UINT inMessage, WPARAM wParam, LPARAM lParam);
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-    private:
-        void update();
+    //    static LRESULT MessageHandler(HWND inHandle, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
-        Tab * getCorrespondingTab(size_t inIndex);
-        HWND mParentHandle;
-        HWND mTabBarHandle;
-        typedef std::map<HWND, TabPanels *> Instances;
-        static Instances sInstances;
-        WNDPROC mOrigProc;
-        size_t mChildCount;
-        int mSelectedIndex;
-    };
+    //private:
+    //    void update();
 
+    //    Tab * getCorrespondingTab(size_t inIndex);
+    //    HWND mParentHandle;
+    //    HWND mTabBarHandle;
+    //    typedef std::map<HWND, TabPanels *> Instances;
+    //    static Instances sInstances;
+    //    WNDPROC mOrigProc;
+    //    size_t mChildCount;
+    //    int mSelectedIndex;
+    //};
 
-    class TabPanel : public VirtualBox
-    {
-    public:
-        typedef VirtualComponent Super;
 
-        TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class TabPanel : public VirtualBox
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        virtual bool init();
-    };
+    //    TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
+    //    virtual bool init();
+    //};
 
-    class GroupBox : public VirtualBox
-    {
-    public:
-        typedef VirtualBox Super;
 
-        GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class GroupBox : public VirtualBox
+    //{
+    //public:
+    //    typedef VirtualBox Super;
 
-        virtual ~GroupBox();
+    //    GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        void setCaption(const std::string & inLabel);
+    //    virtual ~GroupBox();
 
-        virtual void rebuildLayout();
+    //    void setCaption(const std::string & inLabel);
 
-        virtual Orient getOrient() const;
+    //    virtual void rebuildLayout();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual Orient getOrient() const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual size_t getChildCount() const;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual const Component * getChild(size_t idx) const;
+    //    virtual size_t getChildCount() const;
 
-        virtual Component * getChild(size_t idx);
+    //    virtual const Component * getChild(size_t idx) const;
 
-        virtual Rect clientRect() const;
+    //    virtual Component * getChild(size_t idx);
 
-    private:
-        HWND mGroupBoxHandle;
-        int mMarginLeft;
-        int mMarginTop;
-        int mMarginRight;
-        int mMarginBottom;
-    };
+    //    virtual Rect clientRect() const;
 
+    //private:
+    //    HWND mGroupBoxHandle;
+    //    int mMarginLeft;
+    //    int mMarginTop;
+    //    int mMarginRight;
+    //    int mMarginBottom;
+    //};
 
-    class Caption : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
 
-        Caption(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class Caption : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    Caption(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual bool init();
-    };
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
+    //    virtual bool init();
+    //};
 
-    typedef GenericNode<std::string, ContainerPolicy_Vector, PointerPolicy_Normal_NoOwnership> TreeItemInfo;
 
+    //typedef GenericNode<std::string, ContainerPolicy_Vector, PointerPolicy_Normal_NoOwnership> TreeItemInfo;
 
-    class TreeCell;
-    class Tree : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
 
-        Tree(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class TreeCell;
+    //class Tree : public NativeControl
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    Tree(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        void addInfo(const TreeItemInfo & inInfo);
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        HTREEITEM addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo);
+    //    void addInfo(const TreeItemInfo & inInfo);
 
-        virtual bool init();
-    };
+    //    HTREEITEM addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo);
 
+    //    virtual bool init();
+    //};
 
-    class TreeItem;
-    class TreeChildren : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class TreeItem;
+    //class TreeChildren : public PassiveComponent
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-    class TreeRow;
-    class TreeItem : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class TreeRow;
+    //class TreeItem : public PassiveComponent
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
-        virtual bool init();
+    //    TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        const TreeItemInfo & itemInfo() const
-        {
-            return mItemInfo;
-        }
+    //    virtual bool init();
 
-        TreeItemInfo & itemInfo()
-        {
-            return mItemInfo;
-        }
+    //    const TreeItemInfo & itemInfo() const
+    //    {
+    //        return mItemInfo;
+    //    }
 
-        bool isOpened() const;
+    //    TreeItemInfo & itemInfo()
+    //    {
+    //        return mItemInfo;
+    //    }
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    bool isOpened() const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    private:
-        TreeItemInfo mItemInfo;
-    };
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
+    //private:
+    //    TreeItemInfo mItemInfo;
+    //};
 
-    class TreeCols : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping);
-    };
+    //class TreeCols : public PassiveComponent
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
+    //    TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //};
 
-    class TreeCol : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping);
-    };
+    //class TreeCol : public PassiveComponent
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
+    //    TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //};
 
-    class TreeCell;
-    class TreeRow : public PassiveComponent
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class TreeCell;
+    //class TreeRow : public PassiveComponent
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-    class TreeCell : public PassiveComponent,
-        public LabelController
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class TreeCell : public PassiveComponent,
+    //    public LabelController
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
-        virtual bool initAttributeControllers();
+    //    TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual std::string getLabel() const;
+    //    virtual bool initAttributeControllers();
 
-        virtual void setLabel(const std::string & inLabel);
+    //    virtual std::string getLabel() const;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual void setLabel(const std::string & inLabel);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    private:
-        std::string mLabel;
-    };
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
+    //private:
+    //    std::string mLabel;
+    //};
 
 
-    class Statusbar : public NativeControl,
-        public BoxLayouter::ContentProvider
-    {
-    public:
-        typedef NativeControl Super;
 
-        Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class Statusbar : public NativeControl,
+    //    public BoxLayouter::ContentProvider
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual bool initAttributeControllers();
+    //    Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual bool initAttributeControllers();
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual Orient getOrient() const;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual Align getAlign() const;
+    //    virtual Orient getOrient() const;
 
-        virtual Rect clientRect() const;
+    //    virtual Align getAlign() const;
 
-        virtual void rebuildChildLayouts();
+    //    virtual Rect clientRect() const;
 
-        virtual void rebuildLayout();
+    //    virtual void rebuildChildLayouts();
 
-        virtual Orient BoxLayouter_getOrient() const
-        {
-            return getOrient();
-        }
+    //    virtual void rebuildLayout();
 
-        virtual Align BoxLayouter_getAlign() const
-        {
-            return getAlign();
-        }
+    //    virtual Orient BoxLayouter_getOrient() const
+    //    {
+    //        return getOrient();
+    //    }
 
-        virtual size_t BoxLayouter_getChildCount() const
-        {
-            return getChildCount();
-        }
+    //    virtual Align BoxLayouter_getAlign() const
+    //    {
+    //        return getAlign();
+    //    }
 
-        virtual const Component * BoxLayouter_getChild(size_t idx) const
-        {
-            return getChild(idx);
-        }
+    //    virtual size_t BoxLayouter_getChildCount() const
+    //    {
+    //        return getChildCount();
+    //    }
 
-        virtual Component * BoxLayouter_getChild(size_t idx)
-        {
-            return getChild(idx);
-        }
+    //    virtual const Component * BoxLayouter_getChild(size_t idx) const
+    //    {
+    //        return getChild(idx);
+    //    }
 
-        virtual Rect BoxLayouter_clientRect() const
-        {
-            return clientRect();
-        }
+    //    virtual Component * BoxLayouter_getChild(size_t idx)
+    //    {
+    //        return getChild(idx);
+    //    }
 
-        virtual void BoxLayouter_rebuildChildLayouts()
-        {
-            rebuildChildLayouts();
-        }
+    //    virtual Rect BoxLayouter_clientRect() const
+    //    {
+    //        return clientRect();
+    //    }
 
-    private:
-        BoxLayouter mBoxLayouter;
-    };
+    //    virtual void BoxLayouter_rebuildChildLayouts()
+    //    {
+    //        rebuildChildLayouts();
+    //    }
 
+    //private:
+    //    BoxLayouter mBoxLayouter;
+    //};
 
 
-    class StatusbarPanel : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
 
-        StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class StatusbarPanel : public NativeControl
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual bool initAttributeControllers();
+    //    StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual bool initAttributeControllers();
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-    class Toolbar : public NativeControl,
-        public Windows::Toolbar::EventHandler,
-        public GdiplusLoader
-    {
-    public:
-        typedef NativeControl Super;
 
-        Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class Toolbar : public NativeControl,
+    //    public Windows::Toolbar::EventHandler,
+    //    public GdiplusLoader
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual ~Toolbar();
+    //    Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
+    //    virtual ~Toolbar();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual bool init();
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual void rebuildLayout();
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        // ToolbarElement::EventHandler methods
-        virtual void onRequestFocus() {}
+    //    virtual void rebuildLayout();
 
-        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const
-        {
-            return mToolbar;
-        }
+    //    // ::EventHandler methods
+    //    virtual void onRequestFocus() {}
 
-    private:
-        boost::shared_ptr<Windows::Toolbar> mToolbar;
-    };
+    //    boost::shared_ptr<Windows::Toolbar> nativeToolbar() const
+    //    {
+    //        return mToolbar;
+    //    }
 
+    //private:
+    //    boost::shared_ptr<Windows::Toolbar> mToolbar;
+    //};
 
-    class ToolbarButton : public PassiveComponent,
-        public Windows::ToolbarDropDown::EventHandler,
-        public MenuPopupContainer,
-        public virtual DisabledController,
-        public virtual LabelController,
-        public virtual CSSListStyleImageController
-    {
-    public:
-        typedef PassiveComponent Super;
 
-        ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class ToolbarButton : public PassiveComponent,
+    //    public Windows::ToolbarDropDown::EventHandler,
+    //    public MenuPopupContainer,
+    //    public virtual DisabledController,
+    //    public virtual LabelController,
+    //    public virtual CSSListStyleImageController
+    //{
+    //public:
+    //    typedef PassiveComponent Super;
 
-        virtual bool initAttributeControllers();
+    //    ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool initStyleControllers();
+    //    virtual bool initAttributeControllers();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual bool initStyleControllers();
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        // From ToolbarDropDown::EventHandler
-        virtual void showToolbarMenu(RECT inToolbarButtonRect);
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        // From MenuPopupContainer
-        virtual void showPopupMenu(RECT inToolbarButtonRect);
+    //    // From ToolbarDropDown::EventHandler
+    //    virtual void showToolbarMenu(RECT inToolbarButtonRect);
 
-        virtual std::string getLabel() const;
+    //    // From MenuPopupContainer
+    //    virtual void showPopupMenu(RECT inToolbarButtonRect);
 
-        virtual void setLabel(const std::string & inLabel);
+    //    virtual std::string getLabel() const;
 
-        virtual bool isDisabled() const;
+    //    virtual void setLabel(const std::string & inLabel);
 
-        virtual void setDisabled(bool inDisabled);
+    //    virtual bool isDisabled() const;
 
-        virtual void setCSSListStyleImage(const std::string & inURL);
+    //    virtual void setDisabled(bool inDisabled);
 
-        virtual const std::string & getCSSListStyleImage() const;
+    //    virtual void setCSSListStyleImage(const std::string & inURL);
 
-        Windows::ConcreteToolbarItem * nativeItem()
-        {
-            return mButton;
-        }
+    //    virtual const std::string & getCSSListStyleImage() const;
 
-    private:
-        Windows::ConcreteToolbarItem * mButton;
-        bool mDisabled;
-        std::string mLabel;
-        std::string mCSSListStyleImage;
-    };
+    //    Windows::ConcreteToolbarItem * nativeItem()
+    //    {
+    //        return mButton;
+    //    }
+
+    //private:
+    //    Windows::ConcreteToolbarItem * mButton;
+    //    bool mDisabled;
+    //    std::string mLabel;
+    //    std::string mCSSListStyleImage;
+    //};
 
 
 } // namespace XULWin

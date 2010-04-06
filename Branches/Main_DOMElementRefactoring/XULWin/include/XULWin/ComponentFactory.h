@@ -3,7 +3,6 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/Element.h"
 #include "XULWin/ToolbarCustomWindowDecorator.h"
 #include "Poco/StringTokenizer.h"
 #include <boost/shared_ptr.hpp>
@@ -22,6 +21,13 @@ namespace XULWin
 
         static CSSOverflow GetOverflow(const StylesMapping & inStyles, const std::string & inOverflow);
 
+
+        template<class T>
+        void registerComponent()
+        {
+            // TODO: implement
+        }
+
         /**
          * createComponent
          * @DecoratorType: decorator type, for example Decorator or MarginDecorator.
@@ -36,7 +42,7 @@ namespace XULWin
                                     const AttributesMapping & inAttributes)
         {
             Component * result(0);
-            if (!CreateToolbarChild<DecoratorType, ComponentType>(inParent, inAttributes, result))
+            //if (!CreateToolbarChild<DecoratorType, ComponentType>(inParent, inAttributes, result))
             {
                 result = new DecoratorType(new ComponentType(inParent, inAttributes));
             }
@@ -75,24 +81,24 @@ namespace XULWin
             }
         }
 
-        template<class DecoratorType, class ComponentType>
-        static bool CreateToolbarChild(Component * inParent,
-                                       const AttributesMapping & inAttributesMapping,
-                                       Component *& result)
-        {
-            if (!inParent)
-            {
-                return false;
-            }
-            if (Toolbar * toolbar = inParent->downcast<Toolbar>())
-            {
-                DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttributesMapping));
-                boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());
-                result = new ToolbarCustomWindowDecorator(decoratedComponent, theNativeToolbar);
-                return true;
-            }
-            return false;
-        }
+        //template<class DecoratorType, class ComponentType>
+        //static bool CreateToolbarChild(Component * inParent,
+        //                               const AttributesMapping & inAttributesMapping,
+        //                               Component *& result)
+        //{
+        //    if (!inParent)
+        //    {
+        //        return false;
+        //    }
+        //    if (XULWin::Toolbar * toolbar = inParent->downcast<XULWin::Toolbar>())
+        //    {
+        //        DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttributesMapping));
+        //        boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());
+        //        result = new ToolbarCustomWindowDecorator(decoratedComponent, theNativeToolbar);
+        //        return true;
+        //    }
+        //    return false;
+        //}
     };
 
 } // namespace XULWin

@@ -17,14 +17,14 @@ namespace XULWin
     }
 
 
-    ElementPtr ElementFactory::createElement(const std::string & inType, Element * inParent, const AttributesMapping & inAttr)
+    ElementPtr ElementFactory::createElement(const std::string & inType, Poco::XML::Element * inParent, const AttributesMapping & inAttr)
     {
         ElementPtr result;
         FactoryMethods::iterator it = mFactoryMethods.find(inType);
         if (it != mFactoryMethods.end())
         {
             result = it->second(inParent, inAttr);
-            // NOTE TO SELF: don't add any custom code here, use Element::Create or override Element::init.
+            // NOTE TO SELF: don't add any custom code here, use Poco::XML::Element::Create or override Poco::XML::Element::init.
         }
         else
         {

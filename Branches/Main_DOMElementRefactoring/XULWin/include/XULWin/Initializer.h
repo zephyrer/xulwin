@@ -2,7 +2,6 @@
 #define INITIALIZER_H_INCLUDED
 
 
-#include "XULWin/ElementFactory.h"
 #include "XULWin/Windows.h"
 #include <boost/noncopyable.hpp>
 

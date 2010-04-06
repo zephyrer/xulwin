@@ -23,11 +23,11 @@ namespace XULWin
         wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         wndClass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
         wndClass.lpszMenuName = NULL;
-        wndClass.lpszClassName = TEXT("XULWin::WindowElement");
+        wndClass.lpszClassName = TEXT("XULWin::");
         wndClass.hIconSm = 0;
         if (! RegisterClassEx(&wndClass))
         {
-            ReportError("Could not register XUL::WindowElement class.");
+            ReportError("Could not register XUL:: class.");
         }
     }
 
@@ -41,7 +41,7 @@ namespace XULWin
         mHandle = ::CreateWindowEx
                   (
                       0,
-                      TEXT("XULWin::WindowElement"),
+                      TEXT("XULWin::"),
                       TEXT(""),
                       WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
                       CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
@@ -134,27 +134,7 @@ namespace XULWin
     }
 
 
-    const Component * Window::getChild(size_t idx) const
-    {
-        if (el())
-        {
-            return el()->children()[idx]->component();
-        }
-        return 0;
-    }
-
-
-    Component * Window::getChild(size_t idx)
-    {
-        if (el())
-        {
-            return el()->children()[idx]->component();
-        }
-        return 0;
-    }
-
-
-    void Window::showModal(WindowElement::Positioning inPositioning)
+    void Window::showModal(WindowPos inPositioning)
     {
         show(inPositioning);
 
@@ -172,11 +152,11 @@ namespace XULWin
     }
 
 
-    void Window::show(WindowElement::Positioning inPositioning)
+    void Window::show(WindowPos inPositioning)
     {
         rebuildLayout();
 
-        if (inPositioning == WindowElement::CenterInScreen)
+        if (inPositioning == WindowPos_CenterInScreen)
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
             if (findChildOfType<MenuBar>())
@@ -271,7 +251,7 @@ namespace XULWin
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
         for (; it != end; ++it)
         {
-            LRESULT result = (*it)->handleMessage(el(), inMessage, wParam, lParam);
+            LRESULT result = (*it)->handleMessage(this, inMessage, wParam, lParam);
             if (0 == result)
             {
                 handled = true;

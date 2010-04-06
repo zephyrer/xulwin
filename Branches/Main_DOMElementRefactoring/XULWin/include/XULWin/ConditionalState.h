@@ -22,7 +22,7 @@ namespace XULWin
     {
     public:
         ScopedConditional();
-        ScopedConditional(Element * inElement);
+        ScopedConditional(Poco::XML::Element * inElement);
         ScopedConditional(const ScopedConditional & rhs);
         ScopedConditional & operator=(const ScopedConditional & rhs);
         ~ScopedConditional();
@@ -34,10 +34,10 @@ namespace XULWin
         class Impl : boost::noncopyable
         {
         public:
-            Impl(Element * inElement);
+            Impl(Poco::XML::Element * inElement);
             ~Impl();
             int mRefCount;
-            Element * mElement;
+            Poco::XML::Element * mElement;
         };
         Impl * mImpl;
     };
@@ -69,7 +69,7 @@ namespace XULWin
          *          not be an expensive one.
          */
         ScopedConditional associate(const Condition & inCondition,
-                                    Element * inElement,
+                                    Poco::XML::Element * inElement,
                                     const std::string & inAttributeName,
                                     const std::string & inValueIfConditionIsTrue,
                                     const std::string & inValueIfConditionIsFalse);
@@ -83,7 +83,7 @@ namespace XULWin
         ConditionalState(HINSTANCE hInstance);
         ~ConditionalState();
 
-        void remove(Element * inElement);
+        void remove(Poco::XML::Element * inElement);
 
         void updateStates();
 
@@ -105,7 +105,7 @@ namespace XULWin
             std::string ValueIfConditionIsFalse;
         };
         typedef std::vector<Conditional> Conditionals;
-        typedef std::map<Element *, Conditionals> Mapping;
+        typedef std::map<Poco::XML::Element *, Conditionals> Mapping;
         Mapping mMapping;
         HHOOK mForegroundIdleProc;
 
@@ -117,12 +117,12 @@ namespace XULWin
     /**
      * Shorter syntax for associating a conditional with the (negated) "disabled" attribute.
      */
-    ScopedConditional SetEnabledCondition(const ConditionalState::Condition & inCondition, Element * inElement);
+    ScopedConditional SetEnabledCondition(const ConditionalState::Condition & inCondition, Poco::XML::Element * inElement);
 
     /**
      * Shorter syntax for associating a conditional with the (negated) "hidden" attribute.
      */
-    ScopedConditional SetVisibleCondition(const ConditionalState::Condition & inCondition, Element * inElement);
+    ScopedConditional SetVisibleCondition(const ConditionalState::Condition & inCondition, Poco::XML::Element * inElement);
 
 
 } // namespace XULWin

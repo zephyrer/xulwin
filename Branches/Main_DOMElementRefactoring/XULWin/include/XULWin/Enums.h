@@ -4,6 +4,20 @@
 
 namespace XULWin
 {
+    
+    enum WindowPos
+    {
+        WindowPos_Default,
+        WindowPos_CenterInScreen
+    };
+
+
+    enum DialogResult
+    {
+        DialogResult_Ok,
+        DialogResult_Cancel
+    };
+
 
     enum SizeConstraint
     {

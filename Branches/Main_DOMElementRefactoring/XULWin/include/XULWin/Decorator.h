@@ -23,7 +23,7 @@ namespace XULWin
 
         virtual bool init();
 
-        virtual int getIndex() const;
+        //virtual int getIndex() const;
 
         virtual size_t getChildCount() const;
 
@@ -149,11 +149,11 @@ namespace XULWin
 
         virtual Rect clientRect() const;
 
-        virtual void setOwningElement(Element * inElement);
+        virtual void setOwningElement(Poco::XML::Element * inElement);
 
-        virtual Element * el() const;
+        virtual Poco::XML::Element * el() const;
 
-        virtual Component * parent() const;
+        virtual Component * parentComponent() const;
 
         virtual void rebuildLayout();
 
@@ -165,7 +165,7 @@ namespace XULWin
 
         virtual bool initStyleControllers();
 
-        ComponentPtr decoratedElement() const;
+        ComponentPtr decoratedComponent() const;
 
         void setDecoratedElement(ComponentPtr inElement);
 
@@ -187,28 +187,12 @@ namespace XULWin
         virtual void onContentChanged();
 
     protected:
-        ComponentPtr mDecoratedElement;
-    };
-
-
-    class WrapDecorator : public Decorator
-    {
-    public:
-        typedef Decorator Super;
-
-        WrapDecorator(Component * inParent, Component * inDecoratedElement);
-
-        // takes ownership
-        void addChild(ElementPtr inChild);
-
-    protected:
-        Component * mParent;
-        std::vector<ElementPtr> mDecoratorChildren;
+        ComponentPtr mDecoratedComponent;
     };
 
 
     class ScrollDecorator : public Decorator,
-        public Scrollbar::EventListener
+        public Scrollbar::EventHandler
     {
     public:
         typedef Decorator Super;
@@ -246,9 +230,8 @@ namespace XULWin
         CSSOverflow mOverflowY;
         int mOldHorScrollPos;
         int mOldVerScrollPos;
-        ElementPtr mVerticalScrollbar;
-        ElementPtr mHorizontalScrollbar;
-        ScopedEventListener mEvents;
+        boost::scoped_ptr<Scrollbar> mVerticalScrollbar;
+        boost::scoped_ptr<Scrollbar> mHorizontalScrollbar;
     };
 
 

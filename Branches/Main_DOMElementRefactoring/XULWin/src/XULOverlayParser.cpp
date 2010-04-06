@@ -1,6 +1,6 @@
 #include "XULWin/XULOverlayParser.h"
-#include "XULWin/ElementFactory.h"
 #include "XULWin/ChromeURL.h"
+#include "XULWin/ComponentFactory.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
 #include "Poco/SAX/Attributes.h"
@@ -11,13 +11,13 @@ namespace XULWin
 {
 
 
-    XULOverlayParser::XULOverlayParser(Element * inOverlayElement) :
+    XULOverlayParser::XULOverlayParser(Poco::XML::Element * inOverlayElement) :
         mOverlayRoot(inOverlayElement)
     {
     }
 
 
-    Element * XULOverlayParser::getCurrentParentElement()
+    Poco::XML::Element * XULOverlayParser::getCurrentParentElement()
     {
         if (mStack.empty())
         {
@@ -46,9 +46,9 @@ namespace XULWin
 
 
     bool XULOverlayParser::createElement(const std::string & inLocalName,
-                                         Element * inParent,
+                                         Poco::XML::Element * inParent,
                                          const AttributesMapping & inAttributes,
-                                         ElementPtr & outElement)
+                                         Poco::XML::Element * & outElement)
     {
         if (mStack.size() < 2)
         {
@@ -62,13 +62,13 @@ namespace XULWin
             // Create the child element. If the factory returns a nil element, then return
             // false to indicate that we failed to parse this element, and that all its child
             // elements have to be ignored as well.
-            outElement = ElementFactory::Instance().createElement(inLocalName, inParent, inAttributes);
+            outElement = ComponentFactory::Instance().createElement(inLocalName, inParent, inAttributes);
             return outElement.get() != 0;
         }
     }
 
 
-    void XULOverlayParser::pushStack(ElementPtr inElement)
+    void XULOverlayParser::pushStack(Poco::XML::Element * inElement)
     {
         mStack.push(inElement.get());
     }

@@ -13,6 +13,7 @@
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
+#include "Poco/DOM/NodeList.h"
 #include "Poco/String.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
@@ -39,6 +40,17 @@ namespace XULWin
         ReportError(ss.str());
     }
 
+    
+    Poco::XML::Element * Node2Element(Poco::XML::Node * inNode) 
+    {
+        Poco::XML::Element * result = dynamic_cast<Poco::XML::Element *>(inNode);
+        if (!result)
+        {
+            throw std::bad_cast("Downcast from Node toPoco::XML::Element failed.");
+        }
+        return result;
+    }
+
 
     int CommandId::sId = 101; // start handleCommand Ids at 101 to avoid conflicts with Windows predefined values
 
@@ -47,7 +59,7 @@ namespace XULWin
     NativeComponent::ComponentsById NativeComponent::sComponentsById;
 
     ConcreteComponent::ConcreteComponent(Component * inParent) :
-        mParent(inParent),
+        mParentComponent(inParent),
         mCommandId(),
         mExpansive(false),
         mElement(0),
@@ -99,87 +111,91 @@ namespace XULWin
 
     int ConcreteComponent::calculateMaxChildWidth(SizeConstraint inSizeConstraint) const
     {
-        return max_element_value<int>(el()->children().begin(),
-                                      el()->children().end(),
-                                      0,
-                                      boost::bind(&Component::calculateWidth,
-                                                  boost::bind(&Element::component, _1),
-                                                  inSizeConstraint));
+        return 0;
+        //return max_element_value<int>(el()->childNodes().begin(),
+        //                              el()->childNodes().end(),
+        //                              0,
+        //                              boost::bind(&Component::calculateWidth,
+        //                                          boost::bind(&Element::component, _1),
+        //                                          inSizeConstraint));
     }
 
 
     int ConcreteComponent::calculateMaxChildHeight(SizeConstraint inSizeConstraint) const
     {
-        return max_element_value<int>(el()->children().begin(),
-                                      el()->children().end(),
-                                      0,
-                                      boost::bind(&Component::calculateHeight,
-                                                  boost::bind(&Element::component, _1),
-                                                  inSizeConstraint));
+        return 0;
+        //return max_element_value<int>(el()->childNodes().begin(),
+        //                              el()->childNodes().end(),
+        //                              0,
+        //                              boost::bind(&Component::calculateHeight,
+        //                                          boost::bind(&Element::component, _1),
+        //                                          inSizeConstraint));
     }
 
 
     int ConcreteComponent::calculateSumChildWidths(SizeConstraint inSizeConstraint) const
     {
-        return sum_element_values<int>(el()->children().begin(),
-                                       el()->children().end(),
-                                       0,
-                                       boost::bind(&Component::calculateWidth,
-                                                   boost::bind(&Element::component, _1),
-                                                   inSizeConstraint));
+        return 0;
+        //return sum_element_values<int>(el()->childNodes().begin(),
+        //                               el()->childNodes().end(),
+        //                               0,
+        //                               boost::bind(&Component::calculateWidth,
+        //                                           boost::bind(&Element::component, _1),
+        //                                           inSizeConstraint));
     }
 
 
     int ConcreteComponent::calculateSumChildHeights(SizeConstraint inSizeConstraint) const
     {
-        return sum_element_values<int>(el()->children().begin(),
-                                       el()->children().end(),
-                                       0,
-                                       boost::bind(&Component::calculateHeight,
-                                                   boost::bind(&Element::component, _1),
-                                                   inSizeConstraint));
+        return 0;
+        //return sum_element_values<int>(el()->childNodes().begin(),
+        //                               el()->childNodes().end(),
+        //                               0,
+        //                               boost::bind(&Component::calculateHeight,
+        //                                           boost::bind(&Element::component, _1),
+        //                                           inSizeConstraint));
     }
 
 
-    int ConcreteComponent::getIndex() const
-    {
-        size_t idx = 0;
-        for (; idx != parent()->getChildCount(); ++idx)
-        {
-            if (Component * child = parent()->getChild(idx))
-            {
-                if (this == child->downcast<ConcreteComponent>())
-                {
-                    return idx;
-                }
-            }
-        }
-        ReportError("Component failed to find itself in its parent's list of children.");
-        return idx;
-    }
+    //int ConcreteComponent::getIndex() const
+    //{
+    //    size_t idx = 0;
+    //    for (; idx != el()->parentNode()->childNodes()->length(); ++idx)
+    //    {
+    //        if (Component * child = parentNode()->getChild(idx))
+    //        {
+    //            if (this == child->downcast<ConcreteComponent>())
+    //            {
+    //                return idx;
+    //            }
+    //        }
+    //    }
+    //    ReportError("Component failed to find itself in its parent's list of childNodes.");
+    //    return idx;
+    //}
 
 
     size_t ConcreteComponent::getChildCount() const
     {
-        return el()->children().size();
+        return el()->childNodes()->length();
     }
 
 
     const Component * ConcreteComponent::getChild(size_t inIndex) const
     {
-        return el()->children()[inIndex]->component();
+        return GetComp<Component>(el()->childNodes()->item(inIndex));
     }
 
 
     Component * ConcreteComponent::getChild(size_t inIndex)
     {
-        return el()->children()[inIndex]->component();
+        return GetComp<Component>(el()->childNodes()->item(inIndex));
     }
 
 
     HWND ConcreteComponent::getFirstParentHandle()
     {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(parent()))
+        if (NativeComponent * comp = NativeControl::GetThisOrParent(parentComponent()))
         {
             return comp->handle();
         }
@@ -189,7 +205,7 @@ namespace XULWin
 
     void ConcreteComponent::invalidateRect() const
     {
-        // Just forward to all children.
+        // Just forward to all childNodes.
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             getChild(idx)->invalidateRect();
@@ -204,9 +220,9 @@ namespace XULWin
             return mCSSFill;
         }
 
-        if (parent())
+        if (parentComponent())
         {
-            return parent()->getCSSFill();
+            return parentComponent()->getCSSFill();
         }
 
         return mCSSFill; // default value
@@ -232,9 +248,9 @@ namespace XULWin
             return mCSSStroke.getValue();
         }
 
-        if (parent())
+        if (parentComponent())
         {
-            return parent()->getCSSStroke();
+            return parentComponent()->getCSSStroke();
         }
 
         return mCSSStroke;
@@ -467,14 +483,14 @@ namespace XULWin
         }
 
         // Find a margin decorator, and set the margin value.
-        if (MarginDecorator * obj = el()->component()->downcast<MarginDecorator>())
+        if (MarginDecorator * obj = GetComp<MarginDecorator>(el()))
         {
             obj->setMargin(inTop, inLeft, inRight, inBottom);
         }
         // If no margin decorator found, insert one, and set the value.
-        else if (Decorator * dec = el()->component()->downcast<Decorator>())
+        else if (Decorator * dec = GetComp<Decorator>(el()))
         {
-            ComponentPtr newDec(new MarginDecorator(dec->decoratedElement()));
+            ComponentPtr newDec(new MarginDecorator(dec->decoratedComponent()));
             dec->setDecoratedElement(newDec);
             if (MarginDecorator * p = newDec->downcast<MarginDecorator>())
             {
@@ -560,7 +576,7 @@ namespace XULWin
             controller->set(inValue);
             if (errorCatcher.hasCaught())
             {
-                ReportSetterFail(inName, el()->type(), el()->getAttribute("id"));
+                ReportSetterFail(inName, el()->tagName(), el()->getAttribute("id"));
             }
             return true;
         }
@@ -577,7 +593,7 @@ namespace XULWin
             it->second->set(inValue);
             if (errorCatcher.hasCaught())
             {
-                ReportSetterFail(inName, el()->type(), el()->getAttribute("id"));
+                ReportSetterFail(inName, el()->tagName(), el()->getAttribute("id"));
             }
             return true;
         }
@@ -617,21 +633,21 @@ namespace XULWin
     }
 
 
-    void ConcreteComponent::setOwningElement(Element * inElement)
+    void ConcreteComponent::setOwningElement(Poco::XML::Element * inOwningElement)
     {
-        mElement = inElement;
+        mElement = inOwningElement;
     }
 
 
-    Element * ConcreteComponent::el() const
+    Poco::XML::Element * ConcreteComponent::el() const
     {
         return mElement;
     }
 
 
-    Component * ConcreteComponent::parent() const
+    Component * ConcreteComponent::parentComponent() const
     {
-        return mParent;
+        return mParentComponent;
     }
 
 
@@ -641,10 +657,10 @@ namespace XULWin
         {
             return;
         }
-
-        for (size_t idx = 0; idx != mElement->children().size(); ++idx)
+        // TODO: improve performance!! (childNodes is a list!)
+        for (size_t idx = 0; idx != mElement->childNodes()->length(); ++idx)
         {
-            Component * nativeComp = mElement->children()[idx]->component();
+            Component * nativeComp = GetComp<Component>(el()->childNodes()->item(idx));
             if (nativeComp)
             {
                 nativeComp->rebuildLayout();
@@ -821,7 +837,7 @@ namespace XULWin
     }
 
 
-    bool NativeComponent::addEventListener(EventListener * inEventListener)
+    bool NativeComponent::addEventListener(NativeEventListener * inEventListener)
     {
         EventListeners::iterator it = mEventListeners.find(inEventListener);
         if (it == mEventListeners.end())
@@ -833,7 +849,7 @@ namespace XULWin
     }
 
 
-    bool NativeComponent::removeEventListener(EventListener * inEventListener)
+    bool NativeComponent::removeEventListener(NativeEventListener * inEventListener)
     {
         EventListeners::iterator it = mEventListeners.find(inEventListener);
         if (it != mEventListeners.end())
@@ -865,19 +881,19 @@ namespace XULWin
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
         for (; it != end; ++it)
         {
-            (*it)->handleCommand(el(), notificationCode, wParam, lParam);
+            (*it)->handleCommand(this, notificationCode, wParam, lParam);
         }
     }
 
 
-    void NativeComponent::handleMenuCommand(WORD inMenuId)
-    {
-        EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
-        for (; it != end; ++it)
-        {
-            (*it)->handleMenuCommand(el(), inMenuId);
-        }
-    }
+    //void NativeComponent::handleMenuCommand(WORD inMenuId)
+    //{
+    //    EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
+    //    for (; it != end; ++it)
+    //    {
+    //        (*it)->handleMenuCommand(this, inMenuId);
+    //    }
+    //}
 
 
     void NativeComponent::handleDialogCommand(WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
@@ -885,7 +901,7 @@ namespace XULWin
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
         for (; it != end; ++it)
         {
-            (*it)->handleDialogCommand(el(), inNotificationCode, wParam, lParam);
+            (*it)->handleDialogCommand(this, inNotificationCode, wParam, lParam);
         }
     }
 
@@ -898,17 +914,17 @@ namespace XULWin
             {
                 if (lParam == 0) // menu or accelerator
                 {
-                    int menuId = LOWORD(wParam);
-                    if (Menu * menu = Menu::FindById(menuId))
-                    {
-                        // TODO: what should we do here
-                        assert("What is this?");
-                    }
-                    else if (MenuItem * menuItem = MenuItem::FindById(menuId))
-                    {
-                        handleMenuCommand(menuId);
-                        return 0;
-                    }
+                    //int menuId = LOWORD(wParam);
+                    //if (Menu * menu = Menu::FindById(menuId))
+                    //{
+                    //    // TODO: what should we do here
+                    //    assert("What is this?");
+                    //}
+                    //else if (MenuItem * menuItem = MenuItem::FindById(menuId))
+                    //{
+                    //    handleMenuCommand(menuId);
+                    //    return 0;
+                    //}
                 }
                 else
                 {
@@ -986,7 +1002,7 @@ namespace XULWin
         bool handled = false;
         for (; it != end; ++it)
         {
-            int result = (*it)->handleMessage(el(), inMessage, wParam, lParam);
+            int result = (*it)->handleMessage(this, inMessage, wParam, lParam);
             if (result == 0)
             {
                 handled = true;
@@ -1181,26 +1197,6 @@ namespace XULWin
     }
 
 
-    const Component * Dialog::getChild(size_t idx) const
-    {
-        if (el())
-        {
-            const Children & children = el()->children();
-            if (idx < children.size())
-            {
-                return children[idx]->component();
-            }
-        }
-        return 0;
-    }
-
-
-    Component * Dialog::getChild(size_t idx)
-    {
-        return const_cast<Component *>(static_cast<const Dialog *>(this)->getChild(idx));
-    }
-
-
     DialogResult Dialog::showModal(Window * inInvoker)
     {
         mInvoker = inInvoker;
@@ -1329,7 +1325,7 @@ namespace XULWin
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
         for (; it != end; ++it)
         {
-            (*it)->handleMessage(el(), inMessage, wParam, lParam);
+            (*it)->handleMessage(this, inMessage, wParam, lParam);
         }
         return ::DefWindowProc(handle(), inMessage, wParam, lParam);
     }
@@ -1413,7 +1409,7 @@ namespace XULWin
     NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
         NativeComponent(inParent, inAttributesMapping)
     {
-        if (!mParent)
+        if (!mParentComponent)
         {
             ReportError("NativeControl constructor failed because parent is NULL.");
             return;
@@ -1482,7 +1478,7 @@ namespace XULWin
 
     void NativeControl::move(int x, int y, int w, int h)
     {
-        if (NativeComponent * nativeParent = dynamic_cast<NativeComponent *>(parent()))
+        if (NativeComponent * nativeParent = dynamic_cast<NativeComponent *>(parentComponent()))
         {
             // This situation occurs if the scroll decorator created a STATIC window for
             // the scrollable rectangular area. This new context requires that we
@@ -1530,11 +1526,11 @@ namespace XULWin
         }
         else if (const Decorator * obj = dynamic_cast<const Decorator *>(inElement))
         {
-            return GetThisOrParent(obj->decoratedElement().get());
+            return GetThisOrParent(obj->decoratedComponent().get());
         }
         else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent *>(inElement))
         {
-            return GetThisOrParent(obj->parent());
+            return GetThisOrParent(obj->parentComponent());
         }
         return 0;
     }
@@ -1849,19 +1845,13 @@ namespace XULWin
 
     const Component * Box::getChild(size_t idx) const
     {
-        return mElement->children()[idx]->component();
+        return GetComp<Component>(mElement->childNodes()->item(idx));
     }
 
 
     Component * Box::getChild(size_t idx)
     {
-        return mElement->children()[idx]->component();
-    }
-
-
-    void Box::rebuildChildLayouts()
-    {
-        return Super::rebuildChildLayouts();
+        return GetComp<Component>(mElement->childNodes()->item(idx));
     }
 
 
@@ -1889,8 +1879,8 @@ namespace XULWin
         {
             for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
             {
-                ElementPtr child = popup->el()->children()[idx];
-                if (MenuItem * item = child->component()->downcast<MenuItem>())
+                Poco::XML::Node * child = popup->el()->childNodes()->item(idx);
+                if (MenuItem * item = GetComp<MenuItem>(child))
                 {
                     std::string label = item->getLabel();
                     Windows::addStringToComboBox(handle(), label);
@@ -2043,41 +2033,41 @@ namespace XULWin
         //
         int numCols = 0;
         int numRows = 0;
-        ElementPtr columns;
-        ElementPtr rows;
+        Poco::XML::Element * columns;
+        Poco::XML::Element * rows;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementPtr child = el()->children()[idx];
-            if (child->type() == RowsElement::Type())
+            Poco::XML::Element * child = Node2Element(el()->childNodes()->item(idx));
+            if (child->tagName() == Rows::TagName())
             {
                 rows = child;
-                numRows = rows->children().size();
+                numRows = rows->childNodes()->length();
             }
-            else if (child->type() == ColumnsElement::Type())
+            else if (child->tagName() == Columns::TagName())
             {
                 columns = child;
-                numCols = columns->children().size();
+                numCols = columns->childNodes()->length();
             }
             else
             {
-                ReportError("GridElement contains incompatible child element: '" + child->type() + "'");
+                ReportError("Grid contains incompatible child element: '" + child->tagName() + "'");
             }
         }
         if (!rows || !columns)
         {
-            ReportError("GridElement has no rows or no columns!");
+            ReportError("Grid has no rows or no columns!");
             return;
         }
 
-        if (rows->children().empty())
+        if (rows->childNodes()->length() == 0)
         {
-            ReportError("GridElement has no rows!");
+            ReportError("Grid has no rows!");
             return;
         }
 
-        if (columns->children().empty())
+        if (columns->childNodes()->length() == 0)
         {
-            ReportError("GridElement has no columns!");
+            ReportError("Grid has no columns!");
             return;
         }
 
@@ -2086,9 +2076,9 @@ namespace XULWin
         // Get column size infos (min width and flex)
         //
         std::vector<SizeInfo> colWidths;
-        for (size_t colIdx = 0; colIdx != columns->children().size(); ++colIdx)
+        for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
         {
-            if (Column * col = columns->children()[colIdx]->component()->downcast<Column>())
+            if (Column * col = GetComp<Column>(columns->childNodes()->item(colIdx)))
             {
                 colWidths.push_back(
                     SizeInfo(FlexWrap(String2Int(col->el()->getAttribute("flex"), 0)),
@@ -2099,7 +2089,7 @@ namespace XULWin
 
         if (colWidths.empty())
         {
-            ReportError("GridElement has no columns!");
+            ReportError("Grid has no columns!");
             return;
         }
 
@@ -2108,9 +2098,9 @@ namespace XULWin
         // Get row size infos (min height and flex)
         //
         std::vector<SizeInfo> rowHeights;
-        for (size_t rowIdx = 0; rowIdx != rows->children().size(); ++rowIdx)
+        for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
         {
-            if (Row * row = rows->children()[rowIdx]->component()->downcast<Row>())
+            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
             {
                 rowHeights.push_back(
                     SizeInfo(FlexWrap(String2Int(row->el()->getAttribute("flex"), 0)),
@@ -2121,7 +2111,7 @@ namespace XULWin
 
         if (rowHeights.empty())
         {
-            ReportError("GridElement has no rows!");
+            ReportError("Grid has no rows!");
             return;
         }
 
@@ -2139,16 +2129,16 @@ namespace XULWin
         GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
         for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
         {
-            if (Row * row = rows->children()[rowIdx]->component()->downcast<Row>())
+            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
             {
                 int rowHeight = row->getHeight();
                 for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
                 {
-                    if (Column * column = columns->children()[colIdx]->component()->downcast<Column>())
+                    if (Column * column = GetComp<Column>(columns->childNodes()->item(colIdx)))
                     {
                         if (colIdx < row->getChildCount())
                         {
-                            Component * child = row->el()->children()[colIdx]->component();
+                            Component * child = GetComp<Component>(row->el()->childNodes()->item(colIdx));
                             widgetInfos.set(rowIdx, colIdx,
                                             CellInfo(child->getWidth(),
                                                      child->getHeight(),
@@ -2175,12 +2165,12 @@ namespace XULWin
         {
             for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
             {
-                if (rowIdx < rows->children().size())
+                if (rowIdx < rows->childNodes()->length())
                 {
-                    ElementPtr rowEl = rows->children()[rowIdx];
-                    if (colIdx < rowEl->children().size())
+                    Poco::XML::Element * rowEl = Node2Element(rows->childNodes()->item(rowIdx));
+                    if (colIdx < rowEl->childNodes()->length())
                     {
-                        Component * child = rowEl->children()[colIdx]->component();
+                        Component * child = GetComp<Component>(rowEl->childNodes()->item(colIdx));
                         const Rect & r = innerRects.get(rowIdx, colIdx);
                         child->move(r.x(), r.y(), r.width(), r.height());
                     }
@@ -2232,41 +2222,41 @@ namespace XULWin
         //
         int numCols = 0;
         int numRows = 0;
-        ElementPtr columns;
-        ElementPtr rows;
+        Poco::XML::Element * columns;
+        Poco::XML::Element * rows;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementPtr child = el()->children()[idx];
-            if (child->type() == RowsElement::Type())
+            Poco::XML::Element * child = Node2Element(el()->childNodes()->item(idx));
+            if (child->tagName() == Rows::TagName())
             {
                 rows = child;
-                numRows = rows->children().size();
+                numRows = rows->childNodes()->length();
             }
-            else if (child->type() == ColumnsElement::Type())
+            else if (child->tagName() == Columns::TagName())
             {
                 columns = child;
-                numCols = columns->children().size();
+                numCols = columns->childNodes()->length();
             }
             else
             {
-                ReportError("GridElement contains incompatible child element: '" + child->type() + "'");
+                ReportError("Grid contains incompatible child element: '" + child->tagName() + "'");
             }
         }
         if (!rows || !columns)
         {
-            ReportError("GridElement has no rows or no columns!");
+            ReportError("Grid has no rows or no columns!");
             return;
         }
 
-        if (rows->children().empty())
+        if (rows->childNodes()->length() == 0)
         {
-            ReportError("GridElement has no rows!");
+            ReportError("Grid has no rows!");
             return;
         }
 
-        if (columns->children().empty())
+        if (columns->childNodes()->length() == 0)
         {
-            ReportError("GridElement has no columns!");
+            ReportError("Grid has no columns!");
             return;
         }
 
@@ -2275,9 +2265,9 @@ namespace XULWin
         // Get column size infos (min width and flex)
         //
         std::vector<SizeInfo> colWidths;
-        for (size_t colIdx = 0; colIdx != columns->children().size(); ++colIdx)
+        for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
         {
-            if (Column * col = columns->children()[colIdx]->component()->downcast<Column>())
+            if (Column * col = GetComp<Column>(columns->childNodes()->item(colIdx)))
             {
                 colWidths.push_back(
                     SizeInfo(FlexWrap(col->getFlex()),
@@ -2288,7 +2278,7 @@ namespace XULWin
 
         if (colWidths.empty())
         {
-            ReportError("GridElement has no columns!");
+            ReportError("Grid has no columns!");
             return;
         }
 
@@ -2297,9 +2287,9 @@ namespace XULWin
         // Get row size infos (min height and flex)
         //
         std::vector<SizeInfo> rowHeights;
-        for (size_t rowIdx = 0; rowIdx != rows->children().size(); ++rowIdx)
+        for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
         {
-            if (Row * row = rows->children()[rowIdx]->component()->downcast<Row>())
+            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
             {
                 rowHeights.push_back(
                     SizeInfo(FlexWrap(row->getFlex()),
@@ -2310,7 +2300,7 @@ namespace XULWin
 
         if (rowHeights.empty())
         {
-            ReportError("GridElement has no rows!");
+            ReportError("Grid has no rows!");
             return;
         }
 
@@ -2329,16 +2319,16 @@ namespace XULWin
         GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
         for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
         {
-            if (Row * row = rows->children()[rowIdx]->component()->downcast<Row>())
+            if (Row * row = GetComp<Row>(rows->childNodes()->item(rowIdx)))
             {
                 int rowHeight = row->getHeight();
                 for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
                 {
-                    if (Column * column = columns->children()[colIdx]->component()->downcast<Column>())
+                    if (Column * column = GetComp<Column>(columns->childNodes()->item(colIdx)))
                     {
                         if (colIdx < row->getChildCount())
                         {
-                            Component * child = row->el()->children()[colIdx]->component();
+                            Component * child = GetComp<Component>(row->el()->childNodes()->item(colIdx));
                             widgetInfos.set(rowIdx, colIdx,
                                             CellInfo(child->getWidth(),
                                                      child->getHeight(),
@@ -2365,12 +2355,12 @@ namespace XULWin
         {
             for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
             {
-                if (rowIdx < rows->children().size())
+                if (rowIdx < rows->childNodes()->length())
                 {
-                    ElementPtr rowEl = rows->children()[rowIdx];
-                    if (colIdx < rowEl->children().size())
+                    Poco::XML::Node * rowEl = rows->childNodes()->item(rowIdx);
+                    if (colIdx < rowEl->childNodes()->length())
                     {
-                        Component * child = rowEl->children()[colIdx]->component();
+                        Component * child = GetComp<Component>(rowEl->childNodes()->item(colIdx));
                         const Rect & r = innerRects.get(rowIdx, colIdx);
                         child->move(r.x(), r.y(), r.width(), r.height());
                     }
@@ -2395,16 +2385,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<RowElement *> rows;
+        std::vector<Row *> rows;
 
         //
         // 1. Obtain the list of rows from the grid element
         //
-        if (Component * grid = parent())
+        if (Component * grid = GetComp<Component>(el()->parentNode()))
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (Grid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<RowElement>(rows);
+                GetChildComponents<Row>(grid->el(), rows);
             }
         }
 
@@ -2414,9 +2404,7 @@ namespace XULWin
         result = max_element_value(rows.begin(),
                                    rows.end(),
                                    0,
-                                   boost::bind(&Component::calculateWidth,
-                                               boost::bind(&Element::component, _1),
-                                               inSizeConstraint));
+                                   boost::bind(&Row::calculateWidth, _1, inSizeConstraint));
         return result;
     }
 
@@ -2425,16 +2413,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<RowElement *> rows;
+        std::vector<Row *> rows;
 
         //
         // 1. Obtain the list of rows from the grid element
         //
-        if (Component * grid = parent())
+        if (Component * grid = GetComp<Component>(el()->parentNode()))
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (Grid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<RowElement>(rows);
+                GetChildComponents<Row>(grid->el(), rows);
             }
         }
 
@@ -2444,9 +2432,7 @@ namespace XULWin
         result = sum_element_values(rows.begin(),
                                     rows.end(),
                                     0,
-                                    boost::bind(&Component::calculateHeight,
-                                                boost::bind(&Element::component, _1),
-                                                inSizeConstraint));
+                                    boost::bind(&Row::calculateHeight, _1, inSizeConstraint));
         return result;
     }
 
@@ -2461,16 +2447,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<ColumnElement *> columns;
+        std::vector<Column *> columns;
 
         //
         // 1. Obtain the list of columns from the grid element
         //
-        if (Component * grid = parent())
+        if (Component * grid = GetComp<Component>(el()->parentNode()))
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (Grid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<ColumnElement>(columns);
+                GetChildComponents<Column>(grid->el(), columns);
             }
         }
 
@@ -2480,9 +2466,7 @@ namespace XULWin
         result = sum_element_values(columns.begin(),
                                     columns.end(),
                                     0,
-                                    boost::bind(&Component::calculateWidth,
-                                                boost::bind(&Element::component, _1),
-                                                inSizeConstraint));
+                                    boost::bind(&Component::calculateWidth, _1, inSizeConstraint));
         return result;
     }
 
@@ -2491,16 +2475,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<ColumnElement *> columns;
+        std::vector<Column *> columns;
 
         //
         // 1. Obtain the list of columns from the grid element
         //
-        if (Component * grid = parent())
+        if (Component * grid = GetComp<Component>(el()->parentNode()))
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (Grid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<ColumnElement>(columns);
+                GetChildComponents<Column>(grid->el(), columns);
             }
         }
 
@@ -2510,9 +2494,7 @@ namespace XULWin
         result = max_element_value(columns.begin(),
                                    columns.end(),
                                    0,
-                                   boost::bind(&Component::calculateHeight,
-                                               boost::bind(&Element::component, _1),
-                                               inSizeConstraint));
+                                   boost::bind(&Component::calculateHeight, _1, inSizeConstraint));
         return result;
     }
 
@@ -2551,21 +2533,21 @@ namespace XULWin
     {
         // This is a special case: we need to get all rows first and calculate
         // the width of each row's corresponding column
-        ElementPtr rows;
+        Poco::XML::Element * rows;
         int ownIndex = -1;
-        Element * grid = el()->parent()->parent();
-        for (size_t idx = 0; idx != grid->children().size(); ++idx)
+        Poco::XML::Element * grid = Node2Element(el()->parentNode()->parentNode());
+        for (size_t idx = 0; idx != grid->childNodes()->length(); ++idx)
         {
-            ElementPtr child = grid->children()[idx];
-            if (child->type() == RowsElement::Type())
+            Poco::XML::Element * child = Node2Element(grid->childNodes()->item(idx));
+            if (child->tagName() == Rows::TagName())
             {
                 rows = child;
             }
-            else if (child->type() == ColumnsElement::Type())
+            else if (child->tagName() == Columns::TagName())
             {
-                for (size_t ownI = 0; ownI != child->children().size(); ++ownI)
+                for (size_t ownI = 0; ownI != child->childNodes()->length(); ++ownI)
                 {
-                    if (child->children()[ownI]->component()->commandId() == commandId())
+                    if (GetComp<Component>(child->childNodes()->item(ownI))->commandId() == commandId())
                     {
                         ownIndex = ownI;
                     }
@@ -2578,22 +2560,22 @@ namespace XULWin
         }
         if (!rows)
         {
-            ReportError("Could not find 'rows' element in GridElement.");
+            ReportError("Could not find 'rows' element in Grid.");
             return 0;
         }
         if (ownIndex == -1)
         {
-            ReportError("ColumnElement was unable to find itself in its parent container.");
+            ReportError("Column was unable to find itself in its parent container.");
             return 0;
         }
 
         int res = 0;
-        for (size_t rowIdx = 0; rowIdx != rows->children().size(); ++rowIdx)
+        for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
         {
-            ElementPtr row = rows->children()[rowIdx];
-            if (ownIndex < row->children().size())
+            Poco::XML::Element * row = Node2Element(rows->childNodes()->item(rowIdx));
+            if (ownIndex < row->childNodes()->length())
             {
-                int w = row->children()[ownIndex]->component()->getWidth(inSizeConstraint);
+                int w = GetComp<Component>(row->childNodes()->item(ownIndex))->getWidth(inSizeConstraint);
                 if (w > res)
                 {
                     res = w;
@@ -2705,14 +2687,14 @@ namespace XULWin
     {
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
-            ElementPtr element = el()->children()[idx];
+            Poco::XML::Element * element = Node2Element(el()->childNodes()->item(idx));
             bool visible = idx == mSelectedIndex;
-            element->component()->setHidden(!visible);
+            Component * comp = GetComp<Component>(element);
+            comp->setHidden(!visible);
             if (visible)
             {
                 Rect rect = clientRect();
-                Component * n = element->component();
-                n->move(rect.x(), rect.y(), rect.width(), rect.height());
+                comp->move(rect.x(), rect.y(), rect.width(), rect.height());
             }
         }
         rebuildChildLayouts();
@@ -2767,7 +2749,6 @@ namespace XULWin
                       TEXT("SCROLLBAR"),
                       0, // exStyle
                       WS_TABSTOP | GetFlags(inAttributesMapping)),
-        mEventListener(0),
         mIncrement(0)
     {
         mExpansive = true;
@@ -2999,994 +2980,994 @@ namespace XULWin
     }
 
 
-    Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    TabPanels::Instances TabPanels::sInstances;
-
-
-    TabPanels::TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
-        mParentHandle(0),
-        mTabBarHandle(0),
-        mSelectedIndex(0),
-        mChildCount(0)
-    {
-        NativeComponent * nativeParent = NativeControl::GetThisOrParent(inParent);
-        if (!nativeParent)
-        {
-            ReportError("TabPanels constructor failed because no native parent was found.");
-            return;
-        }
-
-        mParentHandle = nativeParent->handle();
-
-        mTabBarHandle = ::CreateWindowEx
-                        (
-                            0,
-                            WC_TABCONTROL,
-                            0,
-                            WS_TABSTOP | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_VISIBLE,
-                            0, 0, 0, 0,
-                            mParentHandle,
-                            (HMENU)mCommandId.intValue(),
-                            NativeComponent::GetModuleHandle(),
-                            0
-                        );
-        ::SendMessage(mTabBarHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
-        mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mParentHandle, GWL_WNDPROC, (LONG)(LONG_PTR)&TabPanels::MessageHandler);
-        sInstances.insert(std::make_pair(mParentHandle, this));
-    }
-
-
-    TabPanels::~TabPanels()
-    {
-        Instances::iterator it = sInstances.find(mParentHandle);
-        if (it != sInstances.end())
-        {
-            sInstances.erase(it);
-        }
-        ::SetWindowLongPtr(mParentHandle, GWL_WNDPROC, (LONG)(LONG_PTR)mOrigProc);
-        ::DestroyWindow(mTabBarHandle);
-    }
-
-
-    void TabPanels::addTabPanel(TabPanel * inPanel)
-    {
-        if (Tab * tab = getCorrespondingTab(mChildCount))
-        {
-            Windows::appendTabPanel(mTabBarHandle, tab->el()->getAttribute("label"));
-            mChildCount++;
-        }
-        update();
-    }
-
-
-    Tab * TabPanels::getCorrespondingTab(size_t inIndex)
-    {
-        for (size_t idx = 0; idx != el()->parent()->children().size(); ++idx)
-        {
-            if (el()->parent()->children()[idx]->type() == TabsElement::Type())
-            {
-                if (TabsElement * tabs = el()->parent()->children()[idx]->downcast<TabsElement>())
-                {
-                    return tabs->children()[inIndex]->component()->downcast<Tab>();
-                }
-            }
-        }
-        return 0;
-    }
-
-
-    void TabPanels::rebuildLayout()
-    {
-        Rect rect = clientRect();
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            Component * element = getChild(idx);
-            element->move(rect.x(),
-                          rect.y() + Defaults::tabHeight(),
-                          rect.width(),
-                          rect.height() - Defaults::tabHeight());
-        }
-        ::MoveWindow(mTabBarHandle, rect.x(), rect.y(), rect.width(), Defaults::tabHeight(), FALSE);
-        rebuildChildLayouts();
-    }
-
-
-    int TabPanels::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return calculateMaxChildWidth(inSizeConstraint);
-    }
-
-
-    int TabPanels::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::tabHeight() + calculateMaxChildHeight(inSizeConstraint);
-    }
-
-
-    void TabPanels::update()
-    {
-        int selectedIndex = TabCtrl_GetCurSel(mTabBarHandle);
-        for (size_t idx = 0; idx != mChildCount; ++idx)
-        {
-            getChild(idx)->setHidden(idx != selectedIndex);
-        }
-    }
-
-    static Window * findParentWindow(Component * inChild)
-    {
-        Window * result = 0;
-        if (result = dynamic_cast<Window *>(inChild))
-        {
-            return result;
-        }
-        else if (inChild->parent())
-        {
-            return findParentWindow(inChild->parent());
-        }
-        return 0;
-    }
-
-
-    LRESULT TabPanels::MessageHandler(HWND inHandle, UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-
-        Instances::iterator it = sInstances.find(inHandle);
-        if (it == sInstances.end())
-        {
-            return ::DefWindowProc(inHandle, inMessage, wParam, lParam);
-        }
-
-        TabPanels * pThis = it->second;
-
-        switch (inMessage)
-        {
-            case WM_NOTIFY:
-            {
-                if (((LPNMHDR)lParam)->code == TCN_SELCHANGE)
-                {
-                    pThis->update();
-
-                    // HACK!
-                    // When changing tabs the min-max sizes of the window can
-                    // change and we need a way to make sure the window
-                    // enlarges if needed. Our workaround consists of moving
-                    // the window to the same location but one pixel higher,
-                    // and then move it back to its original size.
-                    // This seemingly zero-op has two side effects:
-                    // 1. The minmax sizes will be enforced again.
-                    // 2. The content of the tabpanel is refreshed correctly.
-                    Window * wnd = findParentWindow(pThis);
-                    if (wnd)
-                    {
-                        RECT rw;
-                        ::GetWindowRect(wnd->handle(), &rw);
-                        int w = rw.right - rw.left;
-                        int h = rw.bottom - rw.top;
-                        ::MoveWindow(wnd->handle(), rw.left, rw.top, w, h+1, FALSE);
-                        ::MoveWindow(wnd->handle(), rw.left, rw.top, w, h, FALSE);
-                    }
-                    return TRUE;
-                }
-            }
-        }
-
-        if (pThis->mOrigProc)
-        {
-            return ::CallWindowProc(pThis->mOrigProc, inHandle, inMessage, wParam, lParam);
-        }
-        else
-        {
-            return ::DefWindowProc(inHandle, inMessage, wParam, lParam);
-        }
-    }
-
-
-    TabPanel::TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualBox(inParent, inAttributesMapping)
-    {
-    }
-
-
-    bool TabPanel::init()
-    {
-        if (TabPanels * parent = el()->parent()->component()->downcast<TabPanels>())
-        {
-            parent->addTabPanel(this);
-        }
-        return Super::init();
-    }
-
-
-    GroupBox::GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualBox(inParent, inAttributesMapping),
-        mGroupBoxHandle(0),
-        mMarginLeft(2),
-        mMarginTop(16),
-        mMarginRight(2),
-        mMarginBottom(2)
-    {
-
-        // HACK!!!
-        // Group boxes don't render properly if the parent window has the
-        // WS_CLIPCHILDREN style defined.
-        // There should be some more decent way to fix this. But for now
-        // I just remove the flag from the parent. This may result in more
-        // flickering during manual resize of the WindowElement.
-        Windows::removeWindowStyle(NativeControl::GetThisOrParent(inParent)->handle(), WS_CLIPCHILDREN);
-
-
-        mGroupBoxHandle = CreateWindowEx(0,
-                                         TEXT("BUTTON"),
-                                         0,
-                                         WS_VISIBLE | WS_CHILD | BS_GROUPBOX,
-                                         0, 0, 0, 0,
-                                         NativeControl::GetThisOrParent(inParent)->handle(),
-                                         (HMENU)mCommandId.intValue(),
-                                         NativeComponent::GetModuleHandle(),
-                                         0);
-        ::SendMessage(mGroupBoxHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
-    }
-
-
-    GroupBox::~GroupBox()
-    {
-        ::DestroyWindow(mGroupBoxHandle);
-    }
-
-
-    Orient GroupBox::getOrient() const
-    {
-        return mOrient.or(Vertical);
-    }
-
-
-    void GroupBox::setCaption(const std::string & inLabel)
-    {
-        Windows::setWindowText(mGroupBoxHandle, inLabel);
-    }
-
-
-    int GroupBox::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int textWidth = Defaults::textPadding() + Windows::getTextSize(mGroupBoxHandle, Windows::getWindowText(mGroupBoxHandle)).cx;
-        int contentWidth = mBoxLayouter.calculateWidth(inSizeConstraint);
-        return mMarginLeft + std::max<int>(textWidth, contentWidth) + mMarginRight;
-    }
-
-
-    int GroupBox::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return mMarginTop + mBoxLayouter.calculateHeight(inSizeConstraint) + mMarginBottom;
-    }
-
-
-    void GroupBox::rebuildLayout()
-    {
-        Rect clientRect(Super::clientRect());
-        ::MoveWindow(mGroupBoxHandle,
-                     clientRect.x(),
-                     clientRect.y(),
-                     clientRect.width(),
-                     clientRect.height(),
-                     FALSE);
-        mBoxLayouter.rebuildLayout();
-    }
-
-
-    Rect GroupBox::clientRect() const
-    {
-        Rect clientRect(Super::clientRect());
-        Rect rect(clientRect.x() + mMarginLeft,
-                  clientRect.y() + mMarginTop,
-                  clientRect.width() - mMarginRight - mMarginLeft,
-                  clientRect.height() - mMarginTop - mMarginBottom);
-        return rect;
-    }
-
-
-    // The 'caption' is optionally the first child element of the groupbox.
-    // This element is responsible for setting the groupbox title and it has
-    // no other purpose than that.
-    // I think this is a design error in Mozilla XUL. The groupbox title should
-    // have been an attribute, not a child element.
-    // However, we want to be compatible with Mozilla XUL so we have to support it.
-
-    // In order to keep the layout managers from taking the caption element
-    // into account we never return it and return the element after it instead.
-    // This requires getChildCount to be overridden as well to make it return
-    // the number of children minus one.
-    const Component * GroupBox::getChild(size_t idx) const
-    {
-        if (Super::getChildCount() > 0)
-        {
-            if (Super::getChild(0)->el()->type() == CaptionElement::Type())
-            {
-                assert(idx + 1 < Super::getChildCount());
-                if (idx + 1 < Super::getChildCount())
-                {
-                    return Super::getChild(idx + 1);
-                }
-            }
-        }
-        return Super::getChild(idx);
-    }
-
-
-    Component * GroupBox::getChild(size_t idx)
-    {
-        return const_cast<Component *>(static_cast<const GroupBox *>(this)->getChild(idx));
-    }
-
-
-    // Returns number of children minus the caption element.
-    // See documention of GroupBox::getChild method for more information.
-    size_t GroupBox::getChildCount() const
-    {
-        if (Super::getChildCount() > 0)
-        {
-            if (Super::getChild(0)->el()->type() == CaptionElement::Type())
-            {
-                return Super::getChildCount() - 1;
-            }
-        }
-        return Super::getChildCount();
-    }
-
-
-    Caption::Caption(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int Caption::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(mParent))
-        {
-            return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
-        }
-        return 0;
-    }
-
-
-    int Caption::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(mParent))
-        {
-            return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
-        }
-        return 0;
-    }
-
-
-    bool Caption::init()
-    {
-        if (GroupBox * groupBox = mParent->downcast<GroupBox>())
-        {
-            groupBox->setCaption(mElement->getAttribute("label"));
-        }
-        return Super::init();
-    }
-
-
-    Tree::Tree(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
-    {
-    }
-
-
-    int Tree::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = Defaults::controlWidth();
-        if (const TreeChildren * children = findChildOfType<TreeChildren>())
-        {
-            result = Defaults::treeIndent() + children->calculateWidth(inSizeConstraint);
-        }
-        return result;
-    }
-
-
-    int Tree::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const TreeChildren * children = findChildOfType<TreeChildren>())
-        {
-            result = children->calculateHeight(inSizeConstraint);
-        }
-        return result;
-    }
-
-
-    void Tree::addInfo(const TreeItemInfo & inInfo)
-    {
-        addInfo(TVI_ROOT, TVI_FIRST, inInfo);
-    }
-
-
-    HTREEITEM Tree::addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo)
-    {
-        std::wstring label = ToUTF16(inInfo.data());
-
-        TVITEM tvi;
-        tvi.mask = TVIF_TEXT;
-        tvi.pszText = const_cast<TCHAR *>(label.c_str());
-        tvi.cchTextMax = label.size();
-
-        TVINSERTSTRUCT tvins;
-        tvins.item = tvi;
-        tvins.hInsertAfter = inPrev;
-        tvins.hParent = inRoot;
-        inPrev = (HTREEITEM)SendMessage(handle(), TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&tvins);
-
-        HTREEITEM prevChild = TVI_FIRST;
-        TreeItemInfo::const_iterator it = inInfo.begin(), end = inInfo.end();
-        for (; it != end; ++it)
-        {
-            const TreeItemInfo * itemInfo = *it;
-            prevChild = addInfo(inPrev, prevChild, *itemInfo);
-        }
-
-        return inPrev;
-    }
-
-
-    bool Tree::init()
-    {
-        if (TreeChildren * children = findChildOfType<TreeChildren>())
-        {
-            if (Component * firstChild = children->el()->children()[0]->component())
-            {
-                if (TreeItem * item = firstChild->downcast<TreeItem>())
-                {
-                    addInfo(item->itemInfo());
-                }
-            }
-        }
-        return Super::init();
-    }
-
-
-    TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int TreeChildren::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            const Component * child = getChild(idx);
-            if (const TreeItem * item = child->downcast<TreeItem>())
-            {
-                result += item->calculateHeight(inSizeConstraint);
-            }
-        }
-        return result;
-    }
-
-
-    int TreeChildren::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            const Component * child = getChild(idx);
-            if (const TreeItem * item = child->downcast<TreeItem>())
-            {
-                int minWidth = item->calculateWidth(inSizeConstraint);
-                if (result < minWidth)
-                {
-                    result = minWidth;
-                }
-            }
-        }
-        return result;
-    }
-
-
-    TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int TreeItem::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const TreeRow * row = findChildOfType<TreeRow>())
-        {
-            int minHeight = row->calculateHeight(inSizeConstraint);
-            if (result < minHeight)
-            {
-                result = minHeight;
-            }
-        }
-        if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
-        {
-            result += treeChildren->calculateHeight(inSizeConstraint);
-        }
-        return result;
-    }
-
-
-    int TreeItem::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const TreeRow * row = findChildOfType<TreeRow>())
-        {
-            int minWidth = row->calculateWidth(inSizeConstraint);
-            if (result < minWidth)
-            {
-                result = minWidth;
-            }
-        }
-        if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
-        {
-            int minWidth = Defaults::treeIndent() + treeChildren->calculateWidth(inSizeConstraint);
-            if (result < minWidth)
-            {
-                result = minWidth;
-            }
-        }
-        return result;
-    }
-
-
-    bool TreeItem::isOpened() const
-    {
-        //if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeItem*>(this)))
-        //{
-        //    TreeView_GetItemState(comp->handle(), hti, mask);
-        //}
-        return false; // TODO: implement
-    }
-
-
-    bool TreeItem::init()
-    {
-        if (TreeRow * row = findChildOfType<TreeRow>())
-        {
-            if (TreeCell * cell = row->findChildOfType<TreeCell>())
-            {
-                std::string label = cell->getLabel();
-                mItemInfo.setData(label);
-            }
-        }
-        if (TreeChildren * treeChildren = findChildOfType<TreeChildren>())
-        {
-            for (size_t idx = 0; idx != treeChildren->getChildCount(); ++idx)
-            {
-                Component * child = treeChildren->getChild(idx);
-                if (TreeItem * item = child->downcast<TreeItem>())
-                {
-                    mItemInfo.addChild(&item->itemInfo());
-                }
-            }
-        }
-        return Super::init();
-    }
-
-
-    TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int TreeRow::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return calculateMaxChildWidth(inSizeConstraint);
-    }
-
-
-    int TreeRow::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            const Component * child = getChild(idx);
-            if (const TreeCell * cell = child->downcast<TreeCell>())
-            {
-                result += cell->calculateHeight(inSizeConstraint);
-            }
-        }
-        return result;
-    }
-
-
-    TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    bool TreeCell::initAttributeControllers()
-    {
-        setAttributeController<LabelController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    std::string TreeCell::getLabel() const
-    {
-        return mLabel;
-    }
-
-
-    void TreeCell::setLabel(const std::string & inLabel)
-    {
-        mLabel = inLabel;
-    }
-
-
-    int TreeCell::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeCell *>(this)))
-        {
-            result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
-        }
-        return result;
-    }
-
-
-    int TreeCell::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::treeItemHeight();
-    }
-
-
-    Statusbar::Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
-        mBoxLayouter(this)
-    {
-    }
-
-
-    bool Statusbar::initAttributeControllers()
-    {
-        return Super::initAttributeControllers();
-    }
-
-
-    int Statusbar::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return calculateSumChildWidths(inSizeConstraint);
-    }
-
-
-    int Statusbar::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int ownHeight = Windows::getWindowHeight(handle());
-        int maxChildHeight = calculateMaxChildHeight(inSizeConstraint);
-        return std::max<int>(ownHeight, maxChildHeight);
-    }
-
-
-    Orient Statusbar::getOrient() const
-    {
-        return Horizontal;
-    }
-
-
-    Align Statusbar::getAlign() const
-    {
-        return Center;
-    }
-
-
-    Rect Statusbar::clientRect() const
-    {
-        Rect clientRect(Super::clientRect());
-        // Substract from width one square to make place for the resize gripper widget
-        return Rect(clientRect.x(), clientRect.y(), clientRect.width() - Windows::getWindowHeight(handle()), clientRect.height());
-    }
-
-
-    void Statusbar::rebuildLayout()
-    {
-        mBoxLayouter.rebuildLayout();
-    }
-
-
-    void Statusbar::rebuildChildLayouts()
-    {
-        Super::rebuildChildLayouts();
-    }
-
-
-    StatusbarPanel::StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
-    {
-    }
-
-
-    bool StatusbarPanel::initAttributeControllers()
-    {
-        return Super::initAttributeControllers();
-    }
-
-
-    int StatusbarPanel::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Windows::getTextSize(handle(), getLabel()).cx;
-    }
-
-
-    int StatusbarPanel::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Windows::getTextSize(handle(), getLabel()).cy;
-    }
-
-
-    Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping)
-    {
-        if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
-        {
-            mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
-            setHandle(mToolbar->handle(), false);
-            registerHandle();
-            subclass();
-        }
-    }
-
-
-    Toolbar::~Toolbar()
-    {
-        unsubclass();
-        unregisterHandle();
-        mToolbar.reset();
-    }
-
-
-    bool Toolbar::init()
-    {
-        mToolbar->buildToolbar();
-        mToolbar->rebuildLayout();
-        ShowWindow(mToolbar->handle(), SW_SHOW);
-        return Super::init();
-    }
-
-
-    int Toolbar::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return calculateSumChildWidths(inSizeConstraint);
-    }
-
-
-    int Toolbar::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = calculateMaxChildHeight(inSizeConstraint);
-        return result;
-    }
-
-
-    void Toolbar::rebuildLayout()
-    {
-        mToolbar->rebuildLayout();
-    }
-
-
-    ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping),
-        mButton(0),
-        mDisabled(false)
-    {
-        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
-        {
-            boost::shared_ptr<Gdiplus::Bitmap> nullImage;
-            std::string label = getLabel();
-
-            std::string buttonType;
-            AttributesMapping::const_iterator it = inAttributesMapping.find("type");
-            if (it != inAttributesMapping.end())
-            {
-                buttonType = it->second;
-            }
-            //menu: Set the type attribute to the value menu to create a button with a menu popup. Place a menupopup element inside the button in this case. The user may click anywhere on the button to open and close the menu.
-            //menu-button: You can also use the value menu-button to create a button with a menu. Unlike the menu type, this type requires the user to press the arrow to open the menu, but a different command may be invoked when the main part of the button is pressed. This type of button would be used for browser's back and forward buttons.
-            //checkbox: Use this type to create a toggle button which will switch the checked state each time the button is pressed.
-            //radio: Use this type to create a radio button. You can also create a group of toolbarbutton using this type and the attribute group.
-            if (buttonType == "menu")
-            {
-                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
-                                                       this,
-                                                       mCommandId.intValue(),
-                                                       label,
-                                                       label,
-                                                       nullImage,
-                                                       false);
-            }
-            else if (buttonType == "menu-button")
-            {
-                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
-                                                       this,
-                                                       mCommandId.intValue(),
-                                                       label,
-                                                       label,
-                                                       nullImage,
-                                                       true);
-            }
-            else // buttonType.empty() or buttonType == "button"
-            {
-                mButton = new Windows::ToolbarButtonElement(toolbar->nativeToolbar(),
-                                                            mCommandId.intValue(),
-                                                            boost::function<void()>(),
-                                                            label,
-                                                            label,
-                                                            nullImage);
-            }
-            assert(mButton);
-            toolbar->nativeToolbar()->add(mButton);
-            // Now that mButton is constructed we can apply any previously set
-            // attributes.
-            setLabel(mLabel);
-            setDisabled(mDisabled);
-            setCSSListStyleImage(mCSSListStyleImage);
-        }
-    }
-
-
-    void ToolbarButton::showToolbarMenu(RECT inToolbarButtonRect)
-    {
-        showPopupMenu(inToolbarButtonRect);
-    }
-
-
-    void ToolbarButton::showPopupMenu(RECT inToolbarButtonRect)
-    {
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            ElementPtr child = el()->children()[idx];
-            if (MenuPopup * popupMenu = child->component()->downcast<MenuPopup>())
-            {
-                popupMenu->show(inToolbarButtonRect);
-            }
-        }
-    }
-
-
-    bool ToolbarButton::initAttributeControllers()
-    {
-        setAttributeController<LabelController>(this);
-        setAttributeController<DisabledController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    bool ToolbarButton::initStyleControllers()
-    {
-        setStyleController<CSSListStyleImageController>(this);
-        return Super::initStyleControllers();
-    }
-
-
-    int ToolbarButton::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
-        {
-            int textWidth = Windows::getTextSize(toolbar->handle(), getLabel()).cx;
-            int imageWidth = 0;
-            if (mButton && mButton->image())
-            {
-                imageWidth = mButton->image()->GetWidth();
-            }
-            return std::max<int>(textWidth, imageWidth);
-
-        }
-        return 0;
-    }
-
-
-    int ToolbarButton::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = Defaults::toolbarHeight();
-        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
-        {
-            int textHeight = Windows::getTextSize(toolbar->handle(), getLabel()).cy;
-            if (textHeight > result)
-            {
-                result = textHeight;
-            }
-            if (mButton && mButton->image())
-            {
-                int imageHeight = mButton->image()->GetHeight();
-                if (imageHeight > result)
-                {
-                    result = imageHeight;
-                }
-            }
-        }
-        return result;
-    }
-
-
-    std::string ToolbarButton::getLabel() const
-    {
-        if (mButton)
-        {
-            return mButton->text();
-        }
-        return mLabel;
-    }
-
-
-    void ToolbarButton::setLabel(const std::string & inLabel)
-    {
-        if (mButton)
-        {
-            mButton->setText(inLabel);
-        }
-        mLabel = inLabel;
-    }
-
-
-    bool ToolbarButton::isDisabled() const
-    {
-        return mDisabled;
-    }
-
-
-    void ToolbarButton::setDisabled(bool inDisabled)
-    {
-        if (mButton)
-        {
-            if (Toolbar * toolbar = parent()->downcast<Toolbar>())
-            {
-                SendMessage(toolbar->handle(), TB_ENABLEBUTTON, (WPARAM)mCommandId.intValue(), (LPARAM)MAKELONG(inDisabled ? FALSE : TRUE, 0));
-            }
-        }
-        else
-        {
-            mDisabled = inDisabled;
-        }
-    }
-
-
-    void ToolbarButton::setCSSListStyleImage(const std::string & inURL)
-    {
-        if (mButton)
-        {
-            ChromeURL chromeURL(inURL);
-            std::wstring utf16URL = ToUTF16(chromeURL.convertToLocalPath());
-            boost::shared_ptr<Gdiplus::Bitmap> img(new Gdiplus::Bitmap(utf16URL.c_str()));
-            mButton->setImage(img);
-        }
-        mCSSListStyleImage = inURL;
-    }
-
-
-    const std::string & ToolbarButton::getCSSListStyleImage() const
-    {
-        return mCSSListStyleImage;
-    }
+    //Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //TabPanels::Instances TabPanels::sInstances;
+
+
+    //TabPanels::TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    VirtualComponent(inParent, inAttributesMapping),
+    //    mParentHandle(0),
+    //    mTabBarHandle(0),
+    //    mSelectedIndex(0),
+    //    mChildCount(0)
+    //{
+    //    NativeComponent * nativeParent = NativeControl::GetThisOrParent(inParent);
+    //    if (!nativeParent)
+    //    {
+    //        ReportError("TabPanels constructor failed because no native parent was found.");
+    //        return;
+    //    }
+
+    //    mParentHandle = nativeParent->handle();
+
+    //    mTabBarHandle = ::CreateWindowEx
+    //                    (
+    //                        0,
+    //                        WC_TABCONTROL,
+    //                        0,
+    //                        WS_TABSTOP | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_VISIBLE,
+    //                        0, 0, 0, 0,
+    //                        mParentHandle,
+    //                        (HMENU)mCommandId.intValue(),
+    //                        NativeComponent::GetModuleHandle(),
+    //                        0
+    //                    );
+    //    ::SendMessage(mTabBarHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
+    //    mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mParentHandle, GWL_WNDPROC, (LONG)(LONG_PTR)&TabPanels::MessageHandler);
+    //    sInstances.insert(std::make_pair(mParentHandle, this));
+    //}
+
+
+    //TabPanels::~TabPanels()
+    //{
+    //    Instances::iterator it = sInstances.find(mParentHandle);
+    //    if (it != sInstances.end())
+    //    {
+    //        sInstances.erase(it);
+    //    }
+    //    ::SetWindowLongPtr(mParentHandle, GWL_WNDPROC, (LONG)(LONG_PTR)mOrigProc);
+    //    ::DestroyWindow(mTabBarHandle);
+    //}
+
+
+    //void TabPanels::addTabPanel(TabPanel * inPanel)
+    //{
+    //    if (Tab * tab = getCorrespondingTab(mChildCount))
+    //    {
+    //        Windows::appendTabPanel(mTabBarHandle, tab->el()->getAttribute("label"));
+    //        mChildCount++;
+    //    }
+    //    update();
+    //}
+
+
+    //Tab * TabPanels::getCorrespondingTab(size_t inIndex)
+    //{
+    //    for (size_t idx = 0; idx != el()->parentNode()->childNodes()->length(); ++idx)
+    //    {
+    //        if ((el()->parentNode()->childNodes()->item(idx))->tagName() == Tabs::TagName())
+    //        {
+    //            if (Tabs * tabs = GetComp<Tabs>(el()->parentNode()->childNodes()->item(idx)))
+    //            {
+    //                return tabs->childNodes()->item(inIndex)->downcast<Tab>();
+    //            }
+    //        }
+    //    }
+    //    return 0;
+    //}
+
+
+    //void TabPanels::rebuildLayout()
+    //{
+    //    Rect rect = clientRect();
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        Component * element = getChild(idx);
+    //        element->move(rect.x(),
+    //                      rect.y() + Defaults::tabHeight(),
+    //                      rect.width(),
+    //                      rect.height() - Defaults::tabHeight());
+    //    }
+    //    ::MoveWindow(mTabBarHandle, rect.x(), rect.y(), rect.width(), Defaults::tabHeight(), FALSE);
+    //    rebuildChildLayouts();
+    //}
+
+
+    //int TabPanels::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateMaxChildWidth(inSizeConstraint);
+    //}
+
+
+    //int TabPanels::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::tabHeight() + calculateMaxChildHeight(inSizeConstraint);
+    //}
+
+
+    //void TabPanels::update()
+    //{
+    //    int selectedIndex = TabCtrl_GetCurSel(mTabBarHandle);
+    //    for (size_t idx = 0; idx != mChildCount; ++idx)
+    //    {
+    //        getChild(idx)->setHidden(idx != selectedIndex);
+    //    }
+    //}
+
+    //static Window * findParentWindow(Component * inChild)
+    //{
+    //    Window * result = 0;
+    //    if (result = dynamic_cast<Window *>(inChild))
+    //    {
+    //        return result;
+    //    }
+    //    else if (inChild->parentNode())
+    //    {
+    //        return findParentWindow(inChild->parentNode());
+    //    }
+    //    return 0;
+    //}
+
+
+    //LRESULT TabPanels::MessageHandler(HWND inHandle, UINT inMessage, WPARAM wParam, LPARAM lParam)
+    //{
+
+    //    Instances::iterator it = sInstances.find(inHandle);
+    //    if (it == sInstances.end())
+    //    {
+    //        return ::DefWindowProc(inHandle, inMessage, wParam, lParam);
+    //    }
+
+    //    TabPanels * pThis = it->second;
+
+    //    switch (inMessage)
+    //    {
+    //        case WM_NOTIFY:
+    //        {
+    //            if (((LPNMHDR)lParam)->code == TCN_SELCHANGE)
+    //            {
+    //                pThis->update();
+
+    //                // HACK!
+    //                // When changing tabs the min-max sizes of the window can
+    //                // change and we need a way to make sure the window
+    //                // enlarges if needed. Our workaround consists of moving
+    //                // the window to the same location but one pixel higher,
+    //                // and then move it back to its original size.
+    //                // This seemingly zero-op has two side effects:
+    //                // 1. The minmax sizes will be enforced again.
+    //                // 2. The content of the tabpanel is refreshed correctly.
+    //                Window * wnd = findParentWindow(pThis);
+    //                if (wnd)
+    //                {
+    //                    RECT rw;
+    //                    ::GetWindowRect(wnd->handle(), &rw);
+    //                    int w = rw.right - rw.left;
+    //                    int h = rw.bottom - rw.top;
+    //                    ::MoveWindow(wnd->handle(), rw.left, rw.top, w, h+1, FALSE);
+    //                    ::MoveWindow(wnd->handle(), rw.left, rw.top, w, h, FALSE);
+    //                }
+    //                return TRUE;
+    //            }
+    //        }
+    //    }
+
+    //    if (pThis->mOrigProc)
+    //    {
+    //        return ::CallWindowProc(pThis->mOrigProc, inHandle, inMessage, wParam, lParam);
+    //    }
+    //    else
+    //    {
+    //        return ::DefWindowProc(inHandle, inMessage, wParam, lParam);
+    //    }
+    //}
+
+
+    //TabPanel::TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    VirtualBox(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //bool TabPanel::init()
+    //{
+    //    if (TabPanels * parent = el()->parentNode()->downcast<TabPanels>())
+    //    {
+    //        parent->addTabPanel(this);
+    //    }
+    //    return Super::init();
+    //}
+
+
+    //GroupBox::GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    VirtualBox(inParent, inAttributesMapping),
+    //    mGroupBoxHandle(0),
+    //    mMarginLeft(2),
+    //    mMarginTop(16),
+    //    mMarginRight(2),
+    //    mMarginBottom(2)
+    //{
+
+    //    // HACK!!!
+    //    // Group boxes don't render properly if the parent window has the
+    //    // WS_CLIPCHILDREN style defined.
+    //    // There should be some more decent way to fix this. But for now
+    //    // I just remove the flag from the parent. This may result in more
+    //    // flickering during manual resize of the .
+    //    Windows::removeWindowStyle(NativeControl::GetThisOrParent(inParent)->handle(), WS_CLIPCHILDREN);
+
+
+    //    mGroupBoxHandle = CreateWindowEx(0,
+    //                                     TEXT("BUTTON"),
+    //                                     0,
+    //                                     WS_VISIBLE | WS_CHILD | BS_GROUPBOX,
+    //                                     0, 0, 0, 0,
+    //                                     NativeControl::GetThisOrParent(inParent)->handle(),
+    //                                     (HMENU)mCommandId.intValue(),
+    //                                     NativeComponent::GetModuleHandle(),
+    //                                     0);
+    //    ::SendMessage(mGroupBoxHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
+    //}
+
+
+    //GroupBox::~GroupBox()
+    //{
+    //    ::DestroyWindow(mGroupBoxHandle);
+    //}
+
+
+    //Orient GroupBox::getOrient() const
+    //{
+    //    return mOrient.or(Vertical);
+    //}
+
+
+    //void GroupBox::setCaption(const std::string & inLabel)
+    //{
+    //    Windows::setWindowText(mGroupBoxHandle, inLabel);
+    //}
+
+
+    //int GroupBox::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int textWidth = Defaults::textPadding() + Windows::getTextSize(mGroupBoxHandle, Windows::getWindowText(mGroupBoxHandle)).cx;
+    //    int contentWidth = mBoxLayouter.calculateWidth(inSizeConstraint);
+    //    return mMarginLeft + std::max<int>(textWidth, contentWidth) + mMarginRight;
+    //}
+
+
+    //int GroupBox::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return mMarginTop + mBoxLayouter.calculateHeight(inSizeConstraint) + mMarginBottom;
+    //}
+
+
+    //void GroupBox::rebuildLayout()
+    //{
+    //    Rect clientRect(Super::clientRect());
+    //    ::MoveWindow(mGroupBoxHandle,
+    //                 clientRect.x(),
+    //                 clientRect.y(),
+    //                 clientRect.width(),
+    //                 clientRect.height(),
+    //                 FALSE);
+    //    mBoxLayouter.rebuildLayout();
+    //}
+
+
+    //Rect GroupBox::clientRect() const
+    //{
+    //    Rect clientRect(Super::clientRect());
+    //    Rect rect(clientRect.x() + mMarginLeft,
+    //              clientRect.y() + mMarginTop,
+    //              clientRect.width() - mMarginRight - mMarginLeft,
+    //              clientRect.height() - mMarginTop - mMarginBottom);
+    //    return rect;
+    //}
+
+
+    //// The 'caption' is optionally the first child element of the groupbox.
+    //// This element is responsible for setting the groupbox title and it has
+    //// no other purpose than that.
+    //// I think this is a design error in Mozilla XUL. The groupbox title should
+    //// have been an attribute, not a child element.
+    //// However, we want to be compatible with Mozilla XUL so we have to support it.
+
+    //// In order to keep the layout managers from taking the caption element
+    //// into account we never return it and return the element after it instead.
+    //// This requires getChildCount to be overridden as well to make it return
+    //// the number of childNodes minus one.
+    //const Component * GroupBox::getChild(size_t idx) const
+    //{
+    //    if (Super::getChildCount() > 0)
+    //    {
+    //        if (Super::getChild(0)->el()->tagName() == ::TagName())
+    //        {
+    //            assert(idx + 1 < Super::getChildCount());
+    //            if (idx + 1 < Super::getChildCount())
+    //            {
+    //                return Super::getChild(idx + 1);
+    //            }
+    //        }
+    //    }
+    //    return Super::getChild(idx);
+    //}
+
+
+    //Component * GroupBox::getChild(size_t idx)
+    //{
+    //    return const_cast<Component *>(static_cast<const GroupBox *>(this)->getChild(idx));
+    //}
+
+
+    //// Returns number of childNodes minus the caption element.
+    //// See documention of GroupBox::getChild method for more information.
+    //size_t GroupBox::getChildCount() const
+    //{
+    //    if (Super::getChildCount() > 0)
+    //    {
+    //        if (Super::getChild(0)->el()->tagName() == ::TagName())
+    //        {
+    //            return Super::getChildCount() - 1;
+    //        }
+    //    }
+    //    return Super::getChildCount();
+    //}
+
+
+    //Caption::Caption(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    VirtualComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //int Caption::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    if (NativeComponent * comp = NativeControl::GetThisOrParent(mParentComponent))
+    //    {
+    //        return Windows::getTextSize(comp->handle(), ->getAttribute("label")).cx;
+    //    }
+    //    return 0;
+    //}
+
+
+    //int Caption::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    if (NativeComponent * comp = NativeControl::GetThisOrParent(mParentComponent))
+    //    {
+    //        return Windows::getTextSize(comp->handle(), ->getAttribute("label")).cy;
+    //    }
+    //    return 0;
+    //}
+
+
+    //bool Caption::init()
+    //{
+    //    if (GroupBox * groupBox = mParentComponent->downcast<GroupBox>())
+    //    {
+    //        groupBox->setCaption(->getAttribute("label"));
+    //    }
+    //    return Super::init();
+    //}
+
+
+    //Tree::Tree(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    NativeControl(inParent, inAttributesMapping, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
+    //{
+    //}
+
+
+    //int Tree::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = Defaults::controlWidth();
+    //    if (const TreeChildren * childNodes = findChildOfType<TreeChildren>())
+    //    {
+    //        result = Defaults::treeIndent() + childNodes->calculateWidth(inSizeConstraint);
+    //    }
+    //    return result;
+    //}
+
+
+    //int Tree::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (const TreeChildren * childNodes = findChildOfType<TreeChildren>())
+    //    {
+    //        result = childNodes->calculateHeight(inSizeConstraint);
+    //    }
+    //    return result;
+    //}
+
+
+    //void Tree::addInfo(const TreeItemInfo & inInfo)
+    //{
+    //    addInfo(TVI_ROOT, TVI_FIRST, inInfo);
+    //}
+
+
+    //HTREEITEM Tree::addInfo(HTREEITEM inRoot, HTREEITEM inPrev, const TreeItemInfo & inInfo)
+    //{
+    //    std::wstring label = ToUTF16(inInfo.data());
+
+    //    TVITEM tvi;
+    //    tvi.mask = TVIF_TEXT;
+    //    tvi.pszText = const_cast<TCHAR *>(label.c_str());
+    //    tvi.cchTextMax = label.size();
+
+    //    TVINSERTSTRUCT tvins;
+    //    tvins.item = tvi;
+    //    tvins.hInsertAfter = inPrev;
+    //    tvins.hParent = inRoot;
+    //    inPrev = (HTREEITEM)SendMessage(handle(), TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&tvins);
+
+    //    HTREEITEM prevChild = TVI_FIRST;
+    //    TreeItemInfo::const_iterator it = inInfo.begin(), end = inInfo.end();
+    //    for (; it != end; ++it)
+    //    {
+    //        const TreeItemInfo * itemInfo = *it;
+    //        prevChild = addInfo(inPrev, prevChild, *itemInfo);
+    //    }
+
+    //    return inPrev;
+    //}
+
+
+    //bool Tree::init()
+    //{
+    //    if (TreeChildren * childNodes = findChildOfType<TreeChildren>())
+    //    {
+    //        if (Component * firstChild = childNodes->el()->childNodes()->item(0])
+    //        {
+    //            if (TreeItem * item = firstChild->downcast<TreeItem>())
+    //            {
+    //                addInfo(item->itemInfo());
+    //            }
+    //        }
+    //    }
+    //    return Super::init();
+    //}
+
+
+    //TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //int TreeChildren::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        const Component * child = getChild(idx);
+    //        if (const TreeItem * item = child->downcast<TreeItem>())
+    //        {
+    //            result += item->calculateHeight(inSizeConstraint);
+    //        }
+    //    }
+    //    return result;
+    //}
+
+
+    //int TreeChildren::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        const Component * child = getChild(idx);
+    //        if (const TreeItem * item = child->downcast<TreeItem>())
+    //        {
+    //            int minWidth = item->calculateWidth(inSizeConstraint);
+    //            if (result < minWidth)
+    //            {
+    //                result = minWidth;
+    //            }
+    //        }
+    //    }
+    //    return result;
+    //}
+
+
+    //TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //int TreeItem::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (const TreeRow * row = findChildOfType<TreeRow>())
+    //    {
+    //        int minHeight = row->calculateHeight(inSizeConstraint);
+    //        if (result < minHeight)
+    //        {
+    //            result = minHeight;
+    //        }
+    //    }
+    //    if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
+    //    {
+    //        result += treeChildren->calculateHeight(inSizeConstraint);
+    //    }
+    //    return result;
+    //}
+
+
+    //int TreeItem::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (const TreeRow * row = findChildOfType<TreeRow>())
+    //    {
+    //        int minWidth = row->calculateWidth(inSizeConstraint);
+    //        if (result < minWidth)
+    //        {
+    //            result = minWidth;
+    //        }
+    //    }
+    //    if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
+    //    {
+    //        int minWidth = Defaults::treeIndent() + treeChildren->calculateWidth(inSizeConstraint);
+    //        if (result < minWidth)
+    //        {
+    //            result = minWidth;
+    //        }
+    //    }
+    //    return result;
+    //}
+
+
+    //bool TreeItem::isOpened() const
+    //{
+    //    //if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeItem*>(this)))
+    //    //{
+    //    //    TreeView_GetItemState(comp->handle(), hti, mask);
+    //    //}
+    //    return false; // TODO: implement
+    //}
+
+
+    //bool TreeItem::init()
+    //{
+    //    if (TreeRow * row = findChildOfType<TreeRow>())
+    //    {
+    //        if (TreeCell * cell = row->findChildOfType<TreeCell>())
+    //        {
+    //            std::string label = cell->getLabel();
+    //            mItemInfo.setData(label);
+    //        }
+    //    }
+    //    if (TreeChildren * treeChildren = findChildOfType<TreeChildren>())
+    //    {
+    //        for (size_t idx = 0; idx != treeChildren->getChildCount(); ++idx)
+    //        {
+    //            Component * child = treeChildren->getChild(idx);
+    //            if (TreeItem * item = child->downcast<TreeItem>())
+    //            {
+    //                mItemInfo.addChild(&item->itemInfo());
+    //            }
+    //        }
+    //    }
+    //    return Super::init();
+    //}
+
+
+    //TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //int TreeRow::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateMaxChildWidth(inSizeConstraint);
+    //}
+
+
+    //int TreeRow::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        const Component * child = getChild(idx);
+    //        if (const TreeCell * cell = child->downcast<TreeCell>())
+    //        {
+    //            result += cell->calculateHeight(inSizeConstraint);
+    //        }
+    //    }
+    //    return result;
+    //}
+
+
+    //TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping)
+    //{
+    //}
+
+
+    //bool TreeCell::initAttributeControllers()
+    //{
+    //    setAttributeController<LabelController>(this);
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //std::string TreeCell::getLabel() const
+    //{
+    //    return mLabel;
+    //}
+
+
+    //void TreeCell::setLabel(const std::string & inLabel)
+    //{
+    //    mLabel = inLabel;
+    //}
+
+
+    //int TreeCell::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeCell *>(this)))
+    //    {
+    //        result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
+    //    }
+    //    return result;
+    //}
+
+
+    //int TreeCell::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::treeItemHeight();
+    //}
+
+
+    //Statusbar::Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
+    //    mBoxLayouter(this)
+    //{
+    //}
+
+
+    //bool Statusbar::initAttributeControllers()
+    //{
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //int Statusbar::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateSumChildWidths(inSizeConstraint);
+    //}
+
+
+    //int Statusbar::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int ownHeight = Windows::getWindowHeight(handle());
+    //    int maxChildHeight = calculateMaxChildHeight(inSizeConstraint);
+    //    return std::max<int>(ownHeight, maxChildHeight);
+    //}
+
+
+    //Orient Statusbar::getOrient() const
+    //{
+    //    return Horizontal;
+    //}
+
+
+    //Align Statusbar::getAlign() const
+    //{
+    //    return Center;
+    //}
+
+
+    //Rect Statusbar::clientRect() const
+    //{
+    //    Rect clientRect(Super::clientRect());
+    //    // Substract from width one square to make place for the resize gripper widget
+    //    return Rect(clientRect.x(), clientRect.y(), clientRect.width() - Windows::getWindowHeight(handle()), clientRect.height());
+    //}
+
+
+    //void Statusbar::rebuildLayout()
+    //{
+    //    mBoxLayouter.rebuildLayout();
+    //}
+
+
+    //void Statusbar::rebuildChildLayouts()
+    //{
+    //    Super::rebuildChildLayouts();
+    //}
+
+
+    //StatusbarPanel::StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
+    //{
+    //}
+
+
+    //bool StatusbarPanel::initAttributeControllers()
+    //{
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //int StatusbarPanel::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Windows::getTextSize(handle(), getLabel()).cx;
+    //}
+
+
+    //int StatusbarPanel::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Windows::getTextSize(handle(), getLabel()).cy;
+    //}
+
+
+    //Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    NativeControl(inParent, inAttributesMapping)
+    //{
+    //    if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
+    //    {
+    //        mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
+    //        setHandle(mToolbar->handle(), false);
+    //        registerHandle();
+    //        subclass();
+    //    }
+    //}
+
+
+    //Toolbar::~Toolbar()
+    //{
+    //    unsubclass();
+    //    unregisterHandle();
+    //    mToolbar.reset();
+    //}
+
+
+    //bool Toolbar::init()
+    //{
+    //    mToolbar->buildToolbar();
+    //    mToolbar->rebuildLayout();
+    //    ShowWindow(mToolbar->handle(), SW_SHOW);
+    //    return Super::init();
+    //}
+
+
+    //int Toolbar::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateSumChildWidths(inSizeConstraint);
+    //}
+
+
+    //int Toolbar::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = calculateMaxChildHeight(inSizeConstraint);
+    //    return result;
+    //}
+
+
+    //void Toolbar::rebuildLayout()
+    //{
+    //    mToolbar->rebuildLayout();
+    //}
+
+
+    //ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    //    PassiveComponent(inParent, inAttributesMapping),
+    //    mButton(0),
+    //    mDisabled(false)
+    //{
+    //    if (Toolbar * toolbar = parentNode()->downcast<Toolbar>())
+    //    {
+    //        boost::shared_ptr<Gdiplus::Bitmap> nullImage;
+    //        std::string label = getLabel();
+
+    //        std::string buttonType;
+    //        AttributesMapping::const_iterator it = inAttributesMapping.find("type");
+    //        if (it != inAttributesMapping.end())
+    //        {
+    //            buttonType = it->second;
+    //        }
+    //        //menu: Set the type attribute to the value menu to create a button with a menu popup. Place a menupopup element inside the button in this case. The user may click anywhere on the button to open and close the menu.
+    //        //menu-button: You can also use the value menu-button to create a button with a menu. Unlike the menu type, this type requires the user to press the arrow to open the menu, but a different command may be invoked when the main part of the button is pressed. This type of button would be used for browser's back and forward buttons.
+    //        //checkbox: Use this type to create a toggle button which will switch the checked state each time the button is pressed.
+    //        //radio: Use this type to create a radio button. You can also create a group of toolbarbutton using this type and the attribute group.
+    //        if (buttonType == "menu")
+    //        {
+    //            mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+    //                                                   this,
+    //                                                   mCommandId.intValue(),
+    //                                                   label,
+    //                                                   label,
+    //                                                   nullImage,
+    //                                                   false);
+    //        }
+    //        else if (buttonType == "menu-button")
+    //        {
+    //            mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+    //                                                   this,
+    //                                                   mCommandId.intValue(),
+    //                                                   label,
+    //                                                   label,
+    //                                                   nullImage,
+    //                                                   true);
+    //        }
+    //        else // buttonType.empty() or buttonType == "button"
+    //        {
+    //            mButton = new Windows::(toolbar->nativeToolbar(),
+    //                                                        mCommandId.intValue(),
+    //                                                        boost::function<void()>(),
+    //                                                        label,
+    //                                                        label,
+    //                                                        nullImage);
+    //        }
+    //        assert(mButton);
+    //        toolbar->nativeToolbar()->add(mButton);
+    //        // Now that mButton is constructed we can apply any previously set
+    //        // attributes.
+    //        setLabel(mLabel);
+    //        setDisabled(mDisabled);
+    //        setCSSListStyleImage(mCSSListStyleImage);
+    //    }
+    //}
+
+
+    //void ToolbarButton::showToolbarMenu(RECT inToolbarButtonRect)
+    //{
+    //    showPopupMenu(inToolbarButtonRect);
+    //}
+
+
+    //void ToolbarButton::showPopupMenu(RECT inToolbarButtonRect)
+    //{
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        Poco::XML::Node * child = el()->childNodes()->item(idx);
+    //        if (MenuPopup * popupMenu = child->downcast<MenuPopup>())
+    //        {
+    //            popupMenu->show(inToolbarButtonRect);
+    //        }
+    //    }
+    //}
+
+
+    //bool ToolbarButton::initAttributeControllers()
+    //{
+    //    setAttributeController<LabelController>(this);
+    //    setAttributeController<DisabledController>(this);
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //bool ToolbarButton::initStyleControllers()
+    //{
+    //    setStyleController<CSSListStyleImageController>(this);
+    //    return Super::initStyleControllers();
+    //}
+
+
+    //int ToolbarButton::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    if (Toolbar * toolbar = parentNode()->downcast<Toolbar>())
+    //    {
+    //        int textWidth = Windows::getTextSize(toolbar->handle(), getLabel()).cx;
+    //        int imageWidth = 0;
+    //        if (mButton && mButton->image())
+    //        {
+    //            imageWidth = mButton->image()->GetWidth();
+    //        }
+    //        return std::max<int>(textWidth, imageWidth);
+
+    //    }
+    //    return 0;
+    //}
+
+
+    //int ToolbarButton::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = Defaults::toolbarHeight();
+    //    if (Toolbar * toolbar = parentNode()->downcast<Toolbar>())
+    //    {
+    //        int textHeight = Windows::getTextSize(toolbar->handle(), getLabel()).cy;
+    //        if (textHeight > result)
+    //        {
+    //            result = textHeight;
+    //        }
+    //        if (mButton && mButton->image())
+    //        {
+    //            int imageHeight = mButton->image()->GetHeight();
+    //            if (imageHeight > result)
+    //            {
+    //                result = imageHeight;
+    //            }
+    //        }
+    //    }
+    //    return result;
+    //}
+
+
+    //std::string ToolbarButton::getLabel() const
+    //{
+    //    if (mButton)
+    //    {
+    //        return mButton->text();
+    //    }
+    //    return mLabel;
+    //}
+
+
+    //void ToolbarButton::setLabel(const std::string & inLabel)
+    //{
+    //    if (mButton)
+    //    {
+    //        mButton->setText(inLabel);
+    //    }
+    //    mLabel = inLabel;
+    //}
+
+
+    //bool ToolbarButton::isDisabled() const
+    //{
+    //    return mDisabled;
+    //}
+
+
+    //void ToolbarButton::setDisabled(bool inDisabled)
+    //{
+    //    if (mButton)
+    //    {
+    //        if (Toolbar * toolbar = parentNode()->downcast<Toolbar>())
+    //        {
+    //            SendMessage(toolbar->handle(), TB_ENABLEBUTTON, (WPARAM)mCommandId.intValue(), (LPARAM)MAKELONG(inDisabled ? FALSE : TRUE, 0));
+    //        }
+    //    }
+    //    else
+    //    {
+    //        mDisabled = inDisabled;
+    //    }
+    //}
+
+
+    //void ToolbarButton::setCSSListStyleImage(const std::string & inURL)
+    //{
+    //    if (mButton)
+    //    {
+    //        ChromeURL chromeURL(inURL);
+    //        std::wstring utf16URL = ToUTF16(chromeURL.convertToLocalPath());
+    //        boost::shared_ptr<Gdiplus::Bitmap> img(new Gdiplus::Bitmap(utf16URL.c_str()));
+    //        mButton->setImage(img);
+    //    }
+    //    mCSSListStyleImage = inURL;
+    //}
+
+
+    //const std::string & ToolbarButton::getCSSListStyleImage() const
+    //{
+    //    return mCSSListStyleImage;
+    //}
 
 
 } // namespace XULWin

@@ -1,25 +1,9 @@
 #include "XULWin/Initializer.h"
 #include "XULWin/Component.h"
-#include "XULWin/ConditionalState.h"
-#include "XULWin/ImageElement.h"
-#include "XULWin/LabelElement.h"
-#include "XULWin/ListBoxElement.h"
-#include "XULWin/ListCellElement.h"
-#include "XULWin/ListColElement.h"
-#include "XULWin/ListColsElement.h"
-#include "XULWin/ListHeadElement.h"
-#include "XULWin/ListHeaderElement.h"
-#include "XULWin/ListItemElement.h"
-#include "XULWin/MenuElement.h"
-#include "XULWin/MenuBarElement.h"
-#include "XULWin/MenuItemElement.h"
-#include "XULWin/MenuPopupElement.h"
-#include "XULWin/MenuSeparatorElement.h"
-#include "XULWin/OverlayElement.h"
-#include "XULWin/ScriptElement.h"
-#include "XULWin/SVGElement.h"
-#include "XULWin/TextElement.h"
+#include "XULWin/ComponentFactory.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Label.h"
+#include "XULWin/Image.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
@@ -35,76 +19,35 @@ namespace XULWin
         ErrorReporter::Initialize();
         Window::Register(inModuleHandle);
         Dialog::Register(inModuleHandle);
-        ElementFactory::Instance().registerElement<WindowElement>();
-        ElementFactory::Instance().registerElement<DialogElement>();
-        ElementFactory::Instance().registerElement<ButtonElement>();
-        ElementFactory::Instance().registerElement<CheckBoxElement>();
-        ElementFactory::Instance().registerElement<LabelElement>();
-        ElementFactory::Instance().registerElement<TextElement>();
-        ElementFactory::Instance().registerElement<HBoxElement>();
-        ElementFactory::Instance().registerElement<VBoxElement>();
-        ElementFactory::Instance().registerElement<BoxElement>();
-        ElementFactory::Instance().registerElement<MenuBarElement>();
-        ElementFactory::Instance().registerElement<MenuElement>();
-        ElementFactory::Instance().registerElement<MenuPopupElement>();
-        ElementFactory::Instance().registerElement<MenuItemElement>();
-        ElementFactory::Instance().registerElement<MenuListElement>();
-        ElementFactory::Instance().registerElement<MenuSeparatorElement>();
-        ElementFactory::Instance().registerElement<TextBoxElement>();
-        ElementFactory::Instance().registerElement<SeparatorElement>();
-        ElementFactory::Instance().registerElement<MenuButtonElement>();
-        ElementFactory::Instance().registerElement<GridElement>();
-        ElementFactory::Instance().registerElement<RowsElement>();
-        ElementFactory::Instance().registerElement<RowElement>();
-        ElementFactory::Instance().registerElement<ColumnsElement>();
-        ElementFactory::Instance().registerElement<ColumnElement>();
-        ElementFactory::Instance().registerElement<DescriptionElement>();
-        ElementFactory::Instance().registerElement<SpacerElement>();
-        ElementFactory::Instance().registerElement<RadioGroupElement>();
-        ElementFactory::Instance().registerElement<RadioElement>();
-        ElementFactory::Instance().registerElement<ProgressMeterElement>();
-        ElementFactory::Instance().registerElement<DeckElement>();
-        ElementFactory::Instance().registerElement<ImageElement>();
-        ElementFactory::Instance().registerElement<ScrollbarElement>();
-        ElementFactory::Instance().registerElement<ScriptElement>();
-        ElementFactory::Instance().registerElement<TabBoxElement>();
-        ElementFactory::Instance().registerElement<TabsElement>();
-        ElementFactory::Instance().registerElement<TabElement>();
-        ElementFactory::Instance().registerElement<TabPanelsElement>();
-        ElementFactory::Instance().registerElement<TabPanelElement>();
-        ElementFactory::Instance().registerElement<GroupBoxElement>();
-        ElementFactory::Instance().registerElement<CaptionElement>();
-        ElementFactory::Instance().registerElement<SVGElement>();
-        ElementFactory::Instance().registerElement<SVGGroupElement>();
-        ElementFactory::Instance().registerElement<SVGPolygonElement>();
-        ElementFactory::Instance().registerElement<SVGPathElement>();
-        ElementFactory::Instance().registerElement<SVGRectElement>();
-        ElementFactory::Instance().registerElement<TreeElement>();
-        ElementFactory::Instance().registerElement<TreeChildrenElement>();
-        ElementFactory::Instance().registerElement<TreeColsElement>();
-        ElementFactory::Instance().registerElement<TreeColElement>();
-        ElementFactory::Instance().registerElement<TreeRowElement>();
-        ElementFactory::Instance().registerElement<TreeCellElement>();
-        ElementFactory::Instance().registerElement<TreeItemElement>();
-        ElementFactory::Instance().registerElement<StatusbarElement>();
-        ElementFactory::Instance().registerElement<StatusbarPanelElement>();
-        ElementFactory::Instance().registerElement<ToolbarElement>();
-        ElementFactory::Instance().registerElement<ToolbarButtonElement>();
-        ElementFactory::Instance().registerElement<ListBoxElement>();
-        ElementFactory::Instance().registerElement<ListItemElement>();
-        ElementFactory::Instance().registerElement<ListCellElement>();
-        ElementFactory::Instance().registerElement<ListColElement>();
-        ElementFactory::Instance().registerElement<ListColsElement>();
-        ElementFactory::Instance().registerElement<ListHeadElement>();
-        ElementFactory::Instance().registerElement<ListHeaderElement>();
-        ElementFactory::Instance().registerElement<OverlayElement>();
-        ConditionalState::Initialize(inModuleHandle);
+        ComponentFactory::Instance().registerComponent<Window>();
+        ComponentFactory::Instance().registerComponent<Dialog>();
+        ComponentFactory::Instance().registerComponent<Button>();
+        ComponentFactory::Instance().registerComponent<CheckBox>();
+        ComponentFactory::Instance().registerComponent<Label>();
+        ComponentFactory::Instance().registerComponent<Box>();
+        ComponentFactory::Instance().registerComponent<TextBox>();
+        ComponentFactory::Instance().registerComponent<Separator>();
+        ComponentFactory::Instance().registerComponent<Grid>();
+        ComponentFactory::Instance().registerComponent<Rows>();
+        ComponentFactory::Instance().registerComponent<Row>();
+        ComponentFactory::Instance().registerComponent<Columns>();
+        ComponentFactory::Instance().registerComponent<Column>();
+        ComponentFactory::Instance().registerComponent<Description>();
+        ComponentFactory::Instance().registerComponent<Spacer>();
+        ComponentFactory::Instance().registerComponent<RadioGroup>();
+        ComponentFactory::Instance().registerComponent<Radio>();
+        ComponentFactory::Instance().registerComponent<ProgressMeter>();
+        ComponentFactory::Instance().registerComponent<Deck>();
+        ComponentFactory::Instance().registerComponent<Image>();
+        ComponentFactory::Instance().registerComponent<Scrollbar>();
+        //ComponentFactory::Instance().registerComponent<GroupBox>();
+        //ComponentFactory::Instance().registerComponent<Caption>();
+        //ComponentFactory::Instance().registerComponent<Statusbar>();
     }
 
 
     Initializer::~Initializer()
     {
-        ConditionalState::Finalize();
         ErrorReporter::Finalize();
     }
 

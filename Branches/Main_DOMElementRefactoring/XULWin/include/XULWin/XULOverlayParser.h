@@ -18,12 +18,12 @@ namespace XULWin
     class XULOverlayParser : public AbstractXULParser
     {
     public:
-        XULOverlayParser(Element * inOverlayElement);
+        XULOverlayParser(Poco::XML::Element * inOverlayElement);
 
     protected:
-        virtual Element * getCurrentParentElement();
+        virtual Poco::XML::Element * getCurrentParentElement();
 
-        virtual void pushStack(ElementPtr inElement);
+        virtual void pushStack(Poco::XML::Element * inElement);
 
         virtual void popStack();
 
@@ -33,12 +33,12 @@ namespace XULWin
          * Return false if element creation has failed.
          */
         bool createElement(const std::string & inLocalName,
-                           Element * inParent,
+                           Poco::XML::Element * inParent,
                            const AttributesMapping & inAttributes,
-                           ElementPtr & outElement);
+                           Poco::XML::Element * & outElement);
 
     private:
-        Element * mOverlayRoot;
+        Poco::XML::Element * mOverlayRoot;
     };
 
 

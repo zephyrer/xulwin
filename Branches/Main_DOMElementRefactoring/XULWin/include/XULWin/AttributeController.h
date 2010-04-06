@@ -151,7 +151,7 @@ namespace XULWin
      * Type: string (representing an integer)
      * Indicates the flexibility of the element, which indicates how
      * an element's container distributes remaining empty space among its
-     * children.
+     * childNodes.
      */
     class FlexController : public AttributeController
     {
@@ -518,7 +518,7 @@ namespace XULWin
 
 
     /**
-     * This is a non-standard extension that applies to ImageElement elements only.
+     * This is a non-standard extension that applies to  elements only.
      * The attribute "keepaspectratio" has a boolean value indicating that the
      * resized width and height should be congruent with the natural width and
      * height.

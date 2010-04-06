@@ -2,7 +2,6 @@
 #define ELEMENTFACTOR_H_INCLUDED
 
 
-#include "XULWin/Element.h"
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
@@ -19,13 +18,13 @@ namespace XULWin
         /**
          * createElement
          *
-         * Factory method for the creation of a XUL Element object based on it's XUL type identifier.
+         * Factory method for the creation of a XUL Poco::XML::Element object based on it's XUL type identifier.
          */
-        ElementPtr createElement(const std::string & inType, Element * inParent, const AttributesMapping & inAttr);
+        ElementPtr createElement(const std::string & inType, Poco::XML::Element * inParent, const AttributesMapping & inAttr);
 
 
         /**
-         * registerElement
+         * registerComponent
          *
          * This method adds a mapping for the given element's XUL type identifier
          * with the element's factory method (in the form of a function object).
@@ -41,10 +40,10 @@ namespace XULWin
          * Because the XUL type identifier is defined as a class property it suffices
          * to pass the classname in the form of a template parameter. For example:
          *
-         * ElementFactory::Instance().registerElement<LabelElement>();
+         * ElementFactory::Instance().registerComponent<LabelElement>();
          */
         template<class ElementType>
-        void registerElement()
+        void registerComponent()
         {
             mFactoryMethods.insert(std::make_pair(ElementType::Type(),
                                                   boost::bind(ElementType::Create, _1, _2)));
@@ -52,7 +51,7 @@ namespace XULWin
 
     private:
         ElementFactory();
-        typedef boost::function<ElementPtr(Element *, const AttributesMapping &)> FactoryMethod;
+        typedef boost::function<ElementPtr(Poco::XML::Element *, const AttributesMapping &)> FactoryMethod;
         typedef std::map<std::string, FactoryMethod> FactoryMethods;
         FactoryMethods mFactoryMethods;
     };

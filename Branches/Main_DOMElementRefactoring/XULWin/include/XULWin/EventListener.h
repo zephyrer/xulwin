@@ -11,7 +11,6 @@
 
 namespace XULWin
 {
-    class Element;
 
     /**
      * Usually Windows message return 0 or 1, meaning the messages was handled, or not handled, respectively.
@@ -20,16 +19,27 @@ namespace XULWin
     static const LRESULT cHandled = 0;
     static const LRESULT cUnhandled = 1;
 
-    class EventListener
+    class Component;
+
+    class NativeEventListener
     {
     public:
-        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;
+        NativeEventListener() {}
 
-        virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId) = 0;
+        virtual ~NativeEventListener() {}
 
-        virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;
+        const std::string & tagName() { return mType; }
 
-        virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam) = 0;
+        virtual LRESULT handleCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;
+
+        //virtual LRESULT handleMenuCommand(Component * inSender, WORD inMenuId) = 0;
+
+        virtual LRESULT handleDialogCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam) = 0;
+
+        virtual LRESULT handleMessage(Component * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam) = 0;
+
+    private:
+        std::string mType;
     };
 
 
@@ -38,7 +48,7 @@ namespace XULWin
      *
      * Enables connecting events with callbacks.
      */
-    class ScopedEventListener : public EventListener,
+    class ScopedEventListener : public NativeEventListener,
         boost::noncopyable
     {
     public:
@@ -55,13 +65,13 @@ namespace XULWin
          * toolbar buttons.
          * This method is a shorter notation for connect(inEl, WM_COMMAND, inAction).
          */
-        void connect(Element * inEl, const Action & inAction);
+        void connect(Component * inEl, const Action & inAction);
 
 
         /**
          * Connect a callback to a specific Windows message.
          */
-        void connect(Element * inEl, UINT inMessage, const Action & inAction);
+        void connect(Component * inEl, UINT inMessage, const Action & inAction);
 
 
         /**
@@ -69,34 +79,34 @@ namespace XULWin
          * message does not equal the Component that is being listened to.
          * This applies to menus and toolbar buttons.
          * Unless you want to do something special, you don't need to call this method. For normal
-         * situations use the connect(Element*, const Action&) overload. It will detect and take
+         * situations use the connect(Component*, const Action&) overload. It will detect and take
          * care of the special cases like menu items and toolbar buttons.
          */
-        void connect(Element * inEl, UINT inMessage, int inCommandId, const Action & inAction);
+        void connect(Component * inEl, UINT inMessage, int inCommandId, const Action & inAction);
 
 
         /**
          * Removes the callback connections. You don't need to call this if your ScopedEventListener
          * object is properly scoped (RAII).
          */
-        void disconnect(Element * inEl);
-        void disconnect(Element * inEl, UINT inMessage);
-        void disconnect(Element * inEl, UINT inMessage, int inCommandId);
+        void disconnect(Component * inEl);
+        void disconnect(Component * inEl, UINT inMessage);
+        void disconnect(Component * inEl, UINT inMessage, int inCommandId);
 
     protected:
-        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
-        virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
-        virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
+        virtual LRESULT handleCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
+        //virtual LRESULT handleMenuCommand(Component * inSender, WORD inMenuId);
+        virtual LRESULT handleDialogCommand(Component * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
         {
             return 1;
         }
-        virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
+        virtual LRESULT handleMessage(Component * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
         class MsgId
         {
         public:
-            MsgId(Element * inElement, UINT inMessageId, int inCommandId) :
-                mElement(inElement),
+            MsgId(Component * inComponent, UINT inMessageId, int inCommandId) :
+                mComponent(inComponent),
                 mMessageId(inMessageId),
                 mCommandId(inCommandId)
             {
@@ -104,9 +114,9 @@ namespace XULWin
 
             bool operator <(const MsgId & rhs) const
             {
-                if (mElement != rhs.mElement)
+                if (component() != rhs.component())
                 {
-                    return mElement < rhs.mElement;
+                    return component() < rhs.component();
                 }
                 else if (mMessageId != rhs.mMessageId)
                 {
@@ -118,9 +128,9 @@ namespace XULWin
                 }
             }
 
-            Element * element() const
+            Component * component() const
             {
-                return mElement;
+                return mComponent;
             }
 
             UINT messageId() const
@@ -134,7 +144,7 @@ namespace XULWin
             }
 
         private:
-            Element * mElement;
+            Component * mComponent;
             UINT mMessageId;
             int mCommandId; // needed to identify toolbar buttons
         };
@@ -143,9 +153,9 @@ namespace XULWin
         LRESULT handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);
         void invokeCallbacks(MsgId inMsgId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
-        bool connectToolbarButton(Element * inEl, const Action & inAction);
-        bool connectMenuItem(Element * inEl, const Action & inAction);
-        bool handleToolbarCommand(MsgId inMessageId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
+        //bool connectToolbarButton(Component * inEl, const Action & inAction);
+        //bool connectMenuItem(Component * inEl, const Action & inAction);
+        //bool handleToolbarCommand(MsgId inMessageId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
         MessageCallbacks mMessageCallbacks;
     };

@@ -2,7 +2,8 @@
 #define XULPARSER_H_INCLUDED
 
 
-#include "XULWin/Element.h"
+#include "XULWin/AttributesMapping.h"
+#include "Poco/DOM/Element.h"
 #include "Poco/SAX/SAXParser.h"
 #include "Poco/SAX/ContentHandler.h"
 #include "Poco/SAX/EntityResolver.h"
@@ -26,14 +27,10 @@ namespace XULWin
          * Returns the root element of the parsed XUL doc.
          * In case of parsing overlays, this will be the
          */
-        ElementPtr rootElement() const;
-
-        void setExtraContentHander(Poco::XML::ContentHandler * inContentHandler);
-
-        //void setExtraEntityResolver(Poco::XML::EntityResolver * inEntityResolver);
+        Poco::XML::Element * rootElement() const;
 
     protected:
-        virtual Element * getCurrentParentElement() = 0;
+        virtual Poco::XML::Element * getCurrentParentElement() = 0;
 
         /**
          * Create the element.
@@ -41,11 +38,11 @@ namespace XULWin
          * Return false if element creation has failed.
          */
         virtual bool createElement(const std::string & inLocalName,
-                                   Element * inParent,
+                                   Poco::XML::Element * inParent,
                                    const AttributesMapping & inAttributes,
-                                   ElementPtr & outElement) = 0;
+                                   Poco::XML::Element * & outElement) = 0;
 
-        virtual void pushStack(ElementPtr inElement) = 0;
+        virtual void pushStack(Poco::XML::Element * inElement) = 0;
 
         virtual void popStack() = 0;
 
@@ -85,11 +82,11 @@ namespace XULWin
 
     protected:
         // needed to know which one is the parent element
-        std::stack<Element *> mStack;
+        std::stack<Poco::XML::Element *> mStack;
 
         // depth of ignoration
         int mIgnores;
-        ElementPtr mRootElement;
+        Poco::XML::Element * mRootElement;
 
     private:
         void getAttributes(const Poco::XML::Attributes & inXMLAttributes,
@@ -97,7 +94,6 @@ namespace XULWin
 
         const Poco::XML::Locator * mLocator;
         std::string mLanguage;
-        Poco::XML::ContentHandler * mExtraContentHandler;
     };
 
 
@@ -106,9 +102,9 @@ namespace XULWin
     public:
 
     protected:
-        virtual Element * getCurrentParentElement();
+        virtual Poco::XML::Element * getCurrentParentElement();
 
-        virtual void pushStack(ElementPtr inElement);
+        virtual void pushStack(Poco::XML::Element * inElement);
 
         virtual void popStack();
 
@@ -118,9 +114,9 @@ namespace XULWin
          * Return false if element creation has failed.
          */
         bool createElement(const std::string & inLocalName,
-                           Element * inParent,
+                           Poco::XML::Element * inParent,
                            const AttributesMapping & inAttributes,
-                           ElementPtr & outElement);
+                           Poco::XML::Element * & outElement);
 
     };
 

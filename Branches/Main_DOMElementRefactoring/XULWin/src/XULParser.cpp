@@ -1,8 +1,8 @@
 #include "XULWin/XULParser.h"
-#include "XULWin/ElementFactory.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
+#include "Poco/DOM/Element.h"
 #include "Poco/SAX/Attributes.h"
 #include "Poco/SAX/EntityResolverImpl.h"
 
@@ -12,8 +12,7 @@ namespace XULWin
 
     AbstractXULParser::AbstractXULParser() :
         mIgnores(0),
-        mLanguage("en"),
-        mExtraContentHandler(0)
+        mLanguage("en")
     {
         setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, true);
         setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, true);
@@ -23,46 +22,27 @@ namespace XULWin
     }
 
 
-    ElementPtr AbstractXULParser::rootElement() const
+    Poco::XML::Element * AbstractXULParser::rootElement() const
     {
         return mRootElement;
     }
 
 
-    void AbstractXULParser::setExtraContentHander(Poco::XML::ContentHandler * inContentHandler)
-    {
-        mExtraContentHandler = inContentHandler;
-    }
-
-
     void AbstractXULParser::setDocumentLocator(const Poco::XML::Locator * inLocator)
     {
-        mLocator = inLocator;
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->setDocumentLocator(inLocator);
-        }
-        
+        mLocator = inLocator;        
     }
 
 
     void AbstractXULParser::startDocument()
     {
         assert(mIgnores == 0);
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->startDocument();
-        }
     }
 
 
     void AbstractXULParser::endDocument()
     {
         assert(mIgnores == 0);
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->endDocument();
-        }
     }
 
 
@@ -91,10 +71,10 @@ namespace XULWin
                 return;
             }
 
-            Element * parent = getCurrentParentElement();
+            Poco::XML::Element * parent = getCurrentParentElement();
             AttributesMapping attr;
             getAttributes(attributes, attr);
-            ElementPtr element;
+            Poco::XML::Element * element;
             if (createElement(localName, parent, attr, element))
             {
                 pushStack(element);
@@ -110,11 +90,6 @@ namespace XULWin
         {
             ReportError(inExc.displayText());
         }
-
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->startElement(uri, localName, qname, attributes);
-        }
     }
 
 
@@ -128,26 +103,11 @@ namespace XULWin
             return;
         }
         popStack();
-
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->endElement(uri, localName, qname);
-        }
     }
 
 
     void AbstractXULParser::characters(const Poco::XML::XMLChar ch[], int start, int length)
     {
-        if (!mStack.empty() && mStack.top())
-        {
-            std::string innerText = std::string(ch + start, length);
-            mStack.top()->setInnerText(mStack.top()->innerText() + innerText);
-        }
-
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->characters(ch, start, length);
-        }
     }
 
 
@@ -180,18 +140,18 @@ namespace XULWin
 
 
     bool XULParser::createElement(const std::string & inLocalName,
-                                  Element * inParent,
+                                  Poco::XML::Element * inParent,
                                   const AttributesMapping & inAttributes,
-                                  ElementPtr & outElement)
+                                  Poco::XML::Element * & outElement)
     {
-        outElement = ElementFactory::Instance().createElement(inLocalName, inParent, inAttributes);
+        outElement = ComponentFactory::Instance().createElement(inLocalName, inParent, inAttributes);
         return outElement.get() != 0;
     }
 
 
-    Element * XULParser::getCurrentParentElement()
+    Poco::XML::Element * XULParser::getCurrentParentElement()
     {
-        Element * parent(0);
+        Poco::XML::Element * parent(0);
         if (!mStack.empty())
         {
             parent = mStack.top();
@@ -200,7 +160,7 @@ namespace XULWin
     }
 
 
-    void XULParser::pushStack(ElementPtr inElement)
+    void XULParser::pushStack(Poco::XML::Element * inElement)
     {
         if (inElement)
         {

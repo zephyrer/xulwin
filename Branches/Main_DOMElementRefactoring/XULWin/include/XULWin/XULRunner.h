@@ -3,7 +3,6 @@
 
 
 #include "XULWin/Fallible.h"
-#include "XULWin/XULParser.h"
 #include "XULWin/Windows.h"
 #include "Poco/AutoPtr.h"
 #include "Poco/DOM/Document.h"
@@ -52,7 +51,7 @@ namespace XULWin
          *  - Parses the main XUL file.
          *  - Returns the root element of the parsed XUL file.
          */
-        ElementPtr loadApplication(const std::string & inApplicationIniFile);
+        Poco::XML::Element * loadApplication(const std::string & inApplicationIniFile);
 
         /**
          * loadXULFromFile
@@ -64,7 +63,7 @@ namespace XULWin
          *  - Parses the XUL file.
          *  - Returns the root element of the parsed XUL file.
          */
-        ElementPtr loadXULFromFile(const std::string & inXULUrl);
+        Poco::XML::Element * loadXULFromFile(const std::string & inXULUrl);
 
 
         /**
@@ -72,7 +71,7 @@ namespace XULWin
          *
          * Parses a XUL String.
          */
-        ElementPtr loadXULFromString(const std::string & inXULString);
+        Poco::XML::Element * loadXULFromString(const std::string & inXULString);
 
 
         /**
@@ -86,20 +85,18 @@ namespace XULWin
          */
         void loadOverlay(const std::string & inXULUrl);
 
-        ElementPtr rootElement() const;
+        Poco::XML::Element * rootElement() const;
 
     private:
         static Fallible<std::string> sLocale;
         static HMODULE sModuleHandle;
 
-        ElementPtr parseFile(AbstractXULParser & inParser, const std::string & inFilePath);
-        ElementPtr parseString(AbstractXULParser & inParser, const std::string & inXULString);
+        Poco::XML::Element * parseFile(const std::string & inFilePath);
+        Poco::XML::Element * parseString(const std::string & inXULString);
         std::string getOverlayElementId(const std::string & inXULURL);
 
         HMODULE mModuleHandle;
-        XULParser mParser;
-        ElementPtr mRootElement;
-        
+        Poco::XML::Element * mRootElement;
         Poco::AutoPtr<Poco::XML::Document> mDocument;
     };
 

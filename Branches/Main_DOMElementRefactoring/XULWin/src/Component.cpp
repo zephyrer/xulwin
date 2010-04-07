@@ -1,5 +1,5 @@
 #include "XULWin/Component.h"
-#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ComponentManager.h"
 #include "XULWin/ElementUtilities.h"
 #include "XULWin/Algorithms.h"
 #include "XULWin/ChromeURL.h"
@@ -49,11 +49,11 @@ namespace XULWin
 
     NativeComponent::ComponentsById NativeComponent::sComponentsById;
 
-    ConcreteComponent::ConcreteComponent(Component * inParent) :
+    ConcreteComponent::ConcreteComponent(Component * inParent, Poco::XML::Element * inElement) :
         mParentComponent(inParent),
+        mElement(inElement),
         mCommandId(),
         mExpansive(false),
-        mElement(0),
         mFlex(0),
         mHidden(false),
         mOrient(Horizontal),
@@ -102,49 +102,37 @@ namespace XULWin
 
     int ConcreteComponent::calculateMaxChildWidth(SizeConstraint inSizeConstraint) const
     {
-        return 0;
-        //return max_element_value<int>(el()->childNodes().begin(),
-        //                              el()->childNodes().end(),
-        //                              0,
-        //                              boost::bind(&Component::calculateWidth,
-        //                                          boost::bind(&Element::component, _1),
-        //                                          inSizeConstraint));
+        return max_element_value<int>(mChildren.begin(),
+                                      mChildren.end(),
+                                      0,
+                                      boost::bind(&Component::calculateWidth, _1, inSizeConstraint));
     }
 
 
     int ConcreteComponent::calculateMaxChildHeight(SizeConstraint inSizeConstraint) const
     {
-        return 0;
-        //return max_element_value<int>(el()->childNodes().begin(),
-        //                              el()->childNodes().end(),
-        //                              0,
-        //                              boost::bind(&Component::calculateHeight,
-        //                                          boost::bind(&Element::component, _1),
-        //                                          inSizeConstraint));
+        return max_element_value<int>(mChildren.begin(),
+                                      mChildren.end(),
+                                      0,
+                                      boost::bind(&Component::calculateHeight, _1, inSizeConstraint));
     }
 
 
     int ConcreteComponent::calculateSumChildWidths(SizeConstraint inSizeConstraint) const
     {
-        return 0;
-        //return sum_element_values<int>(el()->childNodes().begin(),
-        //                               el()->childNodes().end(),
-        //                               0,
-        //                               boost::bind(&Component::calculateWidth,
-        //                                           boost::bind(&Element::component, _1),
-        //                                           inSizeConstraint));
+        return sum_element_values<int>(mChildren.begin(),
+                                       mChildren.end(),
+                                       0,
+                                       boost::bind(&Component::calculateWidth, _1, inSizeConstraint));
     }
 
 
     int ConcreteComponent::calculateSumChildHeights(SizeConstraint inSizeConstraint) const
     {
-        return 0;
-        //return sum_element_values<int>(el()->childNodes().begin(),
-        //                               el()->childNodes().end(),
-        //                               0,
-        //                               boost::bind(&Component::calculateHeight,
-        //                                           boost::bind(&Element::component, _1),
-        //                                           inSizeConstraint));
+        return sum_element_values<int>(mChildren.begin(),
+                                       mChildren.end(),
+                                       0,
+                                       boost::bind(&Component::calculateHeight, _1, inSizeConstraint));
     }
 
 
@@ -168,19 +156,29 @@ namespace XULWin
 
     size_t ConcreteComponent::getChildCount() const
     {
-        return el()->childNodes()->length();
+        return mChildren.size();
+    }
+    
+    
+    void ConcreteComponent::addChild(ComponentPtr inComponent)
+    {
+        if (!inComponent)
+        {
+            throw std::logic_error("Don't add child components if they are NULL.");
+        }
+        mChildren.push_back(inComponent);
     }
 
 
     const Component * ConcreteComponent::getChild(size_t inIndex) const
     {
-        return GetComponent<Component>(el()->childNodes()->item(inIndex));
+        return mChildren[inIndex].get();
     }
 
 
     Component * ConcreteComponent::getChild(size_t inIndex)
     {
-        return GetComponent<Component>(el()->childNodes()->item(inIndex));
+        return mChildren[inIndex].get();
     }
 
 
@@ -648,11 +646,9 @@ namespace XULWin
         {
             return;
         }
-        // TODO: improve performance!! (childNodes is a list!)
-        for (size_t idx = 0; idx != mElement->childNodes()->length(); ++idx)
+        for (size_t idx = 0; idx != mChildren.size(); ++idx)
         {
-            Component * nativeComp = GetComponent<Component>(el()->childNodes()->item(idx));
-            if (nativeComp)
+            if (NativeComponent * nativeComp = mChildren[idx]->downcast<NativeComponent>())
             {
                 nativeComp->rebuildLayout();
             }
@@ -663,8 +659,8 @@ namespace XULWin
     HMODULE NativeComponent::sModuleHandle(0);
 
 
-    NativeComponent::NativeComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ConcreteComponent(inParent),
+    NativeComponent::NativeComponent(Component * inParent, Poco::XML::Element * inDOMElement) :
+        ConcreteComponent(inParent, inDOMElement),
         mHandle(0),
         mModuleHandle(NativeComponent::GetModuleHandle()),
         mOrigProc(0),
@@ -1073,8 +1069,8 @@ namespace XULWin
     }
 
 
-    Dialog::Dialog(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeComponent(inParent, inAttributesMapping),
+    Dialog::Dialog(Component * inParent, Poco::XML::Element * inDOMElement) :
+        NativeComponent(inParent, inDOMElement),
         mBoxLayouter(this),
         mInvoker(0),
         mDialogResult(DialogResult_Cancel)
@@ -1337,8 +1333,8 @@ namespace XULWin
     }
 
 
-    VirtualComponent::VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ConcreteComponent(inParent)
+    VirtualComponent::VirtualComponent(Component * inParent, Poco::XML::Element * inDOMElement) :
+        ConcreteComponent(inParent, inDOMElement)
     {
     }
 
@@ -1385,8 +1381,8 @@ namespace XULWin
     }
 
 
-    PassiveComponent::PassiveComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    PassiveComponent::PassiveComponent(Component * inParent, Poco::XML::Element * inDOMElement) :
+        VirtualComponent(inParent, inDOMElement)
     {
     }
 
@@ -1397,8 +1393,8 @@ namespace XULWin
     }
 
 
-    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
-        NativeComponent(inParent, inAttributesMapping)
+    NativeControl::NativeControl(Component * inParent, Poco::XML::Element * inDOMElement, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
+        NativeComponent(inParent, inDOMElement)
     {
         if (!mParentComponent)
         {
@@ -1442,8 +1438,8 @@ namespace XULWin
     }
 
 
-    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeComponent(inParent, inAttributesMapping)
+    NativeControl::NativeControl(Component * inParent, Poco::XML::Element * inDOMElement) :
+        NativeComponent(inParent, inDOMElement)
     {
         // Don't call registerHandle() or subclass() here.
         // They have to be called in your subclass and after setHandle() has been called.
@@ -1533,9 +1529,9 @@ namespace XULWin
     }
 
 
-    Button::Button(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Button::Button(Component * inParent, Poco::XML::Element * inDOMElement) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inDOMElement,
                       TEXT("BUTTON"),
                       0, // exStyle
                       WS_TABSTOP | BS_PUSHBUTTON)
@@ -1558,8 +1554,8 @@ namespace XULWin
     }
 
 
-    CheckBox::CheckBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("BUTTON"), 0, WS_TABSTOP | BS_AUTOCHECKBOX)
+    CheckBox::CheckBox(Component * inParent, Poco::XML::Element * inDOMElement) :
+        NativeControl(inParent, inDOMElement, TEXT("BUTTON"), 0, WS_TABSTOP | BS_AUTOCHECKBOX)
     {
     }
 
@@ -1595,27 +1591,28 @@ namespace XULWin
     }
 
 
-    TextBox::TextBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    TextBox::TextBox(Component * inParent, Poco::XML::Element * inDOMElement) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inDOMElement,
                       TEXT("EDIT"),
                       WS_EX_CLIENTEDGE, // exStyle
-                      WS_TABSTOP | GetFlags(inAttributesMapping)),
+                      WS_TABSTOP | GetFlags(inDOMElement)),
         mRows(1)
     {
     }
 
 
-    DWORD TextBox::GetFlags(const AttributesMapping & inAttributesMapping)
+    DWORD TextBox::GetFlags(Poco::XML::Element * inDOMElement)
     {
         DWORD flags = 0;
-        AttributesMapping::const_iterator it = inAttributesMapping.find("type");
-        if (it != inAttributesMapping.end() && it->second == "password")
+        const Poco::XML::XMLString & typeAttr = inDOMElement->getAttribute("type");
+        if (typeAttr == "password")
         {
             flags |= ES_PASSWORD;
         }
-        it = inAttributesMapping.find("multiline");
-        if (it != inAttributesMapping.end() && it->second == "true")
+        
+        const Poco::XML::XMLString & multilineAttr = inDOMElement->getAttribute("multiline");
+        if (multilineAttr == "true")
         {
             flags |= WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN;
         }
@@ -1718,9 +1715,9 @@ namespace XULWin
     }
 
 
-    Description::Description(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Description::Description(Component * inParent, Poco::XML::Element * inDOMElement) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inDOMElement,
                       TEXT("STATIC"),
                       0, // exStyle
                       SS_LEFT)
@@ -1759,1226 +1756,1222 @@ namespace XULWin
     }
 
 
-    VirtualBox::VirtualBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
-        mBoxLayouter(this)
-    {
-    }
-
-
-    Orient VirtualBox::getOrient() const
-    {
-        return mOrient.or(Horizontal);
-    }
-
-
-    Align VirtualBox::getAlign() const
-    {
-        return mAlign.or(Stretch);
-    }
-
-
-    bool VirtualBox::initAttributeControllers()
-    {
-        return Super::initAttributeControllers();
-    }
-
-
-    void VirtualBox::rebuildLayout()
-    {
-        mBoxLayouter.rebuildLayout();
-    }
-
-
-
-    Box::Box(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
-        mBoxLayouter(this)
-    {
-    }
-
-
-    Orient Box::getOrient() const
-    {
-        return mOrient.or(Vertical);
-    }
-
-
-    Align Box::getAlign() const
-    {
-        return mAlign.or(Stretch);
-    }
-
-
-    void Box::rebuildLayout()
-    {
-        mBoxLayouter.rebuildLayout();
-    }
-
-
-    int Box::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return mBoxLayouter.calculateWidth(inSizeConstraint);
-    }
-
-
-    int Box::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return mBoxLayouter.calculateHeight(inSizeConstraint);
-    }
-
-
-    Rect Box::clientRect() const
-    {
-        return Super::clientRect();
-    }
-
-
-    const Component * Box::getChild(size_t idx) const
-    {
-        return GetComponent<Component>(mElement->childNodes()->item(idx));
-    }
-
-
-    Component * Box::getChild(size_t idx)
-    {
-        return GetComponent<Component>(mElement->childNodes()->item(idx));
-    }
-
-
-    MenuList::MenuList(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(
-            inParent,
-            inAttributesMapping,
-            TEXT("COMBOBOX"),
-            0, // exStyle
-            WS_TABSTOP | CBS_DROPDOWNLIST)
-    {
-    }
-
-
-    bool MenuList::init()
-    {
-        fillComboBox();
-        return Super::init();
-    }
-
-
-    void MenuList::fillComboBox()
-    {
-        if (MenuPopup * popup = findChildOfType<MenuPopup>())
-        {
-            for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
-            {
-                Poco::XML::Node * child = popup->el()->childNodes()->item(idx);
-                if (MenuItem * item = GetComponent<MenuItem>(child))
-                {
-                    std::string label = item->getLabel();
-                    Windows::addStringToComboBox(handle(), label);
-                }
-            }
-            Windows::selectComboBoxItem(handle(), 0);
-        }
-    }
-
-
-    int MenuList::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::menuListMinWidth() + calculateMaxChildWidth(inSizeConstraint);
-    }
-
-
-    int MenuList::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::controlHeight();
-    }
-
-
-    void MenuList::move(int x, int y, int w, int h)
-    {
-        // The height of a combobox in Win32 is the height of the dropdown menu
-        // + the height of the widget itself.
-
-        int numItems = Windows::getComboBoxItemCount(handle());
-        int dropdownHeight = 0;
-        if (numItems > 0)
-        {
-            dropdownHeight = numItems * Windows::getComboBoxItemHeight(handle(), 0); // use index 0
-        }
-
-        // This is usually needed as well, I think :S
-        int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
-
-        NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
-    }
-
-
-    void MenuList::onContentChanged()
-    {
-        if (mIsInitialized)
-        {
-            Windows::clearComboBox(handle());
-            fillComboBox();
-        }
-        // else: the init will take care of the initial fill
-    }
-
-
-    Separator::Separator(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent,
-                      inAttributesMapping,
-                      TEXT("STATIC"),
-                      0, // exStyle
-                      SS_GRAYFRAME)
-    {
-        mExpansive = true;
-    }
-
-
-    int Separator::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return 1;
-    }
-
-
-    int Separator::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return 1;
-    }
-
-
-    Spacer::Spacer(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int Spacer::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return 0;
-    }
-
-
-    int Spacer::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return 0;
-    }
-
-
-    MenuButton::MenuButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent,
-                      inAttributesMapping,
-                      TEXT("BUTTON"),
-                      0, // exStyle
-                      WS_TABSTOP | BS_PUSHBUTTON)
-    {
-    }
-
-
-    int MenuButton::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx + Defaults::textPadding()*2;
-    }
-
-
-    int MenuButton::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::buttonHeight();
-    }
-
-
-    VirtualGrid::VirtualGrid(Component * inParent,
-                             const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int VirtualGrid::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const Columns * cols = findChildOfType<Columns>())
-        {
-            result = cols->calculateWidth(inSizeConstraint);
-        }
-        return result;
-
-    }
-
-
-    int VirtualGrid::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const Rows * rows = findChildOfType<Rows>())
-        {
-            result = rows->calculateHeight(inSizeConstraint);
-        }
-        return result;
-    }
-
-
-    void VirtualGrid::rebuildLayout()
-    {
-        //
-        // Initialize helper variables
-        //
-        int numCols = 0;
-        int numRows = 0;
-        Poco::XML::Element * columns;
-        Poco::XML::Element * rows;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            Poco::XML::Element * child = Node2Element(el()->childNodes()->item(idx));
-            if (child->tagName() == Rows::TagName())
-            {
-                rows = child;
-                numRows = rows->childNodes()->length();
-            }
-            else if (child->tagName() == Columns::TagName())
-            {
-                columns = child;
-                numCols = columns->childNodes()->length();
-            }
-            else
-            {
-                ReportError("Grid contains incompatible child element: '" + child->tagName() + "'");
-            }
-        }
-        if (!rows || !columns)
-        {
-            ReportError("Grid has no rows or no columns!");
-            return;
-        }
-
-        if (rows->childNodes()->length() == 0)
-        {
-            ReportError("Grid has no rows!");
-            return;
-        }
-
-        if (columns->childNodes()->length() == 0)
-        {
-            ReportError("Grid has no columns!");
-            return;
-        }
-
-
-        //
-        // Get column size infos (min width and flex)
-        //
-        std::vector<SizeInfo> colWidths;
-        for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
-        {
-            if (Column * col = GetComponent<Column>(columns->childNodes()->item(colIdx)))
-            {
-                colWidths.push_back(
-                    SizeInfo(FlexWrap(String2Int(col->el()->getAttribute("flex"), 0)),
-                             MinSizeWrap(col->getWidth(Minimum)),
-                             OptSizeWrap(col->getWidth(Preferred))));
-            }
-        }
-
-        if (colWidths.empty())
-        {
-            ReportError("Grid has no columns!");
-            return;
-        }
-
-
-        //
-        // Get row size infos (min height and flex)
-        //
-        std::vector<SizeInfo> rowHeights;
-        for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
-        {
-            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
-            {
-                rowHeights.push_back(
-                    SizeInfo(FlexWrap(String2Int(row->el()->getAttribute("flex"), 0)),
-                             MinSizeWrap(row->getHeight(Minimum)),
-                             OptSizeWrap(row->getHeight(Preferred))));
-            }
-        }
-
-        if (rowHeights.empty())
-        {
-            ReportError("Grid has no rows!");
-            return;
-        }
-
-
-        //
-        // Get bounding rect for all cells
-        //
-        GenericGrid<Rect> outerRects(numRows, numCols);
-        GridLayoutManager::GetOuterRects(clientRect(), colWidths, rowHeights, outerRects);
-
-
-        //
-        // Get size info for each cell
-        //
-        GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
-        for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
-        {
-            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
-            {
-                int rowHeight = row->getHeight();
-                for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
-                {
-                    if (Column * column = GetComponent<Column>(columns->childNodes()->item(colIdx)))
-                    {
-                        if (colIdx < row->getChildCount())
-                        {
-                            Component * child = GetComponent<Component>(row->el()->childNodes()->item(colIdx));
-                            widgetInfos.set(rowIdx, colIdx,
-                                            CellInfo(child->getWidth(),
-                                                     child->getHeight(),
-                                                     String2Align(row->el()->getAttribute("align"), Stretch),
-                                                     String2Align(column->el()->getAttribute("align"), Stretch)));
-                        }
-                    }
-                }
-            }
-        }
-
-
-        //
-        // Get inner rect for each cell
-        //
-        GenericGrid<Rect> innerRects(numRows, numCols);
-        GridLayoutManager::GetInnerRects(outerRects, widgetInfos, innerRects);
-
-
-        //
-        // Apply inner rect to each widget inside a cell
-        //
-        for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
-        {
-            for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
-            {
-                if (rowIdx < rows->childNodes()->length())
-                {
-                    Poco::XML::Element * rowEl = Node2Element(rows->childNodes()->item(rowIdx));
-                    if (colIdx < rowEl->childNodes()->length())
-                    {
-                        Component * child = GetComponent<Component>(rowEl->childNodes()->item(colIdx));
-                        const Rect & r = innerRects.get(rowIdx, colIdx);
-                        child->move(r.x(), r.y(), r.width(), r.height());
-                    }
-                }
-            }
-        }
-
-        //
-        // Rebuild child layoutss
-        //
-        rebuildChildLayouts();
-    }
-
-
-    Grid::Grid(Component * inParent,
-               const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP)
-    {
-    }
-
-
-    int Grid::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const Columns * cols = findChildOfType<Columns>())
-        {
-            result = cols->calculateWidth(inSizeConstraint);
-        }
-        return result;
-
-    }
-
-
-    int Grid::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const Rows * rows = findChildOfType<Rows>())
-        {
-            result = rows->calculateHeight(inSizeConstraint);
-        }
-        return result;
-    }
-
-
-    void Grid::rebuildLayout()
-    {
-        //
-        // Initialize helper variables
-        //
-        int numCols = 0;
-        int numRows = 0;
-        Poco::XML::Element * columns;
-        Poco::XML::Element * rows;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            Poco::XML::Element * child = Node2Element(el()->childNodes()->item(idx));
-            if (child->tagName() == Rows::TagName())
-            {
-                rows = child;
-                numRows = rows->childNodes()->length();
-            }
-            else if (child->tagName() == Columns::TagName())
-            {
-                columns = child;
-                numCols = columns->childNodes()->length();
-            }
-            else
-            {
-                ReportError("Grid contains incompatible child element: '" + child->tagName() + "'");
-            }
-        }
-        if (!rows || !columns)
-        {
-            ReportError("Grid has no rows or no columns!");
-            return;
-        }
-
-        if (rows->childNodes()->length() == 0)
-        {
-            ReportError("Grid has no rows!");
-            return;
-        }
-
-        if (columns->childNodes()->length() == 0)
-        {
-            ReportError("Grid has no columns!");
-            return;
-        }
-
-
-        //
-        // Get column size infos (min width and flex)
-        //
-        std::vector<SizeInfo> colWidths;
-        for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
-        {
-            if (Column * col = GetComponent<Column>(columns->childNodes()->item(colIdx)))
-            {
-                colWidths.push_back(
-                    SizeInfo(FlexWrap(col->getFlex()),
-                             MinSizeWrap(col->getWidth(Minimum)),
-                             OptSizeWrap(col->getWidth(Preferred))));
-            }
-        }
-
-        if (colWidths.empty())
-        {
-            ReportError("Grid has no columns!");
-            return;
-        }
-
-
-        //
-        // Get row size infos (min height and flex)
-        //
-        std::vector<SizeInfo> rowHeights;
-        for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
-        {
-            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
-            {
-                rowHeights.push_back(
-                    SizeInfo(FlexWrap(row->getFlex()),
-                             MinSizeWrap(row->getHeight(Minimum)),
-                             OptSizeWrap(row->getHeight(Preferred))));
-            }
-        }
-
-        if (rowHeights.empty())
-        {
-            ReportError("Grid has no rows!");
-            return;
-        }
-
-
-        //
-        // Get bounding rect for all cells
-        //
-        GenericGrid<Rect> outerRects(numRows, numCols);
-        Rect clientRect(clientRect());
-        GridLayoutManager::GetOuterRects(clientRect, colWidths, rowHeights, outerRects);
-
-
-        //
-        // Get size info for each cell
-        //
-        GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
-        for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
-        {
-            if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
-            {
-                int rowHeight = row->getHeight();
-                for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
-                {
-                    if (Column * column = GetComponent<Column>(columns->childNodes()->item(colIdx)))
-                    {
-                        if (colIdx < row->getChildCount())
-                        {
-                            Component * child = GetComponent<Component>(row->el()->childNodes()->item(colIdx));
-                            widgetInfos.set(rowIdx, colIdx,
-                                            CellInfo(child->getWidth(),
-                                                     child->getHeight(),
-                                                     row->getAlign(),
-                                                     column->getAlign()));
-                        }
-                    }
-                }
-            }
-        }
-
-
-        //
-        // Get inner rect for each cell
-        //
-        GenericGrid<Rect> innerRects(numRows, numCols);
-        GridLayoutManager::GetInnerRects(outerRects, widgetInfos, innerRects);
-
-
-        //
-        // Apply inner rect to each widget inside a cell
-        //
-        for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
-        {
-            for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
-            {
-                if (rowIdx < rows->childNodes()->length())
-                {
-                    Poco::XML::Node * rowEl = rows->childNodes()->item(rowIdx);
-                    if (colIdx < rowEl->childNodes()->length())
-                    {
-                        Component * child = GetComponent<Component>(rowEl->childNodes()->item(colIdx));
-                        const Rect & r = innerRects.get(rowIdx, colIdx);
-                        child->move(r.x(), r.y(), r.width(), r.height());
-                    }
-                }
-            }
-        }
-
-        //
-        // Rebuild child layoutss
-        //
-        rebuildChildLayouts();
-    }
-
-
-    Rows::Rows(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int Rows::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-
-        std::vector<Row *> rows;
-
-        //
-        // 1. Obtain the list of rows from the grid element
-        //
-        if (Component * grid = GetComponent<Component>(el()->parentNode()))
-        {
-            if (Grid::TagName() == grid->el()->tagName())
-            {
-                GetChildComponents<Row>(grid->el(), rows);
-            }
-        }
-
-        //
-        // 2. Get the max row width
-        //
-        result = max_element_value(rows.begin(),
-                                   rows.end(),
-                                   0,
-                                   boost::bind(&Row::calculateWidth, _1, inSizeConstraint));
-        return result;
-    }
-
-
-    int Rows::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-
-        std::vector<Row *> rows;
-
-        //
-        // 1. Obtain the list of rows from the grid element
-        //
-        if (Component * grid = GetComponent<Component>(el()->parentNode()))
-        {
-            if (Grid::TagName() == grid->el()->tagName())
-            {
-                GetChildComponents<Row>(grid->el(), rows);
-            }
-        }
-
-        //
-        // 2. Get the sum of row heights
-        //
-        result = sum_element_values(rows.begin(),
-                                    rows.end(),
-                                    0,
-                                    boost::bind(&Row::calculateHeight, _1, inSizeConstraint));
-        return result;
-    }
-
-
-    Columns::Columns(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int Columns::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-
-        std::vector<Column *> columns;
-
-        //
-        // 1. Obtain the list of columns from the grid element
-        //
-        if (Component * grid = GetComponent<Component>(el()->parentNode()))
-        {
-            if (Grid::TagName() == grid->el()->tagName())
-            {
-                GetChildComponents<Column>(grid->el(), columns);
-            }
-        }
-
-        //
-        // 2. Get the max column width
-        //
-        result = sum_element_values(columns.begin(),
-                                    columns.end(),
-                                    0,
-                                    boost::bind(&Component::calculateWidth, _1, inSizeConstraint));
-        return result;
-    }
-
-
-    int Columns::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-
-        std::vector<Column *> columns;
-
-        //
-        // 1. Obtain the list of columns from the grid element
-        //
-        if (Component * grid = GetComponent<Component>(el()->parentNode()))
-        {
-            if (Grid::TagName() == grid->el()->tagName())
-            {
-                GetChildComponents<Column>(grid->el(), columns);
-            }
-        }
-
-        //
-        // 2. Get the sum of column heights
-        //
-        result = max_element_value(columns.begin(),
-                                   columns.end(),
-                                   0,
-                                   boost::bind(&Component::calculateHeight, _1, inSizeConstraint));
-        return result;
-    }
-
-
-    Row::Row(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    int Row::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return calculateSumChildWidths(inSizeConstraint);
-    }
-
-
-    int Row::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return calculateMaxChildHeight(inSizeConstraint);
-    }
-
-
-    Column::Column(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
-    {
-    }
-
-
-    Align Column::getAlign() const
-    {
-        return mAlign.or(Stretch);
-    }
-
-
-    int Column::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        // This is a special case: we need to get all rows first and calculate
-        // the width of each row's corresponding column
-        Poco::XML::Element * rows;
-        int ownIndex = -1;
-        Poco::XML::Element * grid = Node2Element(el()->parentNode()->parentNode());
-        for (size_t idx = 0; idx != grid->childNodes()->length(); ++idx)
-        {
-            Poco::XML::Element * child = Node2Element(grid->childNodes()->item(idx));
-            if (child->tagName() == Rows::TagName())
-            {
-                rows = child;
-            }
-            else if (child->tagName() == Columns::TagName())
-            {
-                for (size_t ownI = 0; ownI != child->childNodes()->length(); ++ownI)
-                {
-                    if (GetComponent<Component>(child->childNodes()->item(ownI))->commandId() == commandId())
-                    {
-                        ownIndex = ownI;
-                    }
-                }
-            }
-            if (rows && ownIndex != -1)
-            {
-                break;
-            }
-        }
-        if (!rows)
-        {
-            ReportError("Could not find 'rows' element in Grid.");
-            return 0;
-        }
-        if (ownIndex == -1)
-        {
-            ReportError("Column was unable to find itself in its parent container.");
-            return 0;
-        }
-
-        int res = 0;
-        for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
-        {
-            Poco::XML::Element * row = Node2Element(rows->childNodes()->item(rowIdx));
-            if (ownIndex < row->childNodes()->length())
-            {
-                int w = GetComponent<Component>(row->childNodes()->item(ownIndex))->getWidth(inSizeConstraint);
-                if (w > res)
-                {
-                    res = w;
-                }
-            }
-        }
-        return res;
-    }
-
-
-    int Column::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return calculateSumChildHeights(inSizeConstraint);
-    }
-
-
-    RadioGroup::RadioGroup(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualBox(inParent, inAttributesMapping)
-    {
-    }
-
-
-    Radio::Radio(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent,
-                      inAttributesMapping,
-                      TEXT("BUTTON"),
-                      0, // exStyle
-                      WS_TABSTOP | BS_RADIOBUTTON)
-    {
-    }
-
-
-    int Radio::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::radioButtonMinimumWidth() + Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx;
-    }
-
-
-    int Radio::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::controlHeight();
-    }
-
-
-    ProgressMeter::ProgressMeter(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent,
-                      inAttributesMapping,
-                      PROGRESS_CLASS,
-                      0, // exStyle
-                      PBS_SMOOTH)
-    {
-        Windows::initializeProgressMeter(mHandle, 100);
-    }
-
-
-    int ProgressMeter::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::progressMeterWidth();
-    }
-
-
-    int ProgressMeter::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::progressMeterHeight();
-    }
-
-
-    int ProgressMeter::getValue() const
-    {
-        return Windows::getProgressMeterProgress(handle());
-    }
-
-
-    void ProgressMeter::setValue(int inValue)
-    {
-        Windows::setProgressMeterProgress(handle(), inValue);
-    }
-
-
-    bool ProgressMeter::initAttributeControllers()
-    {
-        setAttributeController<IntValueController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    Deck::Deck(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
-        mSelectedIndex(0)
-    {
-    }
-
-
-    int Deck::getSelectedIndex() const
-    {
-        return mSelectedIndex;
-    }
-
-
-    void Deck::setSelectedIndex(int inSelectedIndex)
-    {
-        mSelectedIndex = inSelectedIndex;
-        rebuildLayout();
-        invalidateRect();
-    }
-
-
-    void Deck::rebuildLayout()
-    {
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
-        {
-            Poco::XML::Element * element = Node2Element(el()->childNodes()->item(idx));
-            bool visible = idx == mSelectedIndex;
-            Component * comp = GetComponent<Component>(element);
-            comp->setHidden(!visible);
-            if (visible)
-            {
-                Rect rect = clientRect();
-                comp->move(rect.x(), rect.y(), rect.width(), rect.height());
-            }
-        }
-        rebuildChildLayouts();
-    }
-
-
-    int Deck::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return calculateMaxChildWidth(inSizeConstraint);
-    }
-
-
-    int Deck::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return calculateMaxChildHeight(inSizeConstraint);
-    }
-
-
-    bool Deck::initAttributeControllers()
-    {
-        setAttributeController<SelectedIndexController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    DWORD Scrollbar::GetFlags(const AttributesMapping & inAttributesMapping)
-    {
-        DWORD flags = 0;
-        AttributesMapping::const_iterator it = inAttributesMapping.find("orient");
-        if (it != inAttributesMapping.end())
-        {
-            const std::string & orient = it->second;
-            if (orient == "horizontal")
-            {
-                flags |= SBS_HORZ | SBS_RIGHTALIGN;
-            }
-            else if (orient == "vertical")
-            {
-                flags |= SBS_VERT | SBS_BOTTOMALIGN;
-            }
-            else
-            {
-                ReportError("Invalid orient found for scrollbar!");
-            }
-        }
-        return flags;
-    }
-
-
-    Scrollbar::Scrollbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping,
-                      TEXT("SCROLLBAR"),
-                      0, // exStyle
-                      WS_TABSTOP | GetFlags(inAttributesMapping)),
-        mIncrement(0)
-    {
-        mExpansive = true;
-        Windows::setScrollInfo(handle(), 100, 10, 0);
-    }
-
-
-    int Scrollbar::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::scrollbarWidth();
-    }
-
-
-    int Scrollbar::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::scrollbarWidth();
-    }
-
-
-    LRESULT Scrollbar::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-        if (WM_VSCROLL == inMessage || WM_HSCROLL == inMessage)
-        {
-            int currentScrollPos = Windows::getScrollPos(handle());
-            int totalHeight = 0;
-            int pageHeight = 0;
-            int currentPosition = 0;
-            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
-            switch (LOWORD(wParam))
-            {
-                case SB_LINEUP: // user clicked the top arrow
-                {
-                    currentPosition -= 1;
-                    break;
-                }
-                case SB_LINEDOWN: // user clicked the bottom arrow
-                {
-                    currentPosition += 1;
-                    break;
-                }
-                case SB_PAGEUP: // user clicked the scroll bar shaft above the scroll box
-                {
-                    currentPosition -= pageHeight;
-                    break;
-                }
-                case SB_PAGEDOWN: // user clicked the scroll bar shaft below the scroll box
-                {
-                    currentPosition += pageHeight;
-                    break;
-                }
-                case SB_THUMBTRACK: // user dragged the scroll box
-                {
-                    currentPosition = HIWORD(wParam);
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
-            }
-            if (currentPosition < 0)
-            {
-                currentPosition = 0;
-            }
-            if (currentPosition > totalHeight)
-            {
-                currentPosition = totalHeight;
-            }
-
-            setAttribute("curpos", Int2String(currentPosition));
-            return 0;
-        }
-        else if (WM_MOUSEWHEEL == inMessage)
-        {
-            short numDelta = HIWORD(wParam);
-            short numPages = numDelta / WHEEL_DELTA;
-            int totalHeight = 0;
-            int pageHeight = 0;
-            int currentPosition = 0;
-            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
-            currentPosition = currentPosition - numPages*pageHeight;
-            if (currentPosition < 0)
-            {
-                currentPosition = 0;
-            }
-            if (currentPosition > totalHeight)
-            {
-                currentPosition = totalHeight;
-            }
-            setAttribute("curpos", Int2String(currentPosition));
-            return 0;
-        }
-        return NativeControl::handleMessage(inMessage, wParam, lParam);
-    }
-
-
-    int Scrollbar::getCurrentPosition() const
-    {
-        return Windows::getScrollPos(handle());
-    }
-
-
-    void Scrollbar::setCurrentPosition(int inCurrentPosition)
-    {
-        int totalHeight = 0;
-        int pageHeight = 0;
-        int oldCurPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
-
-        // The order in which curpos, maxpos and pageincrement
-        // will be set (alphabetically by attribute name) can cause
-        // impossible scrollbar states (i.e. currentpos or pageincrement
-        // greater than maxpos). And we want to avoid that.
-        // Our workaround is to detect such states here, and change invalid
-        // values to valid ones.
-        if (pageHeight == 0)
-        {
-            pageHeight = 1;
-        }
-        if (totalHeight < pageHeight)
-        {
-            totalHeight = pageHeight + 1;
-        }
-        if (totalHeight < inCurrentPosition)
-        {
-            totalHeight = inCurrentPosition + 1;
-        }
-        Windows::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
-        if ((oldCurPos != inCurrentPosition) && eventHandler())
-        {
-            eventHandler()->curposChanged(this, oldCurPos, inCurrentPosition);
-        }
-    }
-
-
-    int Scrollbar::getMaxPosition() const
-    {
-        int totalHeight = 0;
-        int pageHeight = 0;
-        int curPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
-        return totalHeight;
-    }
-
-
-    void Scrollbar::setMaxPosition(int inMaxPosition)
-    {
-        int dummy = 0;
-        int pageHeight = 0;
-        int curPos = 0;
-        Windows::getScrollInfo(handle(), dummy, pageHeight, curPos);
-
-        // The order in which setCurPos, setMaxPos and setPageIncrement
-        // will be set (alphabetically by attribute name) can cause
-        // impossible scrollbar states (i.e. currentpos or pageincrement
-        // greater than maxpos). And we want to avoid that.
-        // Our workaround is to detect such states here, and change invalid
-        // values to valid ones.
-        if (pageHeight == 0)
-        {
-            pageHeight = 1;
-        }
-        if (inMaxPosition <= pageHeight)
-        {
-            pageHeight = inMaxPosition - 1;
-        }
-        Windows::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
-    }
-
-
-    void Scrollbar::setIncrement(int inIncrement)
-    {
-        mIncrement = inIncrement;
-    }
-
-
-    int Scrollbar::getIncrement() const
-    {
-        return mIncrement;
-    }
-
-
-    void Scrollbar::setPageIncrement(int inPageIncrement)
-    {
-        int totalHeight = 0;
-        int dummy = 0;
-        int curPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, dummy, curPos);
-
-        // The order in which setCurPos, setMaxPos and setPageIncrement
-        // will be set (alphabetically by attribute name) can cause
-        // impossible scrollbar states (i.e. currentpos or pageincrement
-        // greater than maxpos). And we want to avoid that.
-        // Our workaround is to detect such states here, and change invalid
-        // values to valid ones.
-        if (totalHeight == 0)
-        {
-            totalHeight = 1;
-        }
-        if (curPos > totalHeight)
-        {
-            totalHeight = curPos + 1;
-        }
-        if (inPageIncrement >= totalHeight)
-        {
-            totalHeight = inPageIncrement + 1;
-        }
-        Windows::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
-    }
-
-
-    int Scrollbar::getPageIncrement() const
-    {
-        int totalHeight = 0;
-        int pageHeight = 0;
-        int curPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
-        return pageHeight;
-    }
-
-
-    bool Scrollbar::initAttributeControllers()
-    {
-        setAttributeController<ScrollbarCurrentPositionController>(this);
-        setAttributeController<ScrollbarMaxPositionController>(this);
-        setAttributeController<ScrollbarIncrementController>(this);
-        setAttributeController<ScrollbarPageIncrementController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    //Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //VirtualBox::VirtualBox(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement),
+    //    mBoxLayouter(this)
     //{
     //}
 
 
-    //Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //Orient VirtualBox::getOrient() const
+    //{
+    //    return mOrient.or(Horizontal);
+    //}
+
+
+    //Align VirtualBox::getAlign() const
+    //{
+    //    return mAlign.or(Stretch);
+    //}
+
+
+    //bool VirtualBox::initAttributeControllers()
+    //{
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //void VirtualBox::rebuildLayout()
+    //{
+    //    mBoxLayouter.rebuildLayout();
+    //}
+
+
+
+    //Box::Box(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent, inDOMElement, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
+    //    mBoxLayouter(this)
+    //{
+    //}
+
+
+    //Orient Box::getOrient() const
+    //{
+    //    return mOrient.or(Vertical);
+    //}
+
+
+    //Align Box::getAlign() const
+    //{
+    //    return mAlign.or(Stretch);
+    //}
+
+
+    //void Box::rebuildLayout()
+    //{
+    //    mBoxLayouter.rebuildLayout();
+    //}
+
+
+    //int Box::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return mBoxLayouter.calculateWidth(inSizeConstraint);
+    //}
+
+
+    //int Box::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return mBoxLayouter.calculateHeight(inSizeConstraint);
+    //}
+
+
+    //Rect Box::clientRect() const
+    //{
+    //    return Super::clientRect();
+    //}
+
+
+    //const Component * Box::getChild(size_t idx) const
+    //{
+    //    return GetComponent<Component>(mElement->childNodes()->item(idx));
+    //}
+
+
+    //Component * Box::getChild(size_t idx)
+    //{
+    //    return GetComponent<Component>(mElement->childNodes()->item(idx));
+    //}
+
+
+    //MenuList::MenuList(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(
+    //        inParent,
+    //        inDOMElement,
+    //        TEXT("COMBOBOX"),
+    //        0, // exStyle
+    //        WS_TABSTOP | CBS_DROPDOWNLIST)
+    //{
+    //}
+
+
+    //bool MenuList::init()
+    //{
+    //    fillComboBox();
+    //    return Super::init();
+    //}
+
+
+    //void MenuList::fillComboBox()
+    //{
+    //    if (MenuPopup * popup = findChildOfType<MenuPopup>())
+    //    {
+    //        for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
+    //        {
+    //            Poco::XML::Node * child = popup->el()->childNodes()->item(idx);
+    //            if (MenuItem * item = GetComponent<MenuItem>(child))
+    //            {
+    //                std::string label = item->getLabel();
+    //                Windows::addStringToComboBox(handle(), label);
+    //            }
+    //        }
+    //        Windows::selectComboBoxItem(handle(), 0);
+    //    }
+    //}
+
+
+    //int MenuList::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::menuListMinWidth() + calculateMaxChildWidth(inSizeConstraint);
+    //}
+
+
+    //int MenuList::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::controlHeight();
+    //}
+
+
+    //void MenuList::move(int x, int y, int w, int h)
+    //{
+    //    // The height of a combobox in Win32 is the height of the dropdown menu
+    //    // + the height of the widget itself.
+
+    //    int numItems = Windows::getComboBoxItemCount(handle());
+    //    int dropdownHeight = 0;
+    //    if (numItems > 0)
+    //    {
+    //        dropdownHeight = numItems * Windows::getComboBoxItemHeight(handle(), 0); // use index 0
+    //    }
+
+    //    // This is usually needed as well, I think :S
+    //    int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+
+    //    NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
+    //}
+
+
+    //void MenuList::onContentChanged()
+    //{
+    //    if (mIsInitialized)
+    //    {
+    //        Windows::clearComboBox(handle());
+    //        fillComboBox();
+    //    }
+    //    // else: the init will take care of the initial fill
+    //}
+
+
+    //Separator::Separator(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent,
+    //                  inDOMElement,
+    //                  TEXT("STATIC"),
+    //                  0, // exStyle
+    //                  SS_GRAYFRAME)
+    //{
+    //    mExpansive = true;
+    //}
+
+
+    //int Separator::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return 1;
+    //}
+
+
+    //int Separator::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return 1;
+    //}
+
+
+    //Spacer::Spacer(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //int Spacer::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return 0;
+    //}
+
+
+    //int Spacer::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return 0;
+    //}
+
+
+    //MenuButton::MenuButton(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent,
+    //                  inDOMElement,
+    //                  TEXT("BUTTON"),
+    //                  0, // exStyle
+    //                  WS_TABSTOP | BS_PUSHBUTTON)
+    //{
+    //}
+
+
+    //int MenuButton::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx + Defaults::textPadding()*2;
+    //}
+
+
+    //int MenuButton::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::buttonHeight();
+    //}
+
+
+    //VirtualGrid::VirtualGrid(Component * inParent,
+    //                         Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //int VirtualGrid::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (const Columns * cols = findChildOfType<Columns>())
+    //    {
+    //        result = cols->calculateWidth(inSizeConstraint);
+    //    }
+    //    return result;
+
+    //}
+
+
+    //int VirtualGrid::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (const Rows * rows = findChildOfType<Rows>())
+    //    {
+    //        result = rows->calculateHeight(inSizeConstraint);
+    //    }
+    //    return result;
+    //}
+
+
+    //void VirtualGrid::rebuildLayout()
+    //{
+    //    //
+    //    // Initialize helper variables
+    //    //
+    //    int numCols = 0;
+    //    int numRows = 0;
+    //    Poco::XML::Element * columns;
+    //    Poco::XML::Element * rows;
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        Poco::XML::Element * child = Node2Element(el()->childNodes()->item(idx));
+    //        if (child->tagName() == Rows::TagName())
+    //        {
+    //            rows = child;
+    //            numRows = rows->childNodes()->length();
+    //        }
+    //        else if (child->tagName() == Columns::TagName())
+    //        {
+    //            columns = child;
+    //            numCols = columns->childNodes()->length();
+    //        }
+    //        else
+    //        {
+    //            ReportError("Grid contains incompatible child element: '" + child->tagName() + "'");
+    //        }
+    //    }
+    //    if (!rows || !columns)
+    //    {
+    //        ReportError("Grid has no rows or no columns!");
+    //        return;
+    //    }
+
+    //    if (rows->childNodes()->length() == 0)
+    //    {
+    //        ReportError("Grid has no rows!");
+    //        return;
+    //    }
+
+    //    if (columns->childNodes()->length() == 0)
+    //    {
+    //        ReportError("Grid has no columns!");
+    //        return;
+    //    }
+
+
+    //    //
+    //    // Get column size infos (min width and flex)
+    //    //
+    //    std::vector<SizeInfo> colWidths;
+    //    for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
+    //    {
+    //        if (Column * col = GetComponent<Column>(columns->childNodes()->item(colIdx)))
+    //        {
+    //            colWidths.push_back(
+    //                SizeInfo(FlexWrap(String2Int(col->el()->getAttribute("flex"), 0)),
+    //                         MinSizeWrap(col->getWidth(Minimum)),
+    //                         OptSizeWrap(col->getWidth(Preferred))));
+    //        }
+    //    }
+
+    //    if (colWidths.empty())
+    //    {
+    //        ReportError("Grid has no columns!");
+    //        return;
+    //    }
+
+
+    //    //
+    //    // Get row size infos (min height and flex)
+    //    //
+    //    std::vector<SizeInfo> rowHeights;
+    //    for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
+    //    {
+    //        if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
+    //        {
+    //            rowHeights.push_back(
+    //                SizeInfo(FlexWrap(String2Int(row->el()->getAttribute("flex"), 0)),
+    //                         MinSizeWrap(row->getHeight(Minimum)),
+    //                         OptSizeWrap(row->getHeight(Preferred))));
+    //        }
+    //    }
+
+    //    if (rowHeights.empty())
+    //    {
+    //        ReportError("Grid has no rows!");
+    //        return;
+    //    }
+
+
+    //    //
+    //    // Get bounding rect for all cells
+    //    //
+    //    GenericGrid<Rect> outerRects(numRows, numCols);
+    //    GridLayoutManager::GetOuterRects(clientRect(), colWidths, rowHeights, outerRects);
+
+
+    //    //
+    //    // Get size info for each cell
+    //    //
+    //    GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
+    //    for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
+    //    {
+    //        if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
+    //        {
+    //            int rowHeight = row->getHeight();
+    //            for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
+    //            {
+    //                if (Column * column = GetComponent<Column>(columns->childNodes()->item(colIdx)))
+    //                {
+    //                    if (colIdx < row->getChildCount())
+    //                    {
+    //                        Component * child = GetComponent<Component>(row->el()->childNodes()->item(colIdx));
+    //                        widgetInfos.set(rowIdx, colIdx,
+    //                                        CellInfo(child->getWidth(),
+    //                                                 child->getHeight(),
+    //                                                 String2Align(row->el()->getAttribute("align"), Stretch),
+    //                                                 String2Align(column->el()->getAttribute("align"), Stretch)));
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+
+
+    //    //
+    //    // Get inner rect for each cell
+    //    //
+    //    GenericGrid<Rect> innerRects(numRows, numCols);
+    //    GridLayoutManager::GetInnerRects(outerRects, widgetInfos, innerRects);
+
+
+    //    //
+    //    // Apply inner rect to each widget inside a cell
+    //    //
+    //    for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
+    //    {
+    //        for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
+    //        {
+    //            if (rowIdx < rows->childNodes()->length())
+    //            {
+    //                Poco::XML::Element * rowEl = Node2Element(rows->childNodes()->item(rowIdx));
+    //                if (colIdx < rowEl->childNodes()->length())
+    //                {
+    //                    Component * child = GetComponent<Component>(rowEl->childNodes()->item(colIdx));
+    //                    const Rect & r = innerRects.get(rowIdx, colIdx);
+    //                    child->move(r.x(), r.y(), r.width(), r.height());
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    //
+    //    // Rebuild child layoutss
+    //    //
+    //    rebuildChildLayouts();
+    //}
+
+
+    //Grid::Grid(Component * inParent,
+    //           Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent, inDOMElement, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP)
+    //{
+    //}
+
+
+    //int Grid::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (const Columns * cols = findChildOfType<Columns>())
+    //    {
+    //        result = cols->calculateWidth(inSizeConstraint);
+    //    }
+    //    return result;
+
+    //}
+
+
+    //int Grid::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+    //    if (const Rows * rows = findChildOfType<Rows>())
+    //    {
+    //        result = rows->calculateHeight(inSizeConstraint);
+    //    }
+    //    return result;
+    //}
+
+
+    //void Grid::rebuildLayout()
+    //{
+    //    //
+    //    // Initialize helper variables
+    //    //
+    //    int numCols = 0;
+    //    int numRows = 0;
+    //    Poco::XML::Element * columns;
+    //    Poco::XML::Element * rows;
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        Poco::XML::Element * child = Node2Element(el()->childNodes()->item(idx));
+    //        if (child->tagName() == Rows::TagName())
+    //        {
+    //            rows = child;
+    //            numRows = rows->childNodes()->length();
+    //        }
+    //        else if (child->tagName() == Columns::TagName())
+    //        {
+    //            columns = child;
+    //            numCols = columns->childNodes()->length();
+    //        }
+    //        else
+    //        {
+    //            ReportError("Grid contains incompatible child element: '" + child->tagName() + "'");
+    //        }
+    //    }
+    //    if (!rows || !columns)
+    //    {
+    //        ReportError("Grid has no rows or no columns!");
+    //        return;
+    //    }
+
+    //    if (rows->childNodes()->length() == 0)
+    //    {
+    //        ReportError("Grid has no rows!");
+    //        return;
+    //    }
+
+    //    if (columns->childNodes()->length() == 0)
+    //    {
+    //        ReportError("Grid has no columns!");
+    //        return;
+    //    }
+
+
+    //    //
+    //    // Get column size infos (min width and flex)
+    //    //
+    //    std::vector<SizeInfo> colWidths;
+    //    for (size_t colIdx = 0; colIdx != columns->childNodes()->length(); ++colIdx)
+    //    {
+    //        if (Column * col = GetComponent<Column>(columns->childNodes()->item(colIdx)))
+    //        {
+    //            colWidths.push_back(
+    //                SizeInfo(FlexWrap(col->getFlex()),
+    //                         MinSizeWrap(col->getWidth(Minimum)),
+    //                         OptSizeWrap(col->getWidth(Preferred))));
+    //        }
+    //    }
+
+    //    if (colWidths.empty())
+    //    {
+    //        ReportError("Grid has no columns!");
+    //        return;
+    //    }
+
+
+    //    //
+    //    // Get row size infos (min height and flex)
+    //    //
+    //    std::vector<SizeInfo> rowHeights;
+    //    for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
+    //    {
+    //        if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
+    //        {
+    //            rowHeights.push_back(
+    //                SizeInfo(FlexWrap(row->getFlex()),
+    //                         MinSizeWrap(row->getHeight(Minimum)),
+    //                         OptSizeWrap(row->getHeight(Preferred))));
+    //        }
+    //    }
+
+    //    if (rowHeights.empty())
+    //    {
+    //        ReportError("Grid has no rows!");
+    //        return;
+    //    }
+
+
+    //    //
+    //    // Get bounding rect for all cells
+    //    //
+    //    GenericGrid<Rect> outerRects(numRows, numCols);
+    //    Rect clientRect(clientRect());
+    //    GridLayoutManager::GetOuterRects(clientRect, colWidths, rowHeights, outerRects);
+
+
+    //    //
+    //    // Get size info for each cell
+    //    //
+    //    GenericGrid<CellInfo> widgetInfos(numRows, numCols, CellInfo(0, 0, Start, Start));
+    //    for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
+    //    {
+    //        if (Row * row = GetComponent<Row>(rows->childNodes()->item(rowIdx)))
+    //        {
+    //            int rowHeight = row->getHeight();
+    //            for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
+    //            {
+    //                if (Column * column = GetComponent<Column>(columns->childNodes()->item(colIdx)))
+    //                {
+    //                    if (colIdx < row->getChildCount())
+    //                    {
+    //                        Component * child = GetComponent<Component>(row->el()->childNodes()->item(colIdx));
+    //                        widgetInfos.set(rowIdx, colIdx,
+    //                                        CellInfo(child->getWidth(),
+    //                                                 child->getHeight(),
+    //                                                 row->getAlign(),
+    //                                                 column->getAlign()));
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+
+
+    //    //
+    //    // Get inner rect for each cell
+    //    //
+    //    GenericGrid<Rect> innerRects(numRows, numCols);
+    //    GridLayoutManager::GetInnerRects(outerRects, widgetInfos, innerRects);
+
+
+    //    //
+    //    // Apply inner rect to each widget inside a cell
+    //    //
+    //    for (size_t rowIdx = 0; rowIdx != numRows; ++rowIdx)
+    //    {
+    //        for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
+    //        {
+    //            if (rowIdx < rows->childNodes()->length())
+    //            {
+    //                Poco::XML::Node * rowEl = rows->childNodes()->item(rowIdx);
+    //                if (colIdx < rowEl->childNodes()->length())
+    //                {
+    //                    Component * child = GetComponent<Component>(rowEl->childNodes()->item(colIdx));
+    //                    const Rect & r = innerRects.get(rowIdx, colIdx);
+    //                    child->move(r.x(), r.y(), r.width(), r.height());
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    //
+    //    // Rebuild child layoutss
+    //    //
+    //    rebuildChildLayouts();
+    //}
+
+
+    //Rows::Rows(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //int Rows::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+
+    //    std::vector<Row *> rows;
+
+    //    //
+    //    // 1. Obtain the list of rows from the grid element
+    //    //
+    //    if (Component * grid = GetComponent<Component>(el()->parentNode()))
+    //    {
+    //        if (Grid::TagName() == grid->el()->tagName())
+    //        {
+    //            GetChildComponents<Row>(grid->el(), rows);
+    //        }
+    //    }
+
+    //    //
+    //    // 2. Get the max row width
+    //    //
+    //    result = max_element_value(rows.begin(),
+    //                               rows.end(),
+    //                               0,
+    //                               boost::bind(&Row::calculateWidth, _1, inSizeConstraint));
+    //    return result;
+    //}
+
+
+    //int Rows::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+
+    //    std::vector<Row *> rows;
+
+    //    //
+    //    // 1. Obtain the list of rows from the grid element
+    //    //
+    //    if (Component * grid = GetComponent<Component>(el()->parentNode()))
+    //    {
+    //        if (Grid::TagName() == grid->el()->tagName())
+    //        {
+    //            GetChildComponents<Row>(grid->el(), rows);
+    //        }
+    //    }
+
+    //    //
+    //    // 2. Get the sum of row heights
+    //    //
+    //    result = sum_element_values(rows.begin(),
+    //                                rows.end(),
+    //                                0,
+    //                                boost::bind(&Row::calculateHeight, _1, inSizeConstraint));
+    //    return result;
+    //}
+
+
+    //Columns::Columns(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //int Columns::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+
+    //    std::vector<Column *> columns;
+
+    //    //
+    //    // 1. Obtain the list of columns from the grid element
+    //    //
+    //    if (Component * grid = GetComponent<Component>(el()->parentNode()))
+    //    {
+    //        if (Grid::TagName() == grid->el()->tagName())
+    //        {
+    //            GetChildComponents<Column>(grid->el(), columns);
+    //        }
+    //    }
+
+    //    //
+    //    // 2. Get the max column width
+    //    //
+    //    result = sum_element_values(columns.begin(),
+    //                                columns.end(),
+    //                                0,
+    //                                boost::bind(&Component::calculateWidth, _1, inSizeConstraint));
+    //    return result;
+    //}
+
+
+    //int Columns::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    int result = 0;
+
+    //    std::vector<Column *> columns;
+
+    //    //
+    //    // 1. Obtain the list of columns from the grid element
+    //    //
+    //    if (Component * grid = GetComponent<Component>(el()->parentNode()))
+    //    {
+    //        if (Grid::TagName() == grid->el()->tagName())
+    //        {
+    //            GetChildComponents<Column>(grid->el(), columns);
+    //        }
+    //    }
+
+    //    //
+    //    // 2. Get the sum of column heights
+    //    //
+    //    result = max_element_value(columns.begin(),
+    //                               columns.end(),
+    //                               0,
+    //                               boost::bind(&Component::calculateHeight, _1, inSizeConstraint));
+    //    return result;
+    //}
+
+
+    //Row::Row(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //int Row::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateSumChildWidths(inSizeConstraint);
+    //}
+
+
+    //int Row::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateMaxChildHeight(inSizeConstraint);
+    //}
+
+
+    //Column::Column(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //Align Column::getAlign() const
+    //{
+    //    return mAlign.or(Stretch);
+    //}
+
+
+    //int Column::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    // This is a special case: we need to get all rows first and calculate
+    //    // the width of each row's corresponding column
+    //    Poco::XML::Element * rows;
+    //    int ownIndex = -1;
+    //    Poco::XML::Element * grid = Node2Element(el()->parentNode()->parentNode());
+    //    for (size_t idx = 0; idx != grid->childNodes()->length(); ++idx)
+    //    {
+    //        Poco::XML::Element * child = Node2Element(grid->childNodes()->item(idx));
+    //        if (child->tagName() == Rows::TagName())
+    //        {
+    //            rows = child;
+    //        }
+    //        else if (child->tagName() == Columns::TagName())
+    //        {
+    //            for (size_t ownI = 0; ownI != child->childNodes()->length(); ++ownI)
+    //            {
+    //                if (GetComponent<Component>(child->childNodes()->item(ownI))->commandId() == commandId())
+    //                {
+    //                    ownIndex = ownI;
+    //                }
+    //            }
+    //        }
+    //        if (rows && ownIndex != -1)
+    //        {
+    //            break;
+    //        }
+    //    }
+    //    if (!rows)
+    //    {
+    //        ReportError("Could not find 'rows' element in Grid.");
+    //        return 0;
+    //    }
+    //    if (ownIndex == -1)
+    //    {
+    //        ReportError("Column was unable to find itself in its parent container.");
+    //        return 0;
+    //    }
+
+    //    int res = 0;
+    //    for (size_t rowIdx = 0; rowIdx != rows->childNodes()->length(); ++rowIdx)
+    //    {
+    //        Poco::XML::Element * row = Node2Element(rows->childNodes()->item(rowIdx));
+    //        if (ownIndex < row->childNodes()->length())
+    //        {
+    //            int w = GetComponent<Component>(row->childNodes()->item(ownIndex))->getWidth(inSizeConstraint);
+    //            if (w > res)
+    //            {
+    //                res = w;
+    //            }
+    //        }
+    //    }
+    //    return res;
+    //}
+
+
+    //int Column::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateSumChildHeights(inSizeConstraint);
+    //}
+
+
+    //RadioGroup::RadioGroup(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualBox(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //Radio::Radio(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent,
+    //                  inDOMElement,
+    //                  TEXT("BUTTON"),
+    //                  0, // exStyle
+    //                  WS_TABSTOP | BS_RADIOBUTTON)
+    //{
+    //}
+
+
+    //int Radio::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::radioButtonMinimumWidth() + Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx;
+    //}
+
+
+    //int Radio::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::controlHeight();
+    //}
+
+
+    //ProgressMeter::ProgressMeter(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent,
+    //                  inDOMElement,
+    //                  PROGRESS_CLASS,
+    //                  0, // exStyle
+    //                  PBS_SMOOTH)
+    //{
+    //    Windows::initializeProgressMeter(mHandle, 100);
+    //}
+
+
+    //int ProgressMeter::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::progressMeterWidth();
+    //}
+
+
+    //int ProgressMeter::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::progressMeterHeight();
+    //}
+
+
+    //int ProgressMeter::getValue() const
+    //{
+    //    return Windows::getProgressMeterProgress(handle());
+    //}
+
+
+    //void ProgressMeter::setValue(int inValue)
+    //{
+    //    Windows::setProgressMeterProgress(handle(), inValue);
+    //}
+
+
+    //bool ProgressMeter::initAttributeControllers()
+    //{
+    //    setAttributeController<IntValueController>(this);
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //Deck::Deck(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement),
+    //    mSelectedIndex(0)
+    //{
+    //}
+
+
+    //int Deck::getSelectedIndex() const
+    //{
+    //    return mSelectedIndex;
+    //}
+
+
+    //void Deck::setSelectedIndex(int inSelectedIndex)
+    //{
+    //    mSelectedIndex = inSelectedIndex;
+    //    rebuildLayout();
+    //    invalidateRect();
+    //}
+
+
+    //void Deck::rebuildLayout()
+    //{
+    //    for (size_t idx = 0; idx != getChildCount(); ++idx)
+    //    {
+    //        Poco::XML::Element * element = Node2Element(el()->childNodes()->item(idx));
+    //        bool visible = idx == mSelectedIndex;
+    //        Component * comp = GetComponent<Component>(element);
+    //        comp->setHidden(!visible);
+    //        if (visible)
+    //        {
+    //            Rect rect = clientRect();
+    //            comp->move(rect.x(), rect.y(), rect.width(), rect.height());
+    //        }
+    //    }
+    //    rebuildChildLayouts();
+    //}
+
+
+    //int Deck::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateMaxChildWidth(inSizeConstraint);
+    //}
+
+
+    //int Deck::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return calculateMaxChildHeight(inSizeConstraint);
+    //}
+
+
+    //bool Deck::initAttributeControllers()
+    //{
+    //    setAttributeController<SelectedIndexController>(this);
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //DWORD Scrollbar::GetFlags(Poco::XML::Element * inDOMElement)
+    //{
+    //    DWORD flags = 0;
+    //    const Poco::XML::XMLString & orientAttribute = inDOMElement->getAttribute("orient");
+    //    if (orientAttribute == "horizontal")
+    //    {
+    //        flags |= SBS_HORZ | SBS_RIGHTALIGN;
+    //    }
+    //    else if (orientAttribute == "vertical")
+    //    {
+    //        flags |= SBS_VERT | SBS_BOTTOMALIGN;
+    //    }
+    //    else
+    //    {
+    //        ReportError("Invalid orient found for scrollbar!");
+    //    }
+    //    return flags;
+    //}
+
+
+    //Scrollbar::Scrollbar(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent, inDOMElement,
+    //                  TEXT("SCROLLBAR"),
+    //                  0, // exStyle
+    //                  WS_TABSTOP | GetFlags(inDOMElement)),
+    //    mIncrement(0)
+    //{
+    //    mExpansive = true;
+    //    Windows::setScrollInfo(handle(), 100, 10, 0);
+    //}
+
+
+    //int Scrollbar::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::scrollbarWidth();
+    //}
+
+
+    //int Scrollbar::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    return Defaults::scrollbarWidth();
+    //}
+
+
+    //LRESULT Scrollbar::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    //{
+    //    if (WM_VSCROLL == inMessage || WM_HSCROLL == inMessage)
+    //    {
+    //        int currentScrollPos = Windows::getScrollPos(handle());
+    //        int totalHeight = 0;
+    //        int pageHeight = 0;
+    //        int currentPosition = 0;
+    //        Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+    //        switch (LOWORD(wParam))
+    //        {
+    //            case SB_LINEUP: // user clicked the top arrow
+    //            {
+    //                currentPosition -= 1;
+    //                break;
+    //            }
+    //            case SB_LINEDOWN: // user clicked the bottom arrow
+    //            {
+    //                currentPosition += 1;
+    //                break;
+    //            }
+    //            case SB_PAGEUP: // user clicked the scroll bar shaft above the scroll box
+    //            {
+    //                currentPosition -= pageHeight;
+    //                break;
+    //            }
+    //            case SB_PAGEDOWN: // user clicked the scroll bar shaft below the scroll box
+    //            {
+    //                currentPosition += pageHeight;
+    //                break;
+    //            }
+    //            case SB_THUMBTRACK: // user dragged the scroll box
+    //            {
+    //                currentPosition = HIWORD(wParam);
+    //                break;
+    //            }
+    //            default:
+    //            {
+    //                break;
+    //            }
+    //        }
+    //        if (currentPosition < 0)
+    //        {
+    //            currentPosition = 0;
+    //        }
+    //        if (currentPosition > totalHeight)
+    //        {
+    //            currentPosition = totalHeight;
+    //        }
+
+    //        setAttribute("curpos", Int2String(currentPosition));
+    //        return 0;
+    //    }
+    //    else if (WM_MOUSEWHEEL == inMessage)
+    //    {
+    //        short numDelta = HIWORD(wParam);
+    //        short numPages = numDelta / WHEEL_DELTA;
+    //        int totalHeight = 0;
+    //        int pageHeight = 0;
+    //        int currentPosition = 0;
+    //        Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+    //        currentPosition = currentPosition - numPages*pageHeight;
+    //        if (currentPosition < 0)
+    //        {
+    //            currentPosition = 0;
+    //        }
+    //        if (currentPosition > totalHeight)
+    //        {
+    //            currentPosition = totalHeight;
+    //        }
+    //        setAttribute("curpos", Int2String(currentPosition));
+    //        return 0;
+    //    }
+    //    return NativeControl::handleMessage(inMessage, wParam, lParam);
+    //}
+
+
+    //int Scrollbar::getCurrentPosition() const
+    //{
+    //    return Windows::getScrollPos(handle());
+    //}
+
+
+    //void Scrollbar::setCurrentPosition(int inCurrentPosition)
+    //{
+    //    int totalHeight = 0;
+    //    int pageHeight = 0;
+    //    int oldCurPos = 0;
+    //    Windows::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
+
+    //    // The order in which curpos, maxpos and pageincrement
+    //    // will be set (alphabetically by attribute name) can cause
+    //    // impossible scrollbar states (i.e. currentpos or pageincrement
+    //    // greater than maxpos). And we want to avoid that.
+    //    // Our workaround is to detect such states here, and change invalid
+    //    // values to valid ones.
+    //    if (pageHeight == 0)
+    //    {
+    //        pageHeight = 1;
+    //    }
+    //    if (totalHeight < pageHeight)
+    //    {
+    //        totalHeight = pageHeight + 1;
+    //    }
+    //    if (totalHeight < inCurrentPosition)
+    //    {
+    //        totalHeight = inCurrentPosition + 1;
+    //    }
+    //    Windows::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
+    //    if ((oldCurPos != inCurrentPosition) && eventHandler())
+    //    {
+    //        eventHandler()->curposChanged(this, oldCurPos, inCurrentPosition);
+    //    }
+    //}
+
+
+    //int Scrollbar::getMaxPosition() const
+    //{
+    //    int totalHeight = 0;
+    //    int pageHeight = 0;
+    //    int curPos = 0;
+    //    Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+    //    return totalHeight;
+    //}
+
+
+    //void Scrollbar::setMaxPosition(int inMaxPosition)
+    //{
+    //    int dummy = 0;
+    //    int pageHeight = 0;
+    //    int curPos = 0;
+    //    Windows::getScrollInfo(handle(), dummy, pageHeight, curPos);
+
+    //    // The order in which setCurPos, setMaxPos and setPageIncrement
+    //    // will be set (alphabetically by attribute name) can cause
+    //    // impossible scrollbar states (i.e. currentpos or pageincrement
+    //    // greater than maxpos). And we want to avoid that.
+    //    // Our workaround is to detect such states here, and change invalid
+    //    // values to valid ones.
+    //    if (pageHeight == 0)
+    //    {
+    //        pageHeight = 1;
+    //    }
+    //    if (inMaxPosition <= pageHeight)
+    //    {
+    //        pageHeight = inMaxPosition - 1;
+    //    }
+    //    Windows::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
+    //}
+
+
+    //void Scrollbar::setIncrement(int inIncrement)
+    //{
+    //    mIncrement = inIncrement;
+    //}
+
+
+    //int Scrollbar::getIncrement() const
+    //{
+    //    return mIncrement;
+    //}
+
+
+    //void Scrollbar::setPageIncrement(int inPageIncrement)
+    //{
+    //    int totalHeight = 0;
+    //    int dummy = 0;
+    //    int curPos = 0;
+    //    Windows::getScrollInfo(handle(), totalHeight, dummy, curPos);
+
+    //    // The order in which setCurPos, setMaxPos and setPageIncrement
+    //    // will be set (alphabetically by attribute name) can cause
+    //    // impossible scrollbar states (i.e. currentpos or pageincrement
+    //    // greater than maxpos). And we want to avoid that.
+    //    // Our workaround is to detect such states here, and change invalid
+    //    // values to valid ones.
+    //    if (totalHeight == 0)
+    //    {
+    //        totalHeight = 1;
+    //    }
+    //    if (curPos > totalHeight)
+    //    {
+    //        totalHeight = curPos + 1;
+    //    }
+    //    if (inPageIncrement >= totalHeight)
+    //    {
+    //        totalHeight = inPageIncrement + 1;
+    //    }
+    //    Windows::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
+    //}
+
+
+    //int Scrollbar::getPageIncrement() const
+    //{
+    //    int totalHeight = 0;
+    //    int pageHeight = 0;
+    //    int curPos = 0;
+    //    Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+    //    return pageHeight;
+    //}
+
+
+    //bool Scrollbar::initAttributeControllers()
+    //{
+    //    setAttributeController<ScrollbarCurrentPositionController>(this);
+    //    setAttributeController<ScrollbarMaxPositionController>(this);
+    //    setAttributeController<ScrollbarIncrementController>(this);
+    //    setAttributeController<ScrollbarPageIncrementController>(this);
+    //    return Super::initAttributeControllers();
+    //}
+
+
+    //Tabs::Tabs(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
+    //{
+    //}
+
+
+    //Tab::Tab(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
     //{
     //}
 
@@ -2986,8 +2979,8 @@ namespace XULWin
     //TabPanels::Instances TabPanels::sInstances;
 
 
-    //TabPanels::TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    VirtualComponent(inParent, inAttributesMapping),
+    //TabPanels::TabPanels(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement),
     //    mParentHandle(0),
     //    mTabBarHandle(0),
     //    mSelectedIndex(0),
@@ -3165,8 +3158,8 @@ namespace XULWin
     //}
 
 
-    //TabPanel::TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    VirtualBox(inParent, inAttributesMapping)
+    //TabPanel::TabPanel(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualBox(inParent, inDOMElement)
     //{
     //}
 
@@ -3181,8 +3174,8 @@ namespace XULWin
     //}
 
 
-    //GroupBox::GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    VirtualBox(inParent, inAttributesMapping),
+    //GroupBox::GroupBox(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualBox(inParent, inDOMElement),
     //    mGroupBoxHandle(0),
     //    mMarginLeft(2),
     //    mMarginTop(16),
@@ -3317,8 +3310,8 @@ namespace XULWin
     //}
 
 
-    //Caption::Caption(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    VirtualComponent(inParent, inAttributesMapping)
+    //Caption::Caption(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    VirtualComponent(inParent, inDOMElement)
     //{
     //}
 
@@ -3353,8 +3346,8 @@ namespace XULWin
     //}
 
 
-    //Tree::Tree(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    NativeControl(inParent, inAttributesMapping, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
+    //Tree::Tree(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent, inDOMElement, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
     //{
     //}
 
@@ -3430,8 +3423,8 @@ namespace XULWin
     //}
 
 
-    //TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //TreeChildren::TreeChildren(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
     //{
     //}
 
@@ -3470,8 +3463,8 @@ namespace XULWin
     //}
 
 
-    //TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //TreeItem::TreeItem(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
     //{
     //}
 
@@ -3553,20 +3546,20 @@ namespace XULWin
     //}
 
 
-    //TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //TreeCols::TreeCols(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
     //{
     //}
 
 
-    //TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //TreeCol::TreeCol(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
     //{
     //}
 
 
-    //TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //TreeRow::TreeRow(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
     //{
     //}
 
@@ -3592,8 +3585,8 @@ namespace XULWin
     //}
 
 
-    //TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping)
+    //TreeCell::TreeCell(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement)
     //{
     //}
 
@@ -3634,8 +3627,8 @@ namespace XULWin
     //}
 
 
-    //Statusbar::Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
+    //Statusbar::Statusbar(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent, inDOMElement, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
     //    mBoxLayouter(this)
     //{
     //}
@@ -3693,8 +3686,8 @@ namespace XULWin
     //}
 
 
-    //StatusbarPanel::StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
+    //StatusbarPanel::StatusbarPanel(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent, inDOMElement, TEXT("STATIC"), 0, 0)
     //{
     //}
 
@@ -3717,8 +3710,8 @@ namespace XULWin
     //}
 
 
-    //Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    NativeControl(inParent, inAttributesMapping)
+    //Toolbar::Toolbar(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    NativeControl(inParent, inDOMElement)
     //{
     //    if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
     //    {
@@ -3766,8 +3759,8 @@ namespace XULWin
     //}
 
 
-    //ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
-    //    PassiveComponent(inParent, inAttributesMapping),
+    //ToolbarButton::ToolbarButton(Component * inParent, Poco::XML::Element * inDOMElement) :
+    //    PassiveComponent(inParent, inDOMElement),
     //    mButton(0),
     //    mDisabled(false)
     //{
@@ -3777,8 +3770,8 @@ namespace XULWin
     //        std::string label = getLabel();
 
     //        std::string buttonType;
-    //        AttributesMapping::const_iterator it = inAttributesMapping.find("type");
-    //        if (it != inAttributesMapping.end())
+    //        AttributesMapping::const_iterator it = inDOMElement.find("type");
+    //        if (it != inDOMElement.end())
     //        {
     //            buttonType = it->second;
     //        }

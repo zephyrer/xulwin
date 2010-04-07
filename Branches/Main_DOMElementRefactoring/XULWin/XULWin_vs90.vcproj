@@ -371,7 +371,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ComponentUtilities.h"
+					RelativePath=".\include\XULWin\ComponentManager.h"
 					>
 				</File>
 				<File
@@ -415,7 +415,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ComponentUtilities.cpp"
+					RelativePath=".\src\ComponentManager.cpp"
 					>
 				</File>
 				<File

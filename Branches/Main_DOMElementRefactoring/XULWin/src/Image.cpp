@@ -17,8 +17,8 @@
 namespace XULWin
 {
 
-    Image::Image(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, L"STATIC", 0, 0),
+    Image::Image(Component * inParent, Poco::XML::Element * inDOMElement) :
+        NativeControl(inParent, inDOMElement, L"STATIC", 0, 0),
         mKeepAspectRatio(false)
     {
     }

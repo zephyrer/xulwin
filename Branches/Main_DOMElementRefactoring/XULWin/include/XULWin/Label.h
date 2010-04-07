@@ -15,7 +15,12 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Label(Component * inParent, const AttributesMapping & inAttributesMapping);
+        static const char * TagName() { return "label"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Label>(inParentComponent, inDOMElement); }
+
+        Label(Component * inParent, Poco::XML::Element * inDOMElement);
 
         // StringValueController methods
         virtual std::string getValue() const;

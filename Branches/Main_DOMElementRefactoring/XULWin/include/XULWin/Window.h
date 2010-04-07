@@ -19,9 +19,25 @@ namespace XULWin
     public:
         typedef NativeComponent Super;
 
+        static const char * TagName()
+        {
+            return "window";
+        }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        {
+            return Component::Create<Window>(inParentComponent, inDOMElement);
+        }
+
         static void Register(HMODULE inModuleHandle);
 
-        Window(const AttributesMapping & inAttributesMapping);
+        /**
+         * Window
+         *
+         * @param   inParentComponent   Parent component. May be nil.
+         * @param   inDOMElement        The associated DOM "window" element.
+         */
+        Window(Component * inParentComponent, Poco::XML::Element * inDOMElement);
 
         virtual ~Window();
 

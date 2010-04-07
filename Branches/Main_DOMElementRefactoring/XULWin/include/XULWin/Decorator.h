@@ -24,6 +24,8 @@ namespace XULWin
         virtual bool init();
 
         //virtual int getIndex() const;
+        
+        virtual void addChild(ComponentPtr inComponent);
 
         virtual size_t getChildCount() const;
 
@@ -191,48 +193,48 @@ namespace XULWin
     };
 
 
-    class ScrollDecorator : public Decorator,
-        public Scrollbar::EventHandler
-    {
-    public:
-        typedef Decorator Super;
+    //class ScrollDecorator : public Decorator,
+    //    public Scrollbar::EventHandler
+    //{
+    //public:
+    //    typedef Decorator Super;
 
-        // Takes ownership.
-        ScrollDecorator(Component * inParent,
-                        Component * inDecoratedElement,
-                        CSSOverflow inOverflowX,
-                        CSSOverflow inOverflowY);
+    //    // Takes ownership.
+    //    ScrollDecorator(Component * inParent,
+    //                    Component * inDecoratedElement,
+    //                    CSSOverflow inOverflowX,
+    //                    CSSOverflow inOverflowY);
 
-        virtual bool init();
+    //    virtual bool init();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual int getWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual int getWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int getHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int getHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void move(int x, int y, int w, int h);
+    //    virtual void move(int x, int y, int w, int h);
 
-        virtual void rebuildLayout();
+    //    virtual void rebuildLayout();
 
-        virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos);
+    //    virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos);
 
-        LRESULT handleMouseWheel(WPARAM wParam, LPARAM lParam);
+    //    LRESULT handleMouseWheel(WPARAM wParam, LPARAM lParam);
 
-    private:
-        void updateWindowScroll();
-        void updateHorizontalScrollInfo();
-        void updateVerticalScrollInfo();
+    //private:
+    //    void updateWindowScroll();
+    //    void updateHorizontalScrollInfo();
+    //    void updateVerticalScrollInfo();
 
-        CSSOverflow mOverflowX;
-        CSSOverflow mOverflowY;
-        int mOldHorScrollPos;
-        int mOldVerScrollPos;
-        boost::scoped_ptr<Scrollbar> mVerticalScrollbar;
-        boost::scoped_ptr<Scrollbar> mHorizontalScrollbar;
-    };
+    //    CSSOverflow mOverflowX;
+    //    CSSOverflow mOverflowY;
+    //    int mOldHorScrollPos;
+    //    int mOldVerScrollPos;
+    //    boost::scoped_ptr<Scrollbar> mVerticalScrollbar;
+    //    boost::scoped_ptr<Scrollbar> mHorizontalScrollbar;
+    //};
 
 
     class MarginDecorator : public Decorator

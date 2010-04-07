@@ -39,6 +39,10 @@ namespace XULWin
      */
     //bool ScopedEventListener::connectToolbarButton(Component * inComponent, const Action & inAction)
     //{
+        //if (!inComponent)
+        //{
+        //    throw std::logic_error("!inComponent");
+        //}
     //    if (!inComponent->parentNode())
     //    {
     //        return false;
@@ -55,6 +59,10 @@ namespace XULWin
 
     //bool ScopedEventListener::connectMenuItem(Component * inComponent, const Action & inAction)
     //{
+        //if (!inComponent)
+        //{
+        //    throw std::logic_error("!inComponent");
+        //}
     //    if (0 == inComponent->downcast<XULWin::MenuItem>())
     //    {
     //        // This is not a menu item.
@@ -75,6 +83,10 @@ namespace XULWin
 
     void ScopedEventListener::connect(Component * inComponent, const Action & inAction)
     {
+        if (!inComponent)
+        {
+            throw std::logic_error("!inComponent");
+        }
         //if (  !connectToolbarButton(inComponent, inAction) && 
         //        !connectMenuItem(inComponent, inAction))
         //{
@@ -85,25 +97,34 @@ namespace XULWin
 
     void ScopedEventListener::connect(Component * inComponent, UINT inMessage, const Action & inAction)
     {
+        if (!inComponent)
+        {
+            throw std::logic_error("!inComponent");
+        }
         connect(inComponent, inMessage, inComponent->commandId(), inAction);
     }
 
 
     void ScopedEventListener::connect(Component * inComponent, UINT inMessage, int inCommandId, const Action & inAction)
     {
-        if (inComponent)
+        if (!inComponent)
         {
-            if (NativeComponent * nativeComp = inComponent->downcast<NativeComponent>())
-            {
-                nativeComp->addEventListener(this);
-                mMessageCallbacks[MsgId(inComponent, inMessage, inCommandId)].push_back(inAction);
-            }
+            throw std::logic_error("!inComponent");
+        }
+        if (NativeComponent * nativeComp = inComponent->downcast<NativeComponent>())
+        {
+            nativeComp->addEventListener(this);
+            mMessageCallbacks[MsgId(inComponent, inMessage, inCommandId)].push_back(inAction);
         }
     }
 
 
     void ScopedEventListener::disconnect(Component * inComponent)
     {
+        if (!inComponent)
+        {
+            throw std::logic_error("!inComponent");
+        }
         disconnect(inComponent, WM_COMMAND, inComponent->commandId());
     }
 

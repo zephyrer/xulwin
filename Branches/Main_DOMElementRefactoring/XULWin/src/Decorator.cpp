@@ -44,7 +44,6 @@ namespace XULWin
         return false;
     }
 
-
     //int Decorator::getIndex() const
     //{
     //    assert(mDecoratedComponent);
@@ -54,6 +53,16 @@ namespace XULWin
     //    }
     //    return 0;
     //}
+    
+    
+    void Decorator::addChild(ComponentPtr inComponent)
+    {
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
+        {
+            mDecoratedComponent->addChild(inComponent);
+        }
+    }
 
 
     size_t Decorator::getChildCount() const
@@ -798,281 +807,281 @@ namespace XULWin
     }
 
 
-    ScrollDecorator::ScrollDecorator(Component * inParent,
-                                     Component * inDecoratedComponent,
-                                     CSSOverflow inOverflowX,
-                                     CSSOverflow inOverflowY) :
-        Decorator(inDecoratedComponent),
-        mOverflowX(inOverflowX),
-        mOverflowY(inOverflowY),
-        mOldHorScrollPos(0),
-        mOldVerScrollPos(0)
-    {
-        if (mOverflowX != CSSOverflow_Hidden)
-        {
-            AttributesMapping attr;
-            attr["orient"] = Orient2String(Horizontal);
+    //ScrollDecorator::ScrollDecorator(Component * inParent,
+    //                                 Component * inDecoratedComponent,
+    //                                 CSSOverflow inOverflowX,
+    //                                 CSSOverflow inOverflowY) :
+    //    Decorator(inDecoratedComponent),
+    //    mOverflowX(inOverflowX),
+    //    mOverflowY(inOverflowY),
+    //    mOldHorScrollPos(0),
+    //    mOldVerScrollPos(0)
+    //{
+    //    if (mOverflowX != CSSOverflow_Hidden)
+    //    {
+    //        AttributesMapping attr;
+    //        attr["orient"] = Orient2String(Horizontal);
 
-            Component * comp = ComponentFactory::Instance().createComponent<Decorator, Scrollbar>(inParent, attr);
-            mHorizontalScrollbar.reset(comp->downcast<Scrollbar>());
-            mHorizontalScrollbar->downcast<Scrollbar>()->setEventHandler(this);
-        }
-        if (mOverflowY != CSSOverflow_Hidden)
-        {
-            AttributesMapping attr;
-            attr["orient"] = Orient2String(Vertical);
+    //        //Component * comp = CreateDecoratedComponent<Decorator, Scrollbar>(inParent, attr);
+    //        //mHorizontalScrollbar.reset(comp->downcast<Scrollbar>());
+    //        //mHorizontalScrollbar->downcast<Scrollbar>()->setEventHandler(this);
+    //    }
+    //    if (mOverflowY != CSSOverflow_Hidden)
+    //    {
+    //        AttributesMapping attr;
+    //        attr["orient"] = Orient2String(Vertical);
 
-            Component * comp = ComponentFactory::Instance().createComponent<Decorator, Scrollbar>(inParent, attr);
-            mVerticalScrollbar.reset(comp->downcast<Scrollbar>());
-            mVerticalScrollbar->downcast<Scrollbar>()->setEventHandler(this);
-        }
-    }
-
-
-    bool ScrollDecorator::init()
-    {
-        // TODO: enable mousewheel
-        return Super::init();
-    }
+    //        //Component * comp = CreateDecoratedComponent<Decorator, Scrollbar>(inParent, attr);
+    //        //mVerticalScrollbar.reset(comp->downcast<Scrollbar>());
+    //        //mVerticalScrollbar->downcast<Scrollbar>()->setEventHandler(this);
+    //    }
+    //}
 
 
-    int ScrollDecorator::getWidth(SizeConstraint inSizeConstraint) const
-    {
-        if (inSizeConstraint == Minimum && mOverflowX != CSSOverflow_Hidden)
-        {
-            return 0;
-        }
-
-        return Super::getWidth(inSizeConstraint);
-    }
+    //bool ScrollDecorator::init()
+    //{
+    //    // TODO: enable mousewheel
+    //    return Super::init();
+    //}
 
 
-    int ScrollDecorator::getHeight(SizeConstraint inSizeConstraint) const
-    {
-        if (inSizeConstraint == Minimum && mOverflowY != CSSOverflow_Hidden)
-        {
-            return 0;
-        }
-        return Super::getHeight(inSizeConstraint);
-    }
+    //int ScrollDecorator::getWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    if (inSizeConstraint == Minimum && mOverflowX != CSSOverflow_Hidden)
+    //    {
+    //        return 0;
+    //    }
+
+    //    return Super::getWidth(inSizeConstraint);
+    //}
 
 
-    int ScrollDecorator::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        if (inSizeConstraint == Minimum && mOverflowX != CSSOverflow_Hidden)
-        {
-            return 0;
-        }
-
-        int result = mDecoratedComponent->getWidth(inSizeConstraint);
-        if (mVerticalScrollbar && !mVerticalScrollbar->isHidden())
-        {
-            result += Defaults::scrollbarWidth();
-        }
-        return result;
-    }
+    //int ScrollDecorator::getHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    if (inSizeConstraint == Minimum && mOverflowY != CSSOverflow_Hidden)
+    //    {
+    //        return 0;
+    //    }
+    //    return Super::getHeight(inSizeConstraint);
+    //}
 
 
-    int ScrollDecorator::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        if (inSizeConstraint == Minimum && mOverflowY != CSSOverflow_Hidden)
-        {
-            return 0;
-        }
+    //int ScrollDecorator::calculateWidth(SizeConstraint inSizeConstraint) const
+    //{
+    //    if (inSizeConstraint == Minimum && mOverflowX != CSSOverflow_Hidden)
+    //    {
+    //        return 0;
+    //    }
 
-        int result = mDecoratedComponent->getHeight(inSizeConstraint);
-        if (mHorizontalScrollbar && !mHorizontalScrollbar->isHidden())
-        {
-            result += Defaults::scrollbarWidth();
-        }
-        return result;
-    }
-
-
-    void ScrollDecorator::rebuildLayout()
-    {
-        bool refreshScroll = mOldHorScrollPos != 0 || mOldVerScrollPos != 0;
-
-        Rect clientRect(clientRect());
-        if (mOverflowX != CSSOverflow_Hidden)
-        {
-            mHorizontalScrollbar->move(
-                clientRect.x(),
-                clientRect.y() + clientRect.height(),
-                clientRect.width(),
-                Defaults::scrollbarWidth());
-            mOldHorScrollPos = 0;
-        }
-        if (mOverflowY != CSSOverflow_Hidden)
-        {
-            mVerticalScrollbar->move(
-                clientRect.x() + clientRect.width(),
-                clientRect.y(),
-                Defaults::scrollbarWidth(),
-                clientRect.height());
-            mOldVerScrollPos = 0;
-        }
-
-        Super::rebuildLayout();
-        mOldHorScrollPos = 0;
-        mOldVerScrollPos = 0;
-        if (refreshScroll)
-        {
-            updateWindowScroll();
-        }
-    }
+    //    int result = mDecoratedComponent->getWidth(inSizeConstraint);
+    //    if (mVerticalScrollbar && !mVerticalScrollbar->isHidden())
+    //    {
+    //        result += Defaults::scrollbarWidth();
+    //    }
+    //    return result;
+    //}
 
 
-    void ScrollDecorator::updateHorizontalScrollInfo()
-    {
-        Scrollbar * scrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
-        if (scrollbar)
-        {
-            int maxpos = Defaults::Attributes::maxpos();
-            float ratio = (float)mDecoratedComponent->clientRect().width()/(float)mDecoratedComponent->getWidth(Minimum);
-            int pageincrement = (int)(maxpos*ratio + 0.5);
-            int curpos = getScrollPos(scrollbar->handle());
-            if (ratio < 1)
-            {
-                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
-                scrollbar->setHidden(mOverflowX == CSSOverflow_Hidden);
-                scrollbar->setDisabled(false);
-            }
-            else
-            {
-                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
-                scrollbar->setHidden(mOverflowX != CSSOverflow_Scroll);
-                scrollbar->setDisabled(true);
-            }
-        }
-    }
+    //int ScrollDecorator::calculateHeight(SizeConstraint inSizeConstraint) const
+    //{
+    //    if (inSizeConstraint == Minimum && mOverflowY != CSSOverflow_Hidden)
+    //    {
+    //        return 0;
+    //    }
+
+    //    int result = mDecoratedComponent->getHeight(inSizeConstraint);
+    //    if (mHorizontalScrollbar && !mHorizontalScrollbar->isHidden())
+    //    {
+    //        result += Defaults::scrollbarWidth();
+    //    }
+    //    return result;
+    //}
 
 
-    void ScrollDecorator::updateVerticalScrollInfo()
-    {
-        Scrollbar * scrollbar = mVerticalScrollbar->downcast<Scrollbar>();
-        if (scrollbar)
-        {
-            int maxpos = Defaults::Attributes::maxpos();
-            float ratio = (float)mDecoratedComponent->clientRect().height()/(float)mDecoratedComponent->getHeight(Minimum);
-            int pageincrement = (int)(maxpos*ratio + 0.5);
-            int curpos = Windows::getScrollPos(scrollbar->handle());
-            if (ratio < 1)
-            {
-                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
-                scrollbar->setHidden(mOverflowY == CSSOverflow_Hidden);
-                scrollbar->setDisabled(false);
-            }
-            else
-            {
-                scrollbar->setHidden(mOverflowY != CSSOverflow_Scroll);
-                scrollbar->setDisabled(true);
-                Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
-            }
-        }
-    }
+    //void ScrollDecorator::rebuildLayout()
+    //{
+    //    bool refreshScroll = mOldHorScrollPos != 0 || mOldVerScrollPos != 0;
+
+    //    Rect clientRect(clientRect());
+    //    if (mOverflowX != CSSOverflow_Hidden)
+    //    {
+    //        mHorizontalScrollbar->move(
+    //            clientRect.x(),
+    //            clientRect.y() + clientRect.height(),
+    //            clientRect.width(),
+    //            Defaults::scrollbarWidth());
+    //        mOldHorScrollPos = 0;
+    //    }
+    //    if (mOverflowY != CSSOverflow_Hidden)
+    //    {
+    //        mVerticalScrollbar->move(
+    //            clientRect.x() + clientRect.width(),
+    //            clientRect.y(),
+    //            Defaults::scrollbarWidth(),
+    //            clientRect.height());
+    //        mOldVerScrollPos = 0;
+    //    }
+
+    //    Super::rebuildLayout();
+    //    mOldHorScrollPos = 0;
+    //    mOldVerScrollPos = 0;
+    //    if (refreshScroll)
+    //    {
+    //        updateWindowScroll();
+    //    }
+    //}
 
 
-    void ScrollDecorator::move(int x, int y, int w, int h)
-    {
-        // Update page height of scroll boxes
-        int newW = w;
-        int newH = h;
-        if (mOverflowX != CSSOverflow_Hidden)
-        {
-            Scrollbar * scrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
-            if (scrollbar)
-            {
-                if (!scrollbar->isHidden())
-                {
-                    newH -= Defaults::scrollbarWidth();
-                }
-                scrollbar->setWidth(w - Defaults::scrollbarWidth());
-            }
-        }
-
-        if (mOverflowY != CSSOverflow_Hidden)
-        {
-            Scrollbar * scrollbar = mVerticalScrollbar->downcast<Scrollbar>();
-            if (scrollbar)
-            {
-                if (!scrollbar->isHidden())
-                {
-                    newW -= Defaults::scrollbarWidth();
-                }
-                scrollbar->setHeight(h - Defaults::scrollbarWidth());
-            }
-        }
-        Super::move(x, y, newW, newH);
-        updateHorizontalScrollInfo();
-        updateVerticalScrollInfo();
-    }
+    //void ScrollDecorator::updateHorizontalScrollInfo()
+    //{
+    //    Scrollbar * scrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
+    //    if (scrollbar)
+    //    {
+    //        int maxpos = Defaults::Attributes::maxpos();
+    //        float ratio = (float)mDecoratedComponent->clientRect().width()/(float)mDecoratedComponent->getWidth(Minimum);
+    //        int pageincrement = (int)(maxpos*ratio + 0.5);
+    //        int curpos = getScrollPos(scrollbar->handle());
+    //        if (ratio < 1)
+    //        {
+    //            Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+    //            scrollbar->setHidden(mOverflowX == CSSOverflow_Hidden);
+    //            scrollbar->setDisabled(false);
+    //        }
+    //        else
+    //        {
+    //            Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+    //            scrollbar->setHidden(mOverflowX != CSSOverflow_Scroll);
+    //            scrollbar->setDisabled(true);
+    //        }
+    //    }
+    //}
 
 
-    void ScrollDecorator::updateWindowScroll()
-    {
-        if (mOverflowX == CSSOverflow_Hidden && mOverflowY == CSSOverflow_Hidden)
-        {
-            return;
-        }
-
-        if (NativeComponent * native = mDecoratedComponent->downcast<NativeComponent>())
-        {
-            int maxpos = Defaults::Attributes::maxpos();
-            Rect clientRect(mDecoratedComponent->clientRect());
-
-            int newHorScrollPos = 0;
-            int newVerScrollPos = 0;
-            int dx = 0;
-            int dy = 0;
-
-            if (mHorizontalScrollbar)
-            {
-                Scrollbar * hscrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
-                int minHorSize = mDecoratedComponent->getWidth(Minimum);
-                int horScrollPos = Windows::getScrollPos(hscrollbar->handle());
-                double horRatio = (double)horScrollPos/(double)Defaults::Attributes::maxpos();
-                newHorScrollPos = (int)((horRatio * (double)minHorSize) + 0.5);
-                dx = newHorScrollPos - mOldHorScrollPos;
-            }
-
-            if (mVerticalScrollbar)
-            {
-                Scrollbar * vscrollbar = mVerticalScrollbar->downcast<Scrollbar>();
-                int minVerSize = mDecoratedComponent->getHeight(Minimum);
-                int verScrollPos = Windows::getScrollPos(vscrollbar->handle());
-                double verRatio = (double)verScrollPos/(double)Defaults::Attributes::maxpos();
-                newVerScrollPos = (int)((verRatio * (double)minVerSize) + 0.5);
-                dy = newVerScrollPos - mOldVerScrollPos;
-            }
-
-            if (NativeComponent * native = mDecoratedComponent->downcast<NativeComponent>())
-            {
-                ::ScrollWindowEx(native->handle(), -dx, -dy, 0, 0, 0, 0, SW_SCROLLCHILDREN | SW_INVALIDATE);
-            }
-            mOldHorScrollPos = newHorScrollPos;
-            mOldVerScrollPos = newVerScrollPos;
-        }
-    }
+    //void ScrollDecorator::updateVerticalScrollInfo()
+    //{
+    //    Scrollbar * scrollbar = mVerticalScrollbar->downcast<Scrollbar>();
+    //    if (scrollbar)
+    //    {
+    //        int maxpos = Defaults::Attributes::maxpos();
+    //        float ratio = (float)mDecoratedComponent->clientRect().height()/(float)mDecoratedComponent->getHeight(Minimum);
+    //        int pageincrement = (int)(maxpos*ratio + 0.5);
+    //        int curpos = Windows::getScrollPos(scrollbar->handle());
+    //        if (ratio < 1)
+    //        {
+    //            Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+    //            scrollbar->setHidden(mOverflowY == CSSOverflow_Hidden);
+    //            scrollbar->setDisabled(false);
+    //        }
+    //        else
+    //        {
+    //            scrollbar->setHidden(mOverflowY != CSSOverflow_Scroll);
+    //            scrollbar->setDisabled(true);
+    //            Windows::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+    //        }
+    //    }
+    //}
 
 
-    LRESULT ScrollDecorator::handleMouseWheel(WPARAM wParam, LPARAM lParam)
-    {
-        // Forward mouse wheel messages to the vertical scrollbar
-        if (Scrollbar * vscrollbar = mVerticalScrollbar->downcast<Scrollbar>())
-        {
-            ::SendMessage(vscrollbar->handle(), WM_MOUSEWHEEL, wParam, lParam);
-            return 0;
-        }
-        return 1;
-    }
+    //void ScrollDecorator::move(int x, int y, int w, int h)
+    //{
+    //    // Update page height of scroll boxes
+    //    int newW = w;
+    //    int newH = h;
+    //    if (mOverflowX != CSSOverflow_Hidden)
+    //    {
+    //        Scrollbar * scrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
+    //        if (scrollbar)
+    //        {
+    //            if (!scrollbar->isHidden())
+    //            {
+    //                newH -= Defaults::scrollbarWidth();
+    //            }
+    //            scrollbar->setWidth(w - Defaults::scrollbarWidth());
+    //        }
+    //    }
+
+    //    if (mOverflowY != CSSOverflow_Hidden)
+    //    {
+    //        Scrollbar * scrollbar = mVerticalScrollbar->downcast<Scrollbar>();
+    //        if (scrollbar)
+    //        {
+    //            if (!scrollbar->isHidden())
+    //            {
+    //                newW -= Defaults::scrollbarWidth();
+    //            }
+    //            scrollbar->setHeight(h - Defaults::scrollbarWidth());
+    //        }
+    //    }
+    //    Super::move(x, y, newW, newH);
+    //    updateHorizontalScrollInfo();
+    //    updateVerticalScrollInfo();
+    //}
 
 
-    bool ScrollDecorator::curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos)
-    {
-        updateWindowScroll();
-        return true;
-    }
+    //void ScrollDecorator::updateWindowScroll()
+    //{
+    //    if (mOverflowX == CSSOverflow_Hidden && mOverflowY == CSSOverflow_Hidden)
+    //    {
+    //        return;
+    //    }
+
+    //    if (NativeComponent * native = mDecoratedComponent->downcast<NativeComponent>())
+    //    {
+    //        int maxpos = Defaults::Attributes::maxpos();
+    //        Rect clientRect(mDecoratedComponent->clientRect());
+
+    //        int newHorScrollPos = 0;
+    //        int newVerScrollPos = 0;
+    //        int dx = 0;
+    //        int dy = 0;
+
+    //        if (mHorizontalScrollbar)
+    //        {
+    //            Scrollbar * hscrollbar = mHorizontalScrollbar->downcast<Scrollbar>();
+    //            int minHorSize = mDecoratedComponent->getWidth(Minimum);
+    //            int horScrollPos = Windows::getScrollPos(hscrollbar->handle());
+    //            double horRatio = (double)horScrollPos/(double)Defaults::Attributes::maxpos();
+    //            newHorScrollPos = (int)((horRatio * (double)minHorSize) + 0.5);
+    //            dx = newHorScrollPos - mOldHorScrollPos;
+    //        }
+
+    //        if (mVerticalScrollbar)
+    //        {
+    //            Scrollbar * vscrollbar = mVerticalScrollbar->downcast<Scrollbar>();
+    //            int minVerSize = mDecoratedComponent->getHeight(Minimum);
+    //            int verScrollPos = Windows::getScrollPos(vscrollbar->handle());
+    //            double verRatio = (double)verScrollPos/(double)Defaults::Attributes::maxpos();
+    //            newVerScrollPos = (int)((verRatio * (double)minVerSize) + 0.5);
+    //            dy = newVerScrollPos - mOldVerScrollPos;
+    //        }
+
+    //        if (NativeComponent * native = mDecoratedComponent->downcast<NativeComponent>())
+    //        {
+    //            ::ScrollWindowEx(native->handle(), -dx, -dy, 0, 0, 0, 0, SW_SCROLLCHILDREN | SW_INVALIDATE);
+    //        }
+    //        mOldHorScrollPos = newHorScrollPos;
+    //        mOldVerScrollPos = newVerScrollPos;
+    //    }
+    //}
+
+
+    //LRESULT ScrollDecorator::handleMouseWheel(WPARAM wParam, LPARAM lParam)
+    //{
+    //    // Forward mouse wheel messages to the vertical scrollbar
+    //    if (Scrollbar * vscrollbar = mVerticalScrollbar->downcast<Scrollbar>())
+    //    {
+    //        ::SendMessage(vscrollbar->handle(), WM_MOUSEWHEEL, wParam, lParam);
+    //        return 0;
+    //    }
+    //    return 1;
+    //}
+
+
+    //bool ScrollDecorator::curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos)
+    //{
+    //    updateWindowScroll();
+    //    return true;
+    //}
 
 
     MarginDecorator::MarginDecorator(Component * inDecoratedElement) :

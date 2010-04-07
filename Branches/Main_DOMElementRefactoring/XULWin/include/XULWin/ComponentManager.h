@@ -1,9 +1,10 @@
-#ifndef COMPONENTUTILITIES_H_INCLUDED
-#define COMPONENTUTILITIES_H_INCLUDED
+#ifndef COMPONENTMANAGER_H_INCLUDED
+#define COMPONENTMANAGER_H_INCLUDED
 
 
 #include "XULWin/Component.h"
 #include "XULWin/Decorator.h"
+#include <map>
 
 
 namespace XULWin
@@ -15,17 +16,27 @@ namespace XULWin
     public:
         static ComponentManager & Instance();
         
-        Component * getComponent(Poco::XML::Node * inElementNode);
+        Component * getComponent(Poco::XML::Element * inElementNode);
+
+        void addComponent(Poco::XML::Element * inElementNode, Component * inComponent);
 
     private:
         ComponentManager();
+
+        typedef std::map<Poco::XML::Element *, Component*> Components;
+        Components mComponents;
     };
 
 
     template<class T>
     T * GetComponent(Poco::XML::Node * inElementNode)
     {
-        return ComponentManager::Instance().getComponent(inElementNode)->downcast<T>();
+        Poco::XML::Element * element = dynamic_cast<Poco::XML::Element*>(inElementNode);
+        if (element)
+        {
+            return ComponentManager::Instance().getComponent(element)->downcast<T>();
+        }
+        return 0;
     }
 
 
@@ -50,4 +61,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // COMPONENTUTILITIES_H_INCLUDED
+#endif // COMPONENTMANAGER_H_INCLUDED

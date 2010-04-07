@@ -1,11 +1,15 @@
 #include "XULWin/XULRunner.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/ChromeURL.h"
+#include "XULWin/ComponentFactory.h"
 #include "XULWin/Defaults.h"
+#include "XULWin/ElementUtilities.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/DOM/DOMParser.h"
 #include "Poco/DOM/Element.h"
+#include "Poco/DOM/Node.h"
+#include "Poco/DOM/NodeList.h"
 #include "Poco/SAX/InputSource.h"
 #include "Poco/XML/XMLStream.h"
 #include "Poco/File.h"
@@ -222,7 +226,7 @@ namespace XULWin
             throw std::runtime_error(msg.c_str());
         }
         mDocument.assign(ParseFile(getMainXULFile(Windows::getCurrentDirectory())));
-        CreateComponents(mDocument.get());
+        mRootComponent = CreateRootComponent(mDocument->documentElement());
         return mDocument.get();
     }
 
@@ -231,7 +235,7 @@ namespace XULWin
     {
         ChromeURL url(inXULURL);
         mDocument.assign(ParseFile(url.convertToLocalPath()));
-        CreateComponents(mDocument.get());
+        mRootComponent = CreateRootComponent(mDocument->documentElement());
         return mDocument.get();
     }
 
@@ -239,7 +243,7 @@ namespace XULWin
     Poco::XML::Document * XULRunner::loadXULFromString(const std::string & inXULString)
     {
         mDocument.assign(ParseString(inXULString));
-        CreateComponents(mDocument.get());
+        mRootComponent = CreateRootComponent(mDocument->documentElement());
         return mDocument.get();
     }
 
@@ -282,11 +286,49 @@ namespace XULWin
     {
         return mDocument->documentElement();
     }
-
-
-    void XULRunner::CreateComponents(Poco::XML::Document * inDocument)
+    
+    
+    ComponentPtr XULRunner::CreateRootComponent(Poco::XML::Node * inNode)
     {
-        --; // Implement this!
+        ComponentPtr result = CreateComponent(0, inNode);
+        if (!result)
+        {
+            throw std::runtime_error("Failed to create a native component from the root component.");
+        }
+        return result;
+    }
+
+
+    ComponentPtr XULRunner::CreateComponent(Component * inParent, Poco::XML::Node * inNode)
+    {
+        ComponentPtr result;
+        Poco::XML::Element * element = dynamic_cast<Poco::XML::Element*>(inNode);
+        if (!element)
+        {
+            return result;
+        }
+
+        result = ComponentFactory::Instance().create(inParent, Node2Element(inNode));
+        if (!result)
+        {
+            return result;
+        }
+        
+        Poco::XML::NodeList * nodeList = inNode->childNodes();
+        if (nodeList->length() > 0)
+        {
+            Poco::XML::Node * node = nodeList->item(0);
+            while (node)
+            {
+                ComponentPtr comp = CreateComponent(result.get(), node);
+                if (comp)
+                {
+                    result->addChild(comp);
+                }
+                node = node->nextSibling();
+            }
+        }
+        return result;
     }
 
 

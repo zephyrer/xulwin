@@ -1,5 +1,5 @@
 #include "XULWin/Js/JsUtilities.h"
-#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ComponentManager.h"
 #include "XULWin/Js/JsPrompt.h"
 #include "XULWin/Js/JsSimpleContext.h"
 #include "Windows.h"

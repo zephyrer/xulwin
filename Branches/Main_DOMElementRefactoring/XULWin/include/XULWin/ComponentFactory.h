@@ -3,10 +3,14 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/ComponentManager.h"
 #include "XULWin/ToolbarCustomWindowDecorator.h"
+#include "Poco/DOM/Element.h"
 #include "Poco/StringTokenizer.h"
+#include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/bind.hpp>
 
 
 namespace XULWin
@@ -17,89 +21,118 @@ namespace XULWin
     public:
         static ComponentFactory & Instance();
 
-        static void GetStyles(const AttributesMapping & inAttributesMapping, StylesMapping & styles);
-
-        static CSSOverflow GetOverflow(const StylesMapping & inStyles, const std::string & inOverflow);
-
-
-        template<class T>
+        template<class ComponentT>
         void registerComponent()
         {
-            // TODO: implement
+            const char * tagName = ComponentT::TagName();
+            
+            FactoryMethods::iterator it = mFactoryMethods.find(tagName);
+            if (it != mFactoryMethods.end())
+            {
+                throw std::logic_error("Component with tagname '" + std::string(tagName) + "' has already been registered.");
+            }
+
+            FactoryMethod obj = boost::bind(&ComponentT::Create, _1, _2);
+            mFactoryMethods.insert(std::make_pair(tagName, obj));
         }
 
-        /**
-         * createComponent
-         * @DecoratorType: decorator type, for example Decorator or MarginDecorator.
-         * @ComponentType: native container type, for example Button.
-         * @inParent: the parent element of the to be created component.
-         * @inAttributesMapping: the attributes
-         *
-         * Factory method for component creation.
-         */
-        template<class DecoratorType, class ComponentType>
-        Component * createComponent(Component * inParent,
-                                    const AttributesMapping & inAttributes)
+        ComponentPtr create(Component * inParent, Poco::XML::Element * inElement)
         {
-            Component * result(0);
-            //if (!CreateToolbarChild<DecoratorType, ComponentType>(inParent, inAttributes, result))
+            ComponentPtr result;
+            FactoryMethods::iterator it = mFactoryMethods.find(inElement->tagName());
+            if (it != mFactoryMethods.end())
             {
-                result = new DecoratorType(new ComponentType(inParent, inAttributes));
+                const FactoryMethod & factoryMethod(it->second);
+                result = factoryMethod(inParent, inElement);
+                if (result)
+                {
+                    ComponentManager::Instance().addComponent(inElement, result.get());
+                }
             }
             return result;
         }
 
-
-        /**
-         * createContainer
-         * @VirtualType: virtual container type, for example VirtualGrid.
-         * @Type: native container type, for example NativeGrid.
-         * @inParent: the parent element of the to be created component.
-         * @inAttributesMapping: the attributes
-         *
-         * Factory method for container creation.
-         * Native container type is created in case scrollbars need to be added.
-         * This is because it's very difficult to scroll virtual containers.
-         */
-        template<class DecoratorType, class VirtualType, class NativeType>
-        Component * createContainer(Component * inParent, const AttributesMapping & inAttributesMapping)
-        {
-            StylesMapping styles;
-            GetStyles(inAttributesMapping, styles);
-            CSSOverflow overflowX = GetOverflow(styles, "overflow-x");
-            CSSOverflow overflowY = GetOverflow(styles, "overflow-y");
-            if (overflowX != CSSOverflow_Hidden || overflowY != CSSOverflow_Hidden)
-            {
-                return new ScrollDecorator(inParent,
-                                           createComponent<DecoratorType, NativeType>(inParent, inAttributesMapping),
-                                           overflowX,
-                                           overflowY);
-            }
-            else
-            {
-                return createComponent<DecoratorType, VirtualType>(inParent, inAttributesMapping);
-            }
-        }
-
-        //template<class DecoratorType, class ComponentType>
-        //static bool CreateToolbarChild(Component * inParent,
-        //                               const AttributesMapping & inAttributesMapping,
-        //                               Component *& result)
-        //{
-        //    if (!inParent)
-        //    {
-        //        return false;
-        //    }
-        //    if (XULWin::Toolbar * toolbar = inParent->downcast<XULWin::Toolbar>())
-        //    {
-        //        DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttributesMapping));
-        //        boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());
-        //        result = new ToolbarCustomWindowDecorator(decoratedComponent, theNativeToolbar);
-        //        return true;
-        //    }
-        //    return false;
-        //}
+    private:
+        typedef boost::function<ComponentPtr(Component * inParent, Poco::XML::Element * inElement)> FactoryMethod;
+        typedef std::map<std::string, FactoryMethod> FactoryMethods;
+        FactoryMethods mFactoryMethods;
     };
+    
+    static void GetStyles(Poco::XML::Element * inDOMElement, StylesMapping & styles);
+
+    static CSSOverflow GetOverflow(const StylesMapping & inStyles, const std::string & inOverflow);
+
+
+    /**
+     * CreateDecoratedComponent
+     * @DecoratorType: decorator type, for example Decorator or MarginDecorator.
+     * @ComponentType: native container type, for example Button.
+     * @inParent: the parent element of the to be created component.
+     * @inDOMElement: the attributes
+     *
+     * Factory method for component creation.
+     */
+    template<class DecoratorType, class ComponentType>
+    Component * CreateDecoratedComponent(Component * inParent, Poco::XML::Element * inDOMElement)
+    {
+        Component * result(0);
+        //if (!CreateToolbarChild<DecoratorType, ComponentType>(inParent, inAttributes, result))
+        {
+            result = new DecoratorType(new ComponentType(inParent, inAttributes));
+        }
+        return result;
+    }
+
+
+    /**
+     * createContainer
+     * @VirtualType: virtual container type, for example VirtualGrid.
+     * @Type: native container type, for example NativeGrid.
+     * @inParent: the parent element of the to be created component.
+     * @inDOMElement: the attributes
+     *
+     * Factory method for container creation.
+     * Native container type is created in case scrollbars need to be added.
+     * This is because it's very difficult to scroll virtual containers.
+     */
+    template<class DecoratorType, class VirtualType, class NativeType>
+    Component * CreateDecoratedContainerComponent(Component * inParent, Poco::XML::Element * inDOMElement)
+    {
+        StylesMapping styles;
+        GetStyles(inDOMElement, styles);
+        CSSOverflow overflowX = GetOverflow(styles, "overflow-x");
+        CSSOverflow overflowY = GetOverflow(styles, "overflow-y");
+        if (overflowX != CSSOverflow_Hidden || overflowY != CSSOverflow_Hidden)
+        {
+            return new ScrollDecorator(inParent,
+                                       createComponent<DecoratorType, NativeType>(inParent, inDOMElement),
+                                       overflowX,
+                                       overflowY);
+        }
+        else
+        {
+            return CreateDecoratedComponent<DecoratorType, VirtualType>(inParent, inDOMElement);
+        }
+    }
+
+    //template<class DecoratorType, class ComponentType>
+    //static bool CreateToolbarChild(Component * inParent,
+    //                               Poco::XML::Element * inDOMElement,
+    //                               Component *& result)
+    //{
+    //    if (!inParent)
+    //    {
+    //        return false;
+    //    }
+    //    if (XULWin::Toolbar * toolbar = inParent->downcast<XULWin::Toolbar>())
+    //    {
+    //        DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inDOMElement));
+    //        boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());
+    //        result = new ToolbarCustomWindowDecorator(decoratedComponent, theNativeToolbar);
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
 } // namespace XULWin
 

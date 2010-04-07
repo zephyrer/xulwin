@@ -32,8 +32,8 @@ namespace XULWin
     }
 
 
-    Window::Window(const AttributesMapping & inAttributesMapping) :
-        NativeComponent(0, inAttributesMapping),
+    Window::Window(Component * inParentComponent, Poco::XML::Element * inDOMElement) :
+        NativeComponent(inParentComponent, inDOMElement),
         mBoxLayouter(this), // FIXME: warning C4355: 'this' : used in base member initializer list
         mActiveDialog(0),
         mHasMessageLoop(false)

@@ -1,5 +1,5 @@
 #include "XULWin/Js/JsXULRunner.h"
-#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ComponentManager.h"
 #include "XULWin/ElementUtilities.h"
 #include "XULWin/Js/JsSimpleContext.h"
 #include "XULWin/Component.h"
@@ -170,12 +170,13 @@ namespace XULWin
 
         void JsXULRunner::addListeners(Poco::XML::Element * inElement)
         {
-            if (NativeComponent * comp = GetComponent<NativeComponent>(inElement))
-            {
-                comp->addEventListener(this);
-            }
-            XULWin::ForEach(inElement->childNodes(),
-                            boost::bind(&JsXULRunner::addListeners, this, boost::bind(&Node2Element, _1)));
+            //if (NativeComponent * comp = GetComponent<NativeComponent>(inElement))
+            //{
+            //    comp->addEventListener(this);
+            //}
+
+            //XULWin::ForEach(inElement->childNodes(),
+            //                boost::bind(&JsXULRunner::addListeners, this, boost::bind(&Node2Element, _1)));
         }
 
 

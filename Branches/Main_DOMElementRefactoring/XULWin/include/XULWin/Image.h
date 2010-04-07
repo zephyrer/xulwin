@@ -16,7 +16,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Image(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Image(Component * inParent, Poco::XML::Element * inDOMElement);
 
         virtual std::string getSrc() const;
 

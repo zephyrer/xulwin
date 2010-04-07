@@ -4,6 +4,7 @@
 
 namespace XULWin
 {
+
     ComponentFactory & ComponentFactory::Instance()
     {
         static ComponentFactory fComponentFactory;
@@ -11,12 +12,12 @@ namespace XULWin
     }
 
 
-    void ComponentFactory::GetStyles(const AttributesMapping & inAttributesMapping, StylesMapping & styles)
+    void GetStyles(Poco::XML::Element * inDOMElement, StylesMapping & styles)
     {
-        StylesMapping::const_iterator it = inAttributesMapping.find("style");
-        if (it != inAttributesMapping.end())
+        const Poco::XML::XMLString & styleAttribute = inDOMElement->getAttribute("style");
+        if (!styleAttribute.empty())
         {
-            Poco::StringTokenizer tok(it->second, ";:", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+            Poco::StringTokenizer tok(styleAttribute, ";:", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
             Poco::StringTokenizer::Iterator it = tok.begin(), end = tok.end();
             std::string key, value;
             int counter = 0;
@@ -36,8 +37,9 @@ namespace XULWin
         }
     }
 
-    CSSOverflow ComponentFactory::GetOverflow(const StylesMapping & inStyles,
-                                              const std::string & inOverflow)
+
+    CSSOverflow GetOverflow(const StylesMapping & inStyles,
+                            const std::string & inOverflow)
     {
         StylesMapping::const_iterator it = inStyles.find(inOverflow);
         if (it == inStyles.end())

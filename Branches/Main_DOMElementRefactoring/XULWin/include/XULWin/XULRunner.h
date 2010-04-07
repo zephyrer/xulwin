@@ -2,6 +2,7 @@
 #define XULRUNNER_H_INCLUDED
 
 
+#include "XULWin/Component.h"
 #include "XULWin/Fallible.h"
 #include "XULWin/Windows.h"
 #include "Poco/AutoPtr.h"
@@ -93,12 +94,15 @@ namespace XULWin
 
         static Poco::XML::Document * ParseFile(const std::string & inFilePath);
         static Poco::XML::Document * ParseString(const std::string & inXULString);
-        static void CreateComponents(Poco::XML::Document * inDocument);
+        static ComponentPtr CreateRootComponent(Poco::XML::Node * inNode);
+        static ComponentPtr CreateComponent(Component * inParent, Poco::XML::Node * inNode);
+
 
         std::string getOverlayElementId(const std::string & inXULURL);
 
         HMODULE mModuleHandle;
         Poco::AutoPtr<Poco::XML::Document> mDocument;
+        ComponentPtr mRootComponent;
     };
 
 } // XULWin

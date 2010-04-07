@@ -1,5 +1,5 @@
 #include "ImageViewerSample.h"
-#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ComponentManager.h"
 #include "XULWin/ElementUtilities.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/Component.h"
@@ -38,11 +38,6 @@ namespace XULWin
 
         
         mXULRunner->loadXULFromFile("chrome://imageviewer/content/imageviewer.xul");
-        if (!mXULRunner->rootElement())
-        {
-            ReportError("Failed to load ImageViewerSample");
-            return;
-        }
 
         ScopedEventListener events;
         events.connect(GetComponent<NativeComponent>(mXULRunner->rootElement()),

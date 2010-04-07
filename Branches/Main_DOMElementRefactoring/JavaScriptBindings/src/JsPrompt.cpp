@@ -1,5 +1,5 @@
 #include "XULWin/Js/JsPrompt.h"
-#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ComponentManager.h"
 #include <boost/bind.hpp>
 
 

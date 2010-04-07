@@ -1,5 +1,5 @@
 #include "ConfigSample.h"
-#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ComponentManager.h"
 #include "XULWin/ElementUtilities.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Unicode.h"

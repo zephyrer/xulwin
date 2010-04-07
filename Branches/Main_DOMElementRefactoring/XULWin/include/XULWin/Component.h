@@ -27,6 +27,7 @@
 
 namespace XULWin
 {
+    class Decorator;
 
     namespace Windows
     {
@@ -109,9 +110,17 @@ namespace XULWin
         private boost::noncopyable
     {
     public:
-        virtual ~Component() {}
+        template<class ComponentT>
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inElement)
+        {
+            ComponentPtr result(new ComponentT(inParentComponent, inElement));
+            result->init();
+            return result;
+        }
 
-        virtual bool init() = 0;
+        virtual ~Component() {}
+        
+        virtual void addChild(ComponentPtr inComponent) = 0;
 
         // Returns this element's index in its parent's childNodes collection.
         //virtual int getIndex() const = 0;
@@ -335,7 +344,11 @@ namespace XULWin
 
         virtual bool initAttributeControllers() = 0;
 
-        virtual bool initStyleControllers() = 0;
+        virtual bool initStyleControllers() = 0;        
+
+    private:
+        virtual bool init() = 0;
+        friend class Decorator;
     };
 
 
@@ -345,13 +358,13 @@ namespace XULWin
     class ConcreteComponent : public Component
     {
     public:
-        ConcreteComponent(Component * inParent);
+        ConcreteComponent(Component * inParent, Poco::XML::Element * inElement);
 
         virtual ~ConcreteComponent() = 0;
 
-        virtual bool init();
-
         //virtual int getIndex() const;
+
+        virtual void addChild(ComponentPtr inComponent);
 
         virtual size_t getChildCount() const;
 
@@ -594,6 +607,17 @@ namespace XULWin
 
         typedef std::map<std::string, StyleController *> StyleControllers;
         StyleControllers mStyleControllers;
+    
+    private:
+        virtual bool init();
+
+        typedef std::vector<ComponentPtr> Children;
+        
+        // Component is owner of its child components.
+        // This is done for ownership management.
+        // Not suitable DOM nativation because not all
+        // elements have Component counterparts.
+        Children mChildren;
     };
 
 
@@ -610,7 +634,7 @@ namespace XULWin
     public:
         typedef ConcreteComponent Super;
 
-        NativeComponent(Component * inParent, const AttributesMapping & inAttributes);
+        NativeComponent(Component * inParent, Poco::XML::Element * inDOMElement);
 
         virtual ~NativeComponent();
 
@@ -710,9 +734,14 @@ namespace XULWin
     public:
         typedef NativeComponent Super;
 
+        static const char * TagName() { return "dialog"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Dialog>(inParentComponent, inDOMElement); }
+
         static void Register(HMODULE inModuleHandle);
 
-        Dialog(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Dialog(Component * inParent, Poco::XML::Element * inDOMElement);
 
         virtual ~Dialog();
 
@@ -807,10 +836,10 @@ namespace XULWin
     public:
         typedef NativeComponent Super;
 
-        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
+        NativeControl(Component * inParent, Poco::XML::Element * inDOMElement, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
 
         // use this constructor if you want to provide your own handle later using NativeControl::setHandle
-        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        NativeControl(Component * inParent, Poco::XML::Element * inDOMElement);
 
         virtual ~NativeControl();
 
@@ -844,7 +873,7 @@ namespace XULWin
     public:
         typedef ConcreteComponent Super;
 
-        VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        VirtualComponent(Component * inParent, Poco::XML::Element * inDOMElement);
 
         virtual ~VirtualComponent();
 
@@ -881,7 +910,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        PassiveComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        PassiveComponent(Component * inParent, Poco::XML::Element * inDOMElement);
 
         virtual ~PassiveComponent();
 
@@ -907,7 +936,12 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Button(Component * inParent, const AttributesMapping & inAttributesMapping);
+        static const char * TagName() { return "button"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Button>(inParentComponent, inDOMElement); }
+
+        Button(Component * inParent, Poco::XML::Element * inDOMElement);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -926,7 +960,12 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Description(Component * inParent, const AttributesMapping & inAttributesMapping);
+        static const char * TagName() { return "description"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Description>(inParentComponent, inDOMElement); }
+
+        Description(Component * inParent, Poco::XML::Element * inDOMElement);
 
         // StringValueController methods
         virtual std::string getValue() const;
@@ -949,7 +988,12 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        TextBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+        static const char * TagName() { return "textbox"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<TextBox>(inParentComponent, inDOMElement); }
+
+        TextBox(Component * inParent, Poco::XML::Element * inDOMElement);
 
         // StringValueController methods
         virtual std::string getValue() const;
@@ -976,7 +1020,7 @@ namespace XULWin
 
     private:
         int mRows;
-        static DWORD GetFlags(const AttributesMapping & inAttributesMapping);
+        static DWORD GetFlags(Poco::XML::Element * inDOMElement);
     };
 
 
@@ -986,7 +1030,12 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        CheckBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+        static const char * TagName() { return "checkbox"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<CheckBox>(inParentComponent, inDOMElement); }
+
+        CheckBox(Component * inParent, Poco::XML::Element * inDOMElement);
 
         // CheckedController methods
         virtual bool isChecked() const;
@@ -1001,455 +1050,480 @@ namespace XULWin
     };
 
 
-    class VirtualBox : public VirtualComponent,
-        public BoxLayouter::ContentProvider
-    {
-    public:
-        typedef VirtualComponent Super;
+    //class VirtualBox : public VirtualComponent,
+    //    public BoxLayouter::ContentProvider
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        VirtualBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    VirtualBox(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual Orient getOrient() const;
+    //    virtual Orient getOrient() const;
 
-        virtual Align getAlign() const;
+    //    virtual Align getAlign() const;
 
-        virtual bool initAttributeControllers();
+    //    virtual bool initAttributeControllers();
 
-        virtual void rebuildLayout();
+    //    virtual void rebuildLayout();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const
-        {
-            return mBoxLayouter.calculateWidth(inSizeConstraint);
-        }
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const
+    //    {
+    //        return mBoxLayouter.calculateWidth(inSizeConstraint);
+    //    }
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const
-        {
-            return mBoxLayouter.calculateHeight(inSizeConstraint);
-        }
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const
+    //    {
+    //        return mBoxLayouter.calculateHeight(inSizeConstraint);
+    //    }
 
-        virtual Rect clientRect() const
-        {
-            return Super::clientRect();
-        }
+    //    virtual Rect clientRect() const
+    //    {
+    //        return Super::clientRect();
+    //    }
 
-        virtual void rebuildChildLayouts()
-        {
-            return Super::rebuildChildLayouts();
-        }
+    //    virtual void rebuildChildLayouts()
+    //    {
+    //        return Super::rebuildChildLayouts();
+    //    }
 
-        virtual Orient BoxLayouter_getOrient() const
-        {
-            return getOrient();
-        }
+    //    virtual Orient BoxLayouter_getOrient() const
+    //    {
+    //        return getOrient();
+    //    }
 
-        virtual Align BoxLayouter_getAlign() const
-        {
-            return getAlign();
-        }
+    //    virtual Align BoxLayouter_getAlign() const
+    //    {
+    //        return getAlign();
+    //    }
 
-        virtual size_t BoxLayouter_getChildCount() const
-        {
-            return getChildCount();
-        }
+    //    virtual size_t BoxLayouter_getChildCount() const
+    //    {
+    //        return getChildCount();
+    //    }
 
-        virtual const Component * BoxLayouter_getChild(size_t idx) const
-        {
-            return getChild(idx);
-        }
+    //    virtual const Component * BoxLayouter_getChild(size_t idx) const
+    //    {
+    //        return getChild(idx);
+    //    }
 
-        virtual Component * BoxLayouter_getChild(size_t idx)
-        {
-            return getChild(idx);
-        }
+    //    virtual Component * BoxLayouter_getChild(size_t idx)
+    //    {
+    //        return getChild(idx);
+    //    }
 
-        virtual Rect BoxLayouter_clientRect() const
-        {
-            return clientRect();
-        }
+    //    virtual Rect BoxLayouter_clientRect() const
+    //    {
+    //        return clientRect();
+    //    }
 
-        virtual void BoxLayouter_rebuildChildLayouts()
-        {
-            rebuildChildLayouts();
-        }
+    //    virtual void BoxLayouter_rebuildChildLayouts()
+    //    {
+    //        rebuildChildLayouts();
+    //    }
 
-    protected:
-        BoxLayouter mBoxLayouter;
-    };
+    //protected:
+    //    BoxLayouter mBoxLayouter;
+    //};
 
 
-    class Box : public NativeControl,
-        public BoxLayouter::ContentProvider
-    {
-    public:
-        typedef NativeControl Super;
+    //class Box : public NativeControl,
+    //    public BoxLayouter::ContentProvider
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        Box(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    static const char * TagName() { return "box"; }
 
-        virtual Orient getOrient() const;
+    //    static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+    //    { return Component::Create<Box>(inParentComponent, inDOMElement); }
 
-        virtual Align getAlign() const;
+    //    Box(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual void rebuildLayout();
+    //    virtual Orient getOrient() const;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual Align getAlign() const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual void rebuildLayout();
 
-        virtual Rect clientRect() const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual const Component * getChild(size_t idx) const;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual Component * getChild(size_t idx);
+    //    virtual Rect clientRect() const;
 
-        virtual Orient BoxLayouter_getOrient() const
-        {
-            return getOrient();
-        }
+    //    virtual const Component * getChild(size_t idx) const;
 
-        virtual Align BoxLayouter_getAlign() const
-        {
-            return getAlign();
-        }
+    //    virtual Component * getChild(size_t idx);
 
-        virtual size_t BoxLayouter_getChildCount() const
-        {
-            return getChildCount();
-        }
+    //    virtual Orient BoxLayouter_getOrient() const
+    //    {
+    //        return getOrient();
+    //    }
 
-        virtual const Component * BoxLayouter_getChild(size_t idx) const
-        {
-            return getChild(idx);
-        }
+    //    virtual Align BoxLayouter_getAlign() const
+    //    {
+    //        return getAlign();
+    //    }
 
-        virtual Component * BoxLayouter_getChild(size_t idx)
-        {
-            return getChild(idx);
-        }
+    //    virtual size_t BoxLayouter_getChildCount() const
+    //    {
+    //        return getChildCount();
+    //    }
 
-        virtual Rect BoxLayouter_clientRect() const
-        {
-            return clientRect();
-        }
+    //    virtual const Component * BoxLayouter_getChild(size_t idx) const
+    //    {
+    //        return getChild(idx);
+    //    }
 
-        virtual void BoxLayouter_rebuildChildLayouts()
-        {
-            rebuildChildLayouts();
-        }
+    //    virtual Component * BoxLayouter_getChild(size_t idx)
+    //    {
+    //        return getChild(idx);
+    //    }
 
-    private:
-        BoxLayouter mBoxLayouter;
-    };
+    //    virtual Rect BoxLayouter_clientRect() const
+    //    {
+    //        return clientRect();
+    //    }
 
+    //    virtual void BoxLayouter_rebuildChildLayouts()
+    //    {
+    //        rebuildChildLayouts();
+    //    }
 
-    class MenuPopupContainer
-    {
-    public:
-        virtual void showPopupMenu(RECT inToolbarButtonRect) = 0;
-    };
+    //private:
+    //    BoxLayouter mBoxLayouter;
+    //};
 
 
-    class MenuList : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
+    //class MenuPopupContainer
+    //{
+    //public:
+    //    virtual void showPopupMenu(RECT inToolbarButtonRect) = 0;
+    //};
 
-        MenuList(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual bool init();
+    //class MenuList : public NativeControl
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    static const char * TagName() { return "menulist"; }
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+    //    { return Component::Create<MenuList>(inParentComponent, inDOMElement); }
 
-        virtual void move(int x, int y, int w, int h);
+    //    MenuList(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual void onContentChanged();
+    //    virtual bool init();
 
-    private:
-        void fillComboBox();
-    };
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-    class Separator : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
+    //    virtual void move(int x, int y, int w, int h);
 
-        Separator(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    virtual void onContentChanged();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //private:
+    //    void fillComboBox();
+    //};
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
 
+    //class Separator : public NativeControl
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-    class Spacer : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
+    //    static const char * TagName() { return "separator"; }
 
-        Spacer(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+    //    { return Component::Create<Separator>(inParentComponent, inDOMElement); }
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    Separator(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-    class MenuButton : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
 
-        MenuButton(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //class Spacer : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    static const char * TagName() { return "spacer"; }
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+    //    { return Component::Create<Spacer>(inParentComponent, inDOMElement); }
 
+    //    Spacer(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    class VirtualGrid : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        static const char * TagName()
-        {
-            return "grid";
-        }
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-        VirtualGrid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //class MenuButton : public NativeControl
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    static const char * TagName() { return "menubutton"; }
 
-        virtual void rebuildLayout();
-    };
+    //    static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+    //    { return Component::Create<MenuButton>(inParentComponent, inDOMElement); }
 
+    //    MenuButton(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    class Grid : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        static const char * TagName()
-        {
-            return "grid";
-        }
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-        Grid(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //class VirtualGrid : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    static const char * TagName()
+    //    {
+    //        return "grid";
+    //    }
 
-        virtual void rebuildLayout();
-    };
+    //    VirtualGrid(Component * inParent, Poco::XML::Element * inDOMElement);
 
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    class Rows : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        static const char * TagName()
-        {
-            return "rows";
-        }
+    //    virtual void rebuildLayout();
+    //};
 
-        Rows(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //class Grid : public NativeControl
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    static const char * TagName()
+    //    {
+    //        return "grid";
+    //    }
 
+    //    Grid(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    class Row : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        static const char * TagName()
-        {
-            return "row";
-        }
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        Row(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    virtual void rebuildLayout();
+    //};
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //class Rows : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
+    //    static const char * TagName()
+    //    {
+    //        return "rows";
+    //    }
 
-    class Columns : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
+    //    Rows(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        static const char * TagName()
-        {
-            return "columns";
-        }
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        Columns(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //class Row : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
+    //    static const char * TagName()
+    //    {
+    //        return "row";
+    //    }
 
-    class Column : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
+    //    Row(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        static const char * TagName()
-        {
-            return "column";
-        }
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        Column(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-        virtual Align getAlign() const;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //class Columns : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    static const char * TagName()
+    //    {
+    //        return "columns";
+    //    }
 
+    //    Columns(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    class RadioGroup : public VirtualBox
-    {
-    public:
-        typedef VirtualBox Super;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        RadioGroup(Component * inParent, const AttributesMapping & inAttributesMapping);
-    };
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
 
-    class Radio : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
+    //class Column : public VirtualComponent
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        Radio(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    static const char * TagName()
+    //    {
+    //        return "column";
+    //    }
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    Column(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
+    //    virtual Align getAlign() const;
 
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    class ProgressMeter : public NativeControl,
-        public virtual IntValueController
-    {
-    public:
-        typedef NativeControl Super;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-        ProgressMeter(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        // IntValueController methods
-        virtual int getValue() const;
+    //class RadioGroup : public VirtualBox
+    //{
+    //public:
+    //    typedef VirtualBox Super;
 
-        virtual void setValue(int inValue);
+    //    RadioGroup(Component * inParent, Poco::XML::Element * inDOMElement);
+    //};
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //class Radio : public NativeControl
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        bool initAttributeControllers();
-    };
+    //    Radio(Component * inParent, Poco::XML::Element * inDOMElement);
 
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    class Deck : public VirtualComponent,
-        public virtual SelectedIndexController
-    {
-    public:
-        typedef VirtualComponent Super;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //};
 
-        Deck(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        // SelectedIndexController methods
-        virtual int getSelectedIndex() const;
+    //class ProgressMeter : public NativeControl,
+    //    public virtual IntValueController
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        virtual void setSelectedIndex(int inSelectedIndex);
+    //    ProgressMeter(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual void rebuildLayout();
+    //    // IntValueController methods
+    //    virtual int getValue() const;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual void setValue(int inValue);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        bool initAttributeControllers();
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-    private:
-        int mSelectedIndex;
-    };
+    //    bool initAttributeControllers();
+    //};
 
 
-    class Scrollbar : public NativeControl,
-        public virtual ScrollbarCurrentPositionController,
-        public virtual ScrollbarMaxPositionController,
-        public virtual ScrollbarIncrementController,
-        public virtual ScrollbarPageIncrementController
-    {
-    public:
-        typedef NativeControl Super;
+    //class Deck : public VirtualComponent,
+    //    public virtual SelectedIndexController
+    //{
+    //public:
+    //    typedef VirtualComponent Super;
 
-        Scrollbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    Deck(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual int getCurrentPosition() const;
+    //    // SelectedIndexController methods
+    //    virtual int getSelectedIndex() const;
 
-        virtual void setCurrentPosition(int inCurrentPosition);
+    //    virtual void setSelectedIndex(int inSelectedIndex);
 
-        virtual int getMaxPosition() const;
+    //    virtual void rebuildLayout();
 
-        virtual void setMaxPosition(int inMaxPosition);
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-        virtual int getIncrement() const;
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void setIncrement(int inIncrement);
+    //    bool initAttributeControllers();
 
-        virtual int getPageIncrement() const;
+    //private:
+    //    int mSelectedIndex;
+    //};
 
-        virtual void setPageIncrement(int inPageIncrement);
 
-        class EventHandler
-        {
-        public:
-            virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
-        };
+    //class Scrollbar : public NativeControl,
+    //    public virtual ScrollbarCurrentPositionController,
+    //    public virtual ScrollbarMaxPositionController,
+    //    public virtual ScrollbarIncrementController,
+    //    public virtual ScrollbarPageIncrementController
+    //{
+    //public:
+    //    typedef NativeControl Super;
 
-        EventHandler * eventHandler()
-        {
-            return mEventHandler;
-        }
+    //    Scrollbar(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        void setEventHandler(EventHandler * inEventHandler)
-        {
-            mEventHandler = inEventHandler;
-        }
+    //    virtual int getCurrentPosition() const;
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+    //    virtual void setCurrentPosition(int inCurrentPosition);
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    //    virtual int getMaxPosition() const;
 
-        bool initAttributeControllers();
+    //    virtual void setMaxPosition(int inMaxPosition);
 
-        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+    //    virtual int getIncrement() const;
 
-    private:
-        static DWORD GetFlags(const AttributesMapping & inAttributesMapping);
+    //    virtual void setIncrement(int inIncrement);
 
-        EventHandler * mEventHandler;
-        ScopedEventListener mEventListener;
-        int mIncrement;
-    };
+    //    virtual int getPageIncrement() const;
+
+    //    virtual void setPageIncrement(int inPageIncrement);
+
+    //    class EventHandler
+    //    {
+    //    public:
+    //        virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
+    //    };
+
+    //    EventHandler * eventHandler()
+    //    {
+    //        return mEventHandler;
+    //    }
+
+    //    void setEventHandler(EventHandler * inEventHandler)
+    //    {
+    //        mEventHandler = inEventHandler;
+    //    }
+
+    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+    //    bool initAttributeControllers();
+
+    //    virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
+    //private:
+    //    static DWORD GetFlags(Poco::XML::Element * inDOMElement);
+
+    //    EventHandler * mEventHandler;
+    //    ScopedEventListener mEventListener;
+    //    int mIncrement;
+    //};
 
 
     //class Tabs : public PassiveComponent
@@ -1462,7 +1536,7 @@ namespace XULWin
     //        return "tabs";
     //    }
 
-    //    Tabs(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    Tabs(Component * inParent, Poco::XML::Element * inDOMElement);
     //};
 
 
@@ -1471,7 +1545,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    Tab(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    Tab(Component * inParent, Poco::XML::Element * inDOMElement);
     //};
 
 
@@ -1482,7 +1556,7 @@ namespace XULWin
     //public:
     //    typedef VirtualComponent Super;
 
-    //    TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TabPanels(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual ~TabPanels();
 
@@ -1515,7 +1589,7 @@ namespace XULWin
     //public:
     //    typedef VirtualComponent Super;
 
-    //    TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TabPanel(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual bool init();
     //};
@@ -1526,7 +1600,7 @@ namespace XULWin
     //public:
     //    typedef VirtualBox Super;
 
-    //    GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    GroupBox(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual ~GroupBox();
 
@@ -1562,7 +1636,7 @@ namespace XULWin
     //public:
     //    typedef VirtualComponent Super;
 
-    //    Caption(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    Caption(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1581,7 +1655,7 @@ namespace XULWin
     //public:
     //    typedef NativeControl Super;
 
-    //    Tree(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    Tree(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1601,7 +1675,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TreeChildren(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1615,7 +1689,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TreeItem(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual bool init();
 
@@ -1645,7 +1719,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TreeCols(Component * inParent, Poco::XML::Element * inDOMElement);
     //};
 
 
@@ -1654,7 +1728,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TreeCol(Component * inParent, Poco::XML::Element * inDOMElement);
     //};
 
 
@@ -1664,7 +1738,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TreeRow(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -1678,7 +1752,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    TreeCell(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual bool initAttributeControllers();
 
@@ -1702,7 +1776,7 @@ namespace XULWin
     //public:
     //    typedef NativeControl Super;
 
-    //    Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    Statusbar(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual bool initAttributeControllers();
 
@@ -1766,7 +1840,7 @@ namespace XULWin
     //public:
     //    typedef NativeControl Super;
 
-    //    StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    StatusbarPanel(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual bool initAttributeControllers();
 
@@ -1783,7 +1857,7 @@ namespace XULWin
     //public:
     //    typedef NativeControl Super;
 
-    //    Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    Toolbar(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual ~Toolbar();
 
@@ -1818,7 +1892,7 @@ namespace XULWin
     //public:
     //    typedef PassiveComponent Super;
 
-    //    ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
+    //    ToolbarButton(Component * inParent, Poco::XML::Element * inDOMElement);
 
     //    virtual bool initAttributeControllers();
 

@@ -1,6 +1,6 @@
 #include "Tester.h"
 #include "Config.h"
-#include "XULWin/ComponentUtilities.h"
+#include "XULWin/ComponentManager.h"
 #include "XULWin/Element.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"

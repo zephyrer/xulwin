@@ -288,9 +288,9 @@ namespace XULWin
     }
     
     
-    ComponentPtr XULRunner::CreateRootComponent(Poco::XML::Node * inNode)
+    ComponentPtr XULRunner::CreateRootComponent(Poco::XML::Element * inElement)
     {
-        ComponentPtr result = CreateComponent(0, inNode);
+        ComponentPtr result = CreateComponent(0, inElement);
         if (!result)
         {
             throw std::runtime_error("Failed to create a native component from the root component.");
@@ -299,31 +299,30 @@ namespace XULWin
     }
 
 
-    ComponentPtr XULRunner::CreateComponent(Component * inParent, Poco::XML::Node * inNode)
+    ComponentPtr XULRunner::CreateComponent(Component * inParent, Poco::XML::Element * inElement)
     {
         ComponentPtr result;
-        Poco::XML::Element * element = dynamic_cast<Poco::XML::Element*>(inNode);
-        if (!element)
-        {
-            return result;
-        }
-
-        result = ComponentFactory::Instance().create(inParent, Node2Element(inNode));
+        result = ComponentFactory::Instance().create(inParent, inElement);
         if (!result)
         {
             return result;
         }
-        
-        Poco::XML::NodeList * nodeList = inNode->childNodes();
+
+        // Create child components        
+        Poco::XML::NodeList * nodeList = inElement->childNodes();
         if (nodeList->length() > 0)
         {
             Poco::XML::Node * node = nodeList->item(0);
             while (node)
             {
-                ComponentPtr comp = CreateComponent(result.get(), node);
-                if (comp)
+                Poco::XML::Element * element = dynamic_cast<Poco::XML::Element *>(node);
+                if (element)
                 {
-                    result->addChild(comp);
+                    ComponentPtr comp = CreateComponent(result.get(), element);
+                    if (comp)
+                    {
+                        result->addChild(comp);
+                    }
                 }
                 node = node->nextSibling();
             }

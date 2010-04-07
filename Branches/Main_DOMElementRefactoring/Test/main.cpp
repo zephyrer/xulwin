@@ -28,9 +28,9 @@ void runImageViewerSample(const std::string & inPathToXULRunnerSamples)
 void startTest(Tester & tester, const std::string & inPathToXULRunnerSamples)
 {
     //runConfigSample(inPathToXULRunnerSamples);
-    runImageViewerSample(inPathToXULRunnerSamples);
-    tester.runXULSample("configpanel");
-    //tester.runXULSample("hello");
+    //runImageViewerSample(inPathToXULRunnerSamples);
+    //tester.runXULSample("configpanel");
+    tester.runXULSample("hello");
     //tester.runXULSample("MainWindow");
     //tester.runXULSample("listbox-simple");
     //tester.runXULSample("listbox-advanced");

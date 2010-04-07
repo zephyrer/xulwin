@@ -94,8 +94,8 @@ namespace XULWin
 
         static Poco::XML::Document * ParseFile(const std::string & inFilePath);
         static Poco::XML::Document * ParseString(const std::string & inXULString);
-        static ComponentPtr CreateRootComponent(Poco::XML::Node * inNode);
-        static ComponentPtr CreateComponent(Component * inParent, Poco::XML::Node * inNode);
+        static ComponentPtr CreateRootComponent(Poco::XML::Element * inElement);
+        static ComponentPtr CreateComponent(Component * inParent, Poco::XML::Element * inElement);
 
 
         std::string getOverlayElementId(const std::string & inXULURL);

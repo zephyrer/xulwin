@@ -12,6 +12,34 @@ namespace XULWin
     }
 
 
+    ComponentPtr ComponentFactory::create(Component * inParent, Poco::XML::Element * inElement)
+    {
+        ComponentPtr result;
+        FactoryMethods::iterator it = mFactoryMethods.find(inElement->tagName());
+        if (it != mFactoryMethods.end())
+        {
+            const FactoryMethod & factoryMethod(it->second);
+            result = factoryMethod(inParent, inElement);
+            if (result)
+            {
+                ComponentManager::Instance().addComponent(inElement, result.get());
+            }
+        }
+        return result;
+    }
+
+
+    void ComponentFactory::registerComp(const char * inTagName, const FactoryMethod & inFactoryMethod)
+    {            
+        FactoryMethods::iterator it = mFactoryMethods.find(inTagName);
+        if (it != mFactoryMethods.end())
+        {
+            throw std::logic_error("Component with tagname '" + std::string(inTagName) + "' has already been registered.");
+        }
+        mFactoryMethods.insert(std::make_pair(inTagName, inFactoryMethod));
+    }
+
+
     void GetStyles(Poco::XML::Element * inDOMElement, StylesMapping & styles)
     {
         const Poco::XML::XMLString & styleAttribute = inDOMElement->getAttribute("style");

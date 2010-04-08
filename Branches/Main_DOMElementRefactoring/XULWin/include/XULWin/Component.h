@@ -109,11 +109,13 @@ namespace XULWin
         public virtual WidthController,
         private boost::noncopyable
     {
-    public:
+    public:        
         template<class ComponentT>
         static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inElement)
         {
             ComponentPtr result(new ComponentT(inParentComponent, inElement));
+            result->initAttributeControllers();
+            result->initStyleControllers();
             result->init();
             return result;
         }
@@ -328,6 +330,8 @@ namespace XULWin
 
         virtual Component * parentComponent() const = 0;
 
+        virtual void sync() = 0;
+
         virtual void rebuildLayout() = 0;
 
         virtual void rebuildChildLayouts() = 0;
@@ -519,6 +523,8 @@ namespace XULWin
         virtual Poco::XML::Element * el() const;
 
         Component * parentComponent() const;
+        
+        virtual void sync();
 
         virtual void rebuildLayout() = 0;
 

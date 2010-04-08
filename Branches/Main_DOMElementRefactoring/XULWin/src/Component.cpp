@@ -640,6 +640,25 @@ namespace XULWin
     }
 
 
+    void ConcreteComponent::sync()
+    {
+        AttributeControllers::iterator it = mAttributeControllers.begin(), end = mAttributeControllers.end();
+        for (; it != end; ++it)
+        {
+            const Poco::XML::XMLString & attrValue = mElement->getAttribute(it->first);
+            if (!attrValue.empty())
+            {
+                setAttribute(it->first, attrValue);
+            }
+        }
+        
+        for (size_t idx = 0; idx != mChildren.size(); ++idx)
+        {
+            mChildren[idx]->sync();
+        }
+    }
+
+
     void ConcreteComponent::rebuildChildLayouts()
     {
         if (!mElement)

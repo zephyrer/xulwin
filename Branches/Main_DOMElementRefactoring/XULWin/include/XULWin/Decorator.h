@@ -157,6 +157,8 @@ namespace XULWin
 
         virtual Component * parentComponent() const;
 
+        virtual void sync();
+
         virtual void rebuildLayout();
 
         virtual void rebuildChildLayouts();

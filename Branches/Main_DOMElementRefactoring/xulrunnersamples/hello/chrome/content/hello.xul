@@ -17,5 +17,5 @@
 
   <!-- A two column listbox with one column flexible -->
   <label value="test" flex="1" style="background-color: blue;"></label>
-
+  <button label="Hello" />
 </window>

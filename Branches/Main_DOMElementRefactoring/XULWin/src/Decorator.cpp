@@ -657,6 +657,16 @@ namespace XULWin
         }
         return 0;
     }
+    
+    
+    void Decorator::sync()
+    {
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
+        {
+            mDecoratedComponent->sync();
+        }
+    }
 
 
     void Decorator::rebuildLayout()

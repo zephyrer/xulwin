@@ -295,6 +295,7 @@ namespace XULWin
         {
             throw std::runtime_error("Failed to create a native component from the root component.");
         }
+        result->sync();
         return result;
     }
 

@@ -37,7 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     std::string appDir(unquote(lpCmdLine));
     if (appDir.empty())
     {
-        ::MessageBox(0, TEXT("Expected argument: path to the XUL application directory."), 0, MB_OK);
+        ::MessageBox(0, TEXT("Please set the command arguments correctly:\nTutorial Project settings -> Debugging -> Command Arguments: $(ProjectDir)ConfigPanel"), 0, MB_OK);
         return 1;
     }
 

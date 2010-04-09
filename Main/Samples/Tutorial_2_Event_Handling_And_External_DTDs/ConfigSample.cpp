@@ -1,6 +1,8 @@
 #include "ConfigSample.h"
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/MenuPopupElement.h"
+#include "XULWin/Window.h"
+#include "XULWin/WindowElement.h"
 #include "XULWin/Unicode.h"
 #include "Poco/Path.h"
 #include <boost/bind.hpp>
@@ -138,15 +140,13 @@ namespace XULWin
 
     LRESULT ConfigSample::showNewSetDialog()
     {
-        mNewSetDlg = mXULRunner.loadXUL("chrome://configpanel/content/newsetdialog.xul");
-
-        mNewSetTextBox = mNewSetDlg->getElementById("settextbox");
-        
+        mNewSetDlg = mXULRunner.loadXULFromFile("chrome://configpanel/content/newsetdialog.xul");
+        mNewSetTextBox = mNewSetDlg->getElementById("settextbox");                
         mNewSetOK = mNewSetDlg->getElementById("newSetOKButton");
+        mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
+
         ScopedEventListener localEvents;
         localEvents.connect(mNewSetOK, boost::bind(&ConfigSample::newSetOK, this));
-
-        mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
         localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeDialog, this, mNewSetDlg.get()));
 
         if (Dialog * dlg = mNewSetDlg->component()->downcast<Dialog>())

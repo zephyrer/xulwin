@@ -163,6 +163,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\include\XULWin\Grid.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Image.h"
 					>
 				</File>
@@ -182,6 +186,10 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\src\Grid.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\src\Image.cpp"
 					>
@@ -323,7 +331,7 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\include\XULWin\Grid.h"
+					RelativePath=".\include\XULWin\GenericGrid.h"
 					>
 				</File>
 				<File

@@ -2,6 +2,7 @@
 #include "XULWin/Component.h"
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Grid.h"
 #include "XULWin/Label.h"
 #include "XULWin/Image.h"
 #include "XULWin/Window.h"

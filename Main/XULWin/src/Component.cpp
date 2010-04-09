@@ -2329,7 +2329,6 @@ namespace XULWin
         {
             if (Row * row = rows->children()[rowIdx]->component()->downcast<Row>())
             {
-                int rowHeight = row->getHeight();
                 for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
                 {
                     if (Column * column = columns->children()[colIdx]->component()->downcast<Column>())

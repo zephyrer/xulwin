@@ -28,10 +28,6 @@ namespace XULWin
          */
         ElementPtr rootElement() const;
 
-        void setExtraContentHander(Poco::XML::ContentHandler * inContentHandler);
-
-        //void setExtraEntityResolver(Poco::XML::EntityResolver * inEntityResolver);
-
     protected:
         virtual Element * getCurrentParentElement() = 0;
 
@@ -97,7 +93,6 @@ namespace XULWin
 
         const Poco::XML::Locator * mLocator;
         std::string mLanguage;
-        Poco::XML::ContentHandler * mExtraContentHandler;
     };
 
 

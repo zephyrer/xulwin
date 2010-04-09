@@ -12,8 +12,7 @@ namespace XULWin
 
     AbstractXULParser::AbstractXULParser() :
         mIgnores(0),
-        mLanguage("en"),
-        mExtraContentHandler(0)
+        mLanguage("en")
     {
         setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, true);
         setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, true);
@@ -29,40 +28,21 @@ namespace XULWin
     }
 
 
-    void AbstractXULParser::setExtraContentHander(Poco::XML::ContentHandler * inContentHandler)
-    {
-        mExtraContentHandler = inContentHandler;
-    }
-
-
     void AbstractXULParser::setDocumentLocator(const Poco::XML::Locator * inLocator)
     {
         mLocator = inLocator;
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->setDocumentLocator(inLocator);
-        }
-        
     }
 
 
     void AbstractXULParser::startDocument()
     {
         assert(mIgnores == 0);
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->startDocument();
-        }
     }
 
 
     void AbstractXULParser::endDocument()
     {
         assert(mIgnores == 0);
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->endDocument();
-        }
     }
 
 
@@ -110,11 +90,6 @@ namespace XULWin
         {
             ReportError(inExc.displayText());
         }
-
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->startElement(uri, localName, qname, attributes);
-        }
     }
 
 
@@ -128,11 +103,6 @@ namespace XULWin
             return;
         }
         popStack();
-
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->endElement(uri, localName, qname);
-        }
     }
 
 
@@ -142,11 +112,6 @@ namespace XULWin
         {
             std::string innerText = std::string(ch + start, length);
             mStack.top()->setInnerText(mStack.top()->innerText() + innerText);
-        }
-
-        if (mExtraContentHandler)
-        {
-            mExtraContentHandler->characters(ch, start, length);
         }
     }
 

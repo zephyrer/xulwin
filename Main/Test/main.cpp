@@ -11,25 +11,27 @@
 using namespace XULWin;
 
 
-void runConfigSample(const std::string & inPathToXULRunnerSamples)
+void runConfigSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples)
 {
-    ConfigSample test(inPathToXULRunnerSamples);
+    ConfigSample test(inModuleHandle, inPathToXULRunnerSamples);
     test.run();
 }
 
 
-void runImageViewerSample(const std::string & inPathToXULRunnerSamples)
+void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples)
 {
-    ImageViewerSample sample(inPathToXULRunnerSamples);
+    ImageViewerSample sample(inModuleHandle, inPathToXULRunnerSamples);
     sample.run();
 } 
 
 
-void startTest(Tester & tester, const std::string & inPathToXULRunnerSamples)
+void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
 {
-    //runConfigSample(inPathToXULRunnerSamples);
-    runImageViewerSample(inPathToXULRunnerSamples);
+    //runConfigSample(hInstance, inPathToXULRunnerSamples);
+    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);    
+    
     tester.runXULSample("configpanel");
+
     //tester.runXULSample("hello");
     //tester.runXULSample("MainWindow");
     //tester.runXULSample("listbox-simple");
@@ -68,8 +70,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Ensure that the common control DLL is loaded. 
     Windows::CommonControlsInitializer ccInit;
 
-    Tester tester(commandLine, Tester::Features_EnableJavaScript);
+    Tester tester(hInstance, commandLine, Tester::Features_EnableJavaScript);
     
-    startTest(tester, commandLine);
+    startTest(hInstance, tester, commandLine);
     return 0;
 }

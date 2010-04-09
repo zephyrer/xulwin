@@ -15,7 +15,8 @@
 namespace XULWin
 {
 
-    Tester::Tester(const std::string & inPathToXULRunnerSamples, Features inFeatures) :
+    Tester::Tester(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples, Features inFeatures) :
+        mModuleHandle(inModuleHandle),
         mPathToXULRunnerSamples(inPathToXULRunnerSamples),
         mFeatures(inFeatures)
     {
@@ -38,13 +39,13 @@ namespace XULWin
 
         if (mFeatures & Features_EnableJavaScript)
         {
-            Js::JsXULRunner runner;
+            Js::JsXULRunner runner(mModuleHandle);
             runner.setExceptionLogger(boost::bind(&LogJavaScriptException, _1));
             runner.run("application.ini");
         }
         else
         {
-            XULRunner runner;
+            XULRunner runner(mModuleHandle);
             runner.run("application.ini");
         }
 

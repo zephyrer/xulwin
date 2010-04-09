@@ -2,7 +2,7 @@
 // Tutorial 2: Event Handling and Loading External DTDs.
 //
 // This tutorial illustrates how to handle events using the ScopedEventListener class.
-// The code that shows the usage of ScopedEventListener is in ConfigSample.cpp.
+// See ConfigSample.cpp.
 //
 // This sample also loads the UI strings from an external DTD document. It loads the
 // DTD found in the chrome/locale/en-US folder. en-US is the default locale. If you 

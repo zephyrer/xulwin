@@ -1,5 +1,6 @@
 #include "XULWin/Grid.h"
 #include "XULWin/Algorithms.h"
+#include "XULWin/ComponentFactory.h"
 #include "XULWin/ComponentManager.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/WinUtils.h"
@@ -9,15 +10,60 @@
 namespace XULWin
 {
 
+    
+    //static ComponentPtr CreateGridImpl(inParent, inDOMElement)
+    //{
+    //    CreateContainer<GridLogic, 
+    //    //TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP
+    //}
 
-    VirtualGrid::VirtualGrid(Component * inParent,
-                             Poco::XML::Element * inDOMElement) :
-        VirtualComponent(inParent, inDOMElement)
+
+    class GridLogic : public Decorator
+    {
+    public:
+        typedef Decorator Super;
+
+        GridLogic(Component * inDecoratedComponent);
+
+        GridLogic(ComponentPtr inDecoratedElement);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual void rebuildLayout();
+    };
+
+
+    Grid::Grid(Component * inDecoratedComponent) :
+        Decorator(new GridLogic(inDecoratedComponent))
     {
     }
 
 
-    int VirtualGrid::calculateWidth(SizeConstraint inSizeConstraint) const
+    ComponentPtr Grid::Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+    {
+        ComponentPtr comp = CreateContainer<VirtualComponent,
+                                            NativeComponent>(inParentComponent,
+                                                           inDOMElement);
+        GridLogic * gridLogic = new GridLogic(comp);
+        
+        ComponentPtr result(new Grid(gridLogic));
+        return result;
+    }
+
+    GridLogic::GridLogic(Component * inDecoratedComponent) :
+        Decorator(inDecoratedComponent)
+    {
+    }
+
+    GridLogic::GridLogic(ComponentPtr inDecoratedComponent) :
+        Decorator(inDecoratedComponent)
+    {
+    }
+
+
+    int GridLogic::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         if (const Columns * columns = findChildOfType<Columns>())
@@ -29,7 +75,7 @@ namespace XULWin
     }
 
 
-    int VirtualGrid::calculateHeight(SizeConstraint inSizeConstraint) const
+    int GridLogic::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
         if (const Rows * rows = findChildOfType<Rows>())
@@ -40,7 +86,7 @@ namespace XULWin
     }
 
 
-    void VirtualGrid::rebuildLayout()
+    void GridLogic::rebuildLayout()
     {
         //
         // Initialize helper variables
@@ -159,170 +205,6 @@ namespace XULWin
                         if (colIdx < row->getChildCount())
                         {
                             Component * child = columns->getChild(colIdx);
-                            const Rect & r = innerRects.get(rowIdx, colIdx);
-                            child->move(r.x(), r.y(), r.width(), r.height());
-                        }
-                    }
-                }
-            }
-        }
-
-        //
-        // Rebuild child layoutss
-        //
-        rebuildChildLayouts();
-    }
-
-
-    Grid::Grid(Component * inParent,
-               Poco::XML::Element * inDOMElement) :
-        NativeControl(inParent, inDOMElement, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP)
-    {
-    }
-
-
-    int Grid::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const Columns * columns = findChildOfType<Columns>())
-        {
-            result = columns->calculateWidth(inSizeConstraint);
-        }
-        return result;
-
-    }
-
-
-    int Grid::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        int result = 0;
-        if (const Rows * rows = findChildOfType<Rows>())
-        {
-            result = rows->calculateHeight(inSizeConstraint);
-        }
-        return result;
-    }
-
-
-    void Grid::rebuildLayout()
-    {
-        //
-        // Initialize helper variables
-        //
-        Columns * columns = findChildOfType<Columns>();
-        if (!columns || columns->getChildCount() == 0)
-        {
-            return;
-        }
-
-        Rows * rows = findChildOfType<Rows>();
-        if (!rows || rows->getChildCount() == 0)
-        {
-            return;
-        }
-
-
-        //
-        // Get column size infos (min width and flex)
-        //
-        std::vector<SizeInfo> colWidths;
-        for (size_t colIdx = 0; colIdx != columns->getChildCount(); ++colIdx)
-        {
-            if (Column * col = columns->getChild(colIdx)->downcast<Column>())
-            {
-                colWidths.push_back(
-                    SizeInfo(FlexWrap(col->getFlex()),
-                             MinSizeWrap(col->getWidth(Minimum)),
-                             OptSizeWrap(col->getWidth(Preferred))));
-            }
-        }
-
-        if (colWidths.empty())
-        {
-            ReportError("Grid has no columns!");
-            return;
-        }
-
-
-        //
-        // Get row size infos (min height and flex)
-        //
-        std::vector<SizeInfo> rowHeights;
-        for (size_t rowIdx = 0; rowIdx != rows->getChildCount(); ++rowIdx)
-        {
-            if (Row * row = rows->getChild(rowIdx)->downcast<Row>())
-            {
-                rowHeights.push_back(
-                    SizeInfo(FlexWrap(row->getFlex()),
-                             MinSizeWrap(row->getHeight(Minimum)),
-                             OptSizeWrap(row->getHeight(Preferred))));
-            }
-        }
-
-        if (rowHeights.empty())
-        {
-            ReportError("Grid has no rows!");
-            return;
-        }
-
-
-        //
-        // Get bounding rect for all cells
-        //
-        GenericGrid<Rect> outerRects(rows->getChildCount(), columns->getChildCount());
-        Rect clientRect(clientRect());
-        GridLayoutManager::GetOuterRects(clientRect, colWidths, rowHeights, outerRects);
-
-
-        //
-        // Get size info for each cell
-        //
-        GenericGrid<CellInfo> widgetInfos(rows->getChildCount(), columns->getChildCount(), CellInfo(0, 0, Start, Start));
-        for (size_t rowIdx = 0; rowIdx != rows->getChildCount(); ++rowIdx)
-        {
-            if (Row * row = rows->getChild(rowIdx)->downcast<Row>())
-            {
-                int rowHeight = row->getHeight();
-                for (size_t colIdx = 0; colIdx != columns->getChildCount(); ++colIdx)
-                {
-                    if (Column * column = columns->getChild(colIdx)->downcast<Column>())
-                    {
-                        if (colIdx < row->getChildCount())
-                        {
-                            Component * child = row->getChild(colIdx);
-                            widgetInfos.set(rowIdx, colIdx,
-                                            CellInfo(child->getWidth(),
-                                                     child->getHeight(),
-                                                     row->getAlign(),
-                                                     column->getAlign()));
-                        }
-                    }
-                }
-            }
-        }
-
-
-        //
-        // Get inner rect for each cell
-        //
-        GenericGrid<Rect> innerRects(rows->getChildCount(), columns->getChildCount());
-        GridLayoutManager::GetInnerRects(outerRects, widgetInfos, innerRects);
-
-
-        //
-        // Apply inner rect to each widget inside a cell
-        //
-        for (size_t rowIdx = 0; rowIdx != rows->getChildCount(); ++rowIdx)
-        {
-            for (size_t colIdx = 0; colIdx != columns->getChildCount(); ++colIdx)
-            {
-                if (rowIdx < rows->getChildCount())
-                {
-                    if (Row * row = rows->getChild(rowIdx)->downcast<Row>())
-                    {
-                        if (colIdx < row->getChildCount())
-                        {
-                            Component * child = row->getChild(colIdx);
                             const Rect & r = innerRects.get(rowIdx, colIdx);
                             child->move(r.x(), r.y(), r.width(), r.height());
                         }

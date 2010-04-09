@@ -654,7 +654,17 @@ namespace XULWin
 
         NativeComponent(Component * inParent, Poco::XML::Element * inDOMElement);
 
-        virtual ~NativeComponent();
+        virtual ~NativeComponent();        
+
+        virtual void rebuildLayout();
+
+        virtual Rect clientRect() const;
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const { return 0; }
+
+        virtual void move(int x, int y, int w, int h);
 
         virtual void invalidateRect() const;
 
@@ -701,6 +711,10 @@ namespace XULWin
 #ifndef SWIG
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 #endif
+
+        static NativeComponent * GetNativeParent(Component * inElement);
+
+        static const NativeComponent * GetNativeParent(const Component * inElement);
 
     protected:
         static NativeComponent * FindByHandle(HWND inHandle);
@@ -862,21 +876,6 @@ namespace XULWin
         virtual ~NativeControl();
 
         bool initStyleControllers();
-
-        virtual void rebuildLayout();
-
-        virtual Rect clientRect() const;
-
-        virtual void move(int x, int y, int w, int h);
-
-        // Gets a NativeComponent object from this object. This
-        // is only needed in constructors of s, because
-        // they need to know which is their native parent handle object.
-        // If this is a NativeComponent, return this.
-        // If this is a VirtualComponent, return first parent that is a NativeComponent.
-        // If this is a Decorator, resolve until a NativeComponent is found.
-        static NativeComponent * GetThisOrParent(Component * inElement);
-        static const NativeComponent * GetThisOrParent(const Component * inElement);
     };
 
 
@@ -899,9 +898,9 @@ namespace XULWin
 
         virtual bool initStyleControllers();
 
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const = 0;
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
 
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const = 0;
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const { return 0; }
 
         virtual void rebuildLayout();
 
@@ -1371,64 +1370,64 @@ namespace XULWin
     //};
 
 
-    //class Scrollbar : public NativeControl,
-    //    public virtual ScrollbarCurrentPositionController,
-    //    public virtual ScrollbarMaxPositionController,
-    //    public virtual ScrollbarIncrementController,
-    //    public virtual ScrollbarPageIncrementController
-    //{
-    //public:
-    //    typedef NativeControl Super;
+    class Scrollbar : public NativeControl,
+        public virtual ScrollbarCurrentPositionController,
+        public virtual ScrollbarMaxPositionController,
+        public virtual ScrollbarIncrementController,
+        public virtual ScrollbarPageIncrementController
+    {
+    public:
+        typedef NativeControl Super;
 
-    //    Scrollbar(Component * inParent, Poco::XML::Element * inDOMElement);
+        Scrollbar(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    //    virtual int getCurrentPosition() const;
+        virtual int getCurrentPosition() const;
 
-    //    virtual void setCurrentPosition(int inCurrentPosition);
+        virtual void setCurrentPosition(int inCurrentPosition);
 
-    //    virtual int getMaxPosition() const;
+        virtual int getMaxPosition() const;
 
-    //    virtual void setMaxPosition(int inMaxPosition);
+        virtual void setMaxPosition(int inMaxPosition);
 
-    //    virtual int getIncrement() const;
+        virtual int getIncrement() const;
 
-    //    virtual void setIncrement(int inIncrement);
+        virtual void setIncrement(int inIncrement);
 
-    //    virtual int getPageIncrement() const;
+        virtual int getPageIncrement() const;
 
-    //    virtual void setPageIncrement(int inPageIncrement);
+        virtual void setPageIncrement(int inPageIncrement);
 
-    //    class EventHandler
-    //    {
-    //    public:
-    //        virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
-    //    };
+        class EventHandler
+        {
+        public:
+            virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
+        };
 
-    //    EventHandler * eventHandler()
-    //    {
-    //        return mEventHandler;
-    //    }
+        EventHandler * eventHandler()
+        {
+            return mEventHandler;
+        }
 
-    //    void setEventHandler(EventHandler * inEventHandler)
-    //    {
-    //        mEventHandler = inEventHandler;
-    //    }
+        void setEventHandler(EventHandler * inEventHandler)
+        {
+            mEventHandler = inEventHandler;
+        }
 
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-    //    bool initAttributeControllers();
+        bool initAttributeControllers();
 
-    //    virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
-    //private:
-    //    static DWORD GetFlags(Poco::XML::Element * inDOMElement);
+    private:
+        static DWORD GetFlags(Poco::XML::Element * inDOMElement);
 
-    //    EventHandler * mEventHandler;
-    //    ScopedEventListener mEventListener;
-    //    int mIncrement;
-    //};
+        EventHandler * mEventHandler;
+        ScopedEventListener mEventListener;
+        int mIncrement;
+    };
 
 
     //class Tabs : public PassiveComponent

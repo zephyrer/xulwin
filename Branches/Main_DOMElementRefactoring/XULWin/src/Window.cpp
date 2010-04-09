@@ -38,18 +38,15 @@ namespace XULWin
         mActiveDialog(0),
         mHasMessageLoop(false)
     {
-        mHandle = ::CreateWindowEx
-                  (
-                      0,
-                      TEXT("XULWin::"),
-                      TEXT(""),
-                      WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
-                      CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
-                      0,
-                      (HMENU)0, // must be zero if not menu and not child
-                      mModuleHandle,
-                      0
-                  );
+        mHandle = ::CreateWindowEx(0,
+                                   TEXT("XULWin::"),
+                                   TEXT(""),
+                                   WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
+                                   CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
+                                   0,
+                                   (HMENU)0, // must be zero if not menu and not child
+                                   mModuleHandle,
+                                   0);
 
         std::string error = Windows::getLastError(::GetLastError());
 

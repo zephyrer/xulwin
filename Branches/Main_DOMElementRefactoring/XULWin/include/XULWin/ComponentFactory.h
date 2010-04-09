@@ -37,9 +37,9 @@ namespace XULWin
     };
 
     
-    static void GetStyles(Poco::XML::Element * inDOMElement, StylesMapping & styles);
+    void GetStyles(Poco::XML::Element * inDOMElement, StylesMapping & styles);
 
-    static CSSOverflow GetOverflow(const StylesMapping & inStyles, const std::string & inOverflow);
+    CSSOverflow GetOverflow(const StylesMapping & inStyles, const std::string & inOverflow);
 
 
     /**
@@ -72,6 +72,9 @@ namespace XULWin
     }
 
 
+    bool IsScrollable(Poco::XML::Element * inDOMElement, CSSOverflow & outOverflowX, CSSOverflow & outOverflowY);
+
+
     /**
      * createContainer
      *
@@ -88,20 +91,16 @@ namespace XULWin
     ComponentPtr CreateContainer(Component * inParent, Poco::XML::Element * inDOMElement)
     {
         ComponentPtr result;
-        StylesMapping styles;
-        GetStyles(inDOMElement, styles);
-        CSSOverflow overflowX = GetOverflow(styles, "overflow-x");
-        CSSOverflow overflowY = GetOverflow(styles, "overflow-y");
-        if (overflowX != CSSOverflow_Hidden || overflowY != CSSOverflow_Hidden)
+        CSSOverflow overflowX(CSSOverflow_Hidden), overflowY(CSSOverflow_Hidden);
+        if (IsScrollable(inDOMElement, overflowX, overflowY))
         {
-            result.reset(new ScrollDecorator(inParent,
-                                             CreateDecoratedComponent<DecoratorType, NativeType>(inParent, inDOMElement),
+            result.reset(new ScrollDecorator(new NativeType(inParent, inDOMElement),
                                              overflowX,
                                              overflowY));
         }
         else
         {
-            result = CreateDecoratedComponent<DecoratorType, VirtualType>(inParent, inDOMElement);
+            result.reset(new VirtualType(inParent, inDOMElement));
         }
         return result;
     }

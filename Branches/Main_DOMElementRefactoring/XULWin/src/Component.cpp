@@ -191,7 +191,7 @@ namespace XULWin
 
     HWND ConcreteComponent::getFirstParentHandle()
     {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(parentComponent()))
+        if (NativeComponent * comp = NativeControl::GetNativeParent(this))
         {
             return comp->handle();
         }
@@ -780,10 +780,64 @@ namespace XULWin
     }
 
 
+    void NativeComponent::rebuildLayout()
+    {
+        rebuildChildLayouts();
+    }
+
+
     void NativeComponent::invalidateRect() const
     {
         ::RedrawWindow(handle(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
         ::InvalidateRect(handle(), NULL, TRUE);
+    }
+
+
+    void NativeComponent::move(int x, int y, int w, int h)
+    {
+        if (NativeComponent * nativeParent = dynamic_cast<NativeComponent *>(parentComponent()))
+        {
+            // This situation occurs if the scroll decorator created a STATIC window for
+            // the scrollable rectangular area. This new context requires that we
+            // re-adjust the x and y coords.
+            Rect scrollRect = nativeParent->clientRect();
+            ::MoveWindow(handle(), x - scrollRect.x(), y - scrollRect.y(), w, h, FALSE);
+        }
+        else
+        {
+            // If the parent is a virtual element, then we can position this control normally.
+            ::MoveWindow(handle(), x, y, w, h, FALSE);
+        }
+    }
+
+
+    Rect NativeComponent::clientRect() const
+    {
+        //
+        // GetClientRect always returns x = 0 and y = 0.
+        // The code below returns a Rect where x and y 
+        // are relative to the upper left corner of their
+        // native parent window.
+        //
+        HWND hwndParent = ::GetParent(handle());
+        if (!hwndParent)
+        {
+            RECT rc;
+            ::GetClientRect(handle(), &rc);
+        }
+
+        RECT rc_parent;
+        ::GetClientRect(hwndParent, &rc_parent);
+        ::MapWindowPoints(hwndParent, HWND_DESKTOP, (LPPOINT)&rc_parent, 2);
+
+        RECT rc_self;
+        ::GetClientRect(handle(), &rc_self);
+        ::MapWindowPoints(handle(), HWND_DESKTOP, (LPPOINT)&rc_self, 2);
+
+
+        int x = rc_self.left - rc_parent.left;
+        int y = rc_self.top - rc_parent.top;
+        return Rect(x, y, rc_self.right - rc_self.left, rc_self.bottom - rc_self.top);
     }
 
 
@@ -1046,6 +1100,29 @@ namespace XULWin
             return it->second->handleMessage(inMessage, wParam, lParam);
         }
         return ::DefWindowProc(hWnd, inMessage, wParam, lParam);
+    }
+
+
+    const NativeComponent * NativeComponent::GetNativeParent(const Component * inElement)
+    {
+        Component * parent = inElement->parentComponent();
+        if (!parent)
+        {
+            return 0;
+        }
+
+        if (NativeComponent * comp = parent->downcast<NativeComponent>())
+        {
+            return comp;
+        }
+
+        return GetNativeParent(parent);
+    }
+
+
+    NativeComponent * NativeComponent::GetNativeParent(Component * inElement)
+    {
+        return const_cast<NativeComponent *>(GetNativeParent(const_cast<const Component *>(inElement)));
     }
 
 
@@ -1430,7 +1507,7 @@ namespace XULWin
 
         Rect clientRect = inParent->clientRect();
 
-        NativeComponent * nativeParent = GetThisOrParent(inParent);
+        NativeComponent * nativeParent = GetNativeParent(this);
         if (!nativeParent)
         {
             ReportError("NativeControl constructor failed because no native parent was found.");
@@ -1480,78 +1557,6 @@ namespace XULWin
     bool NativeControl::initStyleControllers()
     {
         return Super::initStyleControllers();
-    }
-
-
-    void NativeControl::rebuildLayout()
-    {
-        rebuildChildLayouts();
-    }
-
-
-    void NativeControl::move(int x, int y, int w, int h)
-    {
-        if (NativeComponent * nativeParent = dynamic_cast<NativeComponent *>(parentComponent()))
-        {
-            // This situation occurs if the scroll decorator created a STATIC window for
-            // the scrollable rectangular area. This new context requires that we
-            // re-adjust the x and y coords.
-            Rect scrollRect = nativeParent->clientRect();
-            ::MoveWindow(handle(), x - scrollRect.x(), y - scrollRect.y(), w, h, FALSE);
-        }
-        else
-        {
-            // If the parent is a virtual element, then we can position this control normally.
-            ::MoveWindow(handle(), x, y, w, h, FALSE);
-        }
-    }
-
-
-    Rect NativeControl::clientRect() const
-    {
-        HWND hwndParent = ::GetParent(handle());
-        if (!hwndParent)
-        {
-            RECT rc;
-            ::GetClientRect(handle(), &rc);
-        }
-
-        RECT rc_parent;
-        ::GetClientRect(hwndParent, &rc_parent);
-        ::MapWindowPoints(hwndParent, HWND_DESKTOP, (LPPOINT)&rc_parent, 2);
-
-        RECT rc_self;
-        ::GetClientRect(handle(), &rc_self);
-        ::MapWindowPoints(handle(), HWND_DESKTOP, (LPPOINT)&rc_self, 2);
-
-
-        int x = rc_self.left - rc_parent.left;
-        int y = rc_self.top - rc_parent.top;
-        return Rect(x, y, rc_self.right - rc_self.left, rc_self.bottom - rc_self.top);
-    }
-
-
-    const NativeComponent * NativeControl::GetThisOrParent(const Component * inElement)
-    {
-        if (const NativeComponent * obj = dynamic_cast<const NativeComponent *>(inElement))
-        {
-            return obj;
-        }
-        else if (const Decorator * obj = dynamic_cast<const Decorator *>(inElement))
-        {
-            return GetThisOrParent(obj->decoratedComponent().get());
-        }
-        else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent *>(inElement))
-        {
-            return GetThisOrParent(obj->parentComponent());
-        }
-        return 0;
-    }
-
-
-    NativeComponent * NativeControl::GetThisOrParent(Component * inElement)
-    {
-        return const_cast<NativeComponent *>(GetThisOrParent(const_cast<const Component *>(inElement)));
     }
 
 
@@ -2139,260 +2144,265 @@ namespace XULWin
     //}
 
 
-    //DWORD Scrollbar::GetFlags(Poco::XML::Element * inDOMElement)
-    //{
-    //    DWORD flags = 0;
-    //    const Poco::XML::XMLString & orientAttribute = inDOMElement->getAttribute("orient");
-    //    if (orientAttribute == "horizontal")
-    //    {
-    //        flags |= SBS_HORZ | SBS_RIGHTALIGN;
-    //    }
-    //    else if (orientAttribute == "vertical")
-    //    {
-    //        flags |= SBS_VERT | SBS_BOTTOMALIGN;
-    //    }
-    //    else
-    //    {
-    //        ReportError("Invalid orient found for scrollbar!");
-    //    }
-    //    return flags;
-    //}
+    DWORD Scrollbar::GetFlags(Poco::XML::Element * inDOMElement)
+    {
+        const Poco::XML::XMLString & orientAttribute = inDOMElement->getAttribute("orient");
+        if (orientAttribute.empty())
+        {
+            return 0;
+        }
+        
+        DWORD flags = 0;
+        if (orientAttribute == "horizontal")
+        {
+            flags |= SBS_HORZ | SBS_RIGHTALIGN;
+        }
+        else if (orientAttribute == "vertical")
+        {
+            flags |= SBS_VERT | SBS_BOTTOMALIGN;
+        }
+        else
+        {
+            ReportError("Invalid orient found for scrollbar!");
+        }
+        return flags;
+    }
 
 
-    //Scrollbar::Scrollbar(Component * inParent, Poco::XML::Element * inDOMElement) :
-    //    NativeControl(inParent, inDOMElement,
-    //                  TEXT("SCROLLBAR"),
-    //                  0, // exStyle
-    //                  WS_TABSTOP | GetFlags(inDOMElement)),
-    //    mIncrement(0)
-    //{
-    //    mExpansive = true;
-    //    Windows::setScrollInfo(handle(), 100, 10, 0);
-    //}
+    Scrollbar::Scrollbar(Component * inParent, Poco::XML::Element * inDOMElement) :
+        NativeControl(inParent, inDOMElement,
+                      TEXT("SCROLLBAR"),
+                      0, // exStyle
+                      WS_TABSTOP | GetFlags(inDOMElement)),
+        mIncrement(0)
+    {
+        mExpansive = true;
+        Windows::setScrollInfo(handle(), 100, 10, 0);
+    }
 
 
-    //int Scrollbar::calculateWidth(SizeConstraint inSizeConstraint) const
-    //{
-    //    return Defaults::scrollbarWidth();
-    //}
+    int Scrollbar::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return Defaults::scrollbarWidth();
+    }
 
 
-    //int Scrollbar::calculateHeight(SizeConstraint inSizeConstraint) const
-    //{
-    //    return Defaults::scrollbarWidth();
-    //}
+    int Scrollbar::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return Defaults::scrollbarWidth();
+    }
 
 
-    //LRESULT Scrollbar::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
-    //{
-    //    if (WM_VSCROLL == inMessage || WM_HSCROLL == inMessage)
-    //    {
-    //        int currentScrollPos = Windows::getScrollPos(handle());
-    //        int totalHeight = 0;
-    //        int pageHeight = 0;
-    //        int currentPosition = 0;
-    //        Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
-    //        switch (LOWORD(wParam))
-    //        {
-    //            case SB_LINEUP: // user clicked the top arrow
-    //            {
-    //                currentPosition -= 1;
-    //                break;
-    //            }
-    //            case SB_LINEDOWN: // user clicked the bottom arrow
-    //            {
-    //                currentPosition += 1;
-    //                break;
-    //            }
-    //            case SB_PAGEUP: // user clicked the scroll bar shaft above the scroll box
-    //            {
-    //                currentPosition -= pageHeight;
-    //                break;
-    //            }
-    //            case SB_PAGEDOWN: // user clicked the scroll bar shaft below the scroll box
-    //            {
-    //                currentPosition += pageHeight;
-    //                break;
-    //            }
-    //            case SB_THUMBTRACK: // user dragged the scroll box
-    //            {
-    //                currentPosition = HIWORD(wParam);
-    //                break;
-    //            }
-    //            default:
-    //            {
-    //                break;
-    //            }
-    //        }
-    //        if (currentPosition < 0)
-    //        {
-    //            currentPosition = 0;
-    //        }
-    //        if (currentPosition > totalHeight)
-    //        {
-    //            currentPosition = totalHeight;
-    //        }
+    LRESULT Scrollbar::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        if (WM_VSCROLL == inMessage || WM_HSCROLL == inMessage)
+        {
+            int currentScrollPos = Windows::getScrollPos(handle());
+            int totalHeight = 0;
+            int pageHeight = 0;
+            int currentPosition = 0;
+            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            switch (LOWORD(wParam))
+            {
+                case SB_LINEUP: // user clicked the top arrow
+                {
+                    currentPosition -= 1;
+                    break;
+                }
+                case SB_LINEDOWN: // user clicked the bottom arrow
+                {
+                    currentPosition += 1;
+                    break;
+                }
+                case SB_PAGEUP: // user clicked the scroll bar shaft above the scroll box
+                {
+                    currentPosition -= pageHeight;
+                    break;
+                }
+                case SB_PAGEDOWN: // user clicked the scroll bar shaft below the scroll box
+                {
+                    currentPosition += pageHeight;
+                    break;
+                }
+                case SB_THUMBTRACK: // user dragged the scroll box
+                {
+                    currentPosition = HIWORD(wParam);
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+            if (currentPosition < 0)
+            {
+                currentPosition = 0;
+            }
+            if (currentPosition > totalHeight)
+            {
+                currentPosition = totalHeight;
+            }
 
-    //        setAttribute("curpos", Int2String(currentPosition));
-    //        return 0;
-    //    }
-    //    else if (WM_MOUSEWHEEL == inMessage)
-    //    {
-    //        short numDelta = HIWORD(wParam);
-    //        short numPages = numDelta / WHEEL_DELTA;
-    //        int totalHeight = 0;
-    //        int pageHeight = 0;
-    //        int currentPosition = 0;
-    //        Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
-    //        currentPosition = currentPosition - numPages*pageHeight;
-    //        if (currentPosition < 0)
-    //        {
-    //            currentPosition = 0;
-    //        }
-    //        if (currentPosition > totalHeight)
-    //        {
-    //            currentPosition = totalHeight;
-    //        }
-    //        setAttribute("curpos", Int2String(currentPosition));
-    //        return 0;
-    //    }
-    //    return NativeControl::handleMessage(inMessage, wParam, lParam);
-    //}
-
-
-    //int Scrollbar::getCurrentPosition() const
-    //{
-    //    return Windows::getScrollPos(handle());
-    //}
+            setAttribute("curpos", Int2String(currentPosition));
+            return 0;
+        }
+        else if (WM_MOUSEWHEEL == inMessage)
+        {
+            short numDelta = HIWORD(wParam);
+            short numPages = numDelta / WHEEL_DELTA;
+            int totalHeight = 0;
+            int pageHeight = 0;
+            int currentPosition = 0;
+            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            currentPosition = currentPosition - numPages*pageHeight;
+            if (currentPosition < 0)
+            {
+                currentPosition = 0;
+            }
+            if (currentPosition > totalHeight)
+            {
+                currentPosition = totalHeight;
+            }
+            setAttribute("curpos", Int2String(currentPosition));
+            return 0;
+        }
+        return NativeControl::handleMessage(inMessage, wParam, lParam);
+    }
 
 
-    //void Scrollbar::setCurrentPosition(int inCurrentPosition)
-    //{
-    //    int totalHeight = 0;
-    //    int pageHeight = 0;
-    //    int oldCurPos = 0;
-    //    Windows::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
-
-    //    // The order in which curpos, maxpos and pageincrement
-    //    // will be set (alphabetically by attribute name) can cause
-    //    // impossible scrollbar states (i.e. currentpos or pageincrement
-    //    // greater than maxpos). And we want to avoid that.
-    //    // Our workaround is to detect such states here, and change invalid
-    //    // values to valid ones.
-    //    if (pageHeight == 0)
-    //    {
-    //        pageHeight = 1;
-    //    }
-    //    if (totalHeight < pageHeight)
-    //    {
-    //        totalHeight = pageHeight + 1;
-    //    }
-    //    if (totalHeight < inCurrentPosition)
-    //    {
-    //        totalHeight = inCurrentPosition + 1;
-    //    }
-    //    Windows::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
-    //    if ((oldCurPos != inCurrentPosition) && eventHandler())
-    //    {
-    //        eventHandler()->curposChanged(this, oldCurPos, inCurrentPosition);
-    //    }
-    //}
+    int Scrollbar::getCurrentPosition() const
+    {
+        return Windows::getScrollPos(handle());
+    }
 
 
-    //int Scrollbar::getMaxPosition() const
-    //{
-    //    int totalHeight = 0;
-    //    int pageHeight = 0;
-    //    int curPos = 0;
-    //    Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
-    //    return totalHeight;
-    //}
+    void Scrollbar::setCurrentPosition(int inCurrentPosition)
+    {
+        int totalHeight = 0;
+        int pageHeight = 0;
+        int oldCurPos = 0;
+        Windows::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
+
+        // The order in which curpos, maxpos and pageincrement
+        // will be set (alphabetically by attribute name) can cause
+        // impossible scrollbar states (i.e. currentpos or pageincrement
+        // greater than maxpos). And we want to avoid that.
+        // Our workaround is to detect such states here, and change invalid
+        // values to valid ones.
+        if (pageHeight == 0)
+        {
+            pageHeight = 1;
+        }
+        if (totalHeight < pageHeight)
+        {
+            totalHeight = pageHeight + 1;
+        }
+        if (totalHeight < inCurrentPosition)
+        {
+            totalHeight = inCurrentPosition + 1;
+        }
+        Windows::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
+        if ((oldCurPos != inCurrentPosition) && eventHandler())
+        {
+            eventHandler()->curposChanged(this, oldCurPos, inCurrentPosition);
+        }
+    }
 
 
-    //void Scrollbar::setMaxPosition(int inMaxPosition)
-    //{
-    //    int dummy = 0;
-    //    int pageHeight = 0;
-    //    int curPos = 0;
-    //    Windows::getScrollInfo(handle(), dummy, pageHeight, curPos);
-
-    //    // The order in which setCurPos, setMaxPos and setPageIncrement
-    //    // will be set (alphabetically by attribute name) can cause
-    //    // impossible scrollbar states (i.e. currentpos or pageincrement
-    //    // greater than maxpos). And we want to avoid that.
-    //    // Our workaround is to detect such states here, and change invalid
-    //    // values to valid ones.
-    //    if (pageHeight == 0)
-    //    {
-    //        pageHeight = 1;
-    //    }
-    //    if (inMaxPosition <= pageHeight)
-    //    {
-    //        pageHeight = inMaxPosition - 1;
-    //    }
-    //    Windows::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
-    //}
+    int Scrollbar::getMaxPosition() const
+    {
+        int totalHeight = 0;
+        int pageHeight = 0;
+        int curPos = 0;
+        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        return totalHeight;
+    }
 
 
-    //void Scrollbar::setIncrement(int inIncrement)
-    //{
-    //    mIncrement = inIncrement;
-    //}
+    void Scrollbar::setMaxPosition(int inMaxPosition)
+    {
+        int dummy = 0;
+        int pageHeight = 0;
+        int curPos = 0;
+        Windows::getScrollInfo(handle(), dummy, pageHeight, curPos);
+
+        // The order in which setCurPos, setMaxPos and setPageIncrement
+        // will be set (alphabetically by attribute name) can cause
+        // impossible scrollbar states (i.e. currentpos or pageincrement
+        // greater than maxpos). And we want to avoid that.
+        // Our workaround is to detect such states here, and change invalid
+        // values to valid ones.
+        if (pageHeight == 0)
+        {
+            pageHeight = 1;
+        }
+        if (inMaxPosition <= pageHeight)
+        {
+            pageHeight = inMaxPosition - 1;
+        }
+        Windows::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
+    }
 
 
-    //int Scrollbar::getIncrement() const
-    //{
-    //    return mIncrement;
-    //}
+    void Scrollbar::setIncrement(int inIncrement)
+    {
+        mIncrement = inIncrement;
+    }
 
 
-    //void Scrollbar::setPageIncrement(int inPageIncrement)
-    //{
-    //    int totalHeight = 0;
-    //    int dummy = 0;
-    //    int curPos = 0;
-    //    Windows::getScrollInfo(handle(), totalHeight, dummy, curPos);
-
-    //    // The order in which setCurPos, setMaxPos and setPageIncrement
-    //    // will be set (alphabetically by attribute name) can cause
-    //    // impossible scrollbar states (i.e. currentpos or pageincrement
-    //    // greater than maxpos). And we want to avoid that.
-    //    // Our workaround is to detect such states here, and change invalid
-    //    // values to valid ones.
-    //    if (totalHeight == 0)
-    //    {
-    //        totalHeight = 1;
-    //    }
-    //    if (curPos > totalHeight)
-    //    {
-    //        totalHeight = curPos + 1;
-    //    }
-    //    if (inPageIncrement >= totalHeight)
-    //    {
-    //        totalHeight = inPageIncrement + 1;
-    //    }
-    //    Windows::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
-    //}
+    int Scrollbar::getIncrement() const
+    {
+        return mIncrement;
+    }
 
 
-    //int Scrollbar::getPageIncrement() const
-    //{
-    //    int totalHeight = 0;
-    //    int pageHeight = 0;
-    //    int curPos = 0;
-    //    Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
-    //    return pageHeight;
-    //}
+    void Scrollbar::setPageIncrement(int inPageIncrement)
+    {
+        int totalHeight = 0;
+        int dummy = 0;
+        int curPos = 0;
+        Windows::getScrollInfo(handle(), totalHeight, dummy, curPos);
+
+        // The order in which setCurPos, setMaxPos and setPageIncrement
+        // will be set (alphabetically by attribute name) can cause
+        // impossible scrollbar states (i.e. currentpos or pageincrement
+        // greater than maxpos). And we want to avoid that.
+        // Our workaround is to detect such states here, and change invalid
+        // values to valid ones.
+        if (totalHeight == 0)
+        {
+            totalHeight = 1;
+        }
+        if (curPos > totalHeight)
+        {
+            totalHeight = curPos + 1;
+        }
+        if (inPageIncrement >= totalHeight)
+        {
+            totalHeight = inPageIncrement + 1;
+        }
+        Windows::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
+    }
 
 
-    //bool Scrollbar::initAttributeControllers()
-    //{
-    //    setAttributeController<ScrollbarCurrentPositionController>(this);
-    //    setAttributeController<ScrollbarMaxPositionController>(this);
-    //    setAttributeController<ScrollbarIncrementController>(this);
-    //    setAttributeController<ScrollbarPageIncrementController>(this);
-    //    return Super::initAttributeControllers();
-    //}
+    int Scrollbar::getPageIncrement() const
+    {
+        int totalHeight = 0;
+        int pageHeight = 0;
+        int curPos = 0;
+        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        return pageHeight;
+    }
+
+
+    bool Scrollbar::initAttributeControllers()
+    {
+        setAttributeController<ScrollbarCurrentPositionController>(this);
+        setAttributeController<ScrollbarMaxPositionController>(this);
+        setAttributeController<ScrollbarIncrementController>(this);
+        setAttributeController<ScrollbarPageIncrementController>(this);
+        return Super::initAttributeControllers();
+    }
 
 
     //Tabs::Tabs(Component * inParent, Poco::XML::Element * inDOMElement) :
@@ -2417,7 +2427,7 @@ namespace XULWin
     //    mSelectedIndex(0),
     //    mChildCount(0)
     //{
-    //    NativeComponent * nativeParent = NativeControl::GetThisOrParent(inParent);
+    //    NativeComponent * nativeParent = NativeControl::GetNativeParent(inParent);
     //    if (!nativeParent)
     //    {
     //        ReportError("TabPanels constructor failed because no native parent was found.");
@@ -2620,7 +2630,7 @@ namespace XULWin
     //    // There should be some more decent way to fix this. But for now
     //    // I just remove the flag from the parent. This may result in more
     //    // flickering during manual resize of the .
-    //    Windows::removeWindowStyle(NativeControl::GetThisOrParent(inParent)->handle(), WS_CLIPCHILDREN);
+    //    Windows::removeWindowStyle(NativeControl::GetNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
 
 
     //    mGroupBoxHandle = CreateWindowEx(0,
@@ -2628,7 +2638,7 @@ namespace XULWin
     //                                     0,
     //                                     WS_VISIBLE | WS_CHILD | BS_GROUPBOX,
     //                                     0, 0, 0, 0,
-    //                                     NativeControl::GetThisOrParent(inParent)->handle(),
+    //                                     NativeControl::GetNativeParent(inParent)->handle(),
     //                                     (HMENU)mCommandId.intValue(),
     //                                     NativeComponent::GetModuleHandle(),
     //                                     0);
@@ -2749,7 +2759,7 @@ namespace XULWin
 
     //int Caption::calculateWidth(SizeConstraint inSizeConstraint) const
     //{
-    //    if (NativeComponent * comp = NativeControl::GetThisOrParent(mParentComponent))
+    //    if (NativeComponent * comp = NativeControl::GetNativeParent(mParentComponent))
     //    {
     //        return Windows::getTextSize(comp->handle(), ->getAttribute("label")).cx;
     //    }
@@ -2759,7 +2769,7 @@ namespace XULWin
 
     //int Caption::calculateHeight(SizeConstraint inSizeConstraint) const
     //{
-    //    if (NativeComponent * comp = NativeControl::GetThisOrParent(mParentComponent))
+    //    if (NativeComponent * comp = NativeControl::GetNativeParent(mParentComponent))
     //    {
     //        return Windows::getTextSize(comp->handle(), ->getAttribute("label")).cy;
     //    }
@@ -2944,7 +2954,7 @@ namespace XULWin
 
     //bool TreeItem::isOpened() const
     //{
-    //    //if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeItem*>(this)))
+    //    //if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<TreeItem*>(this)))
     //    //{
     //    //    TreeView_GetItemState(comp->handle(), hti, mask);
     //    //}
@@ -3044,7 +3054,7 @@ namespace XULWin
     //int TreeCell::calculateWidth(SizeConstraint inSizeConstraint) const
     //{
     //    int result = 0;
-    //    if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeCell *>(this)))
+    //    if (NativeComponent * comp = NativeControl::GetNativeParent(const_cast<TreeCell *>(this)))
     //    {
     //        result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
     //    }
@@ -3144,7 +3154,7 @@ namespace XULWin
     //Toolbar::Toolbar(Component * inParent, Poco::XML::Element * inDOMElement) :
     //    NativeControl(inParent, inDOMElement)
     //{
-    //    if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
+    //    if (NativeComponent * native = NativeControl::GetNativeParent(inParent))
     //    {
     //        mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.intValue()));
     //        setHandle(mToolbar->handle(), false);

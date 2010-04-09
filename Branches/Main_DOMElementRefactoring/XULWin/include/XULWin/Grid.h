@@ -3,48 +3,23 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Decorator.h"
 
 
 namespace XULWin
 {
 
-    class VirtualGrid : public VirtualComponent
+
+    class Grid : public Decorator
     {
     public:
-        typedef VirtualComponent Super;
-
-        static const char * TagName()
-        {
-            return "grid";
-        }
-
-        VirtualGrid(Component * inParent, Poco::XML::Element * inDOMElement);
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        virtual void rebuildLayout();
-    };
-
-
-    class Grid : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
+        typedef Decorator Super;
 
         static const char * TagName() { return "grid"; }
 
-        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
-        { return Component::Create<Grid>(inParentComponent, inDOMElement); }
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement);
 
-        Grid(Component * inParent, Poco::XML::Element * inDOMElement);
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        virtual void rebuildLayout();
+        Grid(Component * inDecoratedComponent);
     };
 
 

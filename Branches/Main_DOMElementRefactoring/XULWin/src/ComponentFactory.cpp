@@ -5,6 +5,16 @@
 namespace XULWin
 {
 
+    bool IsScrollable(Poco::XML::Element * inDOMElement, CSSOverflow & outOverflowX, CSSOverflow & outOverflowY)
+    {
+        StylesMapping styles;
+        GetStyles(inDOMElement, styles);
+        outOverflowX = GetOverflow(styles, "overflow-x");
+        outOverflowY = GetOverflow(styles, "overflow-y");
+        return (outOverflowX != CSSOverflow_Hidden) || (outOverflowY != CSSOverflow_Hidden);
+    }
+
+
     ComponentFactory & ComponentFactory::Instance()
     {
         static ComponentFactory fComponentFactory;
@@ -66,8 +76,7 @@ namespace XULWin
     }
 
 
-    CSSOverflow GetOverflow(const StylesMapping & inStyles,
-                            const std::string & inOverflow)
+    CSSOverflow GetOverflow(const StylesMapping & inStyles, const std::string & inOverflow)
     {
         StylesMapping::const_iterator it = inStyles.find(inOverflow);
         if (it == inStyles.end())

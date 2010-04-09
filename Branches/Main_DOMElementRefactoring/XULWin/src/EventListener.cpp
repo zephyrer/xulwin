@@ -69,7 +69,7 @@ namespace XULWin
     //        return false;
     //    }
 
-    //    XULWin::NativeComponent * nativeParent = NativeControl::GetThisOrParent(inComponent);
+    //    XULWin::NativeComponent * nativeParent = NativeControl::GetNativeParent(inComponent);
     //    if (!nativeParent)
     //    {
     //        ReportError("Received an event from a MenuItem element that has no native parent.");

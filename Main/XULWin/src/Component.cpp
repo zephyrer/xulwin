@@ -450,7 +450,6 @@ namespace XULWin
 
     void ConcreteComponent::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {
-        int margin = 0;
         if (const MarginDecorator * marginDecorator = downcast<MarginDecorator>())
         {
             marginDecorator->getMargin(outTop, outLeft, outRight, outBottom);
@@ -2141,7 +2140,6 @@ namespace XULWin
         {
             if (Row * row = rows->children()[rowIdx]->component()->downcast<Row>())
             {
-                int rowHeight = row->getHeight();
                 for (size_t colIdx = 0; colIdx != numCols; ++colIdx)
                 {
                     if (Column * column = columns->children()[colIdx]->component()->downcast<Column>())
@@ -2791,7 +2789,6 @@ namespace XULWin
     {
         if (WM_VSCROLL == inMessage || WM_HSCROLL == inMessage)
         {
-            int currentScrollPos = Windows::getScrollPos(handle());
             int totalHeight = 0;
             int pageHeight = 0;
             int currentPosition = 0;

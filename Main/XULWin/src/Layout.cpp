@@ -39,9 +39,7 @@ namespace XULWin
     {
         assert(outSizes.empty());
 
-        int sumOfProportions = 0;
         int availableLength = inLength;
-        int spacerCount = 0;
         std::vector<int> flexValues;
         for (size_t idx = 0; idx != inFlexValues.size(); ++idx)
         {

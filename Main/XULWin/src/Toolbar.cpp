@@ -163,7 +163,6 @@ namespace XULWin
             // index value of -1 means that none was found
             int toolbarSpringID = -1;
 
-            int numCustomWindows = 0;
             ToolbarItems::const_iterator it = inToolbarItems.begin(), end = inToolbarItems.end();
             for (; it != end; ++it)
             {
@@ -185,7 +184,6 @@ namespace XULWin
                     theToolbarButton.fsStyle = BTNS_SEP;
                     theToolbarButton.iBitmap = rc.right-rc.left + 2*cMarginForCustomWindow; // if fsStyle is set to BTNS_SEP, iBitmap determines the width of the separator, in pixels.
                     theToolbarButton.iString = -1;
-                    numCustomWindows++;
                     SendMessage(inToolbarHandle, TB_ADDBUTTONS, (WPARAM)1, (LPARAM)(LPTBBUTTON) &theToolbarButton);
                 }
                 else

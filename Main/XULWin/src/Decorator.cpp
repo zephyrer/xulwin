@@ -1055,7 +1055,6 @@ namespace XULWin
 
         if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
         {
-            int maxpos = Defaults::Attributes::maxpos();
             Rect clientRect(mDecoratedElement->clientRect());
 
             int newHorScrollPos = 0;

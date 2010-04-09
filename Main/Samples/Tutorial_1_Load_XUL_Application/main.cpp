@@ -18,6 +18,8 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/Unicode.h"
+#include "XULWin/Window.h"
+#include "XULWin/WindowElement.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
 #include <sstream>
@@ -47,7 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     std::string commandLine(unquote(lpCmdLine));
     if (commandLine.empty())
     {
-        ::MessageBox(0, TEXT("Expected argument: path to the XUL application directory."), 0, MB_OK);
+        ::MessageBox(0, TEXT("Please set the command arguments correctly:\nTutorial Project settings -> Debugging -> Command Arguments: $(ProjectDir)TutApp"), 0, MB_OK);
         return 1;
     }
 

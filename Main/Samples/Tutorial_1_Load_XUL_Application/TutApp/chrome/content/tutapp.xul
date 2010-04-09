@@ -2,9 +2,15 @@
 
 <!-- Ignored by XULWin, included for compatiblity with Mozilla XUL -->
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<window id="mainWindow"
-		title="TutApp Sample"
-        xmlns:html="http://www.w3.org/1999/xhtml"
-        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <button label="TutApp" />
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        id="mainWindow"
+		    title="TutApp Sample"
+        orient="vertical"
+        align="center"
+        width="200"
+        height="150">
+  <spacer flex="1" />
+  <label value="Yo!" />
+  <spacer flex="1" />
 </window>

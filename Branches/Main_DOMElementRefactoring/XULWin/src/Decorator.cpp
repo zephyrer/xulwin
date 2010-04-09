@@ -43,6 +43,29 @@ namespace XULWin
         }
         return false;
     }
+    
+    
+    const std::string & Decorator::tagName() const
+    {
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
+        {
+            return mDecoratedComponent->tagName();
+        }
+
+        static std::string cDummy;
+        return cDummy;
+    }
+    
+    
+    void Decorator::setTagName(const std::string & inTagName)
+    {
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
+        {
+            mDecoratedComponent->setTagName(inTagName);
+        }
+    }
 
     //int Decorator::getIndex() const
     //{

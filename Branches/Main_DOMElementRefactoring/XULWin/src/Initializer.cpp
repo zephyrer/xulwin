@@ -27,11 +27,11 @@ namespace XULWin
         ComponentFactory::Instance().registerComponent<TextBox>();
         //ComponentFactory::Instance().registerComponent<Box>();
         //ComponentFactory::Instance().registerComponent<Separator>();
-        //ComponentFactory::Instance().registerComponent<Grid>();
-        //ComponentFactory::Instance().registerComponent<Rows>();
-        //ComponentFactory::Instance().registerComponent<Row>();
-        //ComponentFactory::Instance().registerComponent<Columns>();
-        //ComponentFactory::Instance().registerComponent<Column>();
+        ComponentFactory::Instance().registerComponent<Grid>();
+        ComponentFactory::Instance().registerComponent<Rows>();
+        ComponentFactory::Instance().registerComponent<Row>();
+        ComponentFactory::Instance().registerComponent<Columns>();
+        ComponentFactory::Instance().registerComponent<Column>();
         //ComponentFactory::Instance().registerComponent<Description>();
         //ComponentFactory::Instance().registerComponent<Spacer>();
         //ComponentFactory::Instance().registerComponent<RadioGroup>();

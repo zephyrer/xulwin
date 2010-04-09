@@ -114,6 +114,7 @@ namespace XULWin
         static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inElement)
         {
             ComponentPtr result(new ComponentT(inParentComponent, inElement));
+            result->setTagName(ComponentT::TagName());
             result->initAttributeControllers();
             result->initStyleControllers();
             result->init();
@@ -121,6 +122,8 @@ namespace XULWin
         }
 
         virtual ~Component() {}
+
+        virtual const std::string & tagName() const = 0;
         
         virtual void addChild(ComponentPtr inComponent) = 0;
 
@@ -348,11 +351,14 @@ namespace XULWin
 
         virtual bool initAttributeControllers() = 0;
 
-        virtual bool initStyleControllers() = 0;        
+        virtual bool initStyleControllers() = 0;
+        
+    protected:
+        friend class Decorator; 
 
-    private:
         virtual bool init() = 0;
-        friend class Decorator;
+
+        virtual void setTagName(const std::string & inTagName) = 0;
     };
 
 
@@ -366,7 +372,9 @@ namespace XULWin
 
         virtual ~ConcreteComponent() = 0;
 
-        //virtual int getIndex() const;
+        virtual int getIndex() const;
+
+        virtual const std::string & tagName() const;
 
         virtual void addChild(ComponentPtr inComponent);
 
@@ -608,6 +616,8 @@ namespace XULWin
         // 'minified' window state.
         bool mHidden;
 
+        std::string mTagName;
+
         typedef std::map<std::string, AttributeController *> AttributeControllers;
         AttributeControllers mAttributeControllers;
 
@@ -615,6 +625,8 @@ namespace XULWin
         StyleControllers mStyleControllers;
     
     private:
+        virtual void setTagName(const std::string & inTagName);
+
         virtual bool init();
 
         typedef std::vector<ComponentPtr> Children;
@@ -1056,80 +1068,80 @@ namespace XULWin
     };
 
 
-    //class VirtualBox : public VirtualComponent,
-    //    public BoxLayouter::ContentProvider
-    //{
-    //public:
-    //    typedef VirtualComponent Super;
+    class VirtualBox : public VirtualComponent,
+        public BoxLayouter::ContentProvider
+    {
+    public:
+        typedef VirtualComponent Super;
 
-    //    VirtualBox(Component * inParent, Poco::XML::Element * inDOMElement);
+        VirtualBox(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    //    virtual Orient getOrient() const;
+        virtual Orient getOrient() const;
 
-    //    virtual Align getAlign() const;
+        virtual Align getAlign() const;
 
-    //    virtual bool initAttributeControllers();
+        virtual bool initAttributeControllers();
 
-    //    virtual void rebuildLayout();
+        virtual void rebuildLayout();
 
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const
-    //    {
-    //        return mBoxLayouter.calculateWidth(inSizeConstraint);
-    //    }
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const
+        {
+            return mBoxLayouter.calculateWidth(inSizeConstraint);
+        }
 
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const
-    //    {
-    //        return mBoxLayouter.calculateHeight(inSizeConstraint);
-    //    }
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const
+        {
+            return mBoxLayouter.calculateHeight(inSizeConstraint);
+        }
 
-    //    virtual Rect clientRect() const
-    //    {
-    //        return Super::clientRect();
-    //    }
+        virtual Rect clientRect() const
+        {
+            return Super::clientRect();
+        }
 
-    //    virtual void rebuildChildLayouts()
-    //    {
-    //        return Super::rebuildChildLayouts();
-    //    }
+        virtual void rebuildChildLayouts()
+        {
+            return Super::rebuildChildLayouts();
+        }
 
-    //    virtual Orient BoxLayouter_getOrient() const
-    //    {
-    //        return getOrient();
-    //    }
+        virtual Orient BoxLayouter_getOrient() const
+        {
+            return getOrient();
+        }
 
-    //    virtual Align BoxLayouter_getAlign() const
-    //    {
-    //        return getAlign();
-    //    }
+        virtual Align BoxLayouter_getAlign() const
+        {
+            return getAlign();
+        }
 
-    //    virtual size_t BoxLayouter_getChildCount() const
-    //    {
-    //        return getChildCount();
-    //    }
+        virtual size_t BoxLayouter_getChildCount() const
+        {
+            return getChildCount();
+        }
 
-    //    virtual const Component * BoxLayouter_getChild(size_t idx) const
-    //    {
-    //        return getChild(idx);
-    //    }
+        virtual const Component * BoxLayouter_getChild(size_t idx) const
+        {
+            return getChild(idx);
+        }
 
-    //    virtual Component * BoxLayouter_getChild(size_t idx)
-    //    {
-    //        return getChild(idx);
-    //    }
+        virtual Component * BoxLayouter_getChild(size_t idx)
+        {
+            return getChild(idx);
+        }
 
-    //    virtual Rect BoxLayouter_clientRect() const
-    //    {
-    //        return clientRect();
-    //    }
+        virtual Rect BoxLayouter_clientRect() const
+        {
+            return clientRect();
+        }
 
-    //    virtual void BoxLayouter_rebuildChildLayouts()
-    //    {
-    //        rebuildChildLayouts();
-    //    }
+        virtual void BoxLayouter_rebuildChildLayouts()
+        {
+            rebuildChildLayouts();
+        }
 
-    //protected:
-    //    BoxLayouter mBoxLayouter;
-    //};
+    protected:
+        BoxLayouter mBoxLayouter;
+    };
 
 
     //class Box : public NativeControl,
@@ -1289,118 +1301,118 @@ namespace XULWin
     //};
 
 
-    //class VirtualGrid : public VirtualComponent
-    //{
-    //public:
-    //    typedef VirtualComponent Super;
+    class VirtualGrid : public VirtualComponent
+    {
+    public:
+        typedef VirtualComponent Super;
 
-    //    static const char * TagName()
-    //    {
-    //        return "grid";
-    //    }
+        static const char * TagName()
+        {
+            return "grid";
+        }
 
-    //    VirtualGrid(Component * inParent, Poco::XML::Element * inDOMElement);
+        VirtualGrid(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-    //    virtual void rebuildLayout();
-    //};
-
-
-    //class Grid : public NativeControl
-    //{
-    //public:
-    //    typedef NativeControl Super;
-
-    //    static const char * TagName()
-    //    {
-    //        return "grid";
-    //    }
-
-    //    Grid(Component * inParent, Poco::XML::Element * inDOMElement);
-
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-    //    virtual void rebuildLayout();
-    //};
+        virtual void rebuildLayout();
+    };
 
 
-    //class Rows : public VirtualComponent
-    //{
-    //public:
-    //    typedef VirtualComponent Super;
+    class Grid : public NativeControl
+    {
+    public:
+        typedef NativeControl Super;
 
-    //    static const char * TagName()
-    //    {
-    //        return "rows";
-    //    }
+        static const char * TagName() { return "grid"; }
 
-    //    Rows(Component * inParent, Poco::XML::Element * inDOMElement);
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Grid>(inParentComponent, inDOMElement); }
 
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+        Grid(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    //};
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-    //class Row : public VirtualComponent
-    //{
-    //public:
-    //    typedef VirtualComponent Super;
-
-    //    static const char * TagName()
-    //    {
-    //        return "row";
-    //    }
-
-    //    Row(Component * inParent, Poco::XML::Element * inDOMElement);
-
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    //};
+        virtual void rebuildLayout();
+    };
 
 
-    //class Columns : public VirtualComponent
-    //{
-    //public:
-    //    typedef VirtualComponent Super;
+    class Rows : public VirtualComponent
+    {
+    public:
+        typedef VirtualComponent Super;
 
-    //    static const char * TagName()
-    //    {
-    //        return "columns";
-    //    }
+        static const char * TagName() { return "rows"; }
 
-    //    Columns(Component * inParent, Poco::XML::Element * inDOMElement);
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Rows>(inParentComponent, inDOMElement); }
 
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+        Rows(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    //};
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
 
 
-    //class Column : public VirtualComponent
-    //{
-    //public:
-    //    typedef VirtualComponent Super;
+    class Row : public VirtualComponent
+    {
+    public:
+        typedef VirtualComponent Super;
 
-    //    static const char * TagName()
-    //    {
-    //        return "column";
-    //    }
+        static const char * TagName() { return "row"; }
 
-    //    Column(Component * inParent, Poco::XML::Element * inDOMElement);
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Row>(inParentComponent, inDOMElement); }
 
-    //    virtual Align getAlign() const;
+        Row(Component * inParent, Poco::XML::Element * inDOMElement);
 
-    //    virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
-    //    virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    //};
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
+    class Columns : public VirtualComponent
+    {
+    public:
+        typedef VirtualComponent Super;
+
+        static const char * TagName() { return "columns"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Columns>(inParentComponent, inDOMElement); }
+
+        Columns(Component * inParent, Poco::XML::Element * inDOMElement);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
+    class Column : public VirtualComponent
+    {
+    public:
+        typedef VirtualComponent Super;
+
+        static const char * TagName() { return "column"; }
+
+        static ComponentPtr Create(Component * inParentComponent, Poco::XML::Element * inDOMElement)
+        { return Component::Create<Column>(inParentComponent, inDOMElement); }
+
+        Column(Component * inParent, Poco::XML::Element * inDOMElement);
+
+        virtual Align getAlign() const;
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
 
 
     //class RadioGroup : public VirtualBox

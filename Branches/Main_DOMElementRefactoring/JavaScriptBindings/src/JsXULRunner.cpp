@@ -79,7 +79,7 @@ namespace XULWin
         void JsXULRunner::initializeJavaScript(Poco::XML::Element * inRootElement)
         {
             mSimpleContext.reset(new JsSimpleContext(inRootElement));
-            loadScripts(inRootElement);
+            //loadScripts(inRootElement);
             addListeners(inRootElement);
         }
 

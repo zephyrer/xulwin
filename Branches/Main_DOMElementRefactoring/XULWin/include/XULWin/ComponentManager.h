@@ -41,21 +41,27 @@ namespace XULWin
 
 
     template<class T>
-    void GetChildComponents(Poco::XML::Element * inElement, std::vector<T*> & outComponents)
-    {
-        Poco::XML::NodeList * nodes = inElement->getElementsByTagName(T::TagName());
-        if (nodes->length() == 0)
+    void GetImmediateChildComponents(Component * inComponent, std::vector<T*> & outComponents)
+    {        
+        for (size_t idx = 0; idx != inComponent->getChildCount(); ++idx)
         {
-            return;
-        }
-        
-        Poco::XML::Node * node = nodes->item(0);
-        while (node)
-        {
-            outComponents.push_back(GetComponent<T>(node));
-            node = node->nextSibling();
+            if (T * child = inComponent->getChild(idx)->downcast<T>())
+            {
+                outComponents.push_back(child);
+            }
         }
     }
+
+
+    template<class T>
+    void GetAllChildComponents(Component * inComponent, std::vector<T*> & outComponents)
+    {    
+        GetImmediateChildComponents(inComponent, outComponents); 
+        for (size_t idx = 0; idx != outComponents->getChildCount(); ++idx)
+        {
+            GetImmediateChildComponents(outComponents[idx], outComponents);
+        }
+    }      
 
 
 } // namespace XULWin

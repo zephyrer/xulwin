@@ -21,7 +21,7 @@ namespace XULWin
 
         virtual ~Decorator();
 
-        virtual bool init();
+        const std::string & tagName() const;
 
         //virtual int getIndex() const;
         
@@ -191,7 +191,11 @@ namespace XULWin
         virtual void onContentChanged();
 
     protected:
-        ComponentPtr mDecoratedComponent;
+        virtual bool init();
+
+        virtual void setTagName(const std::string & inTagName);
+
+        ComponentPtr mDecoratedComponent;        
     };
 
 

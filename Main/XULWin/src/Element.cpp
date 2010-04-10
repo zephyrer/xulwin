@@ -40,7 +40,7 @@ namespace XULWin
     }
 
 
-    const std::string & Element::type() const
+    const std::string & Element::tagName() const
     {
         return mType;
     }
@@ -94,15 +94,15 @@ namespace XULWin
     }
 
 
-    void Element::getElementsByType(const std::string & inType, std::vector<Element *> & outElements)
+    void Element::getElementsByTagName(const std::string & inType, std::vector<Element *> & outElements)
     {
-        if (type() == inType)
+        if (tagName() == inType)
         {
             outElements.push_back(this);
         }
         for (size_t idx = 0; idx != mChildren.size(); ++idx)
         {
-            mChildren[idx]->getElementsByType(inType, outElements);
+            mChildren[idx]->getElementsByTagName(inType, outElements);
         }
     }
 
@@ -121,19 +121,6 @@ namespace XULWin
         else
         {
             ReportError("Remove child failed because it wasn't found.");
-        }
-    }
-
-
-    void Element::removeAllChildren()
-    {
-        while (!mChildren.empty())
-        {
-            ElementPtr keepAlive = *mChildren.begin();
-            mChildren.erase(mChildren.begin());
-            mComponent->rebuildLayout();
-            mComponent->onChildRemoved(keepAlive->component());
-            // keepAlive loses scope here and destroys child
         }
     }
 
@@ -240,7 +227,7 @@ namespace XULWin
 
     void Element::setStyle(const std::string & inName, const std::string & inValue)
     {
-        std::string type = this->type();
+        std::string type = this->tagName();
         if (!mComponent || !mComponent->setStyle(inName, inValue))
         {
             mStyles[inName] = inValue;

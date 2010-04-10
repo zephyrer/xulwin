@@ -34,7 +34,7 @@ namespace XULWin
 
         PathInstruction(Type inType, Positioning inPositioning, const PointFs & inPoints);
 
-        Type type() const;
+        Type tagName() const;
 
         size_t numPoints() const;
 

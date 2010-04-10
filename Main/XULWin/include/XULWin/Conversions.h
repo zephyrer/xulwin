@@ -43,7 +43,7 @@ namespace XULWin
     CSSOverflow String2CSSOverflow(const std::string & inTextAlign, CSSOverflow inDefault);
 
     // You can use the same css color naming schemes that you use in HTML,
-    // whether that's color names (i.e. red), rgb values (i.e. rgb(255,0,0)),
+    // whether that's color names (e.g. red), rgb values (e.g. rgb(255,0,0)),
     // hex values, rgba values, etc.
     std::string RGBColor2String(const RGBColor & inColor);
 

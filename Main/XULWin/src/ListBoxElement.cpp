@@ -25,7 +25,7 @@ namespace XULWin
     {
         // The first child should give us the needed information to know
         // whether we need to create a ListBox or a ListView.
-        set(inChild->type());
+        set(inChild->tagName());
         Element::addChild(inChild);
     }
 

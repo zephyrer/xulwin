@@ -26,12 +26,13 @@ namespace XULWin
 
 
     /**
-     * Element
+     * \brief Base class for XUL elements.
      *
      * The Element class provides an interface to the XML aspects
      * of a XUL element. It enables iteration of the DOM tree by
      * traversal of an element's parent element or child elements.
-     * It provides methods for getting and setting the element's XML attributes.
+     * It provides methods for getting and setting the element's
+     * XML attributes.
      *
      * Changes made to an XML attribute will propagate to the native backend
      * if the element's corresponding Component object (see Component.h) has
@@ -74,22 +75,23 @@ namespace XULWin
     {
     public:
         /**
-         * INITIALIZATION ORDER
+         * Factory method for all elements.
          *
-         * PART 1: Parser encounters the OPENING tag of a new element:
-         * - Element constructor
-         * - Construction of any decorators for Component
-         * - Component constructor
-         * - Initialize XUL attributes
-         * - Initialize CSS styles (from the XUL "style" attribute)
-         * - Register the element as a child of the parent element.
+         * Initialization order:
          *
-         * PART 2: Creation and initialization of any child elements.
+         * 1. Parser encounters the opening tag of a new element (e.g. <button>)
+         *   - Element constructor
+         *   - Construction of any decorators for Component
+         *   - Component constructor
+         *   - Initialize XUL attributes
+         *   - Initialize CSS styles (from the XUL "style" attribute)
+         *   - Register the element as a child of the parent element.
          *
-         * PART 3: Parser finds CLOSING tag of the element:
-         * - Call Element::init().
-         * - Call Component::init().
+         * 2. Creation and initialization of any child elements.
          *
+         * 3. Parser encounters closing tag of the element (e.g. </button>)
+         *   - Call Element::init().
+         *   - Call Component::init().
          */
         template<class ElementType>
         static ElementPtr Create(Element * inParent,
@@ -108,76 +110,141 @@ namespace XULWin
             return result;
         }
 
+        /**
+         * Element destructor
+         *
+         * Since the factory method returns a smart pointer
+         * you never need to call this.
+         */
         ~Element();
 
-        // called by parser at end-element event
+        /**
+         * Element initialization.
+         * 
+         * Subclasses of Element may override this method to do extra
+         * initialization after the default creation steps have been
+         * taken care of.
+         *
+         * This method is invoked after creation by the factory method.
+         * It is called when the parser encounters the closing tag, this
+         * means that any child elements will be created and initialized
+         * before that.
+         */
         virtual bool init();
 
         /**
-         * !!! HIGHLY EXPERIMENTAL, USE AT OWN RISK !!!
-         * This method resets the element. It destroys the
-         * contained component object (and thus any contained
-         * native windows) and rebuilds it from scratch.
-         * This is only desirable in very specific situations.
-         * For example when implementing a component for video rendering
-         * and you want to be able toggle between different DirectShow pipelines.
+         * Adds a child element.
+         *
+         * You never need to call this, it is taken care of by the factory.
          */
-        template<class ElementType>
-        void reset()
-        {
-            mComponent.reset(new ElementType(mParent->component(), mAttributes));
-            initAttributeControllers();
-            setAttributes(mAttributes);
-            initStyleControllers();
-            setStyles(mAttributes);
-            mComponent->setOwningElement(this);
-        }
-
-        // you don't need to call this, Element::Create() does it
         virtual void addChild(ElementPtr inChild);
 
-        // highly volatile, use at your own risk
+        /**
+         * Removes a child element.
+         *
+         * If this element maps to a native component then it will
+         * also be removed from the native hierarchy of the system.
+         * In certain situations this may be result in unexpected
+         * behavior. Be careful!
+         */
         virtual void removeChild(const Element * inChild);
+        
+        /**
+         * Returns the element tagname.
+         *
+         * For example button, label, etc...
+         */
+        const std::string & tagName() const;
 
-        virtual void removeAllChildren();
+        /**
+         * Returns the parent element.
+         *
+         * If the element is the document top-level element then
+         * NULL is returned.
+         */
+        const Element * parent() const { return mParent; }
 
-        const std::string & type() const;
+        /**
+         * Returns the non-const parent element.
+         */
+        Element * parent() { return mParent; }
 
-        Element * parent() const
-        {
-            return mParent;
-        }
-
-        // Gets the attribute value from the attribute controller.
-        // If no attribute controller was found then it will search
-        // the attribute mapping.
-        // Returns empty string if not found.
+        /**
+         * Gets an attribute.
+         *
+         * If the attribute is natively mapped then this method is
+         * forwarded to the Component object and this may result in 
+         * a native system call to query the widget state.
+         *
+         * If the attribute is not natively mapped then the value
+         * will be returned from the Element's attribute mapping.
+         *
+         * Returns empty string if the attribute was not found.
+         */
         std::string getAttribute(const std::string & inName) const;
 
-        // Gets the attribute from the attribute mapping
-        // without querying the attribute controllers.
-        // Returns empty string if not found.
+        /**
+         * Sets an attribute.
+         * 
+         * Sets the attribute by invoking the attribute controller.
+         * If no attribute controller found it will insert (or overwrite)
+         * the value in the attributes mapping.
+         */
+        void setAttribute(const std::string & inName, const std::string & inValue);
+        
+        /**
+         * Gets an attribute without querying the component.
+         *
+         * Gets the attribute immediately from the Element's
+         * attribute datastructure without querying the component.
+         *
+         * Returns empty string if the attribute was not found.
+         */
         std::string getDocumentAttribute(const std::string & inName) const;
 
-        // Gets the CSS property from the style controller.
-        // If no style controller was found then it will search
-        // the style mapping.
-        // Returns empty string if not found.
+        /**
+         * Gets a style attribute.
+         *
+         * If the style attribute is natively mapped then this method
+         * is forwarded to the Component object and this may result in 
+         * a native system call to query the widget state.
+         *
+         * If the style attributes is not natively mapped then the value
+         * will be returned from the Element's attribute mapping.
+         *
+         * Returns empty string if the attribute was not found.
+         *
+         * Example: <grid style="overflow:auto">
+         * The style attribute "overflow" has value "auto".
+         */
         std::string getStyle(const std::string & inName) const;
 
-        // Sets the attribute by invoking the attribute controller.
-        // If no attribute controller found it will insert (or overwrite)
-        // the value in the attributes mapping.
-        void setAttribute(const std::string & inName, const std::string & inValue);
-
+        /**
+         * Sets the text between an Element's opening and closing tags.
+         */
         void setInnerText(const std::string & inText);
 
+        /**
+         * Returns the text between an Element's opening and closing tags.
+         */
         const std::string & innerText() const;
-
+        
+        /**
+         * Finds an element in the DOM tree with the requested id.
+         */
         Element * getElementById(const std::string & inId);
 
-        void getElementsByType(const std::string & inType, std::vector<Element *> & outElements);
+        /**
+         * Returns all sub-elements that have the requested tagname.
+         */
+        void getElementsByTagName(const std::string & inType,
+                                  std::vector<Element *> & outElements);
 
+        /**
+         * Returns all elements that have the requested type.
+         *
+         * Typed and faster variant of the getElementsByTagName.
+         */
         template<class ElementType>
         void getElementsByType(std::vector<ElementType *> & outElements)
         {
@@ -191,52 +258,70 @@ namespace XULWin
             }
         }
 
-        Children & children()
-        {
-            return mChildren;
-        }
+        /**
+         * Returns the list of child elements.
+         */
+        const Children & children() const { return mChildren; }
 
-        const Children & children() const
-        {
-            return mChildren;
-        }
+        /**
+         * Returns a non-const list of child elements.
+         */
+        Children & children() { return mChildren; }
 
+        /**
+         * Registers an event listener.
+         *
+         * You may prefer to use a ScopedEventListener object instead.
+         * \see ScopedEventListener
+         */
         bool addEventListener(EventListener * inEventListener);
 
+        /**
+         * Unregisters an event listener.
+         */
         bool removeEventListener(EventListener * inEventListener);
 
+        /**
+         * Returns the component object.
+         */
         Component * component() const;
 
+        /**
+         * Casts an element to a subtype.
+         *
+         * Returns NULL if downcast failed.
+         */
         template<class ElementType>
         const ElementType * downcast() const
         {
-            if (type() == ElementType::Type())
+            if (tagName() == ElementType::Type())
             {
                 return static_cast<ElementType *>(this);
             }
             return 0;
         }
 
+        /**
+         * Casts an element to a subtype.
+         *
+         * Non-const variant of downcast.
+         */
         template<class ElementType>
         ElementType * downcast()
         {
-            if (type() == ElementType::Type())
+            if (tagName() == ElementType::Type())
             {
                 return static_cast<ElementType *>(this);
             }
             return 0;
         }
 
-
-        // Searches for a child of given type.
-        // Returns the first one found.
-        // Only searches one level deep.
-        template<class ElementType>
-        ElementType * findChildOfType()
-        {
-            return const_cast<ElementType *>(static_cast<const Element *>(this)->findChildOfType<ElementType>());
-        }
-
+        /**
+         * Searches for a child of given type.
+         *
+         * Returns the first one found and
+         * only searches one level deep.
+         */
         template<class ElementType>
         const ElementType * findChildOfType() const
         {
@@ -248,6 +333,17 @@ namespace XULWin
                 }
             }
             return 0;
+        }
+
+        /**
+         * Searches for a child of given type.
+         *
+         * Non-const variant of findChildOfType.
+         */
+        template<class ElementType>
+        ElementType * findChildOfType()
+        {
+            return const_cast<ElementType *>(static_cast<const Element *>(this)->findChildOfType<ElementType>());
         }
 
     protected:
@@ -283,6 +379,7 @@ namespace XULWin
         DialogResult_Cancel,
         DialogResult_Custom
     };
+
 
     class WindowElement;
     class DialogElement : public Element

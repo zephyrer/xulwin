@@ -61,7 +61,7 @@ namespace XULWin
         {
             v8::Context::Scope contextScope(mContext);
             v8::TryCatch tryCatch;
-            v8::Handle<v8::Script> script = v8::Script::Compile(inSource, inName);
+            v8::Handle<v8::Script> script = v8::Script::Compile(inSource, inName);            
             if (script.IsEmpty())
             {
                 v8::String::AsciiValue error(tryCatch.Exception());

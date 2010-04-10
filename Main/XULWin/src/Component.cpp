@@ -559,7 +559,7 @@ namespace XULWin
             controller->set(inValue);
             if (errorCatcher.hasCaught())
             {
-                ReportSetterFail(inName, el()->type(), el()->getAttribute("id"));
+                ReportSetterFail(inName, el()->tagName(), el()->getAttribute("id"));
             }
             return true;
         }
@@ -576,7 +576,7 @@ namespace XULWin
             it->second->set(inValue);
             if (errorCatcher.hasCaught())
             {
-                ReportSetterFail(inName, el()->type(), el()->getAttribute("id"));
+                ReportSetterFail(inName, el()->tagName(), el()->getAttribute("id"));
             }
             return true;
         }
@@ -2047,19 +2047,19 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->type() == RowsElement::Type())
+            if (child->tagName() == RowsElement::Type())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->type() == ColumnsElement::Type())
+            else if (child->tagName() == ColumnsElement::Type())
             {
                 columns = child;
                 numCols = columns->children().size();
             }
             else
             {
-                ReportError("GridElement contains incompatible child element: '" + child->type() + "'");
+                ReportError("GridElement contains incompatible child element: '" + child->tagName() + "'");
             }
         }
         if (!rows || !columns)
@@ -2235,19 +2235,19 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->type() == RowsElement::Type())
+            if (child->tagName() == RowsElement::Type())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->type() == ColumnsElement::Type())
+            else if (child->tagName() == ColumnsElement::Type())
             {
                 columns = child;
                 numCols = columns->children().size();
             }
             else
             {
-                ReportError("GridElement contains incompatible child element: '" + child->type() + "'");
+                ReportError("GridElement contains incompatible child element: '" + child->tagName() + "'");
             }
         }
         if (!rows || !columns)
@@ -2399,7 +2399,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (GridElement::Type() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<RowElement>(rows);
             }
@@ -2429,7 +2429,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (GridElement::Type() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<RowElement>(rows);
             }
@@ -2465,7 +2465,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (GridElement::Type() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<ColumnElement>(columns);
             }
@@ -2495,7 +2495,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->type())
+            if (GridElement::Type() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<ColumnElement>(columns);
             }
@@ -2554,11 +2554,11 @@ namespace XULWin
         for (size_t idx = 0; idx != grid->children().size(); ++idx)
         {
             ElementPtr child = grid->children()[idx];
-            if (child->type() == RowsElement::Type())
+            if (child->tagName() == RowsElement::Type())
             {
                 rows = child;
             }
-            else if (child->type() == ColumnsElement::Type())
+            else if (child->tagName() == ColumnsElement::Type())
             {
                 for (size_t ownI = 0; ownI != child->children().size(); ++ownI)
                 {
@@ -2875,7 +2875,7 @@ namespace XULWin
 
         // The order in which curpos, maxpos and pageincrement
         // will be set (alphabetically by attribute name) can cause
-        // impossible scrollbar states (i.e. currentpos or pageincrement
+        // impossible scrollbar states (e.g. currentpos or pageincrement
         // greater than maxpos). And we want to avoid that.
         // Our workaround is to detect such states here, and change invalid
         // values to valid ones.
@@ -2918,7 +2918,7 @@ namespace XULWin
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
-        // impossible scrollbar states (i.e. currentpos or pageincrement
+        // impossible scrollbar states (e.g. currentpos or pageincrement
         // greater than maxpos). And we want to avoid that.
         // Our workaround is to detect such states here, and change invalid
         // values to valid ones.
@@ -2955,7 +2955,7 @@ namespace XULWin
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
-        // impossible scrollbar states (i.e. currentpos or pageincrement
+        // impossible scrollbar states (e.g. currentpos or pageincrement
         // greater than maxpos). And we want to avoid that.
         // Our workaround is to detect such states here, and change invalid
         // values to valid ones.
@@ -3071,7 +3071,7 @@ namespace XULWin
     {
         for (size_t idx = 0; idx != el()->parent()->children().size(); ++idx)
         {
-            if (el()->parent()->children()[idx]->type() == TabsElement::Type())
+            if (el()->parent()->children()[idx]->tagName() == TabsElement::Type())
             {
                 if (TabsElement * tabs = el()->parent()->children()[idx]->downcast<TabsElement>())
                 {
@@ -3307,7 +3307,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->type() == CaptionElement::Type())
+            if (Super::getChild(0)->el()->tagName() == CaptionElement::Type())
             {
                 assert(idx + 1 < Super::getChildCount());
                 if (idx + 1 < Super::getChildCount())
@@ -3332,7 +3332,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->type() == CaptionElement::Type())
+            if (Super::getChild(0)->el()->tagName() == CaptionElement::Type())
             {
                 return Super::getChildCount() - 1;
             }

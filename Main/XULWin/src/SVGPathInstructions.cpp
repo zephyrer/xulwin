@@ -13,7 +13,7 @@ namespace XULWin
     }
 
 
-    PathInstruction::Type PathInstruction::type() const
+    PathInstruction::Type PathInstruction::tagName() const
     {
         return mType;
     }

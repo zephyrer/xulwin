@@ -423,13 +423,13 @@ namespace XULWin
         for (size_t idx = 0; idx != inData.size(); ++idx)
         {
             const PathInstruction & instruction = inData[idx];
-            switch (instruction.type())
+            switch (instruction.tagName())
             {
                 case PathInstruction::MoveTo: // M
                 {
                     if (!preppedPoints.empty())
                     {
-                        outPrepData.push_back(PathInstruction(prevInstruction.type(),
+                        outPrepData.push_back(PathInstruction(prevInstruction.tagName(),
                                                               PathInstruction::Absolute,
                                                               preppedPoints));
                         preppedPoints.clear();
@@ -452,9 +452,9 @@ namespace XULWin
                 case PathInstruction::HorizontalLineTo: // H
                 case PathInstruction::VerticalLineTo: // V
                 {
-                    if (!preppedPoints.empty() && prevInstruction.type() != PathInstruction::MoveTo)
+                    if (!preppedPoints.empty() && prevInstruction.tagName() != PathInstruction::MoveTo)
                     {
-                        outPrepData.push_back(PathInstruction(prevInstruction.type(),
+                        outPrepData.push_back(PathInstruction(prevInstruction.tagName(),
                                                               PathInstruction::Absolute,
                                                               preppedPoints));
                         if (!preppedPoints.empty())
@@ -470,7 +470,7 @@ namespace XULWin
                             preppedPoints.push_back(prevPoint);
                         }
                         GetAbsolutePositions(instruction, prevPoint, preppedPoints);
-                        outPrepData.push_back(PathInstruction(instruction.type(),
+                        outPrepData.push_back(PathInstruction(instruction.tagName(),
                                                               PathInstruction::Absolute,
                                                               preppedPoints));
                         if (!preppedPoints.empty())
@@ -510,7 +510,7 @@ namespace XULWin
                 {
                     // We'll convert it to a curve instruction
                     PathInstruction curveInstruction = instruction;
-                    if (prevInstruction.type() == PathInstruction::CurveTo)
+                    if (prevInstruction.tagName() == PathInstruction::CurveTo)
                     {
                         PointF c2 = instruction.getPoint(0);
                         PointF endPoint = instruction.getPoint(1);
@@ -536,7 +536,7 @@ namespace XULWin
                         }
                         curveInstruction.points().insert(curveInstruction.points().begin(), c1);
                     }
-                    else if (prevInstruction.type() == PathInstruction::SmoothCurveTo)
+                    else if (prevInstruction.tagName() == PathInstruction::SmoothCurveTo)
                     {
                         PointF c2 = instruction.getPoint(0);
                         PointF endPoint = instruction.getPoint(1);
@@ -610,7 +610,7 @@ namespace XULWin
                 {
                     if (!preppedPoints.empty())
                     {
-                        outPrepData.push_back(PathInstruction(prevInstruction.type(),
+                        outPrepData.push_back(PathInstruction(prevInstruction.tagName(),
                                                               PathInstruction::Absolute,
                                                               preppedPoints));
                         prevPoint = preppedPoints[preppedPoints.size() - 1];
@@ -646,7 +646,7 @@ namespace XULWin
         }
         if (!preppedPoints.empty())
         {
-            outPrepData.push_back(PathInstruction(prevInstruction.type(),
+            outPrepData.push_back(PathInstruction(prevInstruction.tagName(),
                                                   PathInstruction::Absolute,
                                                   preppedPoints));
             preppedPoints.clear();
@@ -678,7 +678,7 @@ namespace XULWin
         {
             const PathInstruction & instruction = mPreparedInstructions[idx];
             const PointFs & points = instruction.points();
-            switch (instruction.type())
+            switch (instruction.tagName())
             {
                 case PathInstruction::MoveTo: // should not be found in mPreparedInstructions
                 {

@@ -40,7 +40,7 @@ namespace XULWin
     {
         int result = 0;
         std::vector<Element *> items;
-        el()->getElementsByType(MenuItemElement::Type(), items);
+        el()->getElementsByTagName(MenuItemElement::Type(), items);
         for (size_t idx = 0; idx != items.size(); ++idx)
         {
             MenuItem * item = items[idx]->component()->downcast<MenuItem>();

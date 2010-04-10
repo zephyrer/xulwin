@@ -8,7 +8,7 @@ namespace XULWin
 {
 
     MenuBarElement::MenuBarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuBarElement::Type(),
+        Element(MenuBarElement::TagName(),
                 inParent,
                 new MenuBar(inParent->component(), inAttributesMapping))
     {

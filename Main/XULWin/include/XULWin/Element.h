@@ -294,7 +294,7 @@ namespace XULWin
         template<class ElementType>
         const ElementType * downcast() const
         {
-            if (tagName() == ElementType::Type())
+            if (tagName() == ElementType::TagName())
             {
                 return static_cast<ElementType *>(this);
             }
@@ -309,7 +309,7 @@ namespace XULWin
         template<class ElementType>
         ElementType * downcast()
         {
-            if (tagName() == ElementType::Type())
+            if (tagName() == ElementType::TagName())
             {
                 return static_cast<ElementType *>(this);
             }
@@ -390,7 +390,7 @@ namespace XULWin
             return Element::Create<DialogElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "dialog";
         }
@@ -413,7 +413,7 @@ namespace XULWin
             return Element::Create<ButtonElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "button";
         }
@@ -432,7 +432,7 @@ namespace XULWin
             return Element::Create<DescriptionElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "description";
         }
@@ -452,7 +452,7 @@ namespace XULWin
             return Element::Create<TextBoxElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "textbox";
         }
@@ -471,7 +471,7 @@ namespace XULWin
             return Element::Create<CheckBoxElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "checkbox";
         }
@@ -490,7 +490,7 @@ namespace XULWin
             return Element::Create<BoxElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "box";
         }
@@ -508,7 +508,7 @@ namespace XULWin
             return Element::Create<HBoxElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "hbox";
         }
@@ -527,7 +527,7 @@ namespace XULWin
             return Element::Create<VBoxElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "vbox";
         }
@@ -546,7 +546,7 @@ namespace XULWin
             return Element::Create<MenuListElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "menulist";
         }
@@ -565,7 +565,7 @@ namespace XULWin
             return Element::Create<SeparatorElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "separator";
         }
@@ -586,7 +586,7 @@ namespace XULWin
             return Element::Create<SpacerElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "spacer";
         }
@@ -607,7 +607,7 @@ namespace XULWin
             return Element::Create<MenuButtonElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "menubutton";
         }
@@ -630,7 +630,7 @@ namespace XULWin
             return Element::Create<GridElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "grid";
         }
@@ -656,7 +656,7 @@ namespace XULWin
             return Element::Create<RowsElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "rows";
         }
@@ -678,7 +678,7 @@ namespace XULWin
             return Element::Create<ColumnsElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "columns";
         }
@@ -701,7 +701,7 @@ namespace XULWin
             return Element::Create<RowElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "row";
         }
@@ -722,7 +722,7 @@ namespace XULWin
             return Element::Create<ColumnElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "column";
         }
@@ -744,7 +744,7 @@ namespace XULWin
             return Element::Create<RadioGroupElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "radiogroup";
         }
@@ -766,7 +766,7 @@ namespace XULWin
             return Element::Create<RadioElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "radio";
         }
@@ -787,7 +787,7 @@ namespace XULWin
             return Element::Create<ProgressMeterElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "progressmeter";
         }
@@ -808,7 +808,7 @@ namespace XULWin
             return Element::Create<DeckElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "deck";
         }
@@ -829,7 +829,7 @@ namespace XULWin
             return Element::Create<ScrollbarElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "scrollbar";
         }
@@ -850,7 +850,7 @@ namespace XULWin
             return Element::Create<TabBoxElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "tabbox";
         }
@@ -871,7 +871,7 @@ namespace XULWin
             return Element::Create<TabsElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "tabs";
         }
@@ -894,7 +894,7 @@ namespace XULWin
             return Element::Create<TabElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "tab";
         }
@@ -916,7 +916,7 @@ namespace XULWin
             return Element::Create<TabPanelsElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "tabpanels";
         }
@@ -937,7 +937,7 @@ namespace XULWin
             return Element::Create<TabPanelElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "tabpanel";
         }
@@ -958,7 +958,7 @@ namespace XULWin
             return Element::Create<GroupBoxElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "groupbox";
         }
@@ -977,7 +977,7 @@ namespace XULWin
             return Element::Create<CaptionElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "caption";
         }
@@ -998,7 +998,7 @@ namespace XULWin
 
         virtual ~TreeElement();
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "tree";
         }
@@ -1017,7 +1017,7 @@ namespace XULWin
             return Element::Create<TreeChildrenElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "treechildren";
         }
@@ -1038,7 +1038,7 @@ namespace XULWin
             return Element::Create<TreeItemElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "treeitem";
         }
@@ -1059,7 +1059,7 @@ namespace XULWin
             return Element::Create<TreeColsElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "treecols";
         }
@@ -1080,7 +1080,7 @@ namespace XULWin
             return Element::Create<TreeColElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "treecol";
         }
@@ -1101,7 +1101,7 @@ namespace XULWin
             return Element::Create<TreeRowElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "treerow";
         }
@@ -1122,7 +1122,7 @@ namespace XULWin
             return Element::Create<TreeCellElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "treecell";
         }
@@ -1143,7 +1143,7 @@ namespace XULWin
             return Element::Create<StatusbarElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "statusbar";
         }
@@ -1164,7 +1164,7 @@ namespace XULWin
             return Element::Create<StatusbarPanelElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "statusbarpanel";
         }
@@ -1185,7 +1185,7 @@ namespace XULWin
             return Element::Create<ToolbarElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "toolbar";
         }
@@ -1206,7 +1206,7 @@ namespace XULWin
             return Element::Create<ToolbarButtonElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "toolbarbutton";
         }

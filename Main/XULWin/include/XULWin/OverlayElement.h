@@ -19,7 +19,7 @@ namespace XULWin
 
         OverlayElement(Element * inParent, const AttributesMapping & inAttributesMapping);
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "overlay";
         }

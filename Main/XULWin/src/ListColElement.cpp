@@ -8,7 +8,7 @@ namespace XULWin
 {
 
     ListColElement::ListColElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListColElement::Type(),
+        Element(ListColElement::TagName(),
                 inParent,
                 new ListCol(inParent->component(), inAttributesMapping))
     {

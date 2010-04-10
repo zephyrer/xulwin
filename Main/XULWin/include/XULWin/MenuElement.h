@@ -16,7 +16,7 @@ namespace XULWin
             return Element::Create<MenuElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "menu";
         }

@@ -17,7 +17,7 @@ namespace XULWin
             return Element::Create<SVGElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "svg";
         }
@@ -36,7 +36,7 @@ namespace XULWin
             return Element::Create<SVGGroupElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "g";
         }
@@ -55,7 +55,7 @@ namespace XULWin
             return Element::Create<SVGPolygonElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "polygon";
         }
@@ -74,7 +74,7 @@ namespace XULWin
             return Element::Create<SVGRectElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "rect";
         }
@@ -93,7 +93,7 @@ namespace XULWin
             return Element::Create<SVGPathElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "path";
         }

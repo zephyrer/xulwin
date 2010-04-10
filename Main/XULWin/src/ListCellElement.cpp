@@ -8,7 +8,7 @@ namespace XULWin
 {
 
     ListCellElement::ListCellElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListCellElement::Type(),
+        Element(ListCellElement::TagName(),
                 inParent,
                 new ListCell(inParent->component(), inAttributesMapping))
     {

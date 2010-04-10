@@ -18,7 +18,7 @@ namespace XULWin
 {
 
     SVGElement::SVGElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SVGElement::Type(),
+        Element(SVGElement::TagName(),
                 inParent,
                 new SVGCanvas(inParent->component(), inAttributesMapping))
     {
@@ -26,7 +26,7 @@ namespace XULWin
 
 
     SVGGroupElement::SVGGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SVGGroupElement::Type(),
+        Element(SVGGroupElement::TagName(),
                 inParent,
                 new SVGGroup(inParent->component(), inAttributesMapping))
     {
@@ -34,7 +34,7 @@ namespace XULWin
 
 
     SVGPolygonElement::SVGPolygonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SVGPolygonElement::Type(),
+        Element(SVGPolygonElement::TagName(),
                 inParent,
                 new SVGPolygon(inParent->component(), inAttributesMapping))
     {
@@ -42,7 +42,7 @@ namespace XULWin
 
 
     SVGRectElement::SVGRectElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SVGRectElement::Type(),
+        Element(SVGRectElement::TagName(),
                 inParent,
                 new SVGRect(inParent->component(), inAttributesMapping))
     {
@@ -50,7 +50,7 @@ namespace XULWin
 
 
     SVGPathElement::SVGPathElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SVGPathElement::Type(),
+        Element(SVGPathElement::TagName(),
                 inParent,
                 new SVGPath(inParent->component(), inAttributesMapping))
     {

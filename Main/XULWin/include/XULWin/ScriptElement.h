@@ -16,7 +16,7 @@ namespace XULWin
             return Element::Create<ScriptElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "script";
         }

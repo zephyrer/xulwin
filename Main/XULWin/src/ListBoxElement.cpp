@@ -14,7 +14,7 @@ namespace XULWin
     // So we need to delay the instantiation. However, we still must have an
     // component, so we use temporarily use a PassiveComponent object.
     ListBoxElement::ListBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListBoxElement::Type(),
+        Element(ListBoxElement::TagName(),
                 inParent,
                 new Proxy(new PassiveComponent(inParent->component(), inAttributesMapping)))
     {

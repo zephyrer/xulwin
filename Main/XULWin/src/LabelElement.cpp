@@ -9,7 +9,7 @@ namespace XULWin
 {
 
     LabelElement::LabelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(LabelElement::Type(),
+        Element(LabelElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Label>(inParent->component(), inAttributesMapping))
     {

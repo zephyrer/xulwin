@@ -18,7 +18,7 @@ namespace XULWin
 
         virtual ~MenuPopupElement();
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "menupopup";
         }

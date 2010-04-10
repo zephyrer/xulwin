@@ -301,7 +301,7 @@ namespace XULWin
 
 
     DialogElement::DialogElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(DialogElement::Type(),
+        Element(DialogElement::TagName(),
                 inParent,
                 new Dialog(inParent ? inParent->component() : GetDialogHelper(), inAttributesMapping))
     {
@@ -328,7 +328,7 @@ namespace XULWin
 
 
     ButtonElement::ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ButtonElement::Type(),
+        Element(ButtonElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Button>(inParent->component(), inAttributesMapping))
     {
@@ -336,7 +336,7 @@ namespace XULWin
 
 
     DescriptionElement::DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(DescriptionElement::Type(),
+        Element(DescriptionElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Description>(inParent->component(), inAttributesMapping))
     {
@@ -351,7 +351,7 @@ namespace XULWin
 
 
     TextBoxElement::TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TextBoxElement::Type(),
+        Element(TextBoxElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, TextBox>(inParent->component(), inAttributesMapping))
     {
@@ -359,7 +359,7 @@ namespace XULWin
 
 
     CheckBoxElement::CheckBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(CheckBoxElement::Type(),
+        Element(CheckBoxElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, CheckBox>(inParent->component(), inAttributesMapping))
     {
@@ -367,7 +367,7 @@ namespace XULWin
 
 
     BoxElement::BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(BoxElement::Type(),
+        Element(BoxElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
@@ -375,7 +375,7 @@ namespace XULWin
 
 
     HBoxElement::HBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(HBoxElement::Type(),
+        Element(HBoxElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
@@ -384,7 +384,7 @@ namespace XULWin
 
 
     VBoxElement::VBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(VBoxElement::Type(),
+        Element(VBoxElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
@@ -393,7 +393,7 @@ namespace XULWin
 
 
     MenuListElement::MenuListElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuListElement::Type(),
+        Element(MenuListElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, MenuList>(inParent->component(), inAttributesMapping))
     {
@@ -401,7 +401,7 @@ namespace XULWin
 
 
     SeparatorElement::SeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SeparatorElement::Type(),
+        Element(SeparatorElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Separator>(inParent->component(), inAttributesMapping))
     {
@@ -414,7 +414,7 @@ namespace XULWin
 
 
     SpacerElement::SpacerElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SpacerElement::Type(),
+        Element(SpacerElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Spacer>(inParent->component(), inAttributesMapping))
     {
@@ -427,7 +427,7 @@ namespace XULWin
 
 
     MenuButtonElement::MenuButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuButtonElement::Type(),
+        Element(MenuButtonElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, MenuButton>(inParent->component(), inAttributesMapping))
     {
@@ -440,7 +440,7 @@ namespace XULWin
 
 
     GridElement::GridElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(GridElement::Type(),
+        Element(GridElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualGrid, Grid>(inParent->component(), inAttributesMapping))
     {
@@ -453,7 +453,7 @@ namespace XULWin
 
 
     RowsElement::RowsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RowsElement::Type(),
+        Element(RowsElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Rows>(inParent->component(), inAttributesMapping))
     {
@@ -466,7 +466,7 @@ namespace XULWin
 
 
     ColumnsElement::ColumnsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ColumnsElement::Type(),
+        Element(ColumnsElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Columns>(inParent->component(), inAttributesMapping))
     {
@@ -479,7 +479,7 @@ namespace XULWin
 
 
     RowElement::RowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RowElement::Type(),
+        Element(RowElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Row>(inParent->component(), inAttributesMapping))
     {
@@ -492,7 +492,7 @@ namespace XULWin
 
 
     ColumnElement::ColumnElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ColumnElement::Type(),
+        Element(ColumnElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Column>(inParent->component(), inAttributesMapping))
     {
@@ -505,7 +505,7 @@ namespace XULWin
 
 
     RadioGroupElement::RadioGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RadioGroupElement::Type(),
+        Element(RadioGroupElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, RadioGroup>(inParent->component(), inAttributesMapping))
     {
@@ -518,7 +518,7 @@ namespace XULWin
 
 
     RadioElement::RadioElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RadioElement::Type(),
+        Element(RadioElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Radio>(inParent->component(), inAttributesMapping))
     {
@@ -531,7 +531,7 @@ namespace XULWin
 
 
     ProgressMeterElement::ProgressMeterElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ProgressMeterElement::Type(),
+        Element(ProgressMeterElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, ProgressMeter>(inParent->component(), inAttributesMapping))
     {
@@ -544,7 +544,7 @@ namespace XULWin
 
 
     DeckElement::DeckElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(DeckElement::Type(),
+        Element(DeckElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, Deck, Deck>(inParent->component(), inAttributesMapping))
     {
@@ -557,7 +557,7 @@ namespace XULWin
 
 
     ScrollbarElement::ScrollbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ScrollbarElement::Type(),
+        Element(ScrollbarElement::TagName(),
                 inParent,
                 new Decorator(new Scrollbar(inParent->component(), inAttributesMapping)))
     {
@@ -570,7 +570,7 @@ namespace XULWin
 
 
     TabBoxElement::TabBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabBoxElement::Type(),
+        Element(TabBoxElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
@@ -583,7 +583,7 @@ namespace XULWin
 
 
     TabsElement::TabsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabsElement::Type(),
+        Element(TabsElement::TagName(),
                 inParent,
                 new Tabs(inParent->component(), inAttributesMapping))
     {
@@ -596,7 +596,7 @@ namespace XULWin
 
 
     TabElement::TabElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabElement::Type(),
+        Element(TabElement::TagName(),
                 inParent,
                 new Tab(inParent->component(), inAttributesMapping))
     {
@@ -609,7 +609,7 @@ namespace XULWin
 
 
     TabPanelsElement::TabPanelsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabPanelsElement::Type(),
+        Element(TabPanelsElement::TagName(),
                 inParent,
                 new TabPanels(inParent->component(), inAttributesMapping))
     {
@@ -622,7 +622,7 @@ namespace XULWin
 
 
     TabPanelElement::TabPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabPanelElement::Type(),
+        Element(TabPanelElement::TagName(),
                 inParent,
                 new TabPanel(inParent->component(), inAttributesMapping))
     {
@@ -635,7 +635,7 @@ namespace XULWin
 
 
     GroupBoxElement::GroupBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(GroupBoxElement::Type(),
+        Element(GroupBoxElement::TagName(),
                 inParent,
                 new MarginDecorator(new GroupBox(inParent->component(), inAttributesMapping)))
     {
@@ -643,7 +643,7 @@ namespace XULWin
 
 
     CaptionElement::CaptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(CaptionElement::Type(),
+        Element(CaptionElement::TagName(),
                 inParent,
                 new Caption(inParent->component(), inAttributesMapping))
     {
@@ -651,7 +651,7 @@ namespace XULWin
 
 
     TreeElement::TreeElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeElement::Type(),
+        Element(TreeElement::TagName(),
                 inParent,
                 new Tree(inParent->component(), inAttributesMapping))
     {
@@ -664,7 +664,7 @@ namespace XULWin
 
 
     TreeChildrenElement::TreeChildrenElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeChildrenElement::Type(),
+        Element(TreeChildrenElement::TagName(),
                 inParent,
                 new TreeChildren(inParent->component(), inAttributesMapping))
     {
@@ -677,7 +677,7 @@ namespace XULWin
 
 
     TreeItemElement::TreeItemElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeItemElement::Type(),
+        Element(TreeItemElement::TagName(),
                 inParent,
                 new TreeItem(inParent->component(), inAttributesMapping))
     {
@@ -690,7 +690,7 @@ namespace XULWin
 
 
     TreeColsElement::TreeColsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeColsElement::Type(),
+        Element(TreeColsElement::TagName(),
                 inParent,
                 new TreeCols(inParent->component(), inAttributesMapping))
     {
@@ -703,7 +703,7 @@ namespace XULWin
 
 
     TreeColElement::TreeColElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeColElement::Type(),
+        Element(TreeColElement::TagName(),
                 inParent,
                 new TreeCol(inParent->component(), inAttributesMapping))
     {
@@ -716,7 +716,7 @@ namespace XULWin
 
 
     TreeRowElement::TreeRowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeRowElement::Type(),
+        Element(TreeRowElement::TagName(),
                 inParent,
                 new TreeRow(inParent->component(), inAttributesMapping))
     {
@@ -729,7 +729,7 @@ namespace XULWin
 
 
     TreeCellElement::TreeCellElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeCellElement::Type(),
+        Element(TreeCellElement::TagName(),
                 inParent,
                 new TreeCell(inParent->component(), inAttributesMapping))
     {
@@ -742,7 +742,7 @@ namespace XULWin
 
 
     StatusbarElement::StatusbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(StatusbarElement::Type(),
+        Element(StatusbarElement::TagName(),
                 inParent,
                 new Statusbar(inParent->component(), inAttributesMapping))
     {
@@ -755,7 +755,7 @@ namespace XULWin
 
 
     StatusbarPanelElement::StatusbarPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(StatusbarPanelElement::Type(),
+        Element(StatusbarPanelElement::TagName(),
                 inParent,
                 new StatusbarPanel(inParent->component(), inAttributesMapping))
     {
@@ -768,7 +768,7 @@ namespace XULWin
 
 
     ToolbarElement::ToolbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ToolbarElement::Type(),
+        Element(ToolbarElement::TagName(),
                 inParent,
                 new Toolbar(inParent->component(), inAttributesMapping))
     {
@@ -781,7 +781,7 @@ namespace XULWin
 
 
     ToolbarButtonElement::ToolbarButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ToolbarButtonElement::Type(),
+        Element(ToolbarButtonElement::TagName(),
                 inParent,
                 new ToolbarButton(inParent->component(), inAttributesMapping))
     {

@@ -46,7 +46,7 @@ namespace XULWin
         template<class ElementType>
         void registerElement()
         {
-            mFactoryMethods.insert(std::make_pair(ElementType::Type(),
+            mFactoryMethods.insert(std::make_pair(ElementType::TagName(),
                                                   boost::bind(ElementType::Create, _1, _2)));
         }
 

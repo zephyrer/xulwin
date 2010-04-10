@@ -852,7 +852,7 @@ namespace XULWin
         Element * current = mDecoratedElement->el();
         while (!window)
         {
-            if (current->tagName() == WindowElement::Type())
+            if (current->tagName() == WindowElement::TagName())
             {
                 window = current;
             }

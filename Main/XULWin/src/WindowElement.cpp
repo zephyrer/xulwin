@@ -10,7 +10,7 @@ namespace XULWin
 
 
     WindowElement::WindowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(WindowElement::Type(),
+        Element(WindowElement::TagName(),
                 inParent,
                 new Window(inAttributesMapping))
     {

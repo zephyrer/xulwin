@@ -10,7 +10,7 @@ namespace XULWin
 
 
     ImageElement::ImageElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ImageElement::Type(),
+        Element(ImageElement::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Image>(inParent->component(), inAttributesMapping))
     {

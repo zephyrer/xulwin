@@ -2047,12 +2047,12 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->tagName() == RowsElement::Type())
+            if (child->tagName() == RowsElement::TagName())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->tagName() == ColumnsElement::Type())
+            else if (child->tagName() == ColumnsElement::TagName())
             {
                 columns = child;
                 numCols = columns->children().size();
@@ -2235,12 +2235,12 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->tagName() == RowsElement::Type())
+            if (child->tagName() == RowsElement::TagName())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->tagName() == ColumnsElement::Type())
+            else if (child->tagName() == ColumnsElement::TagName())
             {
                 columns = child;
                 numCols = columns->children().size();
@@ -2399,7 +2399,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->tagName())
+            if (GridElement::TagName() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<RowElement>(rows);
             }
@@ -2429,7 +2429,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->tagName())
+            if (GridElement::TagName() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<RowElement>(rows);
             }
@@ -2465,7 +2465,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->tagName())
+            if (GridElement::TagName() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<ColumnElement>(columns);
             }
@@ -2495,7 +2495,7 @@ namespace XULWin
         //
         if (Component * grid = parent())
         {
-            if (GridElement::Type() == grid->el()->tagName())
+            if (GridElement::TagName() == grid->el()->tagName())
             {
                 grid->el()->getElementsByType<ColumnElement>(columns);
             }
@@ -2554,11 +2554,11 @@ namespace XULWin
         for (size_t idx = 0; idx != grid->children().size(); ++idx)
         {
             ElementPtr child = grid->children()[idx];
-            if (child->tagName() == RowsElement::Type())
+            if (child->tagName() == RowsElement::TagName())
             {
                 rows = child;
             }
-            else if (child->tagName() == ColumnsElement::Type())
+            else if (child->tagName() == ColumnsElement::TagName())
             {
                 for (size_t ownI = 0; ownI != child->children().size(); ++ownI)
                 {
@@ -3071,7 +3071,7 @@ namespace XULWin
     {
         for (size_t idx = 0; idx != el()->parent()->children().size(); ++idx)
         {
-            if (el()->parent()->children()[idx]->tagName() == TabsElement::Type())
+            if (el()->parent()->children()[idx]->tagName() == TabsElement::TagName())
             {
                 if (TabsElement * tabs = el()->parent()->children()[idx]->downcast<TabsElement>())
                 {
@@ -3307,7 +3307,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->tagName() == CaptionElement::Type())
+            if (Super::getChild(0)->el()->tagName() == CaptionElement::TagName())
             {
                 assert(idx + 1 < Super::getChildCount());
                 if (idx + 1 < Super::getChildCount())
@@ -3332,7 +3332,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->tagName() == CaptionElement::Type())
+            if (Super::getChild(0)->el()->tagName() == CaptionElement::TagName())
             {
                 return Super::getChildCount() - 1;
             }

@@ -8,7 +8,7 @@ namespace XULWin
 {
 
     MenuSeparatorElement::MenuSeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuSeparatorElement::Type(),
+        Element(MenuSeparatorElement::TagName(),
                 inParent,
                 new MenuSeparator(inParent->component(), inAttributesMapping))
     {

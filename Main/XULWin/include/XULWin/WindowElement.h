@@ -17,7 +17,7 @@ namespace XULWin
             return Element::Create<WindowElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "window";
         }

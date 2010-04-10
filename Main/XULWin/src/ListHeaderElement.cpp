@@ -8,7 +8,7 @@ namespace XULWin
 {
 
     ListHeaderElement::ListHeaderElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ListHeaderElement::Type(),
+        Element(ListHeaderElement::TagName(),
                 inParent,
                 new ListHeader(inParent->component(), inAttributesMapping))
     {

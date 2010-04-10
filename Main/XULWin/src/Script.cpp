@@ -16,7 +16,7 @@ namespace XULWin
 
 
     ScriptElement::ScriptElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ScriptElement::Type(),
+        Element(ScriptElement::TagName(),
                 inParent,
                 new Script(inParent->component(), inAttributesMapping))
     {

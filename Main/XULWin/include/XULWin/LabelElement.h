@@ -16,7 +16,7 @@ namespace XULWin
             return Element::Create<LabelElement>(inParent, inAttr);
         }
 
-        static const char * Type()
+        static const char * TagName()
         {
             return "label";
         }

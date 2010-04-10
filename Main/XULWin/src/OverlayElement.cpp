@@ -6,7 +6,7 @@ namespace XULWin
 {
 
     OverlayElement::OverlayElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(OverlayElement::Type(),
+        Element(OverlayElement::TagName(),
                 inParent,
                 new Overlay(0, inAttributesMapping))
     {

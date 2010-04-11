@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="XULViewer"
 	ProjectGUID="{482804DD-92D5-4703-A30A-6FB7BFCD5453}"
 	RootNamespace="XULViewer"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -17,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\"
+			OutputDirectory="$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\"
 			IntermediateDirectory="$(OutDir)Intermediate"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -40,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir)..\..\XULWin\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)XULWin\include&quot;;&quot;$(ProjectDir)include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,10 +62,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib GdiPlus.lib "
+				AdditionalDependencies="comctl32.lib GdiPlus.lib Iphlpapi.lib wsock32.lib WS2_32.lib Winmm.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -86,16 +89,13 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="copy &quot;$(ProjectDir)XULViewer.xul&quot; &quot;$(OutDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)..\Output\Windows\$(ConfigurationName)\$(ProjectName)\"
+			OutputDirectory="$(SolutionDir)..\Output\Windows\VS90\$(ConfigurationName)\$(ProjectName)\"
 			IntermediateDirectory="$(OutDir)Intermediate"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(ProjectDir)..\..\XULWin\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)XULWin\include&quot;;&quot;$(ProjectDir)include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -137,12 +137,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib GdiPlus.lib "
+				AdditionalDependencies="comctl32.lib GdiPlus.lib Iphlpapi.lib wsock32.lib WS2_32.lib Winmm.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -162,9 +164,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

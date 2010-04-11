@@ -249,7 +249,7 @@ namespace XULWin
     {
         return handleMessage(MsgId(inSender,
                                    inMessage,
-                                   LOWORD(wParam)),
+                                   inSender->component()->commandId()), // LOWORD(wParam)),
                              wParam,
                              lParam);
     }

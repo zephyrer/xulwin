@@ -5,6 +5,7 @@
 #include "XULWin/Component.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
+#include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Unicode.h"
 #include <windows.h>
@@ -16,7 +17,7 @@ LRESULT runXUL(HMODULE inModuleHandle, const std::string & inXULDocument)
 {
 	XULWin::ErrorCatcher errorCatcher;
     XULWin::XULRunner runner(inModuleHandle);
-    XULWin::ElementPtr rootElement = runner.loadXUL(inXULDocument);
+    XULWin::ElementPtr rootElement = runner.loadXULFromFile(inXULDocument);
     if (!rootElement)
     {
         XULWin::ReportError("Failed to load the XUL document.");
@@ -55,7 +56,7 @@ void runXULViewer(HMODULE inModuleHandle)
 {
     XULWin::ErrorCatcher errorCatcher;
     XULWin::XULRunner runner(inModuleHandle);
-    XULWin::ElementPtr rootElement = runner.loadXUL("XULViewer.xul");
+    XULWin::ElementPtr rootElement = runner.loadXULFromFile("XULViewer.xul");
     if (!rootElement)
     {
         XULWin::ReportError("Failed to load the root element");

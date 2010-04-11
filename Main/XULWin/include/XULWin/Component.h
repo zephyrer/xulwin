@@ -79,9 +79,8 @@ namespace XULWin
     /**
      * Component
      *
-     * The Component class represents the C++ side of a XUL element.
-     * It provides methods for getting and setting attributes. This by means
-     * of a system of AttributeController classes.
+     * The Component class is a C++ interface for a XUL element.
+     * It provides methods for getting and setting attributes.
      *
      * Each xul attribute that has an effect on what the native UI looks like
      * requires a matching AttributeController class (a class that inherits

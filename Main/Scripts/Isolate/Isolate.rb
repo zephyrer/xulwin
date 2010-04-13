@@ -90,7 +90,8 @@ class CppObject
 end
 
 
-def extract_element_declarations(file)
+def extract_class_declarations(file)
+	puts file
 	result = []
 	lines = File.new(file, "r").readlines()
 	in_class = false
@@ -98,8 +99,9 @@ def extract_element_declarations(file)
 	class_name = ""
 	lines.each do |line|
 		if not in_class		
-			if line =~ /    class (\w+Element)/
+			if line =~ /    class (\w+)/
 				class_name = $1
+				puts class_name
 				in_class = true
 			end			
 		end
@@ -118,8 +120,10 @@ def extract_element_declarations(file)
 end
 
 
-def extract_element_definitions(class_name, file)
+def extract_class_definitions(class_name, file)
 	result = []
+	puts class_name
+	puts file
 	lines = File.new(file, "r").readlines()
 	in_method = false	
 	header_body = ""
@@ -145,7 +149,26 @@ def extract_element_definitions(class_name, file)
 end
 
 
-def write_header(obj, dir)
+def comp_name(el_name)
+	if el_name["Element"]
+		return el_name[0, el_name.length - "Element".length]
+	else
+		return el_name
+	end
+end
+
+
+def el_definition(obj)
+	body = ""
+	obj.cpp_methods.each do |method|
+		body += method
+		body += "\n\n"
+	end
+	return body
+end
+
+
+def write_el_header(obj, dir)
 	header_filename = File.join(dir, obj.class_name) + ".h"
 	compile_template("ElementTemplate.h",
 					 header_filename,
@@ -153,26 +176,82 @@ def write_header(obj, dir)
 					  "{{ELEMENT_DECLARATION}}" => obj.header_body })
 end
 
+
+def write_el_cpp(obj, dir)
+	cpp_filename = File.join(dir, obj.class_name) + ".cpp"
+	compile_template("ElementTemplate.cpp",
+					 cpp_filename,
+					 { "{{ELEMENT_NAME}}" => obj.class_name,
+					   "{{COMPONENT_NAME}}" => comp_name(obj.class_name),
+					   "{{ELEMENT_DEFINITION}}" => el_definition(obj) })
+end
+
+
+def write_co_header(obj, dir)
+	header_filename = File.join(dir, comp_name(obj.class_name)) + ".h"
+	puts "Component header: " + header_filename
+	compile_template("ComponentTemplate.h",
+					 header_filename,
+					{ "{{COMPONENT_NAME_UPPER}}" => comp_name(obj.class_name).upcase,
+					  "{{COMPONENT_DECLARATION}}" => obj.header_body })
+end
+
+
+def write_co_cpp(obj, dir)
+	cpp_filename = File.join(dir, comp_name(obj.class_name)) + ".cpp"
+	compile_template("ComponentTemplate.cpp",
+					 cpp_filename,
+					 { "{{COMPONENT_NAME}}" => comp_name(obj.class_name),
+					   "{{COMPONENT_DEFINITION}}" => el_definition(obj) })
+end
+
+
+def get_element_objects(hpp_path, cpp_path)
+	# obtain header bodies
+	objects = extract_class_declarations(File.join(hpp_path, "Element.h"))
+	
+	# obtain cpp bodies
+	objects.each do |cppobject|
+		cpp_methods = extract_class_definitions(cppobject.class_name, File.join(cpp_path, "Element.cpp"))
+		cpp_methods.each do |method|
+			cppobject.add_method(method)
+		end
+	end
+	objects.each do |obj|
+		write_el_header(obj, ".")
+		write_el_cpp(obj, ".")
+	end
+	return objects
+end
+
+
+def get_component_objects(hpp_path, cpp_path)
+	# obtain header bodies
+	objects = extract_class_declarations(File.join(hpp_path, "Component.h"))
+	puts "Number of component classes: " + objects.length.to_s
+	
+	# obtain cpp bodies
+	objects.each do |cppobject|
+		cpp_methods = extract_class_definitions(comp_name(cppobject.class_name), File.join(cpp_path, "Component.cpp"))
+		cpp_methods.each do |method|
+			cppobject.add_method(method)
+		end
+	end
+	objects.each do |obj|
+		write_co_header(obj, ".")
+		write_co_cpp(obj, ".")
+	end
+end
+
+
 def main
 	project_path = "../../XULWin/"
 	hpp_path = File.join(project_path, "include/XULWin/")
 	cpp_path = File.join(project_path, "src/")
 	
-	# obtain header bodies
-	objects = extract_element_declarations(File.join(hpp_path, "Element.h"))
 	
-	# obtain cpp bodies
-	objects.each do |cppobject|
-		methods = extract_element_definitions(cppobject.class_name, File.join(cpp_path, "Element.cpp"))
-		methods.each do |method|
-			cppobject.add_method(method)
-		end
-	end
-	
-	# create files
-	objects.each do |obj|
-		write_header(obj, ".")
-	end
+	get_element_objects(hpp_path, cpp_path)
+	get_component_objects(hpp_path, cpp_path)
 	
 	# save_element_header(File.join(project_path, "include/XULWin/Element.h"), el_decl)
 	# save_element_source(File.join(project_path, "include/XULWin/#{

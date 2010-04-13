@@ -8,8 +8,7 @@
 namespace XULWin
 {
 
-    {{COMPONENT_DECLARATION}}
-
+{{COMPONENT_DECLARATION}}
 } // namespace XULWin
 
 

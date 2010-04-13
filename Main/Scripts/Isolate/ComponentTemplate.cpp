@@ -4,6 +4,5 @@
 namespace XULWin
 {
 
-	{{COMPONENT_DEFINITION}}
-    
+{{COMPONENT_DEFINITION}}
 } // namespace XULWin

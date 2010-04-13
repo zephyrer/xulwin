@@ -108,16 +108,16 @@ def add_files_to_vs_project(project_path,
 end
 
 
-class CppClass
-	attr_accessor :name, :body, :methods
-	def initialize(name, body)
-		@name = name
-		@body = body
-		@methods = []
+class CppObject
+	attr_accessor :class_name, :header_body, :cpp_methods
+	def initialize(class_name, header_body)
+		@class_name = class_name
+		@header_body = header_body
+		@cpp_methods = []
 	end
 	
 	def addMethod(method)
-		@methods.push(method)
+		@cpp_methods.push(method)
 	end
 end
 
@@ -139,7 +139,7 @@ def extract_element_declarations(file)
 		if in_class
 			class_body += line
 			if line =~ /[ ][ ][ ][ ]\}\;/			
-				result.push(CppClass.new(class_name, class_body))
+				result.push(CppObject.new(class_name, class_body))
 				class_body = ""
 				class_name = ""
 				in_class = false				
@@ -154,7 +154,7 @@ def extract_element_definitions(class_name, file)
 	result = []
 	lines = File.new(file, "r").readlines()
 	in_method = false	
-	body = ""
+	header_body = ""
 	lines.each do |line|
 		if not in_method		
 			if line =~ /[ ][ ][ ][ ](\w+)::.+/
@@ -165,10 +165,10 @@ def extract_element_definitions(class_name, file)
 		end
 		
 		if in_method
-			body += line
+			header_body += line
 			if line =~ /[ ][ ][ ][ ]\}/
-				result.push(body)
-				body = ""
+				result.push(header_body)
+				header_body = ""
 				in_method = false
 			end
 		end
@@ -184,18 +184,18 @@ def main
 	
 	el_decls = extract_element_declarations(File.join(hpp_path, "Element.h"))
 	el_decls.each do |cppobject|
-		el_def = extract_element_definitions(cppobject.name, File.join(cpp_path, "Element.cpp"))
+		el_def = extract_element_definitions(cppobject.class_name, File.join(cpp_path, "Element.cpp"))
 		el_def.each do |method|
 			cppobject.addMethod(method)
 		end
-		puts "Number of methods for #{cppobject.name} is #{cppobject.methods.length}."
+		puts "Number of cpp_methods for #{cppobject.class_name} is #{cppobject.cpp_methods.length}."
 	end
 	
 	i = 0
 	while i < 3
 		el_decls.each do |decl|			
-			puts decl.body
-			decl.methods.each do |method|
+			puts decl.header_body
+			decl.cpp_methods.each do |method|
 				puts method
 				puts ""
 			end

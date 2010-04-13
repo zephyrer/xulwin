@@ -26,38 +26,6 @@ def compile_template(template_file, output_file, mapping)
 end
 
 
-def compile_element_header_file(template_header_file, element_name, component_name, hpp_path)
-    compile_template(template_header_file,
-                     File.join(hpp_path, element_name + ".h"),
-                     { "{{ELEMENT_NAME}}" => element_name,
-                       "{{ELEMENT_NAME_UPPER}}" => element_name.upcase(),
-                       "{{ELEMENT_TYPE}}" => component_name.downcase() })
-end
-
-
-def compile_element_source_file(template_source_file, element_name, component_name, cpp_path)
-    compile_template(template_source_file,
-                     File.join(cpp_path, element_name + ".cpp"),
-                     { "{{ELEMENT_NAME}}" => element_name,
-                       "{{COMPONENT_NAME}}" => component_name })
-end
-
-
-def compile_component_header_file(template_header_file, component_name, hpp_path)
-    compile_template(template_header_file,
-                     File.join(hpp_path, component_name + ".h"),
-                     { "{{COMPONENT_NAME}}" => component_name,
-                       "{{COMPONENT_NAME_UPPER}}" => component_name.upcase() } )
-end
-
-
-def compile_component_source_file(template_source_file, component_name, cpp_path)
-    compile_template(template_source_file,
-                     File.join(cpp_path, component_name + ".cpp"),
-                     { "{{COMPONENT_NAME}}" => component_name } )
-end
-
-
 def add_file_to_vs_project(filter_node, relative_path)
 	element = REXML::Element.new("File")
 	element.attributes["RelativePath"] = relative_path
@@ -116,7 +84,7 @@ class CppObject
 		@cpp_methods = []
 	end
 	
-	def addMethod(method)
+	def add_method(method)
 		@cpp_methods.push(method)
 	end
 end
@@ -177,30 +145,33 @@ def extract_element_definitions(class_name, file)
 end
 
 
+def write_header(obj, dir)
+	header_filename = File.join(dir, obj.class_name) + ".h"
+	compile_template("ElementTemplate.h",
+					 header_filename,
+					{ "{{ELEMENT_NAME_UPPER}}" => obj.class_name.upcase,
+					  "{{ELEMENT_DECLARATION}}" => obj.header_body })
+end
+
 def main
 	project_path = "../../XULWin/"
 	hpp_path = File.join(project_path, "include/XULWin/")
 	cpp_path = File.join(project_path, "src/")
 	
-	el_decls = extract_element_declarations(File.join(hpp_path, "Element.h"))
-	el_decls.each do |cppobject|
-		el_def = extract_element_definitions(cppobject.class_name, File.join(cpp_path, "Element.cpp"))
-		el_def.each do |method|
-			cppobject.addMethod(method)
+	# obtain header bodies
+	objects = extract_element_declarations(File.join(hpp_path, "Element.h"))
+	
+	# obtain cpp bodies
+	objects.each do |cppobject|
+		methods = extract_element_definitions(cppobject.class_name, File.join(cpp_path, "Element.cpp"))
+		methods.each do |method|
+			cppobject.add_method(method)
 		end
-		puts "Number of cpp_methods for #{cppobject.class_name} is #{cppobject.cpp_methods.length}."
 	end
 	
-	i = 0
-	while i < 3
-		el_decls.each do |decl|			
-			puts decl.header_body
-			decl.cpp_methods.each do |method|
-				puts method
-				puts ""
-			end
-		end
-		i += 1
+	# create files
+	objects.each do |obj|
+		write_header(obj, ".")
 	end
 	
 	# save_element_header(File.join(project_path, "include/XULWin/Element.h"), el_decl)

@@ -1,15 +1,24 @@
-//
-// Tutorial 2: Event Handling and Loading External DTDs.
-//
-// This tutorial illustrates how to handle events using the ScopedEventListener class.
-// See ConfigSample.cpp.
-//
-// This sample also loads the UI strings from an external DTD document. It loads the
-// DTD found in the chrome/locale/en-US folder. en-US is the default locale. If you 
-// want to change it then you can use the XULRunner::SetLocale function.
-//
-// Feel free to experiment.
-//
+/** 
+ *  Tutorial 2: Event Handling and Loading External DTDs.
+ * 
+ *  This tutorial illustrates how to handle events using the ScopedEventListener class.
+ *  The code is found in ConfigSample.h and ConfigSample.cpp.
+ * 
+ *  This sample also read the GUI strings from an external DTD document.
+ *  Since the default locale is "en-US", XULWin loads DTD in from the
+ *  "chrome/locale/en-US" directory. A different local can be specified
+ *  with the XULRunner::SetLocale function.
+ *
+ *  Checklist:
+ *  1. Set code generation settings:
+ *      - "Multi-threaded Debug" (/MTd) for Debug builds
+ *      - "Multi-threaded" (/MT) for Release builds 
+ *  2. Link with: comctl32.lib, GdiPlus.lib.
+ *  3. The project must have a manifest file.
+ *      - See "Tutorial_02_Event_Handling_And_External_DTDs.exe.manifest"
+ *  4. Set the debugging settings correctly
+ *      Project settings -> Debugging -> Command Arguments: $(ProjectDir)ConfigPanel
+ */
 #include "ConfigSample.h"
 #include <sstream>
 #include <string>
@@ -27,6 +36,9 @@ std::string unquote(const std::string & inString)
 }
 
 
+/**
+ * Usage: Tutorial_02.exe XULApplicationPath
+ */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     // Initialize the XULWin library

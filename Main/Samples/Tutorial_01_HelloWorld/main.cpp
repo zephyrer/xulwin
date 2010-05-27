@@ -38,6 +38,8 @@ std::string unquote(const std::string & inString)
 /**
  * Tutorial_01 illustrates a simple XULWin application.
  *
+ * Usage: Tutorial_01.exe XULApplicationPath
+ *
  *  Checklist:
  *  1. Set code generation settings:
  *      - "Multi-threaded Debug" (/MTd) for Debug builds

@@ -63,6 +63,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib GdiPlus.lib Iphlpapi.lib wsock32.lib WS2_32.lib Winmm.lib"
+				OutputFile="$(OutDir)Tutorial_01.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -137,6 +138,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib GdiPlus.lib Iphlpapi.lib wsock32.lib WS2_32.lib Winmm.lib"
+				OutputFile="$(OutDir)Tutorial_01.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"

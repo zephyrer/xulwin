@@ -55,17 +55,6 @@ namespace XULWin
                         boost::bind(&ConfigSample::showNewSetDialog, this));
 
         
-        // Connect the checkbox with the showMessage method.
-        mEvents.connect(mConfigWindow->getElementById("allowRatingsCheckBox"),
-                        boost::bind(&ConfigSample::showMessage, this, "Checked"));
-
-        
-        // Connect the key-up event in the tags textbox with a showMessage.
-        mEvents.connect(mConfigWindow->getElementById("tagsTextBox"),
-                        WM_KEYUP,
-                        boost::bind(&ConfigSample::showMessage, this, "Received WM_KEYUP event."));
-
-        
         // Connect the upload button with the showUpload method.
         mEvents.connect(mConfigWindow->getElementById("uploadButton"),
                         boost::bind(&ConfigSample::showUpload, this));

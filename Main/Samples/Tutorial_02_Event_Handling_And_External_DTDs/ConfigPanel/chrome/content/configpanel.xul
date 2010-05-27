@@ -14,7 +14,9 @@
         <label value="&UPLOAD_TO;" />
         <menulist>
           <menupopup>
-            <menuitem label="StackedCrooked" />
+            <menuitem label="My Profile" />
+            <menuitem label="Blogosphere" />
+            <menuitem label="Picture Wall" />
           </menupopup>
         </menulist>
       </row>
@@ -33,7 +35,7 @@
       </row>
       <row align="center">
         <label value="&TAGS;" />
-        <textbox type="password" id="tagsTextBox"/>
+        <textbox id="tagsTextBox"/>
       </row>
       <row align="stretch">
         <spacer/>

@@ -120,7 +120,7 @@ namespace XULWin
 
         /**
          * Element initialization.
-         * 
+         *
          * Subclasses of Element may override this method to do extra
          * initialization after the default creation steps have been
          * taken care of.
@@ -148,7 +148,7 @@ namespace XULWin
          * behavior. Be careful!
          */
         virtual void removeChild(const Element * inChild);
-        
+
         /**
          * Returns the element tagname.
          *
@@ -162,18 +162,24 @@ namespace XULWin
          * If the element is the document top-level element then
          * NULL is returned.
          */
-        const Element * parent() const { return mParent; }
+        const Element * parent() const
+        {
+            return mParent;
+        }
 
         /**
          * Returns the non-const parent element.
          */
-        Element * parent() { return mParent; }
+        Element * parent()
+        {
+            return mParent;
+        }
 
         /**
          * Gets an attribute.
          *
          * If the attribute is natively mapped then this method is
-         * forwarded to the Component object and this may result in 
+         * forwarded to the Component object and this may result in
          * a native system call to query the widget state.
          *
          * If the attribute is not natively mapped then the value
@@ -185,13 +191,13 @@ namespace XULWin
 
         /**
          * Sets an attribute.
-         * 
+         *
          * Sets the attribute by invoking the attribute controller.
          * If no attribute controller found it will insert (or overwrite)
          * the value in the attributes mapping.
          */
         void setAttribute(const std::string & inName, const std::string & inValue);
-        
+
         /**
          * Gets an attribute without querying the component.
          *
@@ -206,7 +212,7 @@ namespace XULWin
          * Gets a style attribute.
          *
          * If the style attribute is natively mapped then this method
-         * is forwarded to the Component object and this may result in 
+         * is forwarded to the Component object and this may result in
          * a native system call to query the widget state.
          *
          * If the style attributes is not natively mapped then the value
@@ -228,7 +234,7 @@ namespace XULWin
          * Returns the text between an Element's opening and closing tags.
          */
         const std::string & innerText() const;
-        
+
         /**
          * Finds an element in the DOM tree with the requested id.
          */
@@ -261,12 +267,18 @@ namespace XULWin
         /**
          * Returns the list of child elements.
          */
-        const Children & children() const { return mChildren; }
+        const Children & children() const
+        {
+            return mChildren;
+        }
 
         /**
          * Returns a non-const list of child elements.
          */
-        Children & children() { return mChildren; }
+        Children & children()
+        {
+            return mChildren;
+        }
 
         /**
          * Registers an event listener.

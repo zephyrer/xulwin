@@ -110,7 +110,7 @@ namespace XULWin
     }
 
 
-    LRESULT ConfigSample::addNewSet(const std::string & inSetName)
+    void ConfigSample::addNewSet(const std::string & inSetName)
     { 
         AttributesMapping attr;
         attr["label"] = inSetName;
@@ -120,11 +120,15 @@ namespace XULWin
             {
                 ElementPtr item = MenuItemElement::Create(popup, attr);
                 item->init();
-                return 0;
             }
         }
-        return 1;
     }
+
+
+	LRESULT ConfigSample::closeDialog(Dialog * inDialog, DialogResult inDialogResult)
+	{
+		return inDialog->endModal(inDialogResult);
+	}
 
 
     LRESULT ConfigSample::showNewSetDialog()
@@ -133,43 +137,45 @@ namespace XULWin
         mNewSetTextBox = mNewSetDlg->getElementById("settextbox");                
         mNewSetOK = mNewSetDlg->getElementById("newSetOKButton");
         mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
+        
+		ScopedEventListener localEvents;
+		Dialog * nativeDialog = mNewSetDlg->component()->downcast<Dialog>();
+		ScopedEventListener::Action onOK = boost::bind(&ConfigSample::closeDialog,
+													   this,
+                                                       nativeDialog,
+													   XULWin::DialogResult_Ok);
+		localEvents.connect(mNewSetOK, onOK);
 
-        ScopedEventListener localEvents;
-        localEvents.connect(mNewSetOK, boost::bind(&ConfigSample::newSetOK, this));
-        localEvents.connect(mNewSetCancel, boost::bind(&ConfigSample::closeDialog, this, mNewSetDlg.get()));
+		ScopedEventListener::Action onCancel = boost::bind(&ConfigSample::closeDialog,
+														   this,
+                                                           nativeDialog,
+													       XULWin::DialogResult_Cancel);
+		localEvents.connect(mNewSetCancel, onCancel);
 
         if (Dialog * dlg = mNewSetDlg->component()->downcast<Dialog>())
         {
             if (Window * wnd = mConfigWindow->component()->downcast<Window>())
             {
-                dlg->showModal(wnd);
+				// Set the focus on the textbox
+				XULWin::Element * textEl = mNewSetDlg->getElementById("settextbox");
+				if (textEl && textEl->component())
+				{
+					XULWin::TextBox * textBox = textEl->component()->downcast<XULWin::TextBox>();
+					if (textBox)
+					{
+						::SetFocus(textBox->handle());
+					}
+				}
+
+				// Show the dialog
+				DialogResult dialogResult = dlg->showModal(wnd);
+                if (dialogResult == DialogResult_Ok)
+				{
+					// Get the "value" attribute of the text box.
+					std::string setName = mNewSetDlg->getElementById("settextbox")->getAttribute("value");
+					addNewSet(setName);
+				}
             }
-        }
-        return 0;
-    }
-
-
-    LRESULT ConfigSample::newSetOK()
-    {        
-        AttributesMapping attr;
-        if (TextBox * nativeTextBox = mNewSetTextBox->component()->downcast<TextBox>())
-        {
-            addNewSet(nativeTextBox->getValue());
-        }
-        if (Dialog * nativeDialog = mNewSetDlg->component()->downcast<Dialog>())
-        {
-            nativeDialog->endModal(XULWin::DialogResult_Ok);
-            return 0;
-        }
-        return 1;
-    }
-
-
-    LRESULT ConfigSample::closeDialog(Element * inDialog)
-    {
-        if (Dialog * nativeDialog = inDialog->component()->downcast<Dialog>())
-        {
-            nativeDialog->endModal(XULWin::DialogResult_Cancel);
         }
         return 0;
     }

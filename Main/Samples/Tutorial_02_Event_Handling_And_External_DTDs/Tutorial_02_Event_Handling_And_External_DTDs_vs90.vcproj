@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Tutorial_02_Event_Handling_And_External_DTDs"
+	Name="Tutorial_02"
 	ProjectGUID="{55BE11F0-DFDD-42C9-B51B-17639BFA7AC5}"
 	RootNamespace="Tutorial_2_Event_Handling_And_External_DTDs"
 	Keyword="Win32Proj"
@@ -192,7 +192,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Tutorial_02_Event_Handling_And_External_DTDs.exe.manifest"
+				RelativePath=".\Tutorial_02.exe.manifest"
 				>
 			</File>
 		</Filter>

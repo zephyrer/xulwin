@@ -25,21 +25,19 @@ namespace XULWin
 
         void run();
 
+    private:
         LRESULT dropFiles(WPARAM wParam, LPARAM lParam);
 
         LRESULT showMessage(const std::string & inMessage);
 
         LRESULT showUpload();
 
-        LRESULT addNewSet(const std::string & inSetName);
-
         LRESULT showNewSetDialog();
 
-        LRESULT newSetOK();
+		LRESULT closeDialog(Dialog * inDialog, DialogResult inDialogResult);
 
-        LRESULT closeDialog(Element * inWindow);
+        void addNewSet(const std::string & inSetName);
 
-    private:
         std::string mAppDir;
         XULRunner mXULRunner;   
         ElementPtr mConfigWindow;

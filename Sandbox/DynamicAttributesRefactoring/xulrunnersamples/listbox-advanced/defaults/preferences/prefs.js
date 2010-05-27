@@ -1,1 +1,0 @@
-pref("toolkit.defaultChromeURI", "chrome://listbox-advanced/content/listbox-advanced.xul");

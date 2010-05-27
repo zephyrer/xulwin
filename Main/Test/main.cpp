@@ -29,7 +29,6 @@ void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathT
 {
     runConfigSample(hInstance, inPathToXULRunnerSamples);
     runImageViewerSample(hInstance, inPathToXULRunnerSamples);
-    tester.runXULSample("configpanel");
     tester.runXULSample("listbox-simple");
     tester.runXULSample("listbox-advanced");
     tester.runXULSample("tabbox");

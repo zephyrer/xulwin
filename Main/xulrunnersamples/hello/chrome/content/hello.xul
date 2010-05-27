@@ -12,7 +12,8 @@
         orient="vertical"
         align="stretch"
         width="480"
-        height="480">
+        height="480"
+        title="Hello Sample">
 
 
   <!-- A two column listbox with one column flexible -->

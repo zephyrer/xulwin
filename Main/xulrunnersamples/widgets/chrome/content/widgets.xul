@@ -29,9 +29,9 @@
 
 <window id="openLocation"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        title="Widgets Test"
         orient="vertical"
-        style="x:100px; y:100px">
+        style="x:100px; y:100px"
+        title="Widgets Sample">
 
   <script id="sayHelloScript">
   <![CDATA[

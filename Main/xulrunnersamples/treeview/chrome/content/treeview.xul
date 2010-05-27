@@ -3,7 +3,8 @@
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         xmlns:svg="http://www.w3.org/2000/svg"
         orient="horizontal"
-        align="stretch">
+        align="stretch"
+        title="TreeView Sample">
   
 
   <tree id="folders"
@@ -12,12 +13,6 @@
         context="contextmenu"
         hidecolumnpicker="true"
         flex="1">
-
-    <popup id="contextmenu">
-      <menuitem label="Cut"/>
-      <menuitem label="Copy"/>
-      <menuitem label="Paste"/>
-    </popup>
 
     <treecols>
       <treecol label="Manager" primary="true" flex="1"/>

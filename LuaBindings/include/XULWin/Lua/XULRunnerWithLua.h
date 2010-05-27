@@ -13,63 +13,63 @@ struct lua_State;
 namespace XULWin
 {
 
-    
-class XULRunner;
+
+    class XULRunner;
 
 
-namespace Lua
-{
-
-    /**
-     * Lua::XULRunnerWithLua bundles a XULWin::XULRunner and a Lua state.
-     * You should use a separate XULRunnerWithLua object for each XUL document
-     * that you want to parse. This ensures that a separate Lua state will be
-     * created per XUL document.
-     */
-    class XULRunnerWithLua : public EventListener
+    namespace Lua
     {
-    public:
-        XULRunnerWithLua(HMODULE hModuleHandle);
 
-        ~XULRunnerWithLua();
+        /**
+         * Lua::XULRunnerWithLua bundles a XULWin::XULRunner and a Lua state.
+         * You should use a separate XULRunnerWithLua object for each XUL document
+         * that you want to parse. This ensures that a separate Lua state will be
+         * created per XUL document.
+         */
+        class XULRunnerWithLua : public EventListener
+        {
+        public:
+            XULRunnerWithLua(HMODULE hModuleHandle);
 
-        ElementPtr loadApplication(const std::string & inApplicationIniFile);
+            ~XULRunnerWithLua();
 
-        ElementPtr loadXUL(const std::string & inXULUrl);
+            ElementPtr loadApplication(const std::string & inApplicationIniFile);
 
-        ElementPtr rootElement() const;
+            ElementPtr loadXUL(const std::string & inXULUrl);
 
-        boost::function<void(const std::string &)> Logger;
+            ElementPtr rootElement() const;
 
-        bool loadFile(const std::string & inLuaFile);
+            boost::function<void(const std::string &)> Logger;
 
-        bool loadScript(const std::string & inScript);
+            bool loadFile(const std::string & inLuaFile);
 
-        XULRunnerWithLua * getParentXULRunner();
+            bool loadScript(const std::string & inScript);
 
-        HMODULE getModuleHandle() const;
+            XULRunnerWithLua * getParentXULRunner();
 
-    private:
+            HMODULE getModuleHandle() const;
 
-        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
-        virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);        
-        virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
-        virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
+        private:
 
-        void log(const std::string & inMessage);
+            virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
+            virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
+            virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
+            virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
-        void loadScripts(Element * inEl);
+            void log(const std::string & inMessage);
 
-        void addListeners(Element * inEl);
-        
-        HMODULE mModuleHandle;
-        boost::scoped_ptr<XULWin::XULRunner> mXULRunner;
-        lua_State * mLuaState;
-        XULRunnerWithLua * mPrevXULRunner;
-    };
+            void loadScripts(Element * inEl);
+
+            void addListeners(Element * inEl);
+
+            HMODULE mModuleHandle;
+            boost::scoped_ptr<XULWin::XULRunner> mXULRunner;
+            lua_State * mLuaState;
+            XULRunnerWithLua * mPrevXULRunner;
+        };
 
 
-} // namespace Lua
+    } // namespace Lua
 
 } // namespace XULWin
 

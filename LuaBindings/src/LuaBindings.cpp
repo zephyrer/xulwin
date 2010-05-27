@@ -14,100 +14,100 @@ namespace XULWin
 {
 
 
-namespace Lua
-{
-    static XULRunnerWithLua * gActiveXULRunner(0);
-    
-    
-    XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner)
+    namespace Lua
     {
-        XULRunnerWithLua * prev = gActiveXULRunner;
-        gActiveXULRunner = inXULRunner;
-        return prev;
-    }
+        static XULRunnerWithLua * gActiveXULRunner(0);
 
 
-    Element * getRootElement()
-    {
-        if (gActiveXULRunner)
+        XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner)
         {
-            return gActiveXULRunner->rootElement().get();
+            XULRunnerWithLua * prev = gActiveXULRunner;
+            gActiveXULRunner = inXULRunner;
+            return prev;
         }
-        return 0;
-    }
-    
-    
-    void setTimeout(const std::string & inCallback, int inMilliseconds)
-    {
-        assert(gActiveXULRunner);
-        if (gActiveXULRunner)
+
+
+        Element * getRootElement()
         {
-            Windows::setTimeout(boost::bind(&XULRunnerWithLua::loadScript, gActiveXULRunner, inCallback), inMilliseconds);
+            if (gActiveXULRunner)
+            {
+                return gActiveXULRunner->rootElement().get();
+            }
+            return 0;
         }
-    }
 
 
-    void showMessage(const std::string & inString)
-    {
-        std::wstring utf16Message = ToUTF16(inString);
-        ::MessageBox(0, utf16Message.c_str(), TEXT("Lua"), MB_OK);
-    }
-    
-    
-    WindowElement * toWindow(Element * inElement)
-    {
-        WindowElement * result = 0;
-        if (inElement)
+        void setTimeout(const std::string & inCallback, int inMilliseconds)
         {
-            result = inElement->downcast<WindowElement>();
+            assert(gActiveXULRunner);
+            if (gActiveXULRunner)
+            {
+                Windows::setTimeout(boost::bind(&XULRunnerWithLua::loadScript, gActiveXULRunner, inCallback), inMilliseconds);
+            }
         }
-        return result;
-    }
-    
-    
-    DialogElement * toDialog(Element * inElement)
-    {
-        DialogElement * result = 0;
-        if (inElement)
+
+
+        void showMessage(const std::string & inString)
         {
-            result = inElement->downcast<DialogElement>();
+            std::wstring utf16Message = ToUTF16(inString);
+            ::MessageBox(0, utf16Message.c_str(), TEXT("Lua"), MB_OK);
         }
-        return result;
-    }
 
 
-    std::string prompt(const std::string & inText, const std::string & inDefault)
-    {
-        std::string result = inDefault;
-        XULRunnerWithLua runner(gActiveXULRunner->getModuleHandle());
-        Poco::Path promptFilePath(Windows::getApplicationDirectory(gActiveXULRunner->getModuleHandle()));
-        promptFilePath.append("Prompt.xul").toString();
-        ElementPtr root = runner.loadXUL(promptFilePath.toString());
-        if (root)
+        WindowElement * toWindow(Element * inElement)
         {
-            if (DialogElement * dlg = root->downcast<DialogElement>())
-            {         
-                XULRunnerWithLua * parentXULRunner = runner.getParentXULRunner();
-                assert(parentXULRunner);
-                std::vector<WindowElement *> windows;
-                ElementPtr prevRoot = parentXULRunner->rootElement();
-                prevRoot->getElementsByType<WindowElement>(windows);
-                if (!windows.empty())
+            WindowElement * result = 0;
+            if (inElement)
+            {
+                result = inElement->downcast<WindowElement>();
+            }
+            return result;
+        }
+
+
+        DialogElement * toDialog(Element * inElement)
+        {
+            DialogElement * result = 0;
+            if (inElement)
+            {
+                result = inElement->downcast<DialogElement>();
+            }
+            return result;
+        }
+
+
+        std::string prompt(const std::string & inText, const std::string & inDefault)
+        {
+            std::string result = inDefault;
+            XULRunnerWithLua runner(gActiveXULRunner->getModuleHandle());
+            Poco::Path promptFilePath(Windows::getApplicationDirectory(gActiveXULRunner->getModuleHandle()));
+            promptFilePath.append("Prompt.xul").toString();
+            ElementPtr root = runner.loadXUL(promptFilePath.toString());
+            if (root)
+            {
+                if (DialogElement * dlg = root->downcast<DialogElement>())
                 {
-                    WindowElement * wnd = windows[0];
-                    if (wnd)
+                    XULRunnerWithLua * parentXULRunner = runner.getParentXULRunner();
+                    assert(parentXULRunner);
+                    std::vector<WindowElement *> windows;
+                    ElementPtr prevRoot = parentXULRunner->rootElement();
+                    prevRoot->getElementsByType<WindowElement>(windows);
+                    if (!windows.empty())
                     {
-                        Element * textField = root->getElementById("textInput");
-                        ::SetFocus(textField->component()->downcast<TextBox>()->handle());
-                        dlg->showModal(wnd);
-                        result = textField->getAttribute("value");
+                        WindowElement * wnd = windows[0];
+                        if (wnd)
+                        {
+                            Element * textField = root->getElementById("textInput");
+                            ::SetFocus(textField->component()->downcast<TextBox>()->handle());
+                            dlg->showModal(wnd);
+                            result = textField->getAttribute("value");
+                        }
                     }
                 }
             }
+            return result;
         }
-        return result;
-    }
 
-} // namespace Lua
+    } // namespace Lua
 
 } // namespace XULWin

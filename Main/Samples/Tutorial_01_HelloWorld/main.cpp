@@ -1,18 +1,3 @@
-//
-// This project illustrates how to use XULWin by means of a practicle example.
-// It loads a XUL application named TutApp. This application can be found in 
-// this project's directory.
-//
-// A few remarks:
-// - Don't forget to set code generation settings the same for all projects.
-//   XULWin uses Multi-threaded (/MT(d)) by default, but you are free to change it.
-// - You need to link with comctl32.lib and GdiPlus.lib.
-// - Add a manifest file to your project or init common controls call will fail.
-//   See this project's Tutorial.exe.manifest for an example of such a manifest file.
-//
-//
-// Feel free to experiment.
-//
 #include "XULWin/Component.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
@@ -25,12 +10,24 @@
 #include <sstream>
 #include <string>
 
+/** 
+
+ */ 
 
 
-// Sometimes Windows wraps it's arguments in quotes, this function removes them.
+/**
+ * Remove single or double quotes around a string.
+ * Windows wraps it's arguments in quotes and we don't want that.
+ */
 std::string unquote(const std::string & inString)
 {
-    if (inString.size() >= 2 && inString[0] == '"' && inString[inString.size() - 1] == '"')
+	if (inString.size() <= 2)
+	{
+		return inString;
+	}
+
+    if ((inString[0] == '"' && inString[inString.size() - 1] == '"') ||
+		(inString[0] == '\'' && inString[inString.size() - 1] == '\''))
     {
         return inString.substr(1, inString.size() - 2);
     }
@@ -38,6 +35,19 @@ std::string unquote(const std::string & inString)
 }
 
 
+/**
+ * Tutorial_01 illustrates a simple XULWin application.
+ *
+ *  Checklist:
+ *  1. Set code generation settings:
+ *      - "Multi-threaded Debug" (/MTd) for Debug builds
+ *      - "Multi-threaded" (/MT) for Release builds 
+ *  2. Link with: comctl32.lib, GdiPlus.lib.
+ *  3. The project must have a manifest file.
+ *      - See "Tutorial.exe.manifest" for example.
+ *  4. Set the debugging settings correctly
+ *      Project settings -> Debugging -> Command Arguments: $(ProjectDir)HelloWorld
+ */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     // Initialize the XULWin library
@@ -45,11 +55,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Obtain the path to the directory containing your XUL application.ini file.
     // In this example the path will be passed as a command line argument.   
-    // See Project settings -> Debugging -> Command Arguments: $(ProjectDir)TutApp
+    // See Project settings -> Debugging -> Command Arguments: $(ProjectDir)HelloWorld
     std::string commandLine(unquote(lpCmdLine));
     if (commandLine.empty())
     {
-        ::MessageBox(0, TEXT("Please set the command arguments correctly:\nTutorial Project settings -> Debugging -> Command Arguments: $(ProjectDir)TutApp"), 0, MB_OK);
+        ::MessageBox(0, TEXT("Please set the command arguments correctly:\nTutorial Project settings -> Debugging -> Command Arguments: $(ProjectDir)HelloWorld"), 0, MB_OK);
         return 1;
     }
 
@@ -107,7 +117,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     // If we get here then things are going well.
-    // We know that the root element of 'TutApp' is a 'window' element.
+    // We know that the root element of 'HelloWorld' is a 'window' element.
     // Therefore we obtain the root's Component object, and cast it to a Window component.
     // For more information about the Element and Component classes see their corresponding
     // header files.

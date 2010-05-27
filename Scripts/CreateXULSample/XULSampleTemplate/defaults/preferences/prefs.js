@@ -1,0 +1,1 @@
+pref("toolkit.defaultChromeURI", "chrome://{{APP_NAME_DOWNCASE}}/content/{{APP_NAME_DOWNCASE}}.xul");

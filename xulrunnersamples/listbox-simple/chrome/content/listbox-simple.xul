@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- Stylesheet ignored by XULWin, included for compatiblity with Mozilla XUL -->
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="mainWindow"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+		    title="Simple ListBox Sample">
+  <listbox id="theList" flex="1">
+    <listitem label="Ruby"/>
+    <listitem label="Emerald"/>
+    <listitem label="Sapphire" selected="true"/>
+    <listitem label="Diamond"/>
+  </listbox>
+</window>

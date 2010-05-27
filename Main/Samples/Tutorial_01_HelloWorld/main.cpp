@@ -46,7 +46,7 @@ std::string unquote(const std::string & inString)
  *      - "Multi-threaded" (/MT) for Release builds 
  *  2. Link with: comctl32.lib, GdiPlus.lib.
  *  3. The project must have a manifest file.
- *      - See "Tutorial.exe.manifest" for example.
+ *      - See "Tutorial_01.exe.manifest" for example.
  *  4. Set the debugging settings correctly
  *      Project settings -> Debugging -> Command Arguments: $(ProjectDir)HelloWorld
  */

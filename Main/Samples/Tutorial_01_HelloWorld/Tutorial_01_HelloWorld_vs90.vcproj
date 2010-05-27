@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Tutorial_01_HelloWorld"
+	Name="Tutorial_01"
 	ProjectGUID="{BC71361F-D438-47AC-AB32-F77B2EF462D7}"
 	RootNamespace="Tutorial"
 	Keyword="Win32Proj"
@@ -183,7 +183,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Tutorial_01_HelloWorld_vs90.exe.manifest"
+			RelativePath=".\Tutorial_01.exe.manifest"
 			>
 		</File>
 	</Files>

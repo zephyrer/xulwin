@@ -20,7 +20,7 @@ namespace XULWin
     }
 
 
-    ConfigSample::ConfigSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples) : 
+    ConfigSample::ConfigSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples) :
         mRunner(inModuleHandle),
         mPathToXULRunnerSamples(inPathToXULRunnerSamples)
     {
@@ -37,7 +37,7 @@ namespace XULWin
             ReportError("Failed to load application.ini file for configpanel.");
             return;
         }
-        
+
         mSetsPopup = mConfigWindow->getElementById("setsMenuList");
 
 
@@ -45,11 +45,11 @@ namespace XULWin
         mEvents.connect(mNewSetButton,
                         boost::bind(&ConfigSample::showNewSetDialog, this));
 
-        
+
         mEvents.connect(mConfigWindow->getElementById("allowRatingsCheckBox"),
                         boost::bind(&ConfigSample::showMessage, this, "Checked"));
 
-        
+
         mEvents.connect(mConfigWindow->getElementById("tagsTextBox"),
                         WM_KEYUP,
                         boost::bind(&ConfigSample::showMessage, this, "Received WM_KEYUP event."));
@@ -80,7 +80,7 @@ namespace XULWin
         int numFiles = ::DragQueryFile((HDROP)wParam, 0xFFFFFFFF, 0, 0);
         for (int idx = 0; idx < numFiles; ++idx)
         {
-    	    TCHAR fileName[MAX_PATH];
+            TCHAR fileName[MAX_PATH];
             ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
             files.push_back(ToUTF8(&fileName[0]));
         }
@@ -105,7 +105,7 @@ namespace XULWin
 
 
     LRESULT ConfigSample::addNewSet(const std::string & inSetName)
-    { 
+    {
         AttributesMapping attr;
         attr["label"] = inSetName;
         if (!mSetsPopup->children().empty())
@@ -126,7 +126,7 @@ namespace XULWin
         mNewSetDlg = mRunner.loadXULFromFile("chrome://configpanel/content/newsetdialog.xul");
 
         mNewSetTextBox = mNewSetDlg->getElementById("settextbox");
-        
+
         mNewSetOK = mNewSetDlg->getElementById("newSetOKButton");
         ScopedEventListener localEvents;
         localEvents.connect(mNewSetOK, boost::bind(&ConfigSample::newSetOK, this));
@@ -146,7 +146,7 @@ namespace XULWin
 
 
     LRESULT ConfigSample::newSetOK()
-    {        
+    {
         AttributesMapping attr;
         if (TextBox * nativeTextBox = mNewSetTextBox->component()->downcast<TextBox>())
         {

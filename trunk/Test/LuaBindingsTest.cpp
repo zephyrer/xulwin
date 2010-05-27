@@ -21,7 +21,7 @@ namespace XULWin
         mModuleHandle(inModuleHandle),
         mLoggerRunner(inModuleHandle),
         mPathToXULRunnerSamples(inPathToXULRunnerSamples)
-    {    
+    {
         Poco::Path loggerPath(Windows::getApplicationDirectory(inModuleHandle));
         loggerPath.append("Logger.xul");
         mLoggerApp = mLoggerRunner.loadXUL(loggerPath.toString());
@@ -69,8 +69,8 @@ namespace XULWin
             wnd->showModal(WindowElement::CenterInScreen);
         }
     }
-    
-    
+
+
     void LuaBindingsTest::log(const std::string & inMessage)
     {
         if (Element * logListBox = mLoggerApp->getElementById("logListBox"))

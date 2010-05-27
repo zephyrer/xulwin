@@ -22,7 +22,7 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 {
     ImageViewerSample sample(inModuleHandle, inPathToXULRunnerSamples);
     sample.run();
-} 
+}
 
 
 void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
@@ -64,11 +64,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Initialize all kinds of stuff
     Initializer initializer(hInstance);
 
-    // Ensure that the common control DLL is loaded. 
+    // Ensure that the common control DLL is loaded.
     Windows::CommonControlsInitializer ccInit;
 
     Tester tester(hInstance, commandLine, Tester::Features_EnableJavaScript);
-    
+
     startTest(hInstance, tester, commandLine);
     return 0;
 }

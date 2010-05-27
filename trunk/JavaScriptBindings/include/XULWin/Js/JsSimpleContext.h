@@ -29,10 +29,10 @@ namespace XULWin
 
             ~JsSimpleContext();
 
-            static const std::stack<JsSimpleContext*> & Instances();
+            static const std::stack<JsSimpleContext *> & Instances();
 
             Element * rootElement() const;
-            
+
             bool loadScript(const std::string & inScript);
 
         private:
@@ -44,7 +44,7 @@ namespace XULWin
             v8::Handle<v8::Context> mContext;
             v8::Handle<v8::ObjectTemplate> mGlobalObject;
 
-            static std::stack<JsSimpleContext*> sInstances;
+            static std::stack<JsSimpleContext *> sInstances;
 
             Element * mRootElement;
         };

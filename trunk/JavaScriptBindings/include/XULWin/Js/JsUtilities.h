@@ -9,26 +9,26 @@
 namespace XULWin
 {
 
-namespace Js
-{
+    namespace Js
+    {
 
-    /**
-     * Alert
-     *
-     * Implements the JavaScript 'window.alert' function.
-     */
-    v8::Handle<v8::Value> Alert(const v8::Arguments & args);
-
-
-    /**
-     * Prompt
-     *
-     * Implements the JavaScript 'window.prompt' function.
-     */
-    v8::Handle<v8::Value> Prompt(const v8::Arguments & args);
+        /**
+         * Alert
+         *
+         * Implements the JavaScript 'window.alert' function.
+         */
+        v8::Handle<v8::Value> Alert(const v8::Arguments & args);
 
 
-} // namespace Js
+        /**
+         * Prompt
+         *
+         * Implements the JavaScript 'window.prompt' function.
+         */
+        v8::Handle<v8::Value> Prompt(const v8::Arguments & args);
+
+
+    } // namespace Js
 
 } // namespace XULWin
 

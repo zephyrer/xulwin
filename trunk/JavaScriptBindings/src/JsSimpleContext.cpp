@@ -12,7 +12,7 @@ namespace XULWin
     namespace Js
     {
 
-        std::stack<JsSimpleContext*> JsSimpleContext::sInstances;
+        std::stack<JsSimpleContext *> JsSimpleContext::sInstances;
 
         JsSimpleContext::JsSimpleContext(Element * inRootElement) :
             mRootElement(inRootElement)
@@ -23,7 +23,7 @@ namespace XULWin
             {
                 throw std::runtime_error("Failed to create the global JavaScript object.");
             }
-            
+
             registerFunction("alert", Js::Alert);
             registerFunction("prompt", Js::Prompt);
 
@@ -41,12 +41,12 @@ namespace XULWin
         }
 
 
-        const std::stack<JsSimpleContext*> & JsSimpleContext::Instances()
+        const std::stack<JsSimpleContext *> & JsSimpleContext::Instances()
         {
             return sInstances;
         }
 
-        
+
         void JsSimpleContext::registerFunction(const std::string & inName, v8::InvocationCallback inCallback)
         {
             mGlobalObject->Set(v8::String::New(inName.c_str()), v8::FunctionTemplate::New(inCallback));
@@ -61,7 +61,7 @@ namespace XULWin
         {
             v8::Context::Scope contextScope(mContext);
             v8::TryCatch tryCatch;
-            v8::Handle<v8::Script> script = v8::Script::Compile(inSource, inName);            
+            v8::Handle<v8::Script> script = v8::Script::Compile(inSource, inName);
             if (script.IsEmpty())
             {
                 v8::String::AsciiValue error(tryCatch.Exception());

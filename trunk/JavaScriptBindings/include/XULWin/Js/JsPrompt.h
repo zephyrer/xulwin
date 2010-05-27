@@ -12,73 +12,73 @@
 namespace XULWin
 {
 
-namespace Js
-{
-
-    class JsPrompt
+    namespace Js
     {
-    public:
-        static char * GetPromptXUL()
+
+        class JsPrompt
         {
-            return
-                "<?xml version=\"1.0\"?>																\n"
-                "<?xml-stylesheet href=\"chrome://global/skin/\" type=\"text/css\"?>					\n"
-                "<dialog xmlns=\"http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul\"		\n"
-                "        xmlns:svg=\"http://www.w3.org/2000/svg\"										\n"
-                "        orient=\"vertical\"															\n"
-                "        align=\"stretch\"																\n"
-                "        title=\"JavaScript Prompt\">													\n"
-                "    <vbox>																				\n"
-                "      <hbox>																			\n"
-                "        <vbox>																			\n"
-                "          <spacer flex=\"1\"></spacer>													\n"
-                "          <label value=\"{{Text}}:\" id=\"textLabel\"></label>							\n"
-                "          <spacer flex=\"1\"></spacer>													\n"
-                "        </vbox>																		\n"
-                "        <textbox width=\"120\" id=\"textInput\" value=\"{{Value}}\"></textbox>			\n"
-                "      </hbox>																			\n"
-                "      <hbox>																			\n"
-                "        <spacer flex=\"1\"></spacer>													\n"
-                "        <button label=\"OK\" id=\"okButton\" />                                        \n"
-                "        <button label=\"Cancel\" id=\"cancelButton\" />                                \n"
-                "    </hbox>																			\n"
-                "  </vbox>																				\n"
-                "</dialog>																				\n";
-        }
+        public:
+            static char * GetPromptXUL()
+            {
+                return
+                    "<?xml version=\"1.0\"?>																\n"
+                    "<?xml-stylesheet href=\"chrome://global/skin/\" type=\"text/css\"?>					\n"
+                    "<dialog xmlns=\"http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul\"		\n"
+                    "        xmlns:svg=\"http://www.w3.org/2000/svg\"										\n"
+                    "        orient=\"vertical\"															\n"
+                    "        align=\"stretch\"																\n"
+                    "        title=\"JavaScript Prompt\">													\n"
+                    "    <vbox>																				\n"
+                    "      <hbox>																			\n"
+                    "        <vbox>																			\n"
+                    "          <spacer flex=\"1\"></spacer>													\n"
+                    "          <label value=\"{{Text}}:\" id=\"textLabel\"></label>							\n"
+                    "          <spacer flex=\"1\"></spacer>													\n"
+                    "        </vbox>																		\n"
+                    "        <textbox width=\"120\" id=\"textInput\" value=\"{{Value}}\"></textbox>			\n"
+                    "      </hbox>																			\n"
+                    "      <hbox>																			\n"
+                    "        <spacer flex=\"1\"></spacer>													\n"
+                    "        <button label=\"OK\" id=\"okButton\" />                                        \n"
+                    "        <button label=\"Cancel\" id=\"cancelButton\" />                                \n"
+                    "    </hbox>																			\n"
+                    "  </vbox>																				\n"
+                    "</dialog>																				\n";
+            }
 
-        /**
-         * JsPrompt Constructor
-         *
-         * @param inParentWindow    The parent window. May be nil, but makes a non-modal dialog.
-         */
-        JsPrompt(WindowElement * inParentWindow);
-        
-        /**
-         * show
-         *
-         * @param inText    Text shown before the input field.
-         * @param inValue   The default value in the textbox.
-         */
-        Fallible<std::string> show(const std::string & inText, const std::string & inValue);
+            /**
+             * JsPrompt Constructor
+             *
+             * @param inParentWindow    The parent window. May be nil, but makes a non-modal dialog.
+             */
+            JsPrompt(WindowElement * inParentWindow);
 
-    private:
-        void setTextValues(const std::string & inText, const std::string & inValue);
+            /**
+             * show
+             *
+             * @param inText    Text shown before the input field.
+             * @param inValue   The default value in the textbox.
+             */
+            Fallible<std::string> show(const std::string & inText, const std::string & inValue);
 
-        void registerEventListeners();
+        private:
+            void setTextValues(const std::string & inText, const std::string & inValue);
 
-        LRESULT onOkButtonPressed(WPARAM wParam, LPARAM lParam);
+            void registerEventListeners();
 
-        LRESULT onCancelButtonPressed(WPARAM wParam, LPARAM lParam);
+            LRESULT onOkButtonPressed(WPARAM wParam, LPARAM lParam);
 
-        XULRunner mXULRunner;
-        Element * mTextField;
-        DialogElement * mDialog;
-        WindowElement * mParentWindow;
-        ScopedEventListener mEvents;
-    };
+            LRESULT onCancelButtonPressed(WPARAM wParam, LPARAM lParam);
+
+            XULRunner mXULRunner;
+            Element * mTextField;
+            DialogElement * mDialog;
+            WindowElement * mParentWindow;
+            ScopedEventListener mEvents;
+        };
 
 
-} // namespace Js
+    } // namespace Js
 
 } // namespace XULWin
 

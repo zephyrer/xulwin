@@ -34,14 +34,14 @@ namespace XULWin
         JsXULRunner::~JsXULRunner()
         {
         }
-       
+
 
         void JsXULRunner::setExceptionLogger(const JsExceptionLogger & inLogger)
         {
             mLogger = inLogger;
         }
 
-        
+
         void JsXULRunner::logJsException(const JsException & inJsException)
         {
             if (mLogger)
@@ -65,7 +65,7 @@ namespace XULWin
                 ReportError("Failed to load the application. Probably due to parser error.");
                 return;
             }
-                
+
             WindowElement * window = rootEl->downcast<WindowElement>();
             if (!window)
             {

@@ -9,15 +9,21 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XULWin", "XULWin\XULWin_vs9
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XULViewer", "Samples\XULViewer\XULViewer_vs90.vcproj", "{482804DD-92D5-4703-A30A-6FB7BFCD5453}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8164D41D-B053-405B-826C-CF37AC0EF176} = {8164D41D-B053-405B-826C-CF37AC0EF176}
+		{9E211743-85FE-4977-82F3-4F04B40C912D} = {9E211743-85FE-4977-82F3-4F04B40C912D}
 		{D623C05B-BDD9-4D6E-8E51-E3275608DEBE} = {D623C05B-BDD9-4D6E-8E51-E3275608DEBE}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Foundation", "3rdParty\Poco\Foundation\Foundation_vs90.vcproj", "{8164D41D-B053-405B-826C-CF37AC0EF176}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoFoundation", "3rdParty\Poco\Foundation\Foundation_vs90.vcproj", "{8164D41D-B053-405B-826C-CF37AC0EF176}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XML", "3rdParty\Poco\XML\XML_vs90.vcproj", "{9E211743-85FE-4977-82F3-4F04B40C912D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoXML", "3rdParty\Poco\XML\XML_vs90.vcproj", "{9E211743-85FE-4977-82F3-4F04B40C912D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8164D41D-B053-405B-826C-CF37AC0EF176} = {8164D41D-B053-405B-826C-CF37AC0EF176}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoNet", "3rdParty\Poco\Net\Net_vs90.vcproj", "{B057A1FE-09F7-465E-B8B5-E1B659051D76}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoUtil", "3rdParty\Poco\Util\Util_vs90.vcproj", "{6FF56CDB-787A-4714-A28C-919003F9FA6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +47,14 @@ Global
 		{9E211743-85FE-4977-82F3-4F04B40C912D}.Debug|Win32.Build.0 = Debug|Win32
 		{9E211743-85FE-4977-82F3-4F04B40C912D}.Release|Win32.ActiveCfg = Release|Win32
 		{9E211743-85FE-4977-82F3-4F04B40C912D}.Release|Win32.Build.0 = Release|Win32
+		{B057A1FE-09F7-465E-B8B5-E1B659051D76}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B057A1FE-09F7-465E-B8B5-E1B659051D76}.Debug|Win32.Build.0 = Debug|Win32
+		{B057A1FE-09F7-465E-B8B5-E1B659051D76}.Release|Win32.ActiveCfg = Release|Win32
+		{B057A1FE-09F7-465E-B8B5-E1B659051D76}.Release|Win32.Build.0 = Release|Win32
+		{6FF56CDB-787A-4714-A28C-919003F9FA6C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6FF56CDB-787A-4714-A28C-919003F9FA6C}.Debug|Win32.Build.0 = Debug|Win32
+		{6FF56CDB-787A-4714-A28C-919003F9FA6C}.Release|Win32.ActiveCfg = Release|Win32
+		{6FF56CDB-787A-4714-A28C-919003F9FA6C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

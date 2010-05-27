@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Util"
+	Name="PocoUtil"
 	ProjectGUID="{6FF56CDB-787A-4714-A28C-919003F9FA6C}"
 	RootNamespace="Util"
 	Keyword="Win32Proj"

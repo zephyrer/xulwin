@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="XML"
+	Name="PocoXML"
 	ProjectGUID="{9E211743-85FE-4977-82F3-4F04B40C912D}"
 	RootNamespace="XML"
 	TargetFrameworkVersion="0"

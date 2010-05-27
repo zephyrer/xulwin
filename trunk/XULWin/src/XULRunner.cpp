@@ -152,20 +152,20 @@ namespace XULWin
     {
         return sLocale.or(Defaults::defaultLocale());
     }
-    
-    
+
+
     void XULRunner::SetLocale(const std::string & inLocale)
     {
         sLocale = inLocale;
     }
-    
+
 
     HMODULE XULRunner::GetModuleHandle()
     {
         return sModuleHandle;
     }
 
-    
+
     void XULRunner::SetModuleHandle(HMODULE inModuleHandle)
     {
         sModuleHandle = inModuleHandle;

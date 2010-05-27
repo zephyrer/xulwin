@@ -34,8 +34,8 @@ namespace XULWin
 
         /**
          * Runs a XUL application.
-		 *
-		 * Root element must be <window>.
+         *
+         * Root element must be <window>.
          */
         void run(const std::string & inApplicationIniFile);
 

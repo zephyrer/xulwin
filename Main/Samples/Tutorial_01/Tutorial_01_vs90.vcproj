@@ -183,7 +183,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Tutorial_01_HelloWorld_vs90.exe.manifest"
+			RelativePath=".\Tutorial_01.exe.manifest"
 			>
 		</File>
 	</Files>

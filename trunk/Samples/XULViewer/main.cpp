@@ -15,7 +15,7 @@
 
 LRESULT runXUL(HMODULE inModuleHandle, const std::string & inXULDocument)
 {
-	XULWin::ErrorCatcher errorCatcher;
+    XULWin::ErrorCatcher errorCatcher;
     XULWin::XULRunner runner(inModuleHandle);
     XULWin::ElementPtr rootElement = runner.loadXULFromFile(inXULDocument);
     if (!rootElement)
@@ -30,7 +30,7 @@ LRESULT runXUL(HMODULE inModuleHandle, const std::string & inXULDocument)
         XULWin::ReportError("Root element is not of type window");
         return 1;
     }
-    
+
     wnd->rebuildLayout();
     wnd->showModal(XULWin::WindowElement::DefaultPosition);
     return 0;
@@ -43,7 +43,7 @@ LRESULT dropFiles(HMODULE inModuleHandle, XULWin::Element * inRootElement, WPARA
     for (int idx = 0; idx < numFiles; ++idx)
     {
         // Get filename and run XUL
-    	TCHAR fileName[MAX_PATH];
+        TCHAR fileName[MAX_PATH];
         ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
         runXUL(inModuleHandle, XULWin::ToUTF8(&fileName[0]));
         break; // only consider first file
@@ -88,7 +88,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Initialize XULWin
     XULWin::Initializer initializer(hInstance);
 
-    // Ensure that the common control DLL is loaded. 
+    // Ensure that the common control DLL is loaded.
     XULWin::Windows::CommonControlsInitializer ccInit;
 
     runXULViewer(hInstance);

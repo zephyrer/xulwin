@@ -10,10 +10,6 @@
 #include <sstream>
 #include <string>
 
-/** 
-
- */ 
-
 
 /**
  * Remove single or double quotes around a string.
@@ -21,13 +17,13 @@
  */
 std::string unquote(const std::string & inString)
 {
-	if (inString.size() <= 2)
-	{
-		return inString;
-	}
+    if (inString.size() <= 2)
+    {
+        return inString;
+    }
 
     if ((inString[0] == '"' && inString[inString.size() - 1] == '"') ||
-		(inString[0] == '\'' && inString[inString.size() - 1] == '\''))
+            (inString[0] == '\'' && inString[inString.size() - 1] == '\''))
     {
         return inString.substr(1, inString.size() - 2);
     }
@@ -43,7 +39,7 @@ std::string unquote(const std::string & inString)
  *  Checklist:
  *  1. Set code generation settings:
  *      - "Multi-threaded Debug" (/MTd) for Debug builds
- *      - "Multi-threaded" (/MT) for Release builds 
+ *      - "Multi-threaded" (/MT) for Release builds
  *  2. Link with: comctl32.lib, GdiPlus.lib.
  *  3. The project must have a manifest file.
  *      - See "Tutorial_01.exe.manifest" for example.
@@ -56,7 +52,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::Initializer initializer(hInstance);
 
     // Obtain the path to the directory containing your XUL application.ini file.
-    // In this example the path will be passed as a command line argument.   
+    // In this example the path will be passed as a command line argument.
     // See Project settings -> Debugging -> Command Arguments: $(ProjectDir)HelloWorld
     std::string commandLine(unquote(lpCmdLine));
     if (commandLine.empty())
@@ -71,7 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Now that we have the path to the app, let's try to run it.
     XULWin::XULRunner xulRunner(hInstance);
-      
+
     // We want to anticipate potential errors occuring during
     // the parsing of the XUL file. A local ErrorCatcher object
     // collects any reported errors during its lifetime. See the
@@ -80,7 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // We pass the "application.ini" file as argument to XULRunner.
     // XUL applications should always have an application.ini file,
-    // see the Mozilla XULRunner documentation for more about the 
+    // see the Mozilla XULRunner documentation for more about the
     // application directory structure.
     // The parsing of the XUL file also happens here.
     xulRunner.loadApplication("application.ini");
@@ -127,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         // If we get here, then the downcast succeeded (it really is a window)
         // Let's display the window now.
-        
+
         // We use the 'showModal' method because it halts the program flow until the window
         // is closed. (Or more specifically, it starts a message loop.)
         // The 'show' method on the other hand does not halt program flow. If we used it here
@@ -141,12 +137,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     // This is the end of our very quick XULWin tutorial.
-    // 
+    //
     // See Tutorial 02 for:
     // - A *real* GUI example
     // - Event Handling
     // - Multilingual support by putting the translations in separate DTD documents.
-    // 
+    //
     // You may also want to have a look at the Test project.
     //
     return 0;

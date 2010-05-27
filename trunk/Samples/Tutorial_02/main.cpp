@@ -1,9 +1,9 @@
-/** 
+/**
  *  Tutorial 2: Event Handling and Loading External DTDs.
- * 
+ *
  *  This tutorial illustrates how to handle events using the ScopedEventListener class.
  *  The code is found in ConfigSample.h and ConfigSample.cpp.
- * 
+ *
  *  This sample also read the GUI strings from an external DTD document.
  *  Since the default locale is "en-US", XULWin loads DTD in from the
  *  "chrome/locale/en-US" directory. A different local can be specified
@@ -12,7 +12,7 @@
  *  Checklist:
  *  1. Set code generation settings:
  *      - "Multi-threaded Debug" (/MTd) for Debug builds
- *      - "Multi-threaded" (/MT) for Release builds 
+ *      - "Multi-threaded" (/MT) for Release builds
  *  2. Link with: comctl32.lib, GdiPlus.lib.
  *  3. The project must have a manifest file.
  *      - See "Tutorial_02_Event_Handling_And_External_DTDs.exe.manifest"

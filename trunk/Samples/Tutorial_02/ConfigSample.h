@@ -14,7 +14,7 @@
 #include <string>
 
 
-namespace XULWin 
+namespace XULWin
 {
     class Element;
 
@@ -34,19 +34,19 @@ namespace XULWin
 
         LRESULT showNewSetDialog();
 
-		LRESULT closeDialog(Dialog * inDialog, DialogResult inDialogResult);
+        LRESULT closeDialog(Dialog * inDialog, DialogResult inDialogResult);
 
         void addNewSet(const std::string & inSetName);
 
         std::string mAppDir;
-        XULRunner mXULRunner;   
+        XULRunner mXULRunner;
         ElementPtr mConfigWindow;
         ElementPtr mNewSetDlg;
-        XULWin::Fallible<Element*> mNewSetButton;
-        XULWin::Fallible<Element*> mSetsPopup;    
-        XULWin::Fallible<Element*> mNewSetTextBox;
-        XULWin::Fallible<Element*> mNewSetOK;
-        XULWin::Fallible<Element*> mNewSetCancel;
+        XULWin::Fallible<Element *> mNewSetButton;
+        XULWin::Fallible<Element *> mSetsPopup;
+        XULWin::Fallible<Element *> mNewSetTextBox;
+        XULWin::Fallible<Element *> mNewSetOK;
+        XULWin::Fallible<Element *> mNewSetCancel;
         ScopedEventListener mEvents;
     };
 

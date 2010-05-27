@@ -1,0 +1,1 @@
+pref("toolkit.defaultChromeURI", "chrome://tabbox/content/tabbox.xul");

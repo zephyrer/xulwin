@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<!-- Ignored by XULWin, included for compatiblity with Mozilla XUL -->
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<window id="mainWindow"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        orient="vertical" 
+        align="stretch"
+        title="MainWindow Sample">
+  <menubar id="sample-menubar">
+    <menu id="action-menu" label="Action">
+      <menupopup id="action-popup">
+        <menuitem label="New"/>
+        <menuitem label="Save" disabled="true"/>
+        <menuitem label="Close"/>
+        <menuseparator/>
+        <menuitem label="Quit"/>
+      </menupopup>
+    </menu>
+    <menu id="edit-menu" label="Edit">
+      <menupopup id="edit-popup">
+        <menuitem label="Undo"/>
+        <menuitem label="Redo"/>
+      </menupopup>
+    </menu>
+  </menubar>
+  <vbox flex="1">
+    
+  </vbox>
+  <statusbar>
+    <statusbarpanel id="status-bar-sample-1"
+                    label="Hello World"
+                    tooltiptext="Sample status bar item"
+                    flex="1"
+                    />
+  </statusbar>
+</window>

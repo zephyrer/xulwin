@@ -1,0 +1,19 @@
+- Implement background-color and stroke CSS attributes
+- Make the build entirely self-sufficient
+	- Load Poco from external
+	- Ask for more disk space if needed
+
+
+Todo
+- context menu
+- undetermined progressmeter
+- splitter
+- menu event handler test/sample
+- checkbox partial checkstate
+- Implement PathInstructions2String
+- Treeview: remove item, open/closed state, and min size implications
+- MainWindow sample: toolbar, status-bar and scrollbar
+
+Low priority
+- Flex attribute on 'listcol' elements is not supported in XULWin
+- Horizontal scrolling listboxes doesn't work

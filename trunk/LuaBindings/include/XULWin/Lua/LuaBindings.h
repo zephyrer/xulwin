@@ -11,61 +11,61 @@
 namespace XULWin
 {
 
-namespace Lua
-{
+    namespace Lua
+    {
 
-    /**
-     * Displays a message box.
-     */
-    void showMessage(const std::string & inString);
-
-
-    /**
-     * Gets the root element for the XUL document.
-     * This is the DOM 'document' object.
-     */
-    Element * getRootElement();
-
-    
-    /**
-     * Executes the given code after the given delay.
-     * Same as Javascript's setTimeout function.
-     */
-    void setTimeout(const std::string & inExecutableCode, int inMilliseconds);
-
-    
-    /**
-     * Displays a dialog with a message, input field and OK and Cancel buttons.
-     * If the user clicks the Ok button then the user input is returned.
-     * If the users clicks cancel then the default value is returned.
-     */
-    std::string prompt(const std::string & inText, const std::string & inDefault);
-
-    
-    /**
-     * Casts an Element object to a WindowElement object
-     */
-    WindowElement * toWindow(Element * inElement);
+        /**
+         * Displays a message box.
+         */
+        void showMessage(const std::string & inString);
 
 
-    /**
-     * Casts an Element object to a DialogElement object
-     */
-    DialogElement * toDialog(Element * inElement);
+        /**
+         * Gets the root element for the XUL document.
+         * This is the DOM 'document' object.
+         */
+        Element * getRootElement();
 
 
-    /**
-     * PRIVATE FUNCTION
-     * Sets the current XULRunnerWithLua object.
-     * Returns the old XULRunnerWithLua object.
-     */
-    #ifndef SWIG
-    class XULRunnerWithLua;
-    XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner);
-    #endif
+        /**
+         * Executes the given code after the given delay.
+         * Same as Javascript's setTimeout function.
+         */
+        void setTimeout(const std::string & inExecutableCode, int inMilliseconds);
 
 
-} // namespace Lua
+        /**
+         * Displays a dialog with a message, input field and OK and Cancel buttons.
+         * If the user clicks the Ok button then the user input is returned.
+         * If the users clicks cancel then the default value is returned.
+         */
+        std::string prompt(const std::string & inText, const std::string & inDefault);
+
+
+        /**
+         * Casts an Element object to a WindowElement object
+         */
+        WindowElement * toWindow(Element * inElement);
+
+
+        /**
+         * Casts an Element object to a DialogElement object
+         */
+        DialogElement * toDialog(Element * inElement);
+
+
+        /**
+         * PRIVATE FUNCTION
+         * Sets the current XULRunnerWithLua object.
+         * Returns the old XULRunnerWithLua object.
+         */
+#ifndef SWIG
+        class XULRunnerWithLua;
+        XULRunnerWithLua * setXULRunner(XULRunnerWithLua * inXULRunner);
+#endif
+
+
+    } // namespace Lua
 
 } // namespace XULWin
 

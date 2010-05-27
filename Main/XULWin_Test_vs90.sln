@@ -15,18 +15,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XULWin", "XULWin\XULWin_vs9
 		{9E211743-85FE-4977-82F3-4F04B40C912D} = {9E211743-85FE-4977-82F3-4F04B40C912D}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Foundation", "3rdParty\Poco\Foundation\Foundation_vs90.vcproj", "{8164D41D-B053-405B-826C-CF37AC0EF176}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoFoundation", "3rdParty\Poco\Foundation\Foundation_vs90.vcproj", "{8164D41D-B053-405B-826C-CF37AC0EF176}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XML", "3rdParty\Poco\XML\XML_vs90.vcproj", "{9E211743-85FE-4977-82F3-4F04B40C912D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoXML", "3rdParty\Poco\XML\XML_vs90.vcproj", "{9E211743-85FE-4977-82F3-4F04B40C912D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8164D41D-B053-405B-826C-CF37AC0EF176} = {8164D41D-B053-405B-826C-CF37AC0EF176}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JavaScriptBindings", "JavaScriptBindings\JavaScriptBindings.vcproj", "{03C52712-7D92-4C02-8C97-F1DF0AF68EA1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8164D41D-B053-405B-826C-CF37AC0EF176} = {8164D41D-B053-405B-826C-CF37AC0EF176}
-		{D623C05B-BDD9-4D6E-8E51-E3275608DEBE} = {D623C05B-BDD9-4D6E-8E51-E3275608DEBE}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JavaScriptBindings", "JavaScriptBindings\JavaScriptBindings_vs90.vcproj", "{03C52712-7D92-4C02-8C97-F1DF0AF68EA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

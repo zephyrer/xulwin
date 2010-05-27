@@ -21,7 +21,7 @@ namespace XULWin
     }
 
 
-    ConfigSample::ConfigSample(HMODULE inModuleHandle, const std::string & inAppDir) : 
+    ConfigSample::ConfigSample(HMODULE inModuleHandle, const std::string & inAppDir) :
         mAppDir(inAppDir),
         mXULRunner(inModuleHandle)
     {
@@ -37,7 +37,7 @@ namespace XULWin
             ReportError("Failed to load application.ini file for configpanel.");
             return;
         }
-        
+
         mSetsPopup = mConfigWindow->getElementById("setsMenuList");
 
 
@@ -47,14 +47,14 @@ namespace XULWin
         //
         // Usage of the ScopedEventListener class is illustrated below.
         // I think the code is self-explanatory. Let me know if it isn't.
-        // 
+        //
 
 
         // Connect the button click action with the showNewSetDialog method.
         mEvents.connect(mNewSetButton,
                         boost::bind(&ConfigSample::showNewSetDialog, this));
 
-        
+
         // Connect the upload button with the showUpload method.
         mEvents.connect(mConfigWindow->getElementById("uploadButton"),
                         boost::bind(&ConfigSample::showUpload, this));
@@ -84,7 +84,7 @@ namespace XULWin
         int numFiles = ::DragQueryFile((HDROP)wParam, 0xFFFFFFFF, 0, 0);
         for (int idx = 0; idx < numFiles; ++idx)
         {
-    	    TCHAR fileName[MAX_PATH];
+            TCHAR fileName[MAX_PATH];
 
             // Obtain the filename for the dropped file.
             ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
@@ -111,7 +111,7 @@ namespace XULWin
 
 
     void ConfigSample::addNewSet(const std::string & inSetName)
-    { 
+    {
         AttributesMapping attr;
         attr["label"] = inSetName;
         if (!mSetsPopup->children().empty())
@@ -125,56 +125,56 @@ namespace XULWin
     }
 
 
-	LRESULT ConfigSample::closeDialog(Dialog * inDialog, DialogResult inDialogResult)
-	{
-		return inDialog->endModal(inDialogResult);
-	}
+    LRESULT ConfigSample::closeDialog(Dialog * inDialog, DialogResult inDialogResult)
+    {
+        return inDialog->endModal(inDialogResult);
+    }
 
 
     LRESULT ConfigSample::showNewSetDialog()
     {
         mNewSetDlg = mXULRunner.loadXULFromFile("chrome://configpanel/content/newsetdialog.xul");
-        mNewSetTextBox = mNewSetDlg->getElementById("settextbox");                
+        mNewSetTextBox = mNewSetDlg->getElementById("settextbox");
         mNewSetOK = mNewSetDlg->getElementById("newSetOKButton");
         mNewSetCancel = mNewSetDlg->getElementById("newSetCancelButton");
-        
-		ScopedEventListener localEvents;
-		Dialog * nativeDialog = mNewSetDlg->component()->downcast<Dialog>();
-		ScopedEventListener::Action onOK = boost::bind(&ConfigSample::closeDialog,
-													   this,
-                                                       nativeDialog,
-													   XULWin::DialogResult_Ok);
-		localEvents.connect(mNewSetOK, onOK);
 
-		ScopedEventListener::Action onCancel = boost::bind(&ConfigSample::closeDialog,
-														   this,
+        ScopedEventListener localEvents;
+        Dialog * nativeDialog = mNewSetDlg->component()->downcast<Dialog>();
+        ScopedEventListener::Action onOK = boost::bind(&ConfigSample::closeDialog,
+                                                       this,
+                                                       nativeDialog,
+                                                       XULWin::DialogResult_Ok);
+        localEvents.connect(mNewSetOK, onOK);
+
+        ScopedEventListener::Action onCancel = boost::bind(&ConfigSample::closeDialog,
+                                                           this,
                                                            nativeDialog,
-													       XULWin::DialogResult_Cancel);
-		localEvents.connect(mNewSetCancel, onCancel);
+                                                           XULWin::DialogResult_Cancel);
+        localEvents.connect(mNewSetCancel, onCancel);
 
         if (Dialog * dlg = mNewSetDlg->component()->downcast<Dialog>())
         {
             if (Window * wnd = mConfigWindow->component()->downcast<Window>())
             {
-				// Set the focus on the textbox
-				XULWin::Element * textEl = mNewSetDlg->getElementById("settextbox");
-				if (textEl && textEl->component())
-				{
-					XULWin::TextBox * textBox = textEl->component()->downcast<XULWin::TextBox>();
-					if (textBox)
-					{
-						::SetFocus(textBox->handle());
-					}
-				}
+                // Set the focus on the textbox
+                XULWin::Element * textEl = mNewSetDlg->getElementById("settextbox");
+                if (textEl && textEl->component())
+                {
+                    XULWin::TextBox * textBox = textEl->component()->downcast<XULWin::TextBox>();
+                    if (textBox)
+                    {
+                        ::SetFocus(textBox->handle());
+                    }
+                }
 
-				// Show the dialog
-				DialogResult dialogResult = dlg->showModal(wnd);
+                // Show the dialog
+                DialogResult dialogResult = dlg->showModal(wnd);
                 if (dialogResult == DialogResult_Ok)
-				{
-					// Get the "value" attribute of the text box.
-					std::string setName = mNewSetDlg->getElementById("settextbox")->getAttribute("value");
-					addNewSet(setName);
-				}
+                {
+                    // Get the "value" attribute of the text box.
+                    std::string setName = mNewSetDlg->getElementById("settextbox")->getAttribute("value");
+                    addNewSet(setName);
+                }
             }
         }
         return 0;

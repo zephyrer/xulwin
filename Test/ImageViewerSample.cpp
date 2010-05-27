@@ -17,7 +17,7 @@ using namespace XULWin;
 
 namespace XULWin
 {
-    
+
     ImageViewerSample::ImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXULRunnerSamples) :
         mModuleHandle(inModuleHandle),
         mNativeWindow(0),
@@ -43,7 +43,7 @@ namespace XULWin
 
         ScopedEventListener events;
         events.connect(mRootElement.get(), WM_DROPFILES, boost::bind(&ImageViewerSample::dropFiles, this, _1, _2));
-       
+
         if (mNativeWindow = mRootElement->component()->downcast<Window>())
         {
             ::DragAcceptFiles(mNativeWindow->handle(), TRUE);
@@ -64,7 +64,7 @@ namespace XULWin
         for (int idx = 0; idx < numFiles; ++idx)
         {
             // Extract file name
-        	TCHAR fileName[MAX_PATH];
+            TCHAR fileName[MAX_PATH];
             ::DragQueryFile((HDROP)wParam, idx, &fileName[0], MAX_PATH);
 
             // Create the image element

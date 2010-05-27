@@ -16,7 +16,7 @@
 #include <string>
 
 
-namespace XULWin 
+namespace XULWin
 {
     class Element;
 
@@ -43,13 +43,13 @@ namespace XULWin
 
     private:
         ElementPtr mConfigWindow;
-        ElementPtr mNewSetDlg;        
-        Js::JsXULRunner mRunner;   
-        Fallible<Element*> mNewSetButton;
-        Fallible<Element*> mSetsPopup;    
-        Fallible<Element*> mNewSetTextBox;
-        Fallible<Element*> mNewSetOK;
-        Fallible<Element*> mNewSetCancel;
+        ElementPtr mNewSetDlg;
+        Js::JsXULRunner mRunner;
+        Fallible<Element *> mNewSetButton;
+        Fallible<Element *> mSetsPopup;
+        Fallible<Element *> mNewSetTextBox;
+        Fallible<Element *> mNewSetOK;
+        Fallible<Element *> mNewSetCancel;
         ScopedEventListener mEvents;
         std::string mPathToXULRunnerSamples;
     };

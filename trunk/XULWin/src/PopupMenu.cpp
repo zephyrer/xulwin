@@ -21,7 +21,7 @@ namespace XULWin
         }
 
 
-        PopupMenuItem::PopupMenuItem(int inId, const std::string & inText):
+        PopupMenuItem::PopupMenuItem(int inId, const std::string & inText) :
             mId(inId),
             mText(inText),
             mEnabled(true),

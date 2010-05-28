@@ -96,9 +96,7 @@ namespace XULWin
 
     LRESULT ConfigSample::showMessage(const std::string & inMessage)
     {
-        std::stringstream ss;
-        ss << inMessage;
-        ::MessageBoxA(0, ss.str().c_str(), "Message", MB_OK);
+        ::MessageBoxA(0, inMessage.c_str(), "Message", MB_OK);
         return 0;
     }
 

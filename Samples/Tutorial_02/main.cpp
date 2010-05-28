@@ -4,10 +4,10 @@
  *  This tutorial illustrates how to handle events using the ScopedEventListener class.
  *  The code is found in ConfigSample.h and ConfigSample.cpp.
  *
- *  This sample also read the GUI strings from an external DTD document.
+ *  This sample also show how to read the GUI strings from an external DTD document.
  *  Since the default locale is "en-US", XULWin loads DTD in from the
- *  "chrome/locale/en-US" directory. A different local can be specified
- *  with the XULRunner::SetLocale function.
+ *  "chrome/locale/en-US" directory. A different local can be specified with the
+ *  XULRunner::SetLocale function.
  *
  *  Checklist:
  *  1. Set code generation settings:

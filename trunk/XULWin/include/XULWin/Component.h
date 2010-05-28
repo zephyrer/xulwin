@@ -14,6 +14,7 @@
 #include "XULWin/StyleController.h"
 #include "XULWin/Toolbar.h"
 #include "XULWin/ToolbarItem.h"
+#include "XULWin/UniqueId.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -33,22 +34,7 @@ namespace XULWin
         class PopupMenu;
     }
 
-    class CommandId
-    {
-    public:
-        CommandId() : mId(sId++) {}
-
-        CommandId(int inId) : mId(inId) {}
-
-        int intValue() const
-        {
-            return mId;
-        }
-
-    private:
-        int mId;
-        static int sId;
-    };
+    DECLARE_UNIQUE_ID(CommandId)
 
 
     class Element;
@@ -479,7 +465,7 @@ namespace XULWin
 
         int commandId() const
         {
-            return mCommandId.intValue();
+            return mCommandId.value();
         }
 
         virtual int getWidth(SizeConstraint inSizeConstraint) const;

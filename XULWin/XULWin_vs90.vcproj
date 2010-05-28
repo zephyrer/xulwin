@@ -595,6 +595,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\Types.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\UniqueId.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\XULOverlayParser.h"
 					>
 				</File>
@@ -632,6 +640,10 @@
 				</File>
 				<File
 					RelativePath=".\src\StyleController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\UniqueId.cpp"
 					>
 				</File>
 				<File

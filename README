@@ -1,0 +1,15 @@
+Directory structure:
+- 3rdParty: third party libraries that XULWin depends on
+- JavaScriptBindings: experimental JavaScript support (probably broken)
+- LuaBindings: experimental Lua support (probably broken)
+- Samples: a collection of sample XULWin applications
+- Scripts: a few build scripts (internal use)
+- Test: the XULWin testsuite
+- xulrunnersamples: a collection of small XULRunner applications used by the testsuite
+- XULWin: the XULWin library
+- README: this file
+- Test_vs90.sln: the Visual Studio solution for the Test project
+- Tutorial_01.ln: the Visual Studio solution for the Samples/Tutorial_01 project
+- Tutorial_02.sln: the Visual Studio solution for the Samples/Tutorial_02 project
+- XULViewer_vs90.sln: the Visual Studio solution for the Samples/XULViewer project
+

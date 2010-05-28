@@ -17,6 +17,7 @@ namespace XULWin
     namespace Windows
     {
 
+        class PopupMenu;
 
         class PopupMenuItem : public boost::noncopyable
         {
@@ -28,21 +29,22 @@ namespace XULWin
 
             void setAction(boost::function<void()> inAction);
 
-            void performAction();
-
             int id() const;
 
             const std::string & text() const;
 
             bool isEnabled() const;
 
-            bool isChecked() const;
-
             void setEnabled(bool inEnabled);
+
+            bool isChecked() const;
 
             void setChecked(bool inChecked);
 
         private:
+            friend class PopupMenu;
+            void performAction();
+
             const static int SeparatorID;
             boost::function<void()> mAction;
             int mId;

@@ -16,7 +16,7 @@ namespace XULWin
     }
 
 
-    int ToolbarCustomWindowDecorator::commandId() const
+    UInt32 ToolbarCustomWindowDecorator::commandId() const
     {
         if (mCustomWindow)
         {
@@ -81,7 +81,7 @@ namespace XULWin
     }
 
 
-    int ToolbarCustomWindowDecorator::ConcreteCustomWindow::commandId() const
+    UInt32 ToolbarCustomWindowDecorator::ConcreteCustomWindow::commandId() const
     {
         return mCommandId;
     }

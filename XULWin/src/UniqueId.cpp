@@ -4,6 +4,6 @@
 namespace XULWin
 {
 
-    // nothing is here
+    DEFINE_UNIQUE_ID(CommandId, 101)
 
 } // namespace XULWin

@@ -4,6 +4,7 @@
 
 #include "XULWin/Decorator.h"
 #include "XULWin/ToolbarItem.h"
+#include "XULWin/UniqueId.h"
 
 
 namespace XULWin
@@ -15,7 +16,7 @@ namespace XULWin
     public:
         ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar);
 
-        virtual int commandId() const;
+        virtual UInt32 commandId() const;
 
         virtual bool hasFocus() const;
 
@@ -38,7 +39,7 @@ namespace XULWin
 
             virtual HWND handle() const;
 
-            virtual int commandId() const;
+            virtual UInt32 commandId() const;
 
         private:
             boost::weak_ptr<Windows::Toolbar> mToolbar;

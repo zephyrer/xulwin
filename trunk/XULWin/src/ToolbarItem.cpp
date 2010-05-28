@@ -191,7 +191,7 @@ namespace XULWin
         }
 
 
-        int ConcreteToolbarItem::commandId() const
+        UInt32 ConcreteToolbarItem::commandId() const
         {
             return mCommandId;
         }

@@ -27,6 +27,8 @@ namespace XULWin
     UInt32 ClassName::sId(InitialValue);
 
 
+    DECLARE_UNIQUE_ID(CommandId)
+
 } // namespace XULWin
 
 

@@ -105,7 +105,7 @@ namespace XULWin
         friend class Dialog;
         void setBlockingDialog(Dialog * inDlg);
         Dialog * mActiveDialog;
-        BoxLayouter mBoxLayouter;
+        boost::scoped_ptr<BoxLayouter> mBoxLayouter;
         bool mHasMessageLoop;
     };
 

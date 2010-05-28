@@ -2,6 +2,7 @@
 #define EVENTLISTENER_H_INCLUDED
 
 
+#include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -102,19 +103,15 @@ namespace XULWin
             {
             }
 
-            bool operator <(const MsgId & rhs) const
+            bool operator<(const MsgId & rhs) const
             {
-                if (mElement != rhs.mElement)
+                if (mCommandId != rhs.mCommandId)
                 {
-                    return mElement < rhs.mElement;
-                }
-                else if (mMessageId != rhs.mMessageId)
-                {
-                    return mMessageId < rhs.mMessageId;
+                    return mCommandId < rhs.mCommandId;
                 }
                 else
                 {
-                    return mCommandId < rhs.mCommandId;
+                    return mElement < rhs.mElement;
                 }
             }
 
@@ -123,12 +120,18 @@ namespace XULWin
                 return mElement;
             }
 
+            /**
+             * Gets the WinAPI message identifier.
+             */
             UINT messageId() const
             {
                 return mMessageId;
             }
 
-            int commandId() const
+            /**
+             * Gets the Component id.
+             */
+            UInt32 commandId() const
             {
                 return mCommandId;
             }
@@ -136,8 +139,9 @@ namespace XULWin
         private:
             Element * mElement;
             UINT mMessageId;
-            int mCommandId; // needed to identify toolbar buttons
+            UInt32 mCommandId; // needed to identify toolbar buttons
         };
+
         typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;
 
         LRESULT handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);

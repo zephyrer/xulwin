@@ -22,8 +22,6 @@
 namespace XULWin
 {
 
-    DEFINE_UNIQUE_ID(CommandId, 101)
-
     void ReportSetterFail(const std::string & inAttributeName,
                           const std::string & inType,
                           const std::string & inId)

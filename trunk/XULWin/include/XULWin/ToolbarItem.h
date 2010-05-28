@@ -3,6 +3,7 @@
 
 
 #include "XULWin/PopupMenu.h"
+#include "XULWin/UniqueId.h"
 #include "XULWin/Windows.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -35,7 +36,7 @@ namespace XULWin
 
             virtual void performCommand() = 0;
 
-            virtual int commandId() const = 0;
+            virtual UInt32 commandId() const = 0;
 
         protected:
             friend class Toolbar;
@@ -66,7 +67,7 @@ namespace XULWin
 
             virtual void performCommand() = 0;
 
-            virtual int commandId() const;
+            virtual UInt32 commandId() const;
 
             bool noHover() const;
 
@@ -246,7 +247,7 @@ namespace XULWin
 
             virtual HWND handle() const = 0;
 
-            virtual int commandId() const = 0;
+            virtual UInt32 commandId() const = 0;
 
             virtual void performCommand() {}
         };

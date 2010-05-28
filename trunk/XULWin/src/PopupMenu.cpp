@@ -10,18 +10,18 @@ namespace XULWin
     namespace Windows
     {
 
-        const int PopupMenuItem::SeparatorID = 0;
+        const int PopupMenuItem::sSeparatorId = 0;
 
 
         PopupMenuItem::PopupMenuItem():
-            mId(SeparatorID),
+            mId(sSeparatorId),
             mEnabled(true),
             mChecked(false)
         {
         }
 
 
-        PopupMenuItem::PopupMenuItem(int inId, const std::string & inText) :
+        PopupMenuItem::PopupMenuItem(UInt32 inId, const std::string & inText) :
             mId(inId),
             mText(inText),
             mEnabled(true),

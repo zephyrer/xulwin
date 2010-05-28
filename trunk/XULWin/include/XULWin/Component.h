@@ -34,8 +34,6 @@ namespace XULWin
         class PopupMenu;
     }
 
-    DECLARE_UNIQUE_ID(CommandId)
-
 
     class Element;
     class Component;
@@ -278,7 +276,7 @@ namespace XULWin
             return 0;
         }
 
-        virtual int commandId() const = 0;
+        virtual UInt32 commandId() const = 0;
 
         virtual int getWidth(SizeConstraint inSizeConstraint) const = 0;
 
@@ -463,7 +461,7 @@ namespace XULWin
             return 0;
         }
 
-        int commandId() const
+        UInt32 commandId() const
         {
             return mCommandId.value();
         }

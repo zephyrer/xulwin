@@ -9,6 +9,8 @@
 namespace XULWin
 {
 
+
+    // FIXME! Clean this up.
     class MenuPopupContainer
     {
     public:

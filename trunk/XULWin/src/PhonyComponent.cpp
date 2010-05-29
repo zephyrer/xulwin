@@ -1,17 +1,17 @@
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 
 
 namespace XULWin
 {
 
-    ImaginaryComponent::ImaginaryComponent(Component * inParent,
+    PhonyComponent::PhonyComponent(Component * inParent,
                                            const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    ImaginaryComponent::~ImaginaryComponent()
+    PhonyComponent::~PhonyComponent()
     {
 
     }

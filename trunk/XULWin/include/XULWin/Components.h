@@ -3,7 +3,7 @@
 
 
 #include "XULWin/BoxLayouter.h"
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 #include "XULWin/NativeControl.h"
 #include "XULWin/Node.h"
 #include "XULWin/VirtualComponent.h"
@@ -478,19 +478,19 @@ namespace XULWin
     };
 
 
-    class Tabs : public ImaginaryComponent
+    class Tabs : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         Tabs(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Tab : public ImaginaryComponent
+    class Tab : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         Tab(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
@@ -617,10 +617,10 @@ namespace XULWin
 
 
     class TreeItem;
-    class TreeChildren : public ImaginaryComponent
+    class TreeChildren : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -631,10 +631,10 @@ namespace XULWin
 
 
     class TreeRow;
-    class TreeItem : public ImaginaryComponent
+    class TreeItem : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -661,29 +661,29 @@ namespace XULWin
     };
 
 
-    class TreeCols : public ImaginaryComponent
+    class TreeCols : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeCol : public ImaginaryComponent
+    class TreeCol : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
     class TreeCell;
-    class TreeRow : public ImaginaryComponent
+    class TreeRow : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -693,11 +693,11 @@ namespace XULWin
     };
 
 
-    class TreeCell : public ImaginaryComponent,
+    class TreeCell : public PhonyComponent,
                      public LabelController
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 

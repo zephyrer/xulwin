@@ -3,17 +3,17 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 
 
 namespace XULWin
 {
 
-    class ListHeader : public ImaginaryComponent,
+    class ListHeader : public PhonyComponent,
                        public LabelController
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         ListHeader(Component * inParent, const AttributesMapping & inAttributesMapping);
 

@@ -2,17 +2,17 @@
 #define LISTCOLIMPL_H_INCLUDED
 
 
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 #include <string>
 
 
 namespace XULWin
 {
 
-    class ListCol : public ImaginaryComponent
+    class ListCol : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         ListCol(Component * inParent, const AttributesMapping & inAttributesMapping);
 

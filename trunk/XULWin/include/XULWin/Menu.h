@@ -3,18 +3,18 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 #include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
 
-    class Menu : public ImaginaryComponent,
+    class Menu : public PhonyComponent,
                  public LabelController
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         Menu(Component * inParent, const AttributesMapping & inAttributesMapping);
 

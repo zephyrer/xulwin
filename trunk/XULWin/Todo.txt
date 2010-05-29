@@ -1,13 +1,14 @@
-- Cleanup MenuPopupContainer?!?!
-- Clean up includes in Component.h
+- Create core/contrib folders
+- Cleanup MenuPopupContainer
 - ConcreteComponent must have two derived classes: FreeComponent and EnclosedComponent/SurroundedComponent.
 - Add SubComponent class (MenuItem, ToolbarButton, ..)
 - Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
-- Cleanup classes that incorrectly inherit ImaginaryComponent.
+- Cleanup classes that incorrectly inherit PhonyComponent.
 - Remove this method: HWND ConcreteComponent::getFirstParentHandle();
   It does not belong in ConcreteComponent.
 - Add meaningful error handling in ConcreteComponent::setStyle()
   and ConcreteComponent::setAttribute()
+v Clean up includes in Component.h
 
 
 WinAPI System Classes

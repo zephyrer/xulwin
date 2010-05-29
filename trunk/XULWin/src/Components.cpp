@@ -1211,13 +1211,13 @@ namespace XULWin
 
 
     Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 
 
     Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -1670,7 +1670,7 @@ namespace XULWin
 
 
     TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -1710,7 +1710,7 @@ namespace XULWin
 
 
     TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -1793,19 +1793,19 @@ namespace XULWin
 
 
     TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 
 
     TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 
 
     TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -1832,7 +1832,7 @@ namespace XULWin
 
 
     TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 

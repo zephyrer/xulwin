@@ -2,7 +2,7 @@
 #define MENUPOPUPCOMPONENT_H_INCLUDED
 
 
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 #include "XULWin/PopupMenu.h"
 
 
@@ -10,10 +10,10 @@ namespace XULWin
 {
 
 
-    class MenuPopup : public ImaginaryComponent
+    class MenuPopup : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping);
 

@@ -1,471 +1,210 @@
 #include "XULWin/ToolbarItem.h"
+#include "XULWin/ChromeURL.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/Defaults.h"
+#include "XULWin/Element.h"
+#include "XULWin/MenuPopup.h"
 #include "XULWin/Toolbar.h"
-#include "XULWin/PopupMenu.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
-#include <boost/bind.hpp>
-#include <gdiplus.h>
-#include <commctrl.h>
-
-#ifdef _DEBUGFREE // detect the access to freed memory
-#undef free
-#define free(p) _free_dbg(p, _NORMAL_BLOCK); *(int*)&p = 0x666;
-#endif
+#include "XULWin/Gdiplus.h"
 
 
 namespace XULWin
 {
 
-    namespace Windows
+    ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
+        VirtualComponent(inParent, inAttributesMapping),
+        mButton(0),
+        mDisabled(false)
     {
-
-        extern const int cDownArrowWidth;
-        extern const int cMarginForCustomWindow;
-        extern const int cSpacingBetweenIconAndText;
-
-        static boost::shared_ptr<Gdiplus::Bitmap> nullImage;
-
-        RECT getTextRect(const ConcreteToolbarItem * inItem, const RECT & inRect, size_t inIconWidth, size_t inIconHeight, SIZE inTextSize)
+        if (XULWin::Toolbar * toolbar = parent()->downcast<XULWin::Toolbar>())
         {
-            RECT result;
-            result.left = inRect.left + inItem->getLeftMargin();;
-            if (inIconWidth != 0)
+            boost::shared_ptr<Gdiplus::Bitmap> nullImage;
+            std::string label = getLabel();
+
+            std::string buttonType;
+            AttributesMapping::const_iterator it = inAttributesMapping.find("type");
+            if (it != inAttributesMapping.end())
             {
-                result.left += inIconWidth + cSpacingBetweenIconAndText;
+                buttonType = it->second;
             }
-            result.top = inRect.top + ((inRect.bottom - inRect.top) - inTextSize.cy)/2;
-            result.right = inRect.right - inItem->getRightMargin();;
-            result.bottom = result.top + inTextSize.cy;
-            return result;
-        }
-
-
-        ConcreteToolbarItem::ConcreteToolbarItem
-        (
-            boost::weak_ptr<Toolbar> inToolbar,
-            UInt32 inComponentId,
-            const std::string & inText,
-            const std::string & inTooltipText,
-            boost::shared_ptr<Gdiplus::Bitmap> inImage
-        ):
-            mToolbar(inToolbar),
-            mComponentId(inComponentId),
-            mText(inText),
-            mTooltipText(inTooltipText),
-            mImage(inImage),
-            mNoHover(false),
-            mLeftMargin(4),
-            mRightMargin(4),
-            mMinimumWidth(0),
-            mMaximumWidth(INT_MAX),
-            mMaxIconHeight(512)
-        {
-        }
-
-
-        ConcreteToolbarItem::~ConcreteToolbarItem()
-        {
-        }
-
-
-        bool ConcreteToolbarItem::noHover() const
-        {
-            return mNoHover;
-        }
-
-
-        int ConcreteToolbarItem::getLeftMargin() const
-        {
-            return mLeftMargin;
-        }
-
-
-        void ConcreteToolbarItem::setLeftMargin(int inLeftMargin)
-        {
-            mLeftMargin = inLeftMargin;
-        }
-
-
-        void ConcreteToolbarItem::setRightMargin(int inRightMargin)
-        {
-            mRightMargin = inRightMargin;
-        }
-
-
-        int ConcreteToolbarItem::getRightMargin() const
-        {
-            return mRightMargin;
-        }
-
-
-        int ConcreteToolbarItem::minimumWidth() const
-        {
-            return mMinimumWidth;
-        }
-
-
-        void ConcreteToolbarItem::setMinimumWidth(int inMinimumWidth)
-        {
-            mMinimumWidth = inMinimumWidth;
-        }
-
-
-        int ConcreteToolbarItem::maximumWidth() const
-        {
-            return mMaximumWidth;
-        }
-
-
-        void ConcreteToolbarItem::setMaximumWidth(int inMaximumWidth)
-        {
-            mMaximumWidth = inMaximumWidth;
-        }
-
-
-        int ConcreteToolbarItem::maxIconHeight() const
-        {
-            return mMaxIconHeight;
-        }
-
-
-        void ConcreteToolbarItem::setMaxIconHeight(int inMaxIconHeight)
-        {
-            mMaxIconHeight = inMaxIconHeight;
-        }
-
-
-        void ConcreteToolbarItem::setNoHover(bool inNoHover)
-        {
-            mNoHover = inNoHover;
-        }
-
-
-        bool ConcreteToolbarItem::getIndex(size_t & outIndex) const
-        {
-            if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
+            //menu: Set the type attribute to the value menu to create a button with a menu popup. Place a menupopup element inside the button in this case. The user may click anywhere on the button to open and close the menu.
+            //menu-button: You can also use the value menu-button to create a button with a menu. Unlike the menu type, this type requires the user to press the arrow to open the menu, but a different command may be invoked when the main part of the button is pressed. This type of button would be used for browser's back and forward buttons.
+            //checkbox: Use this type to create a toggle button which will switch the checked state each time the button is pressed.
+            //radio: Use this type to create a radio button. You can also create a group of toolbarbutton using this type and the attribute group.
+            if (buttonType == "menu")
             {
-                for (size_t idx = 0; idx != ieToolbar->size(); ++idx)
+                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+                                                       this,
+                                                       mComponentId.value(),
+                                                       label,
+                                                       label,
+                                                       nullImage,
+                                                       false);
+            }
+            else if (buttonType == "menu-button")
+            {
+                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+                                                       this,
+                                                       mComponentId.value(),
+                                                       label,
+                                                       label,
+                                                       nullImage,
+                                                       true);
+            }
+            else // buttonType.empty() or buttonType == "button"
+            {
+                mButton = new Windows::ToolbarButtonElement(toolbar->nativeToolbar(),
+                                                            mComponentId.value(),
+                                                            boost::function<void()>(),
+                                                            label,
+                                                            label,
+                                                            nullImage);
+            }
+            assert(mButton);
+            toolbar->nativeToolbar()->add(mButton);
+            // Now that mButton is constructed we can apply any previously set
+            // attributes.
+            setLabel(mLabel);
+            setDisabled(mDisabled);
+            setCSSListStyleImage(mCSSListStyleImage);
+        }
+    }
+
+
+    void ToolbarButton::showToolbarMenu(RECT inToolbarButtonRect)
+    {
+        showPopupMenu(inToolbarButtonRect);
+    }
+
+
+    void ToolbarButton::showPopupMenu(RECT inToolbarButtonRect)
+    {
+        for (size_t idx = 0; idx != getChildCount(); ++idx)
+        {
+            ElementPtr child = el()->children()[idx];
+            if (MenuPopup * popupMenu = child->component()->downcast<MenuPopup>())
+            {
+                popupMenu->show(inToolbarButtonRect);
+            }
+        }
+    }
+
+
+    bool ToolbarButton::initAttributeControllers()
+    {
+        setAttributeController<LabelController>(this);
+        setAttributeController<DisabledController>(this);
+        return Super::initAttributeControllers();
+    }
+
+
+    bool ToolbarButton::initStyleControllers()
+    {
+        setStyleController<CSSListStyleImageController>(this);
+        return Super::initStyleControllers();
+    }
+
+
+    int ToolbarButton::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
+        {
+            int textWidth = Windows::getTextSize(toolbar->handle(), getLabel()).cx;
+            int imageWidth = 0;
+            if (mButton && mButton->image())
+            {
+                imageWidth = mButton->image()->GetWidth();
+            }
+            return std::max<int>(textWidth, imageWidth);
+
+        }
+        return 0;
+    }
+
+
+    int ToolbarButton::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        int result = Defaults::toolbarHeight();
+        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
+        {
+            int textHeight = Windows::getTextSize(toolbar->handle(), getLabel()).cy;
+            if (textHeight > result)
+            {
+                result = textHeight;
+            }
+            if (mButton && mButton->image())
+            {
+                int imageHeight = mButton->image()->GetHeight();
+                if (imageHeight > result)
                 {
-                    if (ieToolbar->get(idx)->componentId() == componentId())
-                    {
-                        outIndex = idx;
-                        return true;
-                    }
+                    result = imageHeight;
                 }
             }
-            return false;
         }
+        return result;
+    }
 
 
-        RECT ConcreteToolbarItem::getRect() const
+    std::string ToolbarButton::getLabel() const
+    {
+        if (mButton)
         {
-            RECT result = {0, 0, 0, 0};
-            if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
+            return mButton->text();
+        }
+        return mLabel;
+    }
+
+
+    void ToolbarButton::setLabel(const std::string & inLabel)
+    {
+        if (mButton)
+        {
+            mButton->setText(inLabel);
+        }
+        mLabel = inLabel;
+    }
+
+
+    bool ToolbarButton::isDisabled() const
+    {
+        return mDisabled;
+    }
+
+
+    void ToolbarButton::setDisabled(bool inDisabled)
+    {
+        if (mButton)
+        {
+            if (Toolbar * toolbar = parent()->downcast<Toolbar>())
             {
-                size_t index;
-                if (getIndex(index))
-                {
-                    SendMessage(ieToolbar->handle(), TB_GETITEMRECT, (WPARAM)(INT)index, (LPARAM)&result);
-                }
-            }
-            return result;
-        }
-
-
-        void ConcreteToolbarItem::setVisible(bool inVisible)
-        {
-            if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
-            {
-                SendMessage(ieToolbar->handle(), TB_HIDEBUTTON, (WPARAM)(INT)componentId(), (LPARAM)MAKELONG(inVisible ? FALSE : TRUE, 0));
-            }
-        }
-
-
-        bool ConcreteToolbarItem::isVisible() const
-        {
-            if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
-            {
-                return 0 == SendMessage(ieToolbar->handle(), TB_ISBUTTONHIDDEN, (WPARAM)(INT)componentId(), (LPARAM)0);
-            }
-            return false;
-        }
-
-
-        UInt32 ConcreteToolbarItem::componentId() const
-        {
-            return mComponentId;
-        }
-
-
-        const std::string & ConcreteToolbarItem::text() const
-        {
-            return mText;
-        }
-
-
-        const std::string & ConcreteToolbarItem::tooltipText() const
-        {
-            return mTooltipText;
-        }
-
-
-        void ConcreteToolbarItem::setText(const std::string & inText)
-        {
-            mText = inText;
-            boost::shared_ptr<Toolbar> toolbar = mToolbar.lock();
-            if (toolbar)
-            {
-                toolbar->rebuildLayout();
-
-                // HACK!
-                // This code forces the layout to update but does not belong here.
-                RECT rc;
-                GetClientRect(toolbar->handle(), &rc);
-                for (size_t idx = 0; idx != toolbar->size(); ++idx)
-                {
-                    toolbar->get(idx)->onClientRectChanged(rc);
-                }
-                // END HACK
+                SendMessage(toolbar->handle(), TB_ENABLEBUTTON, (WPARAM)mComponentId.value(), (LPARAM)MAKELONG(inDisabled ? FALSE : TRUE, 0));
             }
         }
-
-
-        boost::shared_ptr<Gdiplus::Bitmap> ConcreteToolbarItem::image() const
+        else
         {
-            return mImage;
+            mDisabled = inDisabled;
         }
+    }
 
 
-        void ConcreteToolbarItem::setImage(boost::shared_ptr<Gdiplus::Bitmap> inImage)
+    void ToolbarButton::setCSSListStyleImage(const std::string & inURL)
+    {
+        if (mButton)
         {
-            mImage = inImage;
-            if (boost::shared_ptr<Toolbar> toolbar = mToolbar.lock())
-            {
-                toolbar->rebuildLayout();
-            }
+            ChromeURL chromeURL(inURL);
+            std::wstring utf16URL = ToUTF16(chromeURL.convertToLocalPath());
+            boost::shared_ptr<Gdiplus::Bitmap> img(new Gdiplus::Bitmap(utf16URL.c_str()));
+            mButton->setImage(img);
         }
+        mCSSListStyleImage = inURL;
+    }
 
 
-        void ConcreteToolbarItem::draw(HDC inHDC, RECT rect, HFONT hFont, SIZE inTextSize)
-        {
-            size_t imageWidth = 0;
-            size_t imageHeight = 0;
-            if (mImage)
-            {
-                double resizeFactor = static_cast<double>(std::min<size_t>(maxIconHeight(), mImage->GetHeight()))/static_cast<double>(mImage->GetHeight());
-                int h = static_cast<size_t>(static_cast<double>(mImage->GetHeight() * resizeFactor) + 0.5);
-                int w = static_cast<size_t>(static_cast<double>(mImage->GetWidth() * resizeFactor) + 0.5);
-                int x = rect.left + mLeftMargin;
-                int y = rect.top + ((rect.bottom - rect.top) - h)/2;
-                Gdiplus::Graphics g(inHDC);
-                g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
-                g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
-                g.DrawImage
-                (
-                    mImage.get(),
-                    x,
-                    y,
-                    w,
-                    h
-                );
-                imageWidth = w;
-                imageHeight = h;
-            }
-
-            // draw text
-            std::wstring unicodeText(ToUTF16(mText));
-            RECT textRect = getTextRect(this, rect, imageWidth, imageHeight, inTextSize);
-            int oldBkMode = ::SetBkMode(inHDC, TRANSPARENT);
-            DWORD fgColor = GetSysColor(COLOR_MENUTEXT);
-            int oldTextColor = ::SetTextColor(inHDC, fgColor);
-            HGDIOBJ oldFont = SelectObject(inHDC, hFont);
-            ::DrawText(inHDC, unicodeText.c_str(), unicodeText.length(), &textRect, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
-
-            // Release stuff
-            ::SetTextColor(inHDC, oldTextColor);
-            ::SetBkMode(inHDC, oldBkMode);
-            ::SelectObject(inHDC, oldFont);
-        }
-
-
-        ToolbarButtonElement::ToolbarButtonElement
-        (
-            boost::weak_ptr<Toolbar> inToolbar,
-            UInt32 inComponentId,
-            const boost::function<void()> & inAction,
-            const std::string & inText,
-            const std::string & inTooltipText,
-            boost::shared_ptr<Gdiplus::Bitmap> inImage
-        ):
-            ConcreteToolbarItem
-            (
-                inToolbar,
-                inComponentId,
-                inText,
-                inTooltipText,
-                inImage
-            ),
-            mAction(inAction)
-        {
-        }
-
-
-        ToolbarButtonElement::~ToolbarButtonElement()
-        {
-        }
-
-
-        int ToolbarButtonElement::flags() const
-        {
-            return BTNS_BUTTON | (text().empty() ? 0 : BTNS_SHOWTEXT);
-        }
-
-
-        void ToolbarButtonElement::performCommand()
-        {
-            if (mAction)
-            {
-                mAction();
-            }
-        }
-
-
-        ToolbarDropDown::ToolbarDropDown
-        (
-            boost::weak_ptr<Toolbar> inToolbar,
-            ToolbarDropDown::EventHandler * inEventHandler,
-            UInt32 inComponentId,
-            const std::string & inText,
-            const std::string & inTooltipText,
-            boost::shared_ptr<Gdiplus::Bitmap> inImage,
-            bool inIsButton
-        ):
-            ConcreteToolbarItem
-            (
-                inToolbar,
-                inComponentId,
-                inText,
-                inTooltipText,
-                inImage
-            ),
-            mEventHandler(inEventHandler),
-            mIsButton(inIsButton)
-        {
-            if (inIsButton)
-            {
-                setRightMargin(getRightMargin() + 8);
-            }
-        }
-
-
-        ToolbarDropDown::~ToolbarDropDown()
-        {
-        }
-
-
-        int ToolbarDropDown::flags() const
-        {
-            return BTNS_BUTTON | (isButton() ? BTNS_DROPDOWN : BTNS_WHOLEDROPDOWN) | (text().empty() ? 0 : BTNS_SHOWTEXT);
-        }
-
-
-        bool ToolbarDropDown::isButton() const
-        {
-            return mIsButton;
-        }
-
-
-        void ToolbarDropDown::showToolbarMenu(RECT inToolbarButtonRect)
-        {
-            if (mEventHandler)
-            {
-                mEventHandler->showToolbarMenu(inToolbarButtonRect);
-            }
-        }
-
-
-        ToolbarSeparator::ToolbarSeparator
-        (
-            boost::weak_ptr<Toolbar> inToolbar,
-            UInt32 inComponentId
-        ):
-            ConcreteToolbarItem
-            (
-                inToolbar,
-                inComponentId,
-                "",
-                "",
-                nullImage
-            )
-        {
-            setNoHover(true);
-        }
-
-
-        ToolbarSeparator::~ToolbarSeparator()
-        {
-        }
-
-
-        int ToolbarSeparator::flags() const
-        {
-            return BTNS_BUTTON;
-        }
-
-
-        void ToolbarSeparator::draw(HDC inHDC, RECT inRect, HFONT hFont, SIZE inTextSize)
-        {
-            Gdiplus::Graphics g(inHDC);
-            Gdiplus::Pen pen(Gdiplus::Color::DarkGray, 1.0);
-            const static int cMarginTopBottom = 2;
-            int x1 = inRect.left + (inRect.right-inRect.left)/2;
-            int x2 = x1;
-            int y1 = inRect.top + cMarginTopBottom;
-            int y2 = inRect.bottom - 2*cMarginTopBottom;
-            g.DrawLine(&pen, x1, y1, x2, y2);
-        }
-
-
-        ToolbarSpring::ToolbarSpring
-        (
-            boost::weak_ptr<Toolbar> inToolbar,
-            UInt32 inComponentId
-        ):
-            ConcreteToolbarItem
-            (
-                inToolbar,
-                inComponentId,
-                "",
-                "",
-                nullImage
-            )
-        {
-            setNoHover(true);
-        }
-
-
-        int ToolbarSpring::flags() const
-        {
-            return BTNS_SEP;
-        }
-
-
-        IECustomWindow::IECustomWindow()
-        {
-        }
-
-
-        IECustomWindow::~IECustomWindow()
-        {
-        }
-
-
-        int IECustomWindow::flags() const
-        {
-            return BTNS_SEP;
-        }
-
-
-    } // namespace Windows
+    const std::string & ToolbarButton::getCSSListStyleImage() const
+    {
+        return mCSSListStyleImage;
+    }
 
 } // namespace XULWin

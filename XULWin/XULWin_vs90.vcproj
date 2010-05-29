@@ -351,7 +351,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\DetachedComponent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Dialog.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Image.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ImaginaryComponent.h"
 					>
 				</File>
 				<File
@@ -431,6 +443,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\Scrollbar.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Toolbar.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ToolbarItem.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\VirtualComponent.h"
 					>
 				</File>
@@ -459,7 +483,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\DetachedComponent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Dialog.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Image.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ImaginaryComponent.cpp"
 					>
 				</File>
 				<File
@@ -539,6 +575,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\Scrollbar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Toolbar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ToolbarItem.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\VirtualComponent.cpp"
 					>
 				</File>
@@ -559,19 +607,19 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Toolbar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarItem.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\ToolbarMenuItem.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\XULWin\Windows.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\WindowsToolbar.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\WindowsToolbarItem.h"
 					>
 				</File>
 				<File
@@ -587,15 +635,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Toolbar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ToolbarItem.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\ToolbarMenuItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowsToolbar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowsToolbarItem.cpp"
 					>
 				</File>
 				<File
@@ -632,6 +680,14 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\EventListener.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ForwardDeclarations.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Gdiplus.h"
 					>
 				</File>
 				<File

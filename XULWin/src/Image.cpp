@@ -5,13 +5,13 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/Component.h"
 #include "XULWin/GdiplusLoader.h"
+#include "XULWin/Gdiplus.h"
 #include "Poco/Path.h"
 #include "Poco/UnicodeConverter.h"
 #include <limits>
 #include <boost/bind.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
-#include <gdiplus.h>
 
 
 namespace XULWin

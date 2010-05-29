@@ -2,8 +2,7 @@
 #define LISTITEMIMPL_H_INCLUDED
 
 
-#include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/VirtualComponent.h"
 
 
 namespace XULWin

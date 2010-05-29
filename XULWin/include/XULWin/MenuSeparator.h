@@ -3,18 +3,22 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/VirtualComponent.h"
 
 
 namespace XULWin
 {
 
-    class MenuSeparator : public ImaginaryComponent
+    class MenuSeparator : public VirtualComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef VirtualComponent Super;
 
         MenuSeparator(Component * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const { return 0; }
     };
 
 } // namespace XULWin

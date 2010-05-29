@@ -2,171 +2,22 @@
 #define COMPONENTS_H_INCLUDED
 
 
-#include "XULWin/AttributeController.h"
 #include "XULWin/BoxLayouter.h"
-#include "XULWin/Conversions.h"
-#include "XULWin/Component.h"
-#include "XULWin/Element.h"
-#include "XULWin/Enums.h"
-#include "XULWin/EventListener.h"
-#include "XULWin/Fallible.h"
-#include "XULWin/GdiplusLoader.h"
+#include "XULWin/ImaginaryComponent.h"
 #include "XULWin/NativeControl.h"
 #include "XULWin/Node.h"
-#include "XULWin/Layout.h"
-#include "XULWin/StyleController.h"
-#include "XULWin/Toolbar.h"
-#include "XULWin/ToolbarItem.h"
-#include "XULWin/UniqueId.h"
 #include "XULWin/VirtualComponent.h"
-#include "XULWin/Window.h"
-#include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <string>
-#include <CommCtrl.h>
+//#include <CommCtrl.h>
 
 
 namespace XULWin
 {
-
-
-    /**
-     * Dialog
-     *
-     * Represents a XUL dialog window.
-     * In reality it is a Window with some customizations for Dialog-like behavior.
-     */
-    class Dialog : public NativeComponent,
-                   public BoxLayouter::ContentProvider,
-                   public virtual TitleController
-    {
-    public:
-        typedef NativeComponent Super;
-
-        static void Register(HMODULE inModuleHandle);
-
-        Dialog(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual ~Dialog();
-
-        // BoxLayouter
-        virtual Orient getOrient() const;
-
-        // BoxLayouter
-        virtual Align getAlign() const;
-
-        // TitleController methods
-        virtual std::string getTitle() const;
-
-        virtual void setTitle(const std::string & inTitle);
-
-        virtual const Component * getChild(size_t idx) const;
-
-        virtual Component * getChild(size_t idx);
-
-        virtual void rebuildChildLayouts()
-        {
-            return Super::rebuildChildLayouts();
-        }
-
-        DialogResult showModal(Window * inInvoker);
-
-        LRESULT endModal(DialogResult inDialogResult);
-
-        virtual void move(int x, int y, int w, int h);
-
-        virtual void rebuildLayout();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        virtual Rect clientRect() const;
-
-        virtual Rect windowRect() const;
-
-        virtual bool initAttributeControllers();
-
-        virtual bool initStyleControllers();
-
-        virtual Orient BoxLayouter_getOrient() const
-        {
-            return getOrient();
-        }
-
-        virtual Align BoxLayouter_getAlign() const
-        {
-            return getAlign();
-        }
-
-        virtual size_t BoxLayouter_getChildCount() const
-        {
-            return getChildCount();
-        }
-
-        virtual const Component * BoxLayouter_getChild(size_t idx) const
-        {
-            return getChild(idx);
-        }
-
-        virtual Component * BoxLayouter_getChild(size_t idx)
-        {
-            return getChild(idx);
-        }
-
-        virtual Rect BoxLayouter_clientRect() const
-        {
-            return clientRect();
-        }
-
-        virtual void BoxLayouter_rebuildChildLayouts()
-        {
-            rebuildChildLayouts();
-        }
-
-        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
-
-#ifndef SWIG
-        static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
-#endif
-    private:
-        // Invoker is the stored parameter for showModal.
-        Window * mInvoker;
-        BoxLayouter mBoxLayouter;
-        DialogResult mDialogResult;
-    };
-
-
-    /**
-     * ImaginaryComponent
-     *
-     * ImaginaryComponent is a VirtualComponent that
-     * does not ask for any layout space.
-     */
-    class ImaginaryComponent : public VirtualComponent
-    {
-    public:
-        typedef VirtualComponent Super;
-
-        ImaginaryComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual ~ImaginaryComponent();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const
-        {
-            return 0;
-        }
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const
-        {
-            return 0;
-        }
-    };
-
 
     /**
      * Button
@@ -413,14 +264,6 @@ namespace XULWin
         BoxLayouter mBoxLayouter;
     };
 
-
-    class MenuPopupContainer
-    {
-    public:
-        virtual void showPopupMenu(RECT inToolbarButtonRect) = 0;
-    };
-
-
     class MenuList : public NativeControl
     {
     public:
@@ -632,65 +475,6 @@ namespace XULWin
 
     private:
         int mSelectedIndex;
-    };
-
-
-    class Scrollbar : public NativeControl,
-                      public virtual ScrollbarCurrentPositionController,
-                      public virtual ScrollbarMaxPositionController,
-                      public virtual ScrollbarIncrementController,
-                      public virtual ScrollbarPageIncrementController
-    {
-    public:
-        typedef NativeControl Super;
-
-        Scrollbar(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual int getCurrentPosition() const;
-
-        virtual void setCurrentPosition(int inCurrentPosition);
-
-        virtual int getMaxPosition() const;
-
-        virtual void setMaxPosition(int inMaxPosition);
-
-        virtual int getIncrement() const;
-
-        virtual void setIncrement(int inIncrement);
-
-        virtual int getPageIncrement() const;
-
-        virtual void setPageIncrement(int inPageIncrement);
-
-        class EventListener
-        {
-        public:
-            virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
-        };
-
-        EventListener * eventHandler()
-        {
-            return mEventListener;
-        }
-
-        void setEventListener(EventListener * inEventListener)
-        {
-            mEventListener = inEventListener;
-        }
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        bool initAttributeControllers();
-
-        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
-
-    private:
-        static DWORD GetFlags(const AttributesMapping & inAttributesMapping);
-
-        EventListener * mEventListener;
-        int mIncrement;
     };
 
 
@@ -1010,89 +794,6 @@ namespace XULWin
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
-
-
-    class Toolbar : public NativeControl,
-                    public Windows::Toolbar::EventHandler,
-                    public GdiplusLoader
-    {
-    public:
-        typedef NativeControl Super;
-
-        Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual ~Toolbar();
-
-        virtual bool init();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        virtual void rebuildLayout();
-
-        // ToolbarElement::EventHandler methods
-        virtual void onRequestFocus() {}
-
-        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const
-        {
-            return mToolbar;
-        }
-
-    private:
-        boost::shared_ptr<Windows::Toolbar> mToolbar;
-    };
-
-
-    class ToolbarButton : public VirtualComponent,
-                          public Windows::ToolbarDropDown::EventHandler,
-                          public MenuPopupContainer,
-                          public virtual DisabledController,
-                          public virtual LabelController,
-                          public virtual CSSListStyleImageController
-    {
-    public:
-        typedef VirtualComponent Super;
-
-        ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual bool initAttributeControllers();
-
-        virtual bool initStyleControllers();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        // From ToolbarDropDown::EventHandler
-        virtual void showToolbarMenu(RECT inToolbarButtonRect);
-
-        // From MenuPopupContainer
-        virtual void showPopupMenu(RECT inToolbarButtonRect);
-
-        virtual std::string getLabel() const;
-
-        virtual void setLabel(const std::string & inLabel);
-
-        virtual bool isDisabled() const;
-
-        virtual void setDisabled(bool inDisabled);
-
-        virtual void setCSSListStyleImage(const std::string & inURL);
-
-        virtual const std::string & getCSSListStyleImage() const;
-
-        Windows::ConcreteToolbarItem * nativeItem()
-        {
-            return mButton;
-        }
-
-    private:
-        Windows::ConcreteToolbarItem * mButton;
-        bool mDisabled;
-        std::string mLabel;
-        std::string mCSSListStyleImage;
     };
 
 

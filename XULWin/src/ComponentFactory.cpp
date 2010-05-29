@@ -1,4 +1,5 @@
 #include "XULWin/ComponentFactory.h"
+#include "XULWin/Conversions.h"
 #include "XULWin/ErrorReporter.h"
 
 

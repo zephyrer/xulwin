@@ -1,6 +1,7 @@
 #include "XULWin/Window.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
+#include "XULWin/Dialog.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/MenuBar.h"
 #include "XULWin/WinUtils.h"

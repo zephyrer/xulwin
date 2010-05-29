@@ -2,7 +2,7 @@
 #define OVERLAYELEMENT_H_INCLUDED
 
 
-#include "XULWin/Component.h"
+#include "XULWin/Element.h"
 #include <string>
 
 

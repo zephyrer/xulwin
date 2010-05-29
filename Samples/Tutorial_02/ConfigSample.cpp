@@ -1,8 +1,11 @@
 #include "ConfigSample.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/ErrorReporter.h"
 #include "XULWin/MenuItemElement.h"
 #include "XULWin/MenuPopupElement.h"
 #include "XULWin/Window.h"
-#include "XULWin/WindowElement.h"
+#include "XULWin/WinUtils.h"
+#include "XULWin/Components.h"
 #include "XULWin/Unicode.h"
 #include "Poco/Path.h"
 #include <boost/bind.hpp>

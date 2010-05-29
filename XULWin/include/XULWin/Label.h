@@ -2,8 +2,7 @@
 #define LABEL_H_INCLUDED
 
 
-#include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/NativeControl.h"
 
 
 namespace XULWin

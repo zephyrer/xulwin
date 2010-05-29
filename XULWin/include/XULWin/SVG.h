@@ -5,6 +5,7 @@
 #include "XULWin/Component.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/GdiplusLoader.h"
+#include "XULWin/VirtualComponent.h"
 
 
 namespace Gdiplus

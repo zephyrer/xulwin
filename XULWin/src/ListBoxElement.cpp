@@ -1,6 +1,7 @@
 #include "XULWin/ListBoxElement.h"
 #include "XULWin/ListBox.h"
 #include "XULWin/ListView.h"
+#include "XULWin/ImaginaryComponent.h"
 #include "XULWin/Proxy.h"
 
 

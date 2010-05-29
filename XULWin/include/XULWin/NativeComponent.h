@@ -3,10 +3,13 @@
 
 
 #include "XULWin/ConcreteComponent.h"
+#include <set>
 
 
 namespace XULWin
 {
+
+    class EventListener;
 
     /**
      * NativeComponent

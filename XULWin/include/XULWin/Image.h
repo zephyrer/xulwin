@@ -3,8 +3,9 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/Components.h"
-#include "XULWin/AttributeController.h"
+#include "XULWin/GdiplusLoader.h"
+#include "XULWin/NativeControl.h"
+#include "XULWin/Gdiplus.h"
 
 
 namespace XULWin

@@ -3,7 +3,7 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/ImaginaryComponent.h"
 #include "XULWin/WinUtils.h"
 
 

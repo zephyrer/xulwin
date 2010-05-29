@@ -1,17 +1,17 @@
 #include "XULWin/Decorator.h"
-#include "XULWin/Components.h"
 #include "XULWin/ChromeURL.h"
+#include "XULWin/Conversions.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Elements.h"
 #include "XULWin/Types.h"
 #include "XULWin/WindowElement.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/Gdiplus.h"
 #include "Poco/Path.h"
 #include "Poco/UnicodeConverter.h"
 #include <boost/bind.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
-#include <gdiplus.h>
 
 
 namespace XULWin

@@ -1,8 +1,10 @@
 #include "XULWin/BoxLayouter.h"
 #include "XULWin/Component.h"
+#include "XULWin/Conversions.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Layout.h"
 
 
 namespace XULWin

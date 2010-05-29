@@ -1,33 +1,40 @@
-#ifndef WINDOW_H_INCLUDED
-#define WINDOW_H_INCLUDED
+#ifndef DIALOG_H_INCLUDED
+#define DIALOG_H_INCLUDED
 
 
-#include "XULWin/Component.h"
 #include "XULWin/BoxLayouter.h"
-#include "XULWin/Enums.h"
 #include "XULWin/NativeComponent.h"
-#include "XULWin/WindowElement.h"
 
 
 namespace XULWin
 {
 
+    class Window;
 
-    class Dialog;
-    class Menu;
-
-    class Window : public NativeComponent,
-                   public virtual TitleController,
-                   public BoxLayouter::ContentProvider
+    /**
+     * Dialog
+     *
+     * Represents a XUL dialog window.
+     * In reality it is a Window with some customizations for Dialog-like behavior.
+     */
+    class Dialog : public NativeComponent,
+                   public BoxLayouter::ContentProvider,
+                   public virtual TitleController
     {
     public:
         typedef NativeComponent Super;
 
         static void Register(HMODULE inModuleHandle);
 
-        Window(const AttributesMapping & inAttributesMapping);
+        Dialog(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~Window();
+        virtual ~Dialog();
+
+        // BoxLayouter
+        virtual Orient getOrient() const;
+
+        // BoxLayouter
+        virtual Align getAlign() const;
 
         // TitleController methods
         virtual std::string getTitle() const;
@@ -43,11 +50,9 @@ namespace XULWin
             return Super::rebuildChildLayouts();
         }
 
-        void show(WindowPos inPositioning);
+        DialogResult showModal(Window * inInvoker);
 
-        void showModal(WindowPos inPositioning);
-
-        void close();
+        LRESULT endModal(DialogResult inDialogResult);
 
         virtual void move(int x, int y, int w, int h);
 
@@ -63,7 +68,7 @@ namespace XULWin
 
         virtual bool initAttributeControllers();
 
-        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+        virtual bool initStyleControllers();
 
         virtual Orient BoxLayouter_getOrient() const
         {
@@ -100,20 +105,17 @@ namespace XULWin
             rebuildChildLayouts();
         }
 
-#ifndef SWIG
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
-#endif
-
     private:
-        friend class Dialog;
-        void setBlockingDialog(Dialog * inDlg);
-        Dialog * mActiveDialog;
+        // Invoker is the stored parameter for showModal.
+        Window * mInvoker;
         BoxLayouter mBoxLayouter;
-        bool mHasMessageLoop;
+        DialogResult mDialogResult;
     };
-
 
 } // namespace XULWin
 
 
-#endif // WINDOW_H_INCLUDED
+#endif // DIALOG_H_INCLUDED

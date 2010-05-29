@@ -3,6 +3,9 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Fallible.h"
+#include <map>
+#include <string>
 
 
 namespace XULWin

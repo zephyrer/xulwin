@@ -6,6 +6,7 @@
 #include "XULWin/ListCellElement.h"
 #include "XULWin/ListCell.h"
 #include "XULWin/Unicode.h"
+#include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
 
 

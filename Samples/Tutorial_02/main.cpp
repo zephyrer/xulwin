@@ -20,9 +20,9 @@
  *      Project settings -> Debugging -> Command Arguments: $(ProjectDir)ConfigPanel
  */
 #include "ConfigSample.h"
+#include "XULWin/Initializer.h"
 #include <sstream>
 #include <string>
-
 
 
 // Sometimes Windows wraps it's arguments in quotes, this function removes them.

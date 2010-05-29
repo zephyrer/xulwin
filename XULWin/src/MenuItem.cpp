@@ -9,7 +9,7 @@ namespace XULWin
 
 
     MenuItem::MenuItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        VirtualComponent(inParent, inAttributesMapping)
     {
         assert(sMenuItemsById.find(mComponentId.value()) == sMenuItemsById.end());
         sMenuItemsById.insert(std::make_pair(mComponentId.value(), this));
@@ -47,22 +47,27 @@ namespace XULWin
 
     int MenuItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<MenuItem *>(this)))
-        {
-            result = Windows::getTextSize(comp->handle(), getLabel()).cx;
-        }
-        return result;
+        //int result = 0;
+        //if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<MenuItem *>(this)))
+        //{
+        //    result = Windows::getTextSize(comp->handle(), getLabel()).cx;
+        //}
+        //return result;
+
+        // FIXME! 
+        return 80;
     }
 
 
     int MenuItem::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<MenuItem *>(this)))
-        {
-            return Windows::getTextSize(comp->handle(), getLabel()).cy;
-        }
-        return 0;
+        //if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<MenuItem *>(this)))
+        //{
+        //    return Windows::getTextSize(comp->handle(), getLabel()).cy;
+        //}
+
+        // FIXME!!
+        return 80;
     }
 
 

@@ -309,13 +309,13 @@ namespace XULWin
         }
 
 
-        Toolbar::ToolbarItems::const_iterator Toolbar::findByCommandID(const ToolbarItems & inToolbarItems, int inCommandID)
+        Toolbar::ToolbarItems::const_iterator Toolbar::findByCommandID(const ToolbarItems & inToolbarItems, UInt32 inComponentId)
         {
             ToolbarItems::const_iterator it = inToolbarItems.begin(), end = inToolbarItems.end();
             for (; it != end; ++it)
             {
                 const AbstractToolbarItem * item = it->get();
-                if (item->componentId() == inCommandID)
+                if (item->componentId() == inComponentId)
                 {
                     break;
                 }
@@ -434,9 +434,9 @@ namespace XULWin
         }
 
 
-        AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(int inCommandID)
+        AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(UInt32 inComponentId)
         {
-            ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inCommandID);
+            ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inComponentId);
             if (it != mToolbarItems.end())
             {
                 return it->get();
@@ -445,9 +445,9 @@ namespace XULWin
         }
 
 
-        const AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(int inCommandID) const
+        const AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(UInt32 inComponentId) const
         {
-            ToolbarItems::const_iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inCommandID);
+            ToolbarItems::const_iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inComponentId);
             if (it != mToolbarItems.end())
             {
                 return it->get();
@@ -507,15 +507,15 @@ namespace XULWin
 
         void Toolbar::enable(size_t inIndex)
         {
-            int commandID = get(inIndex)->componentId();
-            ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)commandID, (LPARAM)MAKELONG(TRUE, 0));
+            int componentId = get(inIndex)->componentId();
+            ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)componentId, (LPARAM)MAKELONG(TRUE, 0));
         }
 
 
         void Toolbar::disable(size_t inIndex)
         {
-            int commandID = get(inIndex)->componentId();
-            ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)commandID, (LPARAM)MAKELONG(FALSE, 0));
+            int componentId = get(inIndex)->componentId();
+            ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)componentId, (LPARAM)MAKELONG(FALSE, 0));
         }
 
 

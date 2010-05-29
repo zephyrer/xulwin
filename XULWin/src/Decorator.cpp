@@ -1,6 +1,7 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
+#include "XULWin/Types.h"
 #include "XULWin/WindowElement.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/Path.h"
@@ -520,7 +521,7 @@ namespace XULWin
     }
 
 
-    int Decorator::componentId() const
+    UInt32 Decorator::componentId() const
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)

@@ -278,7 +278,7 @@ namespace XULWin
             return 0;
         }
 
-        virtual int componentId() const = 0;
+        virtual UInt32 componentId() const = 0;
 
         virtual int getWidth(SizeConstraint inSizeConstraint) const = 0;
 
@@ -463,9 +463,9 @@ namespace XULWin
             return 0;
         }
 
-        int componentId() const
+        UInt32 componentId() const
         {
-            return mCommandId.value();
+            return mComponentId.value();
         }
 
         virtual int getWidth(SizeConstraint inSizeConstraint) const;
@@ -542,7 +542,7 @@ namespace XULWin
     protected:
         Component * mParent;
         Element * mElement;
-        ComponentId mCommandId;
+        ComponentId mComponentId;
         bool mExpansive;
         int mFlex;
 

@@ -620,7 +620,7 @@ namespace XULWin
         }
 
 
-        void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText)
+        void insertMenuItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText)
         {
             MENUITEMINFO mii;
             memset(&mii, 0, sizeof(mii));
@@ -638,7 +638,7 @@ namespace XULWin
             buffer[itemText.length()] = 0;
             mii.dwTypeData = (LPTSTR)&buffer[0];
             mii.cch = (UINT)itemText.size();
-            mii.wID = inCommandId;
+            mii.wID = inComponentId;
             if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
             {
                 ReportError(getLastError(::GetLastError()));
@@ -696,23 +696,23 @@ namespace XULWin
         }
 
 
-        void setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled)
+        void setMenuItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled)
         {
             // The return value specifies the previous state of the menu item (it
             // is either MF_DISABLED, MF_ENABLED, or MF_GRAYED). If the menu item
             // does not exist, the return value is -1.
-            if (-1 == ::EnableMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED))
+            if (-1 == ::EnableMenuItem(inMenuHandle, inComponentId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED))
             {
                 ReportError(getLastError(::GetLastError()));
             }
         }
 
 
-        void setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked)
+        void setMenuItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked)
         {
             // The return value specifies the previous state of the menu item (either MF_CHECKED or
             // MF_UNCHECKED). If the menu item does not exist, the return value is -1.
-            if (-1 == ::CheckMenuItem(inMenuHandle, inCommandId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED))
+            if (-1 == ::CheckMenuItem(inMenuHandle, inComponentId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED))
             {
                 ReportError(getLastError(::GetLastError()));
             }

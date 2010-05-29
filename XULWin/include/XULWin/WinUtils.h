@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Node.h"
+#include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -157,7 +158,7 @@ namespace XULWin
 
         void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex);
 
-        void insertMenuItem(HMENU inMenuHandle, UINT inIndex, int inCommandId, const std::string & inText);
+        void insertMenuItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText);
 
         void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
 
@@ -174,9 +175,9 @@ namespace XULWin
         > MenuNode;
         HMENU createMenu(const MenuNode & inMenuNode);
 
-        void setMenuItemEnabled(HMENU inMenuHandle, int inCommandId, bool inEnabled);
+        void setMenuItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
 
-        void setMenuItemChecked(HMENU inMenuHandle, int inCommandId, bool inChecked);
+        void setMenuItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
 
         typedef boost::function<void()> TimerAction;
         void setTimeout(TimerAction inAction, int inDelayInMilliseconds);

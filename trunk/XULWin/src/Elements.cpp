@@ -20,7 +20,7 @@ namespace XULWin
 
     // We want the dialog to have a parent because an owning window is needed
     // in order to prevent our dialog from showing in the Windows taskbar.
-    // MSDN Article ID 205158: How To Prevent a WindowElement from Appearing on the Taskbar
+    // MSDN Article ID 205158: How To Prevent a XMLWindow from Appearing on the Taskbar
     static Window * GetDialogHelper()
     {
         AttributesMapping attr;
@@ -29,15 +29,15 @@ namespace XULWin
     }
 
 
-    DialogElement::DialogElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(DialogElement::TagName(),
+    XMLDialog::XMLDialog(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLDialog::TagName(),
                 inParent,
                 new Dialog(inParent ? inParent->component() : GetDialogHelper(), inAttributesMapping))
     {
     }
 
 
-    DialogResult DialogElement::showModal(WindowElement * inInvoker)
+    DialogResult XMLDialog::showModal(XMLWindow * inInvoker)
     {
         if (Dialog * nativeDialog = component()->downcast<Dialog>())
         {
@@ -47,7 +47,7 @@ namespace XULWin
     }
 
 
-    void DialogElement::endModal(DialogResult inDialogResult)
+    void XMLDialog::endModal(DialogResult inDialogResult)
     {
         if (Dialog * nativeDialog = component()->downcast<Dialog>())
         {
@@ -56,55 +56,55 @@ namespace XULWin
     }
 
 
-    ButtonElement::ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ButtonElement::TagName(),
+    XMLButton::XMLButton(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLButton::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Button>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    DescriptionElement::DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(DescriptionElement::TagName(),
+    XMLDescription::XMLDescription(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLDescription::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Description>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    bool DescriptionElement::init()
+    bool XMLDescription::init()
     {
         setAttribute("value", innerText());
         return Element::init();
     }
 
 
-    TextBoxElement::TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TextBoxElement::TagName(),
+    XMLTextBox::XMLTextBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTextBox::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, TextBox>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    CheckBoxElement::CheckBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(CheckBoxElement::TagName(),
+    XMLCheckBox::XMLCheckBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLCheckBox::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, CheckBox>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    BoxElement::BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(BoxElement::TagName(),
+    XMLBox::XMLBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLBox::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    HBoxElement::HBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(HBoxElement::TagName(),
+    XMLHBox::XMLHBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLHBox::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
@@ -112,8 +112,8 @@ namespace XULWin
     }
 
 
-    VBoxElement::VBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(VBoxElement::TagName(),
+    XMLVBox::XMLVBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLVBox::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
@@ -121,403 +121,403 @@ namespace XULWin
     }
 
 
-    MenuListElement::MenuListElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuListElement::TagName(),
+    XMLMenuList::XMLMenuList(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLMenuList::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, MenuList>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    SeparatorElement::SeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SeparatorElement::TagName(),
+    XMLSeparator::XMLSeparator(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLSeparator::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Separator>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    SeparatorElement::~SeparatorElement()
+    XMLSeparator::~XMLSeparator()
     {
     }
 
 
-    SpacerElement::SpacerElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(SpacerElement::TagName(),
+    XMLSpacer::XMLSpacer(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLSpacer::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Spacer>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    SpacerElement::~SpacerElement()
+    XMLSpacer::~XMLSpacer()
     {
     }
 
 
-    MenuButtonElement::MenuButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(MenuButtonElement::TagName(),
+    XMLMenuButton::XMLMenuButton(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLMenuButton::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, MenuButton>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    MenuButtonElement::~MenuButtonElement()
+    XMLMenuButton::~XMLMenuButton()
     {
     }
 
 
-    GridElement::GridElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(GridElement::TagName(),
+    XMLGrid::XMLGrid(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLGrid::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualGrid, Grid>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    GridElement::~GridElement()
+    XMLGrid::~XMLGrid()
     {
     }
 
 
-    RowsElement::RowsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RowsElement::TagName(),
+    XMLRows::XMLRows(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLRows::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Rows>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    RowsElement::~RowsElement()
+    XMLRows::~XMLRows()
     {
     }
 
 
-    ColumnsElement::ColumnsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ColumnsElement::TagName(),
+    XMLColumns::XMLColumns(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLColumns::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Columns>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    ColumnsElement::~ColumnsElement()
+    XMLColumns::~XMLColumns()
     {
     }
 
 
-    RowElement::RowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RowElement::TagName(),
+    XMLRow::XMLRow(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLRow::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Row>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    RowElement::~RowElement()
+    XMLRow::~XMLRow()
     {
     }
 
 
-    ColumnElement::ColumnElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ColumnElement::TagName(),
+    XMLColumn::XMLColumn(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLColumn::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, Column>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    ColumnElement::~ColumnElement()
+    XMLColumn::~XMLColumn()
     {
     }
 
 
-    RadioGroupElement::RadioGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RadioGroupElement::TagName(),
+    XMLRadioGroup::XMLRadioGroup(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLRadioGroup::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<Decorator, RadioGroup>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    RadioGroupElement::~RadioGroupElement()
+    XMLRadioGroup::~XMLRadioGroup()
     {
     }
 
 
-    RadioElement::RadioElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(RadioElement::TagName(),
+    XMLRadio::XMLRadio(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLRadio::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, Radio>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    RadioElement::~RadioElement()
+    XMLRadio::~XMLRadio()
     {
     }
 
 
-    ProgressMeterElement::ProgressMeterElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ProgressMeterElement::TagName(),
+    XMLProgressMeter::XMLProgressMeter(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLProgressMeter::TagName(),
                 inParent,
                 ComponentFactory::Instance().createComponent<MarginDecorator, ProgressMeter>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    ProgressMeterElement::~ProgressMeterElement()
+    XMLProgressMeter::~XMLProgressMeter()
     {
     }
 
 
-    DeckElement::DeckElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(DeckElement::TagName(),
+    XMLDeck::XMLDeck(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLDeck::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, Deck, Deck>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    DeckElement::~DeckElement()
+    XMLDeck::~XMLDeck()
     {
     }
 
 
-    ScrollbarElement::ScrollbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ScrollbarElement::TagName(),
+    XMLScrollbar::XMLScrollbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLScrollbar::TagName(),
                 inParent,
                 new Decorator(new Scrollbar(inParent->component(), inAttributesMapping)))
     {
     }
 
 
-    ScrollbarElement::~ScrollbarElement()
+    XMLScrollbar::~XMLScrollbar()
     {
     }
 
 
-    TabBoxElement::TabBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabBoxElement::TagName(),
+    XMLTabBox::XMLTabBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTabBox::TagName(),
                 inParent,
                 ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TabBoxElement::~TabBoxElement()
+    XMLTabBox::~XMLTabBox()
     {
     }
 
 
-    TabsElement::TabsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabsElement::TagName(),
+    XMLTabs::XMLTabs(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTabs::TagName(),
                 inParent,
                 new Tabs(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TabsElement::~TabsElement()
+    XMLTabs::~XMLTabs()
     {
     }
 
 
-    TabElement::TabElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabElement::TagName(),
+    XMLTab::XMLTab(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTab::TagName(),
                 inParent,
                 new Tab(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TabElement::~TabElement()
+    XMLTab::~XMLTab()
     {
     }
 
 
-    TabPanelsElement::TabPanelsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabPanelsElement::TagName(),
+    XMLTabPanels::XMLTabPanels(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTabPanels::TagName(),
                 inParent,
                 new TabPanels(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TabPanelsElement::~TabPanelsElement()
+    XMLTabPanels::~XMLTabPanels()
     {
     }
 
 
-    TabPanelElement::TabPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TabPanelElement::TagName(),
+    XMLTabPanel::XMLTabPanel(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTabPanel::TagName(),
                 inParent,
                 new TabPanel(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TabPanelElement::~TabPanelElement()
+    XMLTabPanel::~XMLTabPanel()
     {
     }
 
 
-    GroupBoxElement::GroupBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(GroupBoxElement::TagName(),
+    XMLGroupBox::XMLGroupBox(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLGroupBox::TagName(),
                 inParent,
                 new MarginDecorator(new GroupBox(inParent->component(), inAttributesMapping)))
     {
     }
 
 
-    CaptionElement::CaptionElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(CaptionElement::TagName(),
+    XMLCaption::XMLCaption(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLCaption::TagName(),
                 inParent,
                 new Caption(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeElement::TreeElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeElement::TagName(),
+    XMLTree::XMLTree(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTree::TagName(),
                 inParent,
                 new Tree(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeElement::~TreeElement()
+    XMLTree::~XMLTree()
     {
     }
 
 
-    TreeChildrenElement::TreeChildrenElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeChildrenElement::TagName(),
+    XMLTreeChildren::XMLTreeChildren(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTreeChildren::TagName(),
                 inParent,
                 new TreeChildren(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeChildrenElement::~TreeChildrenElement()
+    XMLTreeChildren::~XMLTreeChildren()
     {
     }
 
 
-    TreeItemElement::TreeItemElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeItemElement::TagName(),
+    XMLTreeItem::XMLTreeItem(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTreeItem::TagName(),
                 inParent,
                 new TreeItem(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeItemElement::~TreeItemElement()
+    XMLTreeItem::~XMLTreeItem()
     {
     }
 
 
-    TreeColsElement::TreeColsElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeColsElement::TagName(),
+    XMLTreeCols::XMLTreeCols(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTreeCols::TagName(),
                 inParent,
                 new TreeCols(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeColsElement::~TreeColsElement()
+    XMLTreeCols::~XMLTreeCols()
     {
     }
 
 
-    TreeColElement::TreeColElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeColElement::TagName(),
+    XMLTreeCol::XMLTreeCol(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTreeCol::TagName(),
                 inParent,
                 new TreeCol(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeColElement::~TreeColElement()
+    XMLTreeCol::~XMLTreeCol()
     {
     }
 
 
-    TreeRowElement::TreeRowElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeRowElement::TagName(),
+    XMLTreeRow::XMLTreeRow(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTreeRow::TagName(),
                 inParent,
                 new TreeRow(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeRowElement::~TreeRowElement()
+    XMLTreeRow::~XMLTreeRow()
     {
     }
 
 
-    TreeCellElement::TreeCellElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(TreeCellElement::TagName(),
+    XMLTreeCell::XMLTreeCell(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLTreeCell::TagName(),
                 inParent,
                 new TreeCell(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    TreeCellElement::~TreeCellElement()
+    XMLTreeCell::~XMLTreeCell()
     {
     }
 
 
-    StatusbarElement::StatusbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(StatusbarElement::TagName(),
+    XMLStatusbar::XMLStatusbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLStatusbar::TagName(),
                 inParent,
                 new Statusbar(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    StatusbarElement::~StatusbarElement()
+    XMLStatusbar::~XMLStatusbar()
     {
     }
 
 
-    StatusbarPanelElement::StatusbarPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(StatusbarPanelElement::TagName(),
+    XMLStatusbarPanel::XMLStatusbarPanel(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLStatusbarPanel::TagName(),
                 inParent,
                 new StatusbarPanel(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    StatusbarPanelElement::~StatusbarPanelElement()
+    XMLStatusbarPanel::~XMLStatusbarPanel()
     {
     }
 
 
-    ToolbarElement::ToolbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ToolbarElement::TagName(),
+    XMLToolbar::XMLToolbar(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLToolbar::TagName(),
                 inParent,
                 new XULWin::Toolbar(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    ToolbarElement::~ToolbarElement()
+    XMLToolbar::~XMLToolbar()
     {
     }
 
 
-    ToolbarButtonElement::ToolbarButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
-        Element(ToolbarButtonElement::TagName(),
+    XMLToolbarButton::XMLToolbarButton(Element * inParent, const AttributesMapping & inAttributesMapping) :
+        Element(XMLToolbarButton::TagName(),
                 inParent,
                 new ToolbarButton(inParent->component(), inAttributesMapping))
     {
     }
 
 
-    ToolbarButtonElement::~ToolbarButtonElement()
+    XMLToolbarButton::~XMLToolbarButton()
     {
     }
 

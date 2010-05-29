@@ -138,10 +138,10 @@ namespace XULWin
             int mMaxIconHeight;
         };
 
-        class ToolbarButtonElement : public ConcreteToolbarItem
+        class XMLToolbarButton : public ConcreteToolbarItem
         {
         public:
-            ToolbarButtonElement
+            XMLToolbarButton
             (
                 boost::weak_ptr<Windows::Toolbar> inToolbar,
                 UInt32 inComponentId,
@@ -151,7 +151,7 @@ namespace XULWin
                 boost::shared_ptr<Gdiplus::Bitmap> inImage
             );
 
-            virtual ~ToolbarButtonElement();
+            virtual ~XMLToolbarButton();
 
             virtual int flags() const;
 

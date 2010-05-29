@@ -456,7 +456,7 @@ namespace XULWin
                     }
                     else
                     {
-                        ReportError("SVGElement SVGPathElement of type MoveTo has more than one points.");
+                        ReportError("XMLSVG XMLSVGPath of type MoveTo has more than one points.");
                     }
                     break;
                 }
@@ -493,7 +493,7 @@ namespace XULWin
                     }
                     else
                     {
-                        ReportError("SVGElement SVGPathElement of type LineTo, HorizontalLineTo or VerticalLineTo has more than one points.");
+                        ReportError("XMLSVG XMLSVGPath of type LineTo, HorizontalLineTo or VerticalLineTo has more than one points.");
                     }
                     break;
                 }

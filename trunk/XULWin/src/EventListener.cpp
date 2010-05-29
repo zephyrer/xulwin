@@ -3,7 +3,7 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/MenuItemElement.h"
+#include "XULWin/XMLMenuItem.h"
 #include "XULWin/Toolbar.h"
 #include "XULWin/ToolbarItem.h"
 #include <boost/bind.hpp>
@@ -31,7 +31,7 @@ namespace XULWin
 
 
     /**
-     * We can't connect to a ToolbarButtonElement because in the WinAPI the
+     * We can't connect to a XMLToolbarButton because in the WinAPI the
      * toolbar buttons aren't really windows and they don't send WM_COMMAND
      * events. It's the toolbar window that sends the messages, and the buttons
      * are identified with their ids.
@@ -48,7 +48,7 @@ namespace XULWin
             return false;
         }
 
-        if (XULWin::ToolbarElement * toolbar = inEl->parent()->downcast<XULWin::ToolbarElement>())
+        if (XULWin::XMLToolbar * toolbar = inEl->parent()->downcast<XULWin::XMLToolbar>())
         {
             connect(toolbar, WM_COMMAND, inEl->component()->componentId(), inAction);
             return true;
@@ -59,7 +59,7 @@ namespace XULWin
 
     bool ScopedEventListener::connectMenuItem(Element * inEl, const Action & inAction)
     {
-        if (0 == inEl->downcast<XULWin::MenuItemElement>())
+        if (0 == inEl->downcast<XULWin::XMLMenuItem>())
         {
             // This is not a menu item.
             return false;

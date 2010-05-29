@@ -34,12 +34,12 @@ namespace XULWin
      *
      *      Element              Component
      *      -------              ---------
-     *      LabelElement         Label
-     *      ButtonElement        Button
-     *      WindowElement        Window
+     *      XMLLabel         Label
+     *      XMLButton        Button
+     *      XMLWindow        Window
      *      ...                  ...
      *
-     * Setting the "label" attribute on a ButtonElement object will cause invocation
+     * Setting the "label" attribute on a XMLButton object will cause invocation
      * of the Button::setLabel method which in turn updates the UI.
      *
      * Example:

@@ -1,8 +1,8 @@
 #include "ConfigSample.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Dialog.h"
-#include "XULWin/MenuItemElement.h"
-#include "XULWin/MenuPopupElement.h"
+#include "XULWin/XMLMenuItem.h"
+#include "XULWin/XMLMenuPopup.h"
 #include "XULWin/Components.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
@@ -113,9 +113,9 @@ namespace XULWin
         attr["label"] = inSetName;
         if (!mSetsPopup->children().empty())
         {
-            if (MenuPopupElement * popup = mSetsPopup->children()[0]->downcast<MenuPopupElement>())
+            if (XMLMenuPopup * popup = mSetsPopup->children()[0]->downcast<XMLMenuPopup>())
             {
-                ElementPtr item = MenuItemElement::Create(popup, attr);
+                ElementPtr item = XMLMenuItem::Create(popup, attr);
                 item->init();
                 return 0;
             }

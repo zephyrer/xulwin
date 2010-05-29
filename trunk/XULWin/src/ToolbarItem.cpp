@@ -55,7 +55,7 @@ namespace XULWin
             }
             else // buttonType.empty() or buttonType == "button"
             {
-                mButton = new Windows::ToolbarButtonElement(toolbar->nativeToolbar(),
+                mButton = new Windows::XMLToolbarButton(toolbar->nativeToolbar(),
                                                             mComponentId.value(),
                                                             boost::function<void()>(),
                                                             label,

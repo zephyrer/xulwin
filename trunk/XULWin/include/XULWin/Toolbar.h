@@ -29,7 +29,7 @@ namespace XULWin
 
         virtual void rebuildLayout();
 
-        // ToolbarElement::EventHandler methods
+        // XMLToolbar::EventHandler methods
         virtual void onRequestFocus() {}
 
         boost::shared_ptr<Windows::Toolbar> nativeToolbar() const

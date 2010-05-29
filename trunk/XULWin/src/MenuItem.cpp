@@ -11,14 +11,14 @@ namespace XULWin
     MenuItem::MenuItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
-        assert(sMenuItemsById.find(mComponentId.value()) == sMenuItemsById.end());
-        sMenuItemsById.insert(std::make_pair(mComponentId.value(), this));
+        assert(sMenuItemsById.find(mCommandId.value()) == sMenuItemsById.end());
+        sMenuItemsById.insert(std::make_pair(mCommandId.value(), this));
     }
 
 
     MenuItem::~MenuItem()
     {
-        MenuItemsById::iterator itById = sMenuItemsById.find(mComponentId.value());
+        MenuItemsById::iterator itById = sMenuItemsById.find(mCommandId.value());
         assert(itById != sMenuItemsById.end());
         if (itById != sMenuItemsById.end())
         {

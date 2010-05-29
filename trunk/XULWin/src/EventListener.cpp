@@ -47,7 +47,7 @@ namespace XULWin
 
         if (XULWin::ToolbarElement * toolbar = inEl->parent()->downcast<XULWin::ToolbarElement>())
         {
-            connect(toolbar, WM_COMMAND, inEl->component()->componentId(), inAction);
+            connect(toolbar, WM_COMMAND, inEl->component()->commandId(), inAction);
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ namespace XULWin
             return false;
         }
 
-        connect(nativeParent->el(), WM_COMMAND, inEl->component()->componentId(), inAction);
+        connect(nativeParent->el(), WM_COMMAND, inEl->component()->commandId(), inAction);
         return true;
     }
 
@@ -86,7 +86,7 @@ namespace XULWin
 
     void ScopedEventListener::connect(Element * inEl, UINT inMessage, const Action & inAction)
     {
-        connect(inEl, inMessage, inEl->component()->componentId(), inAction);
+        connect(inEl, inMessage, inEl->component()->commandId(), inAction);
     }
 
 
@@ -102,13 +102,13 @@ namespace XULWin
 
     void ScopedEventListener::disconnect(Element * inEl)
     {
-        disconnect(inEl, WM_COMMAND, inEl->component()->componentId());
+        disconnect(inEl, WM_COMMAND, inEl->component()->commandId());
     }
 
 
     void ScopedEventListener::disconnect(Element * inEl, UINT inMessage)
     {
-        disconnect(inEl, inMessage, inEl->component()->componentId());
+        disconnect(inEl, inMessage, inEl->component()->commandId());
     }
 
 
@@ -176,7 +176,7 @@ namespace XULWin
             LRESULT ret(cUnhandled);
             invokeCallbacks(MsgId(corrspondingToolbarButton->el()->parent(),
                                   WM_COMMAND,
-                                  corrspondingToolbarButton->componentId()),
+                                  corrspondingToolbarButton->commandId()),
                             wParam,
                             lParam, ret);
             return true;
@@ -249,7 +249,7 @@ namespace XULWin
     {
         return handleMessage(MsgId(inSender,
                                    inMessage,
-                                   inSender->component()->componentId()), // LOWORD(wParam)),
+                                   inSender->component()->commandId()), // LOWORD(wParam)),
                              wParam,
                              lParam);
     }

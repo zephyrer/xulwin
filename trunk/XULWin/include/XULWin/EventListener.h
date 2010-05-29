@@ -2,7 +2,6 @@
 #define EVENTLISTENER_H_INCLUDED
 
 
-#include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -99,19 +98,23 @@ namespace XULWin
             MsgId(Element * inElement, UINT inMessageId, int inCommandId) :
                 mElement(inElement),
                 mMessageId(inMessageId),
-                mComponentId(inCommandId)
+                mCommandId(inCommandId)
             {
             }
 
-            bool operator<(const MsgId & rhs) const
+            bool operator <(const MsgId & rhs) const
             {
-                if (mComponentId != rhs.mComponentId)
+                if (mElement != rhs.mElement)
                 {
-                    return mComponentId < rhs.mComponentId;
+                    return mElement < rhs.mElement;
+                }
+                else if (mMessageId != rhs.mMessageId)
+                {
+                    return mMessageId < rhs.mMessageId;
                 }
                 else
                 {
-                    return mElement < rhs.mElement;
+                    return mCommandId < rhs.mCommandId;
                 }
             }
 
@@ -120,28 +123,21 @@ namespace XULWin
                 return mElement;
             }
 
-            /**
-             * Gets the WinAPI message identifier.
-             */
             UINT messageId() const
             {
                 return mMessageId;
             }
 
-            /**
-             * Gets the Component id.
-             */
-            UInt32 componentId() const
+            int commandId() const
             {
-                return mComponentId;
+                return mCommandId;
             }
 
         private:
             Element * mElement;
             UINT mMessageId;
-            UInt32 mComponentId; // needed to identify toolbar buttons
+            int mCommandId; // needed to identify toolbar buttons
         };
-
         typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;
 
         LRESULT handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);

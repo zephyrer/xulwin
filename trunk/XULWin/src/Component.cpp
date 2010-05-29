@@ -22,6 +22,8 @@
 namespace XULWin
 {
 
+    DEFINE_UNIQUE_ID(CommandId, 101)
+
     void ReportSetterFail(const std::string & inAttributeName,
                           const std::string & inType,
                           const std::string & inId)
@@ -45,7 +47,7 @@ namespace XULWin
 
     ConcreteComponent::ConcreteComponent(Component * inParent) :
         mParent(inParent),
-        mComponentId(),
+        mCommandId(),
         mExpansive(false),
         mElement(0),
         mFlex(0),
@@ -695,14 +697,14 @@ namespace XULWin
         assert(sComponentsByHandle.find(mHandle) == sComponentsByHandle.end());
         sComponentsByHandle.insert(std::make_pair(mHandle, this));
 
-        assert(sComponentsById.find(mComponentId.value()) == sComponentsById.end());
-        sComponentsById.insert(std::make_pair(mComponentId.value(), this));
+        assert(sComponentsById.find(mCommandId.value()) == sComponentsById.end());
+        sComponentsById.insert(std::make_pair(mCommandId.value(), this));
     }
 
 
     void NativeComponent::unregisterHandle()
     {
-        ComponentsById::iterator itById =sComponentsById.find(mComponentId.value());
+        ComponentsById::iterator itById =sComponentsById.find(mCommandId.value());
         assert(itById !=sComponentsById.end());
         if (itById != sComponentsById.end())
         {
@@ -1432,7 +1434,7 @@ namespace XULWin
                       inStyle | WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
                       0, 0, 0, 0,
                       nativeParent->handle(),
-                      (HMENU)mComponentId.value(),
+                      (HMENU)mCommandId.value(),
                       mModuleHandle,
                       0
                   );
@@ -2559,7 +2561,7 @@ namespace XULWin
             {
                 for (size_t ownI = 0; ownI != child->children().size(); ++ownI)
                 {
-                    if (child->children()[ownI]->component()->componentId() == componentId())
+                    if (child->children()[ownI]->component()->commandId() == commandId())
                     {
                         ownIndex = ownI;
                     }
@@ -3031,7 +3033,7 @@ namespace XULWin
                             WS_TABSTOP | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_VISIBLE,
                             0, 0, 0, 0,
                             mParentHandle,
-                            (HMENU)mComponentId.value(),
+                            (HMENU)mCommandId.value(),
                             NativeComponent::GetModuleHandle(),
                             0
                         );
@@ -3226,7 +3228,7 @@ namespace XULWin
                                          WS_VISIBLE | WS_CHILD | BS_GROUPBOX,
                                          0, 0, 0, 0,
                                          NativeControl::GetThisOrParent(inParent)->handle(),
-                                         (HMENU)mComponentId.value(),
+                                         (HMENU)mCommandId.value(),
                                          NativeComponent::GetModuleHandle(),
                                          0);
         ::SendMessage(mGroupBoxHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
@@ -3743,7 +3745,7 @@ namespace XULWin
     {
         if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
         {
-            mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mComponentId.value()));
+            mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mCommandId.value()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
             subclass();
@@ -3811,7 +3813,7 @@ namespace XULWin
             {
                 mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
                                                        this,
-                                                       mComponentId.value(),
+                                                       mCommandId.value(),
                                                        label,
                                                        label,
                                                        nullImage,
@@ -3821,7 +3823,7 @@ namespace XULWin
             {
                 mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
                                                        this,
-                                                       mComponentId.value(),
+                                                       mCommandId.value(),
                                                        label,
                                                        label,
                                                        nullImage,
@@ -3830,7 +3832,7 @@ namespace XULWin
             else // buttonType.empty() or buttonType == "button"
             {
                 mButton = new Windows::ToolbarButtonElement(toolbar->nativeToolbar(),
-                                                            mComponentId.value(),
+                                                            mCommandId.value(),
                                                             boost::function<void()>(),
                                                             label,
                                                             label,
@@ -3953,7 +3955,7 @@ namespace XULWin
         {
             if (Toolbar * toolbar = parent()->downcast<Toolbar>())
             {
-                SendMessage(toolbar->handle(), TB_ENABLEBUTTON, (WPARAM)mComponentId.value(), (LPARAM)MAKELONG(inDisabled ? FALSE : TRUE, 0));
+                SendMessage(toolbar->handle(), TB_ENABLEBUTTON, (WPARAM)mCommandId.value(), (LPARAM)MAKELONG(inDisabled ? FALSE : TRUE, 0));
             }
         }
         else

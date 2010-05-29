@@ -120,7 +120,7 @@ namespace XULWin
                 const AbstractToolbarItem * item = it->get();
                 if (dynamic_cast<const ToolbarSpring *>(item))
                 {
-                    toolbarSpringID = item->componentId();
+                    toolbarSpringID = item->commandId();
                 }
             }
             if (toolbarSpringID != -1)
@@ -169,11 +169,11 @@ namespace XULWin
                 const AbstractToolbarItem * item = it->get();
                 if (dynamic_cast<const ToolbarSpring *>(item))
                 {
-                    toolbarSpringID = item->componentId();
+                    toolbarSpringID = item->commandId();
                 }
 
                 TBBUTTON theToolbarButton;
-                theToolbarButton.idCommand = item->componentId();
+                theToolbarButton.idCommand = item->commandId();
                 theToolbarButton.dwData = 0;
                 if (const IECustomWindow * customWindow = dynamic_cast<const IECustomWindow *>(item)) // if custom window
                 {
@@ -301,7 +301,7 @@ namespace XULWin
                     }
 
                     buttonInfo.dwMask  = TBIF_SIZE;
-                    ::SendMessage(inToolbarHandle, TB_SETBUTTONINFO, (WPARAM)item->componentId(), (LPARAM)(LPTBBUTTONINFO) &buttonInfo);
+                    ::SendMessage(inToolbarHandle, TB_SETBUTTONINFO, (WPARAM)item->commandId(), (LPARAM)(LPTBBUTTONINFO) &buttonInfo);
                     offset_x += buttonInfo.cx;
                 }
             }
@@ -315,7 +315,7 @@ namespace XULWin
             for (; it != end; ++it)
             {
                 const AbstractToolbarItem * item = it->get();
-                if (item->componentId() == inCommandID)
+                if (item->commandId() == inCommandID)
                 {
                     break;
                 }
@@ -333,7 +333,7 @@ namespace XULWin
         void Toolbar::applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID)
         {
             static const int cWidthReduction = 20;
-            ToolbarItems::const_iterator it = std::find_if(inToolbarItems.begin(), inToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inSpringID);
+            ToolbarItems::const_iterator it = std::find_if(inToolbarItems.begin(), inToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inSpringID);
             ToolbarItems::const_iterator end = inToolbarItems.end();
             assert(it != end);
             if (it != end)
@@ -348,7 +348,7 @@ namespace XULWin
                 ToolbarItems::const_iterator itemBeforeSpring = findByCommandID(inToolbarItems, inSpringID-1);
                 if (itemBeforeSpring != end)
                 {
-                    SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*itemBeforeSpring)->componentId(), (LPARAM)&rcItemBeforeSpring);
+                    SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*itemBeforeSpring)->commandId(), (LPARAM)&rcItemBeforeSpring);
                 }
 
                 RECT rcItemAfterSpring;
@@ -357,13 +357,13 @@ namespace XULWin
                 {
                     return;
                 }
-                SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*itemAfterSpring)->componentId(), (LPARAM)&rcItemAfterSpring);
+                SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*itemAfterSpring)->commandId(), (LPARAM)&rcItemAfterSpring);
 
                 RECT rcLast;
                 ToolbarItems::const_reverse_iterator lastItem = inToolbarItems.rbegin();
                 if (lastItem != inToolbarItems.rend())
                 {
-                    SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*lastItem)->componentId(), (LPARAM)&rcLast);
+                    SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*lastItem)->commandId(), (LPARAM)&rcLast);
                 }
 
                 int width = actualWidth - rcItemBeforeSpring.right;
@@ -436,7 +436,7 @@ namespace XULWin
 
         AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(int inCommandID)
         {
-            ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inCommandID);
+            ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inCommandID);
             if (it != mToolbarItems.end())
             {
                 return it->get();
@@ -447,7 +447,7 @@ namespace XULWin
 
         const AbstractToolbarItem * Toolbar::getToolbarItemByCommandId(int inCommandID) const
         {
-            ToolbarItems::const_iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inCommandID);
+            ToolbarItems::const_iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inCommandID);
             if (it != mToolbarItems.end())
             {
                 return it->get();
@@ -458,7 +458,7 @@ namespace XULWin
 
         void Toolbar::add(AbstractToolbarItem * inToolbarItem)
         {
-            ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inToolbarItem->componentId());
+            ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::commandId, _1) == inToolbarItem->commandId());
             bool found = it != mToolbarItems.end();
             assert(!found);
             if (!found)
@@ -507,14 +507,14 @@ namespace XULWin
 
         void Toolbar::enable(size_t inIndex)
         {
-            int commandID = get(inIndex)->componentId();
+            int commandID = get(inIndex)->commandId();
             ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)commandID, (LPARAM)MAKELONG(TRUE, 0));
         }
 
 
         void Toolbar::disable(size_t inIndex)
         {
-            int commandID = get(inIndex)->componentId();
+            int commandID = get(inIndex)->commandId();
             ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)commandID, (LPARAM)MAKELONG(FALSE, 0));
         }
 

@@ -2559,7 +2559,7 @@ namespace XULWin
             {
                 for (size_t ownI = 0; ownI != child->children().size(); ++ownI)
                 {
-                    if (child->children()[ownI]->component()->commandId() == commandId())
+                    if (child->children()[ownI]->component()->componentId() == componentId())
                     {
                         ownIndex = ownI;
                     }

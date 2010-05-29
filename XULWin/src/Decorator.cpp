@@ -520,12 +520,12 @@ namespace XULWin
     }
 
 
-    UInt32 Decorator::commandId() const
+    UInt32 Decorator::componentId() const
     {
         assert(mDecoratedElement);
         if (mDecoratedElement)
         {
-            return mDecoratedElement->commandId();
+            return mDecoratedElement->componentId();
         }
         return 0;
     }

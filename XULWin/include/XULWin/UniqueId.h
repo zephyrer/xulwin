@@ -8,23 +8,23 @@
 namespace XULWin
 {
 
-#define DECLARE_UNIQUE_ID(ClassName)                    \
+#define DECLARE_UNIQUE_ID(ClassName, InitialValue)      \
     class ClassName                                     \
     {                                                   \
     public:                                             \
-        ClassName()                                     \
-            : mId(sId++)                                \
+        ClassName() :                                   \
+            mId(ClassName::GetId())                     \
         {                                               \
         }                                               \
         UInt32 value() const { return mId; }            \
     private:                                            \
         UInt32 mId;                                     \
-        static UInt32 sId;                              \
-    };                                                  
-
-
-#define DEFINE_UNIQUE_ID(ClassName, InitialValue) \
-    UInt32 ClassName::sId(InitialValue);
+        static UInt32 GetId()                           \
+        {                                               \
+            static UInt32 fId(InitialValue);            \
+            return fId++;                               \
+        }                                               \
+    };
 
 
 } // namespace XULWin

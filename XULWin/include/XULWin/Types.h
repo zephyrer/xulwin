@@ -2,9 +2,6 @@
 #define XULWIN_TYPES_H_INCLUDED
 
 
-#include "Poco/Types.h"
-
-
 namespace XULWin
 {
 

@@ -6,10 +6,10 @@
 namespace XULWin
 {
 
-    XMLListHead::XMLListHead(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLListHead::XMLListHead(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLListHead::TagName(),
                 inParent,
-                new ListHead(inParent->component(), inAttributesMapping))
+                new ListHead(inParent->component(), inAttr))
     {
     }
 

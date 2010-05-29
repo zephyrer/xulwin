@@ -15,7 +15,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuPopup(Component * inParent, const AttributesMapping & inAttr);
 
         void show(RECT inExcludeRect);
 

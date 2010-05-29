@@ -8,8 +8,8 @@
 namespace XULWin
 {
 
-    MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 

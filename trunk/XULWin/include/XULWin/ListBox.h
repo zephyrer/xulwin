@@ -15,7 +15,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        ListBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListBox(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 

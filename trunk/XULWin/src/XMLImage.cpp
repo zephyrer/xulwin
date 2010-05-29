@@ -8,10 +8,10 @@ namespace XULWin
 {
 
 
-    XMLImage::XMLImage(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLImage::XMLImage(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLImage::TagName(),
                 inParent,
-                ComponentFactory::Instance().createComponent<MarginDecorator, Image>(inParent->component(), inAttributesMapping))
+                ComponentFactory::Instance().createComponent<MarginDecorator, Image>(inParent->component(), inAttr))
     {
     }
 

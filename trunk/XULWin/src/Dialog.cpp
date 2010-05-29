@@ -57,8 +57,8 @@ namespace XULWin
     }
 
 
-    Dialog::Dialog(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeComponent(inParent, inAttributesMapping),
+    Dialog::Dialog(Component * inParent, const AttributesMapping & inAttr) :
+        NativeComponent(inParent, inAttr),
         mBoxLayouter(this),
         mInvoker(0),
         mDialogResult(DialogResult_Cancel)

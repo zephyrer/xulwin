@@ -9,8 +9,8 @@
 namespace XULWin
 {
 
-    ListHead::ListHead(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        Super(inParent, inAttributesMapping)
+    ListHead::ListHead(Component * inParent, const AttributesMapping & inAttr) :
+        Super(inParent, inAttr)
     {
     }
 

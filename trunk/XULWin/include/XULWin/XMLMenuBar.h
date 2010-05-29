@@ -23,7 +23,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLMenuBar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLMenuBar(Element * inParent, const AttributesMapping & inAttr);
     };
 
 } // namespace XULWin

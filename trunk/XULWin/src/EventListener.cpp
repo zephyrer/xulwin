@@ -3,7 +3,6 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/XMLMenuItem.h"
 #include "XULWin/Toolbar.h"
 #include "XULWin/ToolbarItem.h"
 #include <boost/bind.hpp>

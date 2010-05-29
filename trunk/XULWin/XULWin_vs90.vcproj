@@ -163,6 +163,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\include\XULWin\DeclareElement.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Element.h"
 					>
 				</File>
@@ -172,14 +176,6 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\XMLImage.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLLabel.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLListBox.h"
 					>
 				</File>
 				<File
@@ -203,10 +199,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\XMLListItem.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\XMLMenu.h"
 					>
 				</File>
@@ -219,10 +211,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\XMLMenuPopup.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\XMLMenuSeparator.h"
 					>
 				</File>
@@ -232,10 +220,6 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\XMLScript.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLText.h"
 					>
 				</File>
 				<File
@@ -259,14 +243,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\XMLLabel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLListBox.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\XMLListCell.cpp"
 					>
 				</File>
@@ -287,23 +263,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\XMLListItem.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\XMLMenu.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\XMLMenuBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLMenuItem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLMenuPopup.cpp"
 					>
 				</File>
 				<File
@@ -319,10 +283,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\XMLText.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\XMLWindow.cpp"
 					>
 				</File>
@@ -334,6 +294,14 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath=".\include\XULWin\Button.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\CheckBox.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\XULWin\Component.h"
 					>
@@ -415,6 +383,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\MenuList.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\MenuPopup.h"
 					>
 				</File>
@@ -443,7 +415,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Scrollbar.h"
+					RelativePath=".\include\XULWin\ScrollBar.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\TextBox.h"
 					>
 				</File>
 				<File
@@ -470,6 +446,14 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\src\Button.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\CheckBox.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\src\Component.cpp"
 					>
@@ -547,6 +531,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\MenuList.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\MenuPopup.cpp"
 					>
 				</File>
@@ -575,7 +563,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Scrollbar.cpp"
+					RelativePath=".\src\ScrollBar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TextBox.cpp"
 					>
 				</File>
 				<File

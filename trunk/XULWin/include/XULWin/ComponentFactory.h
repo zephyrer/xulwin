@@ -20,7 +20,7 @@ namespace XULWin
     public:
         static ComponentFactory & Instance();
 
-        static void GetStyles(const AttributesMapping & inAttributesMapping, StylesMapping & styles);
+        static void GetStyles(const AttributesMapping & inAttr, StylesMapping & styles);
 
         static CSSOverflow GetOverflow(const StylesMapping & inStyles, const std::string & inOverflow);
 
@@ -29,7 +29,7 @@ namespace XULWin
          * @DecoratorType: decorator type, for example Decorator or MarginDecorator.
          * @ComponentType: native container type, for example Button.
          * @inParent: the parent element of the to be created component.
-         * @inAttributesMapping: the attributes
+         * @inAttr: the attributes
          *
          * Factory method for component creation.
          */
@@ -51,35 +51,35 @@ namespace XULWin
          * @VirtualType: virtual container type, for example VirtualGrid.
          * @Type: native container type, for example NativeGrid.
          * @inParent: the parent element of the to be created component.
-         * @inAttributesMapping: the attributes
+         * @inAttr: the attributes
          *
          * Factory method for container creation.
          * Native container type is created in case scrollbars need to be added.
          * This is because it's very difficult to scroll virtual containers.
          */
         template<class DecoratorType, class VirtualType, class NativeType>
-        Component * createContainer(Component * inParent, const AttributesMapping & inAttributesMapping)
+        Component * createContainer(Component * inParent, const AttributesMapping & inAttr)
         {
             StylesMapping styles;
-            GetStyles(inAttributesMapping, styles);
+            GetStyles(inAttr, styles);
             CSSOverflow overflowX = GetOverflow(styles, "overflow-x");
             CSSOverflow overflowY = GetOverflow(styles, "overflow-y");
             if (overflowX != CSSOverflow_Hidden || overflowY != CSSOverflow_Hidden)
             {
                 return new ScrollDecorator(inParent,
-                                           createComponent<DecoratorType, NativeType>(inParent, inAttributesMapping),
+                                           createComponent<DecoratorType, NativeType>(inParent, inAttr),
                                            overflowX,
                                            overflowY);
             }
             else
             {
-                return createComponent<DecoratorType, VirtualType>(inParent, inAttributesMapping);
+                return createComponent<DecoratorType, VirtualType>(inParent, inAttr);
             }
         }
 
         template<class DecoratorType, class ComponentType>
         static bool CreateToolbarChild(Component * inParent,
-                                       const AttributesMapping & inAttributesMapping,
+                                       const AttributesMapping & inAttr,
                                        Component *& result)
         {
             if (!inParent)
@@ -88,7 +88,7 @@ namespace XULWin
             }
             if (XULWin::Toolbar * toolbar = inParent->downcast<XULWin::Toolbar>())
             {
-                DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttributesMapping));
+                DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttr));
                 boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());
                 result = new ToolbarCustomWindowDecorator(decoratedComponent, theNativeToolbar);
                 return true;
@@ -96,6 +96,12 @@ namespace XULWin
             return false;
         }
     };
+
+    template<class T>
+    Component * CreateComponent(Component * inParent, const AttributesMapping & inAttributes)
+    {
+        return ComponentFactory::Instance().createComponent<XULWin::MarginDecorator, T>(inParent, inAttributes);
+    }
 
 } // namespace XULWin
 

@@ -2,7 +2,6 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/XMLMenu.h"
-#include "XULWin/XMLMenuItem.h"
 #include "XULWin/Menu.h"
 #include "XULWin/MenuItem.h"
 #include "XULWin/Window.h"
@@ -11,8 +10,8 @@
 namespace XULWin
 {
 
-    MenuBar::MenuBar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    MenuBar::MenuBar(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 

@@ -17,7 +17,7 @@ namespace XULWin
             return Element::Create<XMLOverlay>(inParent, inAttr);
         }
 
-        XMLOverlay(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLOverlay(Element * inParent, const AttributesMapping & inAttr);
 
         static const char * TagName()
         {

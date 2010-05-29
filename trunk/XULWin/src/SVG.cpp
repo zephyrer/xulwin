@@ -7,8 +7,8 @@
 namespace XULWin
 {
 
-    SVGCanvas::SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
+    SVGCanvas::SVGCanvas(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr, TEXT("STATIC"), 0, 0)
     {
     }
 
@@ -119,8 +119,8 @@ namespace XULWin
     }
 
 
-    SVG::SVG(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
+    SVG::SVG(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr),
         mSVGFill(RGBColor(0, 0, 0)),
         mSVGStroke(RGBColor(0, 0, 0, 0)),
         mSVGStrokeWidth(1)
@@ -238,8 +238,8 @@ namespace XULWin
     }
 
 
-    SVGGroup::SVGGroup(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVG(inParent, inAttributesMapping)
+    SVGGroup::SVGGroup(Component * inParent, const AttributesMapping & inAttr) :
+        SVG(inParent, inAttr)
     {
     }
 
@@ -262,8 +262,8 @@ namespace XULWin
     }
 
 
-    SVGPolygon::SVGPolygon(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVG(inParent, inAttributesMapping)
+    SVGPolygon::SVGPolygon(Component * inParent, const AttributesMapping & inAttr) :
+        SVG(inParent, inAttr)
     {
     }
 
@@ -310,8 +310,8 @@ namespace XULWin
     }
 
 
-    SVGRect::SVGRect(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVG(inParent, inAttributesMapping)
+    SVGRect::SVGRect(Component * inParent, const AttributesMapping & inAttr) :
+        SVG(inParent, inAttr)
     {
     }
 
@@ -339,8 +339,8 @@ namespace XULWin
     }
 
 
-    SVGPath::SVGPath(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        SVG(inParent, inAttributesMapping)
+    SVGPath::SVGPath(Component * inParent, const AttributesMapping & inAttr) :
+        SVG(inParent, inAttr)
     {
     }
 

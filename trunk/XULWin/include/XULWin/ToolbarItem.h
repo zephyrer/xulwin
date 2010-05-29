@@ -28,7 +28,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ToolbarButton(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 

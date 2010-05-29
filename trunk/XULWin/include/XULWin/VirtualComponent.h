@@ -19,7 +19,7 @@ namespace XULWin
     public:
         typedef ConcreteComponent Super;
 
-        VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        VirtualComponent(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~VirtualComponent();
 

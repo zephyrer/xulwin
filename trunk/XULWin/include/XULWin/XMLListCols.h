@@ -25,7 +25,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLListCols(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLListCols(Element * inParent, const AttributesMapping & inAttr);
     };
 
 } // namespace XULWin

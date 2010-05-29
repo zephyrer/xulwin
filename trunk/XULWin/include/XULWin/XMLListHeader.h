@@ -25,7 +25,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLListHeader(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLListHeader(Element * inParent, const AttributesMapping & inAttr);
     };
 
 } // namespace XULWin

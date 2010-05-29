@@ -47,26 +47,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLDialog(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
-    class XMLButton : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLButton>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "button";
-        }
-
-    private:
-        friend class Element;
-        XMLButton(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLDialog(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -87,44 +68,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLDescription(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-    class XMLTextBox : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLTextBox>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "textbox";
-        }
-
-    private:
-        friend class Element;
-        XMLTextBox(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
-    class XMLCheckBox : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLCheckBox>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "checkbox";
-        }
-
-    private:
-        friend class Element;
-        XMLCheckBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLDescription(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -142,7 +86,7 @@ namespace XULWin
         }
     private:
         friend class Element;
-        XMLBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLBox(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -161,7 +105,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLHBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLHBox(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -180,26 +124,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLVBox(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
-    class XMLMenuList : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLMenuList>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "menulist";
-        }
-
-    private:
-        friend class Element;
-        XMLMenuList(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLVBox(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -220,7 +145,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLSeparator(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSeparator(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -241,7 +166,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLSpacer(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSpacer(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -262,7 +187,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLMenuButton(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLMenuButton(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -289,7 +214,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLGrid(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLGrid(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -310,7 +235,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLRows(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRows(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -334,7 +259,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLColumns(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLColumns(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -355,7 +280,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLRow(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRow(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -376,7 +301,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLColumn(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLColumn(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -398,7 +323,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLRadioGroup(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRadioGroup(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -420,7 +345,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLRadio(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRadio(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -441,7 +366,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLProgressMeter(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLProgressMeter(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -462,28 +387,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLDeck(Element * inParent, const AttributesMapping & inAttributesMapping);
-    };
-
-
-    class XMLScrollbar : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLScrollbar>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "scrollbar";
-        }
-
-        virtual ~XMLScrollbar();
-
-    private:
-        friend class Element;
-        XMLScrollbar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLDeck(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -504,7 +408,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTabBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabBox(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -527,7 +431,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTabs(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabs(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -548,7 +452,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTab(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTab(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -570,7 +474,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTabPanels(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabPanels(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -591,7 +495,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTabPanel(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabPanel(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -610,7 +514,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLGroupBox(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLGroupBox(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -629,7 +533,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLCaption(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLCaption(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -650,7 +554,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTree(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTree(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -671,7 +575,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTreeChildren(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeChildren(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -692,7 +596,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTreeItem(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeItem(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -713,7 +617,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTreeCols(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeCols(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -734,7 +638,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTreeCol(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeCol(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -755,7 +659,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTreeRow(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeRow(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -776,7 +680,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLTreeCell(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeCell(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -797,7 +701,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLStatusbar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLStatusbar(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -818,7 +722,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLStatusbarPanel(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLStatusbarPanel(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -839,7 +743,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLToolbar(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLToolbar(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -860,7 +764,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLToolbarButton(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLToolbarButton(Element * inParent, const AttributesMapping & inAttr);
     };
 
 

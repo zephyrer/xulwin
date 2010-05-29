@@ -14,7 +14,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        ListCol(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListCol(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool init();
 

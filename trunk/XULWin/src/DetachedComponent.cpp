@@ -4,7 +4,7 @@
 namespace XULWin
 {
 
-    DetachedComponent::DetachedComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    DetachedComponent::DetachedComponent(Component * inParent, const AttributesMapping & inAttr) :
         ConcreteComponent(inParent)
     {
     }

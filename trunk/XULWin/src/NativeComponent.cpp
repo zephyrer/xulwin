@@ -12,7 +12,7 @@ namespace XULWin
     NativeComponent::ComponentsById NativeComponent::sComponentsById;
     HMODULE NativeComponent::sModuleHandle(0);
 
-    NativeComponent::NativeComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    NativeComponent::NativeComponent(Component * inParent, const AttributesMapping & inAttr) :
         ConcreteComponent(inParent),
         mHandle(0),
         mModuleHandle(NativeComponent::GetModuleHandle()),

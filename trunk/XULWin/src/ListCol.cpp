@@ -1,7 +1,7 @@
 #include "XULWin/ListCol.h"
+#include "XULWin/Element.h"
 #include "XULWin/XMLListCell.h"
 #include "XULWin/ListCell.h"
-#include "XULWin/XMLListItem.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/Decorator.h"
 
@@ -9,8 +9,8 @@
 namespace XULWin
 {
 
-    ListCol::ListCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        Super(inParent, inAttributesMapping)
+    ListCol::ListCol(Component * inParent, const AttributesMapping & inAttr) :
+        Super(inParent, inAttr)
     {
     }
 

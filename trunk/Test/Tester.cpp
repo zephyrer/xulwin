@@ -1,7 +1,7 @@
 #include "Tester.h"
 #include "Config.h"
 #include "XULWin/Element.h"
-#include "XULWin/XMLLabel.h"
+#include "XULWin/Label.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/XMLWindow.h"
 #include "XULWin/XULRunner.h"

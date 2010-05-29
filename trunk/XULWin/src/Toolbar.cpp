@@ -4,8 +4,8 @@
 namespace XULWin
 {
 
-    Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping)
+    Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr)
     {
         if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
         {

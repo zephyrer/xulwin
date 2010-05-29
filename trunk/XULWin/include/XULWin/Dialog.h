@@ -26,7 +26,7 @@ namespace XULWin
 
         static void Register(HMODULE inModuleHandle);
 
-        Dialog(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Dialog(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~Dialog();
 

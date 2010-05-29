@@ -16,7 +16,7 @@ namespace XULWin
         typedef NativeControl Super;
 
         ListView(Component * inParent,
-                 const AttributesMapping & inAttributesMapping);
+                 const AttributesMapping & inAttr);
 
         virtual ~ListView();
 

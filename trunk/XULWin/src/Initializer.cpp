@@ -6,23 +6,17 @@
 #include "XULWin/Element.h"
 #include "XULWin/Elements.h"
 #include "XULWin/XMLImage.h"
-#include "XULWin/XMLLabel.h"
-#include "XULWin/XMLListBox.h"
 #include "XULWin/XMLListCell.h"
 #include "XULWin/XMLListCol.h"
 #include "XULWin/XMLListCols.h"
 #include "XULWin/XMLListHead.h"
 #include "XULWin/XMLListHeader.h"
-#include "XULWin/XMLListItem.h"
 #include "XULWin/XMLMenu.h"
 #include "XULWin/XMLMenuBar.h"
-#include "XULWin/XMLMenuItem.h"
-#include "XULWin/XMLMenuPopup.h"
 #include "XULWin/XMLMenuSeparator.h"
 #include "XULWin/XMLOverlay.h"
 #include "XULWin/XMLScript.h"
 #include "XULWin/XMLSVG.h"
-#include "XULWin/XMLText.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
@@ -44,7 +38,6 @@ namespace XULWin
         ElementFactory::Instance().registerElement<XMLButton>();
         ElementFactory::Instance().registerElement<XMLCheckBox>();
         ElementFactory::Instance().registerElement<XMLLabel>();
-        ElementFactory::Instance().registerElement<XMLText>();
         ElementFactory::Instance().registerElement<XMLHBox>();
         ElementFactory::Instance().registerElement<XMLVBox>();
         ElementFactory::Instance().registerElement<XMLBox>();
@@ -69,7 +62,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<XMLProgressMeter>();
         ElementFactory::Instance().registerElement<XMLDeck>();
         ElementFactory::Instance().registerElement<XMLImage>();
-        ElementFactory::Instance().registerElement<XMLScrollbar>();
+        ElementFactory::Instance().registerElement<XMLScrollBar>();
         ElementFactory::Instance().registerElement<XMLScript>();
         ElementFactory::Instance().registerElement<XMLTabBox>();
         ElementFactory::Instance().registerElement<XMLTabs>();

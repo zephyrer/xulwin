@@ -1,7 +1,7 @@
 #include "XULWin/ListView.h"
 #include "XULWin/Decorator.h"
+#include "XULWin/Element.h"
 #include "XULWin/Elements.h"
-#include "XULWin/XMLListBox.h"
 #include "XULWin/XMLListCell.h"
 #include "XULWin/ListCell.h"
 #include "XULWin/XMLListCol.h"
@@ -9,7 +9,6 @@
 #include "XULWin/XMLListCols.h"
 #include "XULWin/ListCols.h"
 #include "XULWin/ListHeader.h"
-#include "XULWin/XMLListItem.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
@@ -20,9 +19,9 @@ namespace XULWin
 {
 
     ListView::ListView(Component * inParent,
-                       const AttributesMapping & inAttributesMapping) :
+                       const AttributesMapping & inAttr) :
         Super(inParent,
-              inAttributesMapping,
+              inAttr,
               WC_LISTVIEW,
               WS_EX_CLIENTEDGE,
               LVS_REPORT)

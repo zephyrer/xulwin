@@ -7,8 +7,8 @@
 namespace XULWin
 {
 
-    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
-        NativeComponent(inParent, inAttributesMapping)
+    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttr, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
+        NativeComponent(inParent, inAttr)
     {
         if (!mParent)
         {
@@ -47,8 +47,8 @@ namespace XULWin
     }
 
 
-    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeComponent(inParent, inAttributesMapping)
+    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttr) :
+        NativeComponent(inParent, inAttr)
     {
         // Don't call registerHandle() or subclass() here.
         // They have to be called in your subclass and after setHandle() has been called.

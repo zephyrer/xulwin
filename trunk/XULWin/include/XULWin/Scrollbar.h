@@ -8,7 +8,6 @@
 namespace XULWin
 {
 
-
     class Scrollbar : public NativeControl,
                       public virtual ScrollbarCurrentPositionController,
                       public virtual ScrollbarMaxPositionController,
@@ -66,6 +65,10 @@ namespace XULWin
         EventListener * mEventListener;
         int mIncrement;
     };
+
+    // FIXME!
+    // This is a TEMP (??) hack around SVN's disability to rename files with only case differences
+    typedef Scrollbar ScrollBar;
 
 } // namespace XULWin
 

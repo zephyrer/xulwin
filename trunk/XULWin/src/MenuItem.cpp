@@ -8,8 +8,8 @@ namespace XULWin
     MenuItem::MenuItemsById MenuItem::sMenuItemsById;
 
 
-    MenuItem::MenuItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    MenuItem::MenuItem(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
         assert(sMenuItemsById.find(mComponentId.value()) == sMenuItemsById.end());
         sMenuItemsById.insert(std::make_pair(mComponentId.value(), this));

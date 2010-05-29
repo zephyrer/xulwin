@@ -6,8 +6,8 @@
 namespace XULWin
 {
 
-    ListCell::ListCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    ListCell::ListCell(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 

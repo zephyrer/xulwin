@@ -6,9 +6,9 @@ namespace XULWin
 {
 
 
-    Label::Label(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Label::Label(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inAttr,
                       TEXT("STATIC"),
                       0, // exStyle
                       SS_LEFT)

@@ -287,3 +287,33 @@ namespace XULWin
     }
 
 } // namespace XULWin
+
+
+#include "XULWin/Label.h"
+#include "XULWin/Button.h"
+#include "XULWin/CheckBox.h"
+#include "XULWin/MenuList.h"
+#include "XULWin/MenuPopup.h"
+#include "XULWin/MenuItem.h"
+#include "XULWin/TextBox.h"
+#include "XULWin/ListBox.h"
+#include "XULWin/ListItem.h"
+#include "XULWin/ScrollBar.h"
+
+
+namespace XULWin
+{
+
+    XULWIN_IMPLEMENT_ELEMENT(Label)
+    XULWIN_IMPLEMENT_ELEMENT(Button)
+    XULWIN_IMPLEMENT_ELEMENT(CheckBox)
+    XULWIN_IMPLEMENT_ELEMENT(MenuList)
+    XULWIN_IMPLEMENT_ELEMENT(MenuPopup)
+    XULWIN_IMPLEMENT_ELEMENT(MenuItem)
+    XULWIN_IMPLEMENT_ELEMENT(TextBox)
+    XULWIN_IMPLEMENT_ELEMENT(ListBox)
+    XULWIN_IMPLEMENT_ELEMENT(ListItem)
+    XULWIN_IMPLEMENT_ELEMENT(ScrollBar)
+
+
+} // namespace XULWin

@@ -128,7 +128,7 @@ namespace XULWin
                 return mMessageId;
             }
 
-            int commandId() const
+            int componentId() const
             {
                 return mCommandId;
             }

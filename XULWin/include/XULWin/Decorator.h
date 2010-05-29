@@ -130,7 +130,7 @@ namespace XULWin
 
         virtual void setCSSY(int inY);
 
-        virtual int commandId() const;
+        virtual int componentId() const;
 
         virtual int getWidth(SizeConstraint inSizeConstraint) const;
 

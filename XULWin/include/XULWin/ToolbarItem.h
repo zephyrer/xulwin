@@ -35,7 +35,7 @@ namespace XULWin
 
             virtual void performCommand() = 0;
 
-            virtual int commandId() const = 0;
+            virtual int componentId() const = 0;
 
         protected:
             friend class Toolbar;
@@ -66,7 +66,7 @@ namespace XULWin
 
             virtual void performCommand() = 0;
 
-            virtual int commandId() const;
+            virtual int componentId() const;
 
             bool noHover() const;
 
@@ -246,7 +246,7 @@ namespace XULWin
 
             virtual HWND handle() const = 0;
 
-            virtual int commandId() const = 0;
+            virtual int componentId() const = 0;
 
             virtual void performCommand() {}
         };

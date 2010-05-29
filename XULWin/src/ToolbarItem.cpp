@@ -49,7 +49,7 @@ namespace XULWin
             boost::shared_ptr<Gdiplus::Bitmap> inImage
         ):
             mToolbar(inToolbar),
-            mComponentId(inCommandID),
+            mCommandId(inCommandID),
             mText(inText),
             mTooltipText(inTooltipText),
             mImage(inImage),
@@ -146,7 +146,7 @@ namespace XULWin
             {
                 for (size_t idx = 0; idx != ieToolbar->size(); ++idx)
                 {
-                    if (ieToolbar->get(idx)->componentId() == componentId())
+                    if (ieToolbar->get(idx)->commandId() == commandId())
                     {
                         outIndex = idx;
                         return true;
@@ -176,7 +176,7 @@ namespace XULWin
         {
             if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
             {
-                SendMessage(ieToolbar->handle(), TB_HIDEBUTTON, (WPARAM)(INT)componentId(), (LPARAM)MAKELONG(inVisible ? FALSE : TRUE, 0));
+                SendMessage(ieToolbar->handle(), TB_HIDEBUTTON, (WPARAM)(INT)commandId(), (LPARAM)MAKELONG(inVisible ? FALSE : TRUE, 0));
             }
         }
 
@@ -185,15 +185,15 @@ namespace XULWin
         {
             if (boost::shared_ptr<Toolbar> ieToolbar = mToolbar.lock())
             {
-                return 0 == SendMessage(ieToolbar->handle(), TB_ISBUTTONHIDDEN, (WPARAM)(INT)componentId(), (LPARAM)0);
+                return 0 == SendMessage(ieToolbar->handle(), TB_ISBUTTONHIDDEN, (WPARAM)(INT)commandId(), (LPARAM)0);
             }
             return false;
         }
 
 
-        UInt32 ConcreteToolbarItem::componentId() const
+        int ConcreteToolbarItem::commandId() const
         {
-            return mComponentId;
+            return mCommandId;
         }
 
 

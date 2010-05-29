@@ -4,6 +4,6 @@
 namespace XULWin
 {
 
-    DEFINE_UNIQUE_ID(ComponentId, 101)
+    // nothing is here
 
 } // namespace XULWin

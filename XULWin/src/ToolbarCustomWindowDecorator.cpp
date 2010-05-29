@@ -11,16 +11,16 @@ namespace XULWin
     {
         if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
         {
-            mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedElement->componentId(), native->handle());
+            mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedElement->commandId(), native->handle());
         }
     }
 
 
-    UInt32 ToolbarCustomWindowDecorator::componentId() const
+    int ToolbarCustomWindowDecorator::commandId() const
     {
         if (mCustomWindow)
         {
-            mCustomWindow->componentId();
+            mCustomWindow->commandId();
         }
         return 0;
     }
@@ -58,7 +58,7 @@ namespace XULWin
     ToolbarCustomWindowDecorator::ConcreteCustomWindow::ConcreteCustomWindow(boost::weak_ptr<Windows::Toolbar> inToolbar, int inCommandId, HWND inHandle) :
         mToolbar(inToolbar),
         mHandle(inHandle),
-        mComponentId(inCommandId)
+        mCommandId(inCommandId)
     {
     }
 
@@ -81,9 +81,9 @@ namespace XULWin
     }
 
 
-    UInt32 ToolbarCustomWindowDecorator::ConcreteCustomWindow::componentId() const
+    int ToolbarCustomWindowDecorator::ConcreteCustomWindow::commandId() const
     {
-        return mComponentId;
+        return mCommandId;
     }
 
 

@@ -13,14 +13,14 @@ namespace XULWin
     Menu::Menu(Component * inParent, const AttributesMapping & inAttributesMapping) :
         PassiveComponent(inParent, inAttributesMapping)
     {
-        assert(sMenusById.find(mComponentId.value()) == sMenusById.end());
-        sMenusById.insert(std::make_pair(mComponentId.value(), this));
+        assert(sMenusById.find(mCommandId.value()) == sMenusById.end());
+        sMenusById.insert(std::make_pair(mCommandId.value(), this));
     }
 
 
     Menu::~Menu()
     {
-        MenusById::iterator itById = sMenusById.find(mComponentId.value());
+        MenusById::iterator itById = sMenusById.find(mCommandId.value());
         assert(itById != sMenusById.end());
         if (itById != sMenusById.end())
         {
@@ -41,7 +41,7 @@ namespace XULWin
         // menu/menupopup/menuitem
         //               /menu
         Windows::MenuNode * result = new Windows::MenuNode(
-            Windows::MenuItemInfo(inMenu->componentId(),
+            Windows::MenuItemInfo(inMenu->commandId(),
                                   inMenu->getLabel()));
         const MenuPopup * popup = inMenu->findChildOfType<MenuPopup>();
         for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
@@ -51,7 +51,7 @@ namespace XULWin
             {
                 result->addChild(
                     new Windows::MenuNode(
-                        Windows::MenuItemInfo(menuItem->componentId(),
+                        Windows::MenuItemInfo(menuItem->commandId(),
                                               menuItem->getLabel())));
             }
             else if (const Menu * menu = comp->downcast<Menu>())

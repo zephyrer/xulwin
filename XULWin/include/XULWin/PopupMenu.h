@@ -2,7 +2,6 @@
 #define POPUPMENU_H_INCLUDED
 
 
-#include "XULWin/UniqueId.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
@@ -20,27 +19,16 @@ namespace XULWin
 
         class PopupMenu;
 
-        class PopupMenuItem
+        class PopupMenuItem : public boost::noncopyable
         {
         public:
-            /**
-             * Creates a separator menu item.
-             */ 
+            // creates a separator
             PopupMenuItem();
 
-            /**
-             * Creates a menu item with the given text.
-             */
-            PopupMenuItem(UInt32 inId, const std::string & inText);
+            PopupMenuItem(int inId, const std::string & inText);
 
-            /**
-             * Set the menu action.
-             */
             void setAction(boost::function<void()> inAction);
 
-            /**
-             * Gets the unique menu item id.
-             */
             int id() const;
 
             const std::string & text() const;
@@ -57,12 +45,12 @@ namespace XULWin
             friend class PopupMenu;
             void performAction();
 
-            UInt32 mId;
-            std::string mText;
+            const static int SeparatorID;
             boost::function<void()> mAction;
+            int mId;
+            std::string mText;
             bool mEnabled;
             bool mChecked;
-            const static int sSeparatorId;
         };
 
 

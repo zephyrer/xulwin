@@ -8,7 +8,14 @@
 namespace XULWin
 {
 
-#define DECLARE_UNIQUE_ID(ClassName)                    \
+    /**
+     * The DECLARE_UNIQUE_ID macro can be used to declare a class
+     * that holds a number that can be used as a unique id.
+     *
+     * Every usage of DECLARE_UNIQUE_ID must have an equivalent
+     * DEFINE_UNIQUE_ID in a source file.
+     */
+    #define DECLARE_UNIQUE_ID(ClassName)                \
     class ClassName                                     \
     {                                                   \
     public:                                             \
@@ -27,6 +34,9 @@ namespace XULWin
     UInt32 ClassName::sId(InitialValue);
 
 
+    /**
+     * CommandId is a unique identifier for Components
+     */
     DECLARE_UNIQUE_ID(CommandId)
 
 } // namespace XULWin

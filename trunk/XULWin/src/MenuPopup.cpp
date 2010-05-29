@@ -21,7 +21,7 @@ namespace XULWin
             ElementPtr child = el()->children()[idx];
             if (MenuItem * menuItem = child->component()->downcast<MenuItem>())
             {
-                popupMenu->append(new Windows::PopupMenuItem(menuItem->commandId(), menuItem->getLabel()));
+                popupMenu->append(new Windows::PopupMenuItem(menuItem->componentId(), menuItem->getLabel()));
             }
             else if (Menu * menu = child->component()->downcast<Menu>())
             {

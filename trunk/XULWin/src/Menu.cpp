@@ -41,7 +41,7 @@ namespace XULWin
         // menu/menupopup/menuitem
         //               /menu
         Windows::MenuNode * result = new Windows::MenuNode(
-            Windows::MenuItemInfo(inMenu->commandId(),
+            Windows::MenuItemInfo(inMenu->componentId(),
                                   inMenu->getLabel()));
         const MenuPopup * popup = inMenu->findChildOfType<MenuPopup>();
         for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
@@ -51,7 +51,7 @@ namespace XULWin
             {
                 result->addChild(
                     new Windows::MenuNode(
-                        Windows::MenuItemInfo(menuItem->commandId(),
+                        Windows::MenuItemInfo(menuItem->componentId(),
                                               menuItem->getLabel())));
             }
             else if (const Menu * menu = comp->downcast<Menu>())

@@ -131,7 +131,7 @@ namespace XULWin
             /**
              * Gets the Component id.
              */
-            UInt32 commandId() const
+            UInt32 componentId() const
             {
                 return mCommandId;
             }

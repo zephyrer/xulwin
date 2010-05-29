@@ -2,6 +2,7 @@
 #define TOOLBAR_H_INCLUDED
 
 
+#include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/shared_ptr.hpp>
 #include <map>
@@ -54,9 +55,9 @@ namespace XULWin
 
             AbstractToolbarItem * get(size_t inIndex);
 
-            const AbstractToolbarItem * getToolbarItemByCommandId(int inCommandID) const;
+            const AbstractToolbarItem * getToolbarItemByCommandId(UInt32 inComponentId) const;
 
-            AbstractToolbarItem * getToolbarItemByCommandId(int inCommandID);
+            AbstractToolbarItem * getToolbarItemByCommandId(UInt32 inComponentId);
 
 
             HMODULE moduleHandle() const;
@@ -84,7 +85,7 @@ namespace XULWin
 
             static void applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID);
 
-            static ToolbarItems::const_iterator findByCommandID(const ToolbarItems & inToolbarItems, int inCommandID);
+            static ToolbarItems::const_iterator findByCommandID(const ToolbarItems & inToolbarItems, UInt32 inComponentId);
 
             void setActiveDropDownToNull();
 

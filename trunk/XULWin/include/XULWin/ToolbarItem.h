@@ -3,6 +3,7 @@
 
 
 #include "XULWin/PopupMenu.h"
+#include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -35,7 +36,7 @@ namespace XULWin
 
             virtual void performCommand() = 0;
 
-            virtual int componentId() const = 0;
+            virtual UInt32 componentId() const = 0;
 
         protected:
             friend class Toolbar;
@@ -54,7 +55,7 @@ namespace XULWin
             ConcreteToolbarItem
             (
                 boost::weak_ptr<Toolbar> inToolbar,
-                int inCommandID,
+                UInt32 inComponentId,
                 const std::string & inText,
                 const std::string & inTooltipText,
                 boost::shared_ptr<Gdiplus::Bitmap> inImage
@@ -66,7 +67,7 @@ namespace XULWin
 
             virtual void performCommand() = 0;
 
-            virtual int componentId() const;
+            virtual UInt32 componentId() const;
 
             bool noHover() const;
 
@@ -125,7 +126,7 @@ namespace XULWin
             boost::weak_ptr<Toolbar> mToolbar;
 
         private:
-            int mCommandId;
+            UInt32 mComponentId;
             std::string mText;
             std::string mTooltipText;
             boost::shared_ptr<Gdiplus::Bitmap> mImage;
@@ -143,7 +144,7 @@ namespace XULWin
             ToolbarButtonElement
             (
                 boost::weak_ptr<Toolbar> inToolbar,
-                int inCommandID,
+                UInt32 inComponentId,
                 const boost::function<void()> & inAction,
                 const std::string & inText,
                 const std::string & inTooltipText,
@@ -172,7 +173,7 @@ namespace XULWin
             (
                 boost::weak_ptr<Toolbar> inToolbar,
                 EventHandler * inEventHandler,
-                int inCommandID,
+                UInt32 inComponentId,
                 const std::string & inText,
                 const std::string & inTooltipText,
                 boost::shared_ptr<Gdiplus::Bitmap> inImage,
@@ -205,7 +206,7 @@ namespace XULWin
             ToolbarSpring
             (
                 boost::weak_ptr<Toolbar> inToolbar,
-                int inCommandID // only serves as id, no command can be associated with it
+                UInt32 inComponentId // only serves as id, no command can be associated with it
             );
 
             virtual ~ToolbarSpring() {}
@@ -246,7 +247,7 @@ namespace XULWin
 
             virtual HWND handle() const = 0;
 
-            virtual int componentId() const = 0;
+            virtual UInt32 componentId() const = 0;
 
             virtual void performCommand() {}
         };
@@ -258,7 +259,7 @@ namespace XULWin
             ToolbarSeparator
             (
                 boost::weak_ptr<Toolbar> inToolbar,
-                int inCommandID // only serves as id, no command can be associated with it
+                UInt32 inComponentId // only serves as id, no command can be associated with it
             );
 
             virtual ~ToolbarSeparator();

@@ -43,13 +43,13 @@ namespace XULWin
         ConcreteToolbarItem::ConcreteToolbarItem
         (
             boost::weak_ptr<Toolbar> inToolbar,
-            int inCommandID,
+            UInt32 inComponentId,
             const std::string & inText,
             const std::string & inTooltipText,
             boost::shared_ptr<Gdiplus::Bitmap> inImage
         ):
             mToolbar(inToolbar),
-            mCommandId(inCommandID),
+            mComponentId(inComponentId),
             mText(inText),
             mTooltipText(inTooltipText),
             mImage(inImage),
@@ -191,9 +191,9 @@ namespace XULWin
         }
 
 
-        int ConcreteToolbarItem::componentId() const
+        UInt32 ConcreteToolbarItem::componentId() const
         {
-            return mCommandId;
+            return mComponentId;
         }
 
 
@@ -291,7 +291,7 @@ namespace XULWin
         ToolbarButtonElement::ToolbarButtonElement
         (
             boost::weak_ptr<Toolbar> inToolbar,
-            int inCommandID,
+            UInt32 inComponentId,
             const boost::function<void()> & inAction,
             const std::string & inText,
             const std::string & inTooltipText,
@@ -300,7 +300,7 @@ namespace XULWin
             ConcreteToolbarItem
             (
                 inToolbar,
-                inCommandID,
+                inComponentId,
                 inText,
                 inTooltipText,
                 inImage
@@ -334,7 +334,7 @@ namespace XULWin
         (
             boost::weak_ptr<Toolbar> inToolbar,
             ToolbarDropDown::EventHandler * inEventHandler,
-            int inCommandID,
+            UInt32 inComponentId,
             const std::string & inText,
             const std::string & inTooltipText,
             boost::shared_ptr<Gdiplus::Bitmap> inImage,
@@ -343,7 +343,7 @@ namespace XULWin
             ConcreteToolbarItem
             (
                 inToolbar,
-                inCommandID,
+                inComponentId,
                 inText,
                 inTooltipText,
                 inImage
@@ -387,12 +387,12 @@ namespace XULWin
         ToolbarSeparator::ToolbarSeparator
         (
             boost::weak_ptr<Toolbar> inToolbar,
-            int inCommandID
+            UInt32 inComponentId
         ):
             ConcreteToolbarItem
             (
                 inToolbar,
-                inCommandID,
+                inComponentId,
                 "",
                 "",
                 nullImage
@@ -429,12 +429,12 @@ namespace XULWin
         ToolbarSpring::ToolbarSpring
         (
             boost::weak_ptr<Toolbar> inToolbar,
-            int inCommandID
+            UInt32 inComponentId
         ):
             ConcreteToolbarItem
             (
                 inToolbar,
-                inCommandID,
+                inComponentId,
                 "",
                 "",
                 nullImage

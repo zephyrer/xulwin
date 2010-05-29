@@ -90,12 +90,12 @@ namespace XULWin
     }
 
 
-    void ScopedEventListener::connect(Element * inEl, UINT inMessage, int inCommandId, const Action & inAction)
+    void ScopedEventListener::connect(Element * inEl, UINT inMessage, UInt32 inComponentId, const Action & inAction)
     {
         if (inEl)
         {
             inEl->addEventListener(this);
-            mMessageCallbacks[MsgId(inEl, inMessage, inCommandId)].push_back(inAction);
+            mMessageCallbacks[MsgId(inEl, inMessage, inComponentId)].push_back(inAction);
         }
     }
 
@@ -112,11 +112,11 @@ namespace XULWin
     }
 
 
-    void ScopedEventListener::disconnect(Element * inEl, UINT inMessage, int inCommandId)
+    void ScopedEventListener::disconnect(Element * inEl, UINT inMessage, UInt32 inComponentId)
     {
         if (inEl)
         {
-            MessageCallbacks::iterator it = mMessageCallbacks.find(MsgId(inEl, inMessage, inCommandId));
+            MessageCallbacks::iterator it = mMessageCallbacks.find(MsgId(inEl, inMessage, inComponentId));
             if (it != mMessageCallbacks.end())
             {
                 it->first.element()->removeEventListener(this);

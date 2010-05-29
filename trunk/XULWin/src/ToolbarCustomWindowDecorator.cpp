@@ -16,7 +16,7 @@ namespace XULWin
     }
 
 
-    int ToolbarCustomWindowDecorator::componentId() const
+    UInt32 ToolbarCustomWindowDecorator::componentId() const
     {
         if (mCustomWindow)
         {
@@ -55,10 +55,10 @@ namespace XULWin
     }
 
 
-    ToolbarCustomWindowDecorator::ConcreteCustomWindow::ConcreteCustomWindow(boost::weak_ptr<Windows::Toolbar> inToolbar, int inCommandId, HWND inHandle) :
+    ToolbarCustomWindowDecorator::ConcreteCustomWindow::ConcreteCustomWindow(boost::weak_ptr<Windows::Toolbar> inToolbar, UInt32 inComponentId, HWND inHandle) :
         mToolbar(inToolbar),
         mHandle(inHandle),
-        mCommandId(inCommandId)
+        mComponentId(inComponentId)
     {
     }
 
@@ -81,9 +81,9 @@ namespace XULWin
     }
 
 
-    int ToolbarCustomWindowDecorator::ConcreteCustomWindow::componentId() const
+    UInt32 ToolbarCustomWindowDecorator::ConcreteCustomWindow::componentId() const
     {
-        return mCommandId;
+        return mComponentId;
     }
 
 

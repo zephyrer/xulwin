@@ -2,6 +2,7 @@
 #define EVENTLISTENER_H_INCLUDED
 
 
+#include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -72,7 +73,7 @@ namespace XULWin
          * situations use the connect(Element*, const Action&) overload. It will detect and take
          * care of the special cases like menu items and toolbar buttons.
          */
-        void connect(Element * inEl, UINT inMessage, int inCommandId, const Action & inAction);
+        void connect(Element * inEl, UINT inMessage, UInt32 inComponentId, const Action & inAction);
 
 
         /**
@@ -81,7 +82,7 @@ namespace XULWin
          */
         void disconnect(Element * inEl);
         void disconnect(Element * inEl, UINT inMessage);
-        void disconnect(Element * inEl, UINT inMessage, int inCommandId);
+        void disconnect(Element * inEl, UINT inMessage, UInt32 inComponentId);
 
     protected:
         virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
@@ -95,10 +96,10 @@ namespace XULWin
         class MsgId
         {
         public:
-            MsgId(Element * inElement, UINT inMessageId, int inCommandId) :
+            MsgId(Element * inElement, UINT inMessageId, UInt32 inComponentId) :
                 mElement(inElement),
                 mMessageId(inMessageId),
-                mCommandId(inCommandId)
+                mComponentId(inComponentId)
             {
             }
 
@@ -114,7 +115,7 @@ namespace XULWin
                 }
                 else
                 {
-                    return mCommandId < rhs.mCommandId;
+                    return mComponentId < rhs.mComponentId;
                 }
             }
 
@@ -128,15 +129,15 @@ namespace XULWin
                 return mMessageId;
             }
 
-            int componentId() const
+            UInt32 componentId() const
             {
-                return mCommandId;
+                return mComponentId;
             }
 
         private:
             Element * mElement;
             UINT mMessageId;
-            int mCommandId; // needed to identify toolbar buttons
+            UInt32 mComponentId; // needed to identify toolbar buttons
         };
         typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;
 

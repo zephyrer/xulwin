@@ -5,6 +5,7 @@
 #include "XULWin/AttributesMapping.h"
 #include "XULWin/Element.h"
 #include "XULWin/Enums.h"
+#include "XULWin/ForwardDeclarations.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -292,7 +293,6 @@ namespace XULWin
     };
 
 
-    class RowElement;
     class RowsElement : public Element
     {
     public:

@@ -1,6 +1,7 @@
 #include "XULWin/NativeControl.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/VirtualComponent.h"
 
 
 namespace XULWin

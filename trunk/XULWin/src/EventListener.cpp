@@ -4,6 +4,8 @@
 #include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/MenuItemElement.h"
+#include "XULWin/Toolbar.h"
+#include "XULWin/ToolbarItem.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 

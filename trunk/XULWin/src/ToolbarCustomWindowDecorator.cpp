@@ -1,4 +1,6 @@
 #include "XULWin/ToolbarCustomWindowDecorator.h"
+#include "XULWin/Toolbar.h"
+#include "XULWin/WindowsToolbar.h"
 
 
 namespace XULWin
@@ -91,7 +93,7 @@ namespace XULWin
     {
         if (mCustomWindow)
         {
-            if (Toolbar * toolbar = parent()->downcast<Toolbar>())
+            if (XULWin::Toolbar * toolbar = parent()->downcast<XULWin::Toolbar>())
             {
                 mDecoratedElement->move(0, 0, mDecoratedElement->getWidth(), mDecoratedElement->getHeight());
                 mDecoratedElement->rebuildLayout();

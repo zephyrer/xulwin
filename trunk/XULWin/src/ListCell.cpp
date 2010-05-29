@@ -21,16 +21,19 @@ namespace XULWin
 
     int ListCell::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int result = 0;
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(parent()))
-        {
-            int w = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::listViewColumnTextPadding();
-            if (w > result)
-            {
-                result = w;
-            }
-        }
-        return result;
+        //int result = 0;
+        //if (NativeComponent * comp = NativeControl::GetThisOrParent(parent()))
+        //{
+        //    int w = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::listViewColumnTextPadding();
+        //    if (w > result)
+        //    {
+        //        result = w;
+        //    }
+        //}
+        //return result;
+
+        //FIXME! Implement this correctly!
+        return 80;
     }
 
 

@@ -2,8 +2,8 @@
 #define LISTVIEWIMPL_H_INCLUDED
 
 
-#include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/NativeControl.h"
+#include "XULWin/EventListener.h"
 
 
 namespace XULWin

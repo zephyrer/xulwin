@@ -4,7 +4,9 @@
 
 #include "XULWin/Component.h"
 #include "XULWin/Element.h"
+#include "XULWin/Toolbar.h"
 #include "XULWin/ToolbarCustomWindowDecorator.h"
+#include "XULWin/WindowsToolbar.h"
 #include "Poco/StringTokenizer.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -84,7 +86,7 @@ namespace XULWin
             {
                 return false;
             }
-            if (Toolbar * toolbar = inParent->downcast<Toolbar>())
+            if (XULWin::Toolbar * toolbar = inParent->downcast<XULWin::Toolbar>())
             {
                 DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttributesMapping));
                 boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());

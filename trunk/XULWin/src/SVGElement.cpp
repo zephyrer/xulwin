@@ -6,10 +6,10 @@
 #include "XULWin/Component.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Fallible.h"
+#include "XULWin/Gdiplus.h"
 #include <boost/bind.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
-#include <gdiplus.h>
 
 
 namespace XULWin

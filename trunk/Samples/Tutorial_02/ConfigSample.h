@@ -2,15 +2,10 @@
 #define CONFIGSAMPLE_H_INCLUDED
 
 
-#include "XULWin/Decorator.h"
+#include "XULWin/Dialog.h"
 #include "XULWin/EventListener.h"
-#include "XULWin/Component.h"
-#include "XULWin/Initializer.h"
 #include "XULWin/XULRunner.h"
-#include "XULWin/ErrorReporter.h"
-#include "XULWin/Fallible.h"
 #include "XULWin/Windows.h"
-#include "XULWin/WinUtils.h"
 #include <string>
 
 

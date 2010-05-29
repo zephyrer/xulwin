@@ -3,17 +3,17 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/VirtualComponent.h"
 
 
 namespace XULWin
 {
 
-    class MenuItem : public ImaginaryComponent,
+    class MenuItem : public VirtualComponent,
                      public LabelController
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef VirtualComponent Super;
 
         MenuItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 

@@ -1,6 +1,7 @@
 #include "XULWin/ConcreteComponent.h"
 #include "XULWin/Algorithms.h"
 #include "XULWin/Decorator.h"
+#include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/NativeControl.h"
 #include <boost/bind.hpp>

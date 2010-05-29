@@ -1,7 +1,7 @@
 #include "XULWin/SVG.h"
 #include "XULWin/SVGPathInstructions.h"
 #include "XULWin/ErrorReporter.h"
-#include <gdiplus.h>
+#include "XULWin/Gdiplus.h"
 
 
 namespace XULWin

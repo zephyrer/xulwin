@@ -3,7 +3,7 @@
 
 
 #include "XULWin/Decorator.h"
-#include "XULWin/ToolbarItem.h"
+#include "XULWin/WindowsToolbarItem.h"
 #include "XULWin/Types.h"
 
 
@@ -11,7 +11,7 @@ namespace XULWin
 {
 
     class ToolbarCustomWindowDecorator : public Decorator,
-        public Windows::IECustomWindow
+                                         public Windows::IECustomWindow
     {
     public:
         ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar);

@@ -3,46 +3,20 @@
 
 
 #include "XULWin/AttributeController.h"
-#include "XULWin/Conversions.h"
-#include "XULWin/BoxLayouter.h"
-#include "XULWin/Element.h"
-#include "XULWin/EventListener.h"
-#include "XULWin/Fallible.h"
-#include "XULWin/GdiplusLoader.h"
-#include "XULWin/Node.h"
-#include "XULWin/Layout.h"
+#include "XULWin/AttributesMapping.h"
+#include "XULWin/Enums.h"
+#include "XULWin/ForwardDeclarations.h"
+#include "XULWin/Rect.h"
 #include "XULWin/StyleController.h"
-#include "XULWin/Toolbar.h"
-#include "XULWin/ToolbarItem.h"
 #include "XULWin/UniqueId.h"
 #include "XULWin/Windows.h"
-#include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
-#include <map>
-#include <string>
-#include <CommCtrl.h>
 
 
 namespace XULWin
 {
 
-    namespace Windows
-    {
-        class ConcreteToolbarItem;
-        class PopupMenu;
-    }
-
     DECLARE_UNIQUE_ID(ComponentId, 101)
-
-
-    class Element;
-    class Component;
-    class Decorator;
-    class BoxLayouter;
-    class NativeComponent;
-    typedef boost::shared_ptr<Component> ComponentPtr;
 
 
     /**

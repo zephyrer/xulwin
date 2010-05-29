@@ -3,7 +3,8 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/Scrollbar.h"
+#include "XULWin/EventListener.h"
 
 
 namespace XULWin

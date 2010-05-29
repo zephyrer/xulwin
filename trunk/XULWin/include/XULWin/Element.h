@@ -4,6 +4,7 @@
 
 #include "XULWin/AttributesMapping.h"
 #include "XULWin/Enums.h"
+#include "XULWin/ForwardDeclarations.h"
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
@@ -13,14 +14,6 @@
 
 namespace XULWin
 {
-
-    class ElementFactory;
-    class Component;
-    class Element;
-    class EventListener;
-    typedef boost::shared_ptr<Element> ElementPtr;
-    typedef std::vector<ElementPtr> Children;
-
 
     /**
      * \brief Base class for XUL elements.

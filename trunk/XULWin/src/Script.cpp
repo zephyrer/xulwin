@@ -1,5 +1,6 @@
 #include "XULWin/ScriptElement.h"
 #include "XULWin/Decorator.h"
+#include "XULWin/ImaginaryComponent.h"
 
 
 namespace XULWin

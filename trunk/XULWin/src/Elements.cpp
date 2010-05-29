@@ -1,12 +1,15 @@
 #include "XULWin/Element.h"
 #include "XULWin/Component.h"
 #include "XULWin/Components.h"
+#include "XULWin/Dialog.h"
 #include "XULWin/Elements.h"
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/ElementFactory.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Toolbar.h"
+#include "XULWin/ToolbarItem.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
@@ -496,7 +499,7 @@ namespace XULWin
     ToolbarElement::ToolbarElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ToolbarElement::TagName(),
                 inParent,
-                new Toolbar(inParent->component(), inAttributesMapping))
+                new XULWin::Toolbar(inParent->component(), inAttributesMapping))
     {
     }
 

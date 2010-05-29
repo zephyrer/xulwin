@@ -2,8 +2,7 @@
 #define LISTCOLIMPL_H_INCLUDED
 
 
-#include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/ImaginaryComponent.h"
 #include <string>
 
 

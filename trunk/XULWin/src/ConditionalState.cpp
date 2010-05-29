@@ -1,6 +1,7 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/ConditionalState.h"
 #include "XULWin/Decorator.h"
+#include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>

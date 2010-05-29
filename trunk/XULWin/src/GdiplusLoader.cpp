@@ -1,6 +1,7 @@
 #include "XULWin/GdiplusLoader.h"
+#include "XULWin/Gdiplus.h"
 #include <assert.h>
-#include <gdiplus.h>
+
 
 
 namespace XULWin

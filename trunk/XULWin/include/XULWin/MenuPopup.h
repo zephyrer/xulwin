@@ -2,8 +2,8 @@
 #define MENUPOPUPCOMPONENT_H_INCLUDED
 
 
-#include "XULWin/Component.h"
-#include "XULWin/Components.h"
+#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PopupMenu.h"
 
 
 namespace XULWin

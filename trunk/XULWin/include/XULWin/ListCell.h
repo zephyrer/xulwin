@@ -2,10 +2,7 @@
 #define LISTCELLIMPL_H_INCLUDED
 
 
-#include "XULWin/Component.h"
-#include "XULWin/Components.h"
-#include "XULWin/AttributeController.h"
-#include "XULWin/AttributeControllerPolicy.h"
+#include "XULWin/VirtualComponent.h"
 
 
 namespace XULWin

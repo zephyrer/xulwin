@@ -49,7 +49,7 @@ namespace XULWin
             boost::shared_ptr<Gdiplus::Bitmap> inImage
         ):
             mToolbar(inToolbar),
-            mCommandId(inCommandID),
+            mComponentId(inCommandID),
             mText(inText),
             mTooltipText(inTooltipText),
             mImage(inImage),
@@ -193,7 +193,7 @@ namespace XULWin
 
         UInt32 ConcreteToolbarItem::componentId() const
         {
-            return mCommandId;
+            return mComponentId;
         }
 
 

@@ -363,10 +363,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ImaginaryComponent.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Label.h"
 					>
 				</File>
@@ -439,6 +435,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\PhonyComponent.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Proxy.h"
 					>
 				</File>
@@ -492,10 +492,6 @@
 				</File>
 				<File
 					RelativePath=".\src\Image.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ImaginaryComponent.cpp"
 					>
 				</File>
 				<File
@@ -568,6 +564,10 @@
 				</File>
 				<File
 					RelativePath=".\src\Overlay.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\PhonyComponent.cpp"
 					>
 				</File>
 				<File

@@ -3,16 +3,16 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 
 
 namespace XULWin
 {
 
-    class ListCols : public ImaginaryComponent
+    class ListCols : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         ListCols(Component * inParent, const AttributesMapping & inAttributesMapping);
 

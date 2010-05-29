@@ -9,7 +9,7 @@ namespace XULWin
 {
 
     MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 

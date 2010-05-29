@@ -1,15 +1,15 @@
 #include "XULWin/ScriptElement.h"
 #include "XULWin/Decorator.h"
-#include "XULWin/ImaginaryComponent.h"
+#include "XULWin/PhonyComponent.h"
 
 
 namespace XULWin
 {
 
-    class Script : public ImaginaryComponent
+    class Script : public PhonyComponent
     {
     public:
-        typedef ImaginaryComponent Super;
+        typedef PhonyComponent Super;
 
         Script(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
@@ -31,7 +31,7 @@ namespace XULWin
 
 
     Script::Script(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ImaginaryComponent(inParent, inAttributesMapping)
+        PhonyComponent(inParent, inAttributesMapping)
     {
     }
 

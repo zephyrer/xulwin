@@ -1,7 +1,5 @@
 Directory structure:
 - 3rdParty: third party libraries that XULWin depends on
-- JavaScriptBindings: experimental JavaScript support (probably broken)
-- LuaBindings: experimental Lua support (probably broken)
 - Samples: a collection of sample XULWin applications
 - Scripts: a few build scripts (internal use)
 - Test: the XULWin testsuite

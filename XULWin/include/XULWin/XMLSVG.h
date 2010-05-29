@@ -23,7 +23,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLSVG(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSVG(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -42,7 +42,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLSVGGroup(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSVGGroup(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -61,7 +61,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLSVGPolygon(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSVGPolygon(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -80,7 +80,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLSVGRect(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSVGRect(Element * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -99,7 +99,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLSVGPath(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSVGPath(Element * inParent, const AttributesMapping & inAttr);
     };
 
 } // namespace XULWin

@@ -23,7 +23,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLMenuSeparator(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLMenuSeparator(Element * inParent, const AttributesMapping & inAttr);
     };
 
 } // namespace XULWin

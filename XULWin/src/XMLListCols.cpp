@@ -6,10 +6,10 @@
 namespace XULWin
 {
 
-    XMLListCols::XMLListCols(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLListCols::XMLListCols(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLListCols::TagName(),
                 inParent,
-                new ListCols(inParent->component(), inAttributesMapping))
+                new ListCols(inParent->component(), inAttr))
     {
     }
 

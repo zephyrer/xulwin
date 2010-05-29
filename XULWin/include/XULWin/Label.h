@@ -15,7 +15,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Label(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Label(Component * inParent, const AttributesMapping & inAttr);
 
         // StringValueController methods
         virtual std::string getValue() const;

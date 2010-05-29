@@ -20,194 +20,10 @@
 namespace XULWin
 {
 
-    Button::Button(Component * inParent, const AttributesMapping & inAttributesMapping) :
+
+    Description::Description(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,
-                      inAttributesMapping,
-                      TEXT("BUTTON"),
-                      0, // exStyle
-                      WS_TABSTOP | BS_PUSHBUTTON)
-    {
-    }
-
-
-    int Button::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::buttonHeight();
-    }
-
-
-    int Button::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        std::string text = Windows::getWindowText(handle());
-        int minWidth = Windows::getTextSize(handle(), text).cx;
-        minWidth += Defaults::textPadding();
-        return std::max<int>(minWidth, Defaults::buttonWidth());
-    }
-
-
-    CheckBox::CheckBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("BUTTON"), 0, WS_TABSTOP | BS_AUTOCHECKBOX)
-    {
-    }
-
-
-    int CheckBox::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::controlHeight();
-    }
-
-
-    int CheckBox::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::checkBoxMinimumWidth() + Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx;
-    }
-
-
-    bool CheckBox::isChecked() const
-    {
-        return Windows::isCheckBoxChecked(handle());
-    }
-
-
-    void CheckBox::setChecked(bool inChecked)
-    {
-        Windows::setCheckBoxChecked(handle(), inChecked);
-    }
-
-
-    bool CheckBox::initAttributeControllers()
-    {
-        setAttributeController<CheckedController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    TextBox::TextBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent,
-                      inAttributesMapping,
-                      TEXT("EDIT"),
-                      WS_EX_CLIENTEDGE, // exStyle
-                      WS_TABSTOP | GetFlags(inAttributesMapping)),
-        mRows(1)
-    {
-    }
-
-
-    DWORD TextBox::GetFlags(const AttributesMapping & inAttributesMapping)
-    {
-        DWORD flags = 0;
-        AttributesMapping::const_iterator it = inAttributesMapping.find("type");
-        if (it != inAttributesMapping.end() && it->second == "password")
-        {
-            flags |= ES_PASSWORD;
-        }
-        it = inAttributesMapping.find("multiline");
-        if (it != inAttributesMapping.end() && it->second == "true")
-        {
-            flags |= WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN;
-        }
-        else
-        {
-            flags |= ES_AUTOHSCROLL;
-        }
-        return flags;
-    }
-
-
-    std::string TextBox::getValue() const
-    {
-        return Windows::getWindowText(handle());
-    }
-
-
-    void TextBox::setValue(const std::string & inStringValue)
-    {
-        Windows::setWindowText(handle(), inStringValue);
-    }
-
-
-    bool TextBox::isReadOnly() const
-    {
-        return Windows::isTextBoxReadOnly(handle());
-    }
-
-
-    void TextBox::setReadOnly(bool inReadOnly)
-    {
-        Windows::setTextBoxReadOnly(handle(), inReadOnly);
-    }
-
-
-    int TextBox::getRows() const
-    {
-        return mRows;
-    }
-
-
-    void TextBox::setRows(int inRows)
-    {
-        mRows = inRows;
-    }
-
-
-    bool TextBox::initAttributeControllers()
-    {
-        setAttributeController<StringValueController>(this);
-        setAttributeController<ReadOnlyController>(this);
-        setAttributeController<RowsController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    int TextBox::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::textBoxWidth();;
-    }
-
-
-    int TextBox::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::controlHeight() * getRows();
-    }
-
-
-    LRESULT TextBox::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-        if (inMessage == WM_KEYDOWN)
-        {
-            if (wParam == VK_TAB)
-            {
-                //
-                // Tabbing doesn't work on multiline textboxes.
-                // This code fixes that.
-                //
-                long style = ::GetWindowLong(handle(), GWL_STYLE);
-                if ((style & ES_MULTILINE) && (style & WS_TABSTOP))
-                {
-                    BOOL shift = 0x8000 & GetKeyState(VK_SHIFT);
-                    ::SetFocus(::GetNextDlgTabItem(GetParent(handle()), handle(), shift));
-                    return 0;
-                }
-            }
-            else
-            {
-                //
-                // CTRL-a select all
-                //
-                const int cKeyboard_a = 65;
-                if (HIWORD(::GetKeyState(VK_CONTROL)) && wParam == cKeyboard_a)
-                {
-                    ::SendMessage(handle(), EM_SETSEL, 0, -1);
-                }
-            }
-        }
-        return Super::handleMessage(inMessage, wParam, lParam);
-    }
-
-
-    Description::Description(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent,
-                      inAttributesMapping,
+                      inAttr,
                       TEXT("STATIC"),
                       0, // exStyle
                       SS_LEFT)
@@ -246,8 +62,8 @@ namespace XULWin
     }
 
 
-    VirtualBox::VirtualBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
+    VirtualBox::VirtualBox(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr),
         mBoxLayouter(this)
     {
     }
@@ -278,8 +94,8 @@ namespace XULWin
 
 
 
-    Box::Box(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
+    Box::Box(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
         mBoxLayouter(this)
     {
     }
@@ -339,87 +155,9 @@ namespace XULWin
     }
 
 
-    MenuList::MenuList(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(
-            inParent,
-            inAttributesMapping,
-            TEXT("COMBOBOX"),
-            0, // exStyle
-            WS_TABSTOP | CBS_DROPDOWNLIST)
-    {
-    }
-
-
-    bool MenuList::init()
-    {
-        fillComboBox();
-        return Super::init();
-    }
-
-
-    void MenuList::fillComboBox()
-    {
-        if (MenuPopup * popup = findChildOfType<MenuPopup>())
-        {
-            for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
-            {
-                ElementPtr child = popup->el()->children()[idx];
-                if (MenuItem * item = child->component()->downcast<MenuItem>())
-                {
-                    std::string label = item->getLabel();
-                    Windows::addStringToComboBox(handle(), label);
-                }
-            }
-            Windows::selectComboBoxItem(handle(), 0);
-        }
-    }
-
-
-    int MenuList::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::menuListMinWidth() + calculateMaxChildWidth(inSizeConstraint);
-    }
-
-
-    int MenuList::calculateHeight(SizeConstraint inSizeConstraint) const
-    {
-        return Defaults::controlHeight();
-    }
-
-
-    void MenuList::move(int x, int y, int w, int h)
-    {
-        // The height of a combobox in Win32 is the height of the dropdown menu
-        // + the height of the widget itself.
-
-        int numItems = Windows::getComboBoxItemCount(handle());
-        int dropdownHeight = 0;
-        if (numItems > 0)
-        {
-            dropdownHeight = numItems * Windows::getComboBoxItemHeight(handle(), 0); // use index 0
-        }
-
-        // This is usually needed as well, I think :S
-        int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
-
-        NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
-    }
-
-
-    void MenuList::onContentChanged()
-    {
-        if (mIsInitialized)
-        {
-            Windows::clearComboBox(handle());
-            fillComboBox();
-        }
-        // else: the init will take care of the initial fill
-    }
-
-
-    Separator::Separator(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Separator::Separator(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inAttr,
                       TEXT("STATIC"),
                       0, // exStyle
                       SS_GRAYFRAME)
@@ -440,8 +178,8 @@ namespace XULWin
     }
 
 
-    Spacer::Spacer(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    Spacer::Spacer(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 
@@ -458,9 +196,9 @@ namespace XULWin
     }
 
 
-    MenuButton::MenuButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    MenuButton::MenuButton(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inAttr,
                       TEXT("BUTTON"),
                       0, // exStyle
                       WS_TABSTOP | BS_PUSHBUTTON)
@@ -481,8 +219,8 @@ namespace XULWin
 
 
     VirtualGrid::VirtualGrid(Component * inParent,
-                             const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+                             const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 
@@ -669,8 +407,8 @@ namespace XULWin
 
 
     Grid::Grid(Component * inParent,
-               const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP)
+               const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP)
     {
     }
 
@@ -857,8 +595,8 @@ namespace XULWin
     }
 
 
-    Rows::Rows(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    Rows::Rows(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 
@@ -923,8 +661,8 @@ namespace XULWin
     }
 
 
-    Columns::Columns(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    Columns::Columns(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 
@@ -989,8 +727,8 @@ namespace XULWin
     }
 
 
-    Row::Row(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    Row::Row(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 
@@ -1007,8 +745,8 @@ namespace XULWin
     }
 
 
-    Column::Column(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    Column::Column(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 
@@ -1082,15 +820,15 @@ namespace XULWin
     }
 
 
-    RadioGroup::RadioGroup(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualBox(inParent, inAttributesMapping)
+    RadioGroup::RadioGroup(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualBox(inParent, inAttr)
     {
     }
 
 
-    Radio::Radio(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    Radio::Radio(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inAttr,
                       TEXT("BUTTON"),
                       0, // exStyle
                       WS_TABSTOP | BS_RADIOBUTTON)
@@ -1110,9 +848,9 @@ namespace XULWin
     }
 
 
-    ProgressMeter::ProgressMeter(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ProgressMeter::ProgressMeter(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,
-                      inAttributesMapping,
+                      inAttr,
                       PROGRESS_CLASS,
                       0, // exStyle
                       PBS_SMOOTH)
@@ -1152,8 +890,8 @@ namespace XULWin
     }
 
 
-    Deck::Deck(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
+    Deck::Deck(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr),
         mSelectedIndex(0)
     {
     }
@@ -1210,14 +948,14 @@ namespace XULWin
     }
 
 
-    Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    Tabs::Tabs(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
 
-    Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    Tab::Tab(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
@@ -1225,8 +963,8 @@ namespace XULWin
     TabPanels::Instances TabPanels::sInstances;
 
 
-    TabPanels::TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
+    TabPanels::TabPanels(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr),
         mParentHandle(0),
         mTabBarHandle(0),
         mSelectedIndex(0),
@@ -1404,8 +1142,8 @@ namespace XULWin
     }
 
 
-    TabPanel::TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualBox(inParent, inAttributesMapping)
+    TabPanel::TabPanel(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualBox(inParent, inAttr)
     {
     }
 
@@ -1420,8 +1158,8 @@ namespace XULWin
     }
 
 
-    GroupBox::GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualBox(inParent, inAttributesMapping),
+    GroupBox::GroupBox(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualBox(inParent, inAttr),
         mGroupBoxHandle(0),
         mMarginLeft(2),
         mMarginTop(16),
@@ -1556,8 +1294,8 @@ namespace XULWin
     }
 
 
-    Caption::Caption(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping)
+    Caption::Caption(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr)
     {
     }
 
@@ -1592,8 +1330,8 @@ namespace XULWin
     }
 
 
-    Tree::Tree(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
+    Tree::Tree(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr, WC_TREEVIEW, 0, TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS)
     {
     }
 
@@ -1669,8 +1407,8 @@ namespace XULWin
     }
 
 
-    TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
@@ -1709,8 +1447,8 @@ namespace XULWin
     }
 
 
-    TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
@@ -1792,20 +1530,20 @@ namespace XULWin
     }
 
 
-    TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
 
-    TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
 
-    TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
@@ -1831,8 +1569,8 @@ namespace XULWin
     }
 
 
-    TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 
@@ -1873,8 +1611,8 @@ namespace XULWin
     }
 
 
-    Statusbar::Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
+    Statusbar::Statusbar(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr, STATUSCLASSNAME, 0, SBARS_SIZEGRIP),
         mBoxLayouter(this)
     {
     }
@@ -1932,8 +1670,8 @@ namespace XULWin
     }
 
 
-    StatusbarPanel::StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("STATIC"), 0, 0)
+    StatusbarPanel::StatusbarPanel(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr, TEXT("STATIC"), 0, 0)
     {
     }
 

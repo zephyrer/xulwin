@@ -15,7 +15,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        MenuItem(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuItem(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~MenuItem();
 

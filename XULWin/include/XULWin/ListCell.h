@@ -14,7 +14,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListCell(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 

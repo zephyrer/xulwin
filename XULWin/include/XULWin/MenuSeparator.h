@@ -14,7 +14,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        MenuSeparator(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuSeparator(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
 

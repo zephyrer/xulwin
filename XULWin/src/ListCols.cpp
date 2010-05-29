@@ -4,8 +4,8 @@
 namespace XULWin
 {
 
-    ListCols::ListCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        Super(inParent, inAttributesMapping)
+    ListCols::ListCols(Component * inParent, const AttributesMapping & inAttr) :
+        Super(inParent, inAttr)
     {
     }
 

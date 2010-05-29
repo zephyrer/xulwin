@@ -6,10 +6,10 @@
 namespace XULWin
 {
 
-    XMLListCell::XMLListCell(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLListCell::XMLListCell(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLListCell::TagName(),
                 inParent,
-                new ListCell(inParent->component(), inAttributesMapping))
+                new ListCell(inParent->component(), inAttr))
     {
     }
 

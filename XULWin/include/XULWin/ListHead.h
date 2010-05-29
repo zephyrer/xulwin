@@ -13,7 +13,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        ListHead(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListHead(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool init();
 

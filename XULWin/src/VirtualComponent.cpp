@@ -4,7 +4,7 @@
 namespace XULWin
 {
 
-    VirtualComponent::VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    VirtualComponent::VirtualComponent(Component * inParent, const AttributesMapping & inAttr) :
         ConcreteComponent(inParent)
     {
     }

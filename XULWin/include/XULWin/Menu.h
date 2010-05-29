@@ -16,7 +16,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        Menu(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Menu(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~Menu();
 

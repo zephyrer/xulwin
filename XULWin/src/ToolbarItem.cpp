@@ -13,8 +13,8 @@
 namespace XULWin
 {
 
-    ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        VirtualComponent(inParent, inAttributesMapping),
+    ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr),
         mButton(0),
         mDisabled(false)
     {
@@ -24,8 +24,8 @@ namespace XULWin
             std::string label = getLabel();
 
             std::string buttonType;
-            AttributesMapping::const_iterator it = inAttributesMapping.find("type");
-            if (it != inAttributesMapping.end())
+            AttributesMapping::const_iterator it = inAttr.find("type");
+            if (it != inAttr.end())
             {
                 buttonType = it->second;
             }

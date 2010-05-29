@@ -31,7 +31,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLWindow(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLWindow(Element * inParent, const AttributesMapping & inAttr);
     };
 
 

@@ -17,7 +17,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Toolbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Toolbar(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~Toolbar();
 

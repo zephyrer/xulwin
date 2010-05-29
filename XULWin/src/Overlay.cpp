@@ -4,8 +4,8 @@
 namespace XULWin
 {
 
-    Overlay::Overlay(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        Super(inAttributesMapping)
+    Overlay::Overlay(Component * inParent, const AttributesMapping & inAttr) :
+        Super(inAttr)
     {
     }
 

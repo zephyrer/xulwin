@@ -21,7 +21,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        PhonyComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        PhonyComponent(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~PhonyComponent();
 

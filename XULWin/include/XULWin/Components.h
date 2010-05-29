@@ -20,24 +20,6 @@ namespace XULWin
 {
 
     /**
-     * Button
-     *
-     * Native implementation for a XUL button.
-     */
-    class Button : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
-
-        Button(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
-
-
-    /**
     * Description
     *
     * Native implementation for a XUL description element.
@@ -48,72 +30,12 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Description(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Description(Component * inParent, const AttributesMapping & inAttr);
 
         // StringValueController methods
         virtual std::string getValue() const;
 
         virtual void setValue(const std::string & inStringValue);
-
-        virtual bool initAttributeControllers();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-    };
-
-
-    class TextBox : public NativeControl,
-                    public virtual StringValueController,
-                    public virtual ReadOnlyController,
-                    public virtual RowsController
-    {
-    public:
-        typedef NativeControl Super;
-
-        TextBox(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        // StringValueController methods
-        virtual std::string getValue() const;
-
-        virtual void setValue(const std::string & inStringValue);
-
-        // ReadOnlyController methods
-        virtual bool isReadOnly() const;
-
-        virtual void setReadOnly(bool inReadOnly);
-
-        // RowsControll methods
-        virtual int getRows() const;
-
-        virtual void setRows(int inRows);
-
-        virtual bool initAttributeControllers();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
-
-    private:
-        int mRows;
-        static DWORD GetFlags(const AttributesMapping & inAttributesMapping);
-    };
-
-
-    class CheckBox : public NativeControl,
-                     public virtual CheckedController
-    {
-    public:
-        typedef NativeControl Super;
-
-        CheckBox(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        // CheckedController methods
-        virtual bool isChecked() const;
-
-        virtual void setChecked(bool inChecked);
 
         virtual bool initAttributeControllers();
 
@@ -129,7 +51,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        VirtualBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+        VirtualBox(Component * inParent, const AttributesMapping & inAttr);
 
         virtual Orient getOrient() const;
 
@@ -205,7 +127,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Box(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Box(Component * inParent, const AttributesMapping & inAttr);
 
         virtual Orient getOrient() const;
 
@@ -264,34 +186,13 @@ namespace XULWin
         BoxLayouter mBoxLayouter;
     };
 
-    class MenuList : public NativeControl
-    {
-    public:
-        typedef NativeControl Super;
-
-        MenuList(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual bool init();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
-
-        virtual void move(int x, int y, int w, int h);
-
-        virtual void onContentChanged();
-
-    private:
-        void fillComboBox();
-    };
-
-
+    
     class Separator : public NativeControl
     {
     public:
         typedef NativeControl Super;
 
-        Separator(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Separator(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -304,7 +205,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        Spacer(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Spacer(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -317,7 +218,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        MenuButton(Component * inParent, const AttributesMapping & inAttributesMapping);
+        MenuButton(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -330,7 +231,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        VirtualGrid(Component * inParent, const AttributesMapping & inAttributesMapping);
+        VirtualGrid(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -345,7 +246,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Grid(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Grid(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -360,7 +261,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        Rows(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Rows(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -373,7 +274,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        Row(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Row(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -386,7 +287,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        Columns(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Columns(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -399,7 +300,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        Column(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Column(Component * inParent, const AttributesMapping & inAttr);
 
         virtual Align getAlign() const;
 
@@ -414,7 +315,7 @@ namespace XULWin
     public:
         typedef VirtualBox Super;
 
-        RadioGroup(Component * inParent, const AttributesMapping & inAttributesMapping);
+        RadioGroup(Component * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -423,7 +324,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Radio(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Radio(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -437,7 +338,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        ProgressMeter(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ProgressMeter(Component * inParent, const AttributesMapping & inAttr);
 
         // IntValueController methods
         virtual int getValue() const;
@@ -458,7 +359,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        Deck(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Deck(Component * inParent, const AttributesMapping & inAttr);
 
         // SelectedIndexController methods
         virtual int getSelectedIndex() const;
@@ -483,7 +384,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        Tabs(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Tabs(Component * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -492,7 +393,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        Tab(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Tab(Component * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -503,7 +404,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        TabPanels(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanels(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~TabPanels();
 
@@ -536,7 +437,7 @@ namespace XULWin
     public:
         typedef VirtualBox Super;
 
-        TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TabPanel(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool init();
     };
@@ -547,7 +448,7 @@ namespace XULWin
     public:
         typedef VirtualBox Super;
 
-        GroupBox(Component * inParent, const AttributesMapping & inAttributesMapping);
+        GroupBox(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~GroupBox();
 
@@ -583,7 +484,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        Caption(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Caption(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -602,7 +503,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Tree(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Tree(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -622,7 +523,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeChildren(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -636,7 +537,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeItem(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool init();
 
@@ -666,7 +567,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCols(Component * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -675,7 +576,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCol(Component * inParent, const AttributesMapping & inAttr);
     };
 
 
@@ -685,7 +586,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeRow(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -699,7 +600,7 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping);
+        TreeCell(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 
@@ -723,7 +624,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        Statusbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Statusbar(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 
@@ -787,7 +688,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        StatusbarPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
+        StatusbarPanel(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 

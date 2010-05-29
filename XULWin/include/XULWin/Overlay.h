@@ -21,7 +21,7 @@ namespace XULWin
     public:
         typedef Window Super;
 
-        Overlay(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Overlay(Component * inParent, const AttributesMapping & inAttr);
     };
 
 } // namespace XULWin

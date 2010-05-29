@@ -8,10 +8,10 @@ namespace XULWin
 {
 
 
-    XMLWindow::XMLWindow(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLWindow::XMLWindow(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLWindow::TagName(),
                 inParent,
-                new Window(inAttributesMapping))
+                new Window(inAttr))
     {
     }
 

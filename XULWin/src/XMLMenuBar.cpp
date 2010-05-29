@@ -6,10 +6,10 @@
 namespace XULWin
 {
 
-    XMLMenuBar::XMLMenuBar(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLMenuBar::XMLMenuBar(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLMenuBar::TagName(),
                 inParent,
-                new MenuBar(inParent->component(), inAttributesMapping))
+                new MenuBar(inParent->component(), inAttr))
     {
     }
 

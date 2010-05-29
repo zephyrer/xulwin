@@ -12,10 +12,10 @@ namespace XULWin
     }
 
 
-    void ComponentFactory::GetStyles(const AttributesMapping & inAttributesMapping, StylesMapping & styles)
+    void ComponentFactory::GetStyles(const AttributesMapping & inAttr, StylesMapping & styles)
     {
-        StylesMapping::const_iterator it = inAttributesMapping.find("style");
-        if (it != inAttributesMapping.end())
+        StylesMapping::const_iterator it = inAttr.find("style");
+        if (it != inAttr.end())
         {
             Poco::StringTokenizer tok(it->second, ";:", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
             Poco::StringTokenizer::Iterator it = tok.begin(), end = tok.end();

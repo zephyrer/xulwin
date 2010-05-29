@@ -18,7 +18,7 @@ namespace XULWin
     public:
         typedef ConcreteComponent Super;
 
-        DetachedComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        DetachedComponent(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~DetachedComponent();
 

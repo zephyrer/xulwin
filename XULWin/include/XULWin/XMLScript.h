@@ -25,7 +25,7 @@ namespace XULWin
 
     private:
         friend class Element;
-        XMLScript(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLScript(Element * inParent, const AttributesMapping & inAttr);
     };
 
 } // namespace XULWin

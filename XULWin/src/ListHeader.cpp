@@ -4,8 +4,8 @@
 namespace XULWin
 {
 
-    ListHeader::ListHeader(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        Super(inParent, inAttributesMapping)
+    ListHeader::ListHeader(Component * inParent, const AttributesMapping & inAttr) :
+        Super(inParent, inAttr)
     {
     }
 

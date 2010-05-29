@@ -11,14 +11,14 @@ namespace XULWin
     public:
         typedef PhonyComponent Super;
 
-        Script(Component * inParent, const AttributesMapping & inAttributesMapping);
+        Script(Component * inParent, const AttributesMapping & inAttr);
     };
 
 
-    XMLScript::XMLScript(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLScript::XMLScript(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLScript::TagName(),
                 inParent,
-                new Script(inParent->component(), inAttributesMapping))
+                new Script(inParent->component(), inAttr))
     {
     }
 
@@ -30,8 +30,8 @@ namespace XULWin
     }
 
 
-    Script::Script(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PhonyComponent(inParent, inAttributesMapping)
+    Script::Script(Component * inParent, const AttributesMapping & inAttr) :
+        PhonyComponent(inParent, inAttr)
     {
     }
 

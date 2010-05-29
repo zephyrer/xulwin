@@ -1,5 +1,5 @@
 #include "XULWin/ListBox.h"
-#include "XULWin/XMLListBox.h"
+#include "XULWin/Element.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/WinUtils.h"
@@ -9,8 +9,8 @@ namespace XULWin
 {
 
 
-    ListBox::ListBox(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeControl(inParent, inAttributesMapping, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
+    ListBox::ListBox(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent, inAttr, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
         mRows(0)
     {
         mRows.setInvalid();
@@ -31,7 +31,8 @@ namespace XULWin
 
     bool ListBox::initAttributeControllers()
     {
-        setAttributeController<LabelController>(this);
+        // FIXME: does the ListBox implement the "label" attribute?
+        //setAttributeController<LabelController>(this);
         setAttributeController<RowsController>(this);
         return Super::initAttributeControllers();
     }

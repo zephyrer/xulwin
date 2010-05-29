@@ -373,6 +373,51 @@ namespace XULWin
         boost::scoped_ptr<Component> mComponent;
     };
 
+
+//
+// Standard XUL Elements
+//
+#define XULWIN_DECLARE_ELEMENT(ELEMENT, TAGNAME) \
+    class XML##ELEMENT : public Element                                     \
+    {                                                                       \
+    public:                                                                 \
+        static ElementPtr Create(Element *, const AttributesMapping &);     \
+        static const char * TagName() { return TAGNAME; }                   \
+    private:                                                                \
+        XML##ELEMENT(Element *, const AttributesMapping &);                 \
+        friend class Element;                                               \
+    };
+
+
+#define XULWIN_IMPLEMENT_ELEMENT(ELEMENT) \
+    ElementPtr XML##ELEMENT::Create(Element * inParent, const AttributesMapping & inAttr)       \
+    {                                                                                           \
+        return Element::Create<XML##ELEMENT>(inParent, inAttr);                                 \
+    }                                                                                           \
+                                                                                                \
+    XML##ELEMENT::XML##ELEMENT(Element * inParent, const AttributesMapping & inAttr) :          \
+        Element(XML##ELEMENT::TagName(),                                                        \
+                inParent,                                                                       \
+                CreateComponent<ELEMENT>(inParent->component(), inAttr))                        \
+    {                                                                                           \
+    }
+
+
+//
+// Essential XUL elements
+//
+XULWIN_DECLARE_ELEMENT(Label, "label")
+XULWIN_DECLARE_ELEMENT(Button, "button")
+XULWIN_DECLARE_ELEMENT(CheckBox, "checkbox")
+XULWIN_DECLARE_ELEMENT(MenuList, "menulist")
+XULWIN_DECLARE_ELEMENT(MenuPopup, "menupopup")
+XULWIN_DECLARE_ELEMENT(MenuItem, "menuitem")
+XULWIN_DECLARE_ELEMENT(TextBox, "textbox")
+XULWIN_DECLARE_ELEMENT(ListBox, "listbox")
+XULWIN_DECLARE_ELEMENT(ListItem, "listitem")
+XULWIN_DECLARE_ELEMENT(ScrollBar, "scrollbar")
+
+
 } // XULWin
 
 

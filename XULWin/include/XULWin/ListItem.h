@@ -15,7 +15,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        ListItem(Component * inParent, const AttributesMapping & inAttributesMapping);
+        ListItem(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool init();
 

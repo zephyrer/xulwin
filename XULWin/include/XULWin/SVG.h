@@ -31,7 +31,7 @@ namespace XULWin
     public:
         typedef NativeControl Super;
 
-        SVGCanvas(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGCanvas(Component * inParent, const AttributesMapping & inAttr);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
@@ -54,7 +54,7 @@ namespace XULWin
     public:
         typedef VirtualComponent Super;
 
-        SVG(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVG(Component * inParent, const AttributesMapping & inAttr);
 
         virtual void setSVGFill(const RGBColor & inColor);
 
@@ -89,7 +89,7 @@ namespace XULWin
     public:
         typedef SVG Super;
 
-        SVGGroup(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGGroup(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initStyleControllers();
 
@@ -104,7 +104,7 @@ namespace XULWin
     public:
         typedef SVG Super;
 
-        SVGPolygon(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPolygon(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 
@@ -126,7 +126,7 @@ namespace XULWin
     public:
         typedef SVG Super;
 
-        SVGRect(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGRect(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initStyleControllers();
 
@@ -144,7 +144,7 @@ namespace XULWin
     public:
         typedef SVG Super;
 
-        SVGPath(Component * inParent, const AttributesMapping & inAttributesMapping);
+        SVGPath(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool initAttributeControllers();
 

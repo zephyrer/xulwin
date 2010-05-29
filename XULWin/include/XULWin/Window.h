@@ -25,7 +25,7 @@ namespace XULWin
 
         static void Register(HMODULE inModuleHandle);
 
-        Window(const AttributesMapping & inAttributesMapping);
+        Window(const AttributesMapping & inAttr);
 
         virtual ~Window();
 

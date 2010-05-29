@@ -6,10 +6,10 @@
 namespace XULWin
 {
 
-    XMLMenuSeparator::XMLMenuSeparator(Element * inParent, const AttributesMapping & inAttributesMapping) :
+    XMLMenuSeparator::XMLMenuSeparator(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLMenuSeparator::TagName(),
                 inParent,
-                new MenuSeparator(inParent->component(), inAttributesMapping))
+                new MenuSeparator(inParent->component(), inAttr))
     {
     }
 

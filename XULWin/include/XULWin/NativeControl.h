@@ -20,10 +20,10 @@ namespace XULWin
     public:
         typedef NativeComponent Super;
 
-        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
+        NativeControl(Component * inParent, const AttributesMapping & inAttr, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle);
 
         // use this constructor if you want to provide your own handle later using NativeControl::setHandle
-        NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping);
+        NativeControl(Component * inParent, const AttributesMapping & inAttr);
 
         virtual ~NativeControl();
 

@@ -18,6 +18,7 @@
 #include "XULWin/Toolbar.h"
 #include "XULWin/ToolbarItem.h"
 #include "XULWin/UniqueId.h"
+#include "XULWin/VirtualComponent.h"
 #include "XULWin/Window.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
@@ -141,47 +142,10 @@ namespace XULWin
 
 
     /**
-     * VirtualComponent
-     *
-     * A virtual component is a widget that does not map to a native HWND.
-     * Layout elements (box, grid, deck ..) are implemented as virtual components.
-     */
-    class VirtualComponent : public ConcreteComponent
-    {
-    public:
-        typedef ConcreteComponent Super;
-
-        VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
-
-        virtual ~VirtualComponent();
-
-        virtual bool initAttributeControllers();
-
-        virtual bool initStyleControllers();
-
-        virtual int calculateWidth(SizeConstraint inSizeConstraint) const = 0;
-
-        virtual int calculateHeight(SizeConstraint inSizeConstraint) const = 0;
-
-        virtual void rebuildLayout();
-
-        virtual Rect clientRect() const;
-
-        virtual void move(int x, int y, int w, int h);
-
-        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
-
-    protected:
-        Rect mRect;
-    };
-
-
-    /**
      * ImaginaryComponent
      *
-     * A passive component represents XUL elements that do not map to
-     * a native HWND and that also do not ask for layout space. Often
-     * they are not a widget at all, for example "listcols".
+     * ImaginaryComponent is a VirtualComponent that
+     * does not ask for any layout space.
      */
     class ImaginaryComponent : public VirtualComponent
     {

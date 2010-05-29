@@ -1,4 +1,4 @@
-- Split off ImaginaryComponent, VirtualControl and NativeControl
+- Split off ImaginaryComponent, VirtualComponent
 - Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
 - Cleanup classes that incorrectly inherit ImaginaryComponent.
 - Introduce "DormantComponent" (inherits ConcreteComponent) for components

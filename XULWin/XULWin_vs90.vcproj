@@ -431,6 +431,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\VirtualComponent.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Window.h"
 					>
 				</File>
@@ -532,6 +536,10 @@
 				</File>
 				<File
 					RelativePath=".\src\Proxy.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\VirtualComponent.cpp"
 					>
 				</File>
 				<File

@@ -15,13 +15,13 @@ namespace XULWin
 
     int SVGCanvas::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return 250;
+        return 1;
     }
 
 
     int SVGCanvas::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return 250;
+        return 1;
     }
 
 
@@ -120,7 +120,7 @@ namespace XULWin
 
 
     SVG::SVG(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping),
+        VirtualComponent(inParent, inAttributesMapping),
         mSVGFill(RGBColor(0, 0, 0)),
         mSVGStroke(RGBColor(0, 0, 0, 0)),
         mSVGStrokeWidth(1)
@@ -143,6 +143,18 @@ namespace XULWin
     bool SVG::initStyleControllers()
     {
         return Super::initStyleControllers();
+    }
+
+
+    int SVG::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
+    }
+
+
+    int SVG::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return 1;
     }
 
 

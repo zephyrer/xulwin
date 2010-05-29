@@ -13,7 +13,7 @@ namespace XULWin
 {
 
     ListItem::ListItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping),
+        VirtualComponent(inParent, inAttributesMapping),
         mSelected(false)
     {
     }

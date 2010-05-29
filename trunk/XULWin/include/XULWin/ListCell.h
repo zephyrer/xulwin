@@ -11,10 +11,12 @@
 namespace XULWin
 {
 
-    class ListCell : public PassiveComponent,
+    class ListCell : public VirtualComponent,
                      public virtual LabelController
     {
     public:
+        typedef VirtualComponent Super;
+
         ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 
         virtual bool initAttributeControllers();

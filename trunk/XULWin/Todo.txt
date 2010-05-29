@@ -1,7 +1,9 @@
-Rename PassiveComponent to DummyComponent
-Split off PassiveComponent
-Split off NativeControl
-
+- Split off DummyComponent, VirtualControl and NativeControl
+- Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
+- Cleanup classes that incorrectly inherit DummyComponent.
+- Introduce "DormantComponent" (inherits ConcreteComponent) for components
+  that have a native counterpart (HWND, HMENU) but are not visible until
+  activated.
 
 
 WinAPI System Classes

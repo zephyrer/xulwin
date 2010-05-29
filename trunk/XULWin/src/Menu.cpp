@@ -11,7 +11,7 @@ namespace XULWin
     Menu::MenusById Menu::sMenusById;
 
     Menu::Menu(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
         assert(sMenusById.find(mComponentId.value()) == sMenusById.end());
         sMenusById.insert(std::make_pair(mComponentId.value(), this));

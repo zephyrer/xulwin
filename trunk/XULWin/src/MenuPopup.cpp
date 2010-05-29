@@ -8,7 +8,7 @@ namespace XULWin
 {
 
     MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 

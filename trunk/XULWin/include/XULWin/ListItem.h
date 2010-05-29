@@ -9,12 +9,12 @@
 namespace XULWin
 {
 
-    class ListItem : public PassiveComponent,
+    class ListItem : public VirtualComponent,
                      public LabelController,
                      public SelectedController
     {
     public:
-        typedef PassiveComponent Super;
+        typedef VirtualComponent Super;
 
         ListItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 

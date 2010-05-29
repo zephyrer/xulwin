@@ -214,20 +214,20 @@ namespace XULWin
 
 
     /**
-     * PassiveComponent
+     * DummyComponent
      *
      * A passive component represents XUL elements that do not map to
      * a native HWND and that also do not ask for layout space. Often
      * they are not a widget at all, for example "listcols".
      */
-    class PassiveComponent : public VirtualComponent
+    class DummyComponent : public VirtualComponent
     {
     public:
         typedef VirtualComponent Super;
 
-        PassiveComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
+        DummyComponent(Component * inParent, const AttributesMapping & inAttributesMapping);
 
-        virtual ~PassiveComponent();
+        virtual ~DummyComponent();
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const
         {
@@ -265,7 +265,7 @@ namespace XULWin
     * Native implementation for a XUL description element.
     */
     class Description : public NativeControl,
-        public virtual StringValueController
+                        public virtual StringValueController
     {
     public:
         typedef NativeControl Super;
@@ -286,9 +286,9 @@ namespace XULWin
 
 
     class TextBox : public NativeControl,
-        public virtual StringValueController,
-        public virtual ReadOnlyController,
-        public virtual RowsController
+                    public virtual StringValueController,
+                    public virtual ReadOnlyController,
+                    public virtual RowsController
     {
     public:
         typedef NativeControl Super;
@@ -325,7 +325,7 @@ namespace XULWin
 
 
     class CheckBox : public NativeControl,
-        public virtual CheckedController
+                     public virtual CheckedController
     {
     public:
         typedef NativeControl Super;
@@ -346,7 +346,7 @@ namespace XULWin
 
 
     class VirtualBox : public VirtualComponent,
-        public BoxLayouter::ContentProvider
+                       public BoxLayouter::ContentProvider
     {
     public:
         typedef VirtualComponent Super;
@@ -422,7 +422,7 @@ namespace XULWin
 
 
     class Box : public NativeControl,
-        public BoxLayouter::ContentProvider
+                public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
@@ -662,7 +662,7 @@ namespace XULWin
 
 
     class ProgressMeter : public NativeControl,
-        public virtual IntValueController
+                          public virtual IntValueController
     {
     public:
         typedef NativeControl Super;
@@ -683,7 +683,7 @@ namespace XULWin
 
 
     class Deck : public VirtualComponent,
-        public virtual SelectedIndexController
+                 public virtual SelectedIndexController
     {
     public:
         typedef VirtualComponent Super;
@@ -709,10 +709,10 @@ namespace XULWin
 
 
     class Scrollbar : public NativeControl,
-        public virtual ScrollbarCurrentPositionController,
-        public virtual ScrollbarMaxPositionController,
-        public virtual ScrollbarIncrementController,
-        public virtual ScrollbarPageIncrementController
+                      public virtual ScrollbarCurrentPositionController,
+                      public virtual ScrollbarMaxPositionController,
+                      public virtual ScrollbarIncrementController,
+                      public virtual ScrollbarPageIncrementController
     {
     public:
         typedef NativeControl Super;
@@ -767,19 +767,19 @@ namespace XULWin
     };
 
 
-    class Tabs : public PassiveComponent
+    class Tabs : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         Tabs(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class Tab : public PassiveComponent
+    class Tab : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         Tab(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
@@ -823,7 +823,7 @@ namespace XULWin
     class TabPanel : public VirtualBox
     {
     public:
-        typedef VirtualComponent Super;
+        typedef VirtualBox Super;
 
         TabPanel(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -906,10 +906,10 @@ namespace XULWin
 
 
     class TreeItem;
-    class TreeChildren : public PassiveComponent
+    class TreeChildren : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -920,10 +920,10 @@ namespace XULWin
 
 
     class TreeRow;
-    class TreeItem : public PassiveComponent
+    class TreeItem : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -950,29 +950,29 @@ namespace XULWin
     };
 
 
-    class TreeCols : public PassiveComponent
+    class TreeCols : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeCol : public PassiveComponent
+    class TreeCol : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
     class TreeCell;
-    class TreeRow : public PassiveComponent
+    class TreeRow : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -982,11 +982,11 @@ namespace XULWin
     };
 
 
-    class TreeCell : public PassiveComponent,
-        public LabelController
+    class TreeCell : public DummyComponent,
+                     public LabelController
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -1007,7 +1007,7 @@ namespace XULWin
 
 
     class Statusbar : public NativeControl,
-        public BoxLayouter::ContentProvider
+                      public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeControl Super;
@@ -1087,8 +1087,8 @@ namespace XULWin
 
 
     class Toolbar : public NativeControl,
-        public Windows::Toolbar::EventHandler,
-        public GdiplusLoader
+                    public Windows::Toolbar::EventHandler,
+                    public GdiplusLoader
     {
     public:
         typedef NativeControl Super;
@@ -1118,15 +1118,15 @@ namespace XULWin
     };
 
 
-    class ToolbarButton : public PassiveComponent,
-        public Windows::ToolbarDropDown::EventHandler,
-        public MenuPopupContainer,
-        public virtual DisabledController,
-        public virtual LabelController,
-        public virtual CSSListStyleImageController
+    class ToolbarButton : public VirtualComponent,
+                          public Windows::ToolbarDropDown::EventHandler,
+                          public MenuPopupContainer,
+                          public virtual DisabledController,
+                          public virtual LabelController,
+                          public virtual CSSListStyleImageController
     {
     public:
-        typedef PassiveComponent Super;
+        typedef VirtualComponent Super;
 
         ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping);
 

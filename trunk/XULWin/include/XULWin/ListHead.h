@@ -9,10 +9,10 @@
 namespace XULWin
 {
 
-    class ListHead : public PassiveComponent
+    class ListHead : public VirtualComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef VirtualComponent Super;
 
         ListHead(Component * inParent, const AttributesMapping & inAttributesMapping);
 

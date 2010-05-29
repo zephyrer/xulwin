@@ -1,6 +1,5 @@
 #include "XULWin/MenuPopupElement.h"
 #include "XULWin/MenuPopup.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 
 

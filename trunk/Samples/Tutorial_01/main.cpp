@@ -133,7 +133,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         // We pass the 'CenterInScreen' parameter to have the window centered in the screen.
         // You could also use the DefaultPosition parameter and define the 'screenX', 'screenY',
         // 'width' and 'height' attributes of the window element in the XUL file.
-        window->showModal(XULWin::WindowElement::CenterInScreen);
+        window->showModal(XULWin::WindowPos_CenterInScreen);
     }
 
     // This is the end of our very quick XULWin tutorial.

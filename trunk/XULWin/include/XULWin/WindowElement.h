@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Element.h"
+#include "XULWin/Enums.h"
 
 
 namespace XULWin
@@ -22,16 +23,9 @@ namespace XULWin
             return "window";
         }
 
+        void show(WindowPos inWindowPos);
 
-        enum Positioning
-        {
-            DefaultPosition,
-            CenterInScreen
-        };
-
-        void show(Positioning inPositioning);
-
-        void showModal(Positioning inPositioning);
+        void showModal(WindowPos inWindowPos);
 
         void close();
 

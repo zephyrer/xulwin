@@ -69,7 +69,7 @@ namespace XULWin
             Element * cancelButton = mConfigWindow->getElementById("cancelButton");
             ScopedEventListener::Action closeAction = boost::bind(&closeWindowHelper, win, _1, _2);
             mEvents.connect(cancelButton, closeAction);
-            win->showModal(WindowElement::CenterInScreen);
+            win->showModal(WindowPos_CenterInScreen);
         }
     }
 

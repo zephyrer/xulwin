@@ -4,7 +4,6 @@
 namespace XULWin
 {
 
-
     {{CLASS_NAME}}::{{CLASS_NAME}}()
     {
     }
@@ -13,6 +12,5 @@ namespace XULWin
     {{CLASS_NAME}}::~{{CLASS_NAME}}()
     {
     }
-
 
 } // namespace XULWin

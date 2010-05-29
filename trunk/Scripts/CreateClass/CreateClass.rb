@@ -13,7 +13,7 @@ classname = args[0]
 hppdir = projectpath + "include/#{projectname}/"
 cppdir = projectpath + 'src/'
 
-projectname = "#{projectname}_vs80.vcproj"
+projectname = "#{projectname}_vs90.vcproj"
 
 hppfile = classname + ".h"
 hpppath = hppdir + hppfile
@@ -50,22 +50,19 @@ File.open(projectpath + projectname, 'r') do |file|
 
     elementsFolder = doc.elements["VisualStudioProject/Files"]
 
-    newFolder = REXML::Element.new("Filter")
-    newFolder.attributes["Name"] = classname
-    elementsFolder.insert_after(elementsFolder, newFolder)
+    headerFile = REXML::Element.new("File")
+    headerFile.attributes["RelativePath"] = ".\\include\\XULWin\\" + hppfile;
+    elementsFolder.add_element(headerFile)
 
-    headerElement = REXML::Element.new("File")
-    headerElement.attributes["RelativePath"] = ".\\include\\XULWin\\" + hppfile;
-    newFolder.insert_after(newFolder, headerElement)
-
-    headerElement = REXML::Element.new("File")
-    headerElement.attributes["RelativePath"] = ".\\src\\" + cppfile;
-    newFolder.insert_after(newFolder, headerElement)
+    sourceFile = REXML::Element.new("File")
+    sourceFile.attributes["RelativePath"] = ".\\src\\" + cppfile;
+    elementsFolder.add_element(sourceFile)
 
     contents << doc.to_s
     
     # Prevent Visual Studio Conversion Wizard trigger
     contents.sub!(/'8,00'/, "\"8,00\"")
+    contents.sub!(/'9,00'/, "\"9,00\"")
 end
 
 File.open(projectpath + projectname, 'w') do |file|

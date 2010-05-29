@@ -4,12 +4,9 @@
 
 #include "XULWin/AttributesMapping.h"
 #include "XULWin/Enums.h"
-#include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
-#include <map>
-#include <set>
 #include <string>
 #include <vector>
 

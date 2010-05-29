@@ -7,7 +7,6 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/ElementFactory.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/ToolbarCustomWindowDecorator.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>

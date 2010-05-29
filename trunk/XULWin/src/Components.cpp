@@ -24,373 +24,6 @@ namespace XULWin
 {
 
 
-    HMODULE NativeComponent::sModuleHandle(0);
-
-
-    NativeComponent::NativeComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ConcreteComponent(inParent),
-        mHandle(0),
-        mModuleHandle(NativeComponent::GetModuleHandle()),
-        mOrigProc(0),
-        mOwnsHandle(true)
-    {
-    }
-
-
-    NativeComponent::~NativeComponent()
-    {
-        if (mHandle && mOwnsHandle)
-        {
-            unregisterHandle();
-            unsubclass();
-            ::DestroyWindow(mHandle);
-        }
-    }
-
-
-    void NativeComponent::subclass()
-    {
-        assert(!mOrigProc);
-        mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mHandle, GWL_WNDPROC, (LONG)(LONG_PTR)&NativeComponent::MessageHandler);
-    }
-
-
-    void NativeComponent::unsubclass()
-    {
-        if (mOrigProc)
-        {
-            ::SetWindowLongPtr(mHandle, GWL_WNDPROC, (LONG)(LONG_PTR)mOrigProc);
-            mOrigProc = 0;
-        }
-    }
-
-
-    void NativeComponent::registerHandle()
-    {
-        assert(sComponentsByHandle.find(mHandle) == sComponentsByHandle.end());
-        sComponentsByHandle.insert(std::make_pair(mHandle, this));
-
-        assert(sComponentsById.find(mComponentId.value()) == sComponentsById.end());
-        sComponentsById.insert(std::make_pair(mComponentId.value(), this));
-    }
-
-
-    void NativeComponent::unregisterHandle()
-    {
-        ComponentsById::iterator itById =sComponentsById.find(mComponentId.value());
-        assert(itById !=sComponentsById.end());
-        if (itById != sComponentsById.end())
-        {
-            sComponentsById.erase(itById);
-        }
-
-        ComponentsByHandle::iterator itByHandle = sComponentsByHandle.find(mHandle);
-        assert(itByHandle != sComponentsByHandle.end());
-        if (itByHandle != sComponentsByHandle.end())
-        {
-            sComponentsByHandle.erase(itByHandle);
-        }
-    }
-
-
-    void NativeComponent::setHandle(HWND inHandle, bool inPassOwnership)
-    {
-        mHandle = inHandle;
-        mOwnsHandle = inPassOwnership;
-    }
-
-
-    NativeComponent * NativeComponent::FindByHandle(HWND inHandle)
-    {
-        ComponentsByHandle::iterator it = sComponentsByHandle.find(inHandle);
-        if (it != sComponentsByHandle.end())
-        {
-            return it->second;
-        }
-        return 0;
-    }
-
-
-    NativeComponent * NativeComponent::FindById(int inId)
-    {
-        ComponentsById::iterator it = sComponentsById.find(inId);
-        if (it !=sComponentsById.end())
-        {
-            return it->second;
-        }
-        return 0;
-    }
-
-
-    void NativeComponent::invalidateRect() const
-    {
-        ::RedrawWindow(handle(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
-        ::InvalidateRect(handle(), NULL, TRUE);
-    }
-
-
-    bool NativeComponent::isDisabled() const
-    {
-        return Windows::isWindowDisabled(handle());
-    }
-
-
-    void NativeComponent::setDisabled(bool inDisabled)
-    {
-        Windows::disableWindow(handle(), inDisabled);
-    }
-
-
-    std::string NativeComponent::getLabel() const
-    {
-        return Windows::getWindowText(handle());
-    }
-
-
-    void NativeComponent::setLabel(const std::string & inLabel)
-    {
-        Windows::setWindowText(handle(), inLabel);
-    }
-
-
-    void NativeComponent::setHidden(bool inHidden)
-    {
-        Super::setHidden(inHidden);
-        Windows::setWindowVisible(handle(), !inHidden);
-    }
-
-
-    void NativeComponent::SetModuleHandle(HMODULE inModule)
-    {
-        sModuleHandle = inModule;
-    }
-
-
-    HMODULE NativeComponent::GetModuleHandle()
-    {
-        return sModuleHandle ? sModuleHandle : ::GetModuleHandle(0);
-    }
-
-
-    HWND NativeComponent::handle() const
-    {
-        return mHandle;
-    }
-
-
-    bool NativeComponent::initStyleControllers()
-    {
-        return Super::initStyleControllers();
-    }
-
-
-    bool NativeComponent::initAttributeControllers()
-    {
-        setAttributeController<DisabledController>(this);
-        setAttributeController<LabelController>(this);
-        return Super::initAttributeControllers();
-    }
-
-
-    bool NativeComponent::addEventListener(EventListener * inEventListener)
-    {
-        EventListeners::iterator it = mEventListeners.find(inEventListener);
-        if (it == mEventListeners.end())
-        {
-            mEventListeners.insert(inEventListener);
-            return true;
-        }
-        return false;
-    }
-
-
-    bool NativeComponent::removeEventListener(EventListener * inEventListener)
-    {
-        EventListeners::iterator it = mEventListeners.find(inEventListener);
-        if (it != mEventListeners.end())
-        {
-            mEventListeners.erase(it);
-            return true;
-        }
-        return false;
-    }
-
-
-    bool NativeComponent::getCustomBrush(HDC inHDC, HWND inHWND, HBRUSH & outHBRUSH)
-    {
-        if (mCSSBackgroundColor.isValid())
-        {
-            COLORREF colorRef = RGB(mCSSBackgroundColor.getValue().red(),
-                                    mCSSBackgroundColor.getValue().green(),
-                                    mCSSBackgroundColor.getValue().blue());
-            outHBRUSH = ::CreateSolidBrush(colorRef);
-            return true;
-        }
-        return false;
-    }
-
-
-    void NativeComponent::handleCommand(WPARAM wParam, LPARAM lParam)
-    {
-        unsigned short notificationCode = HIWORD(wParam);
-        EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
-        for (; it != end; ++it)
-        {
-            (*it)->handleCommand(el(), notificationCode, wParam, lParam);
-        }
-    }
-
-
-    void NativeComponent::handleMenuCommand(WORD inMenuId)
-    {
-        EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
-        for (; it != end; ++it)
-        {
-            (*it)->handleMenuCommand(el(), inMenuId);
-        }
-    }
-
-
-    void NativeComponent::handleDialogCommand(WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
-    {
-        EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
-        for (; it != end; ++it)
-        {
-            (*it)->handleDialogCommand(el(), inNotificationCode, wParam, lParam);
-        }
-    }
-
-
-    LRESULT NativeComponent::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-        switch (inMessage)
-        {
-            case WM_COMMAND:
-            {
-                if (lParam == 0) // menu or accelerator
-                {
-                    int menuId = LOWORD(wParam);
-                    if (Menu * menu = Menu::FindById(menuId))
-                    {
-                        // TODO: what should we do here
-                        assert("What is this?");
-                    }
-                    else if (MenuItem * menuItem = MenuItem::FindById(menuId))
-                    {
-                        handleMenuCommand(menuId);
-                        return 0;
-                    }
-                }
-                else
-                {
-                    WORD paramHi = HIWORD(wParam);
-                    WORD paramLo = LOWORD(wParam);
-
-                    switch (paramLo)
-                    {
-                        case IDOK:
-                        case IDCANCEL:
-                        case IDABORT:
-                        case IDRETRY:
-                        case IDIGNORE:
-                        case IDYES:
-                        case IDNO:
-                        case IDHELP:
-                        case IDTRYAGAIN:
-                        case IDCONTINUE:
-                        {
-                            NativeComponent * focus = FindByHandle(::GetFocus());
-                            if (focus)
-                            {
-                                focus->handleDialogCommand(paramLo, wParam, lParam);
-                                return 0;
-                            }
-                            break;
-                        }
-                        default:
-                        {
-                            // NOTE TO SELF: don't use "FindById(LOWORD(wParam))" here
-                            //               because that won't work for toolbar buttons.
-                            NativeComponent * sender = FindByHandle((HWND)lParam);
-                            if (sender)
-                            {
-                                sender->handleCommand(wParam, lParam);
-                                return 0;
-                            }
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            // These messages get forwarded to the child elements that produced them.
-            case WM_VSCROLL:
-            case WM_HSCROLL:
-            {
-                HWND handle = (HWND)lParam;
-                ComponentsByHandle::iterator it = sComponentsByHandle.find(handle);
-                if (it != sComponentsByHandle.end())
-                {
-                    it->second->handleMessage(inMessage, wParam, lParam);
-                    return 0;
-                }
-                break;
-            }
-            case WM_CTLCOLORSTATIC:
-            {
-                HDC hDC = (HDC)wParam;
-                HWND hSender = (HWND)lParam;
-                if (XULWin::NativeComponent * sender = NativeComponent::FindByHandle(hSender))
-                {
-                    HBRUSH hBrush;
-                    if (sender->getCustomBrush(hDC, hSender, hBrush))
-                    {
-                        return (BOOL)hBrush;
-                    }
-                }
-                break;
-            }
-        }
-
-        // Forward to event handlers
-        EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
-        bool handled = false;
-        for (; it != end; ++it)
-        {
-            int result = (*it)->handleMessage(el(), inMessage, wParam, lParam);
-            if (result == 0)
-            {
-                handled = true;
-            }
-        }
-
-        if (handled)
-        {
-            return 0;
-        }
-
-        if (mOrigProc)
-        {
-            return ::CallWindowProc(mOrigProc, mHandle, inMessage, wParam, lParam);
-        }
-        else
-        {
-            return ::DefWindowProc(mHandle, inMessage, wParam, lParam);
-        }
-    }
-
-
-    LRESULT CALLBACK NativeComponent::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-        ComponentsByHandle::iterator it = sComponentsByHandle.find(hWnd);
-        if (it != sComponentsByHandle.end())
-        {
-            return it->second->handleMessage(inMessage, wParam, lParam);
-        }
-        return ::DefWindowProc(hWnd, inMessage, wParam, lParam);
-    }
-
-
     void Dialog::Register(HMODULE inModuleHandle)
     {
         WNDCLASSEX wndClass;
@@ -769,151 +402,15 @@ namespace XULWin
     }
 
 
-    DummyComponent::DummyComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    ImaginaryComponent::ImaginaryComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    DummyComponent::~DummyComponent()
+    ImaginaryComponent::~ImaginaryComponent()
     {
 
-    }
-
-
-    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping, LPCTSTR inClassName, DWORD inExStyle, DWORD inStyle) :
-        NativeComponent(inParent, inAttributesMapping)
-    {
-        if (!mParent)
-        {
-            ReportError("NativeControl constructor failed because parent is NULL.");
-            return;
-        }
-
-        Rect clientRect = inParent->clientRect();
-
-        NativeComponent * nativeParent = GetThisOrParent(inParent);
-        if (!nativeParent)
-        {
-            ReportError("NativeControl constructor failed because no native parent was found.");
-            return;
-        }
-
-        mHandle = ::CreateWindowEx
-                  (
-                      inExStyle,
-                      inClassName,
-                      TEXT(""),
-                      inStyle | WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
-                      0, 0, 0, 0,
-                      nativeParent->handle(),
-                      (HMENU)mComponentId.value(),
-                      mModuleHandle,
-                      0
-                  );
-
-        if (!mHandle)
-        {
-            ReportError(Windows::getLastError(::GetLastError()));
-            return;
-        }
-
-        // set default font
-        ::SendMessage(mHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
-
-        registerHandle();
-        subclass();
-    }
-
-
-    NativeControl::NativeControl(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        NativeComponent(inParent, inAttributesMapping)
-    {
-        // Don't call registerHandle() or subclass() here.
-        // They have to be called in your subclass and after setHandle() has been called.
-    }
-
-
-    NativeControl::~NativeControl()
-    {
-    }
-
-
-    bool NativeControl::initStyleControllers()
-    {
-        return Super::initStyleControllers();
-    }
-
-
-    void NativeControl::rebuildLayout()
-    {
-        rebuildChildLayouts();
-    }
-
-
-    void NativeControl::move(int x, int y, int w, int h)
-    {
-        if (NativeComponent * nativeParent = dynamic_cast<NativeComponent *>(parent()))
-        {
-            // This situation occurs if the scroll decorator created a STATIC window for
-            // the scrollable rectangular area. This new context requires that we
-            // re-adjust the x and y coords.
-            Rect scrollRect = nativeParent->clientRect();
-            ::MoveWindow(handle(), x - scrollRect.x(), y - scrollRect.y(), w, h, FALSE);
-        }
-        else
-        {
-            // If the parent is a virtual element, then we can position this control normally.
-            ::MoveWindow(handle(), x, y, w, h, FALSE);
-        }
-    }
-
-
-    Rect NativeControl::clientRect() const
-    {
-        HWND hwndParent = ::GetParent(handle());
-        if (!hwndParent)
-        {
-            RECT rc;
-            ::GetClientRect(handle(), &rc);
-        }
-
-        RECT rc_parent;
-        ::GetClientRect(hwndParent, &rc_parent);
-        ::MapWindowPoints(hwndParent, HWND_DESKTOP, (LPPOINT)&rc_parent, 2);
-
-        RECT rc_self;
-        ::GetClientRect(handle(), &rc_self);
-        ::MapWindowPoints(handle(), HWND_DESKTOP, (LPPOINT)&rc_self, 2);
-
-
-        int x = rc_self.left - rc_parent.left;
-        int y = rc_self.top - rc_parent.top;
-        return Rect(x, y, rc_self.right - rc_self.left, rc_self.bottom - rc_self.top);
-    }
-
-
-    const NativeComponent * NativeControl::GetThisOrParent(const Component * inElement)
-    {
-        if (const NativeComponent * obj = dynamic_cast<const NativeComponent *>(inElement))
-        {
-            return obj;
-        }
-        else if (const Decorator * obj = dynamic_cast<const Decorator *>(inElement))
-        {
-            return GetThisOrParent(obj->decoratedElement().get());
-        }
-        else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent *>(inElement))
-        {
-            return GetThisOrParent(obj->parent());
-        }
-        return 0;
-    }
-
-
-    NativeComponent * NativeControl::GetThisOrParent(Component * inElement)
-    {
-        return const_cast<NativeComponent *>(GetThisOrParent(const_cast<const Component *>(inElement)));
     }
 
 
@@ -2368,13 +1865,13 @@ namespace XULWin
 
 
     Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 
 
     Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2827,7 +2324,7 @@ namespace XULWin
 
 
     TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2867,7 +2364,7 @@ namespace XULWin
 
 
     TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2950,19 +2447,19 @@ namespace XULWin
 
 
     TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 
 
     TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 
 
     TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2989,7 +2486,7 @@ namespace XULWin
 
 
     TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 

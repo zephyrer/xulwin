@@ -3,6 +3,8 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Enums.h"
+#include "XULWin/NativeComponent.h"
 #include "XULWin/WindowElement.h"
 
 
@@ -40,9 +42,9 @@ namespace XULWin
             return Super::rebuildChildLayouts();
         }
 
-        void show(WindowElement::Positioning inPositioning);
+        void show(WindowPos inPositioning);
 
-        void showModal(WindowElement::Positioning inPositioning);
+        void showModal(WindowPos inPositioning);
 
         void close();
 

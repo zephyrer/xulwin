@@ -9,10 +9,10 @@
 namespace XULWin
 {
 
-    class MenuBar : public DummyComponent
+    class MenuBar : public ImaginaryComponent
     {
     public:
-        typedef DummyComponent Super;
+        typedef ImaginaryComponent Super;
 
         MenuBar(Component * inParent, const AttributesMapping & inAttributesMapping);
 

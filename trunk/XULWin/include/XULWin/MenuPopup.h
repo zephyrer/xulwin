@@ -10,10 +10,10 @@ namespace XULWin
 {
 
 
-    class MenuPopup : public DummyComponent
+    class MenuPopup : public ImaginaryComponent
     {
     public:
-        typedef DummyComponent Super;
+        typedef ImaginaryComponent Super;
 
         MenuPopup(Component * inParent, const AttributesMapping & inAttributesMapping);
 

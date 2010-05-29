@@ -1,12 +1,10 @@
-#include "XULWin/Elements.h"
 #include "XULWin/Component.h"
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/ElementFactory.h"
+#include "XULWin/Enums.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/ToolbarCustomWindowDecorator.h"
-#include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
 

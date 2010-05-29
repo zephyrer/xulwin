@@ -9,10 +9,10 @@
 namespace XULWin
 {
 
-    class ListCols : public DummyComponent
+    class ListCols : public ImaginaryComponent
     {
     public:
-        typedef DummyComponent Super;
+        typedef ImaginaryComponent Super;
 
         ListCols(Component * inParent, const AttributesMapping & inAttributesMapping);
 

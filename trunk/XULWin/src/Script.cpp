@@ -1,15 +1,14 @@
 #include "XULWin/ScriptElement.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 
 
 namespace XULWin
 {
 
-    class Script : public DummyComponent
+    class Script : public ImaginaryComponent
     {
     public:
-        typedef DummyComponent Super;
+        typedef ImaginaryComponent Super;
 
         Script(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
@@ -31,7 +30,7 @@ namespace XULWin
 
 
     Script::Script(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 

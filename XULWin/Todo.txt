@@ -1,3 +1,27 @@
+
+WinAPI System Classes
+---------------------
+Static, Button, ComboBox, Edit, ListBox, ScrollBar
+
+XUL Elements: Label, Button, CheckBox, MenuList (MenuPopup, MenuItem), TextBox, ListBox (+ ListItem), ScrollBar
+
+
+WinAPI Class        XULWin Element            XULWin Component        WinAPI class
+------------        --------------            ----------------        ------------
+Static              LabelElement              Label
+Button              ButtonElement             Button
+ComboBox            MenuListElement,          MenuList
+                     + MenuPopupElement,       + MenuPopup
+                     + MenuItemElement         + MenuItem
+Edit                TextBoxElement            TextBox
+ListBox             ListBoxElement,
+                     + ListItemElement
+ScrollBar           ScrollBarElement
+XULWin::Window      WindowElement
+XULWin::Dialog      DialogElement
+
+
+
 - Implement background-color and stroke CSS attributes
 - Make the build entirely self-sufficient
 	- Load Poco from external

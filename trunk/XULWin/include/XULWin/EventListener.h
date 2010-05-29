@@ -99,15 +99,15 @@ namespace XULWin
             MsgId(Element * inElement, UINT inMessageId, int inCommandId) :
                 mElement(inElement),
                 mMessageId(inMessageId),
-                mCommandId(inCommandId)
+                mComponentId(inCommandId)
             {
             }
 
             bool operator<(const MsgId & rhs) const
             {
-                if (mCommandId != rhs.mCommandId)
+                if (mComponentId != rhs.mComponentId)
                 {
-                    return mCommandId < rhs.mCommandId;
+                    return mComponentId < rhs.mComponentId;
                 }
                 else
                 {
@@ -133,13 +133,13 @@ namespace XULWin
              */
             UInt32 componentId() const
             {
-                return mCommandId;
+                return mComponentId;
             }
 
         private:
             Element * mElement;
             UINT mMessageId;
-            UInt32 mCommandId; // needed to identify toolbar buttons
+            UInt32 mComponentId; // needed to identify toolbar buttons
         };
 
         typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;

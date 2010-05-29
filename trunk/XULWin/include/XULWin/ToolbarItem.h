@@ -126,7 +126,7 @@ namespace XULWin
             boost::weak_ptr<Toolbar> mToolbar;
 
         private:
-            int mCommandId;
+            int mComponentId;
             std::string mText;
             std::string mTooltipText;
             boost::shared_ptr<Gdiplus::Bitmap> mImage;

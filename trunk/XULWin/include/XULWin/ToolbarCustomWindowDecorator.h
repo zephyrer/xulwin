@@ -44,7 +44,7 @@ namespace XULWin
         private:
             boost::weak_ptr<Windows::Toolbar> mToolbar;
             HWND mHandle;
-            int mCommandId;
+            int mComponentId;
         };
         ConcreteCustomWindow * mCustomWindow;
     };

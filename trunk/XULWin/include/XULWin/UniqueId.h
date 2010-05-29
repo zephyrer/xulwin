@@ -35,9 +35,9 @@ namespace XULWin
 
 
     /**
-     * CommandId is a unique identifier for Components
+     * ComponentId is a unique identifier for Components
      */
-    DECLARE_UNIQUE_ID(CommandId)
+    DECLARE_UNIQUE_ID(ComponentId)
 
 } // namespace XULWin
 

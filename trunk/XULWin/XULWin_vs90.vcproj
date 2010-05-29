@@ -816,6 +816,10 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath=".\Todo.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

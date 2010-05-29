@@ -6,8 +6,6 @@
 #include "XULWin/WindowElement.h"
 #include "XULWin/XULRunner.h"
 #include "XULWin/WinUtils.h"
-#include "XULWin/Js/JsException.h"
-#include "XULWin/Js/JsXULRunner.h"
 #include "Poco/Path.h"
 #include <boost/bind.hpp>
 
@@ -23,13 +21,6 @@ namespace XULWin
     }
 
 
-    void LogJavaScriptException(const Js::JsException & inException)
-    {
-        std::wstring utf16Message = ToUTF16(inException.message());
-        ::MessageBoxW(0, utf16Message.c_str(), L"XULRunner Tester: JavaScript exception", MB_OK);
-    }
-
-
     void Tester::runXULSample(const std::string & inAppName) const
     {
         // Change the current directory to the application dir.
@@ -39,8 +30,7 @@ namespace XULWin
 
         if (mFeatures & Features_EnableJavaScript)
         {
-            Js::JsXULRunner runner(mModuleHandle);
-            runner.setExceptionLogger(boost::bind(&LogJavaScriptException, _1));
+            XULRunner runner(mModuleHandle);
             runner.run("application.ini");
         }
         else

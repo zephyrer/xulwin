@@ -34,7 +34,7 @@ namespace XULWin
         class PopupMenu;
     }
 
-    DECLARE_UNIQUE_ID(CommandId, 101)
+    DECLARE_UNIQUE_ID(ComponentId, 101)
 
 
     class Element;
@@ -542,7 +542,7 @@ namespace XULWin
     protected:
         Component * mParent;
         Element * mElement;
-        CommandId mCommandId;
+        ComponentId mCommandId;
         bool mExpansive;
         int mFlex;
 

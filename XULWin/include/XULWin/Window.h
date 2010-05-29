@@ -6,7 +6,7 @@
 #include "XULWin/BoxLayouter.h"
 #include "XULWin/Enums.h"
 #include "XULWin/NativeComponent.h"
-#include "XULWin/WindowElement.h"
+#include "XULWin/XMLWindow.h"
 
 
 namespace XULWin

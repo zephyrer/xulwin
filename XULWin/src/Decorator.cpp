@@ -4,7 +4,7 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/Elements.h"
 #include "XULWin/Types.h"
-#include "XULWin/WindowElement.h"
+#include "XULWin/XMLWindow.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Gdiplus.h"
 #include "Poco/Path.h"
@@ -828,7 +828,7 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Horizontal);
-            mHorizontalScrollbar = ScrollbarElement::Create(inParent->el(), attr);
+            mHorizontalScrollbar = XMLScrollbar::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mHorizontalScrollbar.get());
@@ -839,7 +839,7 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Vertical);
-            mVerticalScrollbar = ScrollbarElement::Create(inParent->el(), attr);
+            mVerticalScrollbar = XMLScrollbar::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mVerticalScrollbar.get());
@@ -855,7 +855,7 @@ namespace XULWin
         Element * current = mDecoratedElement->el();
         while (!window)
         {
-            if (current->tagName() == WindowElement::TagName())
+            if (current->tagName() == XMLWindow::TagName())
             {
                 window = current;
             }

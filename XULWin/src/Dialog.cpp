@@ -24,11 +24,11 @@ namespace XULWin
         wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         wndClass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
         wndClass.lpszMenuName = NULL;
-        wndClass.lpszClassName = TEXT("XULWin::DialogElement");
+        wndClass.lpszClassName = TEXT("XULWin::XMLDialog");
         wndClass.hIconSm = 0;
         if (! RegisterClassEx(&wndClass))
         {
-            ReportError("Could not register XUL::DialogElement class.");
+            ReportError("Could not register XUL::XMLDialog class.");
         }
     }
 
@@ -68,7 +68,7 @@ namespace XULWin
             mHandle = ::CreateWindowEx
                       (
                           0,
-                          TEXT("XULWin::DialogElement"),
+                          TEXT("XULWin::XMLDialog"),
                           TEXT(""),
                           WS_POPUPWINDOW | WS_CAPTION | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
                           CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),

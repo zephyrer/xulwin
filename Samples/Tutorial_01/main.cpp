@@ -4,7 +4,7 @@
 #include "XULWin/Initializer.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
-#include "XULWin/WindowElement.h"
+#include "XULWin/XMLWindow.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
 #include <sstream>

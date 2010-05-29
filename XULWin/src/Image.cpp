@@ -1,4 +1,4 @@
-#include "XULWin/ImageElement.h"
+#include "XULWin/XMLImage.h"
 #include "XULWin/Image.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ChromeURL.h"

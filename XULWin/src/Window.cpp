@@ -24,11 +24,11 @@ namespace XULWin
         wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
         wndClass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
         wndClass.lpszMenuName = NULL;
-        wndClass.lpszClassName = TEXT("XULWin::WindowElement");
+        wndClass.lpszClassName = TEXT("XULWin::XMLWindow");
         wndClass.hIconSm = 0;
         if (! RegisterClassEx(&wndClass))
         {
-            ReportError("Could not register XUL::WindowElement class.");
+            ReportError("Could not register XUL::XMLWindow class.");
         }
     }
 
@@ -42,7 +42,7 @@ namespace XULWin
         mHandle = ::CreateWindowEx
                   (
                       0,
-                      TEXT("XULWin::WindowElement"),
+                      TEXT("XULWin::XMLWindow"),
                       TEXT(""),
                       WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
                       CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),

@@ -1,7 +1,7 @@
 #include "XULWin/ListCol.h"
-#include "XULWin/ListCellElement.h"
+#include "XULWin/XMLListCell.h"
 #include "XULWin/ListCell.h"
-#include "XULWin/ListItemElement.h"
+#include "XULWin/XMLListItem.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/Decorator.h"
 
@@ -21,8 +21,8 @@ namespace XULWin
         // XUL Hierarchy:
         // listbox/listcols/listcol
         // listbox/listitem/listcell
-        std::vector<ListItemElement *> listItems;
-        parent()->parent()->el()->getElementsByType<ListItemElement>(listItems);
+        std::vector<XMLListItem *> listItems;
+        parent()->parent()->el()->getElementsByType<XMLListItem>(listItems);
         const int colIdx = getIndex();
         for (size_t idx = 0; idx != listItems.size(); ++idx)
         {

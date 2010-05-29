@@ -2,10 +2,10 @@
 #include "Config.h"
 #include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/ListItemElement.h"
+#include "XULWin/XMLListItem.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
-#include "XULWin/WindowElement.h"
+#include "XULWin/XMLWindow.h"
 #include "XULWin/Lua/LuaBindings.h"
 #include "XULWin/Lua/XULRunnerWithLua.h"
 #include "Poco/Path.h"
@@ -25,10 +25,10 @@ namespace XULWin
         Poco::Path loggerPath(Windows::getApplicationDirectory(inModuleHandle));
         loggerPath.append("Logger.xul");
         mLoggerApp = mLoggerRunner.loadXUL(loggerPath.toString());
-        if (WindowElement * wnd = mLoggerApp->downcast<WindowElement>())
+        if (XMLWindow * wnd = mLoggerApp->downcast<XMLWindow>())
         {
             wnd->component()->move(0, 500, 400, 400);
-            wnd->show(WindowElement::DefaultPosition);
+            wnd->show(XMLWindow::DefaultPosition);
         }
         ErrorReporter::Instance().setLogger(boost::bind(&LuaBindingsTest::log, this, _1));
     }
@@ -64,9 +64,9 @@ namespace XULWin
             }
         }
 
-        if (WindowElement * wnd = rootEl->downcast<WindowElement>())
+        if (XMLWindow * wnd = rootEl->downcast<XMLWindow>())
         {
-            wnd->showModal(WindowElement::CenterInScreen);
+            wnd->showModal(XMLWindow::CenterInScreen);
         }
     }
 
@@ -77,7 +77,7 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["label"] = inMessage;
-            ElementPtr listItemPtr = ListItemElement::Create(logListBox, attr);
+            ElementPtr listItemPtr = XMLListItem::Create(logListBox, attr);
             listItemPtr->init();
         }
     }

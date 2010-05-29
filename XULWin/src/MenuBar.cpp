@@ -1,8 +1,8 @@
 #include "XULWin/MenuBar.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/MenuElement.h"
-#include "XULWin/MenuItemElement.h"
+#include "XULWin/XMLMenu.h"
+#include "XULWin/XMLMenuItem.h"
 #include "XULWin/Menu.h"
 #include "XULWin/MenuItem.h"
 #include "XULWin/Window.h"
@@ -19,8 +19,8 @@ namespace XULWin
 
     bool MenuBar::init()
     {
-        std::vector<MenuElement *> menuElements;
-        el()->getElementsByType<MenuElement>(menuElements);
+        std::vector<XMLMenu *> menuElements;
+        el()->getElementsByType<XMLMenu>(menuElements);
         Windows::MenuNode node(Windows::MenuItemInfo(componentId(), ""));
         for (size_t idx = 0; idx != menuElements.size(); ++idx)
         {
@@ -40,7 +40,7 @@ namespace XULWin
     {
         int result = 0;
         std::vector<Element *> items;
-        el()->getElementsByTagName(MenuItemElement::TagName(), items);
+        el()->getElementsByTagName(XMLMenuItem::TagName(), items);
         for (size_t idx = 0; idx != items.size(); ++idx)
         {
             MenuItem * item = items[idx]->component()->downcast<MenuItem>();

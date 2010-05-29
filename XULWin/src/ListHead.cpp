@@ -50,7 +50,7 @@ namespace XULWin
         }
         else
         {
-            ReportError("Invalid container for ListHeaderElement!");
+            ReportError("Invalid container for XMLListHeader!");
         }
     }
 

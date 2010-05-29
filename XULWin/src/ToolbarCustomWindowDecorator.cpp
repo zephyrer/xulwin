@@ -9,7 +9,7 @@ namespace XULWin
     ToolbarCustomWindowDecorator::ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar) :
         Decorator(inDecoratedElement),
         IECustomWindow(),
-        mCustomWindow(0)
+        mCustomWindow(0) 
     {
         if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
         {

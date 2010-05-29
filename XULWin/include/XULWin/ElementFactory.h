@@ -33,15 +33,15 @@ namespace XULWin
          *
          * This results in a lookup table that looks like this:
          *
-         *   "label"     =>   LabelElement::Create(...)
-         *   "button"    =>   ButtonElement::Create(...)
-         *   "checkbox"  =>   CheckBoxElement::Create(...)
+         *   "label"     =>   XMLLabel::Create(...)
+         *   "button"    =>   XMLButton::Create(...)
+         *   "checkbox"  =>   XMLCheckBox::Create(...)
          *   ...
          *
          * Because the XUL type identifier is defined as a class property it suffices
          * to pass the classname in the form of a template parameter. For example:
          *
-         * ElementFactory::Instance().registerElement<LabelElement>();
+         * ElementFactory::Instance().registerElement<XMLLabel>();
          */
         template<class ElementType>
         void registerElement()

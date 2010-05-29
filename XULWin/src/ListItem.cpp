@@ -3,7 +3,7 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/ListBox.h"
 #include "XULWin/ListView.h"
-#include "XULWin/ListCellElement.h"
+#include "XULWin/XMLListCell.h"
 #include "XULWin/ListCell.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Windows.h"
@@ -33,8 +33,8 @@ namespace XULWin
             lvItem.stateMask = 0;
             lvItem.iSubItem = 0;
             lvItem.lParam = (LPARAM)0;
-            std::vector<ListCellElement *> listCells;
-            el()->getElementsByType<ListCellElement>(listCells);
+            std::vector<XMLListCell *> listCells;
+            el()->getElementsByType<XMLListCell>(listCells);
 
             if (!listCells.empty())
             {

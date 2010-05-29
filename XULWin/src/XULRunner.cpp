@@ -3,7 +3,7 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/XULOverlayParser.h"
-#include "XULWin/WindowElement.h"
+#include "XULWin/XMLWindow.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/File.h"
 #include "Poco/Path.h"
@@ -178,7 +178,7 @@ namespace XULWin
         Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
-        if (WindowElement * window = parser.rootElement()->downcast<WindowElement>())
+        if (XMLWindow * window = parser.rootElement()->downcast<XMLWindow>())
         {
             window->showModal(WindowPos_CenterInScreen);
         }

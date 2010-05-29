@@ -4,7 +4,7 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/EventListener.h"
-#include "XULWin/ImageElement.h"
+#include "XULWin/XMLImage.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
@@ -74,7 +74,7 @@ namespace XULWin
             attr["width"] = "160";
             attr["flex"] = "0";
             attr["keepaspectratio"] = "1";
-            ElementPtr image = ImageElement::Create(imageArea, attr);
+            ElementPtr image = XMLImage::Create(imageArea, attr);
             image->init();
         }
         mNativeWindow->rebuildLayout();

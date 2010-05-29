@@ -171,75 +171,75 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ImageElement.h"
+					RelativePath=".\include\XULWin\XMLImage.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\LabelElement.h"
+					RelativePath=".\include\XULWin\XMLLabel.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListBoxElement.h"
+					RelativePath=".\include\XULWin\XMLListBox.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListCellElement.h"
+					RelativePath=".\include\XULWin\XMLListCell.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListColElement.h"
+					RelativePath=".\include\XULWin\XMLListCol.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListColsElement.h"
+					RelativePath=".\include\XULWin\XMLListCols.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListHeadElement.h"
+					RelativePath=".\include\XULWin\XMLListHead.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListHeaderElement.h"
+					RelativePath=".\include\XULWin\XMLListHeader.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListItemElement.h"
+					RelativePath=".\include\XULWin\XMLListItem.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\MenuElement.h"
+					RelativePath=".\include\XULWin\XMLMenu.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\MenuItemElement.h"
+					RelativePath=".\include\XULWin\XMLMenuBar.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\MenuPopupElement.h"
+					RelativePath=".\include\XULWin\XMLMenuItem.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\MenuSeparatorElement.h"
+					RelativePath=".\include\XULWin\XMLMenuPopup.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\OverlayElement.h"
+					RelativePath=".\include\XULWin\XMLMenuSeparator.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ScriptElement.h"
+					RelativePath=".\include\XULWin\XMLOverlay.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\TextElement.h"
+					RelativePath=".\include\XULWin\XMLScript.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
+					RelativePath=".\include\XULWin\XMLText.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\WindowElement.h"
+					RelativePath=".\include\XULWin\XMLWindow.h"
 					>
 				</File>
 			</Filter>
@@ -255,75 +255,75 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ImageElement.cpp"
+					RelativePath=".\src\XMLImage.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\LabelElement.cpp"
+					RelativePath=".\src\XMLLabel.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListBoxElement.cpp"
+					RelativePath=".\src\XMLListBox.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListCellElement.cpp"
+					RelativePath=".\src\XMLListCell.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListColElement.cpp"
+					RelativePath=".\src\XMLListCol.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListColsElement.cpp"
+					RelativePath=".\src\XMLListCols.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListHeadElement.cpp"
+					RelativePath=".\src\XMLListHead.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListHeaderElement.cpp"
+					RelativePath=".\src\XMLListHeader.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ListItemElement.cpp"
+					RelativePath=".\src\XMLListItem.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\MenuElement.cpp"
+					RelativePath=".\src\XMLMenu.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\MenuItemElement.cpp"
+					RelativePath=".\src\XMLMenuBar.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\MenuPopupElement.cpp"
+					RelativePath=".\src\XMLMenuItem.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\MenuSeparatorElement.cpp"
+					RelativePath=".\src\XMLMenuPopup.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\OverlayElement.cpp"
+					RelativePath=".\src\XMLMenuSeparator.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\Script.cpp"
+					RelativePath=".\src\XMLOverlay.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\TextElement.cpp"
+					RelativePath=".\src\XMLScript.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
+					RelativePath=".\src\XMLText.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\WindowElement.cpp"
+					RelativePath=".\src\XMLWindow.cpp"
 					>
 				</File>
 			</Filter>
@@ -451,6 +451,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\ToolbarItem.h"
 					>
 				</File>
@@ -539,10 +543,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\MenuBarElement.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\MenuItem.cpp"
 					>
 				</File>
@@ -580,6 +580,10 @@
 				</File>
 				<File
 					RelativePath=".\src\Toolbar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
 					>
 				</File>
 				<File
@@ -782,6 +786,10 @@
 					RelativePath=".\include\XULWin\SVGPathInstructions.h"
 					>
 				</File>
+				<File
+					RelativePath=".\include\XULWin\XMLSVG.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Source Files"
@@ -791,11 +799,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\SVGElement.cpp"
+					RelativePath=".\src\SVGPathInstructions.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\SVGPathInstructions.cpp"
+					RelativePath=".\src\XMLSVG.cpp"
 					>
 				</File>
 			</Filter>

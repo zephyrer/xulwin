@@ -1,5 +1,5 @@
 #include "XULWin/ListBox.h"
-#include "XULWin/ListBoxElement.h"
+#include "XULWin/XMLListBox.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/WinUtils.h"
@@ -19,7 +19,7 @@ namespace XULWin
 
     void ListBox::onChildAdded(Component * inChild)
     {
-        if (ListBoxElement * listBox = el()->downcast<ListBoxElement>())
+        if (XMLListBox * listBox = el()->downcast<XMLListBox>())
         {
             if (ListItem * item = inChild->downcast<ListItem>())
             {

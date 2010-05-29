@@ -522,36 +522,36 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->tagName() == RowsElement::TagName())
+            if (child->tagName() == XMLRows::TagName())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->tagName() == ColumnsElement::TagName())
+            else if (child->tagName() == XMLColumns::TagName())
             {
                 columns = child;
                 numCols = columns->children().size();
             }
             else
             {
-                ReportError("GridElement contains incompatible child element: '" + child->tagName() + "'");
+                ReportError("XMLGrid contains incompatible child element: '" + child->tagName() + "'");
             }
         }
         if (!rows || !columns)
         {
-            ReportError("GridElement has no rows or no columns!");
+            ReportError("XMLGrid has no rows or no columns!");
             return;
         }
 
         if (rows->children().empty())
         {
-            ReportError("GridElement has no rows!");
+            ReportError("XMLGrid has no rows!");
             return;
         }
 
         if (columns->children().empty())
         {
-            ReportError("GridElement has no columns!");
+            ReportError("XMLGrid has no columns!");
             return;
         }
 
@@ -573,7 +573,7 @@ namespace XULWin
 
         if (colWidths.empty())
         {
-            ReportError("GridElement has no columns!");
+            ReportError("XMLGrid has no columns!");
             return;
         }
 
@@ -595,7 +595,7 @@ namespace XULWin
 
         if (rowHeights.empty())
         {
-            ReportError("GridElement has no rows!");
+            ReportError("XMLGrid has no rows!");
             return;
         }
 
@@ -710,36 +710,36 @@ namespace XULWin
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
-            if (child->tagName() == RowsElement::TagName())
+            if (child->tagName() == XMLRows::TagName())
             {
                 rows = child;
                 numRows = rows->children().size();
             }
-            else if (child->tagName() == ColumnsElement::TagName())
+            else if (child->tagName() == XMLColumns::TagName())
             {
                 columns = child;
                 numCols = columns->children().size();
             }
             else
             {
-                ReportError("GridElement contains incompatible child element: '" + child->tagName() + "'");
+                ReportError("XMLGrid contains incompatible child element: '" + child->tagName() + "'");
             }
         }
         if (!rows || !columns)
         {
-            ReportError("GridElement has no rows or no columns!");
+            ReportError("XMLGrid has no rows or no columns!");
             return;
         }
 
         if (rows->children().empty())
         {
-            ReportError("GridElement has no rows!");
+            ReportError("XMLGrid has no rows!");
             return;
         }
 
         if (columns->children().empty())
         {
-            ReportError("GridElement has no columns!");
+            ReportError("XMLGrid has no columns!");
             return;
         }
 
@@ -761,7 +761,7 @@ namespace XULWin
 
         if (colWidths.empty())
         {
-            ReportError("GridElement has no columns!");
+            ReportError("XMLGrid has no columns!");
             return;
         }
 
@@ -783,7 +783,7 @@ namespace XULWin
 
         if (rowHeights.empty())
         {
-            ReportError("GridElement has no rows!");
+            ReportError("XMLGrid has no rows!");
             return;
         }
 
@@ -867,16 +867,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<RowElement *> rows;
+        std::vector<XMLRow *> rows;
 
         //
         // 1. Obtain the list of rows from the grid element
         //
         if (Component * grid = parent())
         {
-            if (GridElement::TagName() == grid->el()->tagName())
+            if (XMLGrid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<RowElement>(rows);
+                grid->el()->getElementsByType<XMLRow>(rows);
             }
         }
 
@@ -897,16 +897,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<RowElement *> rows;
+        std::vector<XMLRow *> rows;
 
         //
         // 1. Obtain the list of rows from the grid element
         //
         if (Component * grid = parent())
         {
-            if (GridElement::TagName() == grid->el()->tagName())
+            if (XMLGrid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<RowElement>(rows);
+                grid->el()->getElementsByType<XMLRow>(rows);
             }
         }
 
@@ -933,16 +933,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<ColumnElement *> columns;
+        std::vector<XMLColumn *> columns;
 
         //
         // 1. Obtain the list of columns from the grid element
         //
         if (Component * grid = parent())
         {
-            if (GridElement::TagName() == grid->el()->tagName())
+            if (XMLGrid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<ColumnElement>(columns);
+                grid->el()->getElementsByType<XMLColumn>(columns);
             }
         }
 
@@ -963,16 +963,16 @@ namespace XULWin
     {
         int result = 0;
 
-        std::vector<ColumnElement *> columns;
+        std::vector<XMLColumn *> columns;
 
         //
         // 1. Obtain the list of columns from the grid element
         //
         if (Component * grid = parent())
         {
-            if (GridElement::TagName() == grid->el()->tagName())
+            if (XMLGrid::TagName() == grid->el()->tagName())
             {
-                grid->el()->getElementsByType<ColumnElement>(columns);
+                grid->el()->getElementsByType<XMLColumn>(columns);
             }
         }
 
@@ -1029,11 +1029,11 @@ namespace XULWin
         for (size_t idx = 0; idx != grid->children().size(); ++idx)
         {
             ElementPtr child = grid->children()[idx];
-            if (child->tagName() == RowsElement::TagName())
+            if (child->tagName() == XMLRows::TagName())
             {
                 rows = child;
             }
-            else if (child->tagName() == ColumnsElement::TagName())
+            else if (child->tagName() == XMLColumns::TagName())
             {
                 for (size_t ownI = 0; ownI != child->children().size(); ++ownI)
                 {
@@ -1050,12 +1050,12 @@ namespace XULWin
         }
         if (!rows)
         {
-            ReportError("Could not find 'rows' element in GridElement.");
+            ReportError("Could not find 'rows' element in XMLGrid.");
             return 0;
         }
         if (ownIndex == -1)
         {
-            ReportError("ColumnElement was unable to find itself in its parent container.");
+            ReportError("XMLColumn was unable to find itself in its parent container.");
             return 0;
         }
 
@@ -1286,9 +1286,9 @@ namespace XULWin
     {
         for (size_t idx = 0; idx != el()->parent()->children().size(); ++idx)
         {
-            if (el()->parent()->children()[idx]->tagName() == TabsElement::TagName())
+            if (el()->parent()->children()[idx]->tagName() == XMLTabs::TagName())
             {
-                if (TabsElement * tabs = el()->parent()->children()[idx]->downcast<TabsElement>())
+                if (XMLTabs * tabs = el()->parent()->children()[idx]->downcast<XMLTabs>())
                 {
                     return tabs->children()[inIndex]->component()->downcast<Tab>();
                 }
@@ -1434,7 +1434,7 @@ namespace XULWin
         // WS_CLIPCHILDREN style defined.
         // There should be some more decent way to fix this. But for now
         // I just remove the flag from the parent. This may result in more
-        // flickering during manual resize of the WindowElement.
+        // flickering during manual resize of the XMLWindow.
         Windows::removeWindowStyle(NativeControl::GetThisOrParent(inParent)->handle(), WS_CLIPCHILDREN);
 
 
@@ -1522,7 +1522,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->tagName() == CaptionElement::TagName())
+            if (Super::getChild(0)->el()->tagName() == XMLCaption::TagName())
             {
                 assert(idx + 1 < Super::getChildCount());
                 if (idx + 1 < Super::getChildCount())
@@ -1547,7 +1547,7 @@ namespace XULWin
     {
         if (Super::getChildCount() > 0)
         {
-            if (Super::getChild(0)->el()->tagName() == CaptionElement::TagName())
+            if (Super::getChild(0)->el()->tagName() == XMLCaption::TagName())
             {
                 return Super::getChildCount() - 1;
             }

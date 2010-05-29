@@ -27,13 +27,13 @@ namespace XULWin
     typedef std::vector<ElementPtr> Children;
 
 
-    class WindowElement;
-    class DialogElement : public Element
+    class XMLWindow;
+    class XMLDialog : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<DialogElement>(inParent, inAttr);
+            return Element::Create<XMLDialog>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -41,22 +41,22 @@ namespace XULWin
             return "dialog";
         }
 
-        DialogResult showModal(WindowElement * inInvoker);
+        DialogResult showModal(XMLWindow * inInvoker);
 
         void endModal(DialogResult inDialogResult);
 
     private:
         friend class Element;
-        DialogElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLDialog(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ButtonElement : public Element
+    class XMLButton : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<ButtonElement>(inParent, inAttr);
+            return Element::Create<XMLButton>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -66,16 +66,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        ButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLButton(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class DescriptionElement : public Element
+    class XMLDescription : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<DescriptionElement>(inParent, inAttr);
+            return Element::Create<XMLDescription>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -87,15 +87,15 @@ namespace XULWin
 
     private:
         friend class Element;
-        DescriptionElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLDescription(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
-    class TextBoxElement : public Element
+    class XMLTextBox : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TextBoxElement>(inParent, inAttr);
+            return Element::Create<XMLTextBox>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -105,16 +105,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        TextBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTextBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class CheckBoxElement : public Element
+    class XMLCheckBox : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<CheckBoxElement>(inParent, inAttr);
+            return Element::Create<XMLCheckBox>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -124,16 +124,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        CheckBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLCheckBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class BoxElement : public Element
+    class XMLBox : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<BoxElement>(inParent, inAttr);
+            return Element::Create<XMLBox>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -142,16 +142,16 @@ namespace XULWin
         }
     private:
         friend class Element;
-        BoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class HBoxElement : public Element
+    class XMLHBox : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<HBoxElement>(inParent, inAttr);
+            return Element::Create<XMLHBox>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -161,16 +161,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        HBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLHBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class VBoxElement : public Element
+    class XMLVBox : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<VBoxElement>(inParent, inAttr);
+            return Element::Create<XMLVBox>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -180,16 +180,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        VBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLVBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class MenuListElement : public Element
+    class XMLMenuList : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<MenuListElement>(inParent, inAttr);
+            return Element::Create<XMLMenuList>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -199,16 +199,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        MenuListElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLMenuList(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class SeparatorElement : public Element
+    class XMLSeparator : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<SeparatorElement>(inParent, inAttr);
+            return Element::Create<XMLSeparator>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -216,20 +216,20 @@ namespace XULWin
             return "separator";
         }
 
-        virtual ~SeparatorElement();
+        virtual ~XMLSeparator();
 
     private:
         friend class Element;
-        SeparatorElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSeparator(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class SpacerElement : public Element
+    class XMLSpacer : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<SpacerElement>(inParent, inAttr);
+            return Element::Create<XMLSpacer>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -237,20 +237,20 @@ namespace XULWin
             return "spacer";
         }
 
-        virtual ~SpacerElement();
+        virtual ~XMLSpacer();
 
     private:
         friend class Element;
-        SpacerElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLSpacer(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class MenuButtonElement : public Element
+    class XMLMenuButton : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<MenuButtonElement>(inParent, inAttr);
+            return Element::Create<XMLMenuButton>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -258,22 +258,22 @@ namespace XULWin
             return "menubutton";
         }
 
-        virtual ~MenuButtonElement();
+        virtual ~XMLMenuButton();
 
     private:
         friend class Element;
-        MenuButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLMenuButton(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class RowsElement;
-    class ColumnsElement;
-    class GridElement : public Element
+    class XMLRows;
+    class XMLColumns;
+    class XMLGrid : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<GridElement>(inParent, inAttr);
+            return Element::Create<XMLGrid>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -281,24 +281,24 @@ namespace XULWin
             return "grid";
         }
 
-        virtual ~GridElement();
+        virtual ~XMLGrid();
 
-        //void setRows(const RowsElement & inRows);
+        //void setRows(const XMLRows & inRows);
 
-        //void setColumns(const ColumnsElement & inColumns);
+        //void setColumns(const XMLColumns & inColumns);
 
     private:
         friend class Element;
-        GridElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLGrid(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class RowsElement : public Element
+    class XMLRows : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<RowsElement>(inParent, inAttr);
+            return Element::Create<XMLRows>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -306,21 +306,21 @@ namespace XULWin
             return "rows";
         }
 
-        virtual ~RowsElement();
+        virtual ~XMLRows();
 
     private:
         friend class Element;
-        RowsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRows(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ColumnElement;
-    class ColumnsElement : public Element
+    class XMLColumn;
+    class XMLColumns : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<ColumnsElement>(inParent, inAttr);
+            return Element::Create<XMLColumns>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -328,22 +328,22 @@ namespace XULWin
             return "columns";
         }
 
-        virtual ~ColumnsElement();
+        virtual ~XMLColumns();
 
-        //void addColumn(const ColumnElement & inColumn);
+        //void addColumn(const XMLColumn & inColumn);
 
     private:
         friend class Element;
-        ColumnsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLColumns(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class RowElement : public Element
+    class XMLRow : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<RowElement>(inParent, inAttr);
+            return Element::Create<XMLRow>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -351,20 +351,20 @@ namespace XULWin
             return "row";
         }
 
-        virtual ~RowElement();
+        virtual ~XMLRow();
 
     private:
         friend class Element;
-        RowElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRow(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ColumnElement : public Element
+    class XMLColumn : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<ColumnElement>(inParent, inAttr);
+            return Element::Create<XMLColumn>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -372,21 +372,21 @@ namespace XULWin
             return "column";
         }
 
-        virtual ~ColumnElement();
+        virtual ~XMLColumn();
 
     private:
         friend class Element;
-        ColumnElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLColumn(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
 
-    class RadioGroupElement : public Element
+    class XMLRadioGroup : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<RadioGroupElement>(inParent, inAttr);
+            return Element::Create<XMLRadioGroup>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -394,21 +394,21 @@ namespace XULWin
             return "radiogroup";
         }
 
-        virtual ~RadioGroupElement();
+        virtual ~XMLRadioGroup();
 
     private:
         friend class Element;
-        RadioGroupElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRadioGroup(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
 
-    class RadioElement : public Element
+    class XMLRadio : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<RadioElement>(inParent, inAttr);
+            return Element::Create<XMLRadio>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -416,20 +416,20 @@ namespace XULWin
             return "radio";
         }
 
-        virtual ~RadioElement();
+        virtual ~XMLRadio();
 
     private:
         friend class Element;
-        RadioElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLRadio(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ProgressMeterElement : public Element
+    class XMLProgressMeter : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<ProgressMeterElement>(inParent, inAttr);
+            return Element::Create<XMLProgressMeter>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -437,20 +437,20 @@ namespace XULWin
             return "progressmeter";
         }
 
-        virtual ~ProgressMeterElement();
+        virtual ~XMLProgressMeter();
 
     private:
         friend class Element;
-        ProgressMeterElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLProgressMeter(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class DeckElement : public Element
+    class XMLDeck : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<DeckElement>(inParent, inAttr);
+            return Element::Create<XMLDeck>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -458,20 +458,20 @@ namespace XULWin
             return "deck";
         }
 
-        virtual ~DeckElement();
+        virtual ~XMLDeck();
 
     private:
         friend class Element;
-        DeckElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLDeck(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ScrollbarElement : public Element
+    class XMLScrollbar : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<ScrollbarElement>(inParent, inAttr);
+            return Element::Create<XMLScrollbar>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -479,20 +479,20 @@ namespace XULWin
             return "scrollbar";
         }
 
-        virtual ~ScrollbarElement();
+        virtual ~XMLScrollbar();
 
     private:
         friend class Element;
-        ScrollbarElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLScrollbar(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabBoxElement : public Element
+    class XMLTabBox : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TabBoxElement>(inParent, inAttr);
+            return Element::Create<XMLTabBox>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -500,20 +500,20 @@ namespace XULWin
             return "tabbox";
         }
 
-        virtual ~TabBoxElement();
+        virtual ~XMLTabBox();
 
     private:
         friend class Element;
-        TabBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabsElement : public Element
+    class XMLTabs : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TabsElement>(inParent, inAttr);
+            return Element::Create<XMLTabs>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -521,22 +521,22 @@ namespace XULWin
             return "tabs";
         }
 
-        virtual ~TabsElement();
+        virtual ~XMLTabs();
 
-        //void addRow(const RowElement & inRow);
+        //void addRow(const XMLRow & inRow);
 
     private:
         friend class Element;
-        TabsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabs(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabElement : public Element
+    class XMLTab : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TabElement>(inParent, inAttr);
+            return Element::Create<XMLTab>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -544,21 +544,21 @@ namespace XULWin
             return "tab";
         }
 
-        virtual ~TabElement();
+        virtual ~XMLTab();
 
     private:
         friend class Element;
-        TabElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTab(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabPanelElement;
-    class TabPanelsElement : public Element
+    class XMLTabPanel;
+    class XMLTabPanels : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TabPanelsElement>(inParent, inAttr);
+            return Element::Create<XMLTabPanels>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -566,20 +566,20 @@ namespace XULWin
             return "tabpanels";
         }
 
-        virtual ~TabPanelsElement();
+        virtual ~XMLTabPanels();
 
     private:
         friend class Element;
-        TabPanelsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabPanels(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TabPanelElement : public Element
+    class XMLTabPanel : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TabPanelElement>(inParent, inAttr);
+            return Element::Create<XMLTabPanel>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -587,20 +587,20 @@ namespace XULWin
             return "tabpanel";
         }
 
-        virtual ~TabPanelElement();
+        virtual ~XMLTabPanel();
 
     private:
         friend class Element;
-        TabPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTabPanel(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class GroupBoxElement : public Element
+    class XMLGroupBox : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<GroupBoxElement>(inParent, inAttr);
+            return Element::Create<XMLGroupBox>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -610,16 +610,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        GroupBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLGroupBox(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class CaptionElement : public Element
+    class XMLCaption : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<CaptionElement>(inParent, inAttr);
+            return Element::Create<XMLCaption>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -629,19 +629,19 @@ namespace XULWin
 
     private:
         friend class Element;
-        CaptionElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLCaption(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeElement : public Element
+    class XMLTree : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TreeElement>(inParent, inAttr);
+            return Element::Create<XMLTree>(inParent, inAttr);
         }
 
-        virtual ~TreeElement();
+        virtual ~XMLTree();
 
         static const char * TagName()
         {
@@ -650,16 +650,16 @@ namespace XULWin
 
     private:
         friend class Element;
-        TreeElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTree(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeChildrenElement : public Element
+    class XMLTreeChildren : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TreeChildrenElement>(inParent, inAttr);
+            return Element::Create<XMLTreeChildren>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -667,20 +667,20 @@ namespace XULWin
             return "treechildren";
         }
 
-        virtual ~TreeChildrenElement();
+        virtual ~XMLTreeChildren();
 
     private:
         friend class Element;
-        TreeChildrenElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeChildren(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeItemElement : public Element
+    class XMLTreeItem : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TreeItemElement>(inParent, inAttr);
+            return Element::Create<XMLTreeItem>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -688,20 +688,20 @@ namespace XULWin
             return "treeitem";
         }
 
-        virtual ~TreeItemElement();
+        virtual ~XMLTreeItem();
 
     private:
         friend class Element;
-        TreeItemElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeItem(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeColsElement : public Element
+    class XMLTreeCols : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TreeColsElement>(inParent, inAttr);
+            return Element::Create<XMLTreeCols>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -709,20 +709,20 @@ namespace XULWin
             return "treecols";
         }
 
-        virtual ~TreeColsElement();
+        virtual ~XMLTreeCols();
 
     private:
         friend class Element;
-        TreeColsElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeCols(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeColElement : public Element
+    class XMLTreeCol : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TreeColElement>(inParent, inAttr);
+            return Element::Create<XMLTreeCol>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -730,20 +730,20 @@ namespace XULWin
             return "treecol";
         }
 
-        virtual ~TreeColElement();
+        virtual ~XMLTreeCol();
 
     private:
         friend class Element;
-        TreeColElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeCol(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeRowElement : public Element
+    class XMLTreeRow : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TreeRowElement>(inParent, inAttr);
+            return Element::Create<XMLTreeRow>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -751,20 +751,20 @@ namespace XULWin
             return "treerow";
         }
 
-        virtual ~TreeRowElement();
+        virtual ~XMLTreeRow();
 
     private:
         friend class Element;
-        TreeRowElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeRow(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class TreeCellElement : public Element
+    class XMLTreeCell : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<TreeCellElement>(inParent, inAttr);
+            return Element::Create<XMLTreeCell>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -772,20 +772,20 @@ namespace XULWin
             return "treecell";
         }
 
-        virtual ~TreeCellElement();
+        virtual ~XMLTreeCell();
 
     private:
         friend class Element;
-        TreeCellElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLTreeCell(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class StatusbarElement : public Element
+    class XMLStatusbar : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<StatusbarElement>(inParent, inAttr);
+            return Element::Create<XMLStatusbar>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -793,20 +793,20 @@ namespace XULWin
             return "statusbar";
         }
 
-        virtual ~StatusbarElement();
+        virtual ~XMLStatusbar();
 
     private:
         friend class Element;
-        StatusbarElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLStatusbar(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class StatusbarPanelElement : public Element
+    class XMLStatusbarPanel : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<StatusbarPanelElement>(inParent, inAttr);
+            return Element::Create<XMLStatusbarPanel>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -814,20 +814,20 @@ namespace XULWin
             return "statusbarpanel";
         }
 
-        virtual ~StatusbarPanelElement();
+        virtual ~XMLStatusbarPanel();
 
     private:
         friend class Element;
-        StatusbarPanelElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLStatusbarPanel(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ToolbarElement : public Element
+    class XMLToolbar : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<ToolbarElement>(inParent, inAttr);
+            return Element::Create<XMLToolbar>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -835,20 +835,20 @@ namespace XULWin
             return "toolbar";
         }
 
-        virtual ~ToolbarElement();
+        virtual ~XMLToolbar();
 
     private:
         friend class Element;
-        ToolbarElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLToolbar(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 
-    class ToolbarButtonElement : public Element
+    class XMLToolbarButton : public Element
     {
     public:
         static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
         {
-            return Element::Create<ToolbarButtonElement>(inParent, inAttr);
+            return Element::Create<XMLToolbarButton>(inParent, inAttr);
         }
 
         static const char * TagName()
@@ -856,11 +856,11 @@ namespace XULWin
             return "toolbarbutton";
         }
 
-        virtual ~ToolbarButtonElement();
+        virtual ~XMLToolbarButton();
 
     private:
         friend class Element;
-        ToolbarButtonElement(Element * inParent, const AttributesMapping & inAttributesMapping);
+        XMLToolbarButton(Element * inParent, const AttributesMapping & inAttributesMapping);
     };
 
 

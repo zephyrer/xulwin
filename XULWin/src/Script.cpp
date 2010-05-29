@@ -6,10 +6,10 @@
 namespace XULWin
 {
 
-    class Script : public PassiveComponent
+    class Script : public DummyComponent
     {
     public:
-        typedef PassiveComponent Super;
+        typedef DummyComponent Super;
 
         Script(Component * inParent, const AttributesMapping & inAttributesMapping);
     };
@@ -31,7 +31,7 @@ namespace XULWin
 
 
     Script::Script(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 

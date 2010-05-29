@@ -25,7 +25,7 @@ namespace XULWin
 
 
     class SVGCanvas : public NativeControl,
-        public GdiplusLoader
+                      public GdiplusLoader
     {
     public:
         typedef NativeControl Super;
@@ -45,13 +45,13 @@ namespace XULWin
     };
 
 
-    class SVG : public PassiveComponent,
-        public virtual SVG_FillController,
-        public virtual SVG_StrokeController,
-        public virtual SVG_StrokeWidthController
+    class SVG : public VirtualComponent,
+                public virtual SVG_FillController,
+                public virtual SVG_StrokeController,
+                public virtual SVG_StrokeWidthController
     {
     public:
-        typedef PassiveComponent Super;
+        typedef VirtualComponent Super;
 
         SVG(Component * inParent, const AttributesMapping & inAttributesMapping);
 
@@ -71,6 +71,10 @@ namespace XULWin
 
         virtual bool initStyleControllers();
 
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
     private:
         Fallible<RGBColor> mSVGFill;
         Fallible<RGBColor> mSVGStroke;
@@ -79,7 +83,7 @@ namespace XULWin
 
 
     class SVGGroup : public SVG,
-        public SVGPainter
+                     public SVGPainter
     {
     public:
         typedef SVG Super;
@@ -93,8 +97,8 @@ namespace XULWin
 
 
     class SVGPolygon : public SVG,
-        public SVGPainter,
-        public virtual SVG_Polygon_PointsController
+                       public SVGPainter,
+                       public virtual SVG_Polygon_PointsController
     {
     public:
         typedef SVG Super;
@@ -116,7 +120,7 @@ namespace XULWin
 
 
     class SVGRect : public SVG,
-        public SVGPainter
+                    public SVGPainter
     {
     public:
         typedef SVG Super;
@@ -133,8 +137,8 @@ namespace XULWin
 
 
     class SVGPath : public SVG,
-        public virtual SVG_Path_InstructionsController,
-        public SVGPainter
+                    public virtual SVG_Path_InstructionsController,
+                    public SVGPainter
     {
     public:
         typedef SVG Super;

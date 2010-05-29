@@ -7,7 +7,7 @@ namespace XULWin
 {
 
     ListCell::ListCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        VirtualComponent(inParent, inAttributesMapping)
     {
     }
 

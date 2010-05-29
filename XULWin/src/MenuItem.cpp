@@ -9,7 +9,7 @@ namespace XULWin
 
 
     MenuItem::MenuItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
         assert(sMenuItemsById.find(mComponentId.value()) == sMenuItemsById.end());
         sMenuItemsById.insert(std::make_pair(mComponentId.value(), this));

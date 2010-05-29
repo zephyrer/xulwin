@@ -769,13 +769,13 @@ namespace XULWin
     }
 
 
-    PassiveComponent::PassiveComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
+    DummyComponent::DummyComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {
     }
 
 
-    PassiveComponent::~PassiveComponent()
+    DummyComponent::~DummyComponent()
     {
 
     }
@@ -2368,13 +2368,13 @@ namespace XULWin
 
 
     Tabs::Tabs(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
 
     Tab::Tab(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2827,7 +2827,7 @@ namespace XULWin
 
 
     TreeChildren::TreeChildren(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2867,7 +2867,7 @@ namespace XULWin
 
 
     TreeItem::TreeItem(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2950,19 +2950,19 @@ namespace XULWin
 
 
     TreeCols::TreeCols(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
 
     TreeCol::TreeCol(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
 
     TreeRow::TreeRow(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -2989,7 +2989,7 @@ namespace XULWin
 
 
     TreeCell::TreeCell(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping)
+        DummyComponent(inParent, inAttributesMapping)
     {
     }
 
@@ -3163,7 +3163,7 @@ namespace XULWin
 
 
     ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        PassiveComponent(inParent, inAttributesMapping),
+        VirtualComponent(inParent, inAttributesMapping),
         mButton(0),
         mDisabled(false)
     {

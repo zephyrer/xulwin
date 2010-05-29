@@ -14,8 +14,8 @@ namespace XULWin
     class Menu;
 
     class Window : public NativeComponent,
-        public virtual TitleController,
-        public BoxLayouter::ContentProvider
+                   public virtual TitleController,
+                   public BoxLayouter::ContentProvider
     {
     public:
         typedef NativeComponent Super;

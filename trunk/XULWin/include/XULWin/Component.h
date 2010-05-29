@@ -278,7 +278,7 @@ namespace XULWin
             return 0;
         }
 
-        virtual int commandId() const = 0;
+        virtual int componentId() const = 0;
 
         virtual int getWidth(SizeConstraint inSizeConstraint) const = 0;
 
@@ -463,7 +463,7 @@ namespace XULWin
             return 0;
         }
 
-        int commandId() const
+        int componentId() const
         {
             return mCommandId.value();
         }

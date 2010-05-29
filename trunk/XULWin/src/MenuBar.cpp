@@ -21,7 +21,7 @@ namespace XULWin
     {
         std::vector<MenuElement *> menuElements;
         el()->getElementsByType<MenuElement>(menuElements);
-        Windows::MenuNode node(Windows::MenuItemInfo(commandId(), ""));
+        Windows::MenuNode node(Windows::MenuItemInfo(componentId(), ""));
         for (size_t idx = 0; idx != menuElements.size(); ++idx)
         {
             Menu * menu = menuElements[idx]->component()->downcast<Menu>();

@@ -1,6 +1,7 @@
 #include "XULWin/EventListener.h"
-#include "XULWin/Decorator.h"
 #include "XULWin/Component.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/MenuItemElement.h"
 #include <boost/bind.hpp>

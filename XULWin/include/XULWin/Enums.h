@@ -4,6 +4,14 @@
 
 namespace XULWin
 {
+    
+    enum DialogResult
+    {
+        DialogResult_Error = -1,
+        DialogResult_Ok,
+        DialogResult_Cancel,
+        DialogResult_Custom
+    };
 
     enum SizeConstraint
     {

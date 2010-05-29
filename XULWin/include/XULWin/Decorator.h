@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Components.h"
 
 
 namespace XULWin
@@ -208,7 +209,7 @@ namespace XULWin
 
 
     class ScrollDecorator : public Decorator,
-        public Scrollbar::EventListener
+                            public Scrollbar::EventListener
     {
     public:
         typedef Decorator Super;

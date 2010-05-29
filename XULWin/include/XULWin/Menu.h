@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Components.h"
 #include "XULWin/WinUtils.h"
 
 
@@ -10,7 +11,7 @@ namespace XULWin
 {
 
     class Menu : public PassiveComponent,
-        public LabelController
+                 public LabelController
     {
     public:
         typedef PassiveComponent Super;

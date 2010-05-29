@@ -1,6 +1,8 @@
 #include "XULWin/Decorator.h"
+#include "XULWin/Components.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
+#include "XULWin/Elements.h"
 #include "XULWin/Types.h"
 #include "XULWin/WindowElement.h"
 #include "XULWin/WinUtils.h"

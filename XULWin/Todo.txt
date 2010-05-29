@@ -1,3 +1,8 @@
+Rename PassiveComponent to DummyComponent
+Split off PassiveComponent
+Split off NativeControl
+
+
 
 WinAPI System Classes
 ---------------------

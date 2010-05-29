@@ -1,6 +1,8 @@
 #include "XULWin/Initializer.h"
 #include "XULWin/Component.h"
 #include "XULWin/ConditionalState.h"
+#include "XULWin/Element.h"
+#include "XULWin/Elements.h"
 #include "XULWin/ImageElement.h"
 #include "XULWin/LabelElement.h"
 #include "XULWin/ListBoxElement.h"

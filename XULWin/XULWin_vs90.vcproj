@@ -167,6 +167,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\Elements.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\ImageElement.h"
 					>
 				</File>
@@ -244,6 +248,10 @@
 				>
 				<File
 					RelativePath=".\src\Element.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Elements.cpp"
 					>
 				</File>
 				<File
@@ -328,6 +336,10 @@
 				>
 				<File
 					RelativePath=".\include\XULWin\Component.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Components.h"
 					>
 				</File>
 				<File
@@ -416,6 +428,10 @@
 				>
 				<File
 					RelativePath=".\src\Component.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Components.cpp"
 					>
 				</File>
 				<File

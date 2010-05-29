@@ -354,54 +354,6 @@ namespace XULWin
     }
 
 
-    VirtualComponent::VirtualComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        ConcreteComponent(inParent)
-    {
-    }
-
-
-    VirtualComponent::~VirtualComponent()
-    {
-
-    }
-
-
-    bool VirtualComponent::initAttributeControllers()
-    {
-        return Super::initAttributeControllers();
-    }
-
-
-    bool VirtualComponent::initStyleControllers()
-    {
-        return Super::initStyleControllers();
-    }
-
-
-    void VirtualComponent::move(int x, int y, int w, int h)
-    {
-        mRect = Rect(x, y, w, h);
-    }
-
-
-    void VirtualComponent::rebuildLayout()
-    {
-        rebuildChildLayouts();
-    }
-
-
-    Rect VirtualComponent::clientRect() const
-    {
-        return mRect;
-    }
-
-
-    LRESULT VirtualComponent::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
-    {
-        return 1;
-    }
-
-
     ImaginaryComponent::ImaginaryComponent(Component * inParent, const AttributesMapping & inAttributesMapping) :
         VirtualComponent(inParent, inAttributesMapping)
     {

@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Components.h"
 
 
 namespace XULWin
@@ -10,7 +11,7 @@ namespace XULWin
 
 
     class ListBox : public NativeControl,
-        public RowsController
+                    public RowsController
     {
     public:
         typedef NativeControl Super;

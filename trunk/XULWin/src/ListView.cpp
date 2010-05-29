@@ -1,4 +1,6 @@
 #include "XULWin/ListView.h"
+#include "XULWin/Decorator.h"
+#include "XULWin/Elements.h"
 #include "XULWin/ListBoxElement.h"
 #include "XULWin/ListCellElement.h"
 #include "XULWin/ListCell.h"
@@ -9,7 +11,6 @@
 #include "XULWin/ListHeader.h"
 #include "XULWin/ListItemElement.h"
 #include "XULWin/ListItem.h"
-#include "XULWin/Decorator.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>

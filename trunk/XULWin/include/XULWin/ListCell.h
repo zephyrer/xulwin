@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Components.h"
 #include "XULWin/AttributeController.h"
 #include "XULWin/AttributeControllerPolicy.h"
 
@@ -11,7 +12,7 @@ namespace XULWin
 {
 
     class ListCell : public PassiveComponent,
-        public virtual LabelController
+                     public virtual LabelController
     {
     public:
         ListCell(Component * inParent, const AttributesMapping & inAttributesMapping);

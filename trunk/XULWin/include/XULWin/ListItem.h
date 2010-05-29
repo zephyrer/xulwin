@@ -3,14 +3,15 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Components.h"
 
 
 namespace XULWin
 {
 
     class ListItem : public PassiveComponent,
-        public LabelController,
-        public SelectedController
+                     public LabelController,
+                     public SelectedController
     {
     public:
         typedef PassiveComponent Super;

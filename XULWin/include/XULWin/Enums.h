@@ -4,7 +4,13 @@
 
 namespace XULWin
 {
-    
+
+    enum WindowPos
+    {
+        WindowPos_DefaultPosition,
+        WindowPos_CenterInScreen
+    };
+
     enum DialogResult
     {
         DialogResult_Error = -1,

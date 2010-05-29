@@ -1,6 +1,5 @@
 #include "XULWin/ListHeadElement.h"
 #include "XULWin/ListHead.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 
 

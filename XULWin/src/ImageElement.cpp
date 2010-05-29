@@ -1,7 +1,6 @@
 #include "XULWin/ImageElement.h"
 #include "XULWin/Image.h"
 #include "XULWin/ComponentFactory.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 
 

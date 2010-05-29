@@ -1,9 +1,13 @@
-- Split off DummyComponent, VirtualControl and NativeControl
+- Split off ImaginaryComponent, VirtualControl and NativeControl
 - Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
-- Cleanup classes that incorrectly inherit DummyComponent.
+- Cleanup classes that incorrectly inherit ImaginaryComponent.
 - Introduce "DormantComponent" (inherits ConcreteComponent) for components
   that have a native counterpart (HWND, HMENU) but are not visible until
   activated.
+- Remove this method: HWND ConcreteComponent::getFirstParentHandle();
+  It does not belong in ConcreteComponent.
+- Add meaningful error handling in ConcreteComponent::setStyle()
+  and ConcreteComponent::setAttribute()
 
 
 WinAPI System Classes

@@ -1,6 +1,5 @@
 #include "XULWin/WindowElement.h"
 #include "XULWin/Window.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/Decorator.h"
 
@@ -17,7 +16,7 @@ namespace XULWin
     }
 
 
-    void WindowElement::show(Positioning inPositioning)
+    void WindowElement::show(WindowPos inPositioning)
     {
         if (Window * nativeWindow = component()->downcast<Window>())
         {
@@ -26,7 +25,7 @@ namespace XULWin
     }
 
 
-    void WindowElement::showModal(Positioning inPositioning)
+    void WindowElement::showModal(WindowPos inPositioning)
     {
         if (Window * nativeWindow = component()->downcast<Window>())
         {

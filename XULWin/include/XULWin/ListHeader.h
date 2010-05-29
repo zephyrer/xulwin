@@ -9,11 +9,11 @@
 namespace XULWin
 {
 
-    class ListHeader : public DummyComponent,
+    class ListHeader : public ImaginaryComponent,
                        public LabelController
     {
     public:
-        typedef DummyComponent Super;
+        typedef ImaginaryComponent Super;
 
         ListHeader(Component * inParent, const AttributesMapping & inAttributesMapping);
 

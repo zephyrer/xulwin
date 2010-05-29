@@ -4,6 +4,7 @@
 
 #include "XULWin/Component.h"
 #include "XULWin/Components.h"
+#include "XULWin/AttributeController.h"
 
 
 namespace XULWin

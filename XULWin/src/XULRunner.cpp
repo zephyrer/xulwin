@@ -180,7 +180,7 @@ namespace XULWin
         parser.parse(mainXULFile);
         if (WindowElement * window = parser.rootElement()->downcast<WindowElement>())
         {
-            window->showModal(WindowElement::CenterInScreen);
+            window->showModal(WindowPos_CenterInScreen);
         }
     }
 

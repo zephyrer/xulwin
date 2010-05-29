@@ -3,7 +3,6 @@
 
 
 #include "XULWin/Element.h"
-#include "XULWin/AttributeController.h"
 
 
 namespace XULWin

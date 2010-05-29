@@ -10,11 +10,11 @@
 namespace XULWin
 {
 
-    class Menu : public DummyComponent,
+    class Menu : public ImaginaryComponent,
                  public LabelController
     {
     public:
-        typedef DummyComponent Super;
+        typedef ImaginaryComponent Super;
 
         Menu(Component * inParent, const AttributesMapping & inAttributesMapping);
 

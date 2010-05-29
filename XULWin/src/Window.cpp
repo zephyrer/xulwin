@@ -154,7 +154,7 @@ namespace XULWin
     }
 
 
-    void Window::showModal(WindowElement::Positioning inPositioning)
+    void Window::showModal(WindowPos inPositioning)
     {
         show(inPositioning);
 
@@ -172,11 +172,11 @@ namespace XULWin
     }
 
 
-    void Window::show(WindowElement::Positioning inPositioning)
+    void Window::show(WindowPos inPositioning)
     {
         rebuildLayout();
 
-        if (inPositioning == WindowElement::CenterInScreen)
+        if (inPositioning == WindowPos_CenterInScreen)
         {
             SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
             if (findChildOfType<MenuBar>())

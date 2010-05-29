@@ -12,7 +12,7 @@ namespace XULWin
 {
 
     MenuBar::MenuBar(Component * inParent, const AttributesMapping & inAttributesMapping) :
-        DummyComponent(inParent, inAttributesMapping)
+        ImaginaryComponent(inParent, inAttributesMapping)
     {
     }
 

@@ -73,7 +73,7 @@ namespace XULWin
             mEvents.connect(mConfigWindow->getElementById("cancelButton"),
                             boost::bind(&onCancel, win, _1, _2));
 
-            win->showModal(WindowElement::CenterInScreen);
+            win->showModal(WindowPos_CenterInScreen);
         }
     }
 

@@ -1,6 +1,5 @@
 #include "XULWin/ImageElement.h"
 #include "XULWin/Image.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"

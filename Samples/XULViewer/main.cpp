@@ -32,7 +32,7 @@ LRESULT runXUL(HMODULE inModuleHandle, const std::string & inXULDocument)
     }
 
     wnd->rebuildLayout();
-    wnd->showModal(XULWin::WindowElement::DefaultPosition);
+    wnd->showModal(XULWin::WindowPos_DefaultPosition);
     return 0;
 }
 
@@ -79,7 +79,7 @@ void runXULViewer(HMODULE inModuleHandle)
     events.connect(wnd->el(),
                    WM_DROPFILES,
                    boost::bind(&dropFiles, inModuleHandle, rootElement.get(), _1, _2));
-    wnd->showModal(XULWin::WindowElement::CenterInScreen);
+    wnd->showModal(XULWin::WindowPos_CenterInScreen);
 }
 
 

@@ -343,6 +343,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\ConcreteComponent.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Decorator.h"
 					>
 				</File>
@@ -411,6 +415,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\NativeComponent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\NativeControl.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Overlay.h"
 					>
 				</File>
@@ -432,6 +444,10 @@
 				</File>
 				<File
 					RelativePath=".\src\Components.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ConcreteComponent.cpp"
 					>
 				</File>
 				<File
@@ -500,6 +516,14 @@
 				</File>
 				<File
 					RelativePath=".\src\MenuSeparator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\NativeComponent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\NativeControl.cpp"
 					>
 				</File>
 				<File
@@ -758,6 +782,10 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath=".\include\XULWin\Algorithms.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\XULWin\BoxLayouter.h"
 					>

@@ -9,10 +9,10 @@
 namespace XULWin
 {
 
-    class MenuSeparator : public DummyComponent
+    class MenuSeparator : public ImaginaryComponent
     {
     public:
-        typedef DummyComponent Super;
+        typedef ImaginaryComponent Super;
 
         MenuSeparator(Component * inParent, const AttributesMapping & inAttributesMapping);
     };

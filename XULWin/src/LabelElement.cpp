@@ -1,5 +1,4 @@
 #include "XULWin/LabelElement.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Label.h"

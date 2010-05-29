@@ -1,6 +1,5 @@
 #include "XULWin/ListColsElement.h"
 #include "XULWin/ListCols.h"
-#include "XULWin/AttributeController.h"
 #include "XULWin/Decorator.h"
 
 

@@ -1,6 +1,4 @@
 #include "XULWin/ListBoxElement.h"
-#include "XULWin/ListColsElement.h"
-#include "XULWin/ListItemElement.h"
 #include "XULWin/ListBox.h"
 #include "XULWin/ListView.h"
 #include "XULWin/Proxy.h"
@@ -12,11 +10,11 @@ namespace XULWin
     // At this point we don't know yet whether to make a listbox or a listview.
     // Both have distinct window classnames in the Windows API, but not in XUL.
     // So we need to delay the instantiation. However, we still must have an
-    // component, so we use temporarily use a DummyComponent object.
+    // component, so we use temporarily use a ImaginaryComponent object.
     ListBoxElement::ListBoxElement(Element * inParent, const AttributesMapping & inAttributesMapping) :
         Element(ListBoxElement::TagName(),
                 inParent,
-                new Proxy(new DummyComponent(inParent->component(), inAttributesMapping)))
+                new Proxy(new ImaginaryComponent(inParent->component(), inAttributesMapping)))
     {
     }
 
@@ -35,8 +33,8 @@ namespace XULWin
         // The decorator is used as a proxy here.
         if (Proxy * proxy = component()->downcast<Proxy>())
         {
-            // Check if component is still of type DummyComponent.
-            if (proxy->downcast<DummyComponent>())
+            // Check if component is still of type ImaginaryComponent.
+            if (proxy->downcast<ImaginaryComponent>())
             {
                 // If the first child is of type "listitem" then can be certain
                 // that it is a regular listbox
@@ -47,7 +45,7 @@ namespace XULWin
                     listBox->init();
 
                     // Up until this point all the move() calls were directed
-                    // to the DummyComponent object. Now we need to re-apply
+                    // to the ImaginaryComponent object. Now we need to re-apply
                     // this on the native component.
                     proxy->move(prev->clientRect());
                 }
@@ -58,7 +56,7 @@ namespace XULWin
                     listView->init();
 
                     // Up until this point all the move() calls were directed
-                    // to the DummyComponent object. Now we need to re-apply
+                    // to the ImaginaryComponent object. Now we need to re-apply
                     // this on the native component.
                     proxy->move(prev->clientRect());
                 }

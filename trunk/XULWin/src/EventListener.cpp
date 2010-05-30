@@ -3,8 +3,8 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/Toolbar.h"
-#include "XULWin/ToolbarItem.h"
+#include "XULWin/Contrib/Toolbar.h"
+#include "XULWin/Contrib/ToolbarItem.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 

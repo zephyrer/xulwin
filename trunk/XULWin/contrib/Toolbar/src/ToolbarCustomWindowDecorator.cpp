@@ -1,5 +1,5 @@
-#include "XULWin/ToolbarCustomWindowDecorator.h"
-#include "XULWin/Toolbar.h"
+#include "XULWin/Contrib/ToolbarCustomWindowDecorator.h"
+#include "XULWin/Contrib/Toolbar.h"
 #include "XULWin/WindowsToolbar.h"
 
 

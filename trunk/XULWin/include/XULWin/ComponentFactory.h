@@ -4,8 +4,8 @@
 
 #include "XULWin/Component.h"
 #include "XULWin/Element.h"
-#include "XULWin/Toolbar.h"
-#include "XULWin/ToolbarCustomWindowDecorator.h"
+#include "XULWin/Contrib/Toolbar.h"
+#include "XULWin/Contrib/ToolbarCustomWindowDecorator.h"
 #include "XULWin/WindowsToolbar.h"
 #include "Poco/StringTokenizer.h"
 #include <boost/shared_ptr.hpp>

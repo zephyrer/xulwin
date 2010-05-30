@@ -726,48 +726,6 @@ namespace XULWin
     };
 
 
-    class XMLToolbar : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLToolbar>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "toolbar";
-        }
-
-        virtual ~XMLToolbar();
-
-    private:
-        friend class Element;
-        XMLToolbar(Element * inParent, const AttributesMapping & inAttr);
-    };
-
-
-    class XMLToolbarButton : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLToolbarButton>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "toolbarbutton";
-        }
-
-        virtual ~XMLToolbarButton();
-
-    private:
-        friend class Element;
-        XMLToolbarButton(Element * inParent, const AttributesMapping & inAttr);
-    };
-
-
 } // XULWin
 
 

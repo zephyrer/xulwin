@@ -8,8 +8,6 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/ElementFactory.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/Contrib/Toolbar.h"
-#include "XULWin/Contrib/ToolbarItem.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
@@ -447,32 +445,6 @@ namespace XULWin
 
 
     XMLStatusbarPanel::~XMLStatusbarPanel()
-    {
-    }
-
-
-    XMLToolbar::XMLToolbar(Element * inParent, const AttributesMapping & inAttr) :
-        Element(XMLToolbar::TagName(),
-                inParent,
-                new XULWin::Toolbar(inParent->component(), inAttr))
-    {
-    }
-
-
-    XMLToolbar::~XMLToolbar()
-    {
-    }
-
-
-    XMLToolbarButton::XMLToolbarButton(Element * inParent, const AttributesMapping & inAttr) :
-        Element(XMLToolbarButton::TagName(),
-                inParent,
-                new ToolbarButton(inParent->component(), inAttr))
-    {
-    }
-
-
-    XMLToolbarButton::~XMLToolbarButton()
     {
     }
 

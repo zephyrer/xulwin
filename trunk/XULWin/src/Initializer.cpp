@@ -85,8 +85,6 @@ namespace XULWin
         ElementFactory::Instance().registerElement<XMLTreeItem>();
         ElementFactory::Instance().registerElement<XMLStatusbar>();
         ElementFactory::Instance().registerElement<XMLStatusbarPanel>();
-        ElementFactory::Instance().registerElement<XMLToolbar>();
-        ElementFactory::Instance().registerElement<XMLToolbarButton>();
         ElementFactory::Instance().registerElement<XMLListBox>();
         ElementFactory::Instance().registerElement<XMLListItem>();
         ElementFactory::Instance().registerElement<XMLListCell>();

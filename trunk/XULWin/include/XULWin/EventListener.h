@@ -144,9 +144,7 @@ namespace XULWin
         LRESULT handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);
         void invokeCallbacks(MsgId inMsgId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
-        bool connectToolbarButton(Element * inEl, const Action & inAction);
         bool connectMenuItem(Element * inEl, const Action & inAction);
-        bool handleToolbarCommand(MsgId inMessageId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
         MessageCallbacks mMessageCallbacks;
     };

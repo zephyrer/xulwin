@@ -1,4 +1,3 @@
-- Implement toolbar as a contrib
 - ConcreteComponent must have two derived classes: FreeComponent and EnclosedComponent/SurroundedComponent.
 - Add SubComponent class (MenuItem, ToolbarButton, ..)
 - Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")

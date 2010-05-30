@@ -3,10 +3,8 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Decorator.h"
 #include "XULWin/Element.h"
-#include "XULWin/Contrib/Toolbar.h"
-#include "XULWin/Contrib/ToolbarCustomWindowDecorator.h"
-#include "XULWin/WindowsToolbar.h"
 #include "Poco/StringTokenizer.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -37,12 +35,7 @@ namespace XULWin
         Component * createComponent(Component * inParent,
                                     const AttributesMapping & inAttributes)
         {
-            Component * result(0);
-            if (!CreateToolbarChild<DecoratorType, ComponentType>(inParent, inAttributes, result))
-            {
-                result = new DecoratorType(new ComponentType(inParent, inAttributes));
-            }
-            return result;
+            return new DecoratorType(new ComponentType(inParent, inAttributes));
         }
 
 
@@ -75,25 +68,6 @@ namespace XULWin
             {
                 return createComponent<DecoratorType, VirtualType>(inParent, inAttr);
             }
-        }
-
-        template<class DecoratorType, class ComponentType>
-        static bool CreateToolbarChild(Component * inParent,
-                                       const AttributesMapping & inAttr,
-                                       Component *& result)
-        {
-            if (!inParent)
-            {
-                return false;
-            }
-            if (XULWin::Toolbar * toolbar = inParent->downcast<XULWin::Toolbar>())
-            {
-                DecoratorType * decoratedComponent = new DecoratorType(new ComponentType(inParent, inAttr));
-                boost::weak_ptr<Windows::Toolbar> theNativeToolbar(toolbar->nativeToolbar());
-                result = new ToolbarCustomWindowDecorator(decoratedComponent, theNativeToolbar);
-                return true;
-            }
-            return false;
         }
     };
 

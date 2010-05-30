@@ -1,4 +1,4 @@
-#include "XULWin/WindowsToolbar.h"
+#include "XULWin/Contrib/WindowsToolbar.h"
 #include "XULWin/Contrib/ToolbarItem.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"

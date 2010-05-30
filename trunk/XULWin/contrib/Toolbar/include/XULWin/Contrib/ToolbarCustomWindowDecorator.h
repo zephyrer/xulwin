@@ -3,7 +3,7 @@
 
 
 #include "XULWin/Decorator.h"
-#include "XULWin/WindowsToolbarItem.h"
+#include "XULWin/Contrib/WindowsToolbarItem.h"
 #include "XULWin/Types.h"
 
 

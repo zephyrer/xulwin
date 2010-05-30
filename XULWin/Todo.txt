@@ -1,5 +1,4 @@
-- Create core/contrib folders
-- Cleanup MenuPopupContainer
+- Implement toolbar as a contrib
 - ConcreteComponent must have two derived classes: FreeComponent and EnclosedComponent/SurroundedComponent.
 - Add SubComponent class (MenuItem, ToolbarButton, ..)
 - Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
@@ -9,6 +8,7 @@
 - Add meaningful error handling in ConcreteComponent::setStyle()
   and ConcreteComponent::setAttribute()
 v Clean up includes in Component.h
+v Create core/contrib folders
 
 
 WinAPI System Classes

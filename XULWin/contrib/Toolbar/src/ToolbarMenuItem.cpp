@@ -1,4 +1,4 @@
-#include "XULWin/ToolbarMenuItem.h"
+#include "XULWin/Contrib/ToolbarMenuItem.h"
 
 
 namespace XULWin

@@ -3,7 +3,7 @@
 
 
 #include "XULWin/VirtualComponent.h"
-#include "XULWin/WindowsToolbarItem.h"
+#include "XULWin/Contrib/WindowsToolbarItem.h"
 
 
 namespace XULWin

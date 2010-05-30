@@ -4,11 +4,12 @@
 
 #include "XULWin/NativeControl.h"
 #include "XULWin/GdiplusLoader.h"
-#include "XULWin/WindowsToolbar.h"
+#include "XULWin/Contrib/WindowsToolbar.h"
 
 
 namespace XULWin
 {
+
 
     class Toolbar : public NativeControl,
                     public Windows::Toolbar::EventHandler,

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -113,7 +113,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(ProjectDir)include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -423,18 +423,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Toolbar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ToolbarItem.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\VirtualComponent.h"
 					>
 				</File>
@@ -571,18 +559,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\Toolbar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ToolbarItem.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\VirtualComponent.cpp"
 					>
 				</File>
@@ -611,14 +587,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\WindowsToolbar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\WindowsToolbarItem.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\WinUtils.h"
 					>
 				</File>
@@ -628,18 +596,6 @@
 				>
 				<File
 					RelativePath=".\src\PopupMenu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ToolbarMenuItem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\WindowsToolbar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\WindowsToolbarItem.cpp"
 					>
 				</File>
 				<File

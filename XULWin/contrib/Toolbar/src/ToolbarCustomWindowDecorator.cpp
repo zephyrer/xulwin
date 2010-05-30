@@ -1,6 +1,6 @@
 #include "XULWin/Contrib/ToolbarCustomWindowDecorator.h"
 #include "XULWin/Contrib/Toolbar.h"
-#include "XULWin/WindowsToolbar.h"
+#include "XULWin/Contrib/WindowsToolbar.h"
 
 
 namespace XULWin

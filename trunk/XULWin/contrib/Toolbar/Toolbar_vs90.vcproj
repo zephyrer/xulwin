@@ -160,31 +160,31 @@
 			Name="Header Files"
 			>
 			<File
-				RelativePath=".\include\XULWin\Contrib\Toolbar.h"
+				RelativePath=".\include\XULWin\Toolbar\Toolbar.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Contrib\ToolbarCustomWindowDecorator.h"
+				RelativePath=".\include\XULWin\Toolbar\ToolbarCustomWindowDecorator.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Contrib\ToolbarItem.h"
+				RelativePath=".\include\XULWin\Toolbar\ToolbarItem.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Contrib\ToolbarMenuItem.h"
+				RelativePath=".\include\XULWin\Toolbar\ToolbarMenuItem.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Contrib\WindowsToolbar.h"
+				RelativePath=".\include\XULWin\Toolbar\WindowsToolbar.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Contrib\WindowsToolbarItem.h"
+				RelativePath=".\include\XULWin\Toolbar\WindowsToolbarItem.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\XULWin\Contrib\XMLToolbar.h"
+				RelativePath=".\include\XULWin\Toolbar\XMLToolbar.h"
 				>
 			</File>
 		</Filter>

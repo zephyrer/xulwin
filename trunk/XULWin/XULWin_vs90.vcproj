@@ -223,6 +223,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\XMLToolbar.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\XMLWindow.h"
 					>
 				</File>
@@ -280,6 +284,10 @@
 				</File>
 				<File
 					RelativePath=".\src\XMLScript.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\XMLToolbar.cpp"
 					>
 				</File>
 				<File
@@ -423,6 +431,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\Toolbar.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\ToolbarItem.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\VirtualComponent.h"
 					>
 				</File>
@@ -559,6 +579,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\Toolbar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ToolbarItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ToolbarMenuItem.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\VirtualComponent.cpp"
 					>
 				</File>
@@ -587,6 +623,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\WindowsToolbar.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\WindowsToolbarItem.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\WinUtils.h"
 					>
 				</File>
@@ -596,6 +640,14 @@
 				>
 				<File
 					RelativePath=".\src\PopupMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowsToolbar.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowsToolbarItem.cpp"
 					>
 				</File>
 				<File

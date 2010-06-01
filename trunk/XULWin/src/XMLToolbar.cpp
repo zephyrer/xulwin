@@ -1,6 +1,6 @@
-#include "XULWin/Toolbar/XMLToolbar.h"
-#include "XULWin/Toolbar/Toolbar.h"
-#include "XULWin/Toolbar/ToolbarItem.h"
+#include "XULWin/XMLToolbar.h"
+#include "XULWin/Toolbar.h"
+#include "XULWin/ToolbarItem.h"
 #include "XULWin/ComponentFactory.h"
 
 

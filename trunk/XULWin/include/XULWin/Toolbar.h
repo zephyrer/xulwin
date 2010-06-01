@@ -4,7 +4,7 @@
 
 #include "XULWin/NativeControl.h"
 #include "XULWin/GdiplusLoader.h"
-#include "XULWin/Toolbar/WindowsToolbar.h"
+#include "XULWin/WindowsToolbar.h"
 
 
 namespace XULWin

@@ -1,4 +1,4 @@
-#include "XULWin/Toolbar/Toolbar.h"
+#include "XULWin/Toolbar.h"
 
 
 namespace XULWin

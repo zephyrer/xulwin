@@ -24,17 +24,14 @@
 
     <!--  button -->
     <image id="Toolbar-Button"
-    src="chrome://toolbar/skin/icons/toolbar_logo.png"
-    width="94"
-    height="30"/>
+           src="chrome://toolbar/skin/icons/toolbar_logo.png"
+           width="94"
+           height="30" />
 
 
     <hbox align="stretch" flex="1" style="overflow:auto">
-      <label value="1"></label>
-      <label value="2"></label>
-      <spacer flex="1"></spacer>
-      <label value="3"></label>
-      <label value="4"></label>
+      <label value="I'm in a HBox" />
+      <label value="Me too!" />
     </hbox>
     
     

@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\V8\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)JavaScriptBindings\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\V8\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)JavaScriptBindings\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;;&quot;$(SolutionDir)XULWin\contrib\Toolbar\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -127,7 +127,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\V8\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)JavaScriptBindings\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)3rdParty\Boost&quot;;&quot;$(SolutionDir)3rdParty\Poco\XML\include&quot;;&quot;$(SolutionDir)3rdParty\Poco\Foundation\include&quot;;&quot;$(SolutionDir)3rdParty\V8\include&quot;;&quot;$(SolutionDir)3rdParty\Lua\include&quot;;&quot;$(SolutionDir)JavaScriptBindings\include&quot;;&quot;$(SolutionDir)LuaBindings\include&quot;;&quot;$(SolutionDir)XULWin\include&quot;;&quot;$(SolutionDir)XULWin\contrib\Toolbar\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"

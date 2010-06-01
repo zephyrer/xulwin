@@ -1,6 +1,7 @@
 #include "Tester.h"
 #include "ConfigSample.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Toolbar/XMLToolbar.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Windows.h"
 #include <boost/bind.hpp>
@@ -27,17 +28,17 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 
 void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
 {
-    runConfigSample(hInstance, inPathToXULRunnerSamples);
-    runImageViewerSample(hInstance, inPathToXULRunnerSamples);
-    tester.runXULSample("listbox-simple");
-    tester.runXULSample("listbox-advanced");
-    tester.runXULSample("tabbox");
-    tester.runXULSample("treeview");
-    tester.runXULSample("shout");
-    tester.runXULSample("svg");
+    tester.runXULSample("toolbar");
+    //runConfigSample(hInstance, inPathToXULRunnerSamples);
+    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);
+    //tester.runXULSample("listbox-simple");
+    //tester.runXULSample("listbox-advanced");
+    //tester.runXULSample("tabbox");
+    //tester.runXULSample("treeview");
+    //tester.runXULSample("shout");
+    //tester.runXULSample("svg");
     //tester.runXULSample("hello");
     //tester.runXULSample("MainWindow");
-    //tester.runXULSample("toolbar");
     //tester.runXULSample("widgets");
 }
 
@@ -62,7 +63,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     // Initialize all kinds of stuff
-    Initializer initializer(hInstance);
+    Initializer initializer(hInstance);    
+    ElementFactory::Instance().registerElement<XMLToolbar>();
+    ElementFactory::Instance().registerElement<XMLToolbarButton>();
 
     // Ensure that the common control DLL is loaded.
     Windows::CommonControlsInitializer ccInit;

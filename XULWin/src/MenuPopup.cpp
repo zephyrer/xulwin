@@ -73,7 +73,7 @@ namespace XULWin
             location.y = inExcludeRect.bottom;
             //::MapWindowPoints(comp->handle(), HWND_DESKTOP, &location, 1);
             boost::scoped_ptr<Windows::PopupMenu> menu(getMenu());
-            menu->show(comp->handle(), location, inExcludeRect);
+            menu->show(location, inExcludeRect);
         }
     }
 

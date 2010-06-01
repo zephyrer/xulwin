@@ -12,7 +12,6 @@ namespace XULWin
 
         const int PopupMenuItem::SeparatorID = 0;
 
-
         PopupMenuItem::PopupMenuItem():
             mId(SeparatorID),
             mEnabled(true),
@@ -80,6 +79,27 @@ namespace XULWin
             mChecked = inChecked;
         }
 
+        void PopupMenu::Register(HMODULE inModuleHandle)
+        {
+            WNDCLASSEX wndClass;
+            wndClass.cbSize = sizeof(wndClass);
+            wndClass.style = 0;
+            wndClass.lpfnWndProc = &PopupMenu::MessageHandler;
+            wndClass.cbClsExtra = 0;
+            wndClass.cbWndExtra = 0;
+            wndClass.hInstance = inModuleHandle;
+            wndClass.hIcon = 0;
+            wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+            wndClass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
+            wndClass.lpszMenuName = NULL;
+            wndClass.lpszClassName = TEXT("XULWin::PopupMenuHelper");
+            wndClass.hIconSm = 0;
+            if (! RegisterClassEx(&wndClass))
+            {
+                throw std::runtime_error("Could not register XUL::PopupMenu class.");
+            }
+        }
+
 
         PopupMenu::Instances PopupMenu::sInstances;
 
@@ -88,10 +108,23 @@ namespace XULWin
             mHandle(0),
             mOwnerDraw(false),
             mSize(0),
-            mSubclassedWindow(0),
+            mHelperWindow(0),
             mOrigProc(0)
         {
+            // This window only exists for event handling. It is never visible.
+            mHelperWindow = CreateWindowEx(0, TEXT("XULWin::PopupMenuHelper"), TEXT("PopupMenu"), 0, 0, 0, 0, 0, 0, 0, ::GetModuleHandle(0), 0);
+            if (!mHelperWindow)
+            {
+                throw std::runtime_error("Failed to created parent window for the popup menu");
+            }
+
+            // Make sure the Window is hidden
+            ::ShowWindow(mHelperWindow, SW_HIDE);
+            
             mHandle = CreatePopupMenu();
+            
+            mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mHelperWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)PopupMenu::MessageHandler);
+            sInstances[this] = mHelperWindow;
         }
 
 
@@ -99,7 +132,10 @@ namespace XULWin
         {
             if (mOrigProc)
             {
-                unsubclass();
+                ::SetWindowLongPtr(mHelperWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)mOrigProc);
+                mHelperWindow = 0;
+                mOrigProc = 0;
+                sInstances.erase(sInstances.find(this));
             }
 
             if (mHandle)
@@ -145,21 +181,8 @@ namespace XULWin
         }
 
 
-        void PopupMenu::show(HWND inWindow, const POINT & inLocation, const RECT & inExcludeRect)
+        void PopupMenu::show(const POINT & inLocation, const RECT & inExcludeRect)
         {
-            HWND parent = inWindow;
-            assert(parent);
-            if (!parent)
-            {
-                parent = inWindow;
-            }
-
-            if (mOrigProc)
-            {
-                unsubclass();
-            }
-            subclass(parent);
-
             TPMPARAMS tpm;
             tpm.cbSize = sizeof(tpm);
             tpm.rcExclude = inExcludeRect;
@@ -167,40 +190,13 @@ namespace XULWin
                              TPM_LEFTALIGN | TPM_LEFTBUTTON,
                              inLocation.x + 1,
                              inLocation.y + 1,
-                             parent,
+                             mHelperWindow,
                              &tpm);
 
             // WM_COMMAND message is not sent before TrackPopupMenuEx returns !!
         }
-
-
-        void PopupMenu::subclass(HWND inHandle)
-        {
-            assert(!mOrigProc);
-            assert(!mSubclassedWindow);
-            mSubclassedWindow = inHandle;
-            mOrigProc = (WNDPROC)(LONG_PTR)::SetWindowLongPtr(mSubclassedWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)PopupMenu::ParentProc);
-
-            // Remember instance and handle for PopupMenu::ParentProc
-            sInstances[this] = inHandle;
-        }
-
-
-        void PopupMenu::unsubclass()
-        {
-            assert(mOrigProc);
-            assert(mSubclassedWindow);
-            if (mOrigProc)
-            {
-                ::SetWindowLongPtr(mSubclassedWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)mOrigProc);
-                mSubclassedWindow = 0;
-                mOrigProc = 0;
-                sInstances.erase(sInstances.find(this));
-            }
-        }
-
-
-        LRESULT CALLBACK PopupMenu::ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+        
+        LRESULT CALLBACK PopupMenu::MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
         {
             Instances::iterator instanceIt = sInstances.begin(), end = sInstances.end();
             for (; instanceIt != end; ++instanceIt)
@@ -234,10 +230,10 @@ namespace XULWin
                             return 0;
                         }
                     }
-                    break;
+                    return 1;
                 }
             }
-            return ::CallWindowProc(pThis->mOrigProc, hWnd, inMessage, wParam, lParam);
+            return ::DefWindowProc(hWnd, inMessage, wParam, lParam);
         }
 
 

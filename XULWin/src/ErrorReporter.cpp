@@ -258,7 +258,7 @@ namespace XULWin
             else
             {
                 std::wstring utf16Message = XULWin::ToUTF16(inErrorMessage);
-                ::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
+                //::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
             }
 #endif
         }

@@ -13,6 +13,7 @@
 
 namespace XULWin
 {
+    class Initializer;
 
     namespace Windows
     {
@@ -71,20 +72,18 @@ namespace XULWin
             // takes ownership
             void append(const std::string & inText, PopupMenu * inSubmenu);
 
-            void show(HWND inParent, const POINT & inLocation, const RECT & inExcludeRect);
+            void show(const POINT & inLocation, const RECT & inExcludeRect);
 
         private:
-            static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
+            friend class XULWin::Initializer;
+            static void Register(HMODULE inModuleHandle);
+            static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
             // PopupMenu is key because it is garantueed to be unique, the HWND isn't
             typedef std::map<PopupMenu *, HWND> Instances;
             static Instances sInstances;
 
-            void subclass(HWND inHandle);
-
-            void unsubclass();
-
             WNDPROC mOrigProc;
-            HWND mSubclassedWindow;
+            HWND mHelperWindow;
             HMENU mHandle;
             bool mOwnerDraw;
             int mSize;

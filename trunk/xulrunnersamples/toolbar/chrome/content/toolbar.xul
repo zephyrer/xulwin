@@ -17,7 +17,7 @@
                    tooltiptext="&ADD_PHOTO;"
                    label="&ADD_PHOTO;"
                    style='list-style-image: url("chrome://toolbar/skin/icons/toolbar_video.png");'/>
-    <toolbarseparator />    
+    <toolbarseparator />
     <toolbarbutton id="chatButton"
                    label="&CHAT;"
                    type="menu"

@@ -1,1 +1,0 @@
-pref("toolkit.defaultChromeURI", "chrome://widgets/content/widgets.xul");

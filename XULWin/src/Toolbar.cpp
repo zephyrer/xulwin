@@ -68,7 +68,7 @@ namespace XULWin
     Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent, inAttr)
     {
-        if (NativeComponent * native = NativeControl::GetThisOrParent(inParent))
+        if (NativeComponent * native = NativeControl::FindNativeParent(inParent))
         {
             mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mComponentId.value()));
             setHandle(mToolbar->handle(), false);

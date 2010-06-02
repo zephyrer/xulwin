@@ -43,6 +43,17 @@ namespace XULWin
         }
 
 
+        HWND getDefaultWindow()
+        {
+            static HWND hwnd(0);
+            if (!hwnd)
+            {
+                hwnd = ::CreateWindowEx(0, L"STATIC", L"", 0, 0, 0, 0, 0, 0, 0, ::GetModuleHandle(0), 0);
+            }
+            return hwnd;
+        }
+
+
         std::string getCurrentDirectory()
         {
             TCHAR buffer[MAX_PATH];
@@ -304,6 +315,12 @@ namespace XULWin
             ::GetTextExtentPoint32(hDC, utf16Text.c_str(), (int)utf16Text.size(), &result);
             ReleaseDC(inHandle, hDC);
             return result;
+        }
+
+        
+        SIZE getTextSize(const std::string & inText)
+        {
+            return getTextSize(getDefaultWindow(), inText);
         }
 
 
@@ -790,6 +807,16 @@ namespace XULWin
             {
                 it->second->mTimerAction();
             }
+        }
+
+        UInt32 getToolbarButtonSize(HWND inHandle, UInt32 inCommandId)
+        {
+            TBBUTTONINFO tbButtonInfo;
+            ::ZeroMemory(&tbButtonInfo, sizeof(tbButtonInfo));
+            tbButtonInfo.cbSize = sizeof(tbButtonInfo);
+            tbButtonInfo.dwMask = TBIF_SIZE;
+            ::SendMessage(inHandle, TB_GETBUTTONINFO, inCommandId, (LPARAM)&tbButtonInfo);
+            return tbButtonInfo.cx;
         }
 
 

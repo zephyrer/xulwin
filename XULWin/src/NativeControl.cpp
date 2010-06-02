@@ -16,7 +16,7 @@ namespace XULWin
         }
 
         Rect clientRect = inParent->clientRect();
-        NativeComponent * nativeParent = GetThisOrParent(inParent);
+        NativeComponent * nativeParent = FindNativeParent(inParent);
         if (!nativeParent)
         {
             throw std::runtime_error("NativeControl constructor failed because no native parent was found.");
@@ -114,7 +114,7 @@ namespace XULWin
     }
 
 
-    const NativeComponent * NativeControl::GetThisOrParent(const Component * inElement)
+    const NativeComponent * NativeControl::FindNativeParent(const Component * inElement)
     {
         if (const NativeComponent * obj = dynamic_cast<const NativeComponent *>(inElement))
         {
@@ -122,19 +122,19 @@ namespace XULWin
         }
         else if (const Decorator * obj = dynamic_cast<const Decorator *>(inElement))
         {
-            return GetThisOrParent(obj->decoratedElement().get());
+            return FindNativeParent(obj->decoratedElement().get());
         }
         else if (const VirtualComponent * obj = dynamic_cast<const VirtualComponent *>(inElement))
         {
-            return GetThisOrParent(obj->parent());
+            return FindNativeParent(obj->parent());
         }
         return 0;
     }
 
 
-    NativeComponent * NativeControl::GetThisOrParent(Component * inElement)
+    NativeComponent * NativeControl::FindNativeParent(Component * inElement)
     {
-        return const_cast<NativeComponent *>(GetThisOrParent(const_cast<const Component *>(inElement)));
+        return const_cast<NativeComponent *>(FindNativeParent(const_cast<const Component *>(inElement)));
     }
 
 } // namespace XULWin

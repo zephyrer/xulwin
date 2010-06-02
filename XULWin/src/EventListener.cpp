@@ -35,7 +35,7 @@ namespace XULWin
             return false;
         }
 
-        XULWin::NativeComponent * nativeParent = NativeControl::GetThisOrParent(inEl->component());
+        XULWin::NativeComponent * nativeParent = NativeControl::FindNativeParent(inEl->component());
         if (!nativeParent)
         {
             ReportError("Received an event from a MenuItem element that has no native parent.");

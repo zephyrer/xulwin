@@ -38,6 +38,8 @@ namespace XULWin
             CommonControlsInitializer();
         };
 
+        HWND getDefaultWindow();
+
         std::string getCurrentDirectory();
 
         std::string getEnvironmentVariable(const std::string & inVariableName);
@@ -94,6 +96,8 @@ namespace XULWin
         HFONT getFont(HWND inHandle);
 
         SIZE getTextSize(HWND inHandle, const std::string & inText);
+
+        SIZE getTextSize(const std::string & inText);
 
         std::string getWindowText(HWND inHandle);
 
@@ -200,6 +204,8 @@ namespace XULWin
             TimerAction mTimerAction;
             UINT_PTR mTimerId;
         };
+
+        UInt32 getToolbarButtonSize(HWND inHandle, UInt32 inCommandId);
 
     } // namespace Windows
 

@@ -35,14 +35,9 @@ namespace XULWin
 
         virtual void move(int x, int y, int w, int h);
 
-        // Gets a NativeComponent object from this object. This
-        // is only needed in constructors of s, because
-        // they need to know which is their native parent handle object.
-        // If this is a NativeComponent, return this.
-        // If this is a VirtualComponent, return first parent that is a NativeComponent.
-        // If this is a Decorator, resolve until a NativeComponent is found.
-        static NativeComponent * GetThisOrParent(Component * inElement);
-        static const NativeComponent * GetThisOrParent(const Component * inElement);
+        // Returns the first native parent component.
+        static NativeComponent * FindNativeParent(Component * inComponent);
+        static const NativeComponent * FindNativeParent(const Component * inComponent);
     };
 
 } // namespace XULWin

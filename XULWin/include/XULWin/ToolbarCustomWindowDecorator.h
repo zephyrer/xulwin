@@ -14,7 +14,7 @@ namespace XULWin
                                          public Windows::IECustomWindow
     {
     public:
-        ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar);
+        ToolbarCustomWindowDecorator(Component * inDecoratedComponent, boost::weak_ptr<Windows::Toolbar> inToolbar);
 
         virtual UInt32 componentId() const;
 

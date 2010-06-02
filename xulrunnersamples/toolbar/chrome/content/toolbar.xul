@@ -8,7 +8,7 @@
                    type="button"
                    label="Search"
                    tooltiptext="&SEARCH_GOOGLE;"
-                   style='list-style-image: url("chrome://toolbar/skin/icons/toolbar_search.png");'/>
+                   style='list-style-image: url("chrome://toolbar/skin/icons/toolbar_search.png");' />
     <toolbarseparator />
     <toolbarbutton id="homeButton"
                    label="Home"

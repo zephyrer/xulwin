@@ -140,17 +140,6 @@ namespace XULWin
     }
 
 
-    // FIXME! This does not belong here!
-    HWND ConcreteComponent::getFirstParentHandle()
-    {
-        if (NativeComponent * comp = NativeControl::FindNativeParent(parent()))
-        {
-            return comp->handle();
-        }
-        return 0;
-    }
-
-
     void ConcreteComponent::invalidateRect() const
     {
         // Just forward to all children.

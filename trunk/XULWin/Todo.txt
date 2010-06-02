@@ -1,13 +1,12 @@
-
 - Choose between "WinAPI" and "Windows", but don't mix them.
 - ConcreteComponent must have two derived classes: FreeComponent and EnclosedComponent/SurroundedComponent.
 - Add SubComponent class (MenuItem, ToolbarButton, ..)
-- Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
 - Cleanup classes that incorrectly inherit PhonyComponent.
-- Remove this method: HWND ConcreteComponent::getFirstParentHandle();
-  It does not belong in ConcreteComponent.
 - Add meaningful error handling in ConcreteComponent::setStyle()
   and ConcreteComponent::setAttribute()
+v Remove this method: HWND ConcreteComponent::getFirstParentHandle();
+  It does not belong in ConcreteComponent.
+v Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
 v Clean up includes in Component.h
 v Create core/contrib folders
 v Rename ToolbarItem.{h,cpp} to ToolbarButton.{h,cpp}

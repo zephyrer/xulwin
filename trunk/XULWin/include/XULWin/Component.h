@@ -80,8 +80,6 @@ namespace XULWin
 
         virtual Component * getChild(size_t inIndex) = 0;
 
-        virtual HWND getFirstParentHandle() = 0;
-
         virtual void invalidateRect() const = 0;
 
 

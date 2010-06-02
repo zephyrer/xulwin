@@ -93,17 +93,6 @@ namespace XULWin
     }
 
 
-    HWND Decorator::getFirstParentHandle()
-    {
-        assert(mDecoratedComponent);
-        if (mDecoratedComponent)
-        {
-            return mDecoratedComponent->getFirstParentHandle();
-        }
-        return 0;
-    }
-
-
     void Decorator::invalidateRect() const
     {
         assert(mDecoratedComponent);

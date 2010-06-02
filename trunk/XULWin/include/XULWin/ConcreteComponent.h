@@ -31,8 +31,6 @@ namespace XULWin
 
         virtual Component * getChild(size_t inIndex);
 
-        virtual HWND getFirstParentHandle();
-
         virtual void invalidateRect() const;
 
         // WidthController methods

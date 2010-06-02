@@ -65,18 +65,21 @@ namespace XULWin
     {
         if (NativeComponent * comp = inParent->downcast<NativeComponent>())
         {
-            mHandle = ::CreateWindowEx
-                      (
-                          0,
-                          TEXT("XULWin::XMLDialog"),
-                          TEXT(""),
-                          WS_POPUPWINDOW | WS_CAPTION | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-                          CW_USEDEFAULT, CW_USEDEFAULT, Defaults::windowWidth(), Defaults::windowHeight(),
-                          comp->handle(),
-                          (HMENU)0, // must be zero if not menu and not child
-                          mModuleHandle,
-                          0
-                      );
+            mHandle = ::CreateWindowEx (0,
+                                        TEXT("XULWin::XMLDialog"),
+                                        TEXT(""),
+                                        WS_POPUPWINDOW
+                                        | WS_CAPTION
+                                        | WS_CLIPSIBLINGS
+                                        | WS_CLIPCHILDREN,
+                                        CW_USEDEFAULT,
+                                        CW_USEDEFAULT,
+                                        Defaults::windowWidth(),
+                                        Defaults::windowHeight(),
+                                        comp->handle(),
+                                        (HMENU)0, // must be zero if not menu and not child
+                                        mModuleHandle,
+                                        0);
         }
 
         std::string error = Windows::getLastError(::GetLastError());

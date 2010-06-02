@@ -1,9 +1,15 @@
 #include "XULWin/Label.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
+
+    Component * CreateLabel(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new Label(inComponent, inAttr));
+    }
 
 
     Label::Label(Component * inParent, const AttributesMapping & inAttr) :

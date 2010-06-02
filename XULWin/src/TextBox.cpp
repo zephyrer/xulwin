@@ -1,5 +1,5 @@
 #include "XULWin/TextBox.h"
-#include "XULWin/Decorator.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Element.h"
 #include "XULWin/WinUtils.h"
@@ -7,6 +7,12 @@
 
 namespace XULWin
 {
+    
+    Component * CreateTextBox(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new TextBox(inComponent, inAttr));
+    }
+
 
     TextBox::TextBox(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,

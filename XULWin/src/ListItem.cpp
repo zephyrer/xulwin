@@ -1,5 +1,5 @@
 #include "XULWin/ListItem.h"
-#include "XULWin/Decorator.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/ListBox.h"
 #include "XULWin/ListView.h"
@@ -12,6 +12,12 @@
 
 namespace XULWin
 {
+    
+    Component * CreateListItem(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new ListItem(inComponent, inAttr));
+    }
+
 
     ListItem::ListItem(Component * inParent, const AttributesMapping & inAttr) :
         VirtualComponent(inParent, inAttr),

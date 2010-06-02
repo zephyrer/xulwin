@@ -1,3 +1,4 @@
+#include "XULWin/Element.h"
 #include "XULWin/Component.h"
 #include "XULWin/ComponentFactory.h"
 #include "XULWin/Decorator.h"
@@ -286,24 +287,7 @@ namespace XULWin
         component()->onChildAdded(inChild->component());
     }
 
-} // namespace XULWin
-
-
-#include "XULWin/Label.h"
-#include "XULWin/Button.h"
-#include "XULWin/CheckBox.h"
-#include "XULWin/MenuList.h"
-#include "XULWin/MenuPopup.h"
-#include "XULWin/MenuItem.h"
-#include "XULWin/TextBox.h"
-#include "XULWin/ListBox.h"
-#include "XULWin/ListItem.h"
-#include "XULWin/ScrollBar.h"
-
-
-namespace XULWin
-{
-
+    // Create the implemenations
     XULWIN_IMPLEMENT_ELEMENT(Label)
     XULWIN_IMPLEMENT_ELEMENT(Button)
     XULWIN_IMPLEMENT_ELEMENT(CheckBox)

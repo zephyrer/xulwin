@@ -375,6 +375,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\MarginDecorator.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\Menu.h"
 					>
 				</File>
@@ -524,6 +528,10 @@
 				</File>
 				<File
 					RelativePath=".\src\ListView.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MarginDecorator.cpp"
 					>
 				</File>
 				<File

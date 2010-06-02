@@ -1,11 +1,18 @@
 #include "XULWin/CheckBox.h"
 #include "XULWin/AttributeController.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
+
+    Component * CreateCheckBox(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new CheckBox(inComponent, inAttr));
+    }
+
 
     CheckBox::CheckBox(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,

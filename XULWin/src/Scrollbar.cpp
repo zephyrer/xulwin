@@ -1,4 +1,5 @@
 #include "XULWin/Scrollbar.h"
+#include "XULWin/Decorator.h"
 #include "XULWin/Conversions.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/ErrorReporter.h"
@@ -7,6 +8,12 @@
 
 namespace XULWin
 {
+    
+    Component * CreateScrollBar(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new ScrollBar(inComponent, inAttr));
+    }
+
 
     DWORD Scrollbar::GetFlags(const AttributesMapping & inAttributesMapping)
     {

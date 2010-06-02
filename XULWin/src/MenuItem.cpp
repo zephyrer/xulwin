@@ -1,9 +1,16 @@
 #include "XULWin/MenuItem.h"
+#include "XULWin/Decorator.h"
 #include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
+    
+    Component * CreateMenuItem(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new MenuItem(inComponent, inAttr));
+    }
+
 
     MenuItem::MenuItemsById MenuItem::sMenuItemsById;
 

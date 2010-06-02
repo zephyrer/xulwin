@@ -13,6 +13,7 @@ namespace XULWin
     class Component;
     class ComponentFactory;
     class Decorator;
+    class MarginDecorator;
     class Element;
     class ElementFactory;
     class EventListener;

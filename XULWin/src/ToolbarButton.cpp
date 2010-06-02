@@ -1,4 +1,4 @@
-#include "XULWin/ToolbarItem.h"
+#include "XULWin/ToolbarButton.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"

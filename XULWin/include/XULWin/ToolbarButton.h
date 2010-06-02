@@ -1,5 +1,5 @@
-#ifndef TOOLBARITEM_H_INCLUDED
-#define TOOLBARITEM_H_INCLUDED
+#ifndef TOOLBARBUTTON_H_INCLUDED
+#define TOOLBARBUTTON_H_INCLUDED
 
 
 #include "XULWin/VirtualComponent.h"
@@ -71,4 +71,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // TOOLBARITEM_H_INCLUDED
+#endif // TOOLBARBUTTON_H_INCLUDED

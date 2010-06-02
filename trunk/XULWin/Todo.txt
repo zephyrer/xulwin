@@ -1,4 +1,4 @@
-- Rename ToolbarItem.{h,cpp} to ToolbarButton.{h,cpp}
+
 - Choose between "WinAPI" and "Windows", but don't mix them.
 - ConcreteComponent must have two derived classes: FreeComponent and EnclosedComponent/SurroundedComponent.
 - Add SubComponent class (MenuItem, ToolbarButton, ..)
@@ -10,6 +10,7 @@
   and ConcreteComponent::setAttribute()
 v Clean up includes in Component.h
 v Create core/contrib folders
+v Rename ToolbarItem.{h,cpp} to ToolbarButton.{h,cpp}
 
 
 WinAPI System Classes

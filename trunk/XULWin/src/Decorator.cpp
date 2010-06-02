@@ -802,19 +802,6 @@ namespace XULWin
     }
 
 
-    WrapDecorator::WrapDecorator(Component * inParent, Component * inDecoratedComponent) :
-        Decorator(inDecoratedComponent),
-        mParent(inParent)
-    {
-    }
-
-
-    void WrapDecorator::addChild(ElementPtr inChild)
-    {
-        mDecoratorChildren.push_back(inChild);
-    }
-
-
     ScrollDecorator::ScrollDecorator(Component * inParent,
                                      Component * inDecoratedComponent,
                                      CSSOverflow inOverflowX,

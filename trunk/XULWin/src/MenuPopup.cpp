@@ -66,7 +66,7 @@ namespace XULWin
 
     void MenuPopup::show(RECT inExcludeRect)
     {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(this))
+        if (NativeComponent * comp = NativeControl::FindNativeParent(this))
         {
             POINT location;
             location.x = inExcludeRect.left;

@@ -109,16 +109,11 @@ namespace XULWin
 
     int ToolbarButton::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
+        const XULWin::NativeComponent * nativeComp = NativeControl::FindNativeParent(this);
+        if (const XULWin::Toolbar * toolbar = nativeComp->downcast<Toolbar>())
         {
-            int textWidth = Windows::getTextSize(toolbar->handle(), getLabel()).cx;
-            int imageWidth = 0;
-            if (mButton && mButton->image())
-            {
-                imageWidth = mButton->image()->GetWidth();
-            }
-            return std::max<int>(textWidth, imageWidth);
-
+            int r = Windows::getToolbarButtonSize(toolbar->handle(), componentId());
+            return r;
         }
         return 0;
     }
@@ -126,22 +121,11 @@ namespace XULWin
 
     int ToolbarButton::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int result = Defaults::toolbarHeight();
-        if (Toolbar * toolbar = parent()->downcast<Toolbar>())
+        int result = std::max<int>(Defaults::toolbarHeight(),
+                                   Windows::getTextSize(getLabel()).cy);
+        if (mButton && mButton->image())
         {
-            int textHeight = Windows::getTextSize(toolbar->handle(), getLabel()).cy;
-            if (textHeight > result)
-            {
-                result = textHeight;
-            }
-            if (mButton && mButton->image())
-            {
-                int imageHeight = mButton->image()->GetHeight();
-                if (imageHeight > result)
-                {
-                    result = imageHeight;
-                }
-            }
+            result = std::max<int>(result, mButton->image()->GetHeight());
         }
         return result;
     }

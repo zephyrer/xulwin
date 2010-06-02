@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoXML", "3rdParty\Poco\XM
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scripts", "Scripts\Scripts_vs90.vcproj", "{5891F94C-74ED-4A62-9D28-C413746D0B7C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI", "WinAPI\WinAPI_vs90.vcproj", "{AAA35BC5-45D8-46C2-95CF-2E1D6919D1B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +51,10 @@ Global
 		{5891F94C-74ED-4A62-9D28-C413746D0B7C}.Debug|Win32.Build.0 = Debug|Win32
 		{5891F94C-74ED-4A62-9D28-C413746D0B7C}.Release|Win32.ActiveCfg = Release|Win32
 		{5891F94C-74ED-4A62-9D28-C413746D0B7C}.Release|Win32.Build.0 = Release|Win32
+		{AAA35BC5-45D8-46C2-95CF-2E1D6919D1B2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AAA35BC5-45D8-46C2-95CF-2E1D6919D1B2}.Debug|Win32.Build.0 = Debug|Win32
+		{AAA35BC5-45D8-46C2-95CF-2E1D6919D1B2}.Release|Win32.ActiveCfg = Release|Win32
+		{AAA35BC5-45D8-46C2-95CF-2E1D6919D1B2}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

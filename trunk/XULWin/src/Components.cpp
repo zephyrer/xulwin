@@ -970,7 +970,7 @@ namespace XULWin
         mSelectedIndex(0),
         mChildCount(0)
     {
-        NativeComponent * nativeParent = NativeControl::GetThisOrParent(inParent);
+        NativeComponent * nativeParent = NativeControl::FindNativeParent(inParent);
         if (!nativeParent)
         {
             ReportError("TabPanels constructor failed because no native parent was found.");
@@ -1173,7 +1173,7 @@ namespace XULWin
         // There should be some more decent way to fix this. But for now
         // I just remove the flag from the parent. This may result in more
         // flickering during manual resize of the XMLWindow.
-        Windows::removeWindowStyle(NativeControl::GetThisOrParent(inParent)->handle(), WS_CLIPCHILDREN);
+        Windows::removeWindowStyle(NativeControl::FindNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
 
 
         mGroupBoxHandle = CreateWindowEx(0,
@@ -1181,7 +1181,7 @@ namespace XULWin
                                          0,
                                          WS_VISIBLE | WS_CHILD | BS_GROUPBOX,
                                          0, 0, 0, 0,
-                                         NativeControl::GetThisOrParent(inParent)->handle(),
+                                         NativeControl::FindNativeParent(inParent)->handle(),
                                          (HMENU)mComponentId.value(),
                                          NativeComponent::GetModuleHandle(),
                                          0);
@@ -1302,7 +1302,7 @@ namespace XULWin
 
     int Caption::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(mParent))
+        if (NativeComponent * comp = NativeControl::FindNativeParent(mParent))
         {
             return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
         }
@@ -1312,7 +1312,7 @@ namespace XULWin
 
     int Caption::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(mParent))
+        if (NativeComponent * comp = NativeControl::FindNativeParent(mParent))
         {
             return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
         }
@@ -1497,7 +1497,7 @@ namespace XULWin
 
     bool TreeItem::isOpened() const
     {
-        //if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeItem*>(this)))
+        //if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<TreeItem*>(this)))
         //{
         //    TreeView_GetItemState(comp->handle(), hti, mask);
         //}
@@ -1597,7 +1597,7 @@ namespace XULWin
     int TreeCell::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         int result = 0;
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(const_cast<TreeCell *>(this)))
+        if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<TreeCell *>(this)))
         {
             result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
         }

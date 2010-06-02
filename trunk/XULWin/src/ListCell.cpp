@@ -22,7 +22,7 @@ namespace XULWin
     int ListCell::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         //int result = 0;
-        //if (NativeComponent * comp = NativeControl::GetThisOrParent(parent()))
+        //if (NativeComponent * comp = NativeControl::FindNativeParent(parent()))
         //{
         //    int w = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::listViewColumnTextPadding();
         //    if (w > result)

@@ -143,7 +143,7 @@ namespace XULWin
     // FIXME! This does not belong here!
     HWND ConcreteComponent::getFirstParentHandle()
     {
-        if (NativeComponent * comp = NativeControl::GetThisOrParent(parent()))
+        if (NativeComponent * comp = NativeControl::FindNativeParent(parent()))
         {
             return comp->handle();
         }

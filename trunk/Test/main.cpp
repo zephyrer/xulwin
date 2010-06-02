@@ -1,7 +1,7 @@
 #include "Tester.h"
 #include "ConfigSample.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/Toolbar/XMLToolbar.h"
+#include "XULWin/XMLToolbar.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Windows.h"
 #include <boost/bind.hpp>

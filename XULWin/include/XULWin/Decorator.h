@@ -205,22 +205,6 @@ namespace XULWin
     };
 
 
-    class WrapDecorator : public Decorator
-    {
-    public:
-        typedef Decorator Super;
-
-        WrapDecorator(Component * inParent, Component * inDecoratedComponent);
-
-        // takes ownership
-        void addChild(ElementPtr inChild);
-
-    protected:
-        Component * mParent;
-        std::vector<ElementPtr> mDecoratorChildren;
-    };
-
-
     class ScrollDecorator : public Decorator,
                             public ScrollBar::EventListener
     {

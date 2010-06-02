@@ -6,14 +6,14 @@
 namespace XULWin
 {
 
-    ToolbarCustomWindowDecorator::ToolbarCustomWindowDecorator(Component * inDecoratedElement, boost::weak_ptr<Windows::Toolbar> inToolbar) :
-        Decorator(inDecoratedElement),
+    ToolbarCustomWindowDecorator::ToolbarCustomWindowDecorator(Component * inDecoratedComponent, boost::weak_ptr<Windows::Toolbar> inToolbar) :
+        Decorator(inDecoratedComponent),
         IECustomWindow(),
         mCustomWindow(0) 
     {
-        if (NativeComponent * native = mDecoratedElement->downcast<NativeComponent>())
+        if (NativeComponent * native = mDecoratedComponent->downcast<NativeComponent>())
         {
-            mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedElement->componentId(), native->handle());
+            mCustomWindow = new ConcreteCustomWindow(inToolbar, mDecoratedComponent->componentId(), native->handle());
         }
     }
 
@@ -95,12 +95,12 @@ namespace XULWin
         {
             if (XULWin::Toolbar * toolbar = parent()->downcast<XULWin::Toolbar>())
             {
-                mDecoratedElement->move(0, 0, mDecoratedElement->getWidth(), mDecoratedElement->getHeight());
-                mDecoratedElement->rebuildLayout();
+                mDecoratedComponent->move(0, 0, mDecoratedComponent->getWidth(), mDecoratedComponent->getHeight());
+                mDecoratedComponent->rebuildLayout();
                 toolbar->nativeToolbar()->add(mCustomWindow);
             }
         }
-        return mDecoratedElement->init();
+        return mDecoratedComponent->init();
     }
 
 } // namespace XULWin

@@ -4,8 +4,8 @@
 namespace XULWin
 {
 
-    Proxy::Proxy(Component * inDecoratedElement) :
-        Super(inDecoratedElement)
+    Proxy::Proxy(Component * inDecoratedComponent) :
+        Super(inDecoratedComponent)
     {
     }
 
@@ -13,10 +13,10 @@ namespace XULWin
     ComponentPtr Proxy::swap(ComponentPtr inNewElement)
     {
         assert(inNewElement);
-        ComponentPtr old = mDecoratedElement;
-        mDecoratedElement = inNewElement;
-        assert(mDecoratedElement);
-        mDecoratedElement->setOwningElement(old->el());
+        ComponentPtr old = mDecoratedComponent;
+        mDecoratedComponent = inNewElement;
+        assert(mDecoratedComponent);
+        mDecoratedComponent->setOwningElement(old->el());
         return old;
     }
 
@@ -24,10 +24,10 @@ namespace XULWin
     ComponentPtr Proxy::swap(Component * inNewElement)
     {
         assert(inNewElement);
-        ComponentPtr old = mDecoratedElement;
-        mDecoratedElement.reset(inNewElement);
-        assert(mDecoratedElement);
-        mDecoratedElement->setOwningElement(old->el());
+        ComponentPtr old = mDecoratedComponent;
+        mDecoratedComponent.reset(inNewElement);
+        assert(mDecoratedComponent);
+        mDecoratedComponent->setOwningElement(old->el());
         return old;
     }
 

@@ -438,7 +438,7 @@ namespace XULWin
         else if (Decorator * dec = el()->component()->downcast<Decorator>())
         {
             ComponentPtr newDec(new MarginDecorator(dec->decoratedElement()));
-            dec->setDecoratedElement(newDec);
+            dec->setDecoratedComponent(newDec);
             if (MarginDecorator * p = newDec->downcast<MarginDecorator>())
             {
                 p->setMargin(inTop, inLeft, inRight, inBottom);

@@ -400,7 +400,7 @@ namespace XULWin
                 inParent,                                                                       \
                 CreateComponent<ELEMENT>(inParent->component(), inAttr))                        \
     {                                                                                           \
-    }
+    }                                                                                           \
 
 
 //

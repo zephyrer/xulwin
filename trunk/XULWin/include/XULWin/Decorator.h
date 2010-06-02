@@ -15,11 +15,23 @@ namespace XULWin
     public:
         typedef Component Super;
 
-        // Takes ownership.
-        Decorator(Component * inDecoratedElement);
+        static ComponentPtr Create(Component * inDecoratedComponent)
+        {
+            ComponentPtr result(new Decorator(inDecoratedComponent));
+            return result;
+        }
 
-        // This constructor is needed when inserting a new object in the Decorator chain.
-        Decorator(ComponentPtr inDecoratedElement);
+        static ComponentPtr Create(ComponentPtr inDecoratedComponent)
+        {
+            ComponentPtr result(new Decorator(inDecoratedComponent));
+            return result;
+        }
+
+        // This is the usual constructor, called by factory methods.
+        Decorator(Component * inDecoratedComponent);
+
+        // This allows you to create a component first and wrap in a decorator later.
+        Decorator(ComponentPtr inDecoratedComponent);
 
         virtual ~Decorator();
 
@@ -169,10 +181,10 @@ namespace XULWin
 
         ComponentPtr decoratedElement() const;
 
-        void setDecoratedElement(ComponentPtr inElement);
+        void setDecoratedComponent(ComponentPtr inElement);
 
         // Takes ownership, and destroys any previously set element
-        void setDecoratedElement(Component * inElement);
+        void setDecoratedComponent(Component * inElement);
 
         virtual bool getAttribute(const std::string & inName, std::string & outValue);
 
@@ -189,7 +201,7 @@ namespace XULWin
         virtual void onContentChanged();
 
     protected:
-        ComponentPtr mDecoratedElement;
+        ComponentPtr mDecoratedComponent;
     };
 
 
@@ -198,7 +210,7 @@ namespace XULWin
     public:
         typedef Decorator Super;
 
-        WrapDecorator(Component * inParent, Component * inDecoratedElement);
+        WrapDecorator(Component * inParent, Component * inDecoratedComponent);
 
         // takes ownership
         void addChild(ElementPtr inChild);
@@ -217,7 +229,7 @@ namespace XULWin
 
         // Takes ownership.
         ScrollDecorator(Component * inParent,
-                        Component * inDecoratedElement,
+                        Component * inDecoratedComponent,
                         CSSOverflow inOverflowX,
                         CSSOverflow inOverflowY);
 
@@ -260,10 +272,10 @@ namespace XULWin
         typedef Decorator Super;
 
         // Takes ownership.
-        MarginDecorator(Component * inDecoratedElement);
+        MarginDecorator(Component * inDecoratedComponent);
 
         // This constructor is needed for insertion of new objects in the Decorator chain.
-        MarginDecorator(ComponentPtr inDecoratedElement);
+        MarginDecorator(ComponentPtr inDecoratedComponent);
 
         virtual ~MarginDecorator();
 

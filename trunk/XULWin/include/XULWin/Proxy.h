@@ -14,7 +14,7 @@ namespace XULWin
         typedef Decorator Super;
 
         // Takes ownership.
-        Proxy(Component * inDecoratedElement);
+        Proxy(Component * inDecoratedComponent);
 
         // Returns previous instance.
         ComponentPtr swap(ComponentPtr inNewElement);

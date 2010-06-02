@@ -1,6 +1,6 @@
 #include "XULWin/XMLToolbar.h"
 #include "XULWin/Toolbar.h"
-#include "XULWin/ToolbarItem.h"
+#include "XULWin/ToolbarButton.h"
 #include "XULWin/ComponentFactory.h"
 #include <boost/bind.hpp>
 #include <boost/function.hpp>

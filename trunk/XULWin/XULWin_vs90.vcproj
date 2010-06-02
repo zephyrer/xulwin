@@ -439,11 +439,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
+					RelativePath=".\include\XULWin\ToolbarButton.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ToolbarItem.h"
+					RelativePath=".\include\XULWin\ToolbarCustomWindowDecorator.h"
 					>
 				</File>
 				<File
@@ -591,11 +591,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
+					RelativePath=".\src\ToolbarButton.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\ToolbarItem.cpp"
+					RelativePath=".\src\ToolbarCustomWindowDecorator.cpp"
 					>
 				</File>
 				<File

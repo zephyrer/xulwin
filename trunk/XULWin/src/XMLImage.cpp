@@ -1,6 +1,7 @@
 #include "XULWin/XMLImage.h"
 #include "XULWin/Image.h"
 #include "XULWin/ComponentFactory.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/Decorator.h"
 
 

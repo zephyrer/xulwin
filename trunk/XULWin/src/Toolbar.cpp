@@ -1,4 +1,5 @@
 #include "XULWin/Toolbar.h"
+#include "XULWin/Decorator.h"
 
 
 namespace XULWin
@@ -63,6 +64,12 @@ namespace XULWin
     //    }
     //    return false;
     //}
+
+
+    Component * CreateToolbar(Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new Toolbar(inParent, inAttr));
+    }
 
 
     Toolbar::Toolbar(Component * inParent, const AttributesMapping & inAttr) :

@@ -1,5 +1,5 @@
 #include "XULWin/MenuPopup.h"
-#include "XULWin/Decorator.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/Element.h"
 #include "XULWin/Menu.h"
 #include "XULWin/MenuItem.h"
@@ -7,6 +7,12 @@
 
 namespace XULWin
 {
+    
+    Component * CreateMenuPopup(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new MenuPopup(inComponent, inAttr));
+    }
+
 
     MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttr) :
         PhonyComponent(inParent, inAttr)

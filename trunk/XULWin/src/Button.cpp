@@ -1,4 +1,5 @@
 #include "XULWin/Button.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Windows.h"
 #include "XULWin/WinUtils.h"
@@ -7,6 +8,12 @@
 
 namespace XULWin
 {
+
+    Component * CreateButton(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new Button(inComponent, inAttr));
+    }
+
 
     Button::Button(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent,

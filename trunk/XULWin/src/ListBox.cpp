@@ -1,12 +1,17 @@
 #include "XULWin/ListBox.h"
 #include "XULWin/Element.h"
 #include "XULWin/ListItem.h"
-#include "XULWin/Decorator.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
+    
+    Component * CreateListBox(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new ListBox(inComponent, inAttr));
+    }
 
 
     ListBox::ListBox(Component * inParent, const AttributesMapping & inAttr) :

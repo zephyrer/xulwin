@@ -1,5 +1,5 @@
 #include "XULWin/MenuList.h"
-#include "XULWin/Decorator.h"
+#include "XULWin/MarginDecorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Element.h"
 #include "XULWin/MenuItem.h"
@@ -9,6 +9,12 @@
 
 namespace XULWin
 {
+
+    Component * CreateMenuList(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new MenuList(inComponent, inAttr));
+    }
+
 
     MenuList::MenuList(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(

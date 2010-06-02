@@ -13,6 +13,12 @@
 namespace XULWin
 {
 
+    Component * CreateToolbarButton(Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new ToolbarButton(inParent, inAttr));
+    }
+
+
     ToolbarButton::ToolbarButton(Component * inParent, const AttributesMapping & inAttr) :
         VirtualComponent(inParent, inAttr),
         mButton(0),

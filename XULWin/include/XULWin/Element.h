@@ -29,37 +29,9 @@ namespace XULWin
      * registered a matching AttributeController (see AttributeController.h) for the
      * modified attribute.
      *
-     * Classes that inherit Element must have an "Element" suffix in their class name.
-     * The classes that inherit Component do not need to have any suffix:
-     *
-     *      Element              Component
-     *      -------              ---------
-     *      XMLLabel         Label
-     *      XMLButton        Button
-     *      XMLWindow        Window
-     *      ...                  ...
-     *
-     * Setting the "label" attribute on a XMLButton object will cause invocation
-     * of the Button::setLabel method which in turn updates the UI.
-     *
-     * Example:
-     *
-     *     myButtonElement->setAttribute("label", "hello");
-     *     => calls: LabelController::set("label", "hello");
-     *     => calls abstract method: LabelController::setLabel("hello");
-     *     => invokes: Button::setLabel("hello");
-     *     => calls relevant WinAPI function
-     *     => UI update.
-     *
-     * This requires that the Button class inherits and implements the LabelController class.
-     *
      * Not all attributes need to have a corresponding AttributeController class.
      * If the Component object has not registered the AttributeController then
      * any changes to the attribute will simply be stored as a normal XML attribute.
-     *
-     * For example the "id" attribute does not affect the UI so it doesn't need to be
-     * propagated. It is simply stored in a attributes mapping object which is defined
-     * as a member of the Element class.
      */
     class Element : private boost::noncopyable
     {

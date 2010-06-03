@@ -89,7 +89,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     XULWin::Initializer initializer(hInstance);
 
     // Ensure that the common control DLL is loaded.
-    XULWin::Windows::CommonControlsInitializer ccInit;
+    XULWin::WinAPI::CommonControlsInitializer ccInit;
 
     runXULViewer(hInstance);
     return 0;

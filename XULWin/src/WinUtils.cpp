@@ -10,7 +10,7 @@
 namespace XULWin
 {
 
-    namespace Windows
+    namespace WinAPI
     {
 
         CommonControlsInitializer::CommonControlsInitializer()
@@ -31,7 +31,7 @@ namespace XULWin
             std::wstring newDir = ToUTF16(inTargetDir);
             if (0 == ::SetCurrentDirectory(newDir.c_str()))
             {
-                std::string msg = "Failed to change the directory to '" + inTargetDir + "'. Reason: " + Windows::getLastError(::GetLastError());
+                std::string msg = "Failed to change the directory to '" + inTargetDir + "'. Reason: " + WinAPI::getLastError(::GetLastError());
                 throw std::runtime_error(msg.c_str());
             }
         }
@@ -196,7 +196,7 @@ namespace XULWin
             std::wstring utf16Text = ToUTF16(inText);
             colInfo.pszText = const_cast<TCHAR *>(&utf16Text[0]);
             colInfo.cchTextMax = utf16Text.size();
-            colInfo.cx = Windows::getTextSize(inHandle, inText).cx + cColumnTextPadding;
+            colInfo.cx = WinAPI::getTextSize(inHandle, inText).cx + cColumnTextPadding;
             int res = ListView_InsertColumn(inHandle, inIndex, &colInfo);
 
             if (-1 == res)
@@ -755,7 +755,7 @@ namespace XULWin
 
         void setTimeout(TimerAction inAction, int inDelayInMilliseconds)
         {
-            UINT_PTR timerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &Windows::TimerCallback);
+            UINT_PTR timerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &WinAPI::TimerCallback);
             if (timerId != 0)
             {
                 assert(sTimers.find(timerId) == sTimers.end());
@@ -820,6 +820,6 @@ namespace XULWin
         }
 
 
-    } // namespace Windows
+    } // namespace WinAPI
 
 } // namespace XULWin

@@ -32,7 +32,7 @@ namespace XULWin
     void ConfigSample::run()
     {
         Poco::Path appPath(mPathToXULRunnerSamples, "configpanel");
-        Windows::CurrentDirectoryChanger curdir(appPath.toString());
+        WinAPI::CurrentDirectoryChanger curdir(appPath.toString());
         mConfigWindow = mRunner.loadApplication("application.ini");
         if (!mConfigWindow)
         {

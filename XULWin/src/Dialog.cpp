@@ -82,7 +82,7 @@ namespace XULWin
                                         0);
         }
 
-        std::string error = Windows::getLastError(::GetLastError());
+        std::string error = WinAPI::getLastError(::GetLastError());
 
 
         // set default font
@@ -165,13 +165,13 @@ namespace XULWin
 
     std::string Dialog::getTitle() const
     {
-        return Windows::getWindowText(handle());
+        return WinAPI::getWindowText(handle());
     }
 
 
     void Dialog::setTitle(const std::string & inTitle)
     {
-        Windows::setWindowText(handle(), inTitle);
+        WinAPI::setWindowText(handle(), inTitle);
     }
 
 
@@ -209,7 +209,7 @@ namespace XULWin
 
 
         rebuildLayout();
-        SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+        SIZE sz = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
         int w = getWidth() + sz.cx;
         int h = getHeight() + sz.cy;
         int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
@@ -267,7 +267,7 @@ namespace XULWin
             }
             case WM_GETMINMAXINFO:
             {
-                SIZE sizeDiff = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+                SIZE sizeDiff = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
                 MINMAXINFO * minMaxInfo = (MINMAXINFO *)lParam;
                 minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;

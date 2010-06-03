@@ -14,7 +14,7 @@
 namespace XULWin
 {
 
-    namespace Windows
+    namespace WinAPI
     {
 
         class CurrentDirectoryChanger
@@ -31,7 +31,7 @@ namespace XULWin
         };
 
 
-        // Initializes Windows Common Controls
+        // Initializes WinAPI Common Controls
         class CommonControlsInitializer
         {
         public:
@@ -207,7 +207,7 @@ namespace XULWin
 
         UInt32 getToolbarButtonSize(HWND inHandle, UInt32 inCommandId);
 
-    } // namespace Windows
+    } // namespace WinAPI
 
 } // namespace XULWin
 

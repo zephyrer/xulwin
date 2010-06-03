@@ -13,7 +13,7 @@
 namespace XULWin
 {
 
-    namespace Windows
+    namespace WinAPI
     {
 
         class AbstractToolbarItem;
@@ -111,7 +111,7 @@ namespace XULWin
             CustomWindowPositions mCustomWindowPositions;
         };
 
-    } // namespace Windows
+    } // namespace WinAPI
 
 } // namespace XULWin
 

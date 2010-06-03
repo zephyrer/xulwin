@@ -15,7 +15,7 @@ namespace XULWin
     class Element;
 
     /**
-     * Usually Windows message return 0 or 1, meaning the messages was handled, or not handled, respectively.
+     * Usually WinAPI message return 0 or 1, meaning the messages was handled, or not handled, respectively.
      * These values allow you to use symbolic names.
      */
     static const LRESULT cHandled = 0;
@@ -60,13 +60,13 @@ namespace XULWin
 
 
         /**
-         * Connect a callback to a specific Windows message.
+         * Connect a callback to a specific WinAPI message.
          */
         void connect(Element * inEl, UINT inMessage, const Action & inAction);
 
 
         /**
-         * Connect a callback to a Windows message on a XULWin Component where the sender of the
+         * Connect a callback to a WinAPI message on a XULWin Component where the sender of the
          * message does not equal the Component that is being listened to.
          * This applies to menus and toolbar buttons.
          * Unless you want to do something special, you don't need to call this method. For normal

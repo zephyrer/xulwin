@@ -56,7 +56,7 @@ namespace XULWin
                 lvItem.pszText = LPSTR_TEXTCALLBACK;
                 if (-1 == ListView_InsertItem(listView->handle(), &lvItem))
                 {
-                    ReportError("Inserting item into list view failed. Reason: " + Windows::getLastError(::GetLastError()));
+                    ReportError("Inserting item into list view failed. Reason: " + WinAPI::getLastError(::GetLastError()));
                 }
             }
         }
@@ -102,8 +102,8 @@ namespace XULWin
         int result = 0;
         if (ListBox * listBox = parent()->downcast<ListBox>())
         {
-            int width = Windows::getTextSize(listBox->handle(), getLabel()).cx;
-            int extraWidth = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(listBox->handle()).cx;
+            int width = WinAPI::getTextSize(listBox->handle(), getLabel()).cx;
+            int extraWidth = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(listBox->handle()).cx;
             result = width + extraWidth + cMargin;
         }
         return result;
@@ -115,7 +115,7 @@ namespace XULWin
         if (ListBox * listBox = parent()->downcast<ListBox>())
         {
             RECT rect;
-            Windows::getListBoxItemRect(listBox->handle(), Windows::getListBoxIndexOf(listBox->handle(), getLabel()), rect);
+            WinAPI::getListBoxItemRect(listBox->handle(), WinAPI::getListBoxIndexOf(listBox->handle(), getLabel()), rect);
             return rect.bottom - rect.top;
         }
         return 0;

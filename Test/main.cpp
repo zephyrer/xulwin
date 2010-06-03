@@ -68,7 +68,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ElementFactory::Instance().registerElement<XMLToolbarButton>();
 
     // Ensure that the common control DLL is loaded.
-    Windows::CommonControlsInitializer ccInit;
+    WinAPI::CommonControlsInitializer ccInit;
 
     Tester tester(hInstance, commandLine, Tester::Features_EnableJavaScript);
 

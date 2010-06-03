@@ -26,7 +26,7 @@ namespace XULWin
         // Change the current directory to the application dir.
         Poco::Path path(mPathToXULRunnerSamples);
         path.append(inAppName);
-        Windows::CurrentDirectoryChanger curdir(path.toString());
+        WinAPI::CurrentDirectoryChanger curdir(path.toString());
 
         if (mFeatures & Features_EnableJavaScript)
         {

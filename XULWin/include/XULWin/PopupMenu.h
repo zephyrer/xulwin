@@ -15,7 +15,7 @@ namespace XULWin
 {
     class Initializer;
 
-    namespace Windows
+    namespace WinAPI
     {
 
         class PopupMenu;
@@ -94,7 +94,7 @@ namespace XULWin
         };
 
 
-    } // namespace Windows
+    } // namespace WinAPI
 
 } // namespace XULWin
 

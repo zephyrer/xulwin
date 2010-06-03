@@ -20,15 +20,15 @@ namespace XULWin
     }
 
 
-    Windows::PopupMenu * MenuPopup::getMenu()
+    WinAPI::PopupMenu * MenuPopup::getMenu()
     {
-        Windows::PopupMenu * popupMenu = new Windows::PopupMenu;
+        WinAPI::PopupMenu * popupMenu = new WinAPI::PopupMenu;
         for (size_t idx = 0; idx != getChildCount(); ++idx)
         {
             ElementPtr child = el()->children()[idx];
             if (MenuItem * menuItem = child->component()->downcast<MenuItem>())
             {
-                popupMenu->append(new Windows::PopupMenuItem(menuItem->componentId(), menuItem->getLabel()));
+                popupMenu->append(new WinAPI::PopupMenuItem(menuItem->componentId(), menuItem->getLabel()));
             }
             else if (Menu * menu = child->component()->downcast<Menu>())
             {
@@ -78,7 +78,7 @@ namespace XULWin
             location.x = inExcludeRect.left;
             location.y = inExcludeRect.bottom;
             //::MapWindowPoints(comp->handle(), HWND_DESKTOP, &location, 1);
-            boost::scoped_ptr<Windows::PopupMenu> menu(getMenu());
+            boost::scoped_ptr<WinAPI::PopupMenu> menu(getMenu());
             menu->show(location, inExcludeRect);
         }
     }

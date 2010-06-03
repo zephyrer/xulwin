@@ -29,7 +29,7 @@ namespace XULWin
         virtual void onChildRemoved(Component * inChild);
 
     private:
-        Windows::PopupMenu * getMenu();
+        WinAPI::PopupMenu * getMenu();
     };
 
 } // namespace XULWin

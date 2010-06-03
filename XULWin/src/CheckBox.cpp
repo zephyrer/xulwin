@@ -32,19 +32,19 @@ namespace XULWin
 
     int CheckBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::checkBoxMinimumWidth() + Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx;
+        return Defaults::checkBoxMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cx;
     }
 
 
     bool CheckBox::isChecked() const
     {
-        return Windows::isCheckBoxChecked(handle());
+        return WinAPI::isCheckBoxChecked(handle());
     }
 
 
     void CheckBox::setChecked(bool inChecked)
     {
-        Windows::setCheckBoxChecked(handle(), inChecked);
+        WinAPI::setCheckBoxChecked(handle(), inChecked);
     }
 
 

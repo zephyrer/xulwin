@@ -44,10 +44,10 @@ namespace XULWin
                 if (MenuItem * item = child->component()->downcast<MenuItem>())
                 {
                     std::string label = item->getLabel();
-                    Windows::addStringToComboBox(handle(), label);
+                    WinAPI::addStringToComboBox(handle(), label);
                 }
             }
-            Windows::selectComboBoxItem(handle(), 0);
+            WinAPI::selectComboBoxItem(handle(), 0);
         }
     }
 
@@ -69,15 +69,15 @@ namespace XULWin
         // The height of a combobox in Win32 is the height of the dropdown menu
         // + the height of the widget itself.
 
-        int numItems = Windows::getComboBoxItemCount(handle());
+        int numItems = WinAPI::getComboBoxItemCount(handle());
         int dropdownHeight = 0;
         if (numItems > 0)
         {
-            dropdownHeight = numItems * Windows::getComboBoxItemHeight(handle(), 0); // use index 0
+            dropdownHeight = numItems * WinAPI::getComboBoxItemHeight(handle(), 0); // use index 0
         }
 
         // This is usually needed as well, I think :S
-        int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+        int extraHeight = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
 
         NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
     }
@@ -87,7 +87,7 @@ namespace XULWin
     {
         if (mIsInitialized)
         {
-            Windows::clearComboBox(handle());
+            WinAPI::clearComboBox(handle());
             fillComboBox();
         }
         // else: the init will take care of the initial fill

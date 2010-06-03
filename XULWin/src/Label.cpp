@@ -24,19 +24,19 @@ namespace XULWin
 
     std::string Label::getValue() const
     {
-        return Windows::getWindowText(handle());
+        return WinAPI::getWindowText(handle());
     }
 
 
     void Label::setValue(const std::string & inStringValue)
     {
-        Windows::setWindowText(handle(), inStringValue);
+        WinAPI::setWindowText(handle(), inStringValue);
     }
 
 
     CSSTextAlign Label::getCSSTextAlign() const
     {
-        LONG styles = Windows::getWindowStyles(handle());
+        LONG styles = WinAPI::getWindowStyles(handle());
         if (styles & SS_LEFT)
         {
             return CSSTextAlign_Left;
@@ -58,7 +58,7 @@ namespace XULWin
 
     void Label::setCSSTextAlign(CSSTextAlign inValue)
     {
-        LONG styles = Windows::getWindowStyles(handle());
+        LONG styles = WinAPI::getWindowStyles(handle());
         styles &= ~SS_LEFT;
         styles &= ~SS_CENTER;
         styles &= ~SS_RIGHT;
@@ -86,7 +86,7 @@ namespace XULWin
             //    break;
             //}
         }
-        Windows::setWindowStyle(handle(), styles);
+        WinAPI::setWindowStyle(handle(), styles);
     }
 
 
@@ -106,15 +106,15 @@ namespace XULWin
 
     int Label::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = Windows::getWindowText(handle());
-        int width = Windows::getTextSize(handle(), text).cx;
+        std::string text = WinAPI::getWindowText(handle());
+        int width = WinAPI::getTextSize(handle(), text).cx;
         return width;
     }
 
 
     int Label::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return Windows::getTextSize(handle(), Windows::getWindowText(handle())).cy;
+        return WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cy;
     }
 
 } // namespace XULWin

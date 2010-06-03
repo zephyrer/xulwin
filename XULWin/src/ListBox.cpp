@@ -28,7 +28,7 @@ namespace XULWin
         {
             if (ListItem * item = inChild->downcast<ListItem>())
             {
-                Windows::addStringToListBox(handle(), item->getLabel());
+                WinAPI::addStringToListBox(handle(), item->getLabel());
             }
         }
     }
@@ -76,7 +76,7 @@ namespace XULWin
                 result += getChild(0)->calculateHeight(inSizeConstraint);
             }
         }
-        int extraHeight = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+        int extraHeight = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
         return result + extraHeight;
     }
 

@@ -63,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // To make things a bit easier, we change the current directory.
     // This allows us to use relative paths for our application.
-    XULWin::Windows::CurrentDirectoryChanger cd(commandLine);
+    XULWin::WinAPI::CurrentDirectoryChanger cd(commandLine);
 
     // Now that we have the path to the app, let's try to run it.
     XULWin::XULRunner xulRunner(hInstance);

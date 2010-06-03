@@ -116,32 +116,32 @@ namespace XULWin
 
     bool NativeComponent::isDisabled() const
     {
-        return Windows::isWindowDisabled(handle());
+        return WinAPI::isWindowDisabled(handle());
     }
 
 
     void NativeComponent::setDisabled(bool inDisabled)
     {
-        Windows::disableWindow(handle(), inDisabled);
+        WinAPI::disableWindow(handle(), inDisabled);
     }
 
 
     std::string NativeComponent::getLabel() const
     {
-        return Windows::getWindowText(handle());
+        return WinAPI::getWindowText(handle());
     }
 
 
     void NativeComponent::setLabel(const std::string & inLabel)
     {
-        Windows::setWindowText(handle(), inLabel);
+        WinAPI::setWindowText(handle(), inLabel);
     }
 
 
     void NativeComponent::setHidden(bool inHidden)
     {
         Super::setHidden(inHidden);
-        Windows::setWindowVisible(handle(), !inHidden);
+        WinAPI::setWindowVisible(handle(), !inHidden);
     }
 
 

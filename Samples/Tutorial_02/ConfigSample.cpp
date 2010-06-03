@@ -32,7 +32,7 @@ namespace XULWin
 
     void ConfigSample::run()
     {
-        Windows::CurrentDirectoryChanger curdir(mAppDir);
+        WinAPI::CurrentDirectoryChanger curdir(mAppDir);
         mConfigWindow = mXULRunner.loadApplication("application.ini");
         if (!mConfigWindow)
         {

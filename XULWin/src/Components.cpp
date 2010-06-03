@@ -33,13 +33,13 @@ namespace XULWin
 
     std::string Description::getValue() const
     {
-        return Windows::getWindowText(handle());
+        return WinAPI::getWindowText(handle());
     }
 
 
     void Description::setValue(const std::string & inStringValue)
     {
-        Windows::setWindowText(handle(), inStringValue);
+        WinAPI::setWindowText(handle(), inStringValue);
     }
 
 
@@ -58,7 +58,7 @@ namespace XULWin
 
     int Description::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return Windows::getMultilineTextHeight(handle());
+        return WinAPI::getMultilineTextHeight(handle());
     }
 
 
@@ -208,7 +208,7 @@ namespace XULWin
 
     int MenuButton::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx + Defaults::textPadding()*2;
+        return WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cx + Defaults::textPadding()*2;
     }
 
 
@@ -838,7 +838,7 @@ namespace XULWin
 
     int Radio::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::radioButtonMinimumWidth() + Windows::getTextSize(handle(), Windows::getWindowText(handle())).cx;
+        return Defaults::radioButtonMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cx;
     }
 
 
@@ -855,7 +855,7 @@ namespace XULWin
                       0, // exStyle
                       PBS_SMOOTH)
     {
-        Windows::initializeProgressMeter(mHandle, 100);
+        WinAPI::initializeProgressMeter(mHandle, 100);
     }
 
 
@@ -873,13 +873,13 @@ namespace XULWin
 
     int ProgressMeter::getValue() const
     {
-        return Windows::getProgressMeterProgress(handle());
+        return WinAPI::getProgressMeterProgress(handle());
     }
 
 
     void ProgressMeter::setValue(int inValue)
     {
-        Windows::setProgressMeterProgress(handle(), inValue);
+        WinAPI::setProgressMeterProgress(handle(), inValue);
     }
 
 
@@ -1013,7 +1013,7 @@ namespace XULWin
     {
         if (Tab * tab = getCorrespondingTab(mChildCount))
         {
-            Windows::appendTabPanel(mTabBarHandle, tab->el()->getAttribute("label"));
+            WinAPI::appendTabPanel(mTabBarHandle, tab->el()->getAttribute("label"));
             mChildCount++;
         }
         update();
@@ -1173,7 +1173,7 @@ namespace XULWin
         // There should be some more decent way to fix this. But for now
         // I just remove the flag from the parent. This may result in more
         // flickering during manual resize of the XMLWindow.
-        Windows::removeWindowStyle(NativeControl::FindNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
+        WinAPI::removeWindowStyle(NativeControl::FindNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
 
 
         mGroupBoxHandle = CreateWindowEx(0,
@@ -1203,13 +1203,13 @@ namespace XULWin
 
     void GroupBox::setCaption(const std::string & inLabel)
     {
-        Windows::setWindowText(mGroupBoxHandle, inLabel);
+        WinAPI::setWindowText(mGroupBoxHandle, inLabel);
     }
 
 
     int GroupBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int textWidth = Defaults::textPadding() + Windows::getTextSize(mGroupBoxHandle, Windows::getWindowText(mGroupBoxHandle)).cx;
+        int textWidth = Defaults::textPadding() + WinAPI::getTextSize(mGroupBoxHandle, WinAPI::getWindowText(mGroupBoxHandle)).cx;
         int contentWidth = mBoxLayouter.calculateWidth(inSizeConstraint);
         return mMarginLeft + std::max<int>(textWidth, contentWidth) + mMarginRight;
     }
@@ -1304,7 +1304,7 @@ namespace XULWin
     {
         if (NativeComponent * comp = NativeControl::FindNativeParent(mParent))
         {
-            return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
+            return WinAPI::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
         }
         return 0;
     }
@@ -1314,7 +1314,7 @@ namespace XULWin
     {
         if (NativeComponent * comp = NativeControl::FindNativeParent(mParent))
         {
-            return Windows::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
+            return WinAPI::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
         }
         return 0;
     }
@@ -1599,7 +1599,7 @@ namespace XULWin
         int result = 0;
         if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<TreeCell *>(this)))
         {
-            result = Windows::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
+            result = WinAPI::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
         }
         return result;
     }
@@ -1632,7 +1632,7 @@ namespace XULWin
 
     int Statusbar::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int ownHeight = Windows::getWindowHeight(handle());
+        int ownHeight = WinAPI::getWindowHeight(handle());
         int maxChildHeight = calculateMaxChildHeight(inSizeConstraint);
         return std::max<int>(ownHeight, maxChildHeight);
     }
@@ -1654,7 +1654,7 @@ namespace XULWin
     {
         Rect clientRect(Super::clientRect());
         // Substract from width one square to make place for the resize gripper widget
-        return Rect(clientRect.x(), clientRect.y(), clientRect.width() - Windows::getWindowHeight(handle()), clientRect.height());
+        return Rect(clientRect.x(), clientRect.y(), clientRect.width() - WinAPI::getWindowHeight(handle()), clientRect.height());
     }
 
 
@@ -1684,13 +1684,13 @@ namespace XULWin
 
     int StatusbarPanel::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Windows::getTextSize(handle(), getLabel()).cx;
+        return WinAPI::getTextSize(handle(), getLabel()).cx;
     }
 
 
     int StatusbarPanel::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return Windows::getTextSize(handle(), getLabel()).cy;
+        return WinAPI::getTextSize(handle(), getLabel()).cy;
     }
 
 

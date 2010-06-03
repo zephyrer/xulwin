@@ -35,7 +35,7 @@ namespace XULWin
 
         if (!mHandle)
         {
-            throw std::runtime_error(Windows::getLastError(::GetLastError()));
+            throw std::runtime_error(WinAPI::getLastError(::GetLastError()));
             return;
         }
 

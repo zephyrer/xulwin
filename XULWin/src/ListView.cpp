@@ -87,7 +87,7 @@ namespace XULWin
         {
             if (ListItem * item = inChild->downcast<ListItem>())
             {
-                Windows::addStringToListBox(handle(), item->getLabel());
+                WinAPI::addStringToListBox(handle(), item->getLabel());
             }
         }
     }
@@ -95,7 +95,7 @@ namespace XULWin
 
     void ListView::addListHeader(ListHeader * inListHeader)
     {
-        Windows::addColumnToListView(handle(), 0, inListHeader->getLabel());
+        WinAPI::addColumnToListView(handle(), 0, inListHeader->getLabel());
     }
 
 

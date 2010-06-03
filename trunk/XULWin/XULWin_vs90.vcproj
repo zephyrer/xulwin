@@ -259,34 +259,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ListCell.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCol.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListCols.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHead.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListHeader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListItem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\ListView.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\MarginDecorator.h"
 					>
 				</File>
@@ -408,34 +380,6 @@
 				</File>
 				<File
 					RelativePath=".\src\ListBox.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListCell.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListCol.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListCols.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListHead.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListHeader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListItem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListView.cpp"
 					>
 				</File>
 				<File
@@ -688,10 +632,6 @@
 				>
 				<File
 					RelativePath=".\include\XULWin\SVG.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\SVGElement.h"
 					>
 				</File>
 				<File

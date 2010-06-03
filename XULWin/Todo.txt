@@ -17,7 +17,7 @@ v Rename ToolbarItem.{h,cpp} to ToolbarButton.{h,cpp}
 
 Component class hierarchy
 -------------------------
-1. Implement multiple instead of making a complex class hierarchy (Google GO approach)
+1. Implement multiple interfaces instead of making a complex class hierarchy (Google GO approach)
     - Maybe introduce an INativeComponent?
 2. Don't create needless Component classes (like Tabs, Rows, etc
    We should only create a Component class if it represents a tangible concept, or
@@ -29,7 +29,7 @@ Component
     MarginDecorator
     ScrollDecorator
   ConcreteComponent
-    InfoComponent
+    PassiveComponent
       Script
     LayoutableComponent
       Container

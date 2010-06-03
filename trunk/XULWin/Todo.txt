@@ -4,6 +4,7 @@
 - Cleanup classes that incorrectly inherit PhonyComponent.
 - Add meaningful error handling in ConcreteComponent::setStyle()
   and ConcreteComponent::setAttribute()
+- Implement background-color and stroke CSS attributes
 v Remove this method: HWND ConcreteComponent::getFirstParentHandle();
   It does not belong in ConcreteComponent.
 v Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")
@@ -12,33 +13,38 @@ v Create core/contrib folders
 v Rename ToolbarItem.{h,cpp} to ToolbarButton.{h,cpp}
 
 
-WinAPI System Classes
----------------------
-Static, Button, ComboBox, Edit, ListBox, ScrollBar
-
-XUL Elements: Label, Button, CheckBox, MenuList (MenuPopup, MenuItem), TextBox, ListBox (+ ListItem), ScrollBar
-
-
-WinAPI Class        XULWin Element            XULWin Component        WinAPI class
-------------        --------------            ----------------        ------------
-Static              LabelElement              Label
-Button              ButtonElement             Button
-ComboBox            MenuListElement,          MenuList
-                     + MenuPopupElement,       + MenuPopup
-                     + MenuItemElement         + MenuItem
-Edit                TextBoxElement            TextBox
-ListBox             ListBoxElement,
-                     + ListItemElement
-ScrollBar           ScrollBarElement
-XULWin::Window      WindowElement
-XULWin::Dialog      DialogElement
-
-
-
-- Implement background-color and stroke CSS attributes
-- Make the build entirely self-sufficient
-	- Load Poco from external
-	- Ask for more disk space if needed
+Component class hierarchy
+-------------------------
+1. Implement multiple instead of making a complex class hierarchy (Google GO approach)
+    - Maybe introduce an INativeComponent?
+2. Don't create needless Component classes (like Tabs, Rows, etc
+   We should only create a Component class if it represents a tangible concept, or
+   has a non-trivial implementation.
+      
+    
+Component
+  Decorator
+    MarginDecorator
+    ScrollDecorator
+  ConcreteComponent
+    InfoComponent
+      Script
+    LayoutableComponent
+      Container
+        Box (Horizontal, Vertial as property)
+        Deck
+        Grid
+      Control
+        Button : INativeComponent
+        CheckBox
+    SubComponent
+      MenuItem
+      ToolbarButton
+    FloatingComponent
+      Menu
+      
+      
+    
 
 
 Todo

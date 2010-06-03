@@ -28,7 +28,9 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 
 void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
 {
-    tester.runXULSample("toolbar");
+    tester.runXULSample("MainWindow");
+    //tester.runXULSample("widgets");
+    //tester.runXULSample("toolbar");
     //runConfigSample(hInstance, inPathToXULRunnerSamples);
     //runImageViewerSample(hInstance, inPathToXULRunnerSamples);
     //tester.runXULSample("listbox-simple");
@@ -38,8 +40,6 @@ void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathT
     //tester.runXULSample("shout");
     //tester.runXULSample("svg");
     //tester.runXULSample("hello");
-    //tester.runXULSample("MainWindow");
-    //tester.runXULSample("widgets");
 }
 
 

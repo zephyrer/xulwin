@@ -37,6 +37,10 @@ namespace XULWin
 
         virtual bool init();
 
+        ComponentPtr swap(ComponentPtr inNewElement);
+
+        ComponentPtr swap(Component * inNewElement);
+
         virtual int getIndex() const;
 
         virtual size_t getChildCount() const;

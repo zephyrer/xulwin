@@ -48,23 +48,23 @@ namespace XULWin
      * attribute value to a string value (XML attributes are strings).
      */
     class Component : public NotificationListener,
-                      public virtual AlignController,
-                      public virtual CSSBackgroundColorController,
-                      public virtual CSSHeightController,
-                      public virtual CSSMarginController,
-                      public virtual CSSWidthController,
-                      public virtual CSSXController,
-                      public virtual CSSYController,
-                      public virtual CSSFillController,
-                      public virtual CSSStrokeController,
-                      public virtual FlexController,
-                      public virtual HeightController,
-                      public virtual HiddenController,
-                      public virtual OrientController,
-                      public virtual ScreenXController,
-                      public virtual ScreenYController,
-                      public virtual WidthController,
-                      private boost::noncopyable
+        public virtual AlignController,
+        public virtual CSSBackgroundColorController,
+        public virtual CSSHeightController,
+        public virtual CSSMarginController,
+        public virtual CSSWidthController,
+        public virtual CSSXController,
+        public virtual CSSYController,
+        public virtual CSSFillController,
+        public virtual CSSStrokeController,
+        public virtual FlexController,
+        public virtual HeightController,
+        public virtual HiddenController,
+        public virtual OrientController,
+        public virtual ScreenXController,
+        public virtual ScreenYController,
+        public virtual WidthController,
+        private boost::noncopyable
     {
     public:
         virtual ~Component() {}

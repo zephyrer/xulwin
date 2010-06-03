@@ -35,10 +35,10 @@ namespace XULWin
 
     Window::Window(const AttributesMapping & inAttr) :
         NativeComponent(0, inAttr),
-        mBoxLayouter(this), // FIXME: warning C4355: 'this' : used in base member initializer list
         mActiveDialog(0),
         mHasMessageLoop(false)
     {
+        mBoxLayouter.reset(new BoxLayouter(this));
         mHandle = ::CreateWindowEx
                   (
                       0,
@@ -119,7 +119,7 @@ namespace XULWin
 
     void Window::rebuildLayout()
     {
-        mBoxLayouter.rebuildLayout();
+        mBoxLayouter->rebuildLayout();
     }
 
 

@@ -7,6 +7,7 @@
 #include "XULWin/Enums.h"
 #include "XULWin/NativeComponent.h"
 #include "XULWin/XMLWindow.h"
+#include <boost/scoped_ptr.hpp>
 
 
 namespace XULWin
@@ -108,7 +109,7 @@ namespace XULWin
         friend class Dialog;
         void setBlockingDialog(Dialog * inDlg);
         Dialog * mActiveDialog;
-        BoxLayouter mBoxLayouter;
+        boost::scoped_ptr<BoxLayouter> mBoxLayouter;
         bool mHasMessageLoop;
     };
 

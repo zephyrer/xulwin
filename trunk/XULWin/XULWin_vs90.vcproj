@@ -271,10 +271,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\MenuBarElement.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\MenuItem.h"
 					>
 				</File>

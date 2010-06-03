@@ -48,7 +48,7 @@ namespace XULWin
         mIncrement(0)
     {
         mExpansive = true;
-        Windows::setScrollInfo(handle(), 100, 10, 0);
+        WinAPI::setScrollInfo(handle(), 100, 10, 0);
     }
 
 
@@ -71,7 +71,7 @@ namespace XULWin
             int totalHeight = 0;
             int pageHeight = 0;
             int currentPosition = 0;
-            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
             switch (LOWORD(wParam))
             {
                 case SB_LINEUP: // user clicked the top arrow
@@ -123,7 +123,7 @@ namespace XULWin
             int totalHeight = 0;
             int pageHeight = 0;
             int currentPosition = 0;
-            Windows::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
             currentPosition = currentPosition - numPages*pageHeight;
             if (currentPosition < 0)
             {
@@ -142,7 +142,7 @@ namespace XULWin
 
     int Scrollbar::getCurrentPosition() const
     {
-        return Windows::getScrollPos(handle());
+        return WinAPI::getScrollPos(handle());
     }
 
 
@@ -151,7 +151,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int oldCurPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
+        WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
 
         // The order in which curpos, maxpos and pageincrement
         // will be set (alphabetically by attribute name) can cause
@@ -171,7 +171,7 @@ namespace XULWin
         {
             totalHeight = inCurrentPosition + 1;
         }
-        Windows::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
+        WinAPI::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
         if ((oldCurPos != inCurrentPosition) && eventHandler())
         {
             eventHandler()->curposChanged(this, oldCurPos, inCurrentPosition);
@@ -184,7 +184,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int curPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
         return totalHeight;
     }
 
@@ -194,7 +194,7 @@ namespace XULWin
         int dummy = 0;
         int pageHeight = 0;
         int curPos = 0;
-        Windows::getScrollInfo(handle(), dummy, pageHeight, curPos);
+        WinAPI::getScrollInfo(handle(), dummy, pageHeight, curPos);
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
@@ -210,7 +210,7 @@ namespace XULWin
         {
             pageHeight = inMaxPosition - 1;
         }
-        Windows::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
+        WinAPI::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
     }
 
 
@@ -231,7 +231,7 @@ namespace XULWin
         int totalHeight = 0;
         int dummy = 0;
         int curPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, dummy, curPos);
+        WinAPI::getScrollInfo(handle(), totalHeight, dummy, curPos);
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
@@ -251,7 +251,7 @@ namespace XULWin
         {
             totalHeight = inPageIncrement + 1;
         }
-        Windows::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
+        WinAPI::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
     }
 
 
@@ -260,7 +260,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int curPos = 0;
-        Windows::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
         return pageHeight;
     }
 

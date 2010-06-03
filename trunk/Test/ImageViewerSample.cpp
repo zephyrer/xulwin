@@ -29,7 +29,7 @@ namespace XULWin
     void ImageViewerSample::run()
     {
         Poco::Path appPath(mPathToXULRunnerSamples, "imageviewer");
-        Windows::CurrentDirectoryChanger curdir(appPath.toString());
+        WinAPI::CurrentDirectoryChanger curdir(appPath.toString());
 
         //system("run.bat");
 

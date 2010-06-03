@@ -14,7 +14,7 @@
 namespace XULWin
 {
 
-    namespace Windows
+    namespace WinAPI
     {
 
         extern const int cDownArrowWidth = 10;
@@ -261,7 +261,7 @@ namespace XULWin
                     buttonInfo.cx = item->getLeftMargin() + item->getRightMargin();
                     if (!item->text().empty())
                     {
-                        buttonInfo.cx += (WORD)Windows::getTextSize(inToolbarHandle, item->text()).cx;
+                        buttonInfo.cx += (WORD)WinAPI::getTextSize(inToolbarHandle, item->text()).cx;
                     }
                     if (item->image())
                     {
@@ -677,7 +677,7 @@ namespace XULWin
                                             {
                                                 if (item->noHover())
                                                 {
-                                                    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, Windows::getTextSize(pThis->handle(), item->text()));
+                                                    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, WinAPI::getTextSize(pThis->handle(), item->text()));
                                                     return CDRF_SKIPDEFAULT;
                                                 }
                                             }
@@ -695,7 +695,7 @@ namespace XULWin
                                         AbstractToolbarItem * abstractItem = it->get();
                                         if (ConcreteToolbarItem * item = dynamic_cast<ConcreteToolbarItem *>(abstractItem))
                                         {
-                                            item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, Windows::getTextSize(pThis->handle(), item->text()));
+                                            item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, WinAPI::getTextSize(pThis->handle(), item->text()));
                                         }
                                         return CDRF_DODEFAULT;
                                     }
@@ -711,6 +711,6 @@ namespace XULWin
         }
 
 
-    } // namespace Windows
+    } // namespace WinAPI
 
 } // namespace XULWin

@@ -41,7 +41,7 @@ namespace XULWin
             //radio: Use this type to create a radio button. You can also create a group of toolbarbutton using this type and the attribute group.
             if (buttonType == "menu")
             {
-                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+                mButton = new WinAPI::ToolbarDropDown(toolbar->nativeToolbar(),
                                                        this,
                                                        mComponentId.value(),
                                                        label,
@@ -51,7 +51,7 @@ namespace XULWin
             }
             else if (buttonType == "menu-button")
             {
-                mButton = new Windows::ToolbarDropDown(toolbar->nativeToolbar(),
+                mButton = new WinAPI::ToolbarDropDown(toolbar->nativeToolbar(),
                                                        this,
                                                        mComponentId.value(),
                                                        label,
@@ -61,7 +61,7 @@ namespace XULWin
             }
             else // buttonType.empty() or buttonType == "button"
             {
-                mButton = new Windows::XMLToolbarButton(toolbar->nativeToolbar(),
+                mButton = new WinAPI::XMLToolbarButton(toolbar->nativeToolbar(),
                                                             mComponentId.value(),
                                                             boost::function<void()>(),
                                                             label,
@@ -118,7 +118,7 @@ namespace XULWin
         const XULWin::NativeComponent * nativeComp = NativeControl::FindNativeParent(this);
         if (const XULWin::Toolbar * toolbar = nativeComp->downcast<Toolbar>())
         {
-            int r = Windows::getToolbarButtonSize(toolbar->handle(), componentId());
+            int r = WinAPI::getToolbarButtonSize(toolbar->handle(), componentId());
             return r;
         }
         return 0;
@@ -128,7 +128,7 @@ namespace XULWin
     int ToolbarButton::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         int result = std::max<int>(Defaults::toolbarHeight(),
-                                   Windows::getTextSize(getLabel()).cy);
+                                   WinAPI::getTextSize(getLabel()).cy);
         if (mButton && mButton->image())
         {
             result = std::max<int>(result, mButton->image()->GetHeight());

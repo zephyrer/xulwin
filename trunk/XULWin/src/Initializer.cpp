@@ -30,11 +30,11 @@ namespace XULWin
     Initializer::Initializer(HINSTANCE inModuleHandle)
     {
         XULRunner::SetModuleHandle(inModuleHandle);
-        Windows::CommonControlsInitializer mInitCommonControls;
+        WinAPI::CommonControlsInitializer mInitCommonControls;
         ErrorReporter::Initialize();
         Window::Register(inModuleHandle);
         Dialog::Register(inModuleHandle);
-        Windows::PopupMenu::Register(inModuleHandle);
+        WinAPI::PopupMenu::Register(inModuleHandle);
         ElementFactory::Instance().registerElement<XMLWindow>();
         ElementFactory::Instance().registerElement<XMLDialog>();
         ElementFactory::Instance().registerElement<XMLButton>();

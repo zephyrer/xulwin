@@ -28,7 +28,7 @@ namespace XULWin
     //    if (message == WM_COMMAND)
     //    {
     //        WORD id = LOWORD(wParam);
-    //        XULWin::Windows::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
+    //        XULWin::WinAPI::AbstractToolbarItem * item = toolbar->nativeToolbar()->getToolbarItemByCommandId(id);
     //        if (!item)
     //        {
     //            // The command was not sent from one of the toolbar buttons. (It may have been
@@ -77,7 +77,7 @@ namespace XULWin
     {
         if (NativeComponent * native = NativeControl::FindNativeParent(inParent))
         {
-            mToolbar.reset(new Windows::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mComponentId.value()));
+            mToolbar.reset(new WinAPI::Toolbar(this, NativeComponent::GetModuleHandle(), native->handle(), mComponentId.value()));
             setHandle(mToolbar->handle(), false);
             registerHandle();
             subclass();

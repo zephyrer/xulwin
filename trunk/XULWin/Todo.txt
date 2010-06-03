@@ -1,10 +1,12 @@
-- Choose between "WinAPI" and "Windows", but don't mix them.
-- ConcreteComponent must have two derived classes: FreeComponent and EnclosedComponent/SurroundedComponent.
+- Speed up compilation times
+    - Use pimpl where possible
+    - Move template methods (downcast, getElementsByType, etc...) as functions in separate header files
+    - Avoid boost includes in header files
 - Add SubComponent class (MenuItem, ToolbarButton, ..)
 - Cleanup classes that incorrectly inherit PhonyComponent.
-- Add meaningful error handling in ConcreteComponent::setStyle()
-  and ConcreteComponent::setAttribute()
+- Add meaningful error handling in ConcreteComponent::setStyle() and ConcreteComponent::setAttribute()
 - Implement background-color and stroke CSS attributes
+v Choose between "WinAPI" and "WinAPI", but don't mix them.
 v Remove this method: HWND ConcreteComponent::getFirstParentHandle();
   It does not belong in ConcreteComponent.
 v Rename (\w+)Element to XML\1 (for example "ButtonElement" to "XMLButton")

@@ -175,7 +175,7 @@ namespace XULWin
     void XULRunner::run(const std::string & inApplicationIniFile)
     {
         XULParser parser;
-        Poco::Path topLevelAppDir = Windows::getCurrentDirectory();
+        Poco::Path topLevelAppDir = WinAPI::getCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
         if (XMLWindow * window = parser.rootElement()->downcast<XMLWindow>())
@@ -229,7 +229,7 @@ namespace XULWin
         }
 
         XULParser parser;
-        mRootElement = ParseFile(parser, getMainXULFile(Windows::getCurrentDirectory()));
+        mRootElement = ParseFile(parser, getMainXULFile(WinAPI::getCurrentDirectory()));
         return mRootElement;
     }
 

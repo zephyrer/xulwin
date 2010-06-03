@@ -18,7 +18,7 @@ namespace XULWin
 {
 
     // We want the dialog to have a parent because an owning window is needed
-    // in order to prevent our dialog from showing in the Windows taskbar.
+    // in order to prevent our dialog from showing in the WinAPI taskbar.
     // MSDN Article ID 205158: How To Prevent a XMLWindow from Appearing on the Taskbar
     static Window * GetDialogHelper()
     {

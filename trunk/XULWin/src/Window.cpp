@@ -52,7 +52,7 @@ namespace XULWin
                       0
                   );
 
-        std::string error = Windows::getLastError(::GetLastError());
+        std::string error = WinAPI::getLastError(::GetLastError());
 
 
         // set default font
@@ -125,13 +125,13 @@ namespace XULWin
 
     std::string Window::getTitle() const
     {
-        return Windows::getWindowText(handle());
+        return WinAPI::getWindowText(handle());
     }
 
 
     void Window::setTitle(const std::string & inTitle)
     {
-        Windows::setWindowText(handle(), inTitle);
+        WinAPI::setWindowText(handle(), inTitle);
     }
 
 
@@ -179,7 +179,7 @@ namespace XULWin
 
         if (inPositioning == WindowPos_CenterInScreen)
         {
-            SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+            SIZE sz = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
             if (findChildOfType<MenuBar>())
             {
                 sz.cy += Defaults::menuBarHeight();
@@ -192,7 +192,7 @@ namespace XULWin
         }
         else
         {
-            SIZE sz = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+            SIZE sz = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
             if (findChildOfType<MenuBar>())
             {
                 sz.cy += Defaults::menuBarHeight();
@@ -245,7 +245,7 @@ namespace XULWin
             }
             case WM_GETMINMAXINFO:
             {
-                SIZE sizeDiff = Windows::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+                SIZE sizeDiff = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
                 MINMAXINFO * minMaxInfo = (MINMAXINFO *)lParam;
                 minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;

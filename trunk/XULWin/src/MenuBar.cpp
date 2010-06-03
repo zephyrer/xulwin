@@ -20,7 +20,7 @@ namespace XULWin
     {
         std::vector<XMLMenu *> menuElements;
         el()->getElementsByType<XMLMenu>(menuElements);
-        Windows::MenuNode node(Windows::MenuItemInfo(componentId(), ""));
+        WinAPI::MenuNode node(WinAPI::MenuItemInfo(componentId(), ""));
         for (size_t idx = 0; idx != menuElements.size(); ++idx)
         {
             Menu * menu = menuElements[idx]->component()->downcast<Menu>();
@@ -28,7 +28,7 @@ namespace XULWin
         }
         if (Window * window = findParentOfType<Window>())
         {
-            ::SetMenu(window->handle(), Windows::createMenu(node));
+            ::SetMenu(window->handle(), WinAPI::createMenu(node));
         }
         return Super::init();
     }

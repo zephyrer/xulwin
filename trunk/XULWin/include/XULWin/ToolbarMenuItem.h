@@ -10,7 +10,7 @@
 namespace XULWin
 {
 
-    namespace Windows
+    namespace WinAPI
     {
 
         class ToolbarMenuItem;
@@ -33,7 +33,7 @@ namespace XULWin
             boost::function<void()> mAction;
         };
 
-    } // namespace Windows
+    } // namespace WinAPI
 
 } // namespace XULWin
 

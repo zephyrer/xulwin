@@ -33,8 +33,8 @@ namespace XULWin
 
     int Button::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = Windows::getWindowText(handle());
-        int minWidth = Windows::getTextSize(handle(), text).cx;
+        std::string text = WinAPI::getWindowText(handle());
+        int minWidth = WinAPI::getTextSize(handle(), text).cx;
         minWidth += Defaults::textPadding();
         return std::max<int>(minWidth, Defaults::buttonWidth());
     }

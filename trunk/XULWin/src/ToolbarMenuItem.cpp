@@ -4,7 +4,7 @@
 namespace XULWin
 {
 
-    namespace Windows
+    namespace WinAPI
     {
 
 
@@ -19,6 +19,6 @@ namespace XULWin
         }
 
 
-    } // namespace Windows
+    } // namespace WinAPI
 
 } // namespace XULWin

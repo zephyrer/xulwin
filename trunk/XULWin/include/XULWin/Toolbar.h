@@ -12,7 +12,7 @@ namespace XULWin
 
 
     class Toolbar : public NativeControl,
-                    public Windows::Toolbar::EventHandler,
+                    public WinAPI::Toolbar::EventHandler,
                     public GdiplusLoader
     {
     public:
@@ -33,13 +33,13 @@ namespace XULWin
         // XMLToolbar::EventHandler methods
         virtual void onRequestFocus() {}
 
-        boost::shared_ptr<Windows::Toolbar> nativeToolbar() const
+        boost::shared_ptr<WinAPI::Toolbar> nativeToolbar() const
         {
             return mToolbar;
         }
 
     private:
-        boost::shared_ptr<Windows::Toolbar> mToolbar;
+        boost::shared_ptr<WinAPI::Toolbar> mToolbar;
     };
 
 } // namespace XULWin

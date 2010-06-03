@@ -57,7 +57,7 @@ namespace XULWin
         //int result = 0;
         //if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<MenuItem *>(this)))
         //{
-        //    result = Windows::getTextSize(comp->handle(), getLabel()).cx;
+        //    result = WinAPI::getTextSize(comp->handle(), getLabel()).cx;
         //}
         //return result;
 
@@ -70,7 +70,7 @@ namespace XULWin
     {
         //if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<MenuItem *>(this)))
         //{
-        //    return Windows::getTextSize(comp->handle(), getLabel()).cy;
+        //    return WinAPI::getTextSize(comp->handle(), getLabel()).cy;
         //}
 
         // FIXME!!

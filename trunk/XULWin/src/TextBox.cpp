@@ -48,25 +48,25 @@ namespace XULWin
 
     std::string TextBox::getValue() const
     {
-        return Windows::getWindowText(handle());
+        return WinAPI::getWindowText(handle());
     }
 
 
     void TextBox::setValue(const std::string & inStringValue)
     {
-        Windows::setWindowText(handle(), inStringValue);
+        WinAPI::setWindowText(handle(), inStringValue);
     }
 
 
     bool TextBox::isReadOnly() const
     {
-        return Windows::isTextBoxReadOnly(handle());
+        return WinAPI::isTextBoxReadOnly(handle());
     }
 
 
     void TextBox::setReadOnly(bool inReadOnly)
     {
-        Windows::setTextBoxReadOnly(handle(), inReadOnly);
+        WinAPI::setTextBoxReadOnly(handle(), inReadOnly);
     }
 
 

@@ -35,13 +35,13 @@ namespace XULWin
     }
 
 
-    Windows::MenuNode * Menu::FromMenu(const Menu * inMenu)
+    WinAPI::MenuNode * Menu::FromMenu(const Menu * inMenu)
     {
         // XUL hierarchy:
         // menu/menupopup/menuitem
         //               /menu
-        Windows::MenuNode * result = new Windows::MenuNode(
-            Windows::MenuItemInfo(inMenu->componentId(),
+        WinAPI::MenuNode * result = new WinAPI::MenuNode(
+            WinAPI::MenuItemInfo(inMenu->componentId(),
                                   inMenu->getLabel()));
         const MenuPopup * popup = inMenu->findChildOfType<MenuPopup>();
         for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
@@ -50,8 +50,8 @@ namespace XULWin
             if (const MenuItem * menuItem = comp->downcast<MenuItem>())
             {
                 result->addChild(
-                    new Windows::MenuNode(
-                        Windows::MenuItemInfo(menuItem->componentId(),
+                    new WinAPI::MenuNode(
+                        WinAPI::MenuItemInfo(menuItem->componentId(),
                                               menuItem->getLabel())));
             }
             else if (const Menu * menu = comp->downcast<Menu>())
@@ -60,7 +60,7 @@ namespace XULWin
             }
             else if (const MenuSeparator * sep = comp->downcast<MenuSeparator>())
             {
-                result->addChild(new Windows::MenuNode(Windows::MenuItemInfo(0, "")));
+                result->addChild(new WinAPI::MenuNode(WinAPI::MenuItemInfo(0, "")));
             }
         }
         return result;

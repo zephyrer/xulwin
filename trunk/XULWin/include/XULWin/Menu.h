@@ -30,7 +30,7 @@ namespace XULWin
 
         static Menu * FindById(int inId);
 
-        static Windows::MenuNode * FromMenu(const Menu * inMenu);
+        static WinAPI::MenuNode * FromMenu(const Menu * inMenu);
 
     private:
         typedef std::map<int, Menu *> MenusById;

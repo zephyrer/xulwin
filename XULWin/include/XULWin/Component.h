@@ -82,7 +82,6 @@ namespace XULWin
 
         virtual void invalidateRect() const = 0;
 
-
         // WidthController methods
         // Returns value from last call to setWidth. If setWidth has not yet
         // been called, then this method returns the value as defined in XUL

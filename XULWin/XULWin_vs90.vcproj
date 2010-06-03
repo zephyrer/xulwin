@@ -423,10 +423,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Proxy.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\ScrollBar.h"
 					>
 				</File>
@@ -572,10 +568,6 @@
 				</File>
 				<File
 					RelativePath=".\src\PhonyComponent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Proxy.cpp"
 					>
 				</File>
 				<File

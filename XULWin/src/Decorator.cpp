@@ -49,6 +49,28 @@ namespace XULWin
     }
 
 
+    ComponentPtr Decorator::swap(ComponentPtr inNewElement)
+    {
+        assert(inNewElement);
+        ComponentPtr old = mDecoratedComponent;
+        mDecoratedComponent = inNewElement;
+        assert(mDecoratedComponent);
+        mDecoratedComponent->setOwningElement(old->el());
+        return old;
+    }
+
+
+    ComponentPtr Decorator::swap(Component * inNewElement)
+    {
+        assert(inNewElement);
+        ComponentPtr old = mDecoratedComponent;
+        mDecoratedComponent.reset(inNewElement);
+        assert(mDecoratedComponent);
+        mDecoratedComponent->setOwningElement(old->el());
+        return old;
+    }
+
+
     int Decorator::getIndex() const
     {
         assert(mDecoratedComponent);

@@ -93,17 +93,43 @@ namespace XULWin
     }
 
 
+    Component * CreateBox(Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new Box(inParent, inAttr));
+    }
+
+    Component * CreateHBox(Component * inParent, const AttributesMapping & inAttr)
+    {
+        Box * box(new Box(inParent, inAttr));
+        box->setOrient(Horizontal);
+        return new Decorator(box);
+    }
+
+
+    Component * CreateVBox(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        Box * box(new Box(inParent, inAttr));
+        box->setOrient(Vertical);
+        return new Decorator(box);
+    }
+
 
     Box::Box(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent, inAttr, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
         mBoxLayouter(this)
-    {
+    {        
     }
 
 
     Orient Box::getOrient() const
     {
         return mOrient.or(Vertical);
+    }
+    
+    
+    void Box::setOrient(Orient inOrient)
+    {
+        mOrient = inOrient;
     }
 
 

@@ -1,7 +1,6 @@
 #include "XULWin/XMLSVG.h"
 #include "XULWin/SVG.h"
 #include "XULWin/GdiplusLoader.h"
-#include "XULWin/XMLImage.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Component.h"
 #include "XULWin/Defaults.h"

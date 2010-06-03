@@ -346,58 +346,71 @@ namespace XULWin
     };
 
 
-//
-// Standard XUL Elements
-//
-#define XULWIN_DECLARE_ELEMENT(ELEMENT, TAGNAME) \
-    class XML##ELEMENT : public Element                                     \
-    {                                                                       \
-    public:                                                                 \
-        static ElementPtr Create(Element *, const AttributesMapping &);     \
-        static const char * TagName() { return TAGNAME; }                   \
-    private:                                                                \
-        XML##ELEMENT(Element *, const AttributesMapping &);                 \
-        friend class Element;                                               \
-    };
+    /**
+     * Macro for declaring a XUL element class.
+     */
+    #define XULWIN_DECLARE_ELEMENT(ELEMENT, TAGNAME) \
+        class XML##ELEMENT : public Element                                     \
+        {                                                                       \
+        public:                                                                 \
+            static ElementPtr Create(Element *, const AttributesMapping &);     \
+            static const char * TagName() { return TAGNAME; }                   \
+        private:                                                                \
+            XML##ELEMENT(Element *, const AttributesMapping &);                 \
+            friend class Element;                                               \
+        };
 
 
-/**
- * Macros that generate the implementation details for XMLElement subclasses.
- * Note! A function called Create##ELEMENT will be declared but not defined.
- * It's up to the implementer to provide a function definition!
- * For example implementations search for the functions CreateLabel, CreateButton,
- * CreateMenuList, CreateMenuItem, ... in this project.
- * this project.
- */
-#define XULWIN_IMPLEMENT_ELEMENT(ELEMENT) \
-    Component * Create##ELEMENT(Component *, const AttributesMapping&);                         \
-    ElementPtr XML##ELEMENT::Create(Element * inParent, const AttributesMapping & inAttr)       \
-    {                                                                                           \
-        return Element::Create<XML##ELEMENT>(inParent, inAttr);                                 \
-    }                                                                                           \
-                                                                                                \
-    XML##ELEMENT::XML##ELEMENT(Element * inParent, const AttributesMapping & inAttr) :          \
-        Element(XML##ELEMENT::TagName(),                                                        \
-                inParent,                                                                       \
-                Create##ELEMENT(inParent->component(), inAttr))                                 \
-    {                                                                                           \
-    }                                                                                           \
+    /**
+     * Macro for generating the class implementations of XMLElement subclasses.
+     * Note! A function called Create##ELEMENT will be declared but not defined.
+     * It's up to the implementer to provide a function definition!
+     * For example implementations search for the functions CreateLabel, CreateButton,
+     * CreateMenuList, CreateMenuItem, ... in this project.
+     * this project.
+     */
+    #define XULWIN_IMPLEMENT_ELEMENT(ELEMENT) \
+        Component * Create##ELEMENT(Component *, const AttributesMapping&);                         \
+        ElementPtr XML##ELEMENT::Create(Element * inParent, const AttributesMapping & inAttr)       \
+        {                                                                                           \
+            return Element::Create<XML##ELEMENT>(inParent, inAttr);                                 \
+        }                                                                                           \
+                                                                                                    \
+        XML##ELEMENT::XML##ELEMENT(Element * inParent, const AttributesMapping & inAttr) :          \
+            Element(XML##ELEMENT::TagName(),                                                        \
+                    inParent,                                                                       \
+                    Create##ELEMENT(inParent->component(), inAttr))                                 \
+        {                                                                                           \
+        }                                                                                           \
 
 
-//
-// Essential XUL elements
-//
-XULWIN_DECLARE_ELEMENT(Label, "label")
-XULWIN_DECLARE_ELEMENT(Button, "button")
-XULWIN_DECLARE_ELEMENT(CheckBox, "checkbox")
-XULWIN_DECLARE_ELEMENT(MenuList, "menulist")
-XULWIN_DECLARE_ELEMENT(MenuPopup, "menupopup")
-XULWIN_DECLARE_ELEMENT(MenuItem, "menuitem")
-XULWIN_DECLARE_ELEMENT(TextBox, "textbox")
-XULWIN_DECLARE_ELEMENT(ListBox, "listbox")
-XULWIN_DECLARE_ELEMENT(ListItem, "listitem")
-XULWIN_DECLARE_ELEMENT(ScrollBar, "scrollbar")
-
+    /**
+     * Essential XUL elements
+     */
+    XULWIN_DECLARE_ELEMENT(Label, "label")
+    XULWIN_DECLARE_ELEMENT(Button, "button")
+    XULWIN_DECLARE_ELEMENT(CheckBox, "checkbox")
+    XULWIN_DECLARE_ELEMENT(MenuList, "menulist")
+    XULWIN_DECLARE_ELEMENT(MenuPopup, "menupopup")
+    XULWIN_DECLARE_ELEMENT(MenuItem, "menuitem")
+    XULWIN_DECLARE_ELEMENT(TextBox, "textbox")
+    XULWIN_DECLARE_ELEMENT(ListBox, "listbox")
+    XULWIN_DECLARE_ELEMENT(ListItem, "listitem")
+    XULWIN_DECLARE_ELEMENT(ScrollBar, "scrollbar")
+    XULWIN_DECLARE_ELEMENT(Box, "hbox")
+    XULWIN_DECLARE_ELEMENT(HBox, "hbox")
+    XULWIN_DECLARE_ELEMENT(VBox, "vbox")
+    XULWIN_DECLARE_ELEMENT(Image, "image")
+    XULWIN_DECLARE_ELEMENT(ListCell, "listcell")
+    XULWIN_DECLARE_ELEMENT(ListCol, "listcol")
+    XULWIN_DECLARE_ELEMENT(ListCols, "listcols")
+    XULWIN_DECLARE_ELEMENT(ListHead, "listhead")
+    XULWIN_DECLARE_ELEMENT(ListHeader, "listheader")
+    XULWIN_DECLARE_ELEMENT(Menu, "menu")
+    XULWIN_DECLARE_ELEMENT(MenuBar, "menubar")
+    XULWIN_DECLARE_ELEMENT(MenuSeparator, "menuseparator")
+    XULWIN_DECLARE_ELEMENT(Toolbar, "toolbar")
+    XULWIN_DECLARE_ELEMENT(ToolbarButton, "toolbarbutton")
 
 } // XULWin
 

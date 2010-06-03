@@ -6,6 +6,7 @@
 #include "XULWin/GdiplusLoader.h"
 #include "XULWin/NativeControl.h"
 #include "XULWin/Gdiplus.h"
+#include <boost/scoped_ptr.hpp>
 
 
 namespace XULWin

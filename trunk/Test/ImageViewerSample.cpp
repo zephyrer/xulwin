@@ -4,7 +4,6 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/EventListener.h"
-#include "XULWin/XMLImage.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"

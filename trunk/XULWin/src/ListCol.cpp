@@ -1,6 +1,5 @@
 #include "XULWin/ListCol.h"
 #include "XULWin/Element.h"
-#include "XULWin/XMLListCell.h"
 #include "XULWin/ListCell.h"
 #include "XULWin/ListItem.h"
 #include "XULWin/Decorator.h"
@@ -8,6 +7,12 @@
 
 namespace XULWin
 {
+
+    Component * CreateListCol(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new ListCol(inParent, inAttr));
+    }
+
 
     ListCol::ListCol(Component * inParent, const AttributesMapping & inAttr) :
         Super(inParent, inAttr)

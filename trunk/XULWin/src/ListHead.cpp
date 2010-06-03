@@ -9,6 +9,12 @@
 namespace XULWin
 {
 
+    Component * CreateListHead(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new ListHead(inParent, inAttr));
+    }
+
+
     ListHead::ListHead(Component * inParent, const AttributesMapping & inAttr) :
         Super(inParent, inAttr)
     {

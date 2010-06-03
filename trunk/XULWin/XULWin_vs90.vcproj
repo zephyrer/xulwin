@@ -171,55 +171,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\XMLImage.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLListCell.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLListCol.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLListCols.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLListHead.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLListHeader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLMenu.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLMenuBar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLMenuItem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLMenuSeparator.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\XMLOverlay.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\XULWin\XMLScript.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\XMLToolbar.h"
 					>
 				</File>
 				<File
@@ -239,51 +195,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\XMLImage.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLListCell.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLListCol.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLListCols.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLListHead.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLListHeader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLMenu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLMenuBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLMenuSeparator.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\XMLOverlay.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\XMLScript.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\XMLToolbar.cpp"
 					>
 				</File>
 				<File

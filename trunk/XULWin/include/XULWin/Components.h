@@ -131,6 +131,8 @@ namespace XULWin
 
         virtual Orient getOrient() const;
 
+        virtual void setOrient(Orient inOrient);
+
         virtual Align getAlign() const;
 
         virtual void rebuildLayout();

@@ -4,6 +4,7 @@
 
 #include "XULWin/BoxLayouter.h"
 #include "XULWin/NativeComponent.h"
+#include <boost/scoped_ptr.hpp>
 
 
 namespace XULWin
@@ -111,7 +112,7 @@ namespace XULWin
     private:
         // Invoker is the stored parameter for showModal.
         Window * mInvoker;
-        BoxLayouter mBoxLayouter;
+        boost::scoped_ptr<BoxLayouter> mBoxLayouter;
         DialogResult mDialogResult;
     };
 

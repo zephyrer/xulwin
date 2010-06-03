@@ -37,6 +37,7 @@ Component
       Control
         Button : INativeComponent
         CheckBox
+        ListView
     SubComponent
       MenuItem
       ToolbarButton

@@ -163,10 +163,6 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\include\XULWin\DeclareElement.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Element.h"
 					>
 				</File>

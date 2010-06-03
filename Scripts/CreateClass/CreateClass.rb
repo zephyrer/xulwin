@@ -1,12 +1,10 @@
 require "rexml/document"
 
+$debugLoggingEnabled = true
 
-# Usage should be:
-# ruby create-element.rb classname
-input = ARGV[0]
-args = input.split("::")
-$classname = args[0]
-
+def logDebug(msg)
+  puts msg if $debugLoggingEnabled
+end
 
 def getSolutionDir
   "."
@@ -80,7 +78,9 @@ def generateSourceFile(classname)
 end
 
 
+
 def addToSvn(filePath)
+  logDebug "Adding #{filePath} to SVN"
   system("svn add #{filePath}")
 end
 
@@ -133,4 +133,4 @@ def main(classname)
   updateVisualStudioProject(classname)
 end
 
-main($classname)
+main(ARGV[0])

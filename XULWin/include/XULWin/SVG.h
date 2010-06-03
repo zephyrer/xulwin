@@ -1,5 +1,5 @@
-#ifndef SVGIMPL_H_INCLUDED
-#define SVGIMPL_H_INCLUDED
+#ifndef SVG_H_INCLUDED
+#define SVG_H_INCLUDED
 
 
 #include "XULWin/Component.h"
@@ -184,4 +184,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // SVGIMPL_H_INCLUDED
+#endif // SVG_H_INCLUDED

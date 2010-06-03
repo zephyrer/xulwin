@@ -1,5 +1,5 @@
-#ifndef IMAGEIMPL_H_INCLUDED
-#define IMAGEIMPL_H_INCLUDED
+#ifndef IMAGE_H_INCLUDED
+#define IMAGE_H_INCLUDED
 
 
 #include "XULWin/Component.h"
@@ -59,4 +59,4 @@ namespace XULWin
 } // namespace XULWin
 
 
-#endif // IMAGEIMPL_H_INCLUDED
+#endif // IMAGE_H_INCLUDED

@@ -1,10 +1,17 @@
 #include "XULWin/ListCell.h"
-#include "XULWin/WinUtils.h"
+#include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
+#include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
+
+    Component * CreateListCell(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new ListCell(inParent, inAttr));
+    }
+
 
     ListCell::ListCell(Component * inParent, const AttributesMapping & inAttr) :
         VirtualComponent(inParent, inAttr)

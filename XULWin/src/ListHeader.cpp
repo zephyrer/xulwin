@@ -1,8 +1,15 @@
 #include "XULWin/ListHeader.h"
+#include "XULWin/Decorator.h"
 
 
 namespace XULWin
 {
+
+    Component * CreateListHeader(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new ListHeader(inParent, inAttr));
+    }
+
 
     ListHeader::ListHeader(Component * inParent, const AttributesMapping & inAttr) :
         Super(inParent, inAttr)

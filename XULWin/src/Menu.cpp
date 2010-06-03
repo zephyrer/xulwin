@@ -8,7 +8,14 @@
 namespace XULWin
 {
 
+    Component * CreateMenu(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new Menu(inParent, inAttr));
+    }
+
+
     Menu::MenusById Menu::sMenusById;
+
 
     Menu::Menu(Component * inParent, const AttributesMapping & inAttr) :
         PhonyComponent(inParent, inAttr)

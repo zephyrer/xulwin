@@ -1,4 +1,3 @@
-#include "XULWin/XMLImage.h"
 #include "XULWin/Image.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ChromeURL.h"
@@ -16,6 +15,12 @@
 
 namespace XULWin
 {
+
+    Component * CreateImage(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new Image(inParent, inAttr));
+    }
+
 
     Image::Image(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent, inAttr, L"STATIC", 0, 0),

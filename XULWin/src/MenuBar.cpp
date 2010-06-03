@@ -1,7 +1,6 @@
 #include "XULWin/MenuBar.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
-#include "XULWin/XMLMenu.h"
 #include "XULWin/Menu.h"
 #include "XULWin/MenuItem.h"
 #include "XULWin/Window.h"
@@ -9,6 +8,12 @@
 
 namespace XULWin
 {
+
+    Component * CreateMenuBar(XULWin::Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new MenuBar(inParent, inAttr));
+    }
+
 
     MenuBar::MenuBar(Component * inParent, const AttributesMapping & inAttr) :
         PhonyComponent(inParent, inAttr)

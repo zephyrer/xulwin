@@ -70,32 +70,6 @@ namespace XULWin
     }
 
 
-    XMLBox::XMLBox(Element * inParent, const AttributesMapping & inAttr) :
-        Element(XMLBox::TagName(),
-                inParent,
-                ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttr))
-    {
-    }
-
-
-    XMLHBox::XMLHBox(Element * inParent, const AttributesMapping & inAttr) :
-        Element(XMLHBox::TagName(),
-                inParent,
-                ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttr))
-    {
-        component()->setOrient(Horizontal);
-    }
-
-
-    XMLVBox::XMLVBox(Element * inParent, const AttributesMapping & inAttr) :
-        Element(XMLVBox::TagName(),
-                inParent,
-                ComponentFactory::Instance().createContainer<Decorator, VirtualBox, Box>(inParent->component(), inAttr))
-    {
-        component()->setOrient(Vertical);
-    }
-
-
     XMLSeparator::XMLSeparator(Element * inParent, const AttributesMapping & inAttr) :
         Element(XMLSeparator::TagName(),
                 inParent,

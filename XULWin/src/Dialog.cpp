@@ -59,10 +59,10 @@ namespace XULWin
 
     Dialog::Dialog(Component * inParent, const AttributesMapping & inAttr) :
         NativeComponent(inParent, inAttr),
-        mBoxLayouter(this),
         mInvoker(0),
         mDialogResult(DialogResult_Cancel)
-    {
+    {        
+        mBoxLayouter.reset(new BoxLayouter(this));
         if (NativeComponent * comp = inParent->downcast<NativeComponent>())
         {
             mHandle = ::CreateWindowEx (0,
@@ -147,7 +147,7 @@ namespace XULWin
 
     void Dialog::rebuildLayout()
     {
-        mBoxLayouter.rebuildLayout();
+        mBoxLayouter->rebuildLayout();
     }
 
 

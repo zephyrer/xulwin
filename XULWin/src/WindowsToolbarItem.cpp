@@ -288,7 +288,7 @@ namespace XULWin
         }
 
 
-        XMLToolbarButton::XMLToolbarButton
+        ToolbarButton::ToolbarButton
         (
             boost::weak_ptr<WinAPI::Toolbar> inToolbar,
             UInt32 inComponentId,
@@ -310,18 +310,18 @@ namespace XULWin
         }
 
 
-        XMLToolbarButton::~XMLToolbarButton()
+        ToolbarButton::~ToolbarButton()
         {
         }
 
 
-        int XMLToolbarButton::flags() const
+        int ToolbarButton::flags() const
         {
             return BTNS_BUTTON | (text().empty() ? 0 : BTNS_SHOWTEXT);
         }
 
 
-        void XMLToolbarButton::performCommand()
+        void ToolbarButton::performCommand()
         {
             if (mAction)
             {

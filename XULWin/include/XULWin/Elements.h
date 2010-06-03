@@ -72,62 +72,6 @@ namespace XULWin
     };
 
 
-    class XMLBox : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLBox>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "box";
-        }
-    private:
-        friend class Element;
-        XMLBox(Element * inParent, const AttributesMapping & inAttr);
-    };
-
-
-    class XMLHBox : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLHBox>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "hbox";
-        }
-
-    private:
-        friend class Element;
-        XMLHBox(Element * inParent, const AttributesMapping & inAttr);
-    };
-
-
-    class XMLVBox : public Element
-    {
-    public:
-        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
-        {
-            return Element::Create<XMLVBox>(inParent, inAttr);
-        }
-
-        static const char * TagName()
-        {
-            return "vbox";
-        }
-
-    private:
-        friend class Element;
-        XMLVBox(Element * inParent, const AttributesMapping & inAttr);
-    };
-
-
     class XMLSeparator : public Element
     {
     public:

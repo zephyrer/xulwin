@@ -28,17 +28,17 @@ void runImageViewerSample(HMODULE inModuleHandle, const std::string & inPathToXU
 void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathToXULRunnerSamples)
 {
     tester.runXULSample("MainWindow");
-    //tester.runXULSample("widgets");
-    //tester.runXULSample("toolbar");
-    //runConfigSample(hInstance, inPathToXULRunnerSamples);
-    //runImageViewerSample(hInstance, inPathToXULRunnerSamples);
-    //tester.runXULSample("listbox-simple");
-    //tester.runXULSample("listbox-advanced");
-    //tester.runXULSample("tabbox");
-    //tester.runXULSample("treeview");
-    //tester.runXULSample("shout");
-    //tester.runXULSample("svg");
-    //tester.runXULSample("hello");
+    tester.runXULSample("widgets");
+    tester.runXULSample("toolbar");
+    runConfigSample(hInstance, inPathToXULRunnerSamples);
+    runImageViewerSample(hInstance, inPathToXULRunnerSamples);
+    tester.runXULSample("listbox-simple");
+    tester.runXULSample("listbox-advanced");
+    tester.runXULSample("tabbox");
+    tester.runXULSample("treeview");
+    tester.runXULSample("shout");
+    tester.runXULSample("svg");
+    tester.runXULSample("hello");
 }
 
 

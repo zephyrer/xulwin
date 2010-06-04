@@ -115,7 +115,7 @@ namespace XULWin
 
 
     Box::Box(Component * inParent, const AttributesMapping & inAttr) :
-        NativeControl(inParent, inAttr, TEXT("STATIC"), WS_EX_CONTROLPARENT, WS_TABSTOP),
+        VirtualComponent(inParent, inAttr),
         mBoxLayouter(this)
     {        
     }

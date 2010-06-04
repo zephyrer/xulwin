@@ -121,11 +121,11 @@ namespace XULWin
     };
 
 
-    class Box : public NativeControl,
+    class Box : public VirtualComponent,
                 public BoxLayouter::ContentProvider
     {
     public:
-        typedef NativeControl Super;
+        typedef VirtualComponent Super;
 
         Box(Component * inParent, const AttributesMapping & inAttr);
 

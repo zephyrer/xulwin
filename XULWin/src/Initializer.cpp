@@ -55,7 +55,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<XMLProgressMeter>();
         ElementFactory::Instance().registerElement<XMLDeck>();
         ElementFactory::Instance().registerElement<XMLImage>();
-        ElementFactory::Instance().registerElement<XMLScrollBar>();
+        ElementFactory::Instance().registerElement<XMLScrollbar>();
         ElementFactory::Instance().registerElement<XMLScript>();
         ElementFactory::Instance().registerElement<XMLTabBox>();
         ElementFactory::Instance().registerElement<XMLTabs>();

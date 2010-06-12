@@ -350,9 +350,11 @@ namespace XULWin
      * Macro for declaring a XUL element class.
      */
     #define XULWIN_DECLARE_ELEMENT(ELEMENT, TAGNAME) \
+        class ELEMENT;                                                          \
         class XML##ELEMENT : public Element                                     \
         {                                                                       \
         public:                                                                 \
+            typedef ELEMENT ComponentType;                                      \
             static ElementPtr Create(Element *, const AttributesMapping &);     \
             static const char * TagName() { return TAGNAME; }                   \
         private:                                                                \
@@ -396,7 +398,7 @@ namespace XULWin
     XULWIN_DECLARE_ELEMENT(TextBox, "textbox")
     XULWIN_DECLARE_ELEMENT(ListBox, "listbox")
     XULWIN_DECLARE_ELEMENT(ListItem, "listitem")
-    XULWIN_DECLARE_ELEMENT(ScrollBar, "scrollbar")
+    XULWIN_DECLARE_ELEMENT(Scrollbar, "scrollbar")
     XULWIN_DECLARE_ELEMENT(Box, "hbox")
     XULWIN_DECLARE_ELEMENT(HBox, "hbox")
     XULWIN_DECLARE_ELEMENT(VBox, "vbox")

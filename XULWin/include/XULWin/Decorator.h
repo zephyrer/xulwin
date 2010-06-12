@@ -3,7 +3,7 @@
 
 
 #include "XULWin/Component.h"
-#include "XULWin/ScrollBar.h"
+#include "XULWin/Scrollbar.h"
 #include "XULWin/EventListener.h"
 
 
@@ -208,7 +208,7 @@ namespace XULWin
 
 
     class ScrollDecorator : public Decorator,
-                            public ScrollBar::EventListener
+                            public Scrollbar::EventListener
     {
     public:
         typedef Decorator Super;
@@ -233,7 +233,7 @@ namespace XULWin
 
         virtual void rebuildLayout();
 
-        virtual bool curposChanged(ScrollBar * inSender, int inOldPos, int inNewPos);
+        virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos);
 
         LRESULT handleMouseWheel(WPARAM wParam, LPARAM lParam);
 

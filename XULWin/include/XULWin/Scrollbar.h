@@ -66,10 +66,6 @@ namespace XULWin
         int mIncrement;
     };
 
-    // FIXME!
-    // This is a TEMP (??) hack around SVN's disability to rename files with only case differences
-    typedef Scrollbar ScrollBar;
-
 } // namespace XULWin
 
 

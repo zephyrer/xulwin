@@ -827,23 +827,23 @@ namespace XULWin
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Horizontal);
-            mHorizontalScrollbar = XMLScrollBar::Create(inParent->el(), attr);
+            mHorizontalScrollbar = XMLScrollbar::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mHorizontalScrollbar.get());
 
-            mHorizontalScrollbar->component()->downcast<ScrollBar>()->setEventListener(this);
+            mHorizontalScrollbar->component()->downcast<Scrollbar>()->setEventListener(this);
         }
         if (mOverflowY != CSSOverflow_Hidden)
         {
             AttributesMapping attr;
             attr["orient"] = Orient2String(Vertical);
-            mVerticalScrollbar = XMLScrollBar::Create(inParent->el(), attr);
+            mVerticalScrollbar = XMLScrollbar::Create(inParent->el(), attr);
 
             // Remove it from the parent so that it is untouched by its layout manager
             inParent->el()->removeChild(mVerticalScrollbar.get());
 
-            mVerticalScrollbar->component()->downcast<ScrollBar>()->setEventListener(this);
+            mVerticalScrollbar->component()->downcast<Scrollbar>()->setEventListener(this);
         }
     }
 
@@ -964,7 +964,7 @@ namespace XULWin
 
     void ScrollDecorator::updateHorizontalScrollInfo()
     {
-        ScrollBar * scrollbar = mHorizontalScrollbar->component()->downcast<ScrollBar>();
+        Scrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
         if (scrollbar)
         {
             int maxpos = Defaults::Attributes::maxpos();
@@ -989,7 +989,7 @@ namespace XULWin
 
     void ScrollDecorator::updateVerticalScrollInfo()
     {
-        ScrollBar * scrollbar = mVerticalScrollbar->component()->downcast<ScrollBar>();
+        Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
         if (scrollbar)
         {
             int maxpos = Defaults::Attributes::maxpos();
@@ -1019,7 +1019,7 @@ namespace XULWin
         int newH = h;
         if (mOverflowX != CSSOverflow_Hidden)
         {
-            ScrollBar * scrollbar = mHorizontalScrollbar->component()->downcast<ScrollBar>();
+            Scrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
             if (scrollbar)
             {
                 if (!scrollbar->isHidden())
@@ -1032,7 +1032,7 @@ namespace XULWin
 
         if (mOverflowY != CSSOverflow_Hidden)
         {
-            ScrollBar * scrollbar = mVerticalScrollbar->component()->downcast<ScrollBar>();
+            Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
             if (scrollbar)
             {
                 if (!scrollbar->isHidden())
@@ -1066,7 +1066,7 @@ namespace XULWin
 
             if (mHorizontalScrollbar)
             {
-                ScrollBar * hscrollbar = mHorizontalScrollbar->component()->downcast<ScrollBar>();
+                Scrollbar * hscrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
                 int minHorSize = mDecoratedComponent->getWidth(Minimum);
                 int horScrollPos = WinAPI::getScrollPos(hscrollbar->handle());
                 double horRatio = (double)horScrollPos/(double)Defaults::Attributes::maxpos();
@@ -1076,7 +1076,7 @@ namespace XULWin
 
             if (mVerticalScrollbar)
             {
-                ScrollBar * vscrollbar = mVerticalScrollbar->component()->downcast<ScrollBar>();
+                Scrollbar * vscrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
                 int minVerSize = mDecoratedComponent->getHeight(Minimum);
                 int verScrollPos = WinAPI::getScrollPos(vscrollbar->handle());
                 double verRatio = (double)verScrollPos/(double)Defaults::Attributes::maxpos();
@@ -1097,7 +1097,7 @@ namespace XULWin
     LRESULT ScrollDecorator::handleMouseWheel(WPARAM wParam, LPARAM lParam)
     {
         // Forward mouse wheel messages to the vertical scrollbar
-        if (ScrollBar * vscrollbar = mVerticalScrollbar->component()->downcast<ScrollBar>())
+        if (Scrollbar * vscrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>())
         {
             ::SendMessage(vscrollbar->handle(), WM_MOUSEWHEEL, wParam, lParam);
             return 0;
@@ -1106,7 +1106,7 @@ namespace XULWin
     }
 
 
-    bool ScrollDecorator::curposChanged(ScrollBar * inSender, int inOldPos, int inNewPos)
+    bool ScrollDecorator::curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos)
     {
         updateWindowScroll();
         return true;

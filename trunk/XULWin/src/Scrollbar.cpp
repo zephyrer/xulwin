@@ -9,9 +9,9 @@
 namespace XULWin
 {
     
-    Component * CreateScrollBar(Component * inComponent, const AttributesMapping & inAttr)
+    Component * CreateScrollbar(Component * inComponent, const AttributesMapping & inAttr)
     {
-        return new Decorator(new ScrollBar(inComponent, inAttr));
+        return new Decorator(new Scrollbar(inComponent, inAttr));
     }
 
 

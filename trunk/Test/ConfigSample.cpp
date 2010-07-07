@@ -2,7 +2,6 @@
 #include "XULWin/Components.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Dialog.h"
-#include "XULWin/TextBox.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
 #include "Poco/Path.h"

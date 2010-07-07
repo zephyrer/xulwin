@@ -13,14 +13,30 @@ namespace XULWin
 {
 
     /**
-     * AttributeController objects provide string-based wrappers for typed
-     * C++ getters and setters.
-     * For every attribute defined in XUL an AttributeController subclass
-     * should be created.
-     * Component subclasses should inherit the attribute controllers that
-     * correspond with their own attributes.
+     * AttributeController
+     *
+     * Base class for all attribute controllers defined in XULWin.
+     *
+     * Attribute controller provide forward read/write operations on an XUL
+     * element to C++ getter/setter method call on a Component object.
+     *
+     * For example:
+     *
+     *   xmlButton.setAttribute("label", "Click me!");*
+     *
+     * is internally forwarded to:
+     *
+     *   button->setLabel("Click me!");
+     *
+     * So the button's label will actually change by having set an XML property.
+     *
+     * 
+     * Every XUL attribute should have a corresponding AttributeController class.
+     * In turn each Component class must inherit the corresponding
+     * attribute controllers for each of its attributes.
+     *
      * For example the XUL 'button' element has the 'label' attribute, therefore
-     * the Button class should inherit the LabelController, and provide
+     * Button (inherits Component) should inherit LabelController, and provide
      * implementations for the getLabel and setLabel methods.
      */
     class AttributeController

@@ -1,7 +1,6 @@
 #include "XULWin/NativeComponent.h"
 #include "XULWin/EventListener.h"
 #include "XULWin/Menu.h"
-#include "XULWin/MenuItem.h"
 #include "XULWin/WinUtils.h"
 
 

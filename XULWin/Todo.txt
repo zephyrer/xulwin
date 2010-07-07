@@ -1,7 +1,5 @@
 - Useful real-world working toolbar sample
 - Speed up compilation times
-    - Create NativeControls.h for the native controls
-    - Create VirtualComponents.h for the virtual components
     - Use pimpl where possible
     - Move template methods (downcast, getElementsByType, etc...) as functions in separate header files
     - Avoid boost includes in header files

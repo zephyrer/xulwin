@@ -6,7 +6,6 @@
 #include "XULWin/PhonyComponent.h"
 #include "XULWin/NativeControl.h"
 #include "XULWin/Node.h"
-#include "XULWin/VirtualComponent.h"
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -18,6 +17,49 @@
 
 namespace XULWin
 {
+
+    /**
+     * Button
+     *
+     * Native implementation for a XUL button.
+     */
+    class Button : public NativeControl
+    {
+    public:
+        typedef NativeControl Super;
+
+        Button(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
+    /**
+     * Checkbox
+     *
+     * Native implementation for a XUL checkbox.
+     */
+    class CheckBox : public NativeControl,
+                     public virtual CheckedController
+    {
+    public:
+        typedef NativeControl Super;
+
+        CheckBox(Component * inParent, const AttributesMapping & inAttr);
+
+        // CheckedController methods
+        virtual bool isChecked() const;
+
+        virtual void setChecked(bool inChecked);
+
+        virtual bool initAttributeControllers();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
 
     /**
     * Description

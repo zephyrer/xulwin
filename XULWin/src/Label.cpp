@@ -1,5 +1,5 @@
 #include "XULWin/Label.h"
-#include "XULWin/MarginDecorator.h"
+#include "XULWin/Decorators.h"
 #include "XULWin/WinUtils.h"
 
 

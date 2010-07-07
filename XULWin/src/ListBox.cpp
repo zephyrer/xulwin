@@ -1,7 +1,7 @@
 #include "XULWin/ListBox.h"
+#include "XULWin/Decorators.h"
 #include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/MarginDecorator.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>

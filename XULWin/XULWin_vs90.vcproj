@@ -215,14 +215,6 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\include\XULWin\Button.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\CheckBox.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Component.h"
 					>
 				</File>
@@ -236,6 +228,10 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\Decorator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\Decorators.h"
 					>
 				</File>
 				<File
@@ -256,10 +252,6 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\ListBox.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MarginDecorator.h"
 					>
 				</File>
 				<File
@@ -335,14 +327,6 @@
 				Name="Source Files"
 				>
 				<File
-					RelativePath=".\src\Button.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\CheckBox.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\Component.cpp"
 					>
 				</File>
@@ -356,6 +340,10 @@
 				</File>
 				<File
 					RelativePath=".\src\Decorator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Decorators.cpp"
 					>
 				</File>
 				<File
@@ -376,10 +364,6 @@
 				</File>
 				<File
 					RelativePath=".\src\ListBox.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MarginDecorator.cpp"
 					>
 				</File>
 				<File

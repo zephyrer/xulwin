@@ -106,7 +106,7 @@ namespace XULWin
          *
          * If this element maps to a native component then it will
          * also be removed from the native hierarchy of the system.
-         * In certain situations this may be result in unexpected
+         * In certain situations this may result in unexpected
          * behavior. Be careful!
          */
         virtual void removeChild(const Element * inChild);

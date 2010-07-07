@@ -1,6 +1,6 @@
 #include "XULWin/ConcreteComponent.h"
 #include "XULWin/Algorithms.h"
-#include "XULWin/MarginDecorator.h"
+#include "XULWin/Decorators.h"
 #include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/NativeControl.h"

@@ -1,5 +1,5 @@
 #include "XULWin/MenuPopup.h"
-#include "XULWin/MarginDecorator.h"
+#include "XULWin/Decorators.h"
 #include "XULWin/Element.h"
 #include "XULWin/Menu.h"
 #include "XULWin/MenuItem.h"

@@ -2,6 +2,7 @@
 #include "XULWin/Algorithms.h"
 #include "XULWin/Conversions.h"
 #include "XULWin/Decorator.h"
+#include "XULWin/Decorators.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Element.h"
 #include "XULWin/Elements.h"
@@ -19,6 +20,83 @@
 
 namespace XULWin
 {
+
+
+    Component * CreateButton(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new Button(inComponent, inAttr));
+    }
+
+
+    Button::Button(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent,
+                      inAttr,
+                      TEXT("BUTTON"),
+                      0, // exStyle
+                      WS_TABSTOP | BS_PUSHBUTTON)
+    {
+    }
+
+
+    int Button::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return Defaults::buttonHeight();
+    }
+
+
+    int Button::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        std::string text = WinAPI::getWindowText(handle());
+        int minWidth = WinAPI::getTextSize(handle(), text).cx;
+        minWidth += Defaults::textPadding();
+        return std::max<int>(minWidth, Defaults::buttonWidth());
+    }
+
+    Component * CreateCheckBox(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new CheckBox(inComponent, inAttr));
+    }
+
+
+    CheckBox::CheckBox(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent,
+                      inAttr,
+                      TEXT("BUTTON"),
+                      0,
+                      WS_TABSTOP | BS_AUTOCHECKBOX)
+    {
+    }
+
+
+    int CheckBox::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return Defaults::controlHeight();
+    }
+
+
+    int CheckBox::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return Defaults::checkBoxMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cx;
+    }
+
+
+    bool CheckBox::isChecked() const
+    {
+        return WinAPI::isCheckBoxChecked(handle());
+    }
+
+
+    void CheckBox::setChecked(bool inChecked)
+    {
+        WinAPI::setCheckBoxChecked(handle(), inChecked);
+    }
+
+
+    bool CheckBox::initAttributeControllers()
+    {
+        setAttributeController<CheckedController>(this);
+        return Super::initAttributeControllers();
+    }
 
 
     Description::Description(Component * inParent, const AttributesMapping & inAttr) :

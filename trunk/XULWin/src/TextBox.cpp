@@ -1,5 +1,5 @@
 #include "XULWin/TextBox.h"
-#include "XULWin/MarginDecorator.h"
+#include "XULWin/Decorators.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Element.h"
 #include "XULWin/WinUtils.h"

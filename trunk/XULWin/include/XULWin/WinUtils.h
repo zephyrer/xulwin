@@ -27,7 +27,7 @@ namespace XULWin
         private:
             CurrentDirectoryChanger(const CurrentDirectoryChanger &);
             CurrentDirectoryChanger & operator=(const CurrentDirectoryChanger &);
-            TCHAR mOldDir[MAX_PATH];
+            TCHAR mOldDir[MAX_PATH+1];
         };
 
 

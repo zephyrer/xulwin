@@ -56,7 +56,7 @@ namespace XULWin
 
         std::string getCurrentDirectory()
         {
-            TCHAR buffer[MAX_PATH];
+            TCHAR buffer[MAX_PATH+1];
             ::GetCurrentDirectory(sizeof(buffer), &buffer[0]);
             return std::string(ToUTF8(buffer)) + "\\";
         }
@@ -64,7 +64,7 @@ namespace XULWin
 
         std::string getApplicationDirectory(HINSTANCE hInstance)
         {
-            TCHAR fileName[MAX_PATH] = L"";
+            TCHAR fileName[MAX_PATH+1] = L"";
             ::GetModuleFileName(hInstance, fileName, MAX_PATH);
             Poco::Path path(ToUTF8(&fileName[0]));
             return path.parent().toString();

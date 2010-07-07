@@ -18,6 +18,7 @@
 namespace XULWin
 {
 
+
     Initializer::Initializer(HINSTANCE inModuleHandle)
     {
         XULRunner::SetModuleHandle(inModuleHandle);

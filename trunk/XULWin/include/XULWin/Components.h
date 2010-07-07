@@ -19,6 +19,39 @@ namespace XULWin
 {
 
     /**
+     * Label
+     *
+     * Native implementation for a XUL label.
+     */
+    class Label : public NativeControl,
+                  public virtual StringValueController,
+                  public virtual CSSTextAlignController
+    {
+    public:
+        typedef NativeControl Super;
+
+        Label(Component * inParent, const AttributesMapping & inAttr);
+
+        // StringValueController methods
+        virtual std::string getValue() const;
+
+        virtual void setValue(const std::string & inStringValue);
+
+        // CSSTextAlignController methods
+        virtual CSSTextAlign getCSSTextAlign() const;
+
+        virtual void setCSSTextAlign(CSSTextAlign inValue);
+
+        virtual bool initAttributeControllers();
+
+        virtual bool initStyleControllers();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+    /**
      * Button
      *
      * Native implementation for a XUL button.

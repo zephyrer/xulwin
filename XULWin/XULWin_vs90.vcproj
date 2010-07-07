@@ -295,14 +295,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\ScrollBar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\TextBox.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\Toolbar.h"
 					>
 				</File>
@@ -404,14 +396,6 @@
 				</File>
 				<File
 					RelativePath=".\src\PhonyComponent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ScrollBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\TextBox.cpp"
 					>
 				</File>
 				<File

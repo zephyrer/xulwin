@@ -61,6 +61,7 @@ namespace XULWin
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
     };
 
+
     /**
     * Description
     *
@@ -84,6 +85,105 @@ namespace XULWin
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
+    class TextBox : public NativeControl,
+                    public virtual StringValueController,
+                    public virtual ReadOnlyController,
+                    public virtual RowsController
+    {
+    public:
+        typedef NativeControl Super;
+
+        TextBox(Component * inParent, const AttributesMapping & inAttr);
+
+        // StringValueController methods
+        virtual std::string getValue() const;
+
+        virtual void setValue(const std::string & inStringValue);
+
+        // ReadOnlyController methods
+        virtual bool isReadOnly() const;
+
+        virtual void setReadOnly(bool inReadOnly);
+
+        // RowsControll methods
+        virtual int getRows() const;
+
+        virtual void setRows(int inRows);
+
+        virtual bool initAttributeControllers();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
+    private:
+        int mRows;
+        static DWORD GetFlags(const AttributesMapping & inAttr);
+    };
+
+
+
+    class Scrollbar : public NativeControl,
+                      public virtual ScrollbarCurrentPositionController,
+                      public virtual ScrollbarMaxPositionController,
+                      public virtual ScrollbarIncrementController,
+                      public virtual ScrollbarPageIncrementController
+    {
+    public:
+        typedef NativeControl Super;
+
+        Scrollbar(Component * inParent, const AttributesMapping & inAttributesMapping);
+
+        virtual int getCurrentPosition() const;
+
+        virtual void setCurrentPosition(int inCurrentPosition);
+
+        virtual int getMaxPosition() const;
+
+        virtual void setMaxPosition(int inMaxPosition);
+
+        virtual int getIncrement() const;
+
+        virtual void setIncrement(int inIncrement);
+
+        virtual int getPageIncrement() const;
+
+        virtual void setPageIncrement(int inPageIncrement);
+
+        class EventListener
+        {
+        public:
+            virtual bool curposChanged(Scrollbar * inSender, int inOldPos, int inNewPos) = 0;
+        };
+
+        EventListener * eventHandler()
+        {
+            return mEventListener;
+        }
+
+        void setEventListener(EventListener * inEventListener)
+        {
+            mEventListener = inEventListener;
+        }
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        bool initAttributeControllers();
+
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
+    private:
+        static DWORD GetFlags(const AttributesMapping & inAttributesMapping);
+
+        EventListener * mEventListener;
+        int mIncrement;
     };
 
 

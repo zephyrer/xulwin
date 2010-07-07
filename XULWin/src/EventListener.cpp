@@ -1,5 +1,6 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/Component.h"
+#include "XULWin/Components.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"

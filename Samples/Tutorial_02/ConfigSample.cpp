@@ -1,7 +1,6 @@
 #include "ConfigSample.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/TextBox.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Components.h"

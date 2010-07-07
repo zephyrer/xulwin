@@ -366,10 +366,11 @@ namespace XULWin
     /**
      * Macro for generating the class implementations of XMLElement subclasses.
      * Note! A function called Create##ELEMENT will be declared but not defined.
-     * It's up to the implementer to provide a function definition!
-     * For example implementations search for the functions CreateLabel, CreateButton,
-     * CreateMenuList, CreateMenuItem, ... in this project.
-     * this project.
+     * For example CreateLabel, CreateTextBox, ...
+     *
+     * It's up to the implementer to provide definitions for these functions
+     * along with the corresponding Component class.
+     * 
      */
     #define XULWIN_IMPLEMENT_ELEMENT(ELEMENT) \
         Component * Create##ELEMENT(Component *, const AttributesMapping&);                         \
@@ -418,3 +419,4 @@ namespace XULWin
 
 
 #endif // ELEMENT_H_INCLUDED
+ 

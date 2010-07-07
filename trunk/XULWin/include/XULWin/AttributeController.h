@@ -17,20 +17,20 @@ namespace XULWin
      *
      * Base class for all attribute controllers defined in XULWin.
      *
-     * Attribute controller provide forward read/write operations on an XUL
-     * element to C++ getter/setter method call on a Component object.
+     * Attribute controllers bridge XML attributes to C++ getters and setters.
      *
      * For example:
      *
      *   xmlButton.setAttribute("label", "Click me!");*
      *
-     * is internally forwarded to:
+     * is forwarded to:
      *
      *   button->setLabel("Click me!");
      *
-     * So the button's label will actually change by having set an XML property.
+     * So the button's native label will actually change after
+     * changing the "label" attribute to the XUL element.
      *
-     * 
+     *
      * Every XUL attribute should have a corresponding AttributeController class.
      * In turn each Component class must inherit the corresponding
      * attribute controllers for each of its attributes.

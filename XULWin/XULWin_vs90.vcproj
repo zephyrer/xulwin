@@ -247,10 +247,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\Label.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\ListBox.h"
 					>
 				</File>
@@ -328,10 +324,6 @@
 				</File>
 				<File
 					RelativePath=".\src\Image.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\Label.cpp"
 					>
 				</File>
 				<File

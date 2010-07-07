@@ -3,12 +3,20 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/Menu.h"
+#include "XULWin/NativeControl.h"
 #include "XULWin/PhonyComponent.h"
 #include "XULWin/WinUtils.h"
 
 
 namespace XULWin
 {
+    
+    namespace WinAPI
+    {
+        class PopupMenu;
+    }
+
 
     class Menu : public PhonyComponent,
                  public LabelController
@@ -37,6 +45,109 @@ namespace XULWin
         static MenusById sMenusById;
         std::string mLabel;
         HMENU mMenuHandle;
+    };
+
+
+    class MenuBar : public PhonyComponent
+    {
+    public:
+        typedef PhonyComponent Super;
+
+        MenuBar(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual bool init();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
+    class MenuItem : public VirtualComponent,
+                     public LabelController
+    {
+    public:
+        typedef VirtualComponent Super;
+
+        MenuItem(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual ~MenuItem();
+
+        virtual bool initAttributeControllers();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual std::string getLabel() const;
+
+        virtual void setLabel(const std::string & inLabel);
+
+        static MenuItem * FindById(int inId);
+
+    private:
+        typedef std::map<int, MenuItem *> MenuItemsById;
+        static MenuItemsById sMenuItemsById;
+
+        std::string mLabel;
+    };
+
+
+    class MenuList : public NativeControl
+    {
+    public:
+        typedef NativeControl Super;
+
+        MenuList(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual bool init();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual void move(int x, int y, int w, int h);
+
+        virtual void onContentChanged();
+
+    private:
+        void fillComboBox();
+    };
+
+
+    class MenuPopup : public PhonyComponent
+    {
+    public:
+        typedef PhonyComponent Super;
+
+        MenuPopup(Component * inParent, const AttributesMapping & inAttr);
+
+        void show(RECT inExcludeRect);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+    protected:
+        virtual void onChildAdded(Component * inChild);
+
+        virtual void onChildRemoved(Component * inChild);
+
+    private:
+        WinAPI::PopupMenu * getMenu();
+    };
+
+
+    class MenuSeparator : public VirtualComponent
+    {
+    public:
+        typedef VirtualComponent Super;
+
+        MenuSeparator(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const { return 0; }
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const { return 0; }
     };
 
 } // namespace XULWin

@@ -3,7 +3,7 @@
 #include "XULWin/Defaults.h"
 #include "XULWin/Dialog.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/MenuBar.h"
+#include "XULWin/Menu.h"
 #include "XULWin/WinUtils.h"
 
 

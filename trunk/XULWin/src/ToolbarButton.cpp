@@ -3,7 +3,7 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Element.h"
-#include "XULWin/MenuPopup.h"
+#include "XULWin/Menu.h"
 #include "XULWin/Toolbar.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"

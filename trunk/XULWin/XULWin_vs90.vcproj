@@ -259,26 +259,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\MenuBar.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuItem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuList.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuPopup.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\XULWin\MenuSeparator.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\NativeComponent.h"
 					>
 				</File>
@@ -360,26 +340,6 @@
 				</File>
 				<File
 					RelativePath=".\src\Menu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuItem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuList.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuPopup.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\MenuSeparator.cpp"
 					>
 				</File>
 				<File

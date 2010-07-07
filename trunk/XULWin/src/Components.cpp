@@ -8,8 +8,6 @@
 #include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Layout.h"
-#include "XULWin/MenuItem.h"
-#include "XULWin/MenuPopup.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"

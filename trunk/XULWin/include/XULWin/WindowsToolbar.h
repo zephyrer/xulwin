@@ -20,7 +20,7 @@ namespace XULWin
         class ToolbarDropDown;
         class ToolbarSpring;
 
-        class Toolbar
+        class WindowsToolbar
         {
         public:
             class EventHandler
@@ -32,9 +32,9 @@ namespace XULWin
 
             typedef std::map<HWND, RECT> CustomWindowPositions;
 
-            Toolbar (EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID);
+            WindowsToolbar (EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID);
 
-            ~Toolbar ();
+            ~WindowsToolbar ();
 
 
             void add(AbstractToolbarItem * inToolbarItem);
@@ -101,10 +101,10 @@ namespace XULWin
             WNDPROC mParentProc;
             WNDPROC mToolbarProc;
 
-            typedef std::map<Toolbar *, HWND> ParentMapping;
+            typedef std::map<WindowsToolbar *, HWND> ParentMapping;
             static ParentMapping sInstancesParent;
 
-            typedef std::map<Toolbar *, HWND> InstanceMapping;
+            typedef std::map<WindowsToolbar *, HWND> InstanceMapping;
             static InstanceMapping sInstances;
 
             ToolbarItems mToolbarItems;

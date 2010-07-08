@@ -1,15 +1,11 @@
 #include "XULWin/WindowsToolbar.h"
-#include "XULWin/ToolbarButton.h"
-#include "XULWin/Unicode.h"
-#include "XULWin/WinUtils.h"
 #include "XULWin/Gdiplus.h"
+#include "XULWin/Unicode.h"
+#include "XULWin/WindowsToolbarItem.h"
+#include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
 #include <commctrl.h>
 
-#ifdef _DEBUGFREE // detect the access to freed memory
-#undef free
-#define free(p) _free_dbg(p, _NORMAL_BLOCK); *(int*)&p = 0x666;
-#endif
 
 namespace XULWin
 {
@@ -21,10 +17,10 @@ namespace XULWin
         extern const int cMarginForCustomWindow = 4;
         extern const int cSpacingBetweenIconAndText = 4;
 
-        Toolbar ::ParentMapping Toolbar ::sInstancesParent;
-        Toolbar ::InstanceMapping Toolbar ::sInstances;
+        WindowsToolbar::ParentMapping WindowsToolbar::sInstancesParent;
+        WindowsToolbar::InstanceMapping WindowsToolbar::sInstances;
 
-        Toolbar ::Toolbar (EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID) :
+        WindowsToolbar::WindowsToolbar (EventHandler * inEventHandler, HMODULE inModuleHandle, HWND inParentWindow, int inID) :
             mEventHandler(inEventHandler),
             mModuleHandle(inModuleHandle),
             mParentWindow(inParentWindow),
@@ -34,42 +30,39 @@ namespace XULWin
             mToolbarProc(0),
             mActiveDropDown(0)
         {
-            mHandle = CreateWindowEx
-                      (
-                          0,
-                          TOOLBARCLASSNAME,
-                          0,
-                          WS_CHILD
-                          | TBSTYLE_FLAT
-                          | WS_CLIPSIBLINGS
-                          | WS_CLIPCHILDREN
-                          | TBSTYLE_TRANSPARENT
-                          | TBSTYLE_LIST
-                          | TBSTYLE_TOOLTIPS
-                          | CCS_NODIVIDER
-                          | CCS_NOPARENTALIGN
-                          | CCS_NORESIZE
-                          | CCS_TOP
-                          | CCS_NODIVIDER
-                          | CCS_NORESIZE
-                          ,0, 0, 0, 0,
-                          mParentWindow,
-                          (HMENU)(INT_PTR)inID,
-                          mModuleHandle,
-                          0
-                      );
+            mHandle = CreateWindowEx(0,
+                                     TOOLBARCLASSNAME,
+                                     0,
+                                     WS_CHILD
+                                      | TBSTYLE_FLAT
+                                      | WS_CLIPSIBLINGS
+                                      | WS_CLIPCHILDREN
+                                      | TBSTYLE_TRANSPARENT
+                                      | TBSTYLE_LIST
+                                      | TBSTYLE_TOOLTIPS
+                                      | CCS_NODIVIDER
+                                      | CCS_NOPARENTALIGN
+                                      | CCS_NORESIZE
+                                      | CCS_TOP
+                                      | CCS_NODIVIDER
+                                      | CCS_NORESIZE,
+                                     0, 0, 0, 0,
+                                     mParentWindow,
+                                     (HMENU)(INT_PTR)inID,
+                                     mModuleHandle,
+                                     0);
             ::SendMessage(mHandle, TB_BUTTONSTRUCTSIZE, (WPARAM) sizeof(TBBUTTON), 0);
             mFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
 
-            mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParentWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)Toolbar ::ParentProc);
+            mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParentWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)WindowsToolbar::ParentProc);
             sInstancesParent.insert(std::make_pair(this, mParentWindow));
 
-            mToolbarProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mHandle, GWLP_WNDPROC, (LONG)(LONG_PTR)Toolbar ::ToolbarProc);
+            mToolbarProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mHandle, GWLP_WNDPROC, (LONG)(LONG_PTR)WindowsToolbar::ToolbarProc);
             sInstances.insert(std::make_pair(this, mHandle));
         }
 
 
-        Toolbar ::~Toolbar ()
+        WindowsToolbar::~WindowsToolbar ()
         {
             if (mActiveDropDown)
             {
@@ -106,7 +99,7 @@ namespace XULWin
         }
 
 
-        void Toolbar ::rebuildLayout()
+        void WindowsToolbar::rebuildLayout()
         {
             if (!mToolbarItems.empty())
             {
@@ -141,7 +134,7 @@ namespace XULWin
         }
 
 
-        void Toolbar ::buildToolbar()
+        void WindowsToolbar::buildToolbar()
         {
             buildToolbar(mHandle,
                          mFont,
@@ -155,7 +148,7 @@ namespace XULWin
         }
 
 
-        void Toolbar ::buildToolbar(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems, CustomWindowPositions & outCustomWindowPositions)
+        void WindowsToolbar::buildToolbar(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems, CustomWindowPositions & outCustomWindowPositions)
         {
             std::vector< TBBUTTON > theToolbarButtons;
 
@@ -218,7 +211,7 @@ namespace XULWin
         }
 
 
-        void Toolbar ::updateToolbarButtonSizes(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems)
+        void WindowsToolbar::updateToolbarButtonSizes(HWND inToolbarHandle, HFONT hFont, const ToolbarItems & inToolbarItems)
         {
             SendMessage((HWND) inToolbarHandle, (UINT) TB_SETEXTENDEDSTYLE, (WPARAM)0, (LPARAM) TBSTYLE_EX_DRAWDDARROWS);
             int maxButtonHeight = 0;
@@ -309,7 +302,7 @@ namespace XULWin
         }
 
 
-        Toolbar ::ToolbarItems::const_iterator Toolbar ::findByCommandID(const ToolbarItems & inToolbarItems, UInt32 inComponentId)
+        WindowsToolbar::ToolbarItems::const_iterator WindowsToolbar::findByCommandID(const ToolbarItems & inToolbarItems, UInt32 inComponentId)
         {
             ToolbarItems::const_iterator it = inToolbarItems.begin(), end = inToolbarItems.end();
             for (; it != end; ++it)
@@ -324,13 +317,13 @@ namespace XULWin
         }
 
 
-        void Toolbar ::setActiveDropDownToNull()
+        void WindowsToolbar::setActiveDropDownToNull()
         {
             mActiveDropDown = 0;
         }
 
 
-        void Toolbar ::applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID)
+        void WindowsToolbar::applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID)
         {
             static const int cWidthReduction = 20;
             ToolbarItems::const_iterator it = std::find_if(inToolbarItems.begin(), inToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inSpringID);
@@ -379,19 +372,19 @@ namespace XULWin
         }
 
 
-        HMODULE Toolbar ::moduleHandle() const
+        HMODULE WindowsToolbar::moduleHandle() const
         {
             return mModuleHandle;
         }
 
 
-        HWND Toolbar ::handle() const
+        HWND WindowsToolbar::handle() const
         {
             return mHandle;
         }
 
 
-        bool Toolbar ::hasFocus() const
+        bool WindowsToolbar::hasFocus() const
         {
             if (::GetFocus() == mHandle)
             {
@@ -416,7 +409,7 @@ namespace XULWin
         }
 
 
-        void Toolbar ::setFocus()
+        void WindowsToolbar::setFocus()
         {
             ToolbarItems::const_iterator it = mToolbarItems.begin(), end = mToolbarItems.end();
             for (; it != end; ++it)
@@ -434,7 +427,7 @@ namespace XULWin
         }
 
 
-        AbstractToolbarItem * Toolbar ::getToolbarItemByCommandId(UInt32 inComponentId)
+        AbstractToolbarItem * WindowsToolbar::getToolbarItemByCommandId(UInt32 inComponentId)
         {
             ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inComponentId);
             if (it != mToolbarItems.end())
@@ -445,7 +438,7 @@ namespace XULWin
         }
 
 
-        const AbstractToolbarItem * Toolbar ::getToolbarItemByCommandId(UInt32 inComponentId) const
+        const AbstractToolbarItem * WindowsToolbar::getToolbarItemByCommandId(UInt32 inComponentId) const
         {
             ToolbarItems::const_iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inComponentId);
             if (it != mToolbarItems.end())
@@ -456,7 +449,7 @@ namespace XULWin
         }
 
 
-        void Toolbar ::add(AbstractToolbarItem * inToolbarItem)
+        void WindowsToolbar::add(AbstractToolbarItem * inToolbarItem)
         {
             ToolbarItems::iterator it = std::find_if(mToolbarItems.begin(), mToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inToolbarItem->componentId());
             bool found = it != mToolbarItems.end();
@@ -469,19 +462,19 @@ namespace XULWin
         }
 
 
-        size_t Toolbar ::size() const
+        size_t WindowsToolbar::size() const
         {
             return mToolbarItems.size();
         }
 
 
-        bool Toolbar ::empty() const
+        bool WindowsToolbar::empty() const
         {
             return mToolbarItems.empty();
         }
 
 
-        void Toolbar ::remove(size_t inIndex)
+        void WindowsToolbar::remove(size_t inIndex)
         {
             ToolbarItems::iterator it = mToolbarItems.begin() + inIndex, end = mToolbarItems.end();
             bool found = it != end;
@@ -494,7 +487,7 @@ namespace XULWin
         }
 
 
-        void Toolbar ::clear()
+        void WindowsToolbar::clear()
         {
             mActiveDropDown = 0;
             while (!empty())
@@ -505,33 +498,33 @@ namespace XULWin
         }
 
 
-        void Toolbar ::enable(size_t inIndex)
+        void WindowsToolbar::enable(size_t inIndex)
         {
             int componentId = get(inIndex)->componentId();
             ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)componentId, (LPARAM)MAKELONG(TRUE, 0));
         }
 
 
-        void Toolbar ::disable(size_t inIndex)
+        void WindowsToolbar::disable(size_t inIndex)
         {
             int componentId = get(inIndex)->componentId();
             ::SendMessage(mHandle, TB_ENABLEBUTTON, (WPARAM)componentId, (LPARAM)MAKELONG(FALSE, 0));
         }
 
 
-        const AbstractToolbarItem * Toolbar ::get(size_t inIndex) const
+        const AbstractToolbarItem * WindowsToolbar::get(size_t inIndex) const
         {
             return mToolbarItems[inIndex].get();
         }
 
 
-        AbstractToolbarItem * Toolbar ::get(size_t inIndex)
+        AbstractToolbarItem * WindowsToolbar::get(size_t inIndex)
         {
             return mToolbarItems[inIndex].get();
         }
 
 
-        LRESULT CALLBACK Toolbar ::ToolbarProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+        LRESULT CALLBACK WindowsToolbar::ToolbarProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
         {
             InstanceMapping::iterator it = sInstances.begin(), end = sInstances.end();
             for (; it != end; ++it)
@@ -548,7 +541,7 @@ namespace XULWin
                 return DefWindowProc(hWnd, inMessage, wParam, lParam);
             }
 
-            Toolbar * pThis = it->first;
+            WindowsToolbar * pThis = it->first;
 
             switch (inMessage)
             {
@@ -580,7 +573,7 @@ namespace XULWin
         }
 
 
-        LRESULT CALLBACK Toolbar ::ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
+        LRESULT CALLBACK WindowsToolbar::ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam)
         {
             ParentMapping::iterator it = sInstancesParent.begin(), end = sInstancesParent.end();
             for (; it != end; ++it)
@@ -596,7 +589,7 @@ namespace XULWin
                 return DefWindowProc(hWnd, inMessage, wParam, lParam);
             }
 
-            Toolbar * pThis = it->first;
+            WindowsToolbar * pThis = it->first;
 
             switch (inMessage)
             {

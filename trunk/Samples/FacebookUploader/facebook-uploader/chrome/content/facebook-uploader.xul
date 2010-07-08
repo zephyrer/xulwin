@@ -3,8 +3,26 @@
 <!-- Ignored by XULWin, included for compatiblity with Mozilla XUL -->
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <window id="mainWindow"
-		title="facebook-uploader Sample"
+		    title="Facebook Uploader"
+        orient="vertical"
+        align="stretch"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <button label="facebook-uploader" />
+  <toolbar id="simpleToolbar" >
+    <toolbarbutton id="addButton"
+                   type="button"
+                   label="Add"
+                   tooltiptext="Add images" />
+    <toolbarbutton id="addButton"
+                   type="button"
+                   label="Remove"
+                   tooltiptext="Remove images" />
+    <toolbarseparator />
+  </toolbar>
+  <vbox flex="1" align="center">
+    <spacer flex="1" />
+    <label flex="0" value="Images come here" />
+    <spacer flex="1" />
+  </vbox>
+  <statusbar label="Offline" />
 </window>

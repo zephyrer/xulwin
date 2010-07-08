@@ -22,13 +22,13 @@ namespace XULWin
     namespace WinAPI
     {
 
-        class Toolbar;
+        class WindowsToolbar;
         class ConcreteToolbarItem;
 
         class AbstractToolbarItem : public boost::noncopyable
         {
         public:
-            friend class WinAPI::Toolbar;
+            friend class WinAPI::WindowsToolbar;
 
             virtual ~AbstractToolbarItem() = 0 {}
 
@@ -39,7 +39,7 @@ namespace XULWin
             virtual UInt32 componentId() const = 0;
 
         protected:
-            friend class WinAPI::Toolbar;
+            friend class WinAPI::WindowsToolbar;
             friend class ConcreteToolbarItem;
 
             virtual void onPostRebuildLayout() {}
@@ -51,10 +51,10 @@ namespace XULWin
         class ConcreteToolbarItem : public AbstractToolbarItem
         {
         public:
-            friend class WinAPI::Toolbar;
+            friend class WinAPI::WindowsToolbar;
             ConcreteToolbarItem
             (
-                boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+                boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
                 UInt32 inComponentId,
                 const std::string & inText,
                 const std::string & inTooltipText,
@@ -123,7 +123,7 @@ namespace XULWin
 
             virtual void onPostRebuildLayout() {}
 
-            boost::weak_ptr<WinAPI::Toolbar> mToolbar;
+            boost::weak_ptr<WinAPI::WindowsToolbar> mToolbar;
 
         private:
             UInt32 mComponentId;
@@ -143,7 +143,7 @@ namespace XULWin
         public:
             ToolbarButton
             (
-                boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+                boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
                 UInt32 inComponentId,
                 const boost::function<void()> & inAction,
                 const std::string & inText,
@@ -171,7 +171,7 @@ namespace XULWin
 
             ToolbarDropDown
             (
-                boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+                boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
                 EventHandler * inEventHandler,
                 UInt32 inComponentId,
                 const std::string & inText,
@@ -205,7 +205,7 @@ namespace XULWin
         public:
             ToolbarSpring
             (
-                boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+                boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
                 UInt32 inComponentId // only serves as id, no command can be associated with it
             );
 
@@ -258,7 +258,7 @@ namespace XULWin
         public:
             ToolbarSeparator
             (
-                boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+                boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
                 UInt32 inComponentId // only serves as id, no command can be associated with it
             );
 

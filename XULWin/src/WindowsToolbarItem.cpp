@@ -42,7 +42,7 @@ namespace XULWin
 
         ConcreteToolbarItem::ConcreteToolbarItem
         (
-            boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+            boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
             UInt32 inComponentId,
             const std::string & inText,
             const std::string & inTooltipText,
@@ -142,7 +142,7 @@ namespace XULWin
 
         bool ConcreteToolbarItem::getIndex(size_t & outIndex) const
         {
-            if (boost::shared_ptr<WinAPI::Toolbar> ieToolbar = mToolbar.lock())
+            if (boost::shared_ptr<WinAPI::WindowsToolbar> ieToolbar = mToolbar.lock())
             {
                 for (size_t idx = 0; idx != ieToolbar->size(); ++idx)
                 {
@@ -160,7 +160,7 @@ namespace XULWin
         RECT ConcreteToolbarItem::getRect() const
         {
             RECT result = {0, 0, 0, 0};
-            if (boost::shared_ptr<WinAPI::Toolbar> ieToolbar = mToolbar.lock())
+            if (boost::shared_ptr<WinAPI::WindowsToolbar> ieToolbar = mToolbar.lock())
             {
                 size_t index;
                 if (getIndex(index))
@@ -174,7 +174,7 @@ namespace XULWin
 
         void ConcreteToolbarItem::setVisible(bool inVisible)
         {
-            if (boost::shared_ptr<WinAPI::Toolbar> ieToolbar = mToolbar.lock())
+            if (boost::shared_ptr<WinAPI::WindowsToolbar> ieToolbar = mToolbar.lock())
             {
                 SendMessage(ieToolbar->handle(), TB_HIDEBUTTON, (WPARAM)(INT)componentId(), (LPARAM)MAKELONG(inVisible ? FALSE : TRUE, 0));
             }
@@ -183,7 +183,7 @@ namespace XULWin
 
         bool ConcreteToolbarItem::isVisible() const
         {
-            if (boost::shared_ptr<WinAPI::Toolbar> ieToolbar = mToolbar.lock())
+            if (boost::shared_ptr<WinAPI::WindowsToolbar> ieToolbar = mToolbar.lock())
             {
                 return 0 == SendMessage(ieToolbar->handle(), TB_ISBUTTONHIDDEN, (WPARAM)(INT)componentId(), (LPARAM)0);
             }
@@ -212,7 +212,7 @@ namespace XULWin
         void ConcreteToolbarItem::setText(const std::string & inText)
         {
             mText = inText;
-            boost::shared_ptr<WinAPI::Toolbar> toolbar = mToolbar.lock();
+            boost::shared_ptr<WinAPI::WindowsToolbar> toolbar = mToolbar.lock();
             if (toolbar)
             {
                 toolbar->rebuildLayout();
@@ -239,7 +239,7 @@ namespace XULWin
         void ConcreteToolbarItem::setImage(boost::shared_ptr<Gdiplus::Bitmap> inImage)
         {
             mImage = inImage;
-            if (boost::shared_ptr<WinAPI::Toolbar> toolbar = mToolbar.lock())
+            if (boost::shared_ptr<WinAPI::WindowsToolbar> toolbar = mToolbar.lock())
             {
                 toolbar->rebuildLayout();
             }
@@ -290,7 +290,7 @@ namespace XULWin
 
         ToolbarButton::ToolbarButton
         (
-            boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+            boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
             UInt32 inComponentId,
             const boost::function<void()> & inAction,
             const std::string & inText,
@@ -332,7 +332,7 @@ namespace XULWin
 
         ToolbarDropDown::ToolbarDropDown
         (
-            boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+            boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
             ToolbarDropDown::EventHandler * inEventHandler,
             UInt32 inComponentId,
             const std::string & inText,
@@ -386,7 +386,7 @@ namespace XULWin
 
         ToolbarSeparator::ToolbarSeparator
         (
-            boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+            boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
             UInt32 inComponentId
         ):
             ConcreteToolbarItem
@@ -428,7 +428,7 @@ namespace XULWin
 
         ToolbarSpring::ToolbarSpring
         (
-            boost::weak_ptr<WinAPI::Toolbar> inToolbar,
+            boost::weak_ptr<WinAPI::WindowsToolbar> inToolbar,
             UInt32 inComponentId
         ):
             ConcreteToolbarItem

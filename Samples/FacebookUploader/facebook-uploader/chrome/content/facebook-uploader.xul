@@ -6,17 +6,23 @@
 		    title="Facebook Uploader"
         orient="vertical"
         align="stretch"
+        width="480"
+        height="320"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <toolbar id="simpleToolbar" >
     <toolbarbutton id="addButton"
                    type="button"
-                   label="Add"
-                   tooltiptext="Add images" />
-    <toolbarbutton id="addButton"
+                   label="Add images..."
+                   tooltiptext="Add images" 
+                   style='list-style-image: url("chrome://toolbar/skin/icons/Add.png");'
+                   />
+    <toolbarbutton id="removeButton"
                    type="button"
-                   label="Remove"
-                   tooltiptext="Remove images" />
+                   label="Remove images"
+                   tooltiptext="Remove images"
+                   style='list-style-image: url("chrome://toolbar/skin/icons/Remove.png");'
+                   />
     <toolbarseparator />
   </toolbar>
   <vbox flex="1" align="center">

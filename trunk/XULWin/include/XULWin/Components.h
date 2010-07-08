@@ -12,7 +12,6 @@
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <string>
-//#include <CommCtrl.h>
 
 
 namespace XULWin

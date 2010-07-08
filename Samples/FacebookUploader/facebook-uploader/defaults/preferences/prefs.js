@@ -1,0 +1,1 @@
+pref("toolkit.defaultChromeURI", "chrome://facebook-uploader/content/facebook-uploader.xul");

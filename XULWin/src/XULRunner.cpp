@@ -8,6 +8,7 @@
 #include "Poco/File.h"
 #include "Poco/Path.h"
 #include "Poco/String.h"
+#include <boost/noncopyable.hpp>
 
 
 namespace XULWin
@@ -16,7 +17,7 @@ namespace XULWin
     typedef std::map<std::string, std::string> Prefs;
 
 
-    bool parsePrefsLine(const std::string & inPrefsLine, std::pair<std::string, std::string> & outPref)
+    void parsePrefsLine(const std::string & inPrefsLine, std::pair<std::string, std::string> & outPref)
     {
         try
         {
@@ -28,7 +29,7 @@ namespace XULWin
             }
             if (begin == std::string::npos)
             {
-                return false;
+                throw std::runtime_error("Couldn't not parse this preference line: " + inPrefsLine);
             }
             begin++;
 
@@ -59,44 +60,55 @@ namespace XULWin
         }
         catch (const std::exception & inExc)
         {
-            ReportError(inExc.what());
-            return false;
+            throw std::runtime_error(std::string("Failed to parse the prefs file. Error: ") + inExc.what());
         }
-        return true;
     }
 
-
-    bool getPrefs(const std::string & inPrefsFile, Prefs & outPrefs)
+    class FileHelper : boost::noncopyable
     {
-        static char str[1024];
-        FILE * fp;
-        fp = fopen(inPrefsFile.c_str(), "r");
-        if (!fp)
+    public:
+        FileHelper(const std::string & inFileName) :
+            mFile(fopen(inFileName.c_str(), "r"))
         {
-            ReportError("Failed to open prefs file: " + inPrefsFile);
-            return false;
         }
 
-        while (fgets(str, sizeof(str), fp) != NULL)
+        ~FileHelper()
+        {
+            if (mFile)
+            {
+                fclose(mFile);
+                mFile = 0;
+            }
+        }
+
+        FILE * get() { return mFile; }
+
+    private:
+        FILE * mFile;
+    };
+
+
+    void getPrefs(const std::string & inPrefsFile, Prefs & outPrefs)
+    {
+        FileHelper scopedFile(inPrefsFile);
+        if (!scopedFile.get())
+        {
+            throw std::runtime_error("Failed to open prefs file: " + inPrefsFile);
+        }
+
+        std::vector<char> str(1024, 0);
+        while (fgets(&str[0], str.size(), scopedFile.get()) != NULL)
         {
             // strip trailing '\n' if it exists
-            int len = strlen(str)-1;
-            if (str[len] == '\n')
+            int len = strnlen(&str[0], str.size());
+            if (str[len - 1] == '\n')
             {
-                str[len] = 0;
+                str[len - 1] = 0;
             }
             std::pair<std::string, std::string> pair;
-            if (parsePrefsLine(str, pair))
-            {
-                outPrefs.insert(pair);
-            }
-            else
-            {
-                ReportError("Could not parse pref: " + std::string(str));
-            }
+            parsePrefsLine(&str[0], pair);
+            outPrefs.insert(pair);
         }
-        fclose(fp);
-        return true;
     }
 
 
@@ -111,10 +123,7 @@ namespace XULWin
         }
 
         Prefs prefs;
-        if (!getPrefs(cPrefsFile, prefs))
-        {
-            throw std::exception("Could not parse prefs file. This implicates that the main XUL file path remains unknown and that the application can't be started.");
-        }
+        getPrefs(cPrefsFile, prefs);
 
         Prefs::iterator it = prefs.find("toolkit.defaultChromeURI");
         if (it != prefs.end())
@@ -187,33 +196,15 @@ namespace XULWin
 
     ElementPtr XULRunner::ParseFile(AbstractXULParser & inParser, const std::string & inXULURL)
     {
-        ElementPtr result;
-        try
-        {
-            inParser.parse(inXULURL);
-            result = inParser.rootElement();
-        }
-        catch (Poco::Exception & exc)
-        {
-            ReportError(exc.displayText());
-        }
-        return result;
+        inParser.parse(inXULURL);
+        return inParser.rootElement();
     }
 
 
     ElementPtr XULRunner::ParseString(AbstractXULParser & inParser, const std::string & inXULString)
     {
-        ElementPtr result;
-        try
-        {
-            inParser.parseString(inXULString);
-            result = inParser.rootElement();
-        }
-        catch (Poco::Exception & exc)
-        {
-            ReportError(exc.displayText());
-        }
-        return result;
+        inParser.parseString(inXULString);
+        return inParser.rootElement();
     }
 
 

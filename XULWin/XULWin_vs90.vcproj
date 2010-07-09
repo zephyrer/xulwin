@@ -235,6 +235,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\WindowsOpenFileDialog.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\WindowsToolbar.h"
 					>
 				</File>
@@ -256,6 +260,10 @@
 				</File>
 				<File
 					RelativePath=".\src\PopupMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowsOpenFileDialog.cpp"
 					>
 				</File>
 				<File

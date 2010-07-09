@@ -195,7 +195,8 @@ namespace XULWin
         std::string curdir = WinAPI::getCurrentDirectory();
         Poco::File iconFile(filePath);
         if (!iconFile.exists())
-        {            
+        {        
+            ReportError("No icon file found for the Window.");
             return 0;
         }
         return WinAPI::CreateHICON(iconFile.path());

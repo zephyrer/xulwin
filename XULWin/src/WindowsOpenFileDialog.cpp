@@ -136,9 +136,9 @@ namespace XULWin
 	        if(GetOpenFileName(&openFileName))
 	        {
 		        // Split the string into filenames
-		        for (WCHAR * szTemp = openFileName.lpstrFile + openFileName.nFileOffset;
-			         *szTemp;
-			         szTemp += (wcslen(szTemp) + 1))
+		        for (WCHAR * offset = openFileName.lpstrFile + openFileName.nFileOffset;
+			         *offset;
+			         offset += (wcslen(offset) + 1))
 		        {
 			        if(openFileName.lpstrFile[ wcslen(openFileName.lpstrFile) + 4 ] == L'\0')
 			        {
@@ -146,19 +146,19 @@ namespace XULWin
 			        }
 			        else
 			        {
-				        size_t dwLen = wcslen(openFileName.lpstrFile) + wcslen(szTemp) + 2;
-				        WCHAR * szFile = new WCHAR[dwLen];
-				        wcscpy_s(szFile, dwLen, openFileName.lpstrFile);
-				        wcscat_s(szFile, dwLen, L"\\");
-				        wcscat_s(szFile, dwLen, szTemp);
-				        outSelectedFiles.push_back(ToUTF8(szFile));
-				        delete szFile;
+				        size_t bufferLength = wcslen(openFileName.lpstrFile) + wcslen(offset) + 2;
+				        WCHAR * buffer = new WCHAR[bufferLength];
+				        wcscpy_s(buffer, bufferLength, openFileName.lpstrFile);
+				        wcscat_s(buffer, bufferLength, L"\\");
+				        wcscat_s(buffer, bufferLength, offset);
+				        outSelectedFiles.push_back(ToUTF8(buffer));
+				        delete buffer;
 			        }
 		        }
 	        }
 	        else
 	        {
-		        DWORD theErrorCode = CommDlgExtendedError();
+                ReportError("::GetOpenFileName failed with error: " + WinAPI::getLastError(CommDlgExtendedError()));
 	        }
 
         }

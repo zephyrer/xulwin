@@ -44,6 +44,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     // Initialize the XULWin library
     Initializer initializer(hInstance);
+    ErrorCatcher errorCatcher;
 
     std::string xulPath = unquote(lpCmdLine);
     if (xulPath.empty())
@@ -62,7 +63,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         WinAPI::CurrentDirectoryChanger cd(xulPath);
         XULRunner xulRunner(hInstance);
-        ErrorCatcher errorCatcher;
         xulRunner.loadApplication("application.ini");
         ElementPtr root = xulRunner.rootElement();
         Window * window = root->component()->downcast<Window>();

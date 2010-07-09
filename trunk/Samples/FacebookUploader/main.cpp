@@ -6,6 +6,7 @@
 #include "XULWin/Unicode.h"
 #include "XULWin/Window.h"
 #include "XULWin/XMLWindow.h"
+#include "XULWin/WindowsOpenFileDialog.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
 #include "Poco/File.h"
@@ -36,6 +37,14 @@ LRESULT ShowMessage(WPARAM, LPARAM, const std::string & inMessage)
 {
     std::wstring msg = ToUTF16(inMessage);
     MessageBox(0, msg.c_str(), L"Facebook Uploader", MB_OK);
+    return cHandled;
+}
+
+
+LRESULT OpenFileChooser(WPARAM, LPARAM)
+{
+    std::vector<std::string> selectedFiles;
+    WinAPI::ChooseFile(0, "Facebook Uploader: Choose your images.", WinAPI::GetImagesFilter(), true, selectedFiles);
     return cHandled;
 }
 
@@ -77,7 +86,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         for (size_t idx = 0; idx != toolbarButtons.size(); ++idx)
         {
             XMLToolbarButton * button = toolbarButtons[idx];
-            events.connect(button, boost::bind(&ShowMessage, _1, _2, button->getAttribute("id")));
+            std::string id = button->getAttribute("id");
+            if (id == "addButton")
+            {
+                events.connect(button, boost::bind(&OpenFileChooser, _1, _2));
+            }
+            else
+            {
+                events.connect(button, boost::bind(&ShowMessage, _1, _2, id));
+            }
         }
 
         window->showModal(WindowPos_CenterInScreen);

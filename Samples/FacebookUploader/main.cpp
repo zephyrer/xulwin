@@ -77,7 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         for (size_t idx = 0; idx != toolbarButtons.size(); ++idx)
         {
             XMLToolbarButton * button = toolbarButtons[idx];
-            events.connect(button, boost::bind(&ShowMessage, _1, _2, button->getAttribute("label")));
+            events.connect(button, boost::bind(&ShowMessage, _1, _2, button->getAttribute("id")));
         }
 
         window->showModal(WindowPos_CenterInScreen);

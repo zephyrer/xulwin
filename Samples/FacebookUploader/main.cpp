@@ -70,10 +70,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         {
             throw std::runtime_error("Root element is not a window.");
         }
-
-		// TODO: put this in Window::init or something...
-        HICON hIcon = XULRunner::GetDefaultIcon("FacebookMainWindow");
-        ::SendMessage(window->handle(), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
         
         std::vector<XMLToolbarButton *> toolbarButtons;
         root->getElementsByType<XMLToolbarButton>(toolbarButtons);

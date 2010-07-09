@@ -34,8 +34,17 @@ namespace XULWin
          *
          * See also https://developer.mozilla.org/en/xul/window.
          */
+        static HICON GetDefaultIcon(const std::string & inAppDir,
+                                    const std::string & inWindowId,
+                                    const std::string & inExtension);
+
+
+        /**
+         * Same as above with the assumption that the
+         * current directory is the application dir.
+         */
         static HICON GetDefaultIcon(const std::string & inWindowId,
-                                    const std::string & inExtension = "ico");
+                                    const std::string & inExtension);
 
         XULRunner();
 

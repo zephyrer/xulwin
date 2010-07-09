@@ -30,6 +30,8 @@ namespace XULWin
 
         virtual ~Window();
 
+        virtual bool init();
+
         // TitleController methods
         virtual std::string getTitle() const;
 

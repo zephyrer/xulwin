@@ -1,4 +1,5 @@
 #include "XULWin/WindowsToolbar.h"
+#include "XULWin/ErrorReporter.h"
 #include "XULWin/Gdiplus.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WindowsToolbarItem.h"
@@ -28,7 +29,8 @@ namespace XULWin
             mHandle(0),
             mParentProc(0),
             mToolbarProc(0),
-            mActiveDropDown(0)
+            mActiveDropDown(0),
+            mIsBuilt(false)
         {
             mHandle = CreateWindowEx(0,
                                      TOOLBARCLASSNAME,
@@ -101,14 +103,18 @@ namespace XULWin
 
         void WindowsToolbar::rebuildLayout()
         {
+            if (!mIsBuilt)
+            {
+                return;
+            }
+
             if (!mToolbarItems.empty())
             {
                 updateToolbarButtonSizes(mHandle, mFont, mToolbarItems);
             }
 
             int toolbarSpringID = -1;
-            ToolbarItems::const_iterator it = mToolbarItems.begin(), end = mToolbarItems.end();
-            for (; it != end; ++it)
+            for (ToolbarItems::const_iterator it = mToolbarItems.begin(); it != mToolbarItems.end(); ++it)
             {
                 const AbstractToolbarItem * item = it->get();
                 if (dynamic_cast<const ToolbarSpring *>(item))
@@ -145,6 +151,7 @@ namespace XULWin
             {
                 mToolbarItems[idx]->onPostRebuildLayout();
             }
+            mIsBuilt = true;
         }
 
 
@@ -166,6 +173,7 @@ namespace XULWin
                 }
 
                 TBBUTTON theToolbarButton;
+                memset(&theToolbarButton, 0, sizeof(theToolbarButton));
                 theToolbarButton.idCommand = item->componentId();
                 theToolbarButton.dwData = 0;
                 if (const IECustomWindow * customWindow = dynamic_cast<const IECustomWindow *>(item)) // if custom window
@@ -177,7 +185,11 @@ namespace XULWin
                     theToolbarButton.fsStyle = BTNS_SEP;
                     theToolbarButton.iBitmap = rc.right-rc.left + 2*cMarginForCustomWindow; // if fsStyle is set to BTNS_SEP, iBitmap determines the width of the separator, in pixels.
                     theToolbarButton.iString = -1;
-                    SendMessage(inToolbarHandle, TB_ADDBUTTONS, (WPARAM)1, (LPARAM)(LPTBBUTTON) &theToolbarButton);
+                    if (FALSE == SendMessage(inToolbarHandle, TB_ADDBUTTONS, (WPARAM)1, (LPARAM)(LPTBBUTTON) &theToolbarButton))
+                    {
+                        std::string lastError = WinAPI::getLastError(::GetLastError());
+                        ReportError("Failed to add the toolbar button. Reason: " + lastError);
+                    }
                 }
                 else
                 {
@@ -188,7 +200,11 @@ namespace XULWin
                     theToolbarButton.iString = -1;
 
                     // Add the button to the toolbar
-                    SendMessage(inToolbarHandle, TB_ADDBUTTONS, (WPARAM)1, (LPARAM)(LPTBBUTTON) &theToolbarButton);
+                    if (FALSE == SendMessage(inToolbarHandle, TB_ADDBUTTONS, (WPARAM)1, (LPARAM)(LPTBBUTTON) &theToolbarButton))
+                    {
+                        std::string lastError = WinAPI::getLastError(::GetLastError());
+                        ReportError("Failed to add the toolbar button. Reason: " + lastError);
+                    }
                 }
                 theToolbarButtons.push_back(theToolbarButton);
             }
@@ -331,20 +347,20 @@ namespace XULWin
             assert(it != end);
             if (it != end)
             {
-                RECT rc;
+                RECT rc = {0, 0, 0, 0};
                 GetClientRect(::GetParent(inToolbarHandle), &rc);
                 int actualWidth = rc.right - rc.left - cWidthReduction;
 
                 assert(inSpringID >= 1);
 
-                RECT rcItemBeforeSpring;
+                RECT rcItemBeforeSpring = {0, 0, 0, 0};
                 ToolbarItems::const_iterator itemBeforeSpring = findByCommandID(inToolbarItems, inSpringID-1);
                 if (itemBeforeSpring != end)
                 {
                     SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*itemBeforeSpring)->componentId(), (LPARAM)&rcItemBeforeSpring);
                 }
 
-                RECT rcItemAfterSpring;
+                RECT rcItemAfterSpring = {0, 0, 0, 0};
                 ToolbarItems::const_iterator itemAfterSpring = findByCommandID(inToolbarItems, inSpringID+1);
                 if (itemAfterSpring == end)
                 {
@@ -352,7 +368,7 @@ namespace XULWin
                 }
                 SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*itemAfterSpring)->componentId(), (LPARAM)&rcItemAfterSpring);
 
-                RECT rcLast;
+                RECT rcLast = {0, 0, 0, 0};
                 ToolbarItems::const_reverse_iterator lastItem = inToolbarItems.rbegin();
                 if (lastItem != inToolbarItems.rend())
                 {
@@ -363,11 +379,15 @@ namespace XULWin
                 width -= (rcLast.right-rcItemAfterSpring.left);
 
                 TBBUTTONINFO buttonInfo;
+                memset(&buttonInfo, 0, sizeof(buttonInfo));
                 buttonInfo.cbSize = sizeof(TBBUTTONINFO);
                 buttonInfo.cx      = width; // requires TBIF_SIZE mask
                 buttonInfo.dwMask  = TBIF_SIZE;
 
-                SendMessage(inToolbarHandle, TB_SETBUTTONINFO, (WPARAM)inSpringID, (LPARAM)(LPTBBUTTONINFO) &buttonInfo);
+                if (!SendMessage(inToolbarHandle, TB_SETBUTTONINFO, (WPARAM)inSpringID, (LPARAM)(LPTBBUTTONINFO) &buttonInfo))
+                {
+                    ReportError("Could not change the toolbar button width. Reason: " + WinAPI::getLastError(::GetLastError()));
+                }
             }
         }
 

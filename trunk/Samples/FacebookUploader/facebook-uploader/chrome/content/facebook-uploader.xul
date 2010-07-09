@@ -13,17 +13,20 @@
   <toolbar id="simpleToolbar" >
     <toolbarbutton id="addButton"
                    type="button"
-                   label="Add images..."
                    tooltiptext="Add images" 
                    style='list-style-image: url("chrome://toolbar/skin/icons/Add.png");'
                    />
     <toolbarbutton id="removeButton"
                    type="button"
-                   label="Remove images"
                    tooltiptext="Remove images"
                    style='list-style-image: url("chrome://toolbar/skin/icons/Remove.png");'
                    />
-    <toolbarseparator />
+    <toolbarspacer />
+    <toolbarbutton id="uploadButton"
+                   type="button"
+                   tooltiptext="Upload"
+                   style='list-style-image: url("chrome://toolbar/skin/icons/Up.png");'
+                   />
   </toolbar>
   <vbox flex="1" align="center">
     <spacer flex="1" />

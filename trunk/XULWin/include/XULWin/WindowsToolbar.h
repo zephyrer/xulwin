@@ -98,6 +98,8 @@ namespace XULWin
             int mID;
             ToolbarDropDown * mActiveDropDown;
 
+            bool mIsBuilt;
+
             WNDPROC mParentProc;
             WNDPROC mToolbarProc;
 

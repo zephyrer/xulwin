@@ -1,4 +1,5 @@
 #include "XULWin/Component.h"
+#include "XULWin/Toolbar.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
@@ -28,6 +29,14 @@ std::string unquote(const std::string & inString)
         return inString.substr(1, inString.size() - 2);
     }
     return inString;
+}
+
+
+LRESULT ShowMessage(WPARAM, LPARAM, const std::string & inMessage)
+{
+    std::wstring msg = ToUTF16(inMessage);
+    MessageBox(0, msg.c_str(), L"Facebook Uploader", MB_OK);
+    return cHandled;
 }
 
 
@@ -61,6 +70,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         {
             throw std::runtime_error("Root element is not a window.");
         }
+        
+        std::vector<XMLToolbarButton *> toolbarButtons;
+        root->getElementsByType<XMLToolbarButton>(toolbarButtons);
+        ScopedEventListener events;
+        for (size_t idx = 0; idx != toolbarButtons.size(); ++idx)
+        {
+            XMLToolbarButton * button = toolbarButtons[idx];
+            events.connect(button, boost::bind(&ShowMessage, _1, _2, button->getAttribute("label")));
+        }
+
         window->showModal(WindowPos_CenterInScreen);
     }
     catch (const std::exception & inException)

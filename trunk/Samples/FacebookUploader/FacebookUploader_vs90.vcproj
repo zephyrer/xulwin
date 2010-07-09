@@ -181,6 +181,10 @@
 				RelativePath=".\FacebookUploader.exe.manifest"
 				>
 			</File>
+			<File
+				RelativePath=".\Todo.txt"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="XUL"

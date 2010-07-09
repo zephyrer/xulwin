@@ -72,6 +72,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<XMLSVGRect>();
         ElementFactory::Instance().registerElement<XMLToolbar>();
         ElementFactory::Instance().registerElement<XMLToolbarButton>();
+        ElementFactory::Instance().registerElement<XMLToolbarSpacer>();
         ElementFactory::Instance().registerElement<XMLTree>();
         ElementFactory::Instance().registerElement<XMLTreeChildren>();
         ElementFactory::Instance().registerElement<XMLTreeCols>();

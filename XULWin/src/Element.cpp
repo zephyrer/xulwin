@@ -314,6 +314,7 @@ namespace XULWin
     XULWIN_IMPLEMENT_ELEMENT(MenuSeparator)
     XULWIN_IMPLEMENT_ELEMENT(Toolbar)
     XULWIN_IMPLEMENT_ELEMENT(ToolbarButton)
+    XULWIN_IMPLEMENT_ELEMENT(ToolbarSpacer)
 
 
 } // namespace XULWin

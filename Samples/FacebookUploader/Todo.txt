@@ -1,0 +1,5 @@
+Facebook Uploader
+-----------------
+- Fix the Toolbar spacer
+- Toolbar tooltips
+- Smaller icons (32 px)

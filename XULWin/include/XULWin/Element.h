@@ -414,6 +414,8 @@ namespace XULWin
     XULWIN_DECLARE_ELEMENT(MenuSeparator, "menuseparator")
     XULWIN_DECLARE_ELEMENT(Toolbar, "toolbar")
     XULWIN_DECLARE_ELEMENT(ToolbarButton, "toolbarbutton")
+    XULWIN_DECLARE_ELEMENT(ToolbarSpacer, "toolbarspacer")
+    
 
 } // XULWin
 

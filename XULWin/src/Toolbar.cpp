@@ -141,10 +141,24 @@ namespace XULWin
         if (XULWin::Toolbar * toolbar = parent()->downcast<XULWin::Toolbar>())
         {
             boost::shared_ptr<Gdiplus::Bitmap> nullImage;
-            std::string label = getLabel();
+            
+            std::string label, tooltiptext;            
+            AttributesMapping::const_iterator it;
+            
+            it = inAttr.find("label");
+            if (it != inAttr.end())
+            {
+                label = it->second;
+            }
+
+            it = inAttr.find("tooltiptext");
+            if (it != inAttr.end())
+            {
+                tooltiptext = it->second;
+            }
 
             std::string buttonType;
-            AttributesMapping::const_iterator it = inAttr.find("type");
+            it = inAttr.find("type");
             if (it != inAttr.end())
             {
                 buttonType = it->second;
@@ -159,7 +173,7 @@ namespace XULWin
                                                        this,
                                                        mComponentId.value(),
                                                        label,
-                                                       label,
+                                                       tooltiptext,
                                                        nullImage,
                                                        false);
             }
@@ -169,7 +183,7 @@ namespace XULWin
                                                        this,
                                                        mComponentId.value(),
                                                        label,
-                                                       label,
+                                                       tooltiptext,
                                                        nullImage,
                                                        true);
             }
@@ -179,7 +193,7 @@ namespace XULWin
                                                             mComponentId.value(),
                                                             boost::function<void()>(),
                                                             label,
-                                                            label,
+                                                            tooltiptext,
                                                             nullImage);
             }
             assert(mButton);
@@ -228,26 +242,16 @@ namespace XULWin
 
 
     int ToolbarButton::calculateWidth(SizeConstraint inSizeConstraint) const
-    {
-        const XULWin::NativeComponent * nativeComp = NativeControl::FindNativeParent(this);
-        if (const XULWin::Toolbar * toolbar = nativeComp->downcast<Toolbar>())
-        {
-            int r = WinAPI::getToolbarButtonSize(toolbar->handle(), componentId());
-            return r;
-        }
-        return 0;
+    {        
+        RECT rc = mButton->getRect();
+        return rc.right - rc.left;
     }
 
 
     int ToolbarButton::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        int result = std::max<int>(Defaults::toolbarHeight(),
-                                   WinAPI::getTextSize(getLabel()).cy);
-        if (mButton && mButton->image())
-        {
-            result = std::max<int>(result, mButton->image()->GetHeight());
-        }
-        return result;
+        RECT rc = mButton->getRect();
+        return rc.bottom - rc.top;
     }
 
 
@@ -309,6 +313,41 @@ namespace XULWin
     const std::string & ToolbarButton::getCSSListStyleImage() const
     {
         return mCSSListStyleImage;
+    }
+
+
+    Component * CreateToolbarSpacer(Component * inParent, const AttributesMapping & inAttr)
+    {
+        return new Decorator(new ToolbarSpacer(inParent, inAttr));
+    }
+    
+    
+    ToolbarSpacer::ToolbarSpacer(Component * inParent, const AttributesMapping & inAttr) :
+        VirtualComponent(inParent, inAttr),
+        mSpacer(0)
+    {
+        Toolbar * toolbar = inParent->downcast<Toolbar>();
+        if (!toolbar)
+        {
+            return;
+        }
+
+        mSpacer = new WinAPI::ToolbarSpring(toolbar->nativeToolbar(), mComponentId.value());
+        toolbar->nativeToolbar()->add(mSpacer);
+    }
+
+    
+    int ToolbarSpacer::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        RECT rc = mSpacer->getRect();
+        return rc.right - rc.left;
+    }
+
+
+    int ToolbarSpacer::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        RECT rc = mSpacer->getRect();
+        return rc.bottom - rc.top;
     }
 
 

@@ -105,6 +105,22 @@ namespace XULWin
     };
 
 
+    class ToolbarSpacer : public VirtualComponent
+    {
+    public:
+        typedef VirtualComponent Super;
+
+        ToolbarSpacer(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+    private:
+        WinAPI::ConcreteToolbarItem * mSpacer;
+    };
+
+
     class ToolbarCustomWindowDecorator : public Decorator,
                                          public WinAPI::IECustomWindow
     {

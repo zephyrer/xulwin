@@ -52,8 +52,9 @@ namespace XULWin
 
         /**
          * Connect action callbacks to your component.
-         * Works with normal components (button, checkbox, ...) but also with menu items and
-         * toolbar buttons.
+         * Works with normal components (button, checkbox, ...)
+         * and also with menu items and toolbar buttons.
+         *
          * This method is a shorter notation for connect(inEl, WM_COMMAND, inAction).
          */
         void connect(Element * inEl, const Action & inAction);
@@ -85,13 +86,8 @@ namespace XULWin
         void disconnect(Element * inEl, UINT inMessage, UInt32 inComponentId);
 
     protected:
-        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
-        virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
-        virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam)
-        {
-            return 1;
-        }
-        virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
+        bool connectMenuItem(Element * inEl, const Action & inAction);
+        bool connectToolbarButton(Element * inEl, const Action & inAction);
 
         class MsgId
         {
@@ -139,13 +135,17 @@ namespace XULWin
             UINT mMessageId;
             UInt32 mComponentId; // needed to identify toolbar buttons
         };
-        typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;
 
-        LRESULT handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);
+        virtual LRESULT handleCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
+        virtual LRESULT handleMenuCommand(Element * inSender, WORD inMenuId);
+        virtual LRESULT handleDialogCommand(Element * inSender, WORD inNotificationCode, WPARAM wParam, LPARAM lParam);
+        virtual LRESULT handleMessage(Element * inSender, UINT inMessage, WPARAM wParam, LPARAM lParam);
+
+        LRESULT handleMessage(MsgId inMsgId, WPARAM wParam, LPARAM lParam);        
+        bool handleToolbarCommand(MsgId inMessageId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
         void invokeCallbacks(MsgId inMsgId, WPARAM wParam, LPARAM lParam, LRESULT & ret);
 
-        bool connectMenuItem(Element * inEl, const Action & inAction);
-
+        typedef std::map<MsgId, std::vector<Action> > MessageCallbacks;
         MessageCallbacks mMessageCallbacks;
     };
 

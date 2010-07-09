@@ -182,13 +182,13 @@ namespace XULWin
     }
 
 
-    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId)
+    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId, const std::string & inExtension)
     {
         Poco::Path defaultIconsPath(WinAPI::getCurrentDirectory());
         defaultIconsPath.append("chrome")
                         .append("icons")
                         .append("default")
-                        .append(inWindowId + ".ico");
+                        .append(inWindowId + "." + inExtension);
         std::string filePath = defaultIconsPath.toString();
         std::string curdir = WinAPI::getCurrentDirectory();
         Poco::File iconFile(filePath);

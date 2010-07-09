@@ -28,7 +28,14 @@ namespace XULWin
 
         static void SetModuleHandle(HMODULE inModuleHandle);
 
-        static HICON GetDefaultIcon(const std::string & inWindowId);
+        /**
+         * Searches for an image file with the name <inWindowId>.<inExtension>
+         * in the directory <mozilla-directory>/chrome/icons/default/.
+         *
+         * See also https://developer.mozilla.org/en/xul/window.
+         */
+        static HICON GetDefaultIcon(const std::string & inWindowId,
+                                    const std::string & inExtension = "ico");
 
         XULRunner();
 

@@ -181,10 +181,6 @@
 				RelativePath=".\FacebookUploader.exe.manifest"
 				>
 			</File>
-			<File
-				RelativePath=".\FacebookUploader.rc"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="XUL"

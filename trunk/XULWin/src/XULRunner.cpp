@@ -4,6 +4,7 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/XULOverlayParser.h"
 #include "XULWin/XMLWindow.h"
+#include "XULWin/GdiplusUtils.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/File.h"
 #include "Poco/Path.h"
@@ -178,6 +179,24 @@ namespace XULWin
     void XULRunner::SetModuleHandle(HMODULE inModuleHandle)
     {
         sModuleHandle = inModuleHandle;
+    }
+
+
+    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId)
+    {
+        Poco::Path defaultIconsPath(WinAPI::getCurrentDirectory());
+        defaultIconsPath.append("chrome")
+                        .append("icons")
+                        .append("default")
+                        .append(inWindowId + ".ico");
+        std::string filePath = defaultIconsPath.toString();
+        std::string curdir = WinAPI::getCurrentDirectory();
+        Poco::File iconFile(filePath);
+        if (!iconFile.exists())
+        {            
+            return 0;
+        }
+        return WinAPI::CreateHICON(iconFile.path());
     }
 
 

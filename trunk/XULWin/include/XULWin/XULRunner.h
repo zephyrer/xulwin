@@ -28,6 +28,8 @@ namespace XULWin
 
         static void SetModuleHandle(HMODULE inModuleHandle);
 
+        static HICON GetDefaultIcon(const std::string & inWindowId);
+
         XULRunner();
 
         XULRunner(HMODULE inModuleHandle);

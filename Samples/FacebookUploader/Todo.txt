@@ -1,5 +1,13 @@
 Facebook Uploader
 -----------------
+- Bring up file browers when clicking the + button.
+- Load images into image area.
+- Implement rotation.
+- Enable log in/log out.
+- Upload progress dialog.
+- Actually upload the images to Facebook.
+- Upload finished dialog.
+- Clean image area when done uploading.
 v Load window icon
 v Fix toolbar event handling
 v Fix the Toolbar spacer

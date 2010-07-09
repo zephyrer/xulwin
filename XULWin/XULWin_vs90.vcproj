@@ -219,6 +219,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\GdiplusUtils.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\PopupMenu.h"
 					>
 				</File>
@@ -246,6 +250,10 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\src\GdiplusUtils.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\src\PopupMenu.cpp"
 					>

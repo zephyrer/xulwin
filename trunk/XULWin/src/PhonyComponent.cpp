@@ -5,7 +5,7 @@ namespace XULWin
 {
 
     PhonyComponent::PhonyComponent(Component * inParent,
-                                           const AttributesMapping & inAttr) :
+                                   const AttributesMapping & inAttr) :
         VirtualComponent(inParent, inAttr)
     {
     }

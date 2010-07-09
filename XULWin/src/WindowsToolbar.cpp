@@ -128,6 +128,8 @@ namespace XULWin
                 applySpring(mHandle, mToolbarItems, toolbarSpringID);
             }
 
+            // Do it again to update the position of any
+            // custom windows that come after the spring.
             if (!mToolbarItems.empty())
             {
                 updateToolbarButtonSizes(mHandle, mFont, mToolbarItems);
@@ -262,6 +264,10 @@ namespace XULWin
                     ::MoveWindow(customWindow->handle(), position.left, position.top, position.right-position.left, position.bottom-position.top, TRUE);
                     offset_x = position.right + cMarginForCustomWindow;
                 }
+                else if (const ToolbarSpring * spring = dynamic_cast<const ToolbarSpring *>(abstractItem))
+                {
+                    // Do nothing.
+                }
                 else if (const ConcreteToolbarItem * item = dynamic_cast<const ConcreteToolbarItem *>(abstractItem)) // if normal button
                 {
                     TBBUTTONINFO buttonInfo;
@@ -339,29 +345,28 @@ namespace XULWin
         }
 
 
-        void WindowsToolbar::applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringID)
+        void WindowsToolbar::applySpring(HWND inToolbarHandle, const ToolbarItems & inToolbarItems, int inSpringId)
         {
-            static const int cWidthReduction = 20;
-            ToolbarItems::const_iterator it = std::find_if(inToolbarItems.begin(), inToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inSpringID);
+            ToolbarItems::const_iterator it = std::find_if(inToolbarItems.begin(), inToolbarItems.end(), boost::bind(&AbstractToolbarItem::componentId, _1) == inSpringId);
             ToolbarItems::const_iterator end = inToolbarItems.end();
             assert(it != end);
             if (it != end)
             {
                 RECT rc = {0, 0, 0, 0};
                 GetClientRect(::GetParent(inToolbarHandle), &rc);
-                int actualWidth = rc.right - rc.left - cWidthReduction;
+                int actualWidth = rc.right - rc.left;
 
-                assert(inSpringID >= 1);
+                assert(inSpringId >= 1);
 
                 RECT rcItemBeforeSpring = {0, 0, 0, 0};
-                ToolbarItems::const_iterator itemBeforeSpring = findByCommandID(inToolbarItems, inSpringID-1);
+                ToolbarItems::const_iterator itemBeforeSpring = findByCommandID(inToolbarItems, inSpringId-1);
                 if (itemBeforeSpring != end)
                 {
                     SendMessage(inToolbarHandle, TB_GETRECT, (WPARAM)(*itemBeforeSpring)->componentId(), (LPARAM)&rcItemBeforeSpring);
                 }
 
                 RECT rcItemAfterSpring = {0, 0, 0, 0};
-                ToolbarItems::const_iterator itemAfterSpring = findByCommandID(inToolbarItems, inSpringID+1);
+                ToolbarItems::const_iterator itemAfterSpring = findByCommandID(inToolbarItems, inSpringId+1);
                 if (itemAfterSpring == end)
                 {
                     return;
@@ -378,16 +383,7 @@ namespace XULWin
                 int width = actualWidth - rcItemBeforeSpring.right;
                 width -= (rcLast.right-rcItemAfterSpring.left);
 
-                TBBUTTONINFO buttonInfo;
-                memset(&buttonInfo, 0, sizeof(buttonInfo));
-                buttonInfo.cbSize = sizeof(TBBUTTONINFO);
-                buttonInfo.cx      = width; // requires TBIF_SIZE mask
-                buttonInfo.dwMask  = TBIF_SIZE;
-
-                if (!SendMessage(inToolbarHandle, TB_SETBUTTONINFO, (WPARAM)inSpringID, (LPARAM)(LPTBBUTTONINFO) &buttonInfo))
-                {
-                    ReportError("Could not change the toolbar button width. Reason: " + WinAPI::getLastError(::GetLastError()));
-                }
+                Toolbar_SetButtonWidth(inToolbarHandle, inSpringId, width);
             }
         }
 

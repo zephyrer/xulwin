@@ -205,7 +205,11 @@ namespace XULWin
             UINT_PTR mTimerId;
         };
 
-        UInt32 getToolbarButtonSize(HWND inHandle, UInt32 inCommandId);
+        UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId);
+
+        RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId);
+
+        void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth);
 
     } // namespace WinAPI
 

@@ -809,14 +809,42 @@ namespace XULWin
             }
         }
 
-        UInt32 getToolbarButtonSize(HWND inHandle, UInt32 inCommandId)
+        UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId)
         {
             TBBUTTONINFO tbButtonInfo;
             ::ZeroMemory(&tbButtonInfo, sizeof(tbButtonInfo));
             tbButtonInfo.cbSize = sizeof(tbButtonInfo);
             tbButtonInfo.dwMask = TBIF_SIZE;
-            ::SendMessage(inHandle, TB_GETBUTTONINFO, inCommandId, (LPARAM)&tbButtonInfo);
+            ::SendMessage(inToolbarHandle, TB_GETBUTTONINFO, inToolbarButtonId, (LPARAM)&tbButtonInfo);
             return tbButtonInfo.cx;
+        }
+
+
+        RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId)
+        {
+            RECT result = {0, 0, 0, 0 };
+            SendMessage(inToolbarHandle,
+                        TB_GETRECT,
+                        (WPARAM)inToolbarButtonId,
+                        (LPARAM)&result);
+            return result;
+        }
+
+
+        void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth)
+        {
+            TBBUTTONINFO info;
+            ZeroMemory(&info, sizeof(info));
+            info.cbSize = sizeof(TBBUTTONINFO);
+            info.dwMask  = TBIF_SIZE;
+            info.cx = inWidth;
+            if (!SendMessage(inToolbarHandle,
+                             TB_SETBUTTONINFO,
+                             (WPARAM)inToolbarButtonId,
+                             (LPARAM)(LPTBBUTTONINFO)&info))
+            {
+                ReportError("Could not change the toolbar button width. Last error: " + WinAPI::getLastError(::GetLastError()));
+            }
         }
 
 

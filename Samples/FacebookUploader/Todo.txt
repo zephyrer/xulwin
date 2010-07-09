@@ -1,6 +1,7 @@
 Facebook Uploader
 -----------------
-- Fix toolbar event handling
+v Load window icon
+v Fix toolbar event handling
 v Fix the Toolbar spacer
 v Toolbar tooltips
 v Smaller icons (32 px)

@@ -32,6 +32,12 @@ namespace XULWin
     }
 
 
+    bool NativeComponent::init()
+    {
+        return Super::init();
+    }
+
+
     void NativeComponent::subclass()
     {
         assert(!mOrigProc);

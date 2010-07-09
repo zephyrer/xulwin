@@ -182,9 +182,11 @@ namespace XULWin
     }
 
 
-    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId, const std::string & inExtension)
+    HICON XULRunner::GetDefaultIcon(const std::string & inAppDir,
+                                    const std::string & inWindowId,
+                                    const std::string & inExtension)
     {
-        Poco::Path defaultIconsPath(WinAPI::getCurrentDirectory());
+        Poco::Path defaultIconsPath(inAppDir);
         defaultIconsPath.append("chrome")
                         .append("icons")
                         .append("default")
@@ -197,6 +199,12 @@ namespace XULWin
             return 0;
         }
         return WinAPI::CreateHICON(iconFile.path());
+    }
+
+
+    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId, const std::string & inExtension)
+    {
+        return GetDefaultIcon(WinAPI::getCurrentDirectory(), inWindowId, inExtension);
     }
 
 

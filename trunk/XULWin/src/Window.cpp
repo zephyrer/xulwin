@@ -5,6 +5,7 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Menu.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/XULRunner.h"
 
 
 namespace XULWin
@@ -63,6 +64,17 @@ namespace XULWin
 
     Window::~Window()
     {
+    }
+
+
+    bool Window::init()
+    {
+		// Set the small icon in the upper left corner.
+        if (HICON hIcon = XULRunner::GetDefaultIcon(el()->getAttribute("id"), "ico"))
+        {
+            ::SendMessage(handle(), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+        }
+        return Super::init();
     }
 
 

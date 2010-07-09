@@ -27,6 +27,8 @@ namespace XULWin
 
         virtual ~NativeComponent();
 
+        virtual bool init();
+
         virtual void invalidateRect() const;
 
         virtual void setHandle(HWND inHandle, bool inPassOwnership);

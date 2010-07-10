@@ -49,4 +49,15 @@ namespace XULWin
     }
 
 
+    bool operator < (const ItemViewPtr & lhs, const ItemViewPtr & rhs)
+    {
+        if (!lhs || !rhs)
+        {
+            throw std::runtime_error("ItemViewPtr is null during comparison.");
+        }
+
+        return lhs->item() < rhs->item();
+    }
+
+
 } // namespace XULWin

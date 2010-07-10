@@ -125,6 +125,20 @@ namespace XULWin
     }
 
 
+    void Element::removeAllChildren()
+    {
+        while (!mChildren.empty())
+        {
+            Children::iterator it = mChildren.begin();
+            ElementPtr keepAlive = *it;
+            mChildren.erase(it);
+            mComponent->onChildRemoved(keepAlive->component());
+            // keepAlive loses scope here and destroys child
+        }
+        mComponent->rebuildLayout();
+    }
+
+
     void Element::setStyles(const AttributesMapping & inAttributes)
     {
         AttributesMapping::const_iterator it = inAttributes.find("style");

@@ -40,6 +40,8 @@ namespace XULWin
 
     bool operator < (const ItemView & lhs, const ItemView & rhs);
 
+    bool operator < (const ItemViewPtr & lhs, const ItemViewPtr & rhs);
+
 }
 
 

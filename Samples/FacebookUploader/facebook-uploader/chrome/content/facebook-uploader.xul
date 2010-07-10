@@ -22,14 +22,14 @@
                    style='list-style-image: url("chrome://toolbar/skin/icons/Remove.png");'
                    />
     <toolbarspacer />
-    <toolbarbutton id="logInButton"
+    <toolbarbutton id="loginButton"
                    type="button"
-                   tooltiptext="Log In"
+                   tooltiptext="Login"
                    style='list-style-image: url("chrome://toolbar/skin/icons/Log_In.png");'
                    />
-    <toolbarbutton id="logOutButton"
+    <toolbarbutton id="logoutButton"
                    type="button"
-                   tooltiptext="Log Out"
+                   tooltiptext="Logout"
                    style='list-style-image: url("chrome://toolbar/skin/icons/Log_Out.png");'
                    />
     <toolbarbutton id="uploadButton"

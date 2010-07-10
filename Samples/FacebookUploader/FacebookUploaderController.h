@@ -34,6 +34,8 @@ namespace XULWin
         LRESULT handleUploadButton(WPARAM wParam, LPARAM lParam);
         
     private:
+        void showMessageBox(const std::string & inMessage);
+
         std::string mAppDir;
         WinAPI::CurrentDirectoryChanger mCurrentDirectoryChanger;
         XULRunner mXULRunner;

@@ -46,25 +46,23 @@ namespace XULWin
 
             virtual ~ICustomDraw() = 0;
 
-            void initialize();
+            void initialize(HWND inHandle);
 
             void finalize();
-
-            virtual HWND handle() const = 0;
 
             /**
              * Return values:
              *   CDRF_NOTIFYITEMDRAW
              *   CDRF_SKIPDEFAULT
              */
-            virtual LRESULT onCustomDraw_ItemPrePaint(LPNMCUSTOMDRAW inCustomDrawMessage) = 0;
+            virtual LRESULT onCustomDraw_ItemPrePaint(WPARAM wParam, LPARAM lPARAM) = 0;
 
             /**
              * Return values:
              *   CDRF_NOTIFYPOSTPAINT
              *   CDRF_SKIPDEFAULT
              */
-            virtual LRESULT onCustomDraw_ItemPostPaint(LPNMCUSTOMDRAW inCustomDrawMessage) = 0;
+            virtual LRESULT onCustomDraw_ItemPostPaint(WPARAM wParam, LPARAM lPARAM) = 0;
 
         private:
             static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);            
@@ -74,8 +72,9 @@ namespace XULWin
             
             LRESULT parentProc(UINT inMessage, WPARAM wParam, LPARAM lParam);
     
-            WNDPROC mParentProc;
             bool mInitialized;
+            HWND mHandle;
+            WNDPROC mParentProc;
         };
 
         HWND getDefaultWindow();

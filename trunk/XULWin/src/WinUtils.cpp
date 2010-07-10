@@ -47,24 +47,26 @@ namespace XULWin
 
 
         ICustomDraw::ICustomDraw() :
-            mInitialized(false)
+            mInitialized(false),
+            mHandle(0),
+            mParentProc(0)
         {
-            initialize();
         }
 
 
         ICustomDraw::~ICustomDraw()
         {
-            finalize();
         }
 
 
-        void ICustomDraw::initialize()
+        void ICustomDraw::initialize(HWND inHandle)
         {
             if (!mInitialized)
             {
-                mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(::GetParent(handle()), GWLP_WNDPROC, (LONG)(LONG_PTR)ICustomDraw::ParentProc);
-                sParents.insert(std::make_pair(this, ::GetParent(handle())));
+                mHandle = inHandle;
+                HWND parentHWND = ::GetParent(mHandle);
+                mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(parentHWND, GWLP_WNDPROC, (LONG)(LONG_PTR)ICustomDraw::ParentProc);
+                sParents.insert(std::make_pair(this, parentHWND));
                 mInitialized = true;
             }
         }
@@ -74,7 +76,9 @@ namespace XULWin
         {
             if (mInitialized)
             {
-                (WNDPROC)(LONG_PTR)SetWindowLongPtr(::GetParent(handle()), GWLP_WNDPROC, (LONG)(LONG_PTR)mParentProc);
+                assert(mParentProc);
+                HWND parentHWND = ::GetParent(mHandle);
+                (WNDPROC)(LONG_PTR)SetWindowLongPtr(parentHWND, GWLP_WNDPROC, (LONG)(LONG_PTR)mParentProc);
                 
                 Parents::iterator it = sParents.find(this);
                 if (it != sParents.end())
@@ -112,12 +116,12 @@ namespace XULWin
             if (inMessage == WM_NOTIFY)
             {
                 LPNMHDR messageHeader = (LPNMHDR)lParam;
-                if (messageHeader->hwndFrom == handle())
+                if (messageHeader->hwndFrom == mHandle)
                 {
                     if (messageHeader->code == NM_CUSTOMDRAW)
                     {
-                        LPNMCUSTOMDRAW customDrawMessage = (LPNMCUSTOMDRAW)lParam;
-                        switch (customDrawMessage->dwDrawStage)
+                        LPNMCUSTOMDRAW customDrawMsg = (LPNMCUSTOMDRAW)lParam;
+                        switch (customDrawMsg->dwDrawStage)
                         {
                             case CDDS_PREPAINT:
                             {
@@ -125,17 +129,17 @@ namespace XULWin
                             }
                             case CDDS_ITEMPREPAINT:
                             {
-                                return onCustomDraw_ItemPrePaint(customDrawMessage);
+                                return onCustomDraw_ItemPrePaint(wParam, lParam);
                             }
                             case CDDS_ITEMPOSTPAINT:
                             {
-                                return onCustomDraw_ItemPostPaint(customDrawMessage);
+                                return onCustomDraw_ItemPostPaint(wParam, lParam);
                             }
                         }
                     }
                 }
             }
-            return CallWindowProc(mParentProc, handle(), inMessage, wParam, lParam);
+            return CallWindowProc(mParentProc, mHandle, inMessage, wParam, lParam);
         }
 
 

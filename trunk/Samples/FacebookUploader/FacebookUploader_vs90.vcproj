@@ -194,6 +194,38 @@
 			Name="Sources"
 			>
 			<File
+				RelativePath=".\FacebookUploaderController.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FacebookUploaderController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FacebookUploaderModel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FacebookUploaderModel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Item.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Item.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ItemView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ItemView.h"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>

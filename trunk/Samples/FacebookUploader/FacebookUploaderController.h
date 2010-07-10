@@ -3,6 +3,8 @@
 
 
 #include "FacebookUploaderModel.h"
+#include "Item.h"
+#include "ItemView.h"
 #include "XULWin/EventListener.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Windows.h"
@@ -13,6 +15,8 @@
 namespace XULWin
 {
 
+    class Grid;
+    class Rows;
     class TextBox;
 
 
@@ -46,9 +50,14 @@ namespace XULWin
 
         boost::scoped_ptr<FacebookUploaderModel> mModel;
 
+        // Has ownership
+        ItemViews mItemViews;
+
         std::string mAppDir;
         WinAPI::CurrentDirectoryChanger mCurrentDirectoryChanger;
         XULRunner mXULRunner;
+        Grid * mImageArea;
+        Rows * mImageAreaRows;
         TextBox * mLogTextBox;
 
         // This class should be near the bottom of the class variable list

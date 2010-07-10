@@ -15,7 +15,6 @@
 namespace XULWin
 {
 
-
     /**
      * ItemView is the abstract base class that contains view-specific data that belongs to an Item.
      */
@@ -27,14 +26,17 @@ namespace XULWin
 
         const Item * item() const;
 
-        Item * item();        
+        Item * item();
+
+        Gdiplus::Bitmap * getThumbnail() const;
         
     private:
         Item * mItem;
-        boost::scoped_ptr<Gdiplus::Bitmap> mBitmap;
+        mutable boost::scoped_ptr<Gdiplus::Bitmap> mThumbnail;
     };
 
-    typedef std::vector<ItemView> ItemViews;
+    typedef boost::shared_ptr<ItemView> ItemViewPtr;
+    typedef std::set<ItemViewPtr> ItemViews;
 
     bool operator < (const ItemView & lhs, const ItemView & rhs);
 

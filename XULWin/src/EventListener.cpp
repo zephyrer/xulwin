@@ -80,6 +80,12 @@ namespace XULWin
 
     void ScopedEventListener::connect(Element * inEl, const Action & inAction)
     {
+        if (!inEl)
+        {
+            ReportError("Can't register the event handler for non-existing element");
+            return;
+        }
+
         if (!connectToolbarButton(inEl, inAction) &&
             !connectMenuItem(inEl, inAction))
         {
@@ -95,12 +101,15 @@ namespace XULWin
 
 
     void ScopedEventListener::connect(Element * inEl, UINT inMessage, UInt32 inComponentId, const Action & inAction)
-    {
-        if (inEl)
+    {        
+        if (!inEl)
         {
-            inEl->addEventListener(this);
-            mMessageCallbacks[MsgId(inEl, inMessage, inComponentId)].push_back(inAction);
+            ReportError("Can't register the event handler for non-existing element");
+            return;
         }
+
+        inEl->addEventListener(this);
+        mMessageCallbacks[MsgId(inEl, inMessage, inComponentId)].push_back(inAction);
     }
 
 
@@ -117,15 +126,18 @@ namespace XULWin
 
 
     void ScopedEventListener::disconnect(Element * inEl, UINT inMessage, UInt32 inComponentId)
-    {
-        if (inEl)
+    {        
+        if (!inEl)
         {
-            MessageCallbacks::iterator it = mMessageCallbacks.find(MsgId(inEl, inMessage, inComponentId));
-            if (it != mMessageCallbacks.end())
-            {
-                it->first.element()->removeEventListener(this);
-                mMessageCallbacks.erase(it);
-            }
+            ReportError("Can't unregister the event handler for non-existing element");
+            return;
+        }
+
+        MessageCallbacks::iterator it = mMessageCallbacks.find(MsgId(inEl, inMessage, inComponentId));
+        if (it != mMessageCallbacks.end())
+        {
+            it->first.element()->removeEventListener(this);
+            mMessageCallbacks.erase(it);
         }
     }
 

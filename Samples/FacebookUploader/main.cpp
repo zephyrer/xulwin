@@ -1,15 +1,9 @@
-#include "XULWin/Component.h"
-#include "XULWin/Toolbar.h"
-#include "XULWin/Decorator.h"
+#include "FacebookUploaderController.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Initializer.h"
 #include "XULWin/Unicode.h"
-#include "XULWin/Window.h"
-#include "XULWin/XMLWindow.h"
-#include "XULWin/WindowsOpenFileDialog.h"
-#include "XULWin/WinUtils.h"
-#include "XULWin/XULRunner.h"
 #include "Poco/File.h"
+#include "Poco/Path.h"
 #include <sstream>
 #include <string>
 
@@ -33,71 +27,30 @@ std::string unquote(const std::string & inString)
 }
 
 
-LRESULT ShowMessage(WPARAM, LPARAM, const std::string & inMessage)
-{
-    std::wstring msg = ToUTF16(inMessage);
-    MessageBox(0, msg.c_str(), L"Facebook Uploader", MB_OK);
-    return cHandled;
-}
-
-
-LRESULT OpenFileChooser(WPARAM, LPARAM)
-{
-    std::vector<std::string> selectedFiles;
-    WinAPI::ChooseFile(0, "Facebook Uploader: Choose your images.", WinAPI::GetImagesFilter(), true, selectedFiles);
-    return cHandled;
-}
-
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     // Initialize the XULWin library
     Initializer initializer(hInstance);
     ErrorCatcher errorCatcher;
 
-    std::string xulPath = unquote(lpCmdLine);
-    if (xulPath.empty())
+    std::string appDir = unquote(lpCmdLine);
+    if (appDir.empty())
     {
-        xulPath = "facebook-uploader";
+        Poco::Path path(WinAPI::getCurrentDirectory(), "facebook-uploader");
+        appDir = path.toString();
     }
 
-    if (!Poco::File(xulPath).exists())
+    if (!Poco::File(appDir).exists())
     {
-        std::wstring msg = L"Could not find " + ToUTF16(xulPath) + L".";
+        std::wstring msg = L"Could not find " + ToUTF16(appDir) + L".";
         MessageBox(0, msg.c_str(), L"Facebook Uploader", MB_OK);
         return 1;
     }
 
     try
     {
-        WinAPI::CurrentDirectoryChanger cd(xulPath);
-        XULRunner xulRunner(hInstance);
-        xulRunner.loadApplication("application.ini");
-        ElementPtr root = xulRunner.rootElement();
-        Window * window = root->component()->downcast<Window>();
-        if (!window)
-        {
-            throw std::runtime_error("Root element is not a window.");
-        }
-        
-        std::vector<XMLToolbarButton *> toolbarButtons;
-        root->getElementsByType<XMLToolbarButton>(toolbarButtons);
-        ScopedEventListener events;
-        for (size_t idx = 0; idx != toolbarButtons.size(); ++idx)
-        {
-            XMLToolbarButton * button = toolbarButtons[idx];
-            std::string id = button->getAttribute("id");
-            if (id == "addButton")
-            {
-                events.connect(button, boost::bind(&OpenFileChooser, _1, _2));
-            }
-            else
-            {
-                events.connect(button, boost::bind(&ShowMessage, _1, _2, id));
-            }
-        }
-
-        window->showModal(WindowPos_CenterInScreen);
+        FacebookUploaderController controller(hInstance, appDir);
+        controller.runApplication();
     }
     catch (const std::exception & inException)
     {

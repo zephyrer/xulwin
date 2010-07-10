@@ -3,6 +3,7 @@ Facebook Uploader
 - Image area
   => Use custom-draw listview (bottom-up design?)
   => Fix model/view sync problems
+- Load image should not be blocking.
 - Rotation.
 - API login/logout
 - API upload

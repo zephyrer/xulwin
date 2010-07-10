@@ -38,10 +38,13 @@
                    style='list-style-image: url("chrome://toolbar/skin/icons/Up.png");'
                    />
   </toolbar>
-  <vbox flex="1" align="center">
+  <vbox flex="1" align="stretch">
     <spacer flex="1" />
-    <label flex="0" value="Images come here" />
+    <vbox align="center">
+      <label flex="0" value="Images come here" />
+    </vbox>
     <spacer flex="1" />
+    <textbox flex="5" id="logTextBox" multiline="true" readonly="true" rows="4" />
   </vbox>
   <statusbar label="Offline" />
 </window>

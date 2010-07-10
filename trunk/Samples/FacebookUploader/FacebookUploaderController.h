@@ -7,10 +7,14 @@
 #include "XULWin/WinUtils.h"
 #include "XULWin/Windows.h"
 #include "XULWin/XULRunner.h"
+#include <boost/scoped_ptr.hpp>
 
 
 namespace XULWin
 {
+
+    class TextBox;
+
 
     class FacebookUploaderController
     {
@@ -36,9 +40,16 @@ namespace XULWin
     private:
         void showMessageBox(const std::string & inMessage);
 
+        void log(const std::string & inMessage);
+
+        void addItems(const std::vector<std::string> & inFiles);
+
+        boost::scoped_ptr<FacebookUploaderModel> mModel;
+
         std::string mAppDir;
         WinAPI::CurrentDirectoryChanger mCurrentDirectoryChanger;
         XULRunner mXULRunner;
+        TextBox * mLogTextBox;
 
         // This class should be near the bottom of the class variable list
         // so that it will be destroyed first when quitting the program.
@@ -48,7 +59,7 @@ namespace XULWin
     };
 
 
-}
+} // namespace XULWin
 
 
 #endif // FACEBOOKUPLOADERCONTROLLER_H_INCLUDED

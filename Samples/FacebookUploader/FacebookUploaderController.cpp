@@ -2,6 +2,7 @@
 #include "ItemView.h"
 #include "XULWin/Component.h"
 #include "XULWin/Components.h"
+#include "XULWin/Defaults.h"
 #include "XULWin/Element.h"
 #include "XULWin/Elements.h"
 #include "XULWin/Image.h"
@@ -16,6 +17,7 @@
 #include "XULWin/XULRunner.h"
 #include <algorithm>
 #include <boost/bind.hpp>
+#include <boost/lexical_cast.hpp>
 
 
 namespace XULWin
@@ -209,13 +211,13 @@ namespace XULWin
             // Create a row object
             XULWin::AttributesMapping rowAttr;
             rowAttr["align"] = "left";
-            rowAttr["flex"] = "1";
+            rowAttr["flex"] = "0";
             ElementPtr rowElement = XULWin::XMLRow::Create(mImageAreaRows->el(), rowAttr);
 
             // Create the Image object
             XULWin::AttributesMapping imageAttr;
             imageAttr["src"] = item->path();
-            imageAttr["width"] = "128";
+            imageAttr["width"] = boost::lexical_cast<std::string>(mImageArea->getWidth() - Defaults::scrollbarWidth() - 8);
             imageAttr["keepAspectRatio"] = "true";
             ElementPtr imageElement = XULWin::XMLImage::Create(rowElement.get(), imageAttr);
             
@@ -225,7 +227,8 @@ namespace XULWin
             // Init the row object
             rowElement->init();
         }
-        mImageArea->rebuildLayout();
+        mXULRunner.rootElement()->component()->rebuildLayout();
+        mXULRunner.rootElement()->component()->downcast<NativeComponent>()->invalidateRect();
     }
 
 

@@ -1,13 +1,12 @@
 Facebook Uploader
 -----------------
-- Load images into image area.
-- Implement rotation.
-- Disable image loading in order to focus on the API part.
-- Enable log in/log out.
+- Image area
+  => Use custom-draw listview (bottom-up design?)
+  => Fix model/view sync problems
+- Rotation.
+- API login/logout
+- API upload
 - Upload progress dialog.
-- Actually upload the images to Facebook.
-- Upload finished dialog.
-- Clean image area when done uploading.
 v Bring up file browers when clicking the + button.
 v Load window icon
 v Fix toolbar event handling

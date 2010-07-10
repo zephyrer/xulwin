@@ -73,14 +73,23 @@ namespace XULWin
     }
 
 
+    void FacebookUploaderController::showMessageBox(const std::string & inMessage)
+    {
+        std::wstring utf16Message = ToUTF16(inMessage);
+        ::MessageBox(0, utf16Message.c_str(), TEXT("Facebook Uploader"), MB_OK);
+    }
+
+
     LRESULT FacebookUploaderController::handleLoginButton(WPARAM wParam, LPARAM lParam)
     {
+        showMessageBox("login");
         return cHandled;
     }
 
 
     LRESULT FacebookUploaderController::handleLogoutButton(WPARAM wParam, LPARAM lParam)
     {
+        showMessageBox("logout");
         return cHandled;
     }
 
@@ -95,24 +104,28 @@ namespace XULWin
 
     LRESULT FacebookUploaderController::handleRemoveButton(WPARAM wParam, LPARAM lParam)
     {
+        showMessageBox("remove");
         return cHandled;
     }
 
 
     LRESULT FacebookUploaderController::handleRotateLeftButton(WPARAM wParam, LPARAM lParam)
     {
+        showMessageBox("rotate left");
         return cHandled;
     }
 
 
     LRESULT FacebookUploaderController::handleRotateRightButton(WPARAM wParam, LPARAM lParam)
     {
+        showMessageBox("rotate right");
         return cHandled;
     }
 
 
     LRESULT FacebookUploaderController::handleUploadButton(WPARAM wParam, LPARAM lParam)
     {
+        showMessageBox("upload");
         return cHandled;
     }
 

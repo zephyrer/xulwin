@@ -6,8 +6,8 @@
 		    title="Facebook Uploader"
         orient="vertical"
         align="stretch"
-        width="480"
-        height="320"
+        width="640"
+        height="480"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <toolbar id="simpleToolbar" >
@@ -38,13 +38,16 @@
                    style='list-style-image: url("chrome://toolbar/skin/icons/Up.png");'
                    />
   </toolbar>
-  <vbox flex="1" align="stretch">
-    <spacer flex="1" />
-    <vbox align="center">
-      <label flex="0" value="Images come here" />
-    </vbox>
-    <spacer flex="1" />
-    <textbox flex="5" id="logTextBox" multiline="true" readonly="true" rows="4" />
-  </vbox>
-  <statusbar label="Offline" />
+  <grid id="imageArea" flex="1" style="overflow-y:auto">
+    <columns>
+      <column flex="1" align="center"></column>
+      <column flex="1" align="center"></column>
+      <column flex="1" align="center"></column>
+      <column flex="1" align="center"></column>
+    </columns>
+    <rows id="imageAreaRows">
+    </rows>
+  </grid>
+  <textbox flex="0" id="logTextBox" multiline="true" rows="4" readonly="true"  />
+  <statusbar flex="0" label="Offline" />
 </window>

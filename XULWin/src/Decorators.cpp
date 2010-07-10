@@ -317,11 +317,23 @@ namespace XULWin
 
     void ScrollDecorator::updateHorizontalScrollInfo()
     {
+        if (!mHorizontalScrollbar)
+        {
+            return;
+        }
+
         Scrollbar * scrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
         if (scrollbar)
         {
             int maxpos = Defaults::Attributes::maxpos();
-            float ratio = (float)mDecoratedComponent->clientRect().width()/(float)mDecoratedComponent->getWidth(Minimum);
+            float a = (float)mDecoratedComponent->clientRect().width();
+            float b = (float)mDecoratedComponent->getWidth();
+            if (b == 0)
+            {
+                b = 1;
+            }
+
+            float ratio = a/b;
             int pageincrement = (int)(maxpos*ratio + 0.5);
             int curpos = getScrollPos(scrollbar->handle());
             if (ratio < 1)
@@ -342,11 +354,23 @@ namespace XULWin
 
     void ScrollDecorator::updateVerticalScrollInfo()
     {
+        if (!mVerticalScrollbar)
+        {
+            return;
+        }
+
         Scrollbar * scrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
         if (scrollbar)
         {
             int maxpos = Defaults::Attributes::maxpos();
-            float ratio = (float)mDecoratedComponent->clientRect().height()/(float)mDecoratedComponent->getHeight(Minimum);
+            float a = (float)mDecoratedComponent->clientRect().height();
+            float b = (float)mDecoratedComponent->getHeight();
+            if (b == 0)
+            {
+                b = 1;
+            }
+
+            float ratio = a/b;
             int pageincrement = (int)(maxpos*ratio + 0.5);
             int curpos = WinAPI::getScrollPos(scrollbar->handle());
             if (ratio < 1)

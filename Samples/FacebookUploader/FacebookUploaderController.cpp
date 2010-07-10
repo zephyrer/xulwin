@@ -2,6 +2,9 @@
 #include "ItemView.h"
 #include "XULWin/Component.h"
 #include "XULWin/Components.h"
+#include "XULWin/Element.h"
+#include "XULWin/Elements.h"
+#include "XULWin/Image.h"
 #include "XULWin/Toolbar.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
@@ -24,6 +27,7 @@ namespace XULWin
         mAppDir(inAppDir),
         mCurrentDirectoryChanger(mAppDir),
         mXULRunner(inInstanceHandle),
+        mImageArea(0),
         mLogTextBox(0)
     {
     }
@@ -46,6 +50,33 @@ namespace XULWin
         {
             throw std::runtime_error("Root element is not a window.");
         }
+
+
+        Element * imageArea = mXULRunner.rootElement()->getElementById("imageArea");
+        if (!imageArea)
+        {
+            throw std::runtime_error("The XUL document does not contain an element with id \"imageArea\".");
+        }
+        
+        mImageArea = imageArea->component()->downcast<Grid>();
+        if (!mImageArea)
+        {
+            throw std::runtime_error("The element with id \"imageArea\" must by of type \"grid\".");
+        }
+
+
+        Element * imageAreaRows = mXULRunner.rootElement()->getElementById("imageAreaRows");
+        if (!imageAreaRows)
+        {
+            throw std::runtime_error("The XUL document does not contain an element with id \"imageAreaRows\".");
+        }
+
+        mImageAreaRows = imageAreaRows->component()->downcast<Rows>();
+        if (!mImageAreaRows)
+        {
+            throw std::runtime_error("The element with id \"imageAreaRows\" must by of type \"rows\".");
+        }
+        
 
         
         Element * logTextBox = mXULRunner.rootElement()->getElementById("logTextBox");
@@ -156,13 +187,49 @@ namespace XULWin
 
     void FacebookUploaderController::addItems(const std::vector<std::string> & inFiles)
     {
+        ElementPtr rowElement;
         for (size_t idx = 0; idx != inFiles.size(); ++idx)
         {
+            // Create the item.
             ItemPtr item(new Item(inFiles[idx]));
-            item->setUserData(new ItemView(item.get()));
+
+            // Create the item view.
+            ItemViewPtr itemView(new ItemView(item.get()));
+
+            // Store the item view (and take ownership).
+            mItemViews.insert(itemView);
+
+            // Set the item view as user data for the item.
+            item->setUserData(static_cast<void*>(itemView.get()));
+            
+            // Add the item to the model (and pass ownership).
             mModel->addItem(item);
             log("Added " + item->path());
+
+
+            // Create a row object
+            if (idx % 4 == 0)
+            {
+                XULWin::AttributesMapping rowAttr;
+                rowAttr["align"] = "center";
+                rowAttr["flex"] = "1";
+                rowElement = XULWin::XMLRow::Create(mImageAreaRows->el(), rowAttr);
+            }
+
+            // Create the Image object
+            XULWin::AttributesMapping imageAttr;
+            imageAttr["src"] = item->path();
+            imageAttr["width"] = "128";
+            imageAttr["keepAspectRatio"] = "true";
+            ElementPtr imageElement = XULWin::XMLImage::Create(rowElement.get(), imageAttr);
+            
+            // Init the Image object
+            imageElement->init();
+
+            // Init the row object
+            rowElement->init();
         }
+        mImageArea->rebuildLayout();
     }
 
 

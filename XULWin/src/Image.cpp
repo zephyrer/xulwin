@@ -1,5 +1,6 @@
 #include "XULWin/Image.h"
 #include "XULWin/Decorator.h"
+#include "XULWin/Decorators.h"
 #include "XULWin/ChromeURL.h"
 #include "XULWin/Defaults.h"
 #include "XULWin/Component.h"
@@ -18,7 +19,7 @@ namespace XULWin
 
     Component * CreateImage(XULWin::Component * inParent, const AttributesMapping & inAttr)
     {
-        return new Decorator(new Image(inParent, inAttr));
+        return new MarginDecorator(new Image(inParent, inAttr));
     }
 
 
@@ -192,33 +193,31 @@ namespace XULWin
 
     int Image::calculateWidth(SizeConstraint inSizeConstraint) const
     {
+        int result = 0;
         if (inSizeConstraint == Minimum)
         {
-            return 0;
+            result = 0;
         }
-
-        if (mImage)
+        else if (mImage)
         {
-            return mImage->GetWidth();
+            result = mImage->GetWidth();
         }
-
-        return 0;
+        return result;
     }
 
 
     int Image::calculateHeight(SizeConstraint inSizeConstraint) const
     {
+        int result = 0;
         if (inSizeConstraint == Minimum)
         {
-            return 0;
+            result = 0;
         }
-
-        if (mImage)
+        else if (mImage)
         {
-            return mImage->GetHeight();
+            result = mImage->GetHeight();
         }
-
-        return 0;
+        return result;
     }
 
 

@@ -16,6 +16,8 @@ namespace XULWin
         Items & getItems();
 
         const Items & getItems() const;
+
+        void addItem(ItemPtr inItem);
         
     private:
         Items mItems;

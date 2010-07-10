@@ -1,5 +1,7 @@
 #include "FacebookUploaderController.h"
+#include "ItemView.h"
 #include "XULWin/Component.h"
+#include "XULWin/Components.h"
 #include "XULWin/Toolbar.h"
 #include "XULWin/Decorator.h"
 #include "XULWin/ErrorReporter.h"
@@ -9,6 +11,7 @@
 #include "XULWin/WindowsOpenFileDialog.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/XULRunner.h"
+#include <algorithm>
 #include <boost/bind.hpp>
 
 
@@ -17,9 +20,11 @@ namespace XULWin
 
     
     FacebookUploaderController::FacebookUploaderController(HINSTANCE inInstanceHandle, const std::string & inAppDir) :
+        mModel(new FacebookUploaderModel),
         mAppDir(inAppDir),
         mCurrentDirectoryChanger(mAppDir),
-        mXULRunner(inInstanceHandle)
+        mXULRunner(inInstanceHandle),
+        mLogTextBox(0)
     {
     }
 
@@ -40,6 +45,13 @@ namespace XULWin
         if (!window)
         {
             throw std::runtime_error("Root element is not a window.");
+        }
+
+        
+        Element * logTextBox = mXULRunner.rootElement()->getElementById("logTextBox");
+        if (logTextBox)
+        {
+            mLogTextBox = logTextBox->component()->downcast<TextBox>();
         }
         
 
@@ -78,6 +90,17 @@ namespace XULWin
         std::wstring utf16Message = ToUTF16(inMessage);
         ::MessageBox(0, utf16Message.c_str(), TEXT("Facebook Uploader"), MB_OK);
     }
+    
+    
+    void FacebookUploaderController::log(const std::string & inMessage)
+    {
+        if (!mLogTextBox)
+        {
+            return;
+        }
+
+        mLogTextBox->setValue(mLogTextBox->getValue() + inMessage + "\r\n");
+    }
 
 
     LRESULT FacebookUploaderController::handleLoginButton(WPARAM wParam, LPARAM lParam)
@@ -98,6 +121,7 @@ namespace XULWin
     {
         std::vector<std::string> selectedFiles;
         WinAPI::ChooseFile(0, "Facebook Uploader: Choose your images.", WinAPI::GetImagesFilter(), true, selectedFiles);
+        addItems(selectedFiles);
         return cHandled;
     }
 
@@ -127,6 +151,18 @@ namespace XULWin
     {
         showMessageBox("upload");
         return cHandled;
+    }
+
+
+    void FacebookUploaderController::addItems(const std::vector<std::string> & inFiles)
+    {
+        for (size_t idx = 0; idx != inFiles.size(); ++idx)
+        {
+            ItemPtr item(new Item(inFiles[idx]));
+            item->setUserData(new ItemView(item.get()));
+            mModel->addItem(item);
+            log("Added " + item->path());
+        }
     }
 
 

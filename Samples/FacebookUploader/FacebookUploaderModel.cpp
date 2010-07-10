@@ -22,4 +22,13 @@ namespace XULWin
     }
 
 
+    void FacebookUploaderModel::addItem(ItemPtr inItem)
+    {
+        if (mItems.find(inItem) == mItems.end())
+        {
+            mItems.insert(inItem);
+        }
+    }
+
+
 } // namespace XULWin

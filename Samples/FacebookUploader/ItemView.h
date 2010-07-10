@@ -22,14 +22,15 @@ namespace XULWin
     class ItemView : private boost::noncopyable
     {
     public:
-        ItemView(ItemPtr inItem);
+        // Does not take ownership. Ownership belongs to the model.
+        ItemView(Item * inItem);
 
-        const ItemPtr item() const;
+        const Item * item() const;
 
-        ItemPtr item();        
+        Item * item();        
         
     private:
-        ItemPtr mItem;
+        Item * mItem;
         boost::scoped_ptr<Gdiplus::Bitmap> mBitmap;
     };
 

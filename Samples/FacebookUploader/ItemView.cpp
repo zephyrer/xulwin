@@ -4,19 +4,19 @@ namespace XULWin
 {
     
     
-    ItemView::ItemView(ItemPtr inItem) :
+    ItemView::ItemView(Item * inItem) :
         mItem(inItem)
     {
     }
         
         
-    const ItemPtr ItemView::item() const
+    const Item * ItemView::item() const
     {
         return mItem;
     }
 
 
-    ItemPtr ItemView::item()
+    Item * ItemView::item()
     {
         return mItem;
     }

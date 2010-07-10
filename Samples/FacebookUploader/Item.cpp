@@ -4,9 +4,9 @@ namespace XULWin
 {
     
     
-    Item::Item(const std::string & inPath, void * inUserData) :
+    Item::Item(const std::string & inPath) :
         mPath(inPath),
-        mUserData(inUserData)
+        mUserData(0)
     {
     }
 

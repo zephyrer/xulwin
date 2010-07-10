@@ -2,9 +2,11 @@
 #define ITEM_H_INCLUDED
 
 
+#include <set>
 #include <string>
 #include <vector>
 #include <boost/shared_ptr.hpp>
+
 
 namespace XULWin
 {
@@ -17,7 +19,7 @@ namespace XULWin
     class Item
     {
     public:
-        Item(const std::string & inPath, void * inUserData);
+        Item(const std::string & inPath);
 
         const std::string & path() const;
 
@@ -38,7 +40,7 @@ namespace XULWin
     };
 
     typedef boost::shared_ptr<Item> ItemPtr;
-    typedef std::vector<ItemPtr> Items;
+    typedef std::set<ItemPtr> Items;
 
     bool operator< (const Item & lhs, const Item & rhs);
     bool operator< (const ItemPtr lhs, const ItemPtr & rhs);

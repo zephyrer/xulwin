@@ -187,7 +187,6 @@ namespace XULWin
 
     void FacebookUploaderController::addItems(const std::vector<std::string> & inFiles)
     {
-        ElementPtr rowElement;
         for (size_t idx = 0; idx != inFiles.size(); ++idx)
         {
             // Create the item.
@@ -208,13 +207,10 @@ namespace XULWin
 
 
             // Create a row object
-            if (idx % 4 == 0)
-            {
-                XULWin::AttributesMapping rowAttr;
-                rowAttr["align"] = "center";
-                rowAttr["flex"] = "1";
-                rowElement = XULWin::XMLRow::Create(mImageAreaRows->el(), rowAttr);
-            }
+            XULWin::AttributesMapping rowAttr;
+            rowAttr["align"] = "left";
+            rowAttr["flex"] = "1";
+            ElementPtr rowElement = XULWin::XMLRow::Create(mImageAreaRows->el(), rowAttr);
 
             // Create the Image object
             XULWin::AttributesMapping imageAttr;

@@ -38,16 +38,26 @@
                    style='list-style-image: url("chrome://toolbar/skin/icons/Up.png");'
                    />
   </toolbar>
-  <grid id="imageArea" flex="1" style="overflow-y:auto">
-    <columns>
-      <column flex="1" align="center"></column>
-      <column flex="1" align="center"></column>
-      <column flex="1" align="center"></column>
-      <column flex="1" align="center"></column>
-    </columns>
-    <rows id="imageAreaRows">
-    </rows>
-  </grid>
+  <hbox flex="1" align="stretch">
+    <grid id="imageArea" width="200" style="overflow-y:auto" >
+      <columns>
+        <column flex="1" align="center"></column>
+      </columns>
+      <rows id="imageAreaRows">
+      </rows>
+    </grid>
+    <vbox flex="1">
+      <spacer flex="1" />
+      <checkbox label="Allow comments?" />
+      <checkbox label="Allow ratings?" />
+      <textbox rows="4" value="Description..." />
+      <hbox flex="0" align="end">
+        <spacer flex="1" />
+        <button label="Previous" />
+        <button label="Next" />
+      </hbox>
+    </vbox>
+  </hbox>
   <textbox flex="0" id="logTextBox" multiline="true" rows="4" readonly="true"  />
   <statusbar flex="0" label="Offline" />
 </window>

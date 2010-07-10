@@ -14,243 +14,204 @@
 namespace XULWin
 {
 
-    namespace WinAPI
+namespace WinAPI
+{
+
+    class CurrentDirectoryChanger
     {
+    public:
+        CurrentDirectoryChanger(const std::string & inTargetDir);
 
-        class CurrentDirectoryChanger
-        {
-        public:
-            CurrentDirectoryChanger(const std::string & inTargetDir);
+        ~CurrentDirectoryChanger();
 
-            ~CurrentDirectoryChanger();
+    private:
+        CurrentDirectoryChanger(const CurrentDirectoryChanger &);
+        CurrentDirectoryChanger & operator=(const CurrentDirectoryChanger &);
+        TCHAR mOldDir[MAX_PATH+1];
+    };
 
-        private:
-            CurrentDirectoryChanger(const CurrentDirectoryChanger &);
-            CurrentDirectoryChanger & operator=(const CurrentDirectoryChanger &);
-            TCHAR mOldDir[MAX_PATH+1];
-        };
 
+    // Initializes WinAPI Common Controls
+    class CommonControlsInitializer
+    {
+    public:
+        CommonControlsInitializer();
+    };
 
-        // Initializes WinAPI Common Controls
-        class CommonControlsInitializer
-        {
-        public:
-            CommonControlsInitializer();
-        };
+    HWND getDefaultWindow();
 
+    std::string getCurrentDirectory();
 
-        class ICustomDraw
-        {
-        public:
-            ICustomDraw();
+    std::string getEnvironmentVariable(const std::string & inVariableName);
 
-            virtual ~ICustomDraw() = 0;
+    std::string getApplicationDirectory(HINSTANCE hInstance);
 
-            void initialize(HWND inHandle);
+    std::string getProgramFilesDirectory();
 
-            void finalize();
+    std::string getLastError(DWORD lastError);
 
-            /**
-             * Return values:
-             *   CDRF_NOTIFYITEMDRAW
-             *   CDRF_SKIPDEFAULT
-             */
-            virtual LRESULT onCustomDraw_ItemPrePaint(WPARAM wParam, LPARAM lPARAM) = 0;
+    SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
 
-            /**
-             * Return values:
-             *   CDRF_NOTIFYPOSTPAINT
-             *   CDRF_SKIPDEFAULT
-             */
-            virtual LRESULT onCustomDraw_ItemPostPaint(WPARAM wParam, LPARAM lPARAM) = 0;
+    void addStringToComboBox(HWND inHandle, const std::string & inString);
 
-        private:
-            static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);            
+    void removeStringFromComboBox(HWND inHandle, int inIndex);
 
-            typedef std::map<ICustomDraw*, HWND> Parents;
-            static Parents sParents;
-            
-            LRESULT parentProc(UINT inMessage, WPARAM wParam, LPARAM lParam);
-    
-            bool mInitialized;
-            HWND mHandle;
-            WNDPROC mParentProc;
-        };
+    void addStringToListBox(HWND inHandle, const std::string & inString);
 
-        HWND getDefaultWindow();
+    void removeStringFromListBox(HWND inHandle, int inIndex);
 
-        std::string getCurrentDirectory();
+    int getListBoxItemCount(HWND inHandle);
 
-        std::string getEnvironmentVariable(const std::string & inVariableName);
+    // returns LB_ERR (-1) if not found
+    int getListBoxIndexOf(HWND inHandle, const std::string & inStringValue);
 
-        std::string getApplicationDirectory(HINSTANCE hInstance);
+    void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect);
 
-        std::string getProgramFilesDirectory();
+    // Use index -1 to deselect
+    void setListItemSelected(HWND inHandle, int inIndex);
 
-        std::string getLastError(DWORD lastError);
+    // Returns index of column, -1 if failed
+    int addColumnToListView(HWND inHandle, int inIndex, const std::string & inText);
 
-        SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
+    void clearComboBox(HWND inHandle);
 
-        void addStringToComboBox(HWND inHandle, const std::string & inString);
+    // returns CB_ERR (-1) if not found
+    int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset = -1);
 
-        void removeStringFromComboBox(HWND inHandle, int inIndex);
+    int getComboBoxItemCount(HWND inHandle);
 
-        void addStringToListBox(HWND inHandle, const std::string & inString);
+    // Returns CB_ERR (-1) if an error occurs
+    int getComboBoxItemHeight(HWND inHandle, int inItemIndex);
 
-        void removeStringFromListBox(HWND inHandle, int inIndex);
+    void selectComboBoxItem(HWND inHandle, int inItemIndex);
 
-        int getListBoxItemCount(HWND inHandle);
+    int getWindowWidth(HWND inHandle);
 
-        // returns LB_ERR (-1) if not found
-        int getListBoxIndexOf(HWND inHandle, const std::string & inStringValue);
+    int getWindowHeight(HWND inHandle);
 
-        void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect);
+    void setWindowWidth(HWND inHandle, int inWidth);
 
-        // Use index -1 to deselect
-        void setListItemSelected(HWND inHandle, int inIndex);
+    void setWindowHeight(HWND inHandle, int inHeight);
 
-        // Returns index of column, -1 if failed
-        int addColumnToListView(HWND inHandle, int inIndex, const std::string & inText);
+    HFONT getFont(HWND inHandle);
 
-        void clearComboBox(HWND inHandle);
+    SIZE getTextSize(HWND inHandle, const std::string & inText);
 
-        // returns CB_ERR (-1) if not found
-        int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset = -1);
+    SIZE getTextSize(const std::string & inText);
 
-        int getComboBoxItemCount(HWND inHandle);
+    std::string getWindowText(HWND inHandle);
 
-        // Returns CB_ERR (-1) if an error occurs
-        int getComboBoxItemHeight(HWND inHandle, int inItemIndex);
+    void setWindowText(HWND inHandle, const std::string & inText);
 
-        void selectComboBoxItem(HWND inHandle, int inItemIndex);
+    bool isWindowDisabled(HWND inHandle);
 
-        int getWindowWidth(HWND inHandle);
+    void disableWindow(HWND inHandle, bool inDisable);
 
-        int getWindowHeight(HWND inHandle);
+    int getMultilineTextHeight(HWND inHandle);
 
-        void setWindowWidth(HWND inHandle, int inWidth);
+    enum CheckState
+    {
+        CHECKED = BST_CHECKED,
+        UNCHECKED = BST_UNCHECKED,
+        PARTIALLY_CHECKED = BST_INDETERMINATE
+    };
 
-        void setWindowHeight(HWND inHandle, int inHeight);
+    void setCheckBoxState(HWND inHandle, CheckState inState);
 
-        HFONT getFont(HWND inHandle);
+    CheckState getCheckBoxState(HWND inHandle);
 
-        SIZE getTextSize(HWND inHandle, const std::string & inText);
+    bool isCheckBoxChecked(HWND inHandle);
 
-        SIZE getTextSize(const std::string & inText);
+    void setCheckBoxChecked(HWND inHandle, bool inChecked);
 
-        std::string getWindowText(HWND inHandle);
+    void initializeProgressMeter(HWND inHandle, int inLimit);
 
-        void setWindowText(HWND inHandle, const std::string & inText);
+    void advanceProgressMeter(HWND inHandle);
 
-        bool isWindowDisabled(HWND inHandle);
+    void setProgressMeterProgress(HWND inHandle, int inProgress);
 
-        void disableWindow(HWND inHandle, bool inDisable);
+    int getProgressMeterProgress(HWND inHandle);
 
-        int getMultilineTextHeight(HWND inHandle);
+    void addWindowStyle(HWND inHandle, LONG inStyle);
 
-        enum CheckState
-        {
-            CHECKED = BST_CHECKED,
-            UNCHECKED = BST_UNCHECKED,
-            PARTIALLY_CHECKED = BST_INDETERMINATE
-        };
+    LONG getWindowStyles(HWND inHandle);
 
-        void setCheckBoxState(HWND inHandle, CheckState inState);
+    void setWindowStyle(HWND inHandle, LONG inStyle);
 
-        CheckState getCheckBoxState(HWND inHandle);
+    void removeWindowStyle(HWND inHandle, LONG inStyle);
 
-        bool isCheckBoxChecked(HWND inHandle);
+    bool hasWindowStyle(HWND inHandle, LONG inStyle);
 
-        void setCheckBoxChecked(HWND inHandle, bool inChecked);
+    void setWindowVisible(HWND inHandle, bool inVisible);
 
-        void initializeProgressMeter(HWND inHandle, int inLimit);
+    bool isWindowVisible(HWND inHandle);
 
-        void advanceProgressMeter(HWND inHandle);
+    void setTextBoxReadOnly(HWND inHandle, bool inReadOnly);
 
-        void setProgressMeterProgress(HWND inHandle, int inProgress);
+    bool isTextBoxReadOnly(HWND inHandle);
 
-        int getProgressMeterProgress(HWND inHandle);
+    void setScrollInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition);
 
-        void addWindowStyle(HWND inHandle, LONG inStyle);
+    void getScrollInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition);
 
-        LONG getWindowStyles(HWND inHandle);
+    int getScrollPos(HWND inHandle);
 
-        void setWindowStyle(HWND inHandle, LONG inStyle);
+    void setScrollPos(HWND inHandle, int inPos);
 
-        void removeWindowStyle(HWND inHandle, LONG inStyle);
+    void appendTabPanel(HWND inHandle, const std::string & inTitle);
 
-        bool hasWindowStyle(HWND inHandle, LONG inStyle);
+    void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex);
 
-        void setWindowVisible(HWND inHandle, bool inVisible);
+    void insertMenuItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText);
 
-        bool isWindowVisible(HWND inHandle);
+    void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
 
-        void setTextBoxReadOnly(HWND inHandle, bool inReadOnly);
+    struct MenuItemInfo
+    {
+        MenuItemInfo(int inId, const std::string & inLabel) : id(inId), label(inLabel) {}
+        int id;
+        std::string label;
+    };
+    typedef GenericNode<
+    MenuItemInfo,
+    ContainerPolicy_Vector,
+    PointerPolicy_Shared
+    > MenuNode;
+    HMENU createMenu(const MenuNode & inMenuNode);
 
-        bool isTextBoxReadOnly(HWND inHandle);
+    void setMenuItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
 
-        void setScrollInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition);
+    void setMenuItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
 
-        void getScrollInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition);
+    typedef boost::function<void()> TimerAction;
+    void setTimeout(TimerAction inAction, int inDelayInMilliseconds);
 
-        int getScrollPos(HWND inHandle);
+    class Timer : boost::noncopyable
+    {
+    public:
+        Timer();
 
-        void setScrollPos(HWND inHandle, int inPos);
+        ~Timer();
 
-        void appendTabPanel(HWND inHandle, const std::string & inTitle);
+        void start(const TimerAction & inAction, int inDelayInMilliseconds);
 
-        void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex);
+        void stop();
 
-        void insertMenuItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText);
+    private:
+        static void CALLBACK OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime);
+        typedef std::map<UINT_PTR, Timer *> TimerMapping;
+        static TimerMapping sMapping;
+        TimerAction mTimerAction;
+        UINT_PTR mTimerId;
+    };
 
-        void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
+    UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId);
 
-        struct MenuItemInfo
-        {
-            MenuItemInfo(int inId, const std::string & inLabel) : id(inId), label(inLabel) {}
-            int id;
-            std::string label;
-        };
-        typedef GenericNode<
-        MenuItemInfo,
-        ContainerPolicy_Vector,
-        PointerPolicy_Shared
-        > MenuNode;
-        HMENU createMenu(const MenuNode & inMenuNode);
+    RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId);
 
-        void setMenuItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
+    void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth);
 
-        void setMenuItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
-
-        typedef boost::function<void()> TimerAction;
-        void setTimeout(TimerAction inAction, int inDelayInMilliseconds);
-
-        class Timer : boost::noncopyable
-        {
-        public:
-            Timer();
-
-            ~Timer();
-
-            void start(const TimerAction & inAction, int inDelayInMilliseconds);
-
-            void stop();
-
-        private:
-            static void CALLBACK OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime);
-            typedef std::map<UINT_PTR, Timer *> TimerMapping;
-            static TimerMapping sMapping;
-            TimerAction mTimerAction;
-            UINT_PTR mTimerId;
-        };
-
-        UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId);
-
-        RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId);
-
-        void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth);
-
-    } // namespace WinAPI
+} // namespace WinAPI
 
 } // namespace XULWin
 

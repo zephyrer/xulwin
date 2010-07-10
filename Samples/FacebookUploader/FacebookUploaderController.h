@@ -48,6 +48,8 @@ namespace XULWin
 
         void addItems(const std::vector<std::string> & inFiles);
 
+        void refreshXUL();
+
         boost::scoped_ptr<FacebookUploaderModel> mModel;
 
         // Has ownership

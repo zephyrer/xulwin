@@ -187,6 +187,37 @@ namespace XULWin
     }
 
 
+    void FacebookUploaderController::refreshXUL()
+    {
+        mImageAreaRows->el()->removeAllChildren();
+
+        for (ItemViews::iterator it = mItemViews.begin(); it != mItemViews.end(); ++it)
+        {
+            // Create a row object
+            XULWin::AttributesMapping rowAttr;
+            rowAttr["align"] = "left";
+            rowAttr["flex"] = "0";
+            ElementPtr rowElement = XULWin::XMLRow::Create(mImageAreaRows->el(), rowAttr);
+
+            Item * item = (*it)->item();
+
+            // Create the Image object
+            XULWin::AttributesMapping imageAttr;
+            imageAttr["src"] = item->path();
+            imageAttr["width"] = boost::lexical_cast<std::string>(mImageArea->getWidth() - Defaults::scrollbarWidth() - 8);
+            imageAttr["keepAspectRatio"] = "true";
+            ElementPtr imageElement = XULWin::XMLImage::Create(rowElement.get(), imageAttr);
+            
+            // Init the Image object
+            imageElement->init();
+
+            // Init the row object
+            rowElement->init();
+        }
+        mXULRunner.rootElement()->component()->downcast<NativeComponent>()->rebuildLayout();
+    }
+
+
     void FacebookUploaderController::addItems(const std::vector<std::string> & inFiles)
     {
         for (size_t idx = 0; idx != inFiles.size(); ++idx)
@@ -206,29 +237,9 @@ namespace XULWin
             // Add the item to the model (and pass ownership).
             mModel->addItem(item);
             log("Added " + item->path());
-
-
-            // Create a row object
-            XULWin::AttributesMapping rowAttr;
-            rowAttr["align"] = "left";
-            rowAttr["flex"] = "0";
-            ElementPtr rowElement = XULWin::XMLRow::Create(mImageAreaRows->el(), rowAttr);
-
-            // Create the Image object
-            XULWin::AttributesMapping imageAttr;
-            imageAttr["src"] = item->path();
-            imageAttr["width"] = boost::lexical_cast<std::string>(mImageArea->getWidth() - Defaults::scrollbarWidth() - 8);
-            imageAttr["keepAspectRatio"] = "true";
-            ElementPtr imageElement = XULWin::XMLImage::Create(rowElement.get(), imageAttr);
-            
-            // Init the Image object
-            imageElement->init();
-
-            // Init the row object
-            rowElement->init();
         }
-        mXULRunner.rootElement()->component()->rebuildLayout();
-        mXULRunner.rootElement()->component()->downcast<NativeComponent>()->invalidateRect();
+
+        refreshXUL();
     }
 
 

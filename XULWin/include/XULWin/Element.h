@@ -112,6 +112,13 @@ namespace XULWin
         virtual void removeChild(const Element * inChild);
 
         /**
+         * Removes all child elements.
+         *
+         * Same remark as for removeChild.
+         */
+        virtual void removeAllChildren();
+
+        /**
          * Returns the element tagname.
          *
          * For example button, label, etc...

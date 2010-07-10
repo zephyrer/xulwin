@@ -38,6 +38,46 @@ namespace XULWin
             CommonControlsInitializer();
         };
 
+
+        class ICustomDraw
+        {
+        public:
+            ICustomDraw();
+
+            virtual ~ICustomDraw() = 0;
+
+            void initialize();
+
+            void finalize();
+
+            virtual HWND handle() const = 0;
+
+            /**
+             * Return values:
+             *   CDRF_NOTIFYITEMDRAW
+             *   CDRF_SKIPDEFAULT
+             */
+            virtual LRESULT onCustomDraw_ItemPrePaint(LPNMCUSTOMDRAW inCustomDrawMessage) = 0;
+
+            /**
+             * Return values:
+             *   CDRF_NOTIFYPOSTPAINT
+             *   CDRF_SKIPDEFAULT
+             */
+            virtual LRESULT onCustomDraw_ItemPostPaint(LPNMCUSTOMDRAW inCustomDrawMessage) = 0;
+
+        private:
+            static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);            
+
+            typedef std::map<ICustomDraw*, HWND> Parents;
+            static Parents sParents;
+            
+            LRESULT parentProc(UINT inMessage, WPARAM wParam, LPARAM lParam);
+    
+            WNDPROC mParentProc;
+            bool mInitialized;
+        };
+
         HWND getDefaultWindow();
 
         std::string getCurrentDirectory();

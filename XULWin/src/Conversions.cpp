@@ -204,7 +204,6 @@ namespace XULWin
                 return "center";
             case CSSTextAlign_Right:
                 return "right";
-                //case CSSTextAlign_Justify: return "justify";
             default:
                 return "left";
         }
@@ -213,11 +212,20 @@ namespace XULWin
 
     CSSTextAlign String2CSSTextAlign(const std::string & inTextAlign, CSSTextAlign inDefault)
     {
-        if (inTextAlign == "left") return CSSTextAlign_Left;
-        else if (inTextAlign == "center") return CSSTextAlign_Center;
-        else if (inTextAlign == "right") return CSSTextAlign_Right;
-        //else if (inTextAlign == "justify") return CSSTextAlign_Justify;
-        return CSSTextAlign_Left;
+        CSSTextAlign result = inDefault;
+        if (inTextAlign == "left")
+        {
+            result = CSSTextAlign_Left;
+        }
+        else if (inTextAlign == "center")
+        {
+            result = CSSTextAlign_Center;
+        }
+        else if (inTextAlign == "right")
+        {
+            result = CSSTextAlign_Right;
+        }
+        return result;
     }
 
 
@@ -226,15 +234,25 @@ namespace XULWin
         switch (inTextAlign)
         {
             case CSSOverflow_Visible:
+            {
                 return "visible";
+            }
             case CSSOverflow_Hidden:
+            {
                 return "hidden";
+            }
             case CSSOverflow_Scroll:
+            {
                 return "scroll";
+            }
             case CSSOverflow_Auto:
+            {
                 return "auto";
+            }
             default:
+            {
                 return "visible";
+            }
         }
     }
 
@@ -245,7 +263,7 @@ namespace XULWin
         else if (inTextAlign == "hidden") return CSSOverflow_Hidden;
         else if (inTextAlign == "scroll") return CSSOverflow_Scroll;
         else if (inTextAlign == "auto") return CSSOverflow_Auto;
-        return CSSOverflow_Visible;
+        return inDefault;
     }
 
 

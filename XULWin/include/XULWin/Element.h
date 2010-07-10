@@ -355,6 +355,17 @@ namespace XULWin
 
     /**
      * Macro for declaring a XUL element class.
+     * Creates the element name with XML prefix.
+     *
+     * For example:
+     *   XULWIN_DECLARE_ELEMENT(Label, "label")
+     *
+     * becomes:
+     *   class XMLLabel : public Element 
+     *   {
+     *       ...
+     *   };
+     *
      */
     #define XULWIN_DECLARE_ELEMENT(ELEMENT, TAGNAME) \
         class ELEMENT;                                                          \
@@ -376,7 +387,7 @@ namespace XULWin
      * For example CreateLabel, CreateTextBox, ...
      *
      * It's up to the implementer to provide definitions for these functions
-     * along with the corresponding Component class.
+     * along with the matching Component class.
      * 
      */
     #define XULWIN_IMPLEMENT_ELEMENT(ELEMENT) \

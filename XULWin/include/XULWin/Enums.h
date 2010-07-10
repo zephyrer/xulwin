@@ -47,8 +47,8 @@ namespace XULWin
     {
         CSSTextAlign_Left,
         CSSTextAlign_Center,
-        CSSTextAlign_Right,
-        //CSSTextAlign_Justify // not supported atm
+        CSSTextAlign_Right
+        // CSSTextAlign_Justify is not supported atm
     };
 
 

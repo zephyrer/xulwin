@@ -9,6 +9,12 @@
 #include <vector>
 
 
+namespace Gdiplus
+{
+    class Image;
+}
+
+
 namespace XULWin
 {
 
@@ -84,6 +90,18 @@ namespace WinAPI
 
     private:
         std::wstring mText;
+    };
+
+
+    class ListItem_Image : public ListItem
+    {
+    public:
+        ListItem_Image(ListView * inListView, Gdiplus::Image * inImage);
+
+        virtual void draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect);
+
+    private:
+        Gdiplus::Image * mImage;
     };
 
 

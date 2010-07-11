@@ -1,5 +1,6 @@
 #include "XULWin/WindowsListView.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Gdiplus.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
@@ -261,6 +262,26 @@ namespace WinAPI
         // Release stuff
         ::SetTextColor(inMsg->nmcd.hdc, oldTextColor);
         ::SetBkMode(inMsg->nmcd.hdc, oldBkMode);
+    }
+
+
+    ListItem_Image::ListItem_Image(ListView * inListView, Gdiplus::Image * inImage) :
+        ListItem(inListView),
+        mImage(inImage)
+    { 
+    }
+
+
+    void ListItem_Image::draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect)
+    {
+        Gdiplus::Graphics g(inMsg->nmcd.hdc);
+        g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+        g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+        g.DrawImage(mImage,
+                    inRect.left,
+                    inRect.top,
+                    inRect.right - inRect.left,
+                    inRect.bottom - inRect.top);
     }
 
 

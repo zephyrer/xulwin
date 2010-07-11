@@ -181,11 +181,15 @@ namespace WinAPI
                                 case CDDS_ITEMPOSTPAINT:
                                 {
                                     if (pThis->mHandle == notifyCustomDrawMsg->hdr.hwndFrom)
-                                    {                                        
-                                        if (ListItem * item = pThis->getByIndex(notifyCustomDrawMsg->dwItemSpec))
+                                    {
+                                        int itemIdx = notifyCustomDrawMsg->dwItemSpec;
+                                        if (ListItem * item = pThis->getByIndex(itemIdx))
                                         {
                                             RECT rect;
-                                            ListView_GetItemRect(pThis->mHandle, notifyListViewMsg->ptAction.y, &rect, LVIR_BOUNDS);
+                                            ListView_GetItemRect(pThis->mHandle,
+                                                                 itemIdx,
+                                                                 &rect,
+                                                                 LVIR_BOUNDS);
                                             item->draw(listViewCustomDrawMsg->nmcd.hdc,
                                                        rect);
                                         }

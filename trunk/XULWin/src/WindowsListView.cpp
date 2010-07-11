@@ -236,6 +236,12 @@ namespace WinAPI
     { 
     }
 
+        
+    static bool IsSelected(LPNMLVCUSTOMDRAW inMsg)
+    {
+        return inMsg->nmcd.uItemState & CDIS_SELECTED;
+    }
+
 
     void ListItem_Text::draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect)
     {
@@ -243,7 +249,8 @@ namespace WinAPI
         int oldBkMode = ::SetBkMode(inMsg->nmcd.hdc, TRANSPARENT);
 
         
-        DWORD fgColor = GetSysColor(inMsg->nmcd.uItemState & CDIS_SELECTED ? COLOR_HIGHLIGHTTEXT : COLOR_WINDOWTEXT);        
+        DWORD fgColor = GetSysColor(IsSelected(inMsg) ? COLOR_HIGHLIGHTTEXT
+                                                      : COLOR_WINDOWTEXT);
         int oldTextColor = ::SetTextColor(inMsg->nmcd.hdc, fgColor);
         ::DrawText(inMsg->nmcd.hdc,
                    mText.c_str(),

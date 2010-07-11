@@ -44,7 +44,6 @@ namespace WinAPI
 
         ListItem * getByIndex(size_t inIndex);
 
-
         HMODULE moduleHandle() const;
 
         HWND handle() const;

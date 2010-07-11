@@ -54,10 +54,6 @@ namespace WinAPI
         void buildListView();
 
     private:
-        friend class ListViewDropDown;
-
-        static LRESULT CALLBACK ListViewProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
-
         static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 
         typedef std::map<ListView *, HWND> Parents;

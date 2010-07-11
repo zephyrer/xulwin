@@ -239,6 +239,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\WindowsListView.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\WindowsOpenFileDialog.h"
 					>
 				</File>
@@ -268,6 +272,10 @@
 				</File>
 				<File
 					RelativePath=".\src\PopupMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowsListView.cpp"
 					>
 				</File>
 				<File

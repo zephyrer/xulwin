@@ -49,10 +49,6 @@ namespace WinAPI
 
         HWND handle() const;
 
-        void rebuildLayout();
-
-        void buildListView();
-
     private:
         static LRESULT CALLBACK ParentProc(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);
 

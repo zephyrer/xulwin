@@ -25,13 +25,14 @@ namespace WinAPI
         mHandle = CreateWindowEx(0,
                                  WC_LISTVIEW,
                                  L"", 
-                                 WS_CHILD | LVS_LIST, 
+                                 WS_CHILD | LVS_LIST | LVS_OWNERDATA, 
                                  0, 0, 0, 0,
                                  inParent, 
                                  (HMENU)mChildId, 
                                  inModuleHandle, 
                                  NULL);
 
+        ShowWindow(mHandle, SW_SHOW);
         mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParent, GWLP_WNDPROC, (LONG)(LONG_PTR)ListView::ParentProc);
         sParents.insert(std::make_pair(this, mParent));
     }
@@ -71,7 +72,6 @@ namespace WinAPI
 
     void ListView::add(ListItem * inListItem)
     {
-        SendMessage(handle(), LVM_INSERTITEM, 0, (LPARAM)inListItem);
         ListItemPtr listItemPtr(inListItem);
         mListItems.push_back(listItemPtr);
     }
@@ -117,13 +117,21 @@ namespace WinAPI
 
     const ListItem * ListView::getByIndex(size_t inIndex) const
     {
-        return mListItems[inIndex].get();
+        if (inIndex < mListItems.size())
+        {
+            return mListItems[inIndex].get();
+        }
+        return 0;
     }
 
 
     ListItem * ListView::getByIndex(size_t inIndex)
     {
-        return mListItems[inIndex].get();
+        if (inIndex < mListItems.size())
+        {
+            return mListItems[inIndex].get();
+        }
+        return 0;
     }
 
 
@@ -172,10 +180,15 @@ namespace WinAPI
                                 }
                                 case CDDS_ITEMPOSTPAINT:
                                 {
-                                    if (ListItem * item = (ListItem*)notifyCustomDrawMsg->lItemlParam)
-                                    {
-                                        item->draw(listViewCustomDrawMsg->nmcd.hdc,
-                                                   listViewCustomDrawMsg->nmcd.rc);
+                                    if (pThis->mHandle == notifyCustomDrawMsg->hdr.hwndFrom)
+                                    {                                        
+                                        if (ListItem * item = pThis->getByIndex(notifyCustomDrawMsg->dwItemSpec))
+                                        {
+                                            RECT rect;
+                                            ListView_GetItemRect(pThis->mHandle, notifyListViewMsg->ptAction.y, &rect, LVIR_BOUNDS);
+                                            item->draw(listViewCustomDrawMsg->nmcd.hdc,
+                                                       rect);
+                                        }
                                     }
                                     return CDRF_DODEFAULT;
                                 }
@@ -204,6 +217,7 @@ namespace WinAPI
         item.mask = LVIF_PARAM;
         item.iItem = inListView->size();
         item.iSubItem = 0;
+        item.lParam = (LPARAM)this;
         if (-1 == ::SendMessage(inListView->handle(), LVM_INSERTITEM, 0, (LPARAM)&item))
         {
             ReportError("Failed to add item to list view. Last error: " + getLastError(::GetLastError()));
@@ -214,7 +228,7 @@ namespace WinAPI
     ListItem_Text::ListItem_Text(ListView * inListView, const std::string & inText) :
         ListItem(inListView),
         mText(ToUTF16(inText))
-    {        
+    { 
     }
 
 

@@ -6,6 +6,8 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/VirtualComponent.h"
 #include "XULWin/PhonyComponent.h"
+#include "XULWin/WindowsListView.h"
+#include <boost/scoped_ptr.hpp>
 
 
 namespace XULWin
@@ -19,6 +21,8 @@ namespace XULWin
         typedef NativeControl Super;
 
         ListBox(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual ~ListBox();
 
         virtual bool initAttributeControllers();
 
@@ -34,6 +38,7 @@ namespace XULWin
 
     private:
         Fallible<int> mRows;
+        boost::scoped_ptr<WinAPI::ListView> mListView;
     };
 
 

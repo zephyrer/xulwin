@@ -17,7 +17,7 @@ namespace WinAPI
     {
         INITCOMMONCONTROLSEX icex;
         icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-        icex.dwICC  = ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_STANDARD_CLASSES | ICC_WIN95_CLASSES;
+        icex.dwICC  = ICC_LISTVIEW_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_STANDARD_CLASSES | ICC_WIN95_CLASSES;
         if (TRUE != InitCommonControlsEx(&icex))
         {
             throw std::runtime_error("Failed to initialized the Common Controls library. Maybe you forgot to add a manifest file to your project?");

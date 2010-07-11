@@ -17,10 +17,27 @@ namespace XULWin
 
 
     ListBox::ListBox(Component * inParent, const AttributesMapping & inAttr) :
-        NativeControl(inParent, inAttr, TEXT("LISTBOX"), WS_EX_CLIENTEDGE, 0),
+        NativeControl(inParent, inAttr),
         mRows(0)
     {
         mRows.setInvalid();
+        if (NativeComponent * nativeParent = NativeControl::FindNativeParent(inParent))
+        {
+            mListView.reset(new WinAPI::ListView(::GetModuleHandle(0),
+                                                 nativeParent->handle(),
+                                                 mComponentId.value()));
+            setHandle(mListView->handle(), false);
+            registerHandle();
+            subclass();
+        }
+    }
+
+
+    ListBox::~ListBox()
+    {
+        unsubclass();
+        unregisterHandle();
+        mListView.reset();
     }
 
 
@@ -30,7 +47,7 @@ namespace XULWin
         {
             if (ListItem * item = inChild->downcast<ListItem>())
             {
-                WinAPI::addStringToListBox(handle(), item->getLabel());
+                mListView->add(new WinAPI::ListItem_Text(mListView.get(), item->getLabel()));
             }
         }
     }

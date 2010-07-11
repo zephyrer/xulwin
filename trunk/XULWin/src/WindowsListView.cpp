@@ -183,6 +183,7 @@ namespace WinAPI
                                     if (pThis->mHandle == notifyCustomDrawMsg->hdr.hwndFrom)
                                     {
                                         int itemIdx = notifyCustomDrawMsg->dwItemSpec;
+                                        
                                         if (ListItem * item = pThis->getByIndex(itemIdx))
                                         {
                                             RECT rect;
@@ -190,7 +191,7 @@ namespace WinAPI
                                                                  itemIdx,
                                                                  &rect,
                                                                  LVIR_BOUNDS);
-                                            item->draw(listViewCustomDrawMsg->nmcd.hdc,
+                                            item->draw(listViewCustomDrawMsg,
                                                        rect);
                                         }
                                     }
@@ -208,7 +209,7 @@ namespace WinAPI
     }
 
 
-    void ListItem::draw(HDC inHDC, const RECT & inRect)
+    void ListItem::draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect)
     {
     }
 
@@ -236,21 +237,23 @@ namespace WinAPI
     }
 
 
-    void ListItem_Text::draw(HDC inHDC, const RECT & inRect)
+    void ListItem_Text::draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect)
     {
         RECT tmp = inRect;
-        int oldBkMode = ::SetBkMode(inHDC, TRANSPARENT);
-        DWORD fgColor = GetSysColor(COLOR_MENUTEXT);
-        int oldTextColor = ::SetTextColor(inHDC, fgColor);
-        ::DrawText(inHDC,
+        int oldBkMode = ::SetBkMode(inMsg->nmcd.hdc, TRANSPARENT);
+
+        
+        DWORD fgColor = GetSysColor(inMsg->nmcd.uItemState & CDIS_SELECTED ? COLOR_HIGHLIGHTTEXT : COLOR_WINDOWTEXT);        
+        int oldTextColor = ::SetTextColor(inMsg->nmcd.hdc, fgColor);
+        ::DrawText(inMsg->nmcd.hdc,
                    mText.c_str(),
                    mText.length(),
                    &tmp,
                    DT_LEFT | DT_VCENTER | DT_SINGLELINE);
 
         // Release stuff
-        ::SetTextColor(inHDC, oldTextColor);
-        ::SetBkMode(inHDC, oldBkMode);
+        ::SetTextColor(inMsg->nmcd.hdc, oldTextColor);
+        ::SetBkMode(inMsg->nmcd.hdc, oldBkMode);
     }
 
 

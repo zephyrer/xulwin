@@ -68,7 +68,7 @@ namespace WinAPI
     public:
         ListItem(ListView * inListView);
 
-        virtual void draw(HDC inHDC, const RECT & inRect) = 0;
+        virtual void draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect) = 0;
 
     private:
         ListView * mListView;
@@ -80,7 +80,7 @@ namespace WinAPI
     public:
         ListItem_Text(ListView * inListView, const std::string & inText);
 
-        virtual void draw(HDC inHDC, const RECT & inRect);
+        virtual void draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect);
 
     private:
         std::wstring mText;

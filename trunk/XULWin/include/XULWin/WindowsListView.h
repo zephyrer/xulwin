@@ -1,7 +1,6 @@
 #ifndef WINDOWSLISTVIEW_H_INCLUDED
 #define WINDOWSLISTVIEW_H_INCLUDED
 
-
 #include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/shared_ptr.hpp>
@@ -65,7 +64,7 @@ namespace WinAPI
         static Parents sParents;
 
         HMODULE mModuleHandle;
-        HWND mParentWindow;
+        HWND mParent;
         HWND mHandle;
         int mChildId;
         WNDPROC mParentProc;

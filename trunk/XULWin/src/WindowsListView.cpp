@@ -1,6 +1,5 @@
 #include "XULWin/WindowsListView.h"
 #include "XULWin/ErrorReporter.h"
-#include "XULWin/Gdiplus.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include <boost/bind.hpp>
@@ -16,24 +15,25 @@ namespace WinAPI
     ListView::Parents ListView::sParents;
 
 
-    ListView::ListView (HMODULE inModuleHandle, HWND inParent, int inChildId) :
+    ListView::ListView(HMODULE inModuleHandle, HWND inParent, int inChildId) :
         mModuleHandle(inModuleHandle),
-        mParentWindow(inParent),
+        mParent(inParent),
         mChildId(inChildId),
         mHandle(0),
         mParentProc(0)
     {
-        mHandle = CreateWindow(WC_LISTVIEW, 
-                               L"", 
-                               WS_CHILD, 
-                               0, 0, 0, 0,
-                               inParent, 
-                               (HMENU)mChildId, 
-                               inModuleHandle, 
-                               NULL);
+        mHandle = CreateWindowEx(0,
+                                 WC_LISTVIEW,
+                                 L"", 
+                                 WS_CHILD | LVS_LIST, 
+                                 0, 0, 0, 0,
+                                 inParent, 
+                                 (HMENU)mChildId, 
+                                 inModuleHandle, 
+                                 NULL);
 
-        mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParentWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)ListView::ParentProc);
-        sParents.insert(std::make_pair(this, mParentWindow));
+        mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParent, GWLP_WNDPROC, (LONG)(LONG_PTR)ListView::ParentProc);
+        sParents.insert(std::make_pair(this, mParent));
     }
 
 
@@ -41,7 +41,7 @@ namespace WinAPI
     {
         mListItems.clear();
 
-        (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParentWindow, GWLP_WNDPROC, (LONG)(LONG_PTR)mParentProc);
+        (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParent, GWLP_WNDPROC, (LONG)(LONG_PTR)mParentProc);
 
         Parents::iterator parentIt = sParents.find(this);
         if (parentIt != sParents.end())
@@ -151,8 +151,7 @@ namespace WinAPI
             {
                 LPNMHDR notifyMsgHeader = (LPNMHDR)lParam;
                 LPNMLISTVIEW notifyListViewMsg = (LPNMLISTVIEW)lParam;
-                if (notifyMsgHeader->hwndFrom == pThis->handle() ||
-                    notifyListViewMsg->hdr.hwndFrom == pThis->handle())
+                if (notifyMsgHeader->hwndFrom == pThis->handle())
                 {
                     switch (notifyMsgHeader->code)
                     {

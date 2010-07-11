@@ -221,6 +221,19 @@ namespace WinAPI
 
     void ListItem_Text::draw(HDC inHDC, const RECT & inRect)
     {
+        RECT tmp = inRect;
+        int oldBkMode = ::SetBkMode(inHDC, TRANSPARENT);
+        DWORD fgColor = GetSysColor(COLOR_MENUTEXT);
+        int oldTextColor = ::SetTextColor(inHDC, fgColor);
+        ::DrawText(inHDC,
+                   mText.c_str(),
+                   mText.length(),
+                   &tmp,
+                   DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+
+        // Release stuff
+        ::SetTextColor(inHDC, oldTextColor);
+        ::SetBkMode(inHDC, oldBkMode);
     }
 
 

@@ -227,6 +227,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\XULWin\ISubClass.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\XULWin\PopupMenu.h"
 					>
 				</File>
@@ -236,6 +240,10 @@
 				</File>
 				<File
 					RelativePath=".\include\XULWin\Windows.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\XULWin\WindowsListBox.h"
 					>
 				</File>
 				<File
@@ -271,7 +279,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ISubClass.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\PopupMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\WindowsListBox.cpp"
 					>
 				</File>
 				<File

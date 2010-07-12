@@ -4,6 +4,8 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/WindowsListBox.h"
+#include "XULWin/WindowsListView.h"
 #include <boost/bind.hpp>
 
 
@@ -16,20 +18,54 @@ namespace XULWin
     }
 
 
+    ListBoxImpl::ListBoxImpl(ListBox * inListBox) :
+        mListBox(inListBox)
+    {
+        if (!mListBox)
+        {
+            throw std::logic_error("inListBox is null!");
+        }
+    }
+
+
+    ListBoxImpl::~ListBoxImpl()
+    {
+    }
+
+
+    HWND ListBoxImpl::handle() const
+    {
+        return mListBox->handle();
+    }
+
+
+    ListBoxImpl_ListBox::ListBoxImpl_ListBox(ListBox * inListBox) :
+        ListBoxImpl(inListBox)
+    {
+    }
+
+
+    ListBoxImpl_ListBox::~ListBoxImpl_ListBox()
+    {
+    }
+
+
+    ListBoxImpl_ListView::ListBoxImpl_ListView(ListBox * inListBox) :
+        ListBoxImpl(inListBox)
+    {
+    }
+
+
+    ListBoxImpl_ListView::~ListBoxImpl_ListView()
+    {
+    }
+
+
     ListBox::ListBox(Component * inParent, const AttributesMapping & inAttr) :
         NativeControl(inParent, inAttr),
         mRows(0)
     {
         mRows.setInvalid();
-        if (NativeComponent * nativeParent = NativeControl::FindNativeParent(inParent))
-        {
-            mListView.reset(new WinAPI::ListView(::GetModuleHandle(0),
-                                                 nativeParent->handle(),
-                                                 mComponentId.value()));
-            setHandle(mListView->handle(), false);
-            registerHandle();
-            subclass();
-        }
     }
 
 
@@ -37,19 +73,31 @@ namespace XULWin
     {
         unsubclass();
         unregisterHandle();
-        mListView.reset();
+        mListBoxImpl.reset();
     }
-
-
-    void ListBox::onChildAdded(Component * inChild)
+        
+    
+    bool ListBox::isListView() const
     {
-        if (XMLListBox * listBox = el()->downcast<XMLListBox>())
+        return el()->findChildOfType<XMLListHead>() != 0 ||
+               el()->findChildOfType<XMLListCols>() != 0;
+    }
+    
+    
+    bool ListBox::init()
+    {
+        if (isListView())
         {
-            if (ListItem * item = inChild->downcast<ListItem>())
-            {
-                mListView->add(new WinAPI::ListItem_Text(mListView.get(), item->getLabel()));
-            }
+            mListBoxImpl.reset(new ListBoxImpl_ListView(this));
         }
+        else
+        {
+            mListBoxImpl.reset(new ListBoxImpl_ListBox(this));
+        }
+        setHandle(mListBoxImpl->handle(), false);
+        registerHandle();
+        subclass();
+        return Super::init();
     }
 
 
@@ -98,7 +146,8 @@ namespace XULWin
         int extraHeight = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
         return result + extraHeight;
     }
-    
+
+
     Component * CreateListCell(XULWin::Component * inParent, const AttributesMapping & inAttr)
     {
         return new Decorator(new ListCell(inParent, inAttr));
@@ -408,7 +457,7 @@ namespace XULWin
         if (ListBox * listBox = parent()->downcast<ListBox>())
         {
             RECT rect;
-            WinAPI::getListBoxItemRect(listBox->handle(), WinAPI::getListBoxIndexOf(listBox->handle(), getLabel()), rect);
+            WinAPI::ListBox_GetItemRect(listBox->handle(), WinAPI::ListBox_GetIndexOf(listBox->handle(), getLabel()), rect);
             return rect.bottom - rect.top;
         }
         return 0;
@@ -483,7 +532,7 @@ namespace XULWin
         {
             if (ListItem * item = inChild->downcast<ListItem>())
             {
-                WinAPI::addStringToListBox(handle(), item->getLabel());
+                WinAPI::ListBox_Add(handle(), item->getLabel());
             }
         }
     }
@@ -491,7 +540,7 @@ namespace XULWin
 
     void ListView::addListHeader(ListHeader * inListHeader)
     {
-        WinAPI::addColumnToListView(handle(), 0, inListHeader->getLabel());
+        WinAPI::ListView_AddColumn(handle(), 0, inListHeader->getLabel());
     }
 
 

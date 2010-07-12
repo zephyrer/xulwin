@@ -26,14 +26,13 @@ namespace WinAPI
         mHandle = CreateWindowEx(0,
                                  WC_LISTVIEW,
                                  L"", 
-                                 WS_CHILD | LVS_LIST | LVS_OWNERDATA, 
+                                 WS_CHILD | WS_VISIBLE | LVS_LIST | LVS_OWNERDATA, 
                                  0, 0, 0, 0,
                                  inParent, 
                                  (HMENU)mChildId, 
                                  inModuleHandle, 
                                  NULL);
 
-        ShowWindow(mHandle, SW_SHOW);
         mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParent, GWLP_WNDPROC, (LONG)(LONG_PTR)ListView::ParentProc);
         sParents.insert(std::make_pair(this, mParent));
     }

@@ -25,6 +25,9 @@ namespace WinAPI
                                  (HMENU)mChildId, 
                                  inModuleHandle, 
                                  NULL);
+
+        // set modern font
+        ::SendMessage(mHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
     }
 
 

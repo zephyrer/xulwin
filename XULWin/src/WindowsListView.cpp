@@ -33,6 +33,9 @@ namespace WinAPI
                                  inModuleHandle, 
                                  NULL);
 
+        // set modern font
+        ::SendMessage(mHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
+
         mParentProc = (WNDPROC)(LONG_PTR)SetWindowLongPtr(mParent, GWLP_WNDPROC, (LONG)(LONG_PTR)ListView::ParentProc);
         sParents.insert(std::make_pair(this, mParent));
     }

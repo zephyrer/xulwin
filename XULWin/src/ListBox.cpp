@@ -11,12 +11,6 @@
 
 namespace XULWin
 {
-    
-    Component * CreateListBox(Component * inComponent, const AttributesMapping & inAttr)
-    {
-        return new MarginDecorator(new ListBox(inComponent, inAttr));
-    }
-
 
     ListBoxImpl::ListBoxImpl(ListBox * inListBox) :
         mListBox(inListBox)
@@ -33,20 +27,45 @@ namespace XULWin
     }
 
 
-    HWND ListBoxImpl::handle() const
+    void ListBoxImpl::rebuild()
     {
-        return mListBox->handle();
     }
 
 
     ListBoxImpl_ListBox::ListBoxImpl_ListBox(ListBox * inListBox) :
         ListBoxImpl(inListBox)
     {
+        HWND parent = NativeControl::FindNativeParent(inListBox->parent())->handle();
+        mWinAPI_ListBox.reset(
+            new WinAPI::ListBox(GetModuleHandle(0),
+                                parent,
+                                inListBox->componentId()));
     }
 
 
     ListBoxImpl_ListBox::~ListBoxImpl_ListBox()
     {
+    }
+
+
+    HWND ListBoxImpl_ListBox::handle() const
+    {
+        return mWinAPI_ListBox ? mWinAPI_ListBox->handle() : 0;
+    }
+
+
+    void ListBoxImpl_ListBox::rebuild()
+    {
+        std::vector<XMLListItem*> listItems;
+        mListBox->el()->getElementsByType<XMLListItem>(listItems);
+
+        for (size_t idx = 0; idx != listItems.size(); ++idx)
+        {
+            if (ListItem * item = listItems[idx]->component()->downcast<ListItem>())
+            {
+                mWinAPI_ListBox->add(item->getLabel());
+            }
+        }
     }
 
 
@@ -58,6 +77,24 @@ namespace XULWin
 
     ListBoxImpl_ListView::~ListBoxImpl_ListView()
     {
+    }
+
+
+    HWND ListBoxImpl_ListView::handle() const
+    {
+        return mWinAPI_ListView ? mWinAPI_ListView->handle() : 0;
+    }
+
+
+
+    void ListBoxImpl_ListView::rebuild()
+    {
+    }
+
+    
+    Component * CreateListBox(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new ListBox(inComponent, inAttr));
     }
 
 
@@ -97,6 +134,9 @@ namespace XULWin
         setHandle(mListBoxImpl->handle(), false);
         registerHandle();
         subclass();
+
+        mListBoxImpl->rebuild();
+
         return Super::init();
     }
 

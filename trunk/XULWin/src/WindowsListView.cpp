@@ -61,6 +61,12 @@ namespace WinAPI
     }
 
 
+    void ListView::setNumColumns(size_t inNumColumns)
+    {
+
+    }
+
+
     HMODULE ListView::moduleHandle() const
     {
         return mModuleHandle;
@@ -279,7 +285,7 @@ namespace WinAPI
         Gdiplus::Graphics g(inMsg->nmcd.hdc);
         g.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
         g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
-        g.DrawImage(mImage,
+        g.DrawImage(mImage.get(),
                     inRect.left,
                     inRect.top,
                     inRect.right - inRect.left,

@@ -2,6 +2,7 @@
 #include "XULWin/Decorators.h"
 #include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/GdiplusUtils.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/WindowsListBox.h"
@@ -29,6 +30,7 @@ namespace XULWin
 
     void ListBoxImpl::rebuild()
     {
+        // Implemntation is in subclass.
     }
 
 
@@ -72,6 +74,11 @@ namespace XULWin
     ListBoxImpl_ListView::ListBoxImpl_ListView(ListBox * inListBox) :
         ListBoxImpl(inListBox)
     {
+        HWND parent = NativeControl::FindNativeParent(inListBox->parent())->handle();
+        mWinAPI_ListView.reset(
+            new WinAPI::ListView(GetModuleHandle(0),
+                                 parent,
+                                 inListBox->componentId()));
     }
 
 
@@ -86,9 +93,38 @@ namespace XULWin
     }
 
 
-
     void ListBoxImpl_ListView::rebuild()
     {
+        std::vector<XMLListItem *> listItems;
+        mListBox->el()->getElementsByType<XMLListItem>(listItems);
+        
+
+        for (size_t itemIdx = 0; itemIdx != listItems.size(); ++itemIdx)
+        {
+            if (ListItem * listItem = listItems[itemIdx]->component()->downcast<ListItem>())
+            {
+                Children & children = listItem->el()->children();
+
+                for (size_t colIdx = 0; colIdx != children.size(); ++colIdx)
+                {
+                    if (ListCell * listCell = children[colIdx]->component()->downcast<ListCell>())
+                    {
+                        if (!listCell->getImage().empty())
+                        {
+                            mWinAPI_ListView->add(
+                                new WinAPI::ListItem_Image(mWinAPI_ListView.get(),
+                                                           WinAPI::CreateImage(listCell->getImage())));
+                        }
+                        else if (!listCell->getLabel().empty())
+                        {
+                            mWinAPI_ListView->add(
+                                new WinAPI::ListItem_Text(mWinAPI_ListView.get(),
+                                                          listCell->getLabel()));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     
@@ -203,6 +239,7 @@ namespace XULWin
     bool ListCell::initAttributeControllers()
     {
         setAttributeController<LabelController>(this);
+        setAttributeController<ListCell_ImageController>(this);
         return Super::initAttributeControllers();
     }
 
@@ -229,6 +266,31 @@ namespace XULWin
     {
         return 1;
     }
+
+    
+    std::string ListCell::getLabel() const
+    {
+        return mLabel;
+    }
+
+
+    void ListCell::setLabel(const std::string & inLabel)
+    {
+        mLabel = inLabel;
+    }
+
+
+    const std::string & ListCell::getImage() const
+    {
+        return mImage;
+    }
+
+
+    void ListCell::setImage(const std::string & inImage)
+    {
+        mImage = inImage;
+    }
+
     
     Component * CreateListCol(XULWin::Component * inParent, const AttributesMapping & inAttr)
     {

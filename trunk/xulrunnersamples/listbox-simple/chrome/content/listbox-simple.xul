@@ -8,7 +8,7 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 		    title="Simple ListBox Sample">
   <listbox id="theList" flex="1">
-    <listitem label="Ruby"/>
+    <listitem image="chrome://shout/skin/StackedCrooked.jpg" />
     <listitem label="Emerald"/>
     <listitem label="Sapphire" selected="true"/>
     <listitem label="Diamond"/>

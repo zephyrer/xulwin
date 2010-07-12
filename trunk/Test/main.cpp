@@ -32,8 +32,8 @@ void startTest(HINSTANCE hInstance, Tester & tester, const std::string & inPathT
     //tester.runXULSample("toolbar");
     //runConfigSample(hInstance, inPathToXULRunnerSamples);
     //runImageViewerSample(hInstance, inPathToXULRunnerSamples);
-    tester.runXULSample("listbox-simple");
-    //tester.runXULSample("listbox-advanced");
+    //tester.runXULSample("listbox-simple");
+    tester.runXULSample("listbox-advanced");
     //tester.runXULSample("tabbox");
     //tester.runXULSample("treeview");
     //tester.runXULSample("shout");

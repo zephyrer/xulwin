@@ -557,6 +557,31 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: image on listcell element.
+     * Type: image URL
+     * The URL of the image to appear on the element. If this attribute is
+     * empty or left out, no image appears. The position of the image is
+     * determined by the dir and orient attributes.
+     */
+    class ListCell_ImageController : public AttributeController
+    {
+    public:
+        static const char * AttributeName()
+        {
+            return "image";
+        }
+
+        virtual void get(std::string & outImage);
+
+        virtual void set(const std::string & inImage);
+
+        virtual const std::string & getImage() const = 0;
+
+        virtual void setImage(const std::string & inImage) = 0;
+    };
+
+
     class SVG_Polygon_PointsController : public AttributeController
     {
     public:

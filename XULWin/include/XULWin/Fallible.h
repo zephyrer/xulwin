@@ -10,6 +10,7 @@ namespace XULWin
     {
     public:
         Fallible() :
+            mValue(),
             mValid(false)
         {
         }

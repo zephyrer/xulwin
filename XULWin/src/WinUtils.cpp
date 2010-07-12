@@ -108,7 +108,7 @@ namespace WinAPI
     }
 
 
-    void addStringToComboBox(HWND inHandle, const std::string & inString)
+    void ComboBox_Add(HWND inHandle, const std::string & inString)
     {
         std::wstring utf16String = ToUTF16(inString);
         if (CB_ERR == ::SendMessage(inHandle, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str()))
@@ -118,7 +118,7 @@ namespace WinAPI
     }
 
 
-    void removeStringFromComboBox(HWND inHandle, int inIndex)
+    void ComboBox_RemoveByIndex(HWND inHandle, int inIndex)
     {
         if (CB_ERR == ::SendMessage(inHandle, CB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0))
         {
@@ -127,7 +127,22 @@ namespace WinAPI
     }
 
 
-    void addStringToListBox(HWND inHandle, const std::string & inString)
+    std::string ListBox_getByIndex(HWND inHandle, int inIndex)
+    {
+        int len = ::SendMessage(inHandle, LB_GETTEXTLEN, (WPARAM)inIndex, (LPARAM)0);
+        if (len == LB_ERR)
+        {
+            ReportError("LB_GETTEXTLEN returned LB_ERR. Last error: " + getLastError(::GetLastError()));
+            return "";
+        }
+
+        std::vector<TCHAR> buffer(len, 0);
+        ::SendMessage(inHandle, LB_GETTEXT, (WPARAM)inIndex, (LPARAM)&buffer[0]);
+        return ToUTF8(&buffer[0]);
+    }
+
+
+    void ListBox_Add(HWND inHandle, const std::string & inString)
     {
         std::wstring utf16String = ToUTF16(inString);
         if (LB_ERR == ::SendMessage(inHandle, (UINT)LB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str()))
@@ -137,7 +152,7 @@ namespace WinAPI
     }
 
 
-    void removeStringFromListBox(HWND inHandle, int inIndex)
+    void ListBox_Remove(HWND inHandle, int inIndex)
     {
         if (LB_ERR == ::SendMessage(inHandle, LB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0))
         {
@@ -146,7 +161,7 @@ namespace WinAPI
     }
 
 
-    int getListBoxItemCount(HWND inHandle)
+    int ListBox_GetSize(HWND inHandle)
     {
         int result = ::SendMessage(inHandle, LB_GETCOUNT, 0, 0);
         if (LB_ERR == result)
@@ -157,14 +172,14 @@ namespace WinAPI
     }
 
 
-    int getListBoxIndexOf(HWND inHandle, const std::string & inStringValue)
+    int ListBox_GetIndexOf(HWND inHandle, const std::string & inStringValue)
     {
         std::wstring utf16String = ToUTF16(inStringValue);
         return (int)::SendMessage(inHandle, LB_FINDSTRINGEXACT, (WPARAM)-1, (LPARAM)utf16String.c_str());
     }
 
 
-    void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect)
+    void ListBox_GetItemRect(HWND inHandle, int inIndex, RECT & outRect)
     {
         if (LB_ERR == ::SendMessage(inHandle, LB_GETITEMRECT, (WPARAM)inIndex, (LPARAM)&outRect))
         {
@@ -173,7 +188,13 @@ namespace WinAPI
     }
 
 
-    void setListItemSelected(HWND inHandle, int inIndex)
+    int ListBox_GetSelectedIndex(HWND inHandle)
+    {
+        return ::SendMessage(inHandle, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+    }
+
+
+    void ListBox_SetSelectedIndex(HWND inHandle, int inIndex)
     {
         if (LB_ERR == ::SendMessage(inHandle, LB_SETCURSEL, (WPARAM)inIndex, (LPARAM)0))
         {
@@ -188,7 +209,7 @@ namespace WinAPI
     }
 
 
-    int addColumnToListView(HWND inHandle, int inIndex, const std::string & inText)
+    int ListView_AddColumn(HWND inHandle, int inIndex, const std::string & inText)
     {
         static const int cColumnTextPadding = 15;
         LV_COLUMN colInfo;
@@ -207,21 +228,21 @@ namespace WinAPI
     }
 
 
-    void clearComboBox(HWND inHandle)
+    void ComboBox_Clear(HWND inHandle)
     {
         // This message always returns CB_OKAY.
         ::SendMessage(inHandle, CB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
     }
 
 
-    int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset)
+    int ComboBox_FindString(HWND inHandle, const std::string & inString, int inOffset)
     {
         std::wstring utf16String = ToUTF16(inString);
         return (int)::SendMessage(inHandle, CB_FINDSTRING, (WPARAM)inOffset, (LPARAM)(LPTSTR)utf16String.c_str());
     }
 
 
-    int getComboBoxItemCount(HWND inHandle)
+    int ComboBox_Size(HWND inHandle)
     {
         int result = ::SendMessage(inHandle, CB_GETCOUNT, 0, 0);
         if (CB_ERR == result)
@@ -232,7 +253,7 @@ namespace WinAPI
     }
 
 
-    int getWindowWidth(HWND inHandle)
+    int Window_GetWidth(HWND inHandle)
     {
         RECT rw;
         ::GetWindowRect(inHandle, &rw);
@@ -240,7 +261,7 @@ namespace WinAPI
     }
 
 
-    int getWindowHeight(HWND inHandle)
+    int Window_GetHeight(HWND inHandle)
     {
         RECT rw;
         ::GetWindowRect(inHandle, &rw);
@@ -248,7 +269,7 @@ namespace WinAPI
     }
 
 
-    void selectComboBoxItem(HWND inHandle, int inItemIndex)
+    void ComboBox_SetSelectedIndex(HWND inHandle, int inItemIndex)
     {
         if (CB_ERR == ::SendMessage(inHandle, (UINT)CB_SETCURSEL, (WPARAM)inItemIndex, (LPARAM)0))
         {
@@ -257,13 +278,13 @@ namespace WinAPI
     }
 
 
-    int getComboBoxItemHeight(HWND inHandle, int inItemIndex)
+    int ComboBox_ItemHeight(HWND inHandle, int inItemIndex)
     {
         return (int)::SendMessage(inHandle, (UINT)CB_GETITEMHEIGHT, (WPARAM)inItemIndex, (LPARAM)0);
     }
 
 
-    void setWindowWidth(HWND inHandle, int inWidth)
+    void Window_SetWidth(HWND inHandle, int inWidth)
     {
         RECT rw;
         ::GetWindowRect(inHandle, &rw);
@@ -281,7 +302,7 @@ namespace WinAPI
     }
 
 
-    void setWindowHeight(HWND inHandle, int inHeight)
+    void Window_SetHeight(HWND inHandle, int inHeight)
     {
         RECT rw;
         ::GetWindowRect(inHandle, &rw);

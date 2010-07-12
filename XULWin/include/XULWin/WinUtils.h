@@ -52,46 +52,66 @@ namespace WinAPI
 
     SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
 
-    void addStringToComboBox(HWND inHandle, const std::string & inString);
 
-    void removeStringFromComboBox(HWND inHandle, int inIndex);
+    //
+    // Window functions
+    // 
+    int Window_GetWidth(HWND inHandle);
 
-    void addStringToListBox(HWND inHandle, const std::string & inString);
+    int Window_GetHeight(HWND inHandle);
 
-    void removeStringFromListBox(HWND inHandle, int inIndex);
+    void Window_SetWidth(HWND inHandle, int inWidth);
 
-    int getListBoxItemCount(HWND inHandle);
+    void Window_SetHeight(HWND inHandle, int inHeight);
 
-    // returns LB_ERR (-1) if not found
-    int getListBoxIndexOf(HWND inHandle, const std::string & inStringValue);
 
-    void getListBoxItemRect(HWND inHandle, int inIndex, RECT & outRect);
+    //
+    // ComboBox functions
+    //
+    void ComboBox_Add(HWND inHandle, const std::string & inString);
 
-    // Use index -1 to deselect
-    void setListItemSelected(HWND inHandle, int inIndex);
+    void ComboBox_RemoveByIndex(HWND inHandle, int inIndex);
 
-    // Returns index of column, -1 if failed
-    int addColumnToListView(HWND inHandle, int inIndex, const std::string & inText);
-
-    void clearComboBox(HWND inHandle);
+    void ComboBox_Clear(HWND inHandle);
 
     // returns CB_ERR (-1) if not found
-    int findStringInComboBox(HWND inHandle, const std::string & inString, int inOffset = -1);
+    int ComboBox_FindString(HWND inHandle, const std::string & inString, int inOffset = -1);
 
-    int getComboBoxItemCount(HWND inHandle);
+    int ComboBox_Size(HWND inHandle);
 
     // Returns CB_ERR (-1) if an error occurs
-    int getComboBoxItemHeight(HWND inHandle, int inItemIndex);
+    int ComboBox_ItemHeight(HWND inHandle, int inItemIndex);
 
-    void selectComboBoxItem(HWND inHandle, int inItemIndex);
+    void ComboBox_SetSelectedIndex(HWND inHandle, int inItemIndex);
 
-    int getWindowWidth(HWND inHandle);
+    //
+    // ListBox functions
+    //
+    std::string ListBox_getByIndex(HWND inHandle, int inIndex);
 
-    int getWindowHeight(HWND inHandle);
+    void ListBox_Add(HWND inHandle, const std::string & inString);
 
-    void setWindowWidth(HWND inHandle, int inWidth);
+    void ListBox_Remove(HWND inHandle, int inIndex);
 
-    void setWindowHeight(HWND inHandle, int inHeight);
+    int ListBox_GetSize(HWND inHandle);
+
+    // returns LB_ERR (-1) if not found
+    int ListBox_GetIndexOf(HWND inHandle, const std::string & inStringValue);
+
+    void ListBox_GetItemRect(HWND inHandle, int inIndex, RECT & outRect);
+
+    // returns LB_ERR is nothing is selected
+    int ListBox_GetSelectedIndex(HWND inHandle);
+
+    // Use index -1 to deselect
+    void ListBox_SetSelectedIndex(HWND inHandle, int inIndex);
+
+    //
+    // ListView functions
+    //
+
+    // Returns index of column, -1 if failed
+    int ListView_AddColumn(HWND inHandle, int inIndex, const std::string & inText);
 
     HFONT getFont(HWND inHandle);
 

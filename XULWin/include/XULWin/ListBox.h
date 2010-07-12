@@ -13,6 +13,15 @@
 namespace XULWin
 {
 
+    class ListBoxImpl;
+
+    
+    namespace WinAPI
+    {
+        class ListBox;
+        class ListView;
+    }
+
 
     class ListBox : public NativeControl,
                     public RowsController
@@ -24,6 +33,8 @@ namespace XULWin
 
         virtual ~ListBox();
 
+        virtual bool init();
+
         virtual bool initAttributeControllers();
 
         virtual int getRows() const;
@@ -34,11 +45,55 @@ namespace XULWin
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual void onChildAdded(Component * inChild);
+    private:
+        bool isListView() const;
+
+        Fallible<int> mRows;
+        boost::scoped_ptr<ListBoxImpl> mListBoxImpl;
+    };
+
+    
+    /**
+     * ListBoxImpl is the base class for either a Window list box or a Windows list view.
+     */
+    class ListBoxImpl
+    {
+    public:
+        ListBoxImpl(ListBox * inListBox);
+
+        virtual ~ListBoxImpl() = 0;
+
+        HWND handle() const;
 
     private:
-        Fallible<int> mRows;
-        boost::scoped_ptr<WinAPI::ListView> mListView;
+        ListBox * mListBox;
+    };
+
+
+    // Encapsulates a WinAPI list box.
+    class ListBoxImpl_ListBox : public ListBoxImpl
+    {
+    public:
+        ListBoxImpl_ListBox(ListBox * inListBox);
+
+        virtual ~ListBoxImpl_ListBox();
+
+    private:
+        boost::scoped_ptr<WinAPI::ListBox> mWinAPI_ListBox;
+    };
+
+
+
+    // Encapsulates a WinAPI list view.
+    class ListBoxImpl_ListView : public ListBoxImpl
+    {
+    public:
+        ListBoxImpl_ListView(ListBox * inListBox);
+
+        virtual ~ListBoxImpl_ListView();
+
+    private:
+        boost::scoped_ptr<WinAPI::ListView> mWinAPI_ListView;
     };
 
 

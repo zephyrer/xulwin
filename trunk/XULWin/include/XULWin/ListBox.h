@@ -63,9 +63,11 @@ namespace XULWin
 
         virtual ~ListBoxImpl() = 0;
 
-        HWND handle() const;
+        virtual HWND handle() const = 0;
 
-    private:
+        virtual void rebuild();
+
+    protected:
         ListBox * mListBox;
     };
 
@@ -77,6 +79,10 @@ namespace XULWin
         ListBoxImpl_ListBox(ListBox * inListBox);
 
         virtual ~ListBoxImpl_ListBox();
+
+        virtual HWND handle() const;
+
+        virtual void rebuild();
 
     private:
         boost::scoped_ptr<WinAPI::ListBox> mWinAPI_ListBox;
@@ -91,6 +97,10 @@ namespace XULWin
         ListBoxImpl_ListView(ListBox * inListBox);
 
         virtual ~ListBoxImpl_ListView();
+
+        virtual HWND handle() const;
+
+        virtual void rebuild();
 
     private:
         boost::scoped_ptr<WinAPI::ListView> mWinAPI_ListView;

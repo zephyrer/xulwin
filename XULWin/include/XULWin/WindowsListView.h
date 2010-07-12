@@ -3,6 +3,8 @@
 
 #include "XULWin/Types.h"
 #include "XULWin/Windows.h"
+#include "XULWin/GdiplusLoader.h"
+#include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <string>
@@ -24,7 +26,7 @@ namespace WinAPI
     class ListItem;
     typedef boost::shared_ptr<ListItem> ListItemPtr;
 
-    class ListView
+    class ListView : public GdiplusLoader
     {
     public:
         typedef std::vector<ListItemPtr> ListItems;
@@ -34,6 +36,8 @@ namespace WinAPI
                   int inChildId);
 
         ~ListView();
+
+        void setNumColumns(size_t inNumColumns);
 
         // Takes ownership
         void add(ListItem * inListItem);
@@ -93,15 +97,17 @@ namespace WinAPI
     };
 
 
-    class ListItem_Image : public ListItem
+    class ListItem_Image : public ListItem,
+                           public GdiplusLoader
     {
     public:
+        // Takes ownership
         ListItem_Image(ListView * inListView, Gdiplus::Image * inImage);
 
         virtual void draw(LPNMLVCUSTOMDRAW inMsg, const RECT & inRect);
 
     private:
-        Gdiplus::Image * mImage;
+        boost::scoped_ptr<Gdiplus::Image> mImage;
     };
 
 

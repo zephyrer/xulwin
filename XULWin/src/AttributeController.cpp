@@ -295,6 +295,17 @@ namespace XULWin
     }
 
 
+    void ListCell_ImageController::get(std::string & outImage)
+    {
+        outImage = getImage();
+    }
+
+    void ListCell_ImageController::set(const std::string & inImage)
+    {
+        setImage(inImage);
+    }
+
+
     void SVG_Polygon_PointsController::get(std::string & outValue)
     {
         outValue = Points2String(getPoints());

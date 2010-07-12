@@ -240,7 +240,8 @@ namespace XULWin
 
 
     class ListCell : public VirtualComponent,
-                     public virtual LabelController
+                     public virtual LabelController,
+                     public virtual ListCell_ImageController
     {
     public:
         typedef VirtualComponent Super;
@@ -253,18 +254,18 @@ namespace XULWin
 
         int calculateHeight(SizeConstraint inSizeConstraint) const;
 
-        virtual std::string getLabel() const
-        {
-            return mLabel;
-        }
+        virtual std::string getLabel() const;
 
-        virtual void setLabel(const std::string & inLabel)
-        {
-            mLabel = inLabel;
-        }
+        virtual void setLabel(const std::string & inLabel);
+
+        // ListCell_ImageController methods
+        virtual const std::string & getImage() const;
+
+        virtual void setImage(const std::string & inImage);
 
     private:
         std::string mLabel;
+        std::string mImage;
     };
 
 } // namespace XULWin

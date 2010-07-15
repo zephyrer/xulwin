@@ -42,9 +42,9 @@
   <button height="1" disabled="true" />
   
   <hbox flex="1" align="stretch">
-    <grid id="imageArea" flex="0" width="200" style="overflow-y:auto; background-color:white" >
+    <grid id="imageArea" flex="0" style="overflow-y:auto; background-color:white" >
       <columns>
-        <column flex="0" align="center"></column>
+        <column align="start"></column>
       </columns>
       <rows id="imageAreaRows">
         <!-- Rows will by dynamically inserted here -->

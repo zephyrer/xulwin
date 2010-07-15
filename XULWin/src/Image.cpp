@@ -114,15 +114,14 @@ namespace XULWin
             int height = 0;
             getWidthAndHeight(width, height);
             return width;
-        }
-        // if flex=0, then choose the natural width & height
-        else if (mImage && !mWidth && !mHeight && getFlex() == 0)
-        {
-            return mImage->GetWidth();
-        }
+        }        
         else
-        {
-            return Super::getWidth(inSizeConstraint);
+        {   
+            if (inSizeConstraint == Minimum)
+            {
+                return 0;
+            }
+            return mImage->GetWidth();
         }
     }
 
@@ -151,14 +150,13 @@ namespace XULWin
             getWidthAndHeight(width, height);
             return height;
         }
-        // if flex=0, then choose the natural width & height
-        else if (mImage && !mWidth && !mHeight && getFlex() == 0)
-        {
-            return mImage->GetHeight();
-        }
         else
         {
-            return Super::getHeight(inSizeConstraint);
+            if (inSizeConstraint == Minimum)
+            {
+                return 0;
+            }
+            return mImage->GetHeight();
         }
     }
 

@@ -204,8 +204,9 @@ namespace XULWin
             // Create the Image object
             XULWin::AttributesMapping imageAttr;
             imageAttr["src"] = item->path();
-            imageAttr["width"] = boost::lexical_cast<std::string>(mImageArea->getWidth() - Defaults::scrollbarWidth() - 8);
+            imageAttr["width"] = "200";
             imageAttr["keepAspectRatio"] = "true";
+            imageAttr["style"] = "margin: 10px 25px 10px 10px";
             ElementPtr imageElement = XULWin::XMLImage::Create(rowElement.get(), imageAttr);
             
             // Init the Image object

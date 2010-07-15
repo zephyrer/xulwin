@@ -241,8 +241,10 @@ namespace XULWin
 
                 int x = outerRect.x();
                 int y = outerRect.y();
-                int w = info.MinWidgetWidth;
-                int h = info.MinWidgetHeight;
+                
+                // The cell must not exceed the boundaries of its outer rect.
+                int w = std::min<int>(info.MinWidgetWidth, outerRect.width());
+                int h = std::min<int>(info.MinWidgetHeight, outerRect.height());
 
                 if (info.ColAlign == Center)
                 {

@@ -334,10 +334,12 @@ namespace XULWin
                 {
                     if (sender->mCSSBackgroundColor.isValid())
                     {
+                        // NOTE: these two calls should both be used if we also want to set the foreground color.
+                        //SetTextColor(hdcStatic, RGB(255,255,255));
+                        //SetBkColor(hdcStatic, RGB(0,0,0));
+
                         RGBColor color = sender->getCSSBackgroundColor();
-                        COLORREF colorRef = RGB(color.red(), color.green(), color.blue());
-                        SetBkColor(hDC, colorRef);
-                        return (INT_PTR)::CreateSolidBrush(colorRef);
+                        return (INT_PTR)::CreateSolidBrush(RGB(color.red(), color.green(), color.blue()));
                     }
                 }
                 break;                    

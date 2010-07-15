@@ -215,7 +215,8 @@ namespace XULWin
             // Init the row object
             rowElement->init();
         }
-        mXULRunner.rootElement()->component()->downcast<NativeComponent>()->rebuildLayout();
+        mXULRunner.rootElement()->component()->rebuildLayout();
+        mXULRunner.rootElement()->component()->invalidateRect();
     }
 
 

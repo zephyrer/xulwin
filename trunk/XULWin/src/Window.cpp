@@ -312,6 +312,14 @@ namespace XULWin
             {
                 return 0;
             }
+            else if (result == 1)
+            {
+                return ::DefWindowProc(hWnd, inMessage, wParam, lParam);
+            }
+            else
+            {
+                return result;
+            }
         }
         return ::DefWindowProc(hWnd, inMessage, wParam, lParam);
     }

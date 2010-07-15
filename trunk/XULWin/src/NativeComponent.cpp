@@ -332,13 +332,15 @@ namespace XULWin
                 HWND hSender = (HWND)lParam;
                 if (XULWin::NativeComponent * sender = NativeComponent::FindByHandle(hSender))
                 {
-                    HBRUSH hBrush;
-                    if (sender->getCustomBrush(hDC, hSender, hBrush))
+                    if (sender->mCSSBackgroundColor.isValid())
                     {
-                        return (BOOL)hBrush;
+                        RGBColor color = sender->getCSSBackgroundColor();
+                        COLORREF colorRef = RGB(color.red(), color.green(), color.blue());
+                        SetBkColor(hDC, colorRef);
+                        return (INT_PTR)::CreateSolidBrush(colorRef);
                     }
                 }
-                break;
+                break;                    
             }
         }
 

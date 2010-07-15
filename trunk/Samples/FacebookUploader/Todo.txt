@@ -1,8 +1,8 @@
 Facebook Uploader
 -----------------
-- Image area
-  => Use custom-draw listview (bottom-up design?)
-  => Fix model/view sync problems
+- Use vbox with image elements as image area.
+- Fix the CSS background style.
+- Make image selectable by adding a click handler.
 - Load image should not be blocking.
 - Rotation.
 - API login/logout

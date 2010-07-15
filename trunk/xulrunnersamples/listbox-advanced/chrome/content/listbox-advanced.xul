@@ -14,22 +14,25 @@
 
     <listhead>
       <listheader label="Name"/>
+      <listheader label="Occupation"/>
     </listhead>
 
     <listcols>
       <listcol width="150"/>
+      <listcol flex="1"/>
     </listcols>
 
     <listitem>
-      <listcell label="Mary Ellen"/>
+      <listcell label="George"/>
+      <listcell label="House Painter"/>
     </listitem>
-    
     <listitem>
-      <listcell image="chrome://shout/skin/StackedCrooked.jpg" />
+      <listcell label="Mary Ellen"/>
+      <listcell label="Candle Maker"/>
     </listitem>
-    
     <listitem>
       <listcell label="Roger"/>
+      <listcell label="Swashbuckler"/>
     </listitem>
 
   </listbox>

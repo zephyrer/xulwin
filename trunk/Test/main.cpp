@@ -69,7 +69,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Ensure that the common control DLL is loaded.
     WinAPI::CommonControlsInitializer ccInit;
 
-    Tester tester(hInstance, commandLine, Tester::Features_EnableJavaScript);
+    Tester tester(hInstance, commandLine, Tester::Features_TestWithMozillaXULRunner);
 
     startTest(hInstance, tester, commandLine);
     return 0;

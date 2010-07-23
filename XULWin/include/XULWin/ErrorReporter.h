@@ -19,33 +19,20 @@ namespace XULWin
     class Error
     {
     public:
-
-        /**
-         * Default error codes.
-         */
-        enum
-        {
-            SUCCEEDED = 0,
-            FAILED = -1
-        };
-
-        // Error code defaults to SUCCEEDED.
-        Error();
-
-        Error(int inErrorCode);
-
-        // Error code defaults to FAILED.
-        Error(const std::string & inErrorMessage);
-
-        Error(int inErrorCode, const std::string & inErrorMessage);
-
-        int code() const;
+        Error(const std::string & inError);
+        
+        Error(const std::string & inError, const std::string & inFile, int inLine);
 
         const std::string & message() const;
 
+        const std::string & file() const;
+
+        int line() const;
+
     private:
-        int mErrorCode;
-        std::string mErrorMessage;
+        std::string mError;
+        std::string mFile;
+        int mLine;
     };
 
 
@@ -94,7 +81,7 @@ namespace XULWin
          * Instead of calling this method everytime you can also set a logger
          * on the ErrorReporter instance.
          */
-        void getErrorMessage(std::stringstream & outStream) const;
+        void getError(std::stringstream & outStream) const;
 
         const std::vector<Error> & errors() const
         {
@@ -176,35 +163,26 @@ namespace XULWin
 
         void log(ErrorCatcher * inError);
 
-        void log(const std::string & inErrorMessage);
+        void log(const std::string & inError);
 
         std::stack<ErrorCatcher *> mStack;
         LogFunction mLogFunction;
+        bool mEnableMessageBoxLogging;
         static ErrorReporter * sInstance;
     };
 
 
     /**
-     * ReportError and its overloads are shorter versions
-     * for ErrorReporter::Instance().reportError(..)
-     * NOTE: These functions don't throw an actual C++ exception. They only
-     *       notify the nearest ErrorCatcher that an error has occured. So
-     *       you still need to write the return statement (if returning
-     *       is desired, of course).
+     * ReportError is a helper function to quickly log a message.
      */
-    void ReportError(int inErrorCode, const std::string & inErrorMessage);
-
+    void ReportError(const std::string & inError);
 
     /**
-     * ReportError by only passing a message. Default error code will be used (FAILED).
+     * xulwin_error is a macro for quickly reporting an error
+     * message including filename and line number.
      */
-    void ReportError(const std::string & inErrorMessage);
-
-
-    /**
-     * ReportError by only passing an error code.
-     */
-    void ReportError(int inErrorCode);
+#define xulwin_error(msg) \
+    ErrorReporter::Instance().reportError(Error(msg, __FILE__, __LINE__));
 
 
     /**

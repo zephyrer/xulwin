@@ -507,14 +507,8 @@ namespace XULWin
         StyleControllers::iterator it = mStyleControllers.find(inName);
         if (it != mStyleControllers.end())
         {
-            ErrorCatcher errorCatcher;
             StyleController * controller = it->second;
             controller->set(inValue);
-            if (errorCatcher.hasCaught())
-            {
-                // FIXME! Do meaningful error handling!
-                //ReportSetterFail(inName, el()->tagName(), el()->getAttribute("id"));
-            }
             return true;
         }
         return false;
@@ -526,13 +520,7 @@ namespace XULWin
         AttributeControllers::iterator it = mAttributeControllers.find(inName);
         if (it != mAttributeControllers.end())
         {
-            ErrorCatcher errorCatcher;
             it->second->set(inValue);
-            if (errorCatcher.hasCaught())
-            {
-                //FIXME! Do meaningful error handling here!
-                //ReportSetterFail(inName, el()->tagName(), el()->getAttribute("id"));
-            }
             return true;
         }
         return false;

@@ -31,7 +31,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     // Initialize the XULWin library
     Initializer initializer(hInstance);
-    ErrorCatcher errorCatcher;
 
     std::string appDir = unquote(lpCmdLine);
     if (appDir.empty())

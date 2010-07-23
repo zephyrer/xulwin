@@ -35,86 +35,97 @@ namespace XULWin
     }
 
 
+    void FacebookUploaderController::initializeEventHandlers()
+    {
+            ErrorCatcher errorCatcher;
+
+            //
+            // Parse the XUL file
+            //
+            mXULRunner.loadApplication("application.ini");
+
+
+            //
+            // Check if the root element is a window
+            //
+            ElementPtr root = mXULRunner.rootElement();
+            Window * window = root->component()->downcast<Window>();
+            if (!window)
+            {
+                throw std::runtime_error("Root element is not a window.");
+            }
+
+
+            Element * imageArea = mXULRunner.rootElement()->getElementById("imageArea");
+            if (!imageArea)
+            {
+                throw std::runtime_error("The XUL document does not contain an element with id \"imageArea\".");
+            }
+            
+            mImageArea = imageArea->component()->downcast<Grid>();
+            if (!mImageArea)
+            {
+                throw std::runtime_error("The element with id \"imageArea\" must by of type \"grid\".");
+            }
+
+
+            Element * imageAreaRows = mXULRunner.rootElement()->getElementById("imageAreaRows");
+            if (!imageAreaRows)
+            {
+                throw std::runtime_error("The XUL document does not contain an element with id \"imageAreaRows\".");
+            }
+
+            mImageAreaRows = imageAreaRows->component()->downcast<Rows>();
+            if (!mImageAreaRows)
+            {
+                throw std::runtime_error("The element with id \"imageAreaRows\" must by of type \"rows\".");
+            }
+            
+
+            
+            Element * logTextBox = mXULRunner.rootElement()->getElementById("logTextBox");
+            if (logTextBox)
+            {
+                mLogTextBox = logTextBox->component()->downcast<TextBox>();
+            }
+            
+
+            //
+            // Register the event handlers.
+            //
+            mEvents.connect(root->getElementById("loginButton"),
+                            boost::bind(&FacebookUploaderController::handleLoginButton, this, _1, _2));
+
+            mEvents.connect(root->getElementById("logoutButton"),
+                            boost::bind(&FacebookUploaderController::handleLogoutButton, this, _1, _2));
+
+            mEvents.connect(root->getElementById("addButton"),
+                            boost::bind(&FacebookUploaderController::handleAddButton, this, _1, _2));
+
+            mEvents.connect(root->getElementById("removeButton"),
+                            boost::bind(&FacebookUploaderController::handleRemoveButton, this, _1, _2));
+
+            mEvents.connect(root->getElementById("rotateLeftButton"),
+                            boost::bind(&FacebookUploaderController::handleRotateLeftButton, this, _1, _2));
+
+            mEvents.connect(root->getElementById("rotateRightButton"),
+                            boost::bind(&FacebookUploaderController::handleRotateRightButton, this, _1, _2));
+
+            mEvents.connect(root->getElementById("uploadButton"),
+                            boost::bind(&FacebookUploaderController::handleUploadButton, this, _1, _2));
+    }
+
+
     void FacebookUploaderController::runApplication()
     {
-        //
-        // Parse the XUL file
-        //
-        mXULRunner.loadApplication("application.ini");
+        ErrorCatcher errorCatcher;
 
+        initializeEventHandlers();
 
-        //
-        // Check if the root element is a window
-        //
-        ElementPtr root = mXULRunner.rootElement();
-        Window * window = root->component()->downcast<Window>();
-        if (!window)
+        if (Window * window = mXULRunner.rootElement()->component()->downcast<Window>())
         {
-            throw std::runtime_error("Root element is not a window.");
-        }
-
-
-        Element * imageArea = mXULRunner.rootElement()->getElementById("imageArea");
-        if (!imageArea)
-        {
-            throw std::runtime_error("The XUL document does not contain an element with id \"imageArea\".");
-        }
-        
-        mImageArea = imageArea->component()->downcast<Grid>();
-        if (!mImageArea)
-        {
-            throw std::runtime_error("The element with id \"imageArea\" must by of type \"grid\".");
-        }
-
-
-        Element * imageAreaRows = mXULRunner.rootElement()->getElementById("imageAreaRows");
-        if (!imageAreaRows)
-        {
-            throw std::runtime_error("The XUL document does not contain an element with id \"imageAreaRows\".");
-        }
-
-        mImageAreaRows = imageAreaRows->component()->downcast<Rows>();
-        if (!mImageAreaRows)
-        {
-            throw std::runtime_error("The element with id \"imageAreaRows\" must by of type \"rows\".");
-        }
-        
-
-        
-        Element * logTextBox = mXULRunner.rootElement()->getElementById("logTextBox");
-        if (logTextBox)
-        {
-            mLogTextBox = logTextBox->component()->downcast<TextBox>();
-        }
-        
-
-        //
-        // Register the events
-        //
-        mEvents.connect(root->getElementById("loginButton"),
-                        boost::bind(&FacebookUploaderController::handleLoginButton, this, _1, _2));
-
-        mEvents.connect(root->getElementById("logoutButton"),
-                        boost::bind(&FacebookUploaderController::handleLogoutButton, this, _1, _2));
-
-        mEvents.connect(root->getElementById("addButton"),
-                        boost::bind(&FacebookUploaderController::handleAddButton, this, _1, _2));
-
-        mEvents.connect(root->getElementById("removeButton"),
-                        boost::bind(&FacebookUploaderController::handleRemoveButton, this, _1, _2));
-
-        mEvents.connect(root->getElementById("rotateLeftButton"),
-                        boost::bind(&FacebookUploaderController::handleRotateLeftButton, this, _1, _2));
-
-        mEvents.connect(root->getElementById("rotateRightButton"),
-                        boost::bind(&FacebookUploaderController::handleRotateRightButton, this, _1, _2));
-
-        mEvents.connect(root->getElementById("uploadButton"),
-                        boost::bind(&FacebookUploaderController::handleUploadButton, this, _1, _2));
-
-        // Show the Window
-        // This is blocking (modal window).
-        window->showModal(WindowPos_CenterInScreen);
+            window->showModal(WindowPos_CenterInScreen);
+        }        
     }
 
 

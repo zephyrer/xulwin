@@ -18,41 +18,36 @@ namespace XULWin
     ErrorReporter * ErrorReporter::sInstance = 0;
 
 
-    Error::Error() :
-        mErrorCode(Error::SUCCEEDED)
+    Error::Error(const std::string & inError) :
+        mError(inError),
+        mLine(0)
     {
     }
 
 
-    Error::Error(int inErrorCode) :
-        mErrorCode(inErrorCode)
+    Error::Error(const std::string & inError, const std::string & inFile, int inLine) :
+        mError(inError),
+        mFile(inFile),
+        mLine(inLine)
     {
-    }
-
-
-    Error::Error(const std::string & inErrorMessage) :
-        mErrorCode(Error::FAILED),
-        mErrorMessage(inErrorMessage)
-    {
-    }
-
-
-    Error::Error(int inErrorCode, const std::string & inErrorMessage) :
-        mErrorCode(inErrorCode),
-        mErrorMessage(inErrorMessage)
-    {
-    }
-
-
-    int Error::code() const
-    {
-        return mErrorCode;
     }
 
 
     const std::string & Error::message() const
     {
-        return mErrorMessage;
+        return mError;
+    }
+
+
+    const std::string & Error::file() const
+    {
+        return mFile;
+    }
+
+
+    int Error::line() const
+    {
+        return mLine;
     }
 
 
@@ -67,20 +62,26 @@ namespace XULWin
 
     ErrorCatcher::~ErrorCatcher()
     {
+        if (hasCaught())
+        {
+            if (mPropagate)
+            {
+                if (!ErrorReporter::Instance().mStack.empty()) // safety check
+                {
+                    throw std::logic_error("The error stack is empty. This should never happen.");
+                }
+                ErrorReporter::Instance().mStack.top()->setChild(this);
+            }
+            else if (!mDisableLogging)
+            {
+                // Fall back to the default logger.
+                log();
+            }
+        }
+
         if (mOwns)
         {
             ErrorReporter::Instance().pop(this);
-            if (mPropagate && !ErrorReporter::Instance().mStack.empty())
-            {
-                ErrorReporter::Instance().mStack.top()->setChild(this);
-            }
-            else
-            {
-                if (!mDisableLogging)
-                {
-                    log();
-                }
-            }
         }
     }
 
@@ -118,27 +119,21 @@ namespace XULWin
     }
 
 
-    void ErrorCatcher::getErrorMessage(std::stringstream & ss) const
+    void ErrorCatcher::getError(std::stringstream & ss) const
     {
+        ss << "The following errors have occured:\n"; 
         for (size_t idx = 0; idx != errors().size(); ++idx)
         {
             const Error & error = errors()[idx];
-            if (idx > 0)
+            if (!error.file().empty())
             {
-                ss << " Followed by: ";
+                ss << error.file() << ":" << error.line() << " ";
             }
-            ss << error.message();
-
-            // show the error code, unless if it is the default
-            if (error.code() != Error::FAILED)
-            {
-                ss << " (Code: " << error.code() << ")";
-            }
-            ss << "\n";
+            ss << error.message() << "\n";
         }
         if (child())
         {
-            getErrorMessage(ss);
+            getError(ss);
         }
     }
 
@@ -187,7 +182,8 @@ namespace XULWin
     }
 
 
-    ErrorReporter::ErrorReporter()
+    ErrorReporter::ErrorReporter() :
+        mEnableMessageBoxLogging(true)
     {
     }
 
@@ -241,45 +237,36 @@ namespace XULWin
     void ErrorReporter::log(ErrorCatcher * inErrorCatcher)
     {
         std::stringstream ss;
-        inErrorCatcher->getErrorMessage(ss);
+        inErrorCatcher->getError(ss);
         log(ss.str());
     }
 
 
-    void ErrorReporter::log(const std::string & inErrorMessage)
+    void ErrorReporter::log(const std::string & inError)
     {
-        if (!inErrorMessage.empty())
+        if (!inError.empty())
         {
             if (mLogFunction)
             {
-                mLogFunction(inErrorMessage);
+                mLogFunction(inError);
             }
-#if MESSAGEBOXLOGGING
+            else if (mEnableMessageBoxLogging)
+            {
+                std::wstring utf16Message = XULWin::ToUTF16(inError);
+                ::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
+            }
             else
             {
-                std::wstring utf16Message = XULWin::ToUTF16(inErrorMessage);
-                //::MessageBox(0, utf16Message.c_str(), 0, MB_OK);
+                // The user disabled message box logging and did not provide a log functor.
+                // This log message is lost.
             }
-#endif
         }
     }
 
 
-    void ReportError(int inErrorCode, const std::string & inErrorMessage)
+    void ReportError(const std::string & inError)
     {
-        ErrorReporter::Instance().reportError(Error(inErrorCode, inErrorMessage));
-    }
-
-
-    void ReportError(const std::string & inErrorMessage)
-    {
-        ErrorReporter::Instance().reportError(Error(inErrorMessage));
-    }
-
-
-    void ReportError(int inErrorCode)
-    {
-        ErrorReporter::Instance().reportError(Error(inErrorCode));
+        ErrorReporter::Instance().reportError(Error(inError));
     }
 
 

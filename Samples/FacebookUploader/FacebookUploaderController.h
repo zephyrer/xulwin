@@ -5,6 +5,7 @@
 #include "FacebookUploaderModel.h"
 #include "Item.h"
 #include "ItemView.h"
+#include "XULWin/ErrorReporter.h"
 #include "XULWin/EventListener.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Windows.h"
@@ -42,6 +43,8 @@ namespace XULWin
         LRESULT handleUploadButton(WPARAM wParam, LPARAM lParam);
         
     private:
+        void initializeEventHandlers();
+
         void showMessageBox(const std::string & inMessage);
 
         void log(const std::string & inMessage);

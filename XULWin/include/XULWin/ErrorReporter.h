@@ -1,5 +1,5 @@
-#ifndef ERRORSTACK_H
-#define ERRORSTACK_H
+#ifndef ERRORREPORTER_H_INCLUDED
+#define ERRORREPORTER_H_INCLUDED
 
 
 #include <stack>
@@ -13,8 +13,7 @@ namespace XULWin
 
 
     /**
-     * Class Error bundles an error code with its message.
-     * The error message can be empty.
+     * Error contains error info.
      */
     class Error
     {
@@ -83,15 +82,7 @@ namespace XULWin
          */
         void getError(std::stringstream & outStream) const;
 
-        const std::vector<Error> & errors() const
-        {
-            return mErrors;
-        }
-
-        const ErrorCatcher * child() const
-        {
-            return mChild.get();
-        }
+        const std::vector<Error> & errors() const;
 
     private:
         friend class ErrorReporter;
@@ -104,12 +95,10 @@ namespace XULWin
 
         void push(const Error & inError);
 
-        void setChild(const ErrorCatcher * inErrorCatcher);
+        void getErrorImpl(std::stringstream & outStream) const;
 
         bool mOwns;
         std::vector<Error> mErrors;
-        boost::shared_ptr<ErrorCatcher> mChild;
-        bool mPropagate;
         bool mDisableLogging;
     };
 
@@ -165,37 +154,31 @@ namespace XULWin
 
         void log(const std::string & inError);
 
-        std::stack<ErrorCatcher *> mStack;
+        std::stack<ErrorCatcher *> mErrorCatchers;
         LogFunction mLogFunction;
         bool mEnableMessageBoxLogging;
         static ErrorReporter * sInstance;
     };
 
 
-    /**
-     * ReportError is a helper function to quickly log a message.
-     */
-    void ReportError(const std::string & inError);
+    ///**
+    // * Try to execute a function and log any caught exceptions.
+    // */
+    //typedef boost::function<void()> TryAction;
+    //typedef boost::function<void(const std::exception &)> CatchAction;
 
-    /**
-     * xulwin_error is a macro for quickly reporting an error
-     * message including filename and line number.
-     */
-#define xulwin_error(msg) \
-    ErrorReporter::Instance().reportError(Error(msg, __FILE__, __LINE__));
+    ////bool TryCatch(const TryAction & inAction, const CatchAction & inCatchAction);
 
-
-    /**
-     * Try to execute a function and log any caught exceptions.
-     */
-    typedef boost::function<void()> TryAction;
-    typedef boost::function<void(const std::exception &)> CatchAction;
-
-    //bool TryCatch(const TryAction & inAction, const CatchAction & inCatchAction);
-
-    bool TryOrReportError(const TryAction & inAction);
+    //bool TryOrReportError(const TryAction & inAction);
 
 } // namespace XULWin
 
 
-#endif // ERRORSTACK_H
+/**
+ * ReportError is a helper function to quickly log a message.
+ */
+#define ReportError(msg) \
+    ErrorReporter::Instance().reportError(Error(msg, __FILE__, __LINE__))
+
+
+#endif // ERRORREPORTER_H_INCLUDED

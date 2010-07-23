@@ -1,14 +1,9 @@
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/Unicode.h"
+#include "XULWin/Windows.h"
 #include <boost/bind.hpp>
 #include <sstream>
 #include <assert.h>
-
-#define MESSAGEBOXLOGGING 1
-
-#if MESSAGEBOXLOGGING
-#include <windows.h>
-#endif
 
 
 namespace XULWin
@@ -52,7 +47,6 @@ namespace XULWin
 
 
     ErrorCatcher::ErrorCatcher() :
-        mPropagate(false),
         mOwns(true), // the original object, created on the stack, must do the cleanup
         mDisableLogging(false)
     {
@@ -61,36 +55,22 @@ namespace XULWin
 
 
     ErrorCatcher::~ErrorCatcher()
-    {
-        if (hasCaught())
-        {
-            if (mPropagate)
-            {
-                if (!ErrorReporter::Instance().mStack.empty()) // safety check
-                {
-                    throw std::logic_error("The error stack is empty. This should never happen.");
-                }
-                ErrorReporter::Instance().mStack.top()->setChild(this);
-            }
-            else if (!mDisableLogging)
-            {
-                // Fall back to the default logger.
-                log();
-            }
-        }
-
+    {        
         if (mOwns)
         {
             ErrorReporter::Instance().pop(this);
+        }
+
+        if (hasCaught() && !mDisableLogging)
+        {
+            log();
         }
     }
 
 
     ErrorCatcher::ErrorCatcher(const ErrorCatcher & rhs) :
         mOwns(false), // copy is not responsible for cleanup
-        mErrors(rhs.mErrors),
-        mChild(rhs.mChild),
-        mPropagate(rhs.mPropagate)
+        mErrors(rhs.mErrors)
     {
     }
 
@@ -103,7 +83,7 @@ namespace XULWin
 
     bool ErrorCatcher::hasCaught() const
     {
-        return mChild || !mErrors.empty();
+        return !mErrors.empty();
     }
 
 
@@ -113,15 +93,21 @@ namespace XULWin
     }
 
 
-    void ErrorCatcher::propagate()
+    const std::vector<Error> & ErrorCatcher::errors() const
     {
-        mPropagate = true;
+        return mErrors;
     }
 
 
     void ErrorCatcher::getError(std::stringstream & ss) const
-    {
+    {       
         ss << "The following errors have occured:\n"; 
+        getErrorImpl(ss);
+    }
+
+
+    void ErrorCatcher::getErrorImpl(std::stringstream & ss) const
+    {
         for (size_t idx = 0; idx != errors().size(); ++idx)
         {
             const Error & error = errors()[idx];
@@ -131,22 +117,12 @@ namespace XULWin
             }
             ss << error.message() << "\n";
         }
-        if (child())
-        {
-            getError(ss);
-        }
     }
 
 
     void ErrorCatcher::push(const Error & inError)
     {
         mErrors.push_back(inError);
-    }
-
-
-    void ErrorCatcher::setChild(const ErrorCatcher * inErrorCatcher)
-    {
-        mChild.reset(new ErrorCatcher(*inErrorCatcher));
     }
 
 
@@ -162,7 +138,6 @@ namespace XULWin
 
     ErrorReporter & ErrorReporter::Instance()
     {
-        //assert(sInstance);
         if (!sInstance)
         {
             Initialize();
@@ -190,7 +165,7 @@ namespace XULWin
 
     ErrorReporter::~ErrorReporter()
     {
-        assert(mStack.empty());
+        assert(mErrorCatchers.empty());
     }
 
 
@@ -202,10 +177,12 @@ namespace XULWin
 
     void ErrorReporter::reportError(const Error & inError)
     {
-        if (!mStack.empty())
+        // Let the most recent error catcher handle it.
+        if (!mErrorCatchers.empty())
         {
-            mStack.top()->push(inError);
+            mErrorCatchers.top()->push(inError);
         }
+        // If there are no error catchers then just log the message.
         else
         {
             log(inError.message());
@@ -213,24 +190,25 @@ namespace XULWin
     }
 
 
-    void ErrorReporter::push(ErrorCatcher * inError)
+    void ErrorReporter::push(ErrorCatcher * inErrorCatcher)
     {
-        mStack.push(inError);
+        mErrorCatchers.push(inErrorCatcher);
     }
 
 
-    void ErrorReporter::pop(ErrorCatcher * inError)
+    void ErrorReporter::pop(ErrorCatcher * inErrorCatcher)
     {
-        assert(!mStack.empty());
-        if (!mStack.empty())
+        if (mErrorCatchers.empty())
         {
-            bool foundOnTop = mStack.top() == inError;
-            assert(foundOnTop);
-            if (foundOnTop)
-            {
-                mStack.pop();
-            }
+            throw std::logic_error("Error stack is empty on pop. This should not happen.");
         }
+
+        if (mErrorCatchers.top() != inErrorCatcher)
+        {
+            throw std::logic_error("Error being popped isn't on top of the stack. This does not make sense.");
+        }
+        
+        mErrorCatchers.pop();
     }
 
 
@@ -264,38 +242,32 @@ namespace XULWin
     }
 
 
-    void ReportError(const std::string & inError)
-    {
-        ErrorReporter::Instance().reportError(Error(inError));
-    }
+    //bool TryCatch(const TryAction & inTryAction, const CatchAction & inCatchAction)
+    //{
+    //    try
+    //    {
+    //        inTryAction();
+    //        return true;
+    //    }
+    //    catch (const std::exception & inExc)
+    //    {
+    //        inCatchAction(inExc);
+    //    }
+    //    return false;
+    //}
 
 
-    bool TryCatch(const TryAction & inTryAction, const CatchAction & inCatchAction)
-    {
-        try
-        {
-            inTryAction();
-            return true;
-        }
-        catch (const std::exception & inExc)
-        {
-            inCatchAction(inExc);
-        }
-        return false;
-    }
-
-
-    bool TryOrReportError(const TryAction & inAction)
-    {
-        struct Helper
-        {
-            static void ReportError_(const std::exception & inException)
-            {
-                XULWin::ReportError(inException.what());
-            }
-        };
-        return TryCatch(inAction, boost::bind(&Helper::ReportError_, _1));
-    }
+    //bool TryOrReportError(const TryAction & inAction)
+    //{
+    //    struct Helper
+    //    {
+    //        static void ReportError_(const std::exception & inException)
+    //        {
+    //            XULWin::ReportError(inException.what());
+    //        }
+    //    };
+    //    return TryCatch(inAction, boost::bind(&Helper::ReportError_, _1));
+    //}
 
 
 } // namespace XULWin

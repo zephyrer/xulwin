@@ -178,7 +178,7 @@ namespace XULWin
  * ReportError is a helper function to quickly log a message.
  */
 #define ReportError(msg) \
-    ErrorReporter::Instance().reportError(Error(msg, __FILE__, __LINE__))
+    ErrorReporter::Instance().reportError(XULWin::Error(msg, __FILE__, __LINE__))
 
 
 #endif // ERRORREPORTER_H_INCLUDED

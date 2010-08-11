@@ -326,6 +326,32 @@ namespace XULWin
                 }
                 break;
             }
+            case WM_ERASEBKGND:
+            {
+                if (XULWin::NativeComponent * sender = NativeComponent::FindByHandle(handle()))
+                {
+                    if (sender->mCSSBackgroundColor.isValid())
+                    {
+                        HDC hDC = (HDC)wParam;
+                        RGBColor color = sender->getCSSBackgroundColor();
+                        HBRUSH backgroundBrush = ::CreateSolidBrush(RGB(color.red(), color.green(), color.blue()));
+                        HBRUSH oldBrush = (HBRUSH)::SelectObject(hDC, (HGDIOBJ)&backgroundBrush);
+                        RECT rect;
+                        ::GetClientRect(handle(), &rect);
+                        //::GetClipBox(hDC, &rect);                        
+                        ::PatBlt(hDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, PATCOPY);
+                        ::SelectObject(hDC, (HGDIOBJ)&oldBrush);
+                        return TRUE;
+                    }
+                }
+                break;
+            }
+            case WM_CTLCOLORMSGBOX:
+            case WM_CTLCOLOREDIT:
+            case WM_CTLCOLORLISTBOX:
+            case WM_CTLCOLORBTN:
+            case WM_CTLCOLORDLG:
+            case WM_CTLCOLORSCROLLBAR:
             case WM_CTLCOLORSTATIC:
             {
                 HDC hDC = (HDC)wParam;

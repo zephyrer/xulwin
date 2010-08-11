@@ -1,3 +1,5 @@
+- Fix broken samples: shout dialog, simple listbox
+- Move advanced and broken components in namespace "Experimental"
 - Make a *real* application. Facebook photo uploader for example.
 - Useful real-world working toolbar sample
 - Speed up compilation times

@@ -255,6 +255,27 @@ namespace XULWin
                 close();
                 return 0;
             }
+            case WM_PAINT:
+            {
+                if (mCSSBackgroundColor.isValid())
+                {
+                    HDC hDC = ::GetDC(handle());
+                    PAINTSTRUCT ps;
+                    ps.hdc = hDC;
+                    ::BeginPaint(handle(), &ps);
+                    RECT rc;
+                    ::GetClientRect(handle(), &rc);
+                    RGBColor color = getCSSBackgroundColor();
+                    HBRUSH bgBrush = ::CreateSolidBrush(RGB(color.red(), color.green(), color.blue()));
+                    ::FillRect(hDC, &rc, bgBrush);
+                    ::EndPaint(handle(), &ps);
+                    ::ReleaseDC(handle(), hDC);
+
+                    // An application returns zero if it processes this message.
+                    return 0;
+                }
+                break;
+            }
             case WM_GETMINMAXINFO:
             {
                 SIZE sizeDiff = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());

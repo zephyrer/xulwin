@@ -10,13 +10,15 @@
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         orient="vertical"
-        align="stretch"
+        align="center"
         width="480"
         height="480"
-        title="Hello Sample">
+        title="Hello Sample"
+        style="background-color: red;"
+        >
 
 
   <!-- A two column listbox with one column flexible -->
-  <label value="test" flex="1" style="background-color: blue;"></label>
+  <label value="test" flex="1" ></label>
 
 </window>

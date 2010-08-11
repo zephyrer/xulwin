@@ -196,7 +196,7 @@ namespace XULWin
         Poco::File iconFile(filePath);
         if (!iconFile.exists())
         {        
-            ReportError("No icon file found for the Window.");
+            // Don't report an error, because it isn't.
             return 0;
         }
         return WinAPI::CreateHICON(iconFile.path());

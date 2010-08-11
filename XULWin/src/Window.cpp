@@ -255,6 +255,15 @@ namespace XULWin
                 close();
                 return 0;
             }
+            case WM_ERASEBKGND:
+            {
+                if (mCSSBackgroundColor.isValid())
+                {
+                    // The WM_PAINT message will take care of painting the background.
+                    return 1;
+                }
+                break;
+            }
             case WM_PAINT:
             {
                 if (mCSSBackgroundColor.isValid())

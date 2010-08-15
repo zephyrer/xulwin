@@ -12,7 +12,6 @@ namespace XULWin
 
     GdiplusLoader::GdiplusLoader()
     {
-        assert(sRefCount >= 0);
         if (sRefCount++ == 0)
         {
             // Init Gdiplus
@@ -24,12 +23,10 @@ namespace XULWin
 
     GdiplusLoader::~GdiplusLoader()
     {
-        assert(sRefCount >= 0);
         if (--sRefCount == 0)
         {
             Gdiplus::GdiplusShutdown(mGdiPlusToken);
         }
-        assert(sRefCount >= 0);
     }
 
 } // namespace XULWin

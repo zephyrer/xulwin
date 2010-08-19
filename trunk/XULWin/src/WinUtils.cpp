@@ -830,6 +830,7 @@ namespace WinAPI
         }
     }
 
+
     UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId)
     {
         TBBUTTONINFO tbButtonInfo;

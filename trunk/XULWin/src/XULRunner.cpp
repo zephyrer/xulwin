@@ -222,9 +222,13 @@ namespace XULWin
     }
 
 
-    ElementPtr XULRunner::ParseFile(AbstractXULParser & inParser, const std::string & inXULURL)
+    ElementPtr XULRunner::ParseFile(AbstractXULParser & inParser, const std::string & inXULFile)
     {
-        inParser.parse(inXULURL);
+        if (!Poco::File(inXULFile).exists())
+        {
+            throw std::runtime_error("The XUL file was not found: " + inXULFile);
+        }
+        inParser.parse(inXULFile);
         return inParser.rootElement();
     }
 

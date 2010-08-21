@@ -837,7 +837,7 @@ namespace XULWin
         int result = 0;
         if (const Columns * cols = findChildOfType<Columns>())
         {
-            result = cols->calculateWidth(inSizeConstraint);
+            result = cols->getWidth(inSizeConstraint);
         }
         return result;
 
@@ -849,7 +849,7 @@ namespace XULWin
         int result = 0;
         if (const Rows * rows = findChildOfType<Rows>())
         {
-            result = rows->calculateHeight(inSizeConstraint);
+            result = rows->getHeight(inSizeConstraint);
         }
         return result;
     }
@@ -1025,7 +1025,7 @@ namespace XULWin
         int result = 0;
         if (const Columns * cols = findChildOfType<Columns>())
         {
-            result = cols->calculateWidth(inSizeConstraint);
+            result = cols->getWidth(inSizeConstraint);
         }
         return result;
 
@@ -1037,7 +1037,7 @@ namespace XULWin
         int result = 0;
         if (const Rows * rows = findChildOfType<Rows>())
         {
-            result = rows->calculateHeight(inSizeConstraint);
+            result = rows->getHeight(inSizeConstraint);
         }
         return result;
     }
@@ -1231,7 +1231,7 @@ namespace XULWin
         result = max_element_value(rows.begin(),
                                    rows.end(),
                                    0,
-                                   boost::bind(&Component::calculateWidth,
+                                   boost::bind(&Component::getWidth,
                                                boost::bind(&Element::component, _1),
                                                inSizeConstraint));
         return result;
@@ -1261,7 +1261,7 @@ namespace XULWin
         result = sum_element_values(rows.begin(),
                                     rows.end(),
                                     0,
-                                    boost::bind(&Component::calculateHeight,
+                                    boost::bind(&Component::getHeight,
                                                 boost::bind(&Element::component, _1),
                                                 inSizeConstraint));
         return result;
@@ -1297,7 +1297,7 @@ namespace XULWin
         result = sum_element_values(columns.begin(),
                                     columns.end(),
                                     0,
-                                    boost::bind(&Component::calculateWidth,
+                                    boost::bind(&Component::getWidth,
                                                 boost::bind(&Element::component, _1),
                                                 inSizeConstraint));
         return result;
@@ -1327,7 +1327,7 @@ namespace XULWin
         result = max_element_value(columns.begin(),
                                    columns.end(),
                                    0,
-                                   boost::bind(&Component::calculateHeight,
+                                   boost::bind(&Component::getHeight,
                                                boost::bind(&Element::component, _1),
                                                inSizeConstraint));
         return result;
@@ -1948,7 +1948,7 @@ namespace XULWin
         int result = Defaults::controlWidth();
         if (const TreeChildren * children = findChildOfType<TreeChildren>())
         {
-            result = Defaults::treeIndent() + children->calculateWidth(inSizeConstraint);
+            result = Defaults::treeIndent() + children->getWidth(inSizeConstraint);
         }
         return result;
     }
@@ -1959,7 +1959,7 @@ namespace XULWin
         int result = 0;
         if (const TreeChildren * children = findChildOfType<TreeChildren>())
         {
-            result = children->calculateHeight(inSizeConstraint);
+            result = children->getHeight(inSizeConstraint);
         }
         return result;
     }
@@ -2028,7 +2028,7 @@ namespace XULWin
             const Component * child = getChild(idx);
             if (const TreeItem * item = child->downcast<TreeItem>())
             {
-                result += item->calculateHeight(inSizeConstraint);
+                result += item->getHeight(inSizeConstraint);
             }
         }
         return result;
@@ -2043,7 +2043,7 @@ namespace XULWin
             const Component * child = getChild(idx);
             if (const TreeItem * item = child->downcast<TreeItem>())
             {
-                int minWidth = item->calculateWidth(inSizeConstraint);
+                int minWidth = item->getWidth(inSizeConstraint);
                 if (result < minWidth)
                 {
                     result = minWidth;
@@ -2065,7 +2065,7 @@ namespace XULWin
         int result = 0;
         if (const TreeRow * row = findChildOfType<TreeRow>())
         {
-            int minHeight = row->calculateHeight(inSizeConstraint);
+            int minHeight = row->getHeight(inSizeConstraint);
             if (result < minHeight)
             {
                 result = minHeight;
@@ -2073,7 +2073,7 @@ namespace XULWin
         }
         if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
         {
-            result += treeChildren->calculateHeight(inSizeConstraint);
+            result += treeChildren->getHeight(inSizeConstraint);
         }
         return result;
     }
@@ -2084,7 +2084,7 @@ namespace XULWin
         int result = 0;
         if (const TreeRow * row = findChildOfType<TreeRow>())
         {
-            int minWidth = row->calculateWidth(inSizeConstraint);
+            int minWidth = row->getWidth(inSizeConstraint);
             if (result < minWidth)
             {
                 result = minWidth;
@@ -2092,7 +2092,7 @@ namespace XULWin
         }
         if (const TreeChildren * treeChildren = findChildOfType<TreeChildren>())
         {
-            int minWidth = Defaults::treeIndent() + treeChildren->calculateWidth(inSizeConstraint);
+            int minWidth = Defaults::treeIndent() + treeChildren->getWidth(inSizeConstraint);
             if (result < minWidth)
             {
                 result = minWidth;
@@ -2169,7 +2169,7 @@ namespace XULWin
             const Component * child = getChild(idx);
             if (const TreeCell * cell = child->downcast<TreeCell>())
             {
-                result += cell->calculateHeight(inSizeConstraint);
+                result += cell->getHeight(inSizeConstraint);
             }
         }
         return result;

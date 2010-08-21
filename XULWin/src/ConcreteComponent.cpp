@@ -65,7 +65,7 @@ namespace XULWin
         return max_element_value<int>(el()->children().begin(),
                                       el()->children().end(),
                                       0,
-                                      boost::bind(&Component::calculateWidth,
+                                      boost::bind(&Component::getWidth,
                                                   boost::bind(&Element::component, _1),
                                                   inSizeConstraint));
     }
@@ -76,7 +76,7 @@ namespace XULWin
         return max_element_value<int>(el()->children().begin(),
                                       el()->children().end(),
                                       0,
-                                      boost::bind(&Component::calculateHeight,
+                                      boost::bind(&Component::getHeight,
                                                   boost::bind(&Element::component, _1),
                                                   inSizeConstraint));
     }
@@ -87,7 +87,7 @@ namespace XULWin
         return sum_element_values<int>(el()->children().begin(),
                                        el()->children().end(),
                                        0,
-                                       boost::bind(&Component::calculateWidth,
+                                       boost::bind(&Component::getWidth,
                                                    boost::bind(&Element::component, _1),
                                                    inSizeConstraint));
     }
@@ -98,7 +98,7 @@ namespace XULWin
         return sum_element_values<int>(el()->children().begin(),
                                        el()->children().end(),
                                        0,
-                                       boost::bind(&Component::calculateHeight,
+                                       boost::bind(&Component::getHeight,
                                                    boost::bind(&Element::component, _1),
                                                    inSizeConstraint));
     }

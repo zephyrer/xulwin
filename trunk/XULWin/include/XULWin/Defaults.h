@@ -94,7 +94,7 @@ namespace XULWin
 
         static int textBoxWidth()
         {
-            return 137;
+            return 20;
         }
 
         static int textBoxMinimumWidth()

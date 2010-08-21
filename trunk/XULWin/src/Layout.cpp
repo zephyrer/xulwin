@@ -212,8 +212,8 @@ namespace XULWin
         std::vector<int> rowSizes;
         LinearLayoutManager::GetSizes(inRect.height(), inRowHeights, rowSizes);
 
-        int offsetX = 0;
-        int offsetY = 0;
+        int offsetX = inRect.x();
+        int offsetY = inRect.y();
         for (size_t colIdx = 0; colIdx != outRects.numColumns(); ++colIdx)
         {
             int width = colSizes[colIdx];
@@ -224,7 +224,7 @@ namespace XULWin
                 offsetY += height;
             }
             offsetX += width;
-            offsetY = 0;
+            offsetY = inRect.y();
         }
     }
 

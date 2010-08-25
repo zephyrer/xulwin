@@ -353,6 +353,11 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: checked
+     * Type: boolean
+     * Indicates whether the element (checkbox) is checked or not.
+     */
     class CheckedController : public AttributeController
     {
     public:
@@ -371,6 +376,14 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: orient
+     * Type: enum (values: "horizontal" "vertical")
+     *
+     * Used to specify whether the children of the element
+     * are oriented horizontally or vertically. The default
+     * value depends on the element.
+     */
     class OrientController : public AttributeController
     {
     public:
@@ -389,6 +402,18 @@ namespace XULWin
     };
 
 
+    /**
+     * Attribute: align
+     * Type: enum (values: "start", "center" or "end")
+     *
+     * The align attribute specifies how child elements of
+     * the box are aligned when the size of the box is
+     * larger than the total size of the children. For
+     * boxes that have horizontal orientation, it specifies
+     * how its children will be aligned vertically. For
+     * boxes that have vertical orientation, it is used to
+     * specify how its children are aligned horizontally.
+     */
     class AlignController : public AttributeController
     {
     public:

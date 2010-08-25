@@ -90,13 +90,11 @@ namespace XULWin
         ElementFactory::Instance().registerElement<XMLListHead>();
         ElementFactory::Instance().registerElement<XMLListHeader>();
         ElementFactory::Instance().registerElement<XMLOverlay>();
-        ConditionalState::Initialize(inModuleHandle);
     }
 
 
     Initializer::~Initializer()
     {
-        ConditionalState::Finalize();
         ErrorReporter::Finalize();
     }
 

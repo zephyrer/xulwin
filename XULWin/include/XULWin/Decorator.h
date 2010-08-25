@@ -9,6 +9,9 @@
 namespace XULWin
 {
 
+    class Window;
+
+
     class Decorator : public Component
     {
     public:
@@ -39,6 +42,10 @@ namespace XULWin
         ComponentPtr swap(ComponentPtr inNewElement);
 
         ComponentPtr swap(Component * inNewElement);
+
+        virtual Window * findParentWindow();
+
+        virtual const Window * findParentWindow() const;
 
         virtual int getIndex() const;
 

@@ -22,9 +22,20 @@ namespace XULWin
 
         virtual ~DetachedComponent();
 
+        virtual void move(int x, int y, int w, int h);
+
+        virtual Rect clientRect() const;
+
+        virtual void rebuildLayout();
+
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+    private:
+        Rect mRect;
     };
 
 } // namespace XULWin

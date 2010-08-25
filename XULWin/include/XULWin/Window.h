@@ -68,40 +68,19 @@ namespace XULWin
 
         virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
 
-        virtual Orient BoxLayouter_getOrient() const
-        {
-            return getOrient();
-        }
+        virtual Orient BoxLayouter_getOrient() const;
 
-        virtual Align BoxLayouter_getAlign() const
-        {
-            return getAlign();
-        }
+        virtual Align BoxLayouter_getAlign() const;
 
-        virtual size_t BoxLayouter_getChildCount() const
-        {
-            return getChildCount();
-        }
+        virtual size_t BoxLayouter_getChildCount() const;
 
-        virtual const Component * BoxLayouter_getChild(size_t idx) const
-        {
-            return getChild(idx);
-        }
+        virtual const Component * BoxLayouter_getChild(size_t idx) const;
 
-        virtual Component * BoxLayouter_getChild(size_t idx)
-        {
-            return getChild(idx);
-        }
+        virtual Component * BoxLayouter_getChild(size_t idx);
 
-        virtual Rect BoxLayouter_clientRect() const
-        {
-            return clientRect();
-        }
+        virtual Rect BoxLayouter_clientRect() const;
 
-        virtual void BoxLayouter_rebuildChildLayouts()
-        {
-            rebuildChildLayouts();
-        }
+        virtual void BoxLayouter_rebuildChildLayouts();
 
 #ifndef SWIG
         static LRESULT CALLBACK MessageHandler(HWND hWnd, UINT inMessage, WPARAM wParam, LPARAM lParam);

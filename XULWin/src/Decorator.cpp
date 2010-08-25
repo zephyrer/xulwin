@@ -70,6 +70,18 @@ namespace XULWin
         return old;
     }
 
+        
+    Window * Decorator::findParentWindow()
+    {
+        return mDecoratedComponent->findParentWindow();
+    }
+
+        
+    const Window * Decorator::findParentWindow() const
+    {
+        return mDecoratedComponent->findParentWindow();
+    }
+
 
     int Decorator::getIndex() const
     {

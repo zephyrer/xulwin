@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Component.h"
+#include "XULWin/DetachedComponent.h"
 #include "XULWin/Menu.h"
 #include "XULWin/NativeControl.h"
 #include "XULWin/PhonyComponent.h"
@@ -48,10 +49,10 @@ namespace XULWin
     };
 
 
-    class MenuBar : public PhonyComponent
+    class MenuBar : public VirtualComponent
     {
     public:
-        typedef PhonyComponent Super;
+        typedef VirtualComponent Super;
 
         MenuBar(Component * inParent, const AttributesMapping & inAttr);
 
@@ -115,10 +116,10 @@ namespace XULWin
     };
 
 
-    class MenuPopup : public PhonyComponent
+    class MenuPopup : public DetachedComponent
     {
     public:
-        typedef PhonyComponent Super;
+        typedef DetachedComponent Super;
 
         MenuPopup(Component * inParent, const AttributesMapping & inAttr);
 

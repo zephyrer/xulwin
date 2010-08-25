@@ -789,7 +789,7 @@ namespace WinAPI
     }
 
 
-    Timer::TimerMapping Timer::sMapping;
+    Timer::TimerMapping Timer::sTimerMapping;
 
     Timer::Timer() :
         mTimerId(0)
@@ -805,28 +805,47 @@ namespace WinAPI
 
     void Timer::start(const TimerAction & inAction, int inDelayInMilliseconds)
     {
-        mTimerAction = inAction;
-        mTimerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &Timer::OnTimerEvent);
-        sMapping.insert(std::make_pair(mTimerId, this));
+        if (!mTimerId)
+        {
+            mTimerAction = inAction;
+            if (!(mTimerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &Timer::OnTimerEvent)))
+            {
+                throw std::runtime_error("Failed to start the timer.");
+            }            
+            sTimerMapping.insert(std::make_pair(this, mTimerId));
+        }
+        else
+        {
+            throw std::logic_error("Timer already started.");
+        }
     }
+
 
     void Timer::stop()
     {
         if (mTimerId)
         {
-            sMapping.erase(sMapping.find(mTimerId));
-            ::KillTimer(NULL, mTimerId);
-            mTimerId = 0;
+            TimerMapping::iterator it = sTimerMapping.find(this);
+            assert(it != sTimerMapping.end());
+            if (it != sTimerMapping.end())
+            {
+                sTimerMapping.erase(it);
+                ::KillTimer(NULL, mTimerId);
+                mTimerId = 0;
+            }
         }
     }
 
 
     void Timer::OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime)
     {
-        TimerMapping::iterator it = sMapping.find(inTimerId);
-        if (it != sMapping.end())
+        for (TimerMapping::iterator it = sTimerMapping.begin(); it != sTimerMapping.end(); ++it)
         {
-            it->second->mTimerAction();
+            if (it->second == inTimerId)
+            {
+                it->first->mTimerAction();
+                return;
+            }
         }
     }
 

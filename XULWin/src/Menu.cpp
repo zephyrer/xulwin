@@ -20,7 +20,7 @@ namespace XULWin
 
 
     Menu::Menu(Component * inParent, const AttributesMapping & inAttr) :
-        PhonyComponent(inParent, inAttr)
+        Super(inParent, inAttr)
     {
         assert(sMenusById.find(mComponentId.value()) == sMenusById.end());
         sMenusById.insert(std::make_pair(mComponentId.value(), this));
@@ -52,24 +52,26 @@ namespace XULWin
         WinAPI::MenuNode * result = new WinAPI::MenuNode(
             WinAPI::MenuItemInfo(inMenu->componentId(),
                                   inMenu->getLabel()));
-        const MenuPopup * popup = inMenu->findChildOfType<MenuPopup>();
-        for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
+        if (const MenuPopup * popup = inMenu->findChildOfType<MenuPopup>())
         {
-            const Component * comp = popup->getChild(idx);
-            if (const MenuItem * menuItem = comp->downcast<MenuItem>())
+            for (size_t idx = 0; idx != popup->getChildCount(); ++idx)
             {
-                result->addChild(
-                    new WinAPI::MenuNode(
-                        WinAPI::MenuItemInfo(menuItem->componentId(),
-                                              menuItem->getLabel())));
-            }
-            else if (const Menu * menu = comp->downcast<Menu>())
-            {
-                result->addChild(FromMenu(menu));
-            }
-            else if (const MenuSeparator * sep = comp->downcast<MenuSeparator>())
-            {
-                result->addChild(new WinAPI::MenuNode(WinAPI::MenuItemInfo(0, "")));
+                const Component * comp = popup->getChild(idx);
+                if (const MenuItem * menuItem = comp->downcast<MenuItem>())
+                {
+                    result->addChild(
+                        new WinAPI::MenuNode(
+                            WinAPI::MenuItemInfo(menuItem->componentId(),
+                                                  menuItem->getLabel())));
+                }
+                else if (const Menu * menu = comp->downcast<Menu>())
+                {
+                    result->addChild(FromMenu(menu));
+                }
+                else if (const MenuSeparator * sep = comp->downcast<MenuSeparator>())
+                {
+                    result->addChild(new WinAPI::MenuNode(WinAPI::MenuItemInfo(0, "")));
+                }
             }
         }
         return result;
@@ -112,7 +114,7 @@ namespace XULWin
 
 
     MenuBar::MenuBar(Component * inParent, const AttributesMapping & inAttr) :
-        PhonyComponent(inParent, inAttr)
+        Super(inParent, inAttr)
     {
     }
 
@@ -125,7 +127,10 @@ namespace XULWin
         for (size_t idx = 0; idx != menuElements.size(); ++idx)
         {
             Menu * menu = menuElements[idx]->component()->downcast<Menu>();
-            node.addChild(Menu::FromMenu(menu));
+            if (XULWin::WinAPI::MenuNode * subMenu = Menu::FromMenu(menu))
+            {
+                node.addChild(subMenu);
+            }
         }
         if (Window * window = findParentOfType<Window>())
         {
@@ -133,7 +138,6 @@ namespace XULWin
         }
         return Super::init();
     }
-
 
 
     int MenuBar::calculateWidth(SizeConstraint inSizeConstraint) const
@@ -152,8 +156,7 @@ namespace XULWin
 
     int MenuBar::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return 0; // does not take part in client rect
-        //return Defaults::menuBarHeight();
+        return 0; // Does not belong to the Window client rectangle.
     }
 
     
@@ -167,7 +170,7 @@ namespace XULWin
 
 
     MenuItem::MenuItem(Component * inParent, const AttributesMapping & inAttr) :
-        VirtualComponent(inParent, inAttr)
+        Super(inParent, inAttr)
     {
         assert(sMenuItemsById.find(mComponentId.value()) == sMenuItemsById.end());
         sMenuItemsById.insert(std::make_pair(mComponentId.value(), this));
@@ -205,27 +208,13 @@ namespace XULWin
 
     int MenuItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        //int result = 0;
-        //if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<MenuItem *>(this)))
-        //{
-        //    result = WinAPI::getTextSize(comp->handle(), getLabel()).cx;
-        //}
-        //return result;
-
-        // FIXME! 
-        return 80;
+        return WinAPI::getTextSize(findParentWindow()->handle(), getLabel()).cx;
     }
 
 
     int MenuItem::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        //if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<MenuItem *>(this)))
-        //{
-        //    return WinAPI::getTextSize(comp->handle(), getLabel()).cy;
-        //}
-
-        // FIXME!!
-        return 80;
+        return Defaults::menuBarHeight();
     }
 
 
@@ -332,7 +321,7 @@ namespace XULWin
 
 
     MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttr) :
-        PhonyComponent(inParent, inAttr)
+        Super(inParent, inAttr)
     {
     }
 

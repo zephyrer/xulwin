@@ -5,7 +5,9 @@
 #include "XULWin/Element.h"
 #include "XULWin/Elements.h"
 #include "XULWin/ErrorReporter.h"
+#include "XULWin/Menu.h"
 #include "XULWin/Toolbar.h"
+#include "XULWin/Window.h"
 #include "XULWin/WindowsToolbarItem.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
@@ -60,21 +62,15 @@ namespace XULWin
 
     bool ScopedEventListener::connectMenuItem(Element * inEl, const Action & inAction)
     {
-        if (0 == inEl->downcast<XULWin::XMLMenuItem>())
+        if (inEl->tagName() == XMLMenuItem::TagName())
         {
-            // This is not a menu item.
-            return false;
+            if (XULWin::Window * window = inEl->component()->findParentWindow())
+            {
+                connect(window->el(), WM_COMMAND, inEl->component()->componentId(), inAction);
+                return true;
+            }
         }
-
-        XULWin::NativeComponent * nativeParent = NativeControl::FindNativeParent(inEl->component());
-        if (!nativeParent)
-        {
-            ReportError("Received an event from a MenuItem element that has no native parent.");
-            return false;
-        }
-
-        connect(nativeParent->el(), WM_COMMAND, inEl->component()->componentId(), inAction);
-        return true;
+        return false;
     }
 
 

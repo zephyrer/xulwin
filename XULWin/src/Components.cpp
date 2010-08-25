@@ -1759,17 +1759,7 @@ namespace XULWin
         mMarginRight(2),
         mMarginBottom(2)
     {
-
-        // HACK!!!
-        // Group boxes don't render properly if the parent window has the
-        // WS_CLIPCHILDREN style defined.
-        // There should be some more decent way to fix this. But for now
-        // I just remove the flag from the parent. This may result in more
-        // flickering during manual resize of the XMLWindow.
-        WinAPI::removeWindowStyle(NativeControl::FindNativeParent(inParent)->handle(), WS_CLIPCHILDREN);
-
-
-        mGroupBoxHandle = CreateWindowEx(0,
+        mGroupBoxHandle = CreateWindowEx(WS_EX_TRANSPARENT, // See Dr Dobbs: "Resizable Dialogs Revisited".
                                          TEXT("BUTTON"),
                                          0,
                                          WS_VISIBLE | WS_CHILD | BS_GROUPBOX,

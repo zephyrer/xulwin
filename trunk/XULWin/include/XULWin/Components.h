@@ -156,6 +156,7 @@ namespace XULWin
     private:
         int mRows;
         static DWORD GetFlags(const AttributesMapping & inAttr);
+        static DWORD GetStyleFlags(const AttributesMapping & inAttr);
     };
 
 

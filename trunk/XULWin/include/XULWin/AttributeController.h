@@ -404,7 +404,7 @@ namespace XULWin
 
     /**
      * Attribute: align
-     * Type: enum (values: "start", "center" or "end")
+     * Type: enum (values: "start", "center", "end" or "stretch")
      *
      * The align attribute specifies how child elements of
      * the box are aligned when the size of the box is

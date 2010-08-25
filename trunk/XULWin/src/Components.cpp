@@ -12,6 +12,7 @@
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
 #include "Poco/String.h"
+#include "Poco/StringTokenizer.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -260,7 +261,7 @@ namespace XULWin
                       inAttr,
                       TEXT("EDIT"),
                       WS_EX_CLIENTEDGE, // exStyle
-                      WS_TABSTOP | GetFlags(inAttr)),
+                      WS_TABSTOP | GetFlags(inAttr) | GetStyleFlags(inAttr)),                      
         mRows(1)
     {
     }
@@ -284,6 +285,51 @@ namespace XULWin
             flags |= ES_AUTOHSCROLL;
         }
         return flags;
+    }
+
+
+    DWORD TextBox::GetStyleFlags(const AttributesMapping & inAttr)
+    {
+        AttributesMapping::const_iterator styleIt = inAttr.find("style");
+        if (styleIt == inAttr.end())
+        {
+            return 0;
+        }
+
+        const std::string & styles = styleIt->second;
+        if (styles.empty())
+        {
+            return 0;
+        }
+
+        Poco::StringTokenizer tok(styles, ";", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer::Iterator it = tok.begin(), end = tok.end();
+        for (; it != end; ++it)
+        {
+            const std::string & value = *it;
+            std::string::size_type index = value.find("text-align");
+            if (index != std::string::npos)
+            {
+                Poco::StringTokenizer tok(value, ":", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+                Poco::StringTokenizer::Iterator it = tok.begin(), end = tok.end();
+                if (it != end)
+                {
+                    ++it;
+                    if (it != end)
+                    {
+                        const std::string & textAlign = *it;
+                        switch (String2CSSTextAlign(textAlign, CSSTextAlign_Left))
+                        {
+                            case CSSTextAlign_Center: return ES_CENTER;
+                            case CSSTextAlign_Left: return ES_LEFT;
+                            case CSSTextAlign_Right: return ES_RIGHT;
+                            default: return 0;
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
     }
 
 

@@ -36,6 +36,9 @@ namespace XULWin
     };
 
 
+    class Window;
+
+
     /**
      * Component
      *
@@ -70,6 +73,10 @@ namespace XULWin
         virtual ~Component() {}
 
         virtual bool init() = 0;
+
+        virtual Window * findParentWindow() = 0;
+
+        virtual const Window * findParentWindow() const = 0;
 
         // Returns this element's index in its parent's children collection.
         virtual int getIndex() const = 0;

@@ -101,6 +101,61 @@ namespace XULWin
     }
 
 
+    Orient Window::BoxLayouter_getOrient() const
+    {
+        return getOrient();
+    }
+
+
+    Align Window::BoxLayouter_getAlign() const
+    {
+        return getAlign();
+    }
+
+
+    size_t Window::BoxLayouter_getChildCount() const
+    {
+        size_t result = getChildCount();
+        if (const MenuBar * menuBar = findChildOfType<MenuBar>())
+        {
+            result -= 1;
+        }
+        return result;
+    }
+
+
+    const Component * Window::BoxLayouter_getChild(size_t idx) const
+    {
+        if (const MenuBar * menuBar = findChildOfType<MenuBar>())
+        {
+            return getChild(idx + 1);
+        }
+        return getChild(idx);
+    }
+
+
+    Component * Window::BoxLayouter_getChild(size_t idx)
+    {
+        if (const MenuBar * menuBar = findChildOfType<MenuBar>())
+        {
+            return getChild(idx + 1);
+        }
+        return getChild(idx);
+    }
+
+
+    Rect Window::BoxLayouter_clientRect() const
+    {
+        return clientRect();
+    }
+
+
+    void Window::BoxLayouter_rebuildChildLayouts()
+    {
+        rebuildChildLayouts();
+    }
+
+
     int Window::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         return getOrient() == Horizontal ? calculateSumChildWidths(inSizeConstraint)
@@ -191,26 +246,16 @@ namespace XULWin
 
         if (inPositioning == WindowPos_CenterInScreen)
         {
-            SIZE sz = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-            if (findChildOfType<MenuBar>())
-            {
-                sz.cy += Defaults::menuBarHeight();
-            }
-            int w = getWidth() + sz.cx;
-            int h = getHeight() + sz.cy;
+            int w = getWidth();
+            int h = getHeight();
             int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
             int y = (GetSystemMetrics(SM_CYSCREEN) - h)/2;
             move(x, y, w, h);
         }
         else
         {
-            SIZE sz = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
-            if (findChildOfType<MenuBar>())
-            {
-                sz.cy += Defaults::menuBarHeight();
-            }
-            int w = getWidth() + sz.cx;
-            int h = getHeight() + sz.cy;
+            int w = getWidth();
+            int h = getHeight();
             int x = getCSSX();
             int y = getCSSY();
             move(x, y, w, h);

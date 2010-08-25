@@ -4,6 +4,7 @@
 #include "XULWin/Element.h"
 #include "XULWin/ErrorReporter.h"
 #include "XULWin/NativeControl.h"
+#include "XULWin/Window.h"
 #include <boost/bind.hpp>
 
 
@@ -57,6 +58,29 @@ namespace XULWin
     {
         mIsInitialized = true;
         return true;
+    }
+
+
+    const Window * ConcreteComponent::findParentWindow() const
+    {
+        if (const Window * win = dynamic_cast<const Window*>(this))
+        {
+            return win;
+        }
+        else if (mParent)
+        {
+            return mParent->findParentWindow();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    Window * ConcreteComponent::findParentWindow()
+    {
+        return const_cast<Window*>(static_cast<const Window*>(this)->findParentWindow());
     }
 
 

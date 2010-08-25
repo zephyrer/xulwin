@@ -219,8 +219,8 @@ namespace WinAPI
 
     private:
         static void CALLBACK OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime);
-        typedef std::map<UINT_PTR, Timer *> TimerMapping;
-        static TimerMapping sMapping;
+        typedef std::map<Timer *, UINT_PTR> TimerMapping;
+        static TimerMapping sTimerMapping;
         TimerAction mTimerAction;
         UINT_PTR mTimerId;
     };

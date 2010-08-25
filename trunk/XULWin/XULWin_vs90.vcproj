@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="XULWin"
-	ProjectGUID="{D623C05B-BDD9-4D6E-8E51-E3275608DEBE}"
+	ProjectGUID="{82864729-DFC2-4F6D-A1AE-984D82CF81E1}"
 	RootNamespace="XULWin"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"

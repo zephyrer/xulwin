@@ -1680,20 +1680,6 @@ namespace XULWin
         }
     }
 
-    static Window * findParentWindow(Component * inChild)
-    {
-        Window * result = 0;
-        if (result = dynamic_cast<Window *>(inChild))
-        {
-            return result;
-        }
-        else if (inChild->parent())
-        {
-            return findParentWindow(inChild->parent());
-        }
-        return 0;
-    }
-
 
     LRESULT TabPanels::MessageHandler(HWND inHandle, UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
@@ -1723,7 +1709,7 @@ namespace XULWin
                     // This seemingly zero-op has two side effects:
                     // 1. The minmax sizes will be enforced again.
                     // 2. The content of the tabpanel is refreshed correctly.
-                    Window * wnd = findParentWindow(pThis);
+                    Window * wnd = pThis->findParentWindow();
                     if (wnd)
                     {
                         RECT rw;

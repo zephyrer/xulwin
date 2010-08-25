@@ -11,6 +11,8 @@
 namespace XULWin
 {
 
+    class Window;
+
     /**
      * ConcreteComponent is the base class for non-decorator components.
      */
@@ -22,6 +24,10 @@ namespace XULWin
         virtual ~ConcreteComponent() = 0;
 
         virtual bool init();
+
+        virtual Window * findParentWindow();
+
+        virtual const Window * findParentWindow() const;
 
         virtual int getIndex() const;
 

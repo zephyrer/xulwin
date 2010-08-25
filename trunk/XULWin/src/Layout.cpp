@@ -69,7 +69,8 @@ namespace XULWin
                 int size = sizes[sizesIdx];
                 if (size < inFlexValues[idx].MinSize)
                 {
-                    amountExceeded += inFlexValues[idx].MinSize - size;
+                    int minSize = inFlexValues[idx].MinSize;
+                    amountExceeded += minSize - size;
                     size = inFlexValues[idx].MinSize;
                 }
                 else if (size > inFlexValues[idx].MinSize)
@@ -101,7 +102,8 @@ namespace XULWin
                     outSizes[flexIdx] -= spacerCuts[idx];
                     if (outSizes[idx] < inFlexValues[flexIdx].MinSize)
                     {
-                        outSizes[idx] = inFlexValues[flexIdx].MinSize;
+                        int size = inFlexValues[flexIdx].MinSize;
+                        outSizes[flexIdx] = size;
                     }
                 }
             }

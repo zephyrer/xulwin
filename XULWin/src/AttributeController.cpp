@@ -271,6 +271,18 @@ namespace XULWin
     }
 
 
+    void HrefController::get(std::string & outHref)
+    {
+        outHref = getHref();
+    }
+
+
+    void HrefController::set(const std::string & inHref)
+    {
+        setHref(inHref);
+    }
+
+
     void SrcController::get(std::string & outSrc)
     {
         outSrc = getSrc();

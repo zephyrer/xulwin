@@ -184,6 +184,20 @@ namespace XULWin
     }
 
 
+    void CSSColorController::get(std::string & outValue)
+    {
+        outValue = RGBColor2String(getCSSColor());
+    }
+
+
+    void CSSColorController::set(const std::string & inValue)
+    {
+        RGBColor rgbColor(0, 0, 0);
+        String2RGBColor(inValue, rgbColor);
+        setCSSColor(rgbColor);
+    }
+
+
     void CSSBackgroundColorController::get(std::string & outValue)
     {
         outValue = RGBColor2String(getCSSBackgroundColor());

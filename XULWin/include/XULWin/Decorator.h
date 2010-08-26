@@ -127,6 +127,11 @@ namespace XULWin
 
         virtual RGBColor getCSSBackgroundColor() const;
 
+        // CSSColor methods
+        virtual void setCSSColor(const RGBColor & inColor);
+
+        virtual RGBColor getCSSColor() const;
+
         // CSSMarginController methods
         virtual void getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const;
 

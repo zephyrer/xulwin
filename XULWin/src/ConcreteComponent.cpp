@@ -43,6 +43,7 @@ namespace XULWin
         mCSSHeight.setInvalid();
         mCSSFill.setInvalid();
         mCSSStroke.setInvalid();
+        mCSSColor.setInvalid();
         mCSSBackgroundColor.setInvalid();
         mOrient.setInvalid();
         mAlign.setInvalid();
@@ -267,6 +268,18 @@ namespace XULWin
     RGBColor ConcreteComponent::getCSSBackgroundColor() const
     {
         return mCSSBackgroundColor;
+    }
+
+
+    void ConcreteComponent::setCSSColor(const RGBColor & inColor)
+    {
+        mCSSColor = inColor;
+    }
+
+
+    RGBColor ConcreteComponent::getCSSColor() const
+    {
+        return mCSSColor;
     }
 
 
@@ -570,6 +583,7 @@ namespace XULWin
         setStyleController<CSSWidthController>(this);
         setStyleController<CSSHeightController>(this);
         setStyleController<CSSMarginController>(this);
+        setStyleController<CSSColorController>(this);
         setStyleController<CSSBackgroundColorController>(this);
         setStyleController<CSSFillController>(this);
         setStyleController<CSSStrokeController>(this);

@@ -378,6 +378,29 @@ namespace XULWin
     }
 
 
+    void Decorator::setCSSColor(const RGBColor & inColor)
+    {
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
+        {
+            mDecoratedComponent->setCSSColor(inColor);
+        }
+    }
+
+
+    RGBColor Decorator::getCSSColor() const
+    {
+        assert(mDecoratedComponent);
+        if (mDecoratedComponent)
+        {
+            return mDecoratedComponent->getCSSColor();
+        }
+        RGBColor fallback;
+        (0, 0, 0);
+        return fallback;
+    }
+
+
     void Decorator::getCSSMargin(int & outTop, int & outLeft, int & outRight, int & outBottom) const
     {
         assert(mDecoratedComponent);

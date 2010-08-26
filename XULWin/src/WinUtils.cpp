@@ -108,6 +108,13 @@ namespace WinAPI
     }
 
 
+    void navigateURL(const std::string & inURL)
+    {
+        std::wstring utf16URL = ToUTF16(inURL);
+        ::ShellExecute(NULL, TEXT("open"), utf16URL.c_str(), NULL, NULL, SW_SHOWNORMAL);
+    }
+
+
     void ComboBox_Add(HWND inHandle, const std::string & inString)
     {
         std::wstring utf16String = ToUTF16(inString);

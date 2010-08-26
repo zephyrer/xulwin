@@ -52,6 +52,7 @@ namespace XULWin
      */
     class Component : public NotificationListener,
         public virtual AlignController,
+        public virtual CSSColorController,
         public virtual CSSBackgroundColorController,
         public virtual CSSHeightController,
         public virtual CSSMarginController,
@@ -132,6 +133,11 @@ namespace XULWin
         virtual Align getAlign() const = 0;
 
         virtual void setAlign(Align inAlign) = 0;
+
+        // CSSColor methods
+        virtual void setCSSColor(const RGBColor & inColor) = 0;
+
+        virtual RGBColor getCSSColor() const = 0;
 
         // CSSBackgroundColor methods
         virtual void setCSSBackgroundColor(const RGBColor & inColor) = 0;

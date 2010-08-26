@@ -3,6 +3,7 @@
 
 
 #include "XULWin/BoxLayouter.h"
+#include "XULWin/EventListener.h"
 #include "XULWin/PhonyComponent.h"
 #include "XULWin/NativeControl.h"
 #include "XULWin/Node.h"
@@ -117,6 +118,36 @@ namespace XULWin
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+    };
+
+
+    class ScopedEventListener;
+
+
+    /**
+     * Hyperlink
+     *
+     * Native implementation for a HTML hyperlink.
+     */
+    class Hyperlink : public Label,
+                      public virtual HrefController
+    {
+    public:
+        typedef Label Super;
+
+        Hyperlink(Component * inParent, const AttributesMapping & inAttr);
+
+        virtual bool init();
+
+        // StringValueController methods
+        virtual std::string getHref() const;
+
+        virtual void setHref(const std::string & inStringValue);
+
+        virtual bool initAttributeControllers();
+
+    private:
+        std::string mHref;
     };
 
 

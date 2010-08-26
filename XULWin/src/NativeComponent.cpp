@@ -338,7 +338,6 @@ namespace XULWin
                         HBRUSH oldBrush = (HBRUSH)::SelectObject(hDC, (HGDIOBJ)&backgroundBrush);
                         RECT rect;
                         ::GetClientRect(handle(), &rect);
-                        //::GetClipBox(hDC, &rect);                        
                         ::PatBlt(hDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, PATCOPY);
                         ::SelectObject(hDC, (HGDIOBJ)&oldBrush);
                         return TRUE;
@@ -358,14 +357,40 @@ namespace XULWin
                 HWND hSender = (HWND)lParam;
                 if (XULWin::NativeComponent * sender = NativeComponent::FindByHandle(hSender))
                 {
-                    if (sender->mCSSBackgroundColor.isValid())
+                    if (sender->mCSSColor.isValid() && sender->mCSSBackgroundColor.isValid())
                     {
-                        // NOTE: these two calls should both be used if we also want to set the foreground color.
-                        //SetTextColor(hdcStatic, RGB(255,255,255));
-                        //SetBkColor(hdcStatic, RGB(0,0,0));
+                        RGBColor fgColor = sender->getCSSColor();
+                        SetTextColor(hDC, RGB(fgColor.red(), fgColor.green(), fgColor.blue()));
+                        
+                        RGBColor bgColor = sender->getCSSBackgroundColor();
+                        SetBkColor(hDC, RGB(bgColor.red(), bgColor.green(), bgColor.blue()));
+                        return (INT_PTR)CreateSolidBrush(RGB(bgColor.red(), bgColor.green(), bgColor.blue()));
+                    }
 
-                        RGBColor color = sender->getCSSBackgroundColor();
-                        return (INT_PTR)::CreateSolidBrush(RGB(color.red(), color.green(), color.blue()));
+                    if (sender->mCSSBackgroundColor.isValid())
+                    {         
+                        RGBColor bgColor = sender->getCSSBackgroundColor();
+                        SetBkMode(hDC, TRANSPARENT);
+                        return (INT_PTR)CreateSolidBrush(RGB(bgColor.red(), bgColor.green(), bgColor.blue()));
+                    }
+
+
+                    if (sender->mCSSColor.isValid())
+                    {
+                        RGBColor fgColor = sender->getCSSColor();
+                        SetBkMode(hDC, TRANSPARENT);
+                        SetTextColor(hDC, RGB(fgColor.red(), fgColor.green(), fgColor.blue()));
+                        switch (inMessage)
+                        {
+                            case WM_CTLCOLORMSGBOX:     return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_BTNFACE));
+                            case WM_CTLCOLOREDIT:       return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_WINDOW));
+                            case WM_CTLCOLORLISTBOX:    return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_WINDOW));
+                            case WM_CTLCOLORBTN:        return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_BTNFACE));
+                            case WM_CTLCOLORDLG:        return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_BTNFACE));
+                            case WM_CTLCOLORSCROLLBAR:  return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_SCROLLBAR));  
+                            case WM_CTLCOLORSTATIC:     return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_BTNFACE));  
+                        }
+                        return (INT_PTR)CreateSolidBrush(RGB(255, 255, 255));
                     }
                 }
                 break;                    

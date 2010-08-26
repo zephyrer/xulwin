@@ -1,3 +1,4 @@
+- Implement Hyperlink text-align
 - Fix broken samples: shout dialog, simple listbox
 - Move advanced and broken components in namespace "Experimental"
 - Make a *real* application. Facebook photo uploader for example.

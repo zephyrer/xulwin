@@ -70,7 +70,7 @@ namespace XULWin
     bool Window::init()
     {
         // Set the small icon in the upper left corner.
-        if (HICON hIcon = XULRunner::GetDefaultIcon(el()->getAttribute("id"), "ico"))
+        if (HICON hIcon = XULRunner::GetDefaultIcon(el()->getAttribute("id")))
         {
             ::SendMessage(handle(), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
         }

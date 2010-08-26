@@ -33,6 +33,11 @@ namespace XULWin
          * in the directory <mozilla-directory>/chrome/icons/default/.
          *
          * See also https://developer.mozilla.org/en/xul/window.
+         *
+         * Params:
+         * inAppDir		path of the application (parent directory of the chrome directory)
+         * inWindowId	id attribute of the root window element
+         * inExtension  extension of the image file found (supports .ico and all other GDI+ image types (png, bmp, jpeg, ...)
          */
         static HICON GetDefaultIcon(const std::string & inAppDir,
                                     const std::string & inWindowId,
@@ -40,11 +45,17 @@ namespace XULWin
 
 
         /**
-         * Same as above with the assumption that the
-         * current directory is the application dir.
+         * Same as above without specifying the extension. 
+         * Searches inside "chrome/icons/default" for WindowId.ico or WindowId.png.
          */
         static HICON GetDefaultIcon(const std::string & inWindowId,
                                     const std::string & inExtension);
+
+
+        /**
+         * Same as above but searches but auto-detects extension.
+         */
+        static HICON GetDefaultIcon(const std::string & inWindowId);
 
         XULRunner();
 

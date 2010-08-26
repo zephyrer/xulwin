@@ -203,9 +203,27 @@ namespace XULWin
     }
 
 
-    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId, const std::string & inExtension)
+    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId,
+                                    const std::string & inExtension)
     {
         return GetDefaultIcon(WinAPI::getCurrentDirectory(), inWindowId, inExtension);
+    }
+
+
+    HICON XULRunner::GetDefaultIcon(const std::string & inWindowId)
+    {
+        std::string pwd = WinAPI::getCurrentDirectory();
+        if (HICON hIcon = GetDefaultIcon(pwd, inWindowId, "ico"))
+        {
+            return hIcon;
+        }
+
+        if (HICON hIcon = GetDefaultIcon(pwd, inWindowId, "png"))
+        {
+            return hIcon;
+        }
+
+        return 0;
     }
 
 

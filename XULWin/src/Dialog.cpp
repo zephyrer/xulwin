@@ -6,6 +6,7 @@
 #include "XULWin/EventListener.h"
 #include "XULWin/Window.h"
 #include "XULWin/WinUtils.h"
+#include "XULWin/XULRunner.h"
 
 
 namespace XULWin
@@ -82,17 +83,28 @@ namespace XULWin
                                         0);
         }
 
-        std::string error = WinAPI::getLastError(::GetLastError());
+        if (mHandle)
+        {
+            // set default font
+            NONCLIENTMETRICS ncm;
+            ncm.cbSize = sizeof(NONCLIENTMETRICS);
+            ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &ncm, 0);
+            HFONT hFont = ::CreateFontIndirect(&ncm.lfMessageFont);
+            ::SendMessage(mHandle, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
+        }
 
-
-        // set default font
-        ::SendMessage(mHandle, WM_SETFONT, (WPARAM)::GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
         registerHandle();
     }
 
 
     Dialog::~Dialog()
     {
+    }
+
+
+    bool Dialog::init()
+    {
+        return Super::init();
     }
 
 
@@ -200,13 +212,24 @@ namespace XULWin
         mInvoker = inInvoker;
         if (mInvoker)
         {
+            // Block the parent window
             mInvoker->setBlockingDialog(this);
+        }
+
+		// Find an icon that belongs to this dialog.
+        if (HICON hIcon = XULRunner::GetDefaultIcon(el()->getAttribute("id")))
+        {
+            ::SendMessage(handle(), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+        }
+        // If no specific icon exists, then use the same icon as the parent window.
+        else if (HICON hIcon = XULRunner::GetDefaultIcon(mInvoker->el()->getAttribute("id")))
+        {
+			::SendMessage(handle(), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
         }
 
         // Disable all windows except the dialog
         DWORD threadID = GetWindowThreadProcessId(handle(), NULL);
         ::EnumThreadWindows(threadID, &DisableAllExcept, (LPARAM)handle());
-
 
         rebuildLayout();
         SIZE sz = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());

@@ -31,6 +31,8 @@ namespace XULWin
 
         virtual ~Dialog();
 
+        bool init();
+
         // BoxLayouter
         virtual Orient getOrient() const;
 

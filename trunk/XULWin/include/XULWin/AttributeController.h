@@ -558,6 +558,24 @@ namespace XULWin
     };
 
 
+    class HrefController : public AttributeController
+    {
+    public:
+        static const char * AttributeName()
+        {
+            return "href";
+        }
+
+        virtual void get(std::string & outPageIncrement);
+
+        virtual void set(const std::string & inPageIncrement);
+
+        virtual std::string getHref() const = 0;
+
+        virtual void setHref(const std::string & inHref) = 0;
+    };
+
+
     /**
      * This is a non-standard extension that applies to XMLImage elements only.
      * The attribute "keepaspectratio" has a boolean value indicating that the

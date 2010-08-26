@@ -249,7 +249,46 @@ namespace XULWin
     {
         return WinAPI::getMultilineTextHeight(handle());
     }
+
     
+    Component * CreateHyperlink(Component * inComponent, const AttributesMapping & inAttr)
+    {
+        return new MarginDecorator(new Hyperlink(inComponent, inAttr));
+    }
+
+
+    Hyperlink::Hyperlink(Component * inParent, const AttributesMapping & inAttr) :
+        Super(inParent, inAttr)
+    {
+    }
+        
+        
+    bool Hyperlink::init()
+    {
+        mCSSColor = RGBColor(0, 0, 238); // hyperlink blue :/
+        return Super::init();
+    }
+
+
+    std::string Hyperlink::getHref() const
+    {
+        return mHref;
+    }
+
+
+    void Hyperlink::setHref(const std::string & inHref)
+    {
+        mHref = inHref;
+    }
+
+
+    bool Hyperlink::initAttributeControllers()
+    {
+        setAttributeController<HrefController>(this);
+        return Super::initAttributeControllers();
+    }
+    
+
     Component * CreateTextBox(Component * inComponent, const AttributesMapping & inAttr)
     {
         return new MarginDecorator(new TextBox(inComponent, inAttr));
@@ -458,7 +497,6 @@ namespace XULWin
                       TEXT("SCROLLBAR"),
                       0, // exStyle
                       WS_TABSTOP | GetFlags(inAttributesMapping)),
-        mEventListener(0),
         mIncrement(0)
     {
         mExpansive = true;

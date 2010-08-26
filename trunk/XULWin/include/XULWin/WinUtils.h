@@ -52,6 +52,10 @@ namespace WinAPI
 
     SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
 
+   
+    // Opens default browser and navigates to url.
+    void navigateURL(const std::string & inURL);
+
 
     //
     // Window functions

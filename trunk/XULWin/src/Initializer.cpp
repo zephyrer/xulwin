@@ -50,6 +50,7 @@ namespace XULWin
         ElementFactory::Instance().registerElement<XMLColumns>();
         ElementFactory::Instance().registerElement<XMLColumn>();
         ElementFactory::Instance().registerElement<XMLDescription>();
+        ElementFactory::Instance().registerElement<XMLHyperlink>();
         ElementFactory::Instance().registerElement<XMLSpacer>();
         ElementFactory::Instance().registerElement<XMLRadioGroup>();
         ElementFactory::Instance().registerElement<XMLRadio>();

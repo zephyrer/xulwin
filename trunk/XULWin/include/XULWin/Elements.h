@@ -51,6 +51,30 @@ namespace XULWin
     };
 
 
+    class XMLHyperlink : public Element
+    {
+    public:
+        static ElementPtr Create(Element * inParent, const AttributesMapping & inAttr)
+        {
+            return Element::Create<XMLHyperlink>(inParent, inAttr);
+        }
+
+        static const char * TagName()
+        {
+            // Must be used in html namespace.
+            // For example:
+            //   <html:a href="http://www.mozilla.org">Hello</html:a>
+            return "a";
+        }
+
+        virtual bool init();
+
+    private:
+        friend class Element;
+        XMLHyperlink(Element * inParent, const AttributesMapping & inAttr);
+    };
+
+
     class XMLDescription : public Element
     {
     public:

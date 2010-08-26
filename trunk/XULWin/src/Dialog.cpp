@@ -288,6 +288,36 @@ namespace XULWin
                 endModal(DialogResult_Cancel);
                 return 0;
             }
+            case WM_ERASEBKGND:
+            {
+                if (mCSSBackgroundColor.isValid())
+                {
+                    // The WM_PAINT message will take care of painting the background.
+                    return 1;
+                }
+                break;
+            }
+            case WM_PAINT:
+            {
+                if (mCSSBackgroundColor.isValid())
+                {
+                    HDC hDC = ::GetDC(handle());
+                    PAINTSTRUCT ps;
+                    ps.hdc = hDC;
+                    ::BeginPaint(handle(), &ps);
+                    RECT rc;
+                    ::GetClientRect(handle(), &rc);
+                    RGBColor color = getCSSBackgroundColor();
+                    HBRUSH bgBrush = ::CreateSolidBrush(RGB(color.red(), color.green(), color.blue()));
+                    ::FillRect(hDC, &rc, bgBrush);
+                    ::EndPaint(handle(), &ps);
+                    ::ReleaseDC(handle(), hDC);
+
+                    // An application returns zero if it processes this message.
+                    return 0;
+                }
+                break;
+            }
             case WM_GETMINMAXINFO:
             {
                 SIZE sizeDiff = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
@@ -342,13 +372,28 @@ namespace XULWin
             }
         }
 
+
+        bool handled = false;
+
         // Forward to event handlers
         EventListeners::iterator it = mEventListeners.begin(), end = mEventListeners.end();
         for (; it != end; ++it)
         {
-            (*it)->handleMessage(el(), inMessage, wParam, lParam);
+            LRESULT result = (*it)->handleMessage(el(), inMessage, wParam, lParam);
+            if (0 == result)
+            {
+                handled = true;
+            }
         }
-        return ::DefWindowProc(handle(), inMessage, wParam, lParam);
+
+        if (handled)
+        {
+            return 0;
+        }
+        else
+        {
+            return Super::handleMessage(inMessage, wParam, lParam);
+        }
     }
 
 
@@ -361,6 +406,14 @@ namespace XULWin
             if (result == 0)
             {
                 return 0;
+            }
+            else if (result == 1)
+            {
+                return ::DefWindowProc(hWnd, inMessage, wParam, lParam);
+            }
+            else
+            {
+                return result;
             }
         }
         return ::DefWindowProc(hWnd, inMessage, wParam, lParam);

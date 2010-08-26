@@ -92,6 +92,11 @@ namespace XULWin
 
         virtual RGBColor getCSSBackgroundColor() const;
 
+        // CSSColor methods
+        virtual void setCSSColor(const RGBColor & inColor);
+
+        virtual RGBColor getCSSColor() const;
+
         // CSSHeightController methods
         virtual int getCSSHeight() const;
 
@@ -249,6 +254,7 @@ namespace XULWin
         Fallible<int> mStrokeWidth;
         Fallible<RGBColor> mCSSFill;
         Fallible<RGBColor> mCSSStroke;
+        Fallible<RGBColor> mCSSColor;
         Fallible<RGBColor> mCSSBackgroundColor;
         Fallible<Orient> mOrient;
         Fallible<Align> mAlign;

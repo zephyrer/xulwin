@@ -1,4 +1,4 @@
-#include "XULWin/Element.h"
+#include "XULWin/Elements.h"
 #include "XULWin/Component.h"
 #include "XULWin/Components.h"
 #include "XULWin/Decorators.h"
@@ -52,6 +52,25 @@ namespace XULWin
         {
             nativeDialog->endModal(inDialogResult);
         }
+    }
+
+
+    // Forward declaration
+    Component * CreateHyperlink(Component * inComponent, const AttributesMapping & inAttr);
+
+
+    XMLHyperlink::XMLHyperlink(Element * inParent, const AttributesMapping & inAttr) :
+        Element(XMLHyperlink::TagName(),
+                inParent,
+                CreateHyperlink(inParent->component(), inAttr))
+    {
+    }
+
+
+    bool XMLHyperlink::init()
+    {
+        setAttribute("value", innerText());
+        return Element::init();
     }
 
 

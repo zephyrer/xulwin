@@ -147,6 +147,8 @@ namespace XULWin
         virtual bool initAttributeControllers();
 
     private:
+        LRESULT onLButtonDown(WPARAM wParam, LPARAM lParam);
+        ScopedEventListener mEvents;
         std::string mHref;
     };
 

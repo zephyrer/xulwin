@@ -266,6 +266,10 @@ namespace XULWin
     bool Hyperlink::init()
     {
         mCSSColor = RGBColor(0, 0, 238); // hyperlink blue :/
+        if (NativeComponent * nativeParent = NativeControl::FindNativeParent(parent()))
+        {
+            mEvents.connect(nativeParent->el(), WM_LBUTTONDOWN, boost::bind(&Hyperlink::onLButtonDown, this, _1, _2));        
+        }
         return Super::init();
     }
 
@@ -286,6 +290,13 @@ namespace XULWin
     {
         setAttributeController<HrefController>(this);
         return Super::initAttributeControllers();
+    }
+
+
+    LRESULT Hyperlink::onLButtonDown(WPARAM wParam, LPARAM lParam)
+    {
+        WinAPI::navigateURL(mHref);
+        return cHandled;
     }
     
 

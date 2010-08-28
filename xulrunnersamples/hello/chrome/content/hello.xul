@@ -16,11 +16,9 @@
         title="Hello Sample"
         style="background-color:orange"
         >
-
-
-  <!-- A two column listbox with one column flexible -->
-  <label value="purle" flex="1" style="margin: 40px; background-color:purple" />
-  <label value="green" flex="1" style="margin: 40px; background-color:green" />
-  <label value="yellow" flex="1" style="margin: 40px; background-color:yellow" />
-
+  <spacer flex="1" />
+  <vbox align="center">
+    <html:a href="http://www.google.com">Google</html:a>
+  </vbox>
+  <spacer flex="1" />
 </window>

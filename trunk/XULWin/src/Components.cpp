@@ -257,9 +257,33 @@ namespace XULWin
     }
 
 
-    Hyperlink::Hyperlink(Component * inParent, const AttributesMapping & inAttr) :
-        Super(inParent, inAttr)
+    static HFONT CreateUnderlinedWindowFont(HWND inHandle)
     {
+        const HFONT hFont = (HFONT)::SendMessage(inHandle, WM_GETFONT, 0, 0);
+        LOGFONT logFont = { 0 };
+        ::GetObject(hFont, sizeof(logFont), &logFont);
+        logFont.lfUnderline = TRUE;
+        return ::CreateFontIndirect(&logFont);
+    }
+
+
+    Hyperlink::Hyperlink(Component * inParent, const AttributesMapping & inAttr) :
+        Super(inParent, inAttr),
+        mFont(0)            
+    {
+        if (mFont = CreateUnderlinedWindowFont(handle()))
+        {
+            ::SendMessage(handle(), WM_SETFONT, (WPARAM)mFont, MAKELPARAM(FALSE, 0));
+        }
+    }
+
+
+    Hyperlink::~Hyperlink()
+    {
+        if (mFont)
+        {
+            ::DeleteObject(mFont);
+        }
     }
         
         

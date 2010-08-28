@@ -137,6 +137,8 @@ namespace XULWin
 
         Hyperlink(Component * inParent, const AttributesMapping & inAttr);
 
+        virtual ~Hyperlink();
+
         virtual bool init();
 
         // StringValueController methods
@@ -149,6 +151,7 @@ namespace XULWin
     private:
         LRESULT onLButtonDown(WPARAM wParam, LPARAM lParam);
         ScopedEventListener mEvents;
+        HFONT mFont;
         std::string mHref;
     };
 

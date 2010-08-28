@@ -15,6 +15,7 @@
 #include "Poco/StringTokenizer.h"
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
+#include <windowsx.h>
 
 
 namespace XULWin
@@ -268,7 +269,11 @@ namespace XULWin
 
 
     Hyperlink::Hyperlink(Component * inParent, const AttributesMapping & inAttr) :
-        Super(inParent, inAttr),
+        NativeControl(inParent,
+                      inAttr,
+                      TEXT("STATIC"),
+                      0, // exStyle
+                      SS_LEFT),
         mFont(0)            
     {
         if (mFont = CreateUnderlinedWindowFont(handle()))
@@ -290,10 +295,6 @@ namespace XULWin
     bool Hyperlink::init()
     {
         mCSSColor = RGBColor(0, 0, 238); // hyperlink blue :/
-        if (NativeComponent * nativeParent = NativeControl::FindNativeParent(parent()))
-        {
-            mEvents.connect(nativeParent->el(), WM_LBUTTONDOWN, boost::bind(&Hyperlink::onLButtonDown, this, _1, _2));        
-        }
         return Super::init();
     }
 
@@ -310,17 +311,48 @@ namespace XULWin
     }
 
 
+    std::string Hyperlink::getValue() const
+    {
+        return WinAPI::getWindowText(handle());
+    }
+
+
+    void Hyperlink::setValue(const std::string & inStringValue)
+    {
+        WinAPI::setWindowText(handle(), inStringValue);
+    }
+
+
     bool Hyperlink::initAttributeControllers()
     {
         setAttributeController<HrefController>(this);
+        setAttributeController<StringValueController>(this);
         return Super::initAttributeControllers();
     }
 
 
-    LRESULT Hyperlink::onLButtonDown(WPARAM wParam, LPARAM lParam)
+    int Hyperlink::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        WinAPI::navigateURL(mHref);
-        return cHandled;
+        std::string text = WinAPI::getWindowText(handle());
+        int width = WinAPI::getTextSize(handle(), text).cx;
+        return width;
+    }
+
+
+    int Hyperlink::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cy;
+    }
+
+
+    LRESULT Hyperlink::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        if (inMessage == WM_LBUTTONDOWN)
+        {
+            WinAPI::navigateURL(mHref);
+            return cHandled;
+        }
+        return Super::handleMessage(inMessage, wParam, lParam);
     }
     
 

@@ -273,7 +273,7 @@ namespace XULWin
                       inAttr,
                       TEXT("STATIC"),
                       0, // exStyle
-                      SS_LEFT),
+                      SS_LEFT | SS_NOTIFY),
         mFont(0)            
     {
         if (mFont = CreateUnderlinedWindowFont(handle()))

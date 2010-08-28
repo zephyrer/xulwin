@@ -129,11 +129,12 @@ namespace XULWin
      *
      * Native implementation for a HTML hyperlink.
      */
-    class Hyperlink : public Label,
+    class Hyperlink : public NativeControl,
+                      public virtual StringValueController,
                       public virtual HrefController
     {
     public:
-        typedef Label Super;
+        typedef NativeControl Super;
 
         Hyperlink(Component * inParent, const AttributesMapping & inAttr);
 
@@ -142,15 +143,24 @@ namespace XULWin
         virtual bool init();
 
         // StringValueController methods
+        virtual std::string getValue() const;
+
+        virtual void setValue(const std::string & inStringValue);
+
+        // StringValueController methods
         virtual std::string getHref() const;
 
         virtual void setHref(const std::string & inStringValue);
 
         virtual bool initAttributeControllers();
 
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
     private:
-        LRESULT onLButtonDown(WPARAM wParam, LPARAM lParam);
-        ScopedEventListener mEvents;
         HFONT mFont;
         std::string mHref;
     };

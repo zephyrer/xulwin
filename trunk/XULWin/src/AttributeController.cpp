@@ -90,7 +90,6 @@ namespace XULWin
     }
 
 
-
     void SelectedController::get(std::string & outValue)
     {
         outValue = Bool2String(isSelected());
@@ -100,6 +99,18 @@ namespace XULWin
     void SelectedController::set(const std::string & inValue)
     {
         setSelected(String2Bool(inValue, true));
+    }
+
+
+    void SelectedIndexController::get(std::string & outValue)
+    {
+        outValue = Int2String(getSelectedIndex());
+    }
+
+
+    void SelectedIndexController::set(const std::string & inValue)
+    {
+        setSelectedIndex(String2Int(inValue, 0));
     }
 
 
@@ -208,18 +219,6 @@ namespace XULWin
     void IntValueController::set(const std::string & inValue)
     {
         setValue(String2Int(inValue));
-    }
-
-
-    void SelectedIndexController::get(std::string & outSelectedIndex)
-    {
-        outSelectedIndex = Int2String(getSelectedIndex());
-    }
-
-
-    void SelectedIndexController::set(const std::string & inSelectedIndex)
-    {
-        setSelectedIndex(String2Int(inSelectedIndex));
     }
 
 

@@ -232,6 +232,31 @@ namespace XULWin
         virtual void setSelected(bool inSelected) = 0;
     };
 
+    
+    /**
+     * Attribute: selectedIndex
+     * Type: integer
+     * Returns the index of the currently selected item.
+     * You may select an item by assigning its index to
+     * this property. By assigning -1 to this property,
+     * all items will be deselected.
+     */
+    class SelectedIndex : public AttributeController
+    {
+        static const char * AttributeName()
+        {
+            return "selectedIndex";
+        }
+
+        virtual void get(std::string & outValue);
+
+        virtual void set(const std::string & inValue);
+
+        virtual bool getSelectedIndex() const = 0;
+
+        virtual void setSelectedIndex(bool inSelected) = 0;
+    };
+
 
     /**
      * Attribute: hidden

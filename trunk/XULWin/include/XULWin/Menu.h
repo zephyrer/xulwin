@@ -4,7 +4,6 @@
 
 #include "XULWin/Component.h"
 #include "XULWin/DetachedComponent.h"
-#include "XULWin/Menu.h"
 #include "XULWin/NativeControl.h"
 #include "XULWin/PhonyComponent.h"
 #include "XULWin/WinUtils.h"
@@ -94,7 +93,8 @@ namespace XULWin
     };
 
 
-    class MenuList : public NativeControl
+    class MenuList : public NativeControl,
+                     public SelectedIndexController
     {
     public:
         typedef NativeControl Super;
@@ -102,6 +102,11 @@ namespace XULWin
         MenuList(Component * inParent, const AttributesMapping & inAttr);
 
         virtual bool init();
+
+        // SelectedIndexController methods
+        int getSelectedIndex() const;
+
+        void setSelectedIndex(int inIndex);
 
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 

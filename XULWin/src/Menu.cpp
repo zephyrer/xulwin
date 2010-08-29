@@ -252,6 +252,18 @@ namespace XULWin
         fillComboBox();
         return Super::init();
     }
+    
+    
+    int MenuList::getSelectedIndex() const
+    {
+        return WinAPI::ComboBox_GetSelectedIndex(handle());
+    }
+    
+    
+    void MenuList::setSelectedIndex(int inIndex)
+    {
+        WinAPI::ComboBox_SetSelectedIndex(handle(), inIndex);
+    }
 
 
     void MenuList::fillComboBox()
@@ -267,7 +279,10 @@ namespace XULWin
                     WinAPI::ComboBox_Add(handle(), label);
                 }
             }
-            WinAPI::ComboBox_SetSelectedIndex(handle(), 0);
+            if (popup->getChildCount() > 0)
+            {
+                WinAPI::ComboBox_SetSelectedIndex(handle(), 0);
+            }
         }
     }
 

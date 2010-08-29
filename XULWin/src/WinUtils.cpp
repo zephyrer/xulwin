@@ -276,6 +276,17 @@ namespace WinAPI
     }
 
 
+    int ComboBox_GetSelectedIndex(HWND inHandle)
+    {
+        int result = ::SendMessage(inHandle, (UINT)CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+        if (CB_ERR == result)
+        {
+            ReportError(getLastError(::GetLastError()));
+        }
+        return result;
+    }
+
+
     void ComboBox_SetSelectedIndex(HWND inHandle, int inItemIndex)
     {
         if (CB_ERR == ::SendMessage(inHandle, (UINT)CB_SETCURSEL, (WPARAM)inItemIndex, (LPARAM)0))

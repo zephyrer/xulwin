@@ -86,6 +86,8 @@ namespace WinAPI
     // Returns CB_ERR (-1) if an error occurs
     int ComboBox_ItemHeight(HWND inHandle, int inItemIndex);
 
+    int ComboBox_GetSelectedIndex(HWND inHandle);
+
     void ComboBox_SetSelectedIndex(HWND inHandle, int inItemIndex);
 
     //

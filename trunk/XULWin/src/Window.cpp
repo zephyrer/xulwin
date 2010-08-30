@@ -53,7 +53,7 @@ namespace XULWin
                       0
                   );
 
-        std::string error = WinAPI::getLastError(::GetLastError());
+        std::string error = WinAPI::System_GetLastError(::GetLastError());
 
 
         // set default font
@@ -332,7 +332,7 @@ namespace XULWin
             }
             case WM_GETMINMAXINFO:
             {
-                SIZE sizeDiff = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+                SIZE sizeDiff = WinAPI::Window_GetSizeDifferenceBetweenWindowRectAndClientRect(handle());
                 MINMAXINFO * minMaxInfo = (MINMAXINFO *)lParam;
                 minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;

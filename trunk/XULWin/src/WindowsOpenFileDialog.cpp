@@ -158,7 +158,7 @@ namespace XULWin
             }
             else
             {
-                ReportError("::GetOpenFileName failed with error: " + WinAPI::getLastError(CommDlgExtendedError()));
+                ReportError("::GetOpenFileName failed with error: " + WinAPI::System_GetLastError(CommDlgExtendedError()));
             }
 
         }

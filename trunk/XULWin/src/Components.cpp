@@ -122,14 +122,14 @@ namespace XULWin
     int Label::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         std::string text = WinAPI::Window_GetText(handle());
-        int width = WinAPI::getTextSize(handle(), text).cx;
+        int width = WinAPI::Window_GetTextSize(handle(), text).cx;
         return width;
     }
 
 
     int Label::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cy;
+        return WinAPI::Window_GetTextSize(handle(), WinAPI::Window_GetText(handle())).cy;
     }
 
 
@@ -158,7 +158,7 @@ namespace XULWin
     int Button::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         std::string text = WinAPI::Window_GetText(handle());
-        int minWidth = WinAPI::getTextSize(handle(), text).cx;
+        int minWidth = WinAPI::Window_GetTextSize(handle(), text).cx;
         minWidth += Defaults::textPadding();
         return std::max<int>(minWidth, Defaults::buttonWidth());
     }
@@ -188,7 +188,7 @@ namespace XULWin
 
     int CheckBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::checkBoxMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cx;
+        return Defaults::checkBoxMinimumWidth() + WinAPI::Window_GetTextSize(handle(), WinAPI::Window_GetText(handle())).cx;
     }
 
 
@@ -334,14 +334,14 @@ namespace XULWin
     int Hyperlink::calculateWidth(SizeConstraint inSizeConstraint) const
     {
         std::string text = WinAPI::Window_GetText(handle());
-        int width = WinAPI::getTextSize(handle(), text).cx;
+        int width = WinAPI::Window_GetTextSize(handle(), text).cx;
         return width;
     }
 
 
     int Hyperlink::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cy;
+        return WinAPI::Window_GetTextSize(handle(), WinAPI::Window_GetText(handle())).cy;
     }
 
 
@@ -349,7 +349,7 @@ namespace XULWin
     {
         if (inMessage == WM_LBUTTONDOWN)
         {
-            WinAPI::navigateURL(mHref);
+            WinAPI::System_NavigateURL(mHref);
             return cHandled;
         }
         return Super::handleMessage(inMessage, wParam, lParam);
@@ -453,13 +453,13 @@ namespace XULWin
 
     bool TextBox::isReadOnly() const
     {
-        return WinAPI::isTextBoxReadOnly(handle());
+        return WinAPI::TextBox_IsReadOnly(handle());
     }
 
 
     void TextBox::setReadOnly(bool inReadOnly)
     {
-        WinAPI::setTextBoxReadOnly(handle(), inReadOnly);
+        WinAPI::TextBox_SetReadOnly(handle(), inReadOnly);
     }
 
 
@@ -567,7 +567,7 @@ namespace XULWin
         mIncrement(0)
     {
         mExpansive = true;
-        WinAPI::setScrollInfo(handle(), 100, 10, 0);
+        WinAPI::Scrollbar_SetInfo(handle(), 100, 10, 0);
     }
 
 
@@ -590,7 +590,7 @@ namespace XULWin
             int totalHeight = 0;
             int pageHeight = 0;
             int currentPosition = 0;
-            WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            WinAPI::Scrollbar_GetInfo(handle(), totalHeight, pageHeight, currentPosition);
             switch (LOWORD(wParam))
             {
                 case SB_LINEUP: // user clicked the top arrow
@@ -642,7 +642,7 @@ namespace XULWin
             int totalHeight = 0;
             int pageHeight = 0;
             int currentPosition = 0;
-            WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, currentPosition);
+            WinAPI::Scrollbar_GetInfo(handle(), totalHeight, pageHeight, currentPosition);
             currentPosition = currentPosition - numPages*pageHeight;
             if (currentPosition < 0)
             {
@@ -661,7 +661,7 @@ namespace XULWin
 
     int Scrollbar::getCurrentPosition() const
     {
-        return WinAPI::getScrollPos(handle());
+        return WinAPI::Scrollbar_GetPos(handle());
     }
 
 
@@ -670,7 +670,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int oldCurPos = 0;
-        WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, oldCurPos);
+        WinAPI::Scrollbar_GetInfo(handle(), totalHeight, pageHeight, oldCurPos);
 
         // The order in which curpos, maxpos and pageincrement
         // will be set (alphabetically by attribute name) can cause
@@ -690,7 +690,7 @@ namespace XULWin
         {
             totalHeight = inCurrentPosition + 1;
         }
-        WinAPI::setScrollInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
+        WinAPI::Scrollbar_SetInfo(handle(), totalHeight, pageHeight, inCurrentPosition);
         if ((oldCurPos != inCurrentPosition) && eventHandler())
         {
             eventHandler()->curposChanged(this, oldCurPos, inCurrentPosition);
@@ -703,7 +703,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int curPos = 0;
-        WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        WinAPI::Scrollbar_GetInfo(handle(), totalHeight, pageHeight, curPos);
         return totalHeight;
     }
 
@@ -713,7 +713,7 @@ namespace XULWin
         int dummy = 0;
         int pageHeight = 0;
         int curPos = 0;
-        WinAPI::getScrollInfo(handle(), dummy, pageHeight, curPos);
+        WinAPI::Scrollbar_GetInfo(handle(), dummy, pageHeight, curPos);
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
@@ -729,7 +729,7 @@ namespace XULWin
         {
             pageHeight = inMaxPosition - 1;
         }
-        WinAPI::setScrollInfo(handle(), inMaxPosition, pageHeight, curPos);
+        WinAPI::Scrollbar_SetInfo(handle(), inMaxPosition, pageHeight, curPos);
     }
 
 
@@ -750,7 +750,7 @@ namespace XULWin
         int totalHeight = 0;
         int dummy = 0;
         int curPos = 0;
-        WinAPI::getScrollInfo(handle(), totalHeight, dummy, curPos);
+        WinAPI::Scrollbar_GetInfo(handle(), totalHeight, dummy, curPos);
 
         // The order in which setCurPos, setMaxPos and setPageIncrement
         // will be set (alphabetically by attribute name) can cause
@@ -770,7 +770,7 @@ namespace XULWin
         {
             totalHeight = inPageIncrement + 1;
         }
-        WinAPI::setScrollInfo(handle(), totalHeight, inPageIncrement, curPos);
+        WinAPI::Scrollbar_SetInfo(handle(), totalHeight, inPageIncrement, curPos);
     }
 
 
@@ -779,7 +779,7 @@ namespace XULWin
         int totalHeight = 0;
         int pageHeight = 0;
         int curPos = 0;
-        WinAPI::getScrollInfo(handle(), totalHeight, pageHeight, curPos);
+        WinAPI::Scrollbar_GetInfo(handle(), totalHeight, pageHeight, curPos);
         return pageHeight;
     }
 
@@ -966,7 +966,7 @@ namespace XULWin
 
     int MenuButton::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cx + Defaults::textPadding()*2;
+        return WinAPI::Window_GetTextSize(handle(), WinAPI::Window_GetText(handle())).cx + Defaults::textPadding()*2;
     }
 
 
@@ -1596,7 +1596,7 @@ namespace XULWin
 
     int Radio::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::radioButtonMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cx;
+        return Defaults::radioButtonMinimumWidth() + WinAPI::Window_GetTextSize(handle(), WinAPI::Window_GetText(handle())).cx;
     }
 
 
@@ -1771,7 +1771,7 @@ namespace XULWin
     {
         if (Tab * tab = getCorrespondingTab(mChildCount))
         {
-            WinAPI::appendTabPanel(mTabBarHandle, tab->el()->getAttribute("label"));
+            WinAPI::Tab_AddPanel(mTabBarHandle, tab->el()->getAttribute("label"));
             mChildCount++;
         }
         update();
@@ -1943,7 +1943,7 @@ namespace XULWin
 
     int GroupBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int textWidth = Defaults::textPadding() + WinAPI::getTextSize(mGroupBoxHandle, WinAPI::Window_GetText(mGroupBoxHandle)).cx;
+        int textWidth = Defaults::textPadding() + WinAPI::Window_GetTextSize(mGroupBoxHandle, WinAPI::Window_GetText(mGroupBoxHandle)).cx;
         int contentWidth = mBoxLayouter.calculateWidth(inSizeConstraint);
         return mMarginLeft + std::max<int>(textWidth, contentWidth) + mMarginRight;
     }
@@ -2038,7 +2038,7 @@ namespace XULWin
     {
         if (NativeComponent * comp = NativeControl::FindNativeParent(mParent))
         {
-            return WinAPI::getTextSize(comp->handle(), mElement->getAttribute("label")).cx;
+            return WinAPI::Window_GetTextSize(comp->handle(), mElement->getAttribute("label")).cx;
         }
         return 0;
     }
@@ -2048,7 +2048,7 @@ namespace XULWin
     {
         if (NativeComponent * comp = NativeControl::FindNativeParent(mParent))
         {
-            return WinAPI::getTextSize(comp->handle(), mElement->getAttribute("label")).cy;
+            return WinAPI::Window_GetTextSize(comp->handle(), mElement->getAttribute("label")).cy;
         }
         return 0;
     }
@@ -2333,7 +2333,7 @@ namespace XULWin
         int result = 0;
         if (NativeComponent * comp = NativeControl::FindNativeParent(const_cast<TreeCell *>(this)))
         {
-            result = WinAPI::getTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
+            result = WinAPI::Window_GetTextSize(comp->handle(), getLabel()).cx + Defaults::textPadding();
         }
         return result;
     }
@@ -2418,13 +2418,13 @@ namespace XULWin
 
     int StatusbarPanel::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), getLabel()).cx;
+        return WinAPI::Window_GetTextSize(handle(), getLabel()).cx;
     }
 
 
     int StatusbarPanel::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), getLabel()).cy;
+        return WinAPI::Window_GetTextSize(handle(), getLabel()).cy;
     }
 
 

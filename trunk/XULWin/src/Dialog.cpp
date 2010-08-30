@@ -232,7 +232,7 @@ namespace XULWin
         ::EnumThreadWindows(threadID, &DisableAllExcept, (LPARAM)handle());
 
         rebuildLayout();
-        SIZE sz = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+        SIZE sz = WinAPI::Window_GetSizeDifferenceBetweenWindowRectAndClientRect(handle());
         int w = getWidth() + sz.cx;
         int h = getHeight() + sz.cy;
         int x = (GetSystemMetrics(SM_CXSCREEN) - w)/2;
@@ -320,7 +320,7 @@ namespace XULWin
             }
             case WM_GETMINMAXINFO:
             {
-                SIZE sizeDiff = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle());
+                SIZE sizeDiff = WinAPI::Window_GetSizeDifferenceBetweenWindowRectAndClientRect(handle());
                 MINMAXINFO * minMaxInfo = (MINMAXINFO *)lParam;
                 minMaxInfo->ptMinTrackSize.x = getWidth(Minimum) + sizeDiff.cx;
                 minMaxInfo->ptMinTrackSize.y = getHeight(Minimum) + sizeDiff.cy;

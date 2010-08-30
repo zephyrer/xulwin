@@ -208,7 +208,7 @@ namespace XULWin
 
     int MenuItem::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(findParentWindow()->handle(), getLabel()).cx;
+        return WinAPI::Window_GetTextSize(findParentWindow()->handle(), getLabel()).cx;
     }
 
 
@@ -312,7 +312,7 @@ namespace XULWin
         }
 
         // This is usually needed as well, I think :S
-        int extraHeight = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+        int extraHeight = WinAPI::Window_GetSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
 
         NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
     }

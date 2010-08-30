@@ -31,7 +31,7 @@ namespace WinAPI
         std::wstring newDir = ToUTF16(inTargetDir);
         if (0 == ::SetCurrentDirectory(newDir.c_str()))
         {
-            std::string msg = "Failed to change the directory to '" + inTargetDir + "'. Reason: " + WinAPI::getLastError(::GetLastError());
+            std::string msg = "Failed to change the directory to '" + inTargetDir + "'. Reason: " + WinAPI::System_GetLastError(::GetLastError());
             throw std::runtime_error(msg.c_str());
         }
     }
@@ -43,7 +43,7 @@ namespace WinAPI
     }
 
 
-    HWND getDefaultWindow()
+    HWND Window_GetDefaultWindow()
     {
         static HWND hwnd(0);
         if (!hwnd)
@@ -54,7 +54,7 @@ namespace WinAPI
     }
 
 
-    std::string getCurrentDirectory()
+    std::string System_GetCurrentDirectory()
     {
         TCHAR buffer[MAX_PATH+1];
         ::GetCurrentDirectory(sizeof(buffer), &buffer[0]);
@@ -62,7 +62,7 @@ namespace WinAPI
     }
 
 
-    std::string getApplicationDirectory(HINSTANCE hInstance)
+    std::string System_GetEnvironmentVariable(HINSTANCE hInstance)
     {
         TCHAR fileName[MAX_PATH+1] = L"";
         ::GetModuleFileName(hInstance, fileName, MAX_PATH);
@@ -71,7 +71,7 @@ namespace WinAPI
     }
 
 
-    std::string getEnvironmentVariable(const std::string & inVariableName)
+    std::string System_GetEnvironmentVariable(const std::string & inVariableName)
     {
         const int cBufferSize = 1024;
         TCHAR output[cBufferSize];
@@ -81,13 +81,13 @@ namespace WinAPI
     }
 
 
-    std::string getProgramFilesDirectory()
+    std::string System_GetProgramFilesDirectory()
     {
-        return getEnvironmentVariable("%ProgramFiles%");
+        return System_GetEnvironmentVariable("%ProgramFiles%");
     }
 
 
-    SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle)
+    SIZE Window_GetSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle)
     {
         RECT rc;
         GetClientRect(inHandle, &rc);
@@ -108,7 +108,7 @@ namespace WinAPI
     }
 
 
-    void navigateURL(const std::string & inURL)
+    void System_NavigateURL(const std::string & inURL)
     {
         std::wstring utf16URL = ToUTF16(inURL);
         ::ShellExecute(NULL, TEXT("open"), utf16URL.c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -120,7 +120,7 @@ namespace WinAPI
         std::wstring utf16String = ToUTF16(inString);
         if (CB_ERR == ::SendMessage(inHandle, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str()))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -129,7 +129,7 @@ namespace WinAPI
     {
         if (CB_ERR == ::SendMessage(inHandle, CB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -139,7 +139,7 @@ namespace WinAPI
         int len = ::SendMessage(inHandle, LB_GETTEXTLEN, (WPARAM)inIndex, (LPARAM)0);
         if (len == LB_ERR)
         {
-            ReportError("LB_GETTEXTLEN returned LB_ERR. Last error: " + getLastError(::GetLastError()));
+            ReportError("LB_GETTEXTLEN returned LB_ERR. Last error: " + System_GetLastError(::GetLastError()));
             return "";
         }
 
@@ -154,7 +154,7 @@ namespace WinAPI
         std::wstring utf16String = ToUTF16(inString);
         if (LB_ERR == ::SendMessage(inHandle, (UINT)LB_ADDSTRING, (WPARAM)0, (LPARAM)utf16String.c_str()))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -163,7 +163,7 @@ namespace WinAPI
     {
         if (LB_ERR == ::SendMessage(inHandle, LB_DELETESTRING, (WPARAM)inIndex, (LPARAM)0))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -173,7 +173,7 @@ namespace WinAPI
         int result = ::SendMessage(inHandle, LB_GETCOUNT, 0, 0);
         if (LB_ERR == result)
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
         return result;
     }
@@ -190,7 +190,7 @@ namespace WinAPI
     {
         if (LB_ERR == ::SendMessage(inHandle, LB_GETITEMRECT, (WPARAM)inIndex, (LPARAM)&outRect))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -210,7 +210,7 @@ namespace WinAPI
             // occurred.
             if (inIndex != -1)
             {
-                ReportError(getLastError(::GetLastError()));
+                ReportError(System_GetLastError(::GetLastError()));
             }
         }
     }
@@ -224,12 +224,12 @@ namespace WinAPI
         std::wstring utf16Text = ToUTF16(inText);
         colInfo.pszText = const_cast<TCHAR *>(&utf16Text[0]);
         colInfo.cchTextMax = utf16Text.size();
-        colInfo.cx = WinAPI::getTextSize(inHandle, inText).cx + cColumnTextPadding;
+        colInfo.cx = WinAPI::Window_GetTextSize(inHandle, inText).cx + cColumnTextPadding;
         int res = ListView_InsertColumn(inHandle, inIndex, &colInfo);
 
         if (-1 == res)
         {
-            ReportError("Adding a column to the list view failed. Last error: " + getLastError(::GetLastError()));
+            ReportError("Adding a column to the list view failed. Last error: " + System_GetLastError(::GetLastError()));
         }
         return res;
     }
@@ -254,7 +254,7 @@ namespace WinAPI
         int result = ::SendMessage(inHandle, CB_GETCOUNT, 0, 0);
         if (CB_ERR == result)
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
         return result;
     }
@@ -281,7 +281,7 @@ namespace WinAPI
         int result = ::SendMessage(inHandle, (UINT)CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
         if (CB_ERR == result)
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
         return result;
     }
@@ -291,7 +291,7 @@ namespace WinAPI
     {
         if (CB_ERR == ::SendMessage(inHandle, (UINT)CB_SETCURSEL, (WPARAM)inItemIndex, (LPARAM)0))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -315,7 +315,7 @@ namespace WinAPI
         }
         if (0 == ::MoveWindow(inHandle, x, rw.top, inWidth, rw.bottom - rw.top, FALSE))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -333,23 +333,23 @@ namespace WinAPI
         }
         if (0 == ::MoveWindow(inHandle, rw.left, y, rw.right - rw.left, inHeight, FALSE))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
 
-    HFONT getFont(HWND inHandle)
+    HFONT Window_GetFont(HWND inHandle)
     {
         return (HFONT)SendMessage(inHandle, WM_GETFONT, 0, 0);
     }
 
 
-    SIZE getTextSize(HWND inHandle, const std::string & inText)
+    SIZE Window_GetTextSize(HWND inHandle, const std::string & inText)
     {
         // get the size in pixels for the given text and font
         SIZE result = {0, 0};
         HDC hDC = GetDC(inHandle);
-        SelectObject(hDC, getFont(inHandle));
+        SelectObject(hDC, Window_GetFont(inHandle));
         std::wstring utf16Text(ToUTF16(inText));
         ::GetTextExtentPoint32(hDC, utf16Text.c_str(), (int)utf16Text.size(), &result);
         ReleaseDC(inHandle, hDC);
@@ -357,9 +357,9 @@ namespace WinAPI
     }
 
     
-    SIZE getTextSize(const std::string & inText)
+    SIZE Window_GetTextSize(const std::string & inText)
     {
-        return getTextSize(getDefaultWindow(), inText);
+        return Window_GetTextSize(Window_GetDefaultWindow(), inText);
     }
 
 
@@ -383,12 +383,12 @@ namespace WinAPI
         std::wstring utf16String = ToUTF16(inText);
         if (0 == ::SetWindowText(inHandle, utf16String.c_str()))
         {
-            ReportError("Setting the text on component failed. Last error: " + getLastError(::GetLastError()));
+            ReportError("Setting the text on component failed. Last error: " + System_GetLastError(::GetLastError()));
         }
     }
 
 
-    std::string getLastError(DWORD lastError)
+    std::string System_GetLastError(DWORD lastError)
     {
         LPVOID lpMsgBuf;
         ::FormatMessage
@@ -470,7 +470,7 @@ namespace WinAPI
     }
 
 
-    void Checkbox_(HWND inHandle, CheckState inState)
+    void Checkbox_SetState(HWND inHandle, CheckState inState)
     {
         // This message always returns zero.
         ::SendMessage(inHandle, BM_SETCHECK, (WPARAM)inState, 0);
@@ -491,7 +491,7 @@ namespace WinAPI
 
     void CheckBox_SetChecked(HWND inHandle, bool inChecked)
     {
-        Checkbox_(inHandle, inChecked ? CHECKED : UNCHECKED);
+        Checkbox_SetState(inHandle, inChecked ? CHECKED : UNCHECKED);
     }
 
 
@@ -531,7 +531,7 @@ namespace WinAPI
     {
         if (0 == ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) | inStyle))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -546,7 +546,7 @@ namespace WinAPI
     {
         if (0 == ::SetWindowLong(inHandle, GWL_STYLE, inStyle))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -555,7 +555,7 @@ namespace WinAPI
     {
         if (0 == ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) & ~inStyle))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -580,22 +580,22 @@ namespace WinAPI
     }
 
 
-    void setTextBoxReadOnly(HWND inHandle, bool inReadOnly)
+    void TextBox_SetReadOnly(HWND inHandle, bool inReadOnly)
     {
         if (0 == ::SendMessage(inHandle, EM_SETREADONLY, inReadOnly ? TRUE : FALSE, 0))
         {
-            ReportError("Failed to make a textbox readonly. Last error: " + getLastError(::GetLastError()));
+            ReportError("Failed to make a textbox readonly. Last error: " + System_GetLastError(::GetLastError()));
         }
     }
 
 
-    bool isTextBoxReadOnly(HWND inHandle)
+    bool TextBox_IsReadOnly(HWND inHandle)
     {
         return Window_HasStyle(inHandle, ES_READONLY);
     }
 
 
-    void setScrollInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition)
+    void Scrollbar_SetInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition)
     {
         SCROLLINFO si;
         si.cbSize = sizeof(SCROLLINFO);
@@ -611,7 +611,7 @@ namespace WinAPI
     }
 
 
-    void getScrollInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition)
+    void Scrollbar_GetInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition)
     {
         SCROLLINFO si;
         ::ZeroMemory(&si, sizeof(si));
@@ -628,27 +628,27 @@ namespace WinAPI
         }
         else
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
 
-    int getScrollPos(HWND inHandle)
+    int Scrollbar_GetPos(HWND inHandle)
     {
         return (int)::GetScrollPos(inHandle, SB_CTL);
     }
 
 
-    void setScrollPos(HWND inHandle, int inPos)
+    void Scrollbar_SetPos(HWND inHandle, int inPos)
     {
         if (0 == ::SetScrollPos(inHandle, SB_CTL, inPos, TRUE))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
 
-    void appendTabPanel(HWND inHandle, const std::string & inTitle)
+    void Tab_AddPanel(HWND inHandle, const std::string & inTitle)
     {
         TCITEM tabItem;
         tabItem.mask = TCIF_TEXT | TCIF_IMAGE;
@@ -657,7 +657,7 @@ namespace WinAPI
         tabItem.pszText = const_cast<LPWSTR>(text.c_str());
         if (-1 == TabCtrl_InsertItem(inHandle, TabCtrl_GetItemCount(inHandle), &tabItem))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -671,7 +671,7 @@ namespace WinAPI
         mii.fType = MFT_SEPARATOR;
         if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -697,7 +697,7 @@ namespace WinAPI
         mii.wID = inComponentId;
         if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -723,7 +723,7 @@ namespace WinAPI
 
         if (0 == ::InsertMenuItem(inMenuHandle, inIndex, TRUE, &mii))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -759,7 +759,7 @@ namespace WinAPI
         // does not exist, the return value is -1.
         if (-1 == ::EnableMenuItem(inMenuHandle, inComponentId, MF_BYCOMMAND | inEnabled ? MF_ENABLED : MF_DISABLED | MF_GRAYED))
         {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
@@ -770,44 +770,13 @@ namespace WinAPI
         // MF_UNCHECKED). If the menu item does not exist, the return value is -1.
         if (-1 == ::CheckMenuItem(inMenuHandle, inComponentId, MF_BYCOMMAND | inChecked ? MF_CHECKED : MF_UNCHECKED))
         {
-            ReportError(getLastError(::GetLastError()));
-        }
-    }
-
-
-    typedef std::map<UINT_PTR, TimerAction> Timers;
-
-    static Timers sTimers;
-
-    static void CALLBACK TimerCallback(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime)
-    {
-        Timers::iterator it = sTimers.find(inTimerId);
-        assert(it != sTimers.end());
-        if (it != sTimers.end())
-        {
-            ::KillTimer(NULL, inTimerId);
-            it->second();
-            sTimers.erase(it);
-        }
-    }
-
-
-    void setTimeout(TimerAction inAction, int inDelayInMilliseconds)
-    {
-        UINT_PTR timerId = ::SetTimer(NULL, NULL, inDelayInMilliseconds, &WinAPI::TimerCallback);
-        if (timerId != 0)
-        {
-            assert(sTimers.find(timerId) == sTimers.end());
-            sTimers.insert(std::make_pair(timerId, inAction));
-        }
-        else
-        {
-            ReportError(getLastError(::GetLastError()));
+            ReportError(System_GetLastError(::GetLastError()));
         }
     }
 
 
     Timer::TimerMapping Timer::sTimerMapping;
+
 
     Timer::Timer() :
         mTimerId(0)
@@ -902,7 +871,7 @@ namespace WinAPI
                          (WPARAM)inToolbarButtonId,
                          (LPARAM)(LPTBBUTTONINFO)&info))
         {
-            ReportError("Could not change the toolbar button width. Last error: " + WinAPI::getLastError(::GetLastError()));
+            ReportError("Could not change the toolbar button width. Last error: " + WinAPI::System_GetLastError(::GetLastError()));
         }
     }
 

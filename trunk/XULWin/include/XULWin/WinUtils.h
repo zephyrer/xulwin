@@ -17,6 +17,10 @@ namespace XULWin
 namespace WinAPI
 {
 
+
+    //
+    // CurrentDirectoryChanger class
+    //
     class CurrentDirectoryChanger
     {
     public:
@@ -31,35 +35,38 @@ namespace WinAPI
     };
 
 
-    // Initializes WinAPI Common Controls
+    //
+    // CommonControlsInitializer class
+    //
     class CommonControlsInitializer
     {
     public:
         CommonControlsInitializer();
     };
 
-    HWND getDefaultWindow();
 
-    std::string getCurrentDirectory();
+    //
+    // System functions
+    //
+    std::string System_GetCurrentDirectory();
 
-    std::string getEnvironmentVariable(const std::string & inVariableName);
+    std::string System_GetEnvironmentVariable(const std::string & inVariableName);
 
-    std::string getApplicationDirectory(HINSTANCE hInstance);
+    std::string System_GetEnvironmentVariable(HINSTANCE hInstance);
 
-    std::string getProgramFilesDirectory();
+    std::string System_GetProgramFilesDirectory();
 
-    std::string getLastError(DWORD lastError);
-
-    SIZE getSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
-
+    std::string System_GetLastError(DWORD lastError);
    
     // Opens default browser and navigates to url.
-    void navigateURL(const std::string & inURL);
+    void System_NavigateURL(const std::string & inURL);
 
 
     //
-    // Window functions
+    // Window functions (everything is a window)
     // 
+    HWND Window_GetDefaultWindow();
+
     int Window_GetWidth(HWND inHandle);
 
     int Window_GetHeight(HWND inHandle);
@@ -67,6 +74,38 @@ namespace WinAPI
     void Window_SetWidth(HWND inHandle, int inWidth);
 
     void Window_SetHeight(HWND inHandle, int inHeight);
+
+    std::string Window_GetText(HWND inHandle);
+
+    void Window_SetText(HWND inHandle, const std::string & inText);
+
+    SIZE Window_GetTextSize(HWND inHandle, const std::string & inText);
+
+    SIZE Window_GetTextSize(const std::string & inText);
+
+    int Window_GetMultilineTextHeight(HWND inHandle);
+
+    SIZE Window_GetSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
+
+    void Window_SetVisible(HWND inHandle, bool inVisible);
+
+    bool Window_IsVisible(HWND inHandle);
+
+    bool Window_IsDisabled(HWND inHandle);
+
+    void Window_SetDisabled(HWND inHandle, bool inDisable);
+    
+    void Window_AddStyle(HWND inHandle, LONG inStyle);
+
+    LONG Window_GetStyles(HWND inHandle);
+
+    void Window_SetStyle(HWND inHandle, LONG inStyle);
+
+    void Window_RemoveStyle(HWND inHandle, LONG inStyle);
+
+    bool Window_HasStyle(HWND inHandle, LONG inStyle);
+
+    HFONT Window_GetFont(HWND inHandle);
 
 
     //
@@ -90,6 +129,7 @@ namespace WinAPI
 
     void ComboBox_SetSelectedIndex(HWND inHandle, int inItemIndex);
 
+
     //
     // ListBox functions
     //
@@ -112,49 +152,19 @@ namespace WinAPI
     // Use index -1 to deselect
     void ListBox_SetSelectedIndex(HWND inHandle, int inIndex);
 
+
     //
     // ListView functions
     //
-
     // Returns index of column, -1 if failed
     int ListView_AddColumn(HWND inHandle, int inIndex, const std::string & inText);
 
 
     //
-    // Misc
+    // Tab functions
     //
-    HFONT getFont(HWND inHandle);
+    void Tab_AddPanel(HWND inHandle, const std::string & inTitle);
 
-    SIZE getTextSize(HWND inHandle, const std::string & inText);
-
-    SIZE getTextSize(const std::string & inText);
-
-    //
-    // Window functions (everything is a window)
-    //
-    std::string Window_GetText(HWND inHandle);
-
-    void Window_SetText(HWND inHandle, const std::string & inText);
-    
-    void Window_AddStyle(HWND inHandle, LONG inStyle);
-
-    LONG Window_GetStyles(HWND inHandle);
-
-    void Window_SetStyle(HWND inHandle, LONG inStyle);
-
-    void Window_RemoveStyle(HWND inHandle, LONG inStyle);
-
-    bool Window_HasStyle(HWND inHandle, LONG inStyle);
-
-    void Window_SetVisible(HWND inHandle, bool inVisible);
-
-    bool Window_IsVisible(HWND inHandle);
-
-    bool Window_IsDisabled(HWND inHandle);
-
-    void Window_SetDisabled(HWND inHandle, bool inDisable);
-
-    int Window_GetMultilineTextHeight(HWND inHandle);
 
     //
     // Checkbox Functions
@@ -166,7 +176,7 @@ namespace WinAPI
         PARTIALLY_CHECKED = BST_INDETERMINATE
     };
 
-    void Checkbox_(HWND inHandle, CheckState inState);
+    void Checkbox_SetState(HWND inHandle, CheckState inState);
 
     CheckState CheckBox_GetState(HWND inHandle);
 
@@ -187,19 +197,25 @@ namespace WinAPI
     int ProgressMeter_GetProgress(HWND inHandle);
 
 
-    void setTextBoxReadOnly(HWND inHandle, bool inReadOnly);
+    //
+    // TextBox functions
+    //
+    void TextBox_SetReadOnly(HWND inHandle, bool inReadOnly);
 
-    bool isTextBoxReadOnly(HWND inHandle);
+    bool TextBox_IsReadOnly(HWND inHandle);
 
-    void setScrollInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition);
 
-    void getScrollInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition);
+    //
+    // Scrollbar functions
+    //
+    void Scrollbar_SetInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition);
 
-    int getScrollPos(HWND inHandle);
+    void Scrollbar_GetInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition);
 
-    void setScrollPos(HWND inHandle, int inPos);
+    int Scrollbar_GetPos(HWND inHandle);
 
-    void appendTabPanel(HWND inHandle, const std::string & inTitle);
+    void Scrollbar_SetPos(HWND inHandle, int inPos);
+
 
     //
     // Menu functions
@@ -210,32 +226,58 @@ namespace WinAPI
 
     void Menu_InsertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
 
+
+    //
+    // MenuItemInfo
+    //
+    // Contains the data fields associated with each node from the MenuNode (see below).
+    //
     struct MenuItemInfo
     {
         MenuItemInfo(int inId, const std::string & inLabel) : id(inId), label(inLabel) {}
         int id;
         std::string label;
     };
-    typedef GenericNode<
-    MenuItemInfo,
-    ContainerPolicy_Vector,
-    PointerPolicy_Shared
-    > MenuNode;
+
+    //
+    // MenuNode typedef
+    //
+    // A menu is essentially a tree where the branches are submenus and the leafs are menu items.
+    // The MenuNode class represents a full menu as a tree object.
+    //
+    typedef GenericNode<MenuItemInfo,
+                        ContainerPolicy_Vector,
+                        PointerPolicy_Shared> MenuNode;
+
+    // Creates a menu from a tree object
     HMENU Menu_Create(const MenuNode & inMenuNode);
 
     void Menu_SetItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
 
     void Menu_SetItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
 
-    typedef boost::function<void()> TimerAction;
-    void setTimeout(TimerAction inAction, int inDelayInMilliseconds);
 
+    //
+    // Toolbar functions
+    //
+    UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId);
+
+    RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId);
+
+    void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth);
+
+
+    //
+    // Timer class
+    //
     class Timer : boost::noncopyable
     {
     public:
         Timer();
 
         ~Timer();
+
+        typedef boost::function<void()> TimerAction;
 
         void start(const TimerAction & inAction, int inDelayInMilliseconds);
 
@@ -248,12 +290,6 @@ namespace WinAPI
         TimerAction mTimerAction;
         UINT_PTR mTimerId;
     };
-
-    UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId);
-
-    RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId);
-
-    void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth);
 
 } // namespace WinAPI
 

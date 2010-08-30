@@ -5,7 +5,6 @@
 #include "XULWin/Dialog.h"
 #include "XULWin/Element.h"
 #include "XULWin/Elements.h"
-#include "XULWin/PopupMenu.h"
 #include "XULWin/XMLOverlay.h"
 #include "XULWin/XMLScript.h"
 #include "XULWin/XMLSVG.h"
@@ -26,7 +25,6 @@ namespace XULWin
         ErrorReporter::Initialize();
         Window::Register(inModuleHandle);
         Dialog::Register(inModuleHandle);
-        WinAPI::PopupMenu::Register(inModuleHandle);
         ElementFactory::Instance().registerElement<XMLWindow>();
         ElementFactory::Instance().registerElement<XMLDialog>();
         ElementFactory::Instance().registerElement<XMLButton>();

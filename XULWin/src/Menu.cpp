@@ -3,7 +3,6 @@
 #include "XULWin/Decorator.h"
 #include "XULWin/Decorators.h"
 #include "XULWin/Menu.h"
-#include "XULWin/PopupMenu.h"
 #include "XULWin/Window.h"
 
 
@@ -106,6 +105,7 @@ namespace XULWin
     {
         mLabel = inLabel;
     }
+
 
     Component * CreateMenuBar(XULWin::Component * inParent, const AttributesMapping & inAttr)
     {
@@ -336,36 +336,14 @@ namespace XULWin
 
 
     MenuPopup::MenuPopup(Component * inParent, const AttributesMapping & inAttr) :
-        Super(inParent, inAttr)
+        Super(inParent, inAttr),
+        mParentWindow(0)
     {
-    }
-
-
-    WinAPI::PopupMenu * MenuPopup::getMenu()
-    {
-        WinAPI::PopupMenu * popupMenu = new WinAPI::PopupMenu;
-        for (size_t idx = 0; idx != getChildCount(); ++idx)
+        mHMENU = CreatePopupMenu();
+        if (Window * wnd = findParentOfType<Window>())
         {
-            ElementPtr child = el()->children()[idx];
-            if (MenuItem * menuItem = child->component()->downcast<MenuItem>())
-            {
-                popupMenu->append(new WinAPI::PopupMenuItem(menuItem->componentId(), menuItem->getLabel()));
-            }
-            else if (Menu * menu = child->component()->downcast<Menu>())
-            {
-                if (!menu->el()->children().empty())
-                {
-                    if (MenuPopup * childPopup = menu->el()->children()[0]->component()->downcast<MenuPopup>())
-                    {
-                        if (Menu * menu = childPopup->parent()->downcast<Menu>())
-                        {
-                            popupMenu->append(menu->getLabel(), childPopup->getMenu());
-                        }
-                    }
-                }
-            }
+            mParentWindow = wnd->handle();
         }
-        return popupMenu;
     }
 
 
@@ -388,20 +366,6 @@ namespace XULWin
          * Popup menu don't ask for height in the layouting of the window.
          */
         return 0;
-    }
-
-
-    void MenuPopup::show(RECT inExcludeRect)
-    {
-        if (NativeComponent * comp = NativeControl::FindNativeParent(this))
-        {
-            POINT location;
-            location.x = inExcludeRect.left;
-            location.y = inExcludeRect.bottom;
-            //::MapWindowPoints(comp->handle(), HWND_DESKTOP, &location, 1);
-            boost::scoped_ptr<WinAPI::PopupMenu> menu(getMenu());
-            menu->show(location, inExcludeRect);
-        }
     }
 
 

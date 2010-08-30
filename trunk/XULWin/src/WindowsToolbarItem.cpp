@@ -1,6 +1,5 @@
 #include "XULWin/WindowsToolbarItem.h"
 #include "XULWin/WindowsToolbar.h"
-#include "XULWin/PopupMenu.h"
 #include "XULWin/Unicode.h"
 #include "XULWin/WinUtils.h"
 #include "XULWin/Gdiplus.h"

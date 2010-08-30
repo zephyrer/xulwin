@@ -128,8 +128,6 @@ namespace XULWin
 
         MenuPopup(Component * inParent, const AttributesMapping & inAttr);
 
-        void show(RECT inExcludeRect);
-
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
@@ -140,7 +138,8 @@ namespace XULWin
         virtual void onChildRemoved(Component * inChild);
 
     private:
-        WinAPI::PopupMenu * getMenu();
+        HWND mParentWindow;
+        HMENU mHMENU;
     };
 
 

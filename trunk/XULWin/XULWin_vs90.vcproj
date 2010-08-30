@@ -231,10 +231,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\XULWin\PopupMenu.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\XULWin\ToolbarMenuItem.h"
 					>
 				</File>
@@ -280,10 +276,6 @@
 				</File>
 				<File
 					RelativePath=".\src\ISubClass.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\PopupMenu.cpp"
 					>
 				</File>
 				<File

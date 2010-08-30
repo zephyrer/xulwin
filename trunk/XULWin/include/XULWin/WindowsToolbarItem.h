@@ -2,12 +2,12 @@
 #define WINDOWSTOOLBARITEM_H_INCLUDED
 
 
-#include "XULWin/PopupMenu.h"
 #include "XULWin/Types.h"
 #include "XULWin/Windows.h"
+#include <boost/function.hpp>
+#include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
-#include <boost/utility.hpp>
 
 
 namespace Gdiplus

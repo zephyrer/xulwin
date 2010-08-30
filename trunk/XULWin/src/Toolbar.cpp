@@ -159,8 +159,17 @@ namespace XULWin
         {
             ElementPtr child = el()->children()[idx];
             if (MenuPopup * popupMenu = child->component()->downcast<MenuPopup>())
-            {
-                popupMenu->show(inToolbarButtonRect);
+            {                
+                // TODO: implement!
+                //TPMPARAMS tpm;
+                //tpm.cbSize = sizeof(tpm);
+                //tpm.rcExclude = inExcludeRect;
+                //TrackPopupMenuEx(mHandle,
+                //                 TPM_LEFTALIGN | TPM_LEFTBUTTON,
+                //                 inToolbarButtonRect.left + 1,
+                //                 inToolbarButtonRect.top + 1,
+                //                 mHelperWindow,
+                //                 &tpm);
             }
         }
     }

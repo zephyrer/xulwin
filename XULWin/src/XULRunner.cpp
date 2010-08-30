@@ -192,7 +192,7 @@ namespace XULWin
                         .append("default")
                         .append(inWindowId + "." + inExtension);
         std::string filePath = defaultIconsPath.toString();
-        std::string curdir = WinAPI::getCurrentDirectory();
+        std::string curdir = WinAPI::System_GetCurrentDirectory();
         Poco::File iconFile(filePath);
         if (!iconFile.exists())
         {        
@@ -206,13 +206,13 @@ namespace XULWin
     HICON XULRunner::GetDefaultIcon(const std::string & inWindowId,
                                     const std::string & inExtension)
     {
-        return GetDefaultIcon(WinAPI::getCurrentDirectory(), inWindowId, inExtension);
+        return GetDefaultIcon(WinAPI::System_GetCurrentDirectory(), inWindowId, inExtension);
     }
 
 
     HICON XULRunner::GetDefaultIcon(const std::string & inWindowId)
     {
-        std::string pwd = WinAPI::getCurrentDirectory();
+        std::string pwd = WinAPI::System_GetCurrentDirectory();
         if (HICON hIcon = GetDefaultIcon(pwd, inWindowId, "ico"))
         {
             return hIcon;
@@ -230,7 +230,7 @@ namespace XULWin
     void XULRunner::run(const std::string & inApplicationIniFile)
     {
         XULParser parser;
-        Poco::Path topLevelAppDir = WinAPI::getCurrentDirectory();
+        Poco::Path topLevelAppDir = WinAPI::System_GetCurrentDirectory();
         std::string mainXULFile = getMainXULFile(topLevelAppDir);
         parser.parse(mainXULFile);
         if (XMLWindow * window = parser.rootElement()->downcast<XMLWindow>())
@@ -270,7 +270,7 @@ namespace XULWin
         }
 
         XULParser parser;
-        mRootElement = ParseFile(parser, getMainXULFile(WinAPI::getCurrentDirectory()));
+        mRootElement = ParseFile(parser, getMainXULFile(WinAPI::System_GetCurrentDirectory()));
         return mRootElement;
     }
 

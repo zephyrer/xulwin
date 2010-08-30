@@ -39,7 +39,7 @@ namespace XULWin
         
         Gdiplus::Image * CreateImage(const std::string & inImagePath)
         {
-            std::string curdir = WinAPI::getCurrentDirectory();
+            std::string curdir = WinAPI::System_GetCurrentDirectory();
             ChromeURL url(inImagePath);
             Poco::Path imagePath(curdir);
             imagePath.append(url.convertToLocalPath());

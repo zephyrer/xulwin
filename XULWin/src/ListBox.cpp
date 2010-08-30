@@ -219,7 +219,7 @@ namespace XULWin
                 result += getChild(0)->calculateHeight(inSizeConstraint);
             }
         }
-        int extraHeight = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
+        int extraHeight = WinAPI::Window_GetSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
         return result + extraHeight;
     }
 
@@ -249,7 +249,7 @@ namespace XULWin
         //int result = 0;
         //if (NativeComponent * comp = NativeControl::FindNativeParent(parent()))
         //{
-        //    int w = WinAPI::getTextSize(comp->handle(), getLabel()).cx + Defaults::listViewColumnTextPadding();
+        //    int w = WinAPI::Window_GetTextSize(comp->handle(), getLabel()).cx + Defaults::listViewColumnTextPadding();
         //    if (w > result)
         //    {
         //        result = w;
@@ -500,7 +500,7 @@ namespace XULWin
                 lvItem.pszText = LPSTR_TEXTCALLBACK;
                 if (-1 == ListView_InsertItem(listView->handle(), &lvItem))
                 {
-                    ReportError("Inserting item into list view failed. Reason: " + WinAPI::getLastError(::GetLastError()));
+                    ReportError("Inserting item into list view failed. Reason: " + WinAPI::System_GetLastError(::GetLastError()));
                 }
             }
         }
@@ -546,8 +546,8 @@ namespace XULWin
         int result = 0;
         if (ListBox * listBox = parent()->downcast<ListBox>())
         {
-            int width = WinAPI::getTextSize(listBox->handle(), getLabel()).cx;
-            int extraWidth = WinAPI::getSizeDifferenceBetweenWindowRectAndClientRect(listBox->handle()).cx;
+            int width = WinAPI::Window_GetTextSize(listBox->handle(), getLabel()).cx;
+            int extraWidth = WinAPI::Window_GetSizeDifferenceBetweenWindowRectAndClientRect(listBox->handle()).cx;
             result = width + extraWidth + cMargin;
         }
         return result;

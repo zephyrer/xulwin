@@ -109,7 +109,7 @@ namespace WinAPI
                                        LPARAM(inIndex),
                                        WPARAM(0)))
             {
-                ReportError("Failed to delete item from list view. Last error: " + getLastError(::GetLastError()));
+                ReportError("Failed to delete item from list view. Last error: " + System_GetLastError(::GetLastError()));
             }
         }
     }
@@ -234,7 +234,7 @@ namespace WinAPI
         item.lParam = (LPARAM)this;
         if (-1 == ::SendMessage(inListView->handle(), LVM_INSERTITEM, 0, (LPARAM)&item))
         {
-            ReportError("Failed to add item to list view. Last error: " + getLastError(::GetLastError()));
+            ReportError("Failed to add item to list view. Last error: " + System_GetLastError(::GetLastError()));
         }
     }
 

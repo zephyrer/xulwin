@@ -335,16 +335,16 @@ namespace XULWin
 
             float ratio = a/b;
             int pageincrement = (int)(maxpos*ratio + 0.5);
-            int curpos = getScrollPos(scrollbar->handle());
+            int curpos = Scrollbar_GetPos(scrollbar->handle());
             if (ratio < 1)
             {
-                WinAPI::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+                WinAPI::Scrollbar_SetInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
                 scrollbar->setHidden(mOverflowX == CSSOverflow_Hidden);
                 scrollbar->setDisabled(false);
             }
             else
             {
-                WinAPI::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+                WinAPI::Scrollbar_SetInfo(scrollbar->handle(), maxpos, pageincrement, 0);
                 scrollbar->setHidden(mOverflowX != CSSOverflow_Scroll);
                 scrollbar->setDisabled(true);
             }
@@ -372,10 +372,10 @@ namespace XULWin
 
             float ratio = a/b;
             int pageincrement = (int)(maxpos*ratio + 0.5);
-            int curpos = WinAPI::getScrollPos(scrollbar->handle());
+            int curpos = WinAPI::Scrollbar_GetPos(scrollbar->handle());
             if (ratio < 1)
             {
-                WinAPI::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
+                WinAPI::Scrollbar_SetInfo(scrollbar->handle(), maxpos, pageincrement, curpos);
                 scrollbar->setHidden(mOverflowY == CSSOverflow_Hidden);
                 scrollbar->setDisabled(false);
             }
@@ -383,7 +383,7 @@ namespace XULWin
             {
                 scrollbar->setHidden(mOverflowY != CSSOverflow_Scroll);
                 scrollbar->setDisabled(true);
-                WinAPI::setScrollInfo(scrollbar->handle(), maxpos, pageincrement, 0);
+                WinAPI::Scrollbar_SetInfo(scrollbar->handle(), maxpos, pageincrement, 0);
             }
         }
     }
@@ -445,7 +445,7 @@ namespace XULWin
             {
                 Scrollbar * hscrollbar = mHorizontalScrollbar->component()->downcast<Scrollbar>();
                 int minHorSize = mDecoratedComponent->getWidth(Minimum);
-                int horScrollPos = WinAPI::getScrollPos(hscrollbar->handle());
+                int horScrollPos = WinAPI::Scrollbar_GetPos(hscrollbar->handle());
                 double horRatio = (double)horScrollPos/(double)Defaults::Attributes::maxpos();
                 newHorScrollPos = (int)((horRatio * (double)minHorSize) + 0.5);
                 dx = newHorScrollPos - mOldHorScrollPos;
@@ -455,7 +455,7 @@ namespace XULWin
             {
                 Scrollbar * vscrollbar = mVerticalScrollbar->component()->downcast<Scrollbar>();
                 int minVerSize = mDecoratedComponent->getHeight(Minimum);
-                int verScrollPos = WinAPI::getScrollPos(vscrollbar->handle());
+                int verScrollPos = WinAPI::Scrollbar_GetPos(vscrollbar->handle());
                 double verRatio = (double)verScrollPos/(double)Defaults::Attributes::maxpos();
                 newVerScrollPos = (int)((verRatio * (double)minVerSize) + 0.5);
                 dy = newVerScrollPos - mOldVerScrollPos;

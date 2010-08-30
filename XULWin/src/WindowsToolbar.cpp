@@ -189,7 +189,7 @@ namespace XULWin
                     theToolbarButton.iString = -1;
                     if (FALSE == SendMessage(inToolbarHandle, TB_ADDBUTTONS, (WPARAM)1, (LPARAM)(LPTBBUTTON) &theToolbarButton))
                     {
-                        std::string lastError = WinAPI::getLastError(::GetLastError());
+                        std::string lastError = WinAPI::System_GetLastError(::GetLastError());
                         ReportError("Failed to add the toolbar button. Reason: " + lastError);
                     }
                 }
@@ -204,7 +204,7 @@ namespace XULWin
                     // Add the button to the toolbar
                     if (FALSE == SendMessage(inToolbarHandle, TB_ADDBUTTONS, (WPARAM)1, (LPARAM)(LPTBBUTTON) &theToolbarButton))
                     {
-                        std::string lastError = WinAPI::getLastError(::GetLastError());
+                        std::string lastError = WinAPI::System_GetLastError(::GetLastError());
                         ReportError("Failed to add the toolbar button. Reason: " + lastError);
                     }
                 }
@@ -276,7 +276,7 @@ namespace XULWin
                     buttonInfo.cx = item->getLeftMargin() + item->getRightMargin();
                     if (!item->text().empty())
                     {
-                        buttonInfo.cx += (WORD)WinAPI::getTextSize(inToolbarHandle, item->text()).cx;
+                        buttonInfo.cx += (WORD)WinAPI::Window_GetTextSize(inToolbarHandle, item->text()).cx;
                     }
                     if (item->image())
                     {
@@ -686,7 +686,7 @@ namespace XULWin
                                             {
                                                 if (item->noHover())
                                                 {
-                                                    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, WinAPI::getTextSize(pThis->handle(), item->text()));
+                                                    item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, WinAPI::Window_GetTextSize(pThis->handle(), item->text()));
                                                     return CDRF_SKIPDEFAULT;
                                                 }
                                             }
@@ -704,7 +704,7 @@ namespace XULWin
                                         AbstractToolbarItem * abstractItem = it->get();
                                         if (ConcreteToolbarItem * item = dynamic_cast<ConcreteToolbarItem *>(abstractItem))
                                         {
-                                            item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, WinAPI::getTextSize(pThis->handle(), item->text()));
+                                            item->draw(customDrawMessage->nmcd.hdc, customDrawMessage->nmcd.rc, pThis->mFont, WinAPI::Window_GetTextSize(pThis->handle(), item->text()));
                                         }
                                         return CDRF_DODEFAULT;
                                     }

@@ -119,22 +119,46 @@ namespace WinAPI
     // Returns index of column, -1 if failed
     int ListView_AddColumn(HWND inHandle, int inIndex, const std::string & inText);
 
+
+    //
+    // Misc
+    //
     HFONT getFont(HWND inHandle);
 
     SIZE getTextSize(HWND inHandle, const std::string & inText);
 
     SIZE getTextSize(const std::string & inText);
 
-    std::string getWindowText(HWND inHandle);
+    //
+    // Window functions (everything is a window)
+    //
+    std::string Window_GetText(HWND inHandle);
 
-    void setWindowText(HWND inHandle, const std::string & inText);
+    void Window_SetText(HWND inHandle, const std::string & inText);
+    
+    void Window_AddStyle(HWND inHandle, LONG inStyle);
 
-    bool isWindowDisabled(HWND inHandle);
+    LONG Window_GetStyles(HWND inHandle);
 
-    void disableWindow(HWND inHandle, bool inDisable);
+    void Window_SetStyle(HWND inHandle, LONG inStyle);
 
-    int getMultilineTextHeight(HWND inHandle);
+    void Window_RemoveStyle(HWND inHandle, LONG inStyle);
 
+    bool Window_HasStyle(HWND inHandle, LONG inStyle);
+
+    void Window_SetVisible(HWND inHandle, bool inVisible);
+
+    bool Window_IsVisible(HWND inHandle);
+
+    bool Window_IsDisabled(HWND inHandle);
+
+    void Window_SetDisabled(HWND inHandle, bool inDisable);
+
+    int Window_GetMultilineTextHeight(HWND inHandle);
+
+    //
+    // Checkbox Functions
+    //
     enum CheckState
     {
         CHECKED = BST_CHECKED,
@@ -142,35 +166,26 @@ namespace WinAPI
         PARTIALLY_CHECKED = BST_INDETERMINATE
     };
 
-    void setCheckBoxState(HWND inHandle, CheckState inState);
+    void Checkbox_(HWND inHandle, CheckState inState);
 
-    CheckState getCheckBoxState(HWND inHandle);
+    CheckState CheckBox_GetState(HWND inHandle);
 
-    bool isCheckBoxChecked(HWND inHandle);
+    bool CheckBox_IsChecked(HWND inHandle);
 
-    void setCheckBoxChecked(HWND inHandle, bool inChecked);
+    void CheckBox_SetChecked(HWND inHandle, bool inChecked);
 
-    void initializeProgressMeter(HWND inHandle, int inLimit);
 
-    void advanceProgressMeter(HWND inHandle);
+    //
+    // ProgressMeter functions
+    //
+    void ProgressMeter_Init(HWND inHandle, int inLimit);
 
-    void setProgressMeterProgress(HWND inHandle, int inProgress);
+    void ProgressMeter_Advance(HWND inHandle);
 
-    int getProgressMeterProgress(HWND inHandle);
+    void ProgressMeter_SetProgress(HWND inHandle, int inProgress);
 
-    void addWindowStyle(HWND inHandle, LONG inStyle);
+    int ProgressMeter_GetProgress(HWND inHandle);
 
-    LONG getWindowStyles(HWND inHandle);
-
-    void setWindowStyle(HWND inHandle, LONG inStyle);
-
-    void removeWindowStyle(HWND inHandle, LONG inStyle);
-
-    bool hasWindowStyle(HWND inHandle, LONG inStyle);
-
-    void setWindowVisible(HWND inHandle, bool inVisible);
-
-    bool isWindowVisible(HWND inHandle);
 
     void setTextBoxReadOnly(HWND inHandle, bool inReadOnly);
 
@@ -186,11 +201,14 @@ namespace WinAPI
 
     void appendTabPanel(HWND inHandle, const std::string & inTitle);
 
-    void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex);
+    //
+    // Menu functions
+    //
+    void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex);
 
-    void insertMenuItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText);
+    void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText);
 
-    void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
+    void Menu_InsertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
 
     struct MenuItemInfo
     {
@@ -203,11 +221,11 @@ namespace WinAPI
     ContainerPolicy_Vector,
     PointerPolicy_Shared
     > MenuNode;
-    HMENU createMenu(const MenuNode & inMenuNode);
+    HMENU Menu_Create(const MenuNode & inMenuNode);
 
-    void setMenuItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
+    void Menu_SetItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
 
-    void setMenuItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
+    void Menu_SetItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
 
     typedef boost::function<void()> TimerAction;
     void setTimeout(TimerAction inAction, int inDelayInMilliseconds);

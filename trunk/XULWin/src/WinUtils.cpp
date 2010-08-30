@@ -363,7 +363,7 @@ namespace WinAPI
     }
 
 
-    std::string getWindowText(HWND inHandle)
+    std::string Window_GetText(HWND inHandle)
     {
         std::string result;
         int length = ::GetWindowTextLength(inHandle);
@@ -378,7 +378,7 @@ namespace WinAPI
     }
 
 
-    void setWindowText(HWND inHandle, const std::string & inText)
+    void Window_SetText(HWND inHandle, const std::string & inText)
     {
         std::wstring utf16String = ToUTF16(inText);
         if (0 == ::SetWindowText(inHandle, utf16String.c_str()))
@@ -427,19 +427,19 @@ namespace WinAPI
     }
 
 
-    bool isWindowDisabled(HWND inHandle)
+    bool Window_IsDisabled(HWND inHandle)
     {
         return !::IsWindowEnabled(inHandle);
     }
 
 
-    void disableWindow(HWND inHandle, bool inDisable)
+    void Window_SetDisabled(HWND inHandle, bool inDisable)
     {
         ::EnableWindow(inHandle, inDisable ? FALSE : TRUE);
     }
 
 
-    int getMultilineTextHeight(HWND inHandle)
+    int Window_GetMultilineTextHeight(HWND inHandle)
     {
         int result = 0;
 
@@ -460,7 +460,7 @@ namespace WinAPI
         bounds.right = rc.right - rc.left;
         bounds.bottom = INT_MAX;
 
-        std::wstring textUTF16 = ToUTF16(getWindowText(inHandle));
+        std::wstring textUTF16 = ToUTF16(Window_GetText(inHandle));
 
         result = ::DrawText(deviceContext, textUTF16.c_str(), (int)textUTF16.size(), &bounds, DT_CALCRECT | DT_WORDBREAK | DT_EDITCONTROL);
 
@@ -470,32 +470,32 @@ namespace WinAPI
     }
 
 
-    void setCheckBoxState(HWND inHandle, CheckState inState)
+    void Checkbox_(HWND inHandle, CheckState inState)
     {
         // This message always returns zero.
         ::SendMessage(inHandle, BM_SETCHECK, (WPARAM)inState, 0);
     }
 
 
-    CheckState getCheckBoxState(HWND inHandle)
+    CheckState CheckBox_GetState(HWND inHandle)
     {
         return static_cast<CheckState>(::SendMessage(inHandle, BM_GETCHECK, 0, 0));
     }
 
 
-    bool isCheckBoxChecked(HWND inHandle)
+    bool CheckBox_IsChecked(HWND inHandle)
     {
-        return getCheckBoxState(inHandle) != UNCHECKED;
+        return CheckBox_GetState(inHandle) != UNCHECKED;
     }
 
 
-    void setCheckBoxChecked(HWND inHandle, bool inChecked)
+    void CheckBox_SetChecked(HWND inHandle, bool inChecked)
     {
-        setCheckBoxState(inHandle, inChecked ? CHECKED : UNCHECKED);
+        Checkbox_(inHandle, inChecked ? CHECKED : UNCHECKED);
     }
 
 
-    void initializeProgressMeter(HWND inHandle, int inLimit)
+    void ProgressMeter_Init(HWND inHandle, int inLimit)
     {
         ::SendMessage(inHandle, PBM_SETRANGE, 0, MAKELPARAM(0, inLimit));
         ::SendMessage(inHandle, PBM_SETSTEP, 1, 0);
@@ -503,7 +503,7 @@ namespace WinAPI
     }
 
 
-    void advanceProgressMeter(HWND inHandle)
+    void ProgressMeter_Advance(HWND inHandle)
     {
         // When the position exceeds the maximum range value, this message
         // resets the current position so that the progress indicator starts
@@ -512,14 +512,14 @@ namespace WinAPI
     }
 
 
-    void setProgressMeterProgress(HWND inHandle, int inProgress)
+    void ProgressMeter_SetProgress(HWND inHandle, int inProgress)
     {
         // Returns the previous position.
         ::SendMessage(inHandle, PBM_SETPOS, (WPARAM)inProgress, (LPARAM)0);
     }
 
 
-    int getProgressMeterProgress(HWND inHandle)
+    int ProgressMeter_GetProgress(HWND inHandle)
     {
         // Returns a UINT value that represents the current position of the
         // progress bar.
@@ -527,7 +527,7 @@ namespace WinAPI
     }
 
 
-    void addWindowStyle(HWND inHandle, LONG inStyle)
+    void Window_AddStyle(HWND inHandle, LONG inStyle)
     {
         if (0 == ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) | inStyle))
         {
@@ -536,13 +536,13 @@ namespace WinAPI
     }
 
 
-    LONG getWindowStyles(HWND inHandle)
+    LONG Window_GetStyles(HWND inHandle)
     {
         return ::GetWindowLong(inHandle, GWL_STYLE);
     }
 
 
-    void setWindowStyle(HWND inHandle, LONG inStyle)
+    void Window_SetStyle(HWND inHandle, LONG inStyle)
     {
         if (0 == ::SetWindowLong(inHandle, GWL_STYLE, inStyle))
         {
@@ -551,7 +551,7 @@ namespace WinAPI
     }
 
 
-    void removeWindowStyle(HWND inHandle, LONG inStyle)
+    void Window_RemoveStyle(HWND inHandle, LONG inStyle)
     {
         if (0 == ::SetWindowLong(inHandle, GWL_STYLE, ::GetWindowLong(inHandle, GWL_STYLE) & ~inStyle))
         {
@@ -560,13 +560,13 @@ namespace WinAPI
     }
 
 
-    bool hasWindowStyle(HWND inHandle, LONG inStyle)
+    bool Window_HasStyle(HWND inHandle, LONG inStyle)
     {
         return (::GetWindowLong(inHandle, GWL_STYLE) & inStyle) != 0;
     }
 
 
-    void setWindowVisible(HWND inHandle, bool inVisible)
+    void Window_SetVisible(HWND inHandle, bool inVisible)
     {
         // If the window was previously visible, the return value is nonzero.
         // If the window was previously hidden, the return value is zero.
@@ -574,7 +574,7 @@ namespace WinAPI
     }
 
 
-    bool isWindowVisible(HWND inHandle)
+    bool Window_IsVisible(HWND inHandle)
     {
         return TRUE == ::IsWindowVisible(inHandle);
     }
@@ -591,7 +591,7 @@ namespace WinAPI
 
     bool isTextBoxReadOnly(HWND inHandle)
     {
-        return hasWindowStyle(inHandle, ES_READONLY);
+        return Window_HasStyle(inHandle, ES_READONLY);
     }
 
 
@@ -662,7 +662,7 @@ namespace WinAPI
     }
 
 
-    void insertMenuSeparator(HMENU inMenuHandle, UINT inIndex)
+    void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex)
     {
         MENUITEMINFO mii;
         memset(&mii, 0, sizeof(mii));
@@ -676,7 +676,7 @@ namespace WinAPI
     }
 
 
-    void insertMenuItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText)
+    void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText)
     {
         MENUITEMINFO mii;
         memset(&mii, 0, sizeof(mii));
@@ -702,7 +702,7 @@ namespace WinAPI
     }
 
 
-    void insertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText)
+    void Menu_InsertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText)
     {
         MENUITEMINFO mii;
         memset(&mii, 0, sizeof(mii));
@@ -728,7 +728,7 @@ namespace WinAPI
     }
 
 
-    HMENU createMenu(const MenuNode & inMenuNode)
+    HMENU Menu_Create(const MenuNode & inMenuNode)
     {
         HMENU result = CreateMenu();
         MenuNode::const_iterator it = inMenuNode.begin(), end = inMenuNode.end();
@@ -737,22 +737,22 @@ namespace WinAPI
             MenuNode::ChildPtr subNode(*it);
             if (!subNode->empty())
             {
-                insertSubMenu(result, ::GetMenuItemCount(result), createMenu(*subNode), subNode->data().label);
+                Menu_InsertSubMenu(result, ::GetMenuItemCount(result), Menu_Create(*subNode), subNode->data().label);
             }
             else if (subNode->data().id != 0)
             {
-                insertMenuItem(result, ::GetMenuItemCount(result), subNode->data().id, subNode->data().label);
+                Menu_InsertItem(result, ::GetMenuItemCount(result), subNode->data().id, subNode->data().label);
             }
             else
             {
-                insertMenuSeparator(result, ::GetMenuItemCount(result));
+                Menu_InsertItem(result, ::GetMenuItemCount(result));
             }
         }
         return result;
     }
 
 
-    void setMenuItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled)
+    void Menu_SetItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled)
     {
         // The return value specifies the previous state of the menu item (it
         // is either MF_DISABLED, MF_ENABLED, or MF_GRAYED). If the menu item
@@ -764,7 +764,7 @@ namespace WinAPI
     }
 
 
-    void setMenuItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked)
+    void Menu_SetItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked)
     {
         // The return value specifies the previous state of the menu item (either MF_CHECKED or
         // MF_UNCHECKED). If the menu item does not exist, the return value is -1.

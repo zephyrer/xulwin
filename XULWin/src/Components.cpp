@@ -39,19 +39,19 @@ namespace XULWin
 
     std::string Label::getValue() const
     {
-        return WinAPI::getWindowText(handle());
+        return WinAPI::Window_GetText(handle());
     }
 
 
     void Label::setValue(const std::string & inStringValue)
     {
-        WinAPI::setWindowText(handle(), inStringValue);
+        WinAPI::Window_SetText(handle(), inStringValue);
     }
 
 
     CSSTextAlign Label::getCSSTextAlign() const
     {
-        LONG styles = WinAPI::getWindowStyles(handle());
+        LONG styles = WinAPI::Window_GetStyles(handle());
         if (styles & SS_LEFT)
         {
             return CSSTextAlign_Left;
@@ -73,7 +73,7 @@ namespace XULWin
 
     void Label::setCSSTextAlign(CSSTextAlign inValue)
     {
-        LONG styles = WinAPI::getWindowStyles(handle());
+        LONG styles = WinAPI::Window_GetStyles(handle());
         styles &= ~SS_LEFT;
         styles &= ~SS_CENTER;
         styles &= ~SS_RIGHT;
@@ -101,7 +101,7 @@ namespace XULWin
             //    break;
             //}
         }
-        WinAPI::setWindowStyle(handle(), styles);
+        WinAPI::Window_SetStyle(handle(), styles);
     }
 
 
@@ -121,7 +121,7 @@ namespace XULWin
 
     int Label::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = WinAPI::getWindowText(handle());
+        std::string text = WinAPI::Window_GetText(handle());
         int width = WinAPI::getTextSize(handle(), text).cx;
         return width;
     }
@@ -129,7 +129,7 @@ namespace XULWin
 
     int Label::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cy;
+        return WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cy;
     }
 
 
@@ -157,7 +157,7 @@ namespace XULWin
 
     int Button::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = WinAPI::getWindowText(handle());
+        std::string text = WinAPI::Window_GetText(handle());
         int minWidth = WinAPI::getTextSize(handle(), text).cx;
         minWidth += Defaults::textPadding();
         return std::max<int>(minWidth, Defaults::buttonWidth());
@@ -188,19 +188,19 @@ namespace XULWin
 
     int CheckBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::checkBoxMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cx;
+        return Defaults::checkBoxMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cx;
     }
 
 
     bool CheckBox::isChecked() const
     {
-        return WinAPI::isCheckBoxChecked(handle());
+        return WinAPI::CheckBox_IsChecked(handle());
     }
 
 
     void CheckBox::setChecked(bool inChecked)
     {
-        WinAPI::setCheckBoxChecked(handle(), inChecked);
+        WinAPI::CheckBox_SetChecked(handle(), inChecked);
     }
 
 
@@ -223,13 +223,13 @@ namespace XULWin
 
     std::string Description::getValue() const
     {
-        return WinAPI::getWindowText(handle());
+        return WinAPI::Window_GetText(handle());
     }
 
 
     void Description::setValue(const std::string & inStringValue)
     {
-        WinAPI::setWindowText(handle(), inStringValue);
+        WinAPI::Window_SetText(handle(), inStringValue);
     }
 
 
@@ -248,7 +248,7 @@ namespace XULWin
 
     int Description::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getMultilineTextHeight(handle());
+        return WinAPI::Window_GetMultilineTextHeight(handle());
     }
 
     
@@ -313,13 +313,13 @@ namespace XULWin
 
     std::string Hyperlink::getValue() const
     {
-        return WinAPI::getWindowText(handle());
+        return WinAPI::Window_GetText(handle());
     }
 
 
     void Hyperlink::setValue(const std::string & inStringValue)
     {
-        WinAPI::setWindowText(handle(), inStringValue);
+        WinAPI::Window_SetText(handle(), inStringValue);
     }
 
 
@@ -333,7 +333,7 @@ namespace XULWin
 
     int Hyperlink::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        std::string text = WinAPI::getWindowText(handle());
+        std::string text = WinAPI::Window_GetText(handle());
         int width = WinAPI::getTextSize(handle(), text).cx;
         return width;
     }
@@ -341,7 +341,7 @@ namespace XULWin
 
     int Hyperlink::calculateHeight(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cy;
+        return WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cy;
     }
 
 
@@ -441,13 +441,13 @@ namespace XULWin
 
     std::string TextBox::getValue() const
     {
-        return WinAPI::getWindowText(handle());
+        return WinAPI::Window_GetText(handle());
     }
 
 
     void TextBox::setValue(const std::string & inStringValue)
     {
-        WinAPI::setWindowText(handle(), inStringValue);
+        WinAPI::Window_SetText(handle(), inStringValue);
     }
 
 
@@ -966,7 +966,7 @@ namespace XULWin
 
     int MenuButton::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cx + Defaults::textPadding()*2;
+        return WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cx + Defaults::textPadding()*2;
     }
 
 
@@ -1596,7 +1596,7 @@ namespace XULWin
 
     int Radio::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::radioButtonMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::getWindowText(handle())).cx;
+        return Defaults::radioButtonMinimumWidth() + WinAPI::getTextSize(handle(), WinAPI::Window_GetText(handle())).cx;
     }
 
 
@@ -1613,7 +1613,7 @@ namespace XULWin
                       0, // exStyle
                       PBS_SMOOTH)
     {
-        WinAPI::initializeProgressMeter(mHandle, 100);
+        WinAPI::ProgressMeter_Init(mHandle, 100);
     }
 
 
@@ -1631,13 +1631,13 @@ namespace XULWin
 
     int ProgressMeter::getValue() const
     {
-        return WinAPI::getProgressMeterProgress(handle());
+        return WinAPI::ProgressMeter_GetProgress(handle());
     }
 
 
     void ProgressMeter::setValue(int inValue)
     {
-        WinAPI::setProgressMeterProgress(handle(), inValue);
+        WinAPI::ProgressMeter_SetProgress(handle(), inValue);
     }
 
 
@@ -1937,13 +1937,13 @@ namespace XULWin
 
     void GroupBox::setCaption(const std::string & inLabel)
     {
-        WinAPI::setWindowText(mGroupBoxHandle, inLabel);
+        WinAPI::Window_SetText(mGroupBoxHandle, inLabel);
     }
 
 
     int GroupBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        int textWidth = Defaults::textPadding() + WinAPI::getTextSize(mGroupBoxHandle, WinAPI::getWindowText(mGroupBoxHandle)).cx;
+        int textWidth = Defaults::textPadding() + WinAPI::getTextSize(mGroupBoxHandle, WinAPI::Window_GetText(mGroupBoxHandle)).cx;
         int contentWidth = mBoxLayouter.calculateWidth(inSizeConstraint);
         return mMarginLeft + std::max<int>(textWidth, contentWidth) + mMarginRight;
     }

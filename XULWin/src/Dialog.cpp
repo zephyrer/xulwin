@@ -177,13 +177,13 @@ namespace XULWin
 
     std::string Dialog::getTitle() const
     {
-        return WinAPI::getWindowText(handle());
+        return WinAPI::Window_GetText(handle());
     }
 
 
     void Dialog::setTitle(const std::string & inTitle)
     {
-        WinAPI::setWindowText(handle(), inTitle);
+        WinAPI::Window_SetText(handle(), inTitle);
     }
 
 

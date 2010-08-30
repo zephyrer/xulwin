@@ -154,9 +154,9 @@ namespace XULWin
 
         void PopupMenu::append(PopupMenuItem * inMenuItem)
         {
-            WinAPI::insertMenuItem(mHandle, mSize++, inMenuItem->id(), inMenuItem->text());
-            WinAPI::setMenuItemEnabled(mHandle, inMenuItem->id(), inMenuItem->isEnabled());
-            WinAPI::setMenuItemChecked(mHandle, inMenuItem->id(), inMenuItem->isChecked());
+            WinAPI::Menu_InsertItem(mHandle, mSize++, inMenuItem->id(), inMenuItem->text());
+            WinAPI::Menu_SetItemEnabled(mHandle, inMenuItem->id(), inMenuItem->isEnabled());
+            WinAPI::Menu_SetItemChecked(mHandle, inMenuItem->id(), inMenuItem->isChecked());
 
             Items::iterator it = mItems.find(inMenuItem->id());
             assert(it == mItems.end());
@@ -175,7 +175,7 @@ namespace XULWin
 
         void PopupMenu::append(const std::string & inText, PopupMenu * inSubmenu)
         {
-            WinAPI::insertSubMenu(mHandle, mSize++, inSubmenu->handle(), inText);
+            WinAPI::Menu_InsertSubMenu(mHandle, mSize++, inSubmenu->handle(), inText);
             boost::shared_ptr<PopupMenu> subMenuPtr(inSubmenu);
             mSubmenus.push_back(subMenuPtr);
         }

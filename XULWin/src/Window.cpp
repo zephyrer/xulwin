@@ -192,13 +192,13 @@ namespace XULWin
 
     std::string Window::getTitle() const
     {
-        return WinAPI::getWindowText(handle());
+        return WinAPI::Window_GetText(handle());
     }
 
 
     void Window::setTitle(const std::string & inTitle)
     {
-        WinAPI::setWindowText(handle(), inTitle);
+        WinAPI::Window_SetText(handle(), inTitle);
     }
 
 

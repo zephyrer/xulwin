@@ -134,7 +134,7 @@ namespace XULWin
         }
         if (Window * window = findParentOfType<Window>())
         {
-            ::SetMenu(window->handle(), WinAPI::createMenu(node));
+            ::SetMenu(window->handle(), WinAPI::Menu_Create(node));
         }
         return Super::init();
     }

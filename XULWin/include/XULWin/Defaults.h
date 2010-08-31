@@ -102,6 +102,11 @@ namespace XULWin
             return textPadding();
         }
 
+        static int spinButtonWithoutTextBox()
+        {
+            return 16;
+        }
+
         static int checkBoxMinimumWidth()
         {
             return 20;

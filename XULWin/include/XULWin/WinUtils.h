@@ -131,6 +131,29 @@ namespace WinAPI
 
 
     //
+    // SpinButton functions
+    //
+    HWND SpinButton_GetBuddy(HWND inHandle);
+
+    HWND SpinButton_SetBuddy(HWND inHandle, HWND inBuddy);
+
+    int SpinButton_GetPos(HWND inHandle);
+
+    int SpinButton_SetPos(HWND inHandle, int inPos);
+
+    DWORD SpinButton_GetRange(HWND inHandle);
+
+    void SpinButton_GetRange(HWND inHandle, int & outLower, int & outUpper);
+
+    void SpinButton_SetRange(HWND inHandle, int inLower, int inUpper);
+
+    void SpinButton_GetRange32(HWND inHandle, int & outLower, int & outUpper);
+    
+    void SpinButton_SetRange32(HWND inHandle, int inLower, int inUpper);
+
+
+    //
+    //
     // ListBox functions
     //
     std::string ListBox_getByIndex(HWND inHandle, int inIndex);

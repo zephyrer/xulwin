@@ -354,11 +354,124 @@ namespace XULWin
         }
         return Super::handleMessage(inMessage, wParam, lParam);
     }
+
+
+    SpinButton::SpinButton(Component * inParent, const AttributesMapping & inAttr) :
+        NativeControl(inParent,
+                      inAttr,
+                      UPDOWN_CLASS,
+                      0, // exStyle
+                      WS_TABSTOP |  UDS_ALIGNRIGHT),
+        mMinValue(-1000), // TODO: eliminate magic values
+        mMaxValue(1000)
+    {
+        mBuddy.reset(new TextBox(inParent, inAttr));
+        mBuddy->init();
+        WinAPI::SpinButton_SetBuddy(handle(), mBuddy->handle());
+        WinAPI::SpinButton_SetRange(handle(), mMinValue, mMaxValue);
+    }
+
+
+    SpinButton::~SpinButton()
+    {
+    }
+
+
+    bool SpinButton::init()
+    {        
+        WinAPI::SpinButton_SetPos(handle(), String2Int(mBuddy->getValue(), 0));
+        refreshBuddy();
+        return Super::init();
+    }
+    
+    
+    void SpinButton::move(int x, int y, int w, int h)
+    {
+        int buddyWidth = w - Defaults::spinButtonWithoutTextBox();
+        mBuddy->move(x, y, buddyWidth, h);
+        Super::move(x + buddyWidth, y, w - buddyWidth, h);
+    }
+    
+    
+    void SpinButton::move(const Rect & inRect)
+    {
+        SpinButton::move(inRect.x(), inRect.y(), inRect.width(), inRect.height());
+    }
+
+
+    std::string SpinButton::getValue() const
+    {
+        return mBuddy->getValue();
+    }
+
+
+    void SpinButton::setValue(const std::string & inStringValue)
+    {
+        mBuddy->setValue(inStringValue);
+    }
+
+
+    bool SpinButton::isReadOnly() const
+    {
+        return mBuddy->isReadOnly();
+    }
+
+
+    void SpinButton::setReadOnly(bool inReadOnly)
+    {
+        mBuddy->setReadOnly(inReadOnly);
+    }
+
+
+    bool SpinButton::initAttributeControllers()
+    {
+        setAttributeController<StringValueController>(this);
+        setAttributeController<ReadOnlyController>(this);
+        return Super::initAttributeControllers();
+    }
+
+
+    int SpinButton::calculateWidth(SizeConstraint inSizeConstraint) const
+    {
+        return mBuddy->getWidth() + Defaults::spinButtonWithoutTextBox();
+    }
+
+
+    int SpinButton::calculateHeight(SizeConstraint inSizeConstraint) const
+    {
+        return Defaults::controlHeight();
+    }
+
+
+    void SpinButton::refreshBuddy()
+    {
+        mBuddy->setValue(Int2String(WinAPI::SpinButton_GetPos(handle())));
+    }
+
+
+    LRESULT SpinButton::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
+    {
+        if (inMessage == WM_LBUTTONDOWN)
+        {
+            LRESULT res = Super::handleMessage(inMessage, wParam, lParam);
+            refreshBuddy();
+            return res;
+        }
+        return Super::handleMessage(inMessage, wParam, lParam);
+    }
     
 
-    Component * CreateTextBox(Component * inComponent, const AttributesMapping & inAttr)
+    Component * CreateTextBox(Component * inParent, const AttributesMapping & inAttr)
     {
-        return new MarginDecorator(new TextBox(inComponent, inAttr));
+        AttributesMapping::const_iterator it = inAttr.find("type");
+        if (it != inAttr.end() && it->second == "number")
+        {
+            return new MarginDecorator(new SpinButton(inParent, inAttr));
+        }
+        else
+        {
+            return new MarginDecorator(new TextBox(inParent, inAttr));
+        }
     }
 
 
@@ -367,7 +480,7 @@ namespace XULWin
                       inAttr,
                       TEXT("EDIT"),
                       WS_EX_CLIENTEDGE, // exStyle
-                      WS_TABSTOP | GetFlags(inAttr) | GetStyleFlags(inAttr)),                      
+                      WS_TABSTOP | GetFlags(inAttr) | GetStyleFlags(inAttr)),
         mRows(1)
     {
     }
@@ -486,7 +599,7 @@ namespace XULWin
 
     int TextBox::calculateWidth(SizeConstraint inSizeConstraint) const
     {
-        return Defaults::textBoxWidth();;
+        return Defaults::textBoxMinimumWidth() + WinAPI::Window_GetTextSize(handle(), getValue()).cx;
     }
 
 

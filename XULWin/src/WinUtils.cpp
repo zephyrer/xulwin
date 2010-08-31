@@ -134,6 +134,62 @@ namespace WinAPI
     }
 
 
+    HWND SpinButton_GetBuddy(HWND inHandle)
+    {
+        return HWND((HWND)::SendMessage(inHandle, UDM_GETBUDDY, 0, 0L));
+    }
+
+
+    HWND SpinButton_SetBuddy(HWND inHandle, HWND inBuddy)
+    {
+        return (HWND)::SendMessage(inHandle, UDM_SETBUDDY, (WPARAM)inBuddy, 0L);
+    }
+
+
+    int SpinButton_GetPos(HWND inHandle)
+    {
+        DWORD result = (DWORD)::SendMessage(inHandle, UDM_GETPOS, 0, 0L);
+        return (int)(short)LOWORD(result);
+    }
+
+    int SpinButton_SetPos(HWND inHandle, int inPos)
+    {
+        return (int)(short)LOWORD(::SendMessage(inHandle, UDM_SETPOS, 0, MAKELPARAM(inPos, 0)));
+    }
+
+
+    DWORD SpinButton_GetRange(HWND inHandle)
+    {
+        return (DWORD)::SendMessage(inHandle, UDM_GETRANGE, 0, 0L);
+    }
+
+
+    void SpinButton_GetRange(HWND inHandle, int & outLower, int & outUpper)
+    {
+        DWORD res = (DWORD)::SendMessage(inHandle, UDM_GETRANGE, 0, 0L);
+        outLower = (int)(short)HIWORD(res);
+        outUpper = (int)(short)LOWORD(res);
+    }
+
+
+    void SpinButton_SetRange(HWND inHandle, int inLower, int inUpper)
+    {
+        ::SendMessage(inHandle, UDM_SETRANGE, 0, MAKELPARAM(inUpper, inLower));
+    }
+
+    
+    void SpinButton_SetRange32(HWND inHandle, int inLower, int inUpper)
+    {
+        ::SendMessage(inHandle, UDM_SETRANGE32, inLower, inUpper);
+    }
+
+
+    void SpinButton_GetRange32(HWND inHandle, int& outLower, int& outUpper)
+    {
+        ::SendMessage(inHandle, UDM_GETRANGE32, (WPARAM)&outLower, (LPARAM)&outUpper);
+    }
+
+    
     std::string ListBox_getByIndex(HWND inHandle, int inIndex)
     {
         int len = ::SendMessage(inHandle, LB_GETTEXTLEN, (WPARAM)inIndex, (LPARAM)0);
@@ -824,7 +880,7 @@ namespace WinAPI
     }
 
 
-    void Timer::OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime)
+    void Timer::OnTimerEvent(HWND inHandle, UINT inMessage, UINT_PTR inTimerId, DWORD inTime)
     {
         for (TimerMapping::iterator it = sTimerMapping.begin(); it != sTimerMapping.end(); ++it)
         {

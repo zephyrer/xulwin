@@ -19,6 +19,9 @@
   <spacer flex="1" />
   <vbox align="center">
     <html:a href="http://www.google.com">Google</html:a>
+    <textbox type="number" value="0" />
+    <textbox type="number" value="10" />
+    <textbox type="number" value="10000" />
   </vbox>
   <spacer flex="1" />
 </window>

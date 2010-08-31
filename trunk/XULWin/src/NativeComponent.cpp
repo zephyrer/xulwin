@@ -319,7 +319,7 @@ namespace XULWin
             {
                 HWND handle = (HWND)lParam;
                 ComponentsByHandle::iterator it = sComponentsByHandle.find(handle);
-                if (it != sComponentsByHandle.end())
+                if (it != sComponentsByHandle.end() && (it->second != this))
                 {
                     it->second->handleMessage(inMessage, wParam, lParam);
                     return 0;

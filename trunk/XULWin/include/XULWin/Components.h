@@ -206,6 +206,49 @@ namespace XULWin
     };
 
 
+    class SpinButton : public NativeControl,
+                       public virtual StringValueController,
+                       public virtual ReadOnlyController
+    {
+    public:
+        typedef NativeControl Super;
+
+        SpinButton(Component * inParent, const AttributesMapping & inAttr);
+
+        ~SpinButton();  
+
+        virtual bool init();
+
+        virtual void move(int x, int y, int w, int h);
+
+        virtual void move(const Rect & inRect);
+
+        // StringValueController methods
+        virtual std::string getValue() const;
+
+        virtual void setValue(const std::string & inStringValue);
+
+        // ReadOnlyController methods
+        virtual bool isReadOnly() const;
+
+        virtual void setReadOnly(bool inReadOnly);
+
+        virtual bool initAttributeControllers();
+
+        virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
+
+        virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        virtual LRESULT handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam);
+
+    private:
+        void refreshBuddy();
+        boost::scoped_ptr<TextBox> mBuddy;
+        int mMinValue;
+        int mMaxValue;
+    };
+
+
 
     class Scrollbar : public NativeControl,
                       public virtual ScrollbarCurrentPositionController,

@@ -152,6 +152,7 @@ namespace WinAPI
         return (int)(short)LOWORD(result);
     }
 
+
     int SpinButton_SetPos(HWND inHandle, int inPos)
     {
         return (int)(short)LOWORD(::SendMessage(inHandle, UDM_SETPOS, 0, MAKELPARAM(inPos, 0)));

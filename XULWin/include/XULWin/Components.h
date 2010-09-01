@@ -244,8 +244,6 @@ namespace XULWin
     private:
         void refreshBuddy();
         boost::scoped_ptr<TextBox> mBuddy;
-        int mMinValue;
-        int mMaxValue;
     };
 
 

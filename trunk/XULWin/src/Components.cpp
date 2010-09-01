@@ -361,14 +361,12 @@ namespace XULWin
                       inAttr,
                       UPDOWN_CLASS,
                       0, // exStyle
-                      WS_TABSTOP |  UDS_ALIGNRIGHT),
-        mMinValue(-1000), // TODO: eliminate magic values
-        mMaxValue(1000)
+                      WS_TABSTOP |  UDS_ALIGNRIGHT)
     {
         mBuddy.reset(new TextBox(inParent, inAttr));
         mBuddy->init();
         WinAPI::SpinButton_SetBuddy(handle(), mBuddy->handle());
-        WinAPI::SpinButton_SetRange(handle(), mMinValue, mMaxValue);
+        WinAPI::SpinButton_SetRange(handle(), -1000, +1000); // todo remove magic values
     }
 
 

@@ -256,8 +256,27 @@ namespace XULWin
         {
             int w = getWidth();
             int h = getHeight();
-            int x = getCSSX();
-            int y = getCSSY();
+
+            int x = 0;
+            if (mScreenX.isValid())
+            {
+                x = mScreenX.getValue();
+            }
+            else if (mCSSX.isValid())
+            {
+                x = mCSSX.getValue();
+            }
+
+            int y = 0;
+            if (mScreenY.isValid())
+            {
+                y = mScreenY.getValue();
+            }
+            else if (mCSSY.isValid())
+            {
+                y = mCSSY.getValue();
+            }
+
             move(x, y, w, h);
         }
 

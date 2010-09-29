@@ -62,6 +62,7 @@ namespace XULWin
         virtual int getScreenY() const;
 
         virtual void setScreenY(int inY);
+
         // FlexController methods
         virtual int getFlex() const;
 

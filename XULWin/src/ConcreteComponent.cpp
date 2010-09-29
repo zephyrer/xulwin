@@ -572,6 +572,8 @@ namespace XULWin
         setAttributeController<HiddenController>(this);
         setAttributeController<AlignController>(this);
         setAttributeController<OrientController>(this);
+        setAttributeController<ScreenXController>(this);
+        setAttributeController<ScreenYController>(this);
         return true;
     }
 

@@ -361,11 +361,35 @@ namespace XULWin
                       inAttr,
                       UPDOWN_CLASS,
                       0, // exStyle
-                      WS_TABSTOP |  UDS_ALIGNRIGHT)
+                      WS_TABSTOP |  UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_SETBUDDYINT)
     {
         mBuddy.reset(new TextBox(inParent, inAttr));
         mBuddy->init();
+
+        //
+        // Init acceleration
+        //
+        static const int cNumAccelerators = 8;
+        UDACCEL upDownAcceleration[cNumAccelerators];
+        for (size_t idx = 0; idx != cNumAccelerators; ++idx)
+        {
+            if (idx == 0)
+            {
+                upDownAcceleration[idx].nSec = 0;
+                upDownAcceleration[idx].nInc = 1;
+            }
+            else
+            {
+                upDownAcceleration[idx].nSec = 1 + upDownAcceleration[idx - 1].nSec;
+                upDownAcceleration[idx].nInc = 2 * upDownAcceleration[idx - 1].nInc;
+            }
+        }
+        ::SendMessage(handle(), UDM_SETACCEL, (WPARAM)sizeof(upDownAcceleration)/sizeof(UDACCEL), (LPARAM)&upDownAcceleration);
+
+        // Set Buddy
         WinAPI::SpinButton_SetBuddy(handle(), mBuddy->handle());
+
+        // Set range
         WinAPI::SpinButton_SetRange(handle(), -1000, +1000); // todo remove magic values
     }
 
@@ -449,12 +473,6 @@ namespace XULWin
 
     LRESULT SpinButton::handleMessage(UINT inMessage, WPARAM wParam, LPARAM lParam)
     {
-        if (inMessage == WM_LBUTTONDOWN)
-        {
-            LRESULT res = Super::handleMessage(inMessage, wParam, lParam);
-            refreshBuddy();
-            return res;
-        }
         return Super::handleMessage(inMessage, wParam, lParam);
     }
     

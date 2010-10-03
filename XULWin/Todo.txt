@@ -1,4 +1,5 @@
 - Implement Hyperlink text-align
+- SpinButton XUL attribute for range. Remove +1000 and -1000 magic values.
 - Fix broken samples: shout dialog, simple listbox
 - Move advanced and broken components in namespace "Experimental"
 - Make a *real* application. Facebook photo uploader for example.
@@ -11,6 +12,7 @@
 - Cleanup classes that incorrectly inherit PhonyComponent.
 - Add meaningful error handling in ConcreteComponent::setStyle() and ConcreteComponent::setAttribute()
 - Implement background-color and stroke CSS attributes
+v SpinButton autoscroll
 v Choose between "WinAPI" and "WinAPI", but don't mix them.
 v Remove this method: HWND ConcreteComponent::getFirstParentHandle();
   It does not belong in ConcreteComponent.

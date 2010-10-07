@@ -147,12 +147,11 @@ namespace XULWin
                     else
                     {
                         size_t bufferLength = wcslen(openFileName.lpstrFile) + wcslen(offset) + 2;
-                        WCHAR * buffer = new WCHAR[bufferLength];
-                        wcscpy_s(buffer, bufferLength, openFileName.lpstrFile);
-                        wcscat_s(buffer, bufferLength, L"\\");
-                        wcscat_s(buffer, bufferLength, offset);
-                        outSelectedFiles.push_back(ToUTF8(buffer));
-                        delete buffer;
+                        std::vector<WCHAR> buffer(bufferLength);
+                        wcscpy_s(&buffer[0], buffer.size(), openFileName.lpstrFile);
+                        wcscat_s(&buffer[0], buffer.size(), L"\\");
+                        wcscat_s(&buffer[0], buffer.size(), offset);
+                        outSelectedFiles.push_back(ToUTF8(&buffer[0]));
                     }
                 }
             }

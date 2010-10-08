@@ -299,22 +299,20 @@ namespace XULWin
     }
 
 
+    int MenuList::getComboBoxMenuHeight()
+    {
+        int result = WinAPI::ComboBox_Size(handle()) * WinAPI::ComboBox_ItemHeight(handle(), 0);
+        
+        // HACK: On Linux Wine the menu does height is one item too short so
+        //       we add a little bit of extra height here.
+        result += WinAPI::ComboBox_ItemHeight(handle(), 0);
+        return result;
+    }
+
+
     void MenuList::move(int x, int y, int w, int h)
     {
-        // The height of a combobox in Win32 is the height of the dropdown menu
-        // + the height of the widget itself.
-
-        int numItems = WinAPI::ComboBox_Size(handle());
-        int dropdownHeight = 0;
-        if (numItems > 0)
-        {
-            dropdownHeight = numItems * WinAPI::ComboBox_ItemHeight(handle(), 0); // use index 0
-        }
-
-        // This is usually needed as well, I think :S
-        int extraHeight = WinAPI::Window_GetSizeDifferenceBetweenWindowRectAndClientRect(handle()).cy;
-
-        NativeControl::move(x, y, w, h + dropdownHeight + extraHeight);
+        NativeControl::move(x, y, w, h + getComboBoxMenuHeight());
     }
 
 

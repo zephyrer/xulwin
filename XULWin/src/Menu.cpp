@@ -303,8 +303,9 @@ namespace XULWin
     {
         int result = WinAPI::ComboBox_Size(handle()) * WinAPI::ComboBox_ItemHeight(handle(), 0);
         
-        // HACK: On Linux Wine the menu does height is one item too short so
-        //       we add a little bit of extra height here.
+        // HACK:
+        // On Linux Wine the menu height is one item too short
+        // so we add a little bit of extra height here.
         result += WinAPI::ComboBox_ItemHeight(handle(), 0);
         return result;
     }

@@ -117,6 +117,7 @@ namespace XULWin
         virtual void onContentChanged();
 
     private:
+        int getComboBoxMenuHeight();
         void fillComboBox();
     };
 

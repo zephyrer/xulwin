@@ -56,6 +56,9 @@ namespace WinAPI
 
     std::string System_GetProgramFilesDirectory();
 
+    // Set the thread name that will be shown in the Visual Studio debugger
+    void System_SetThreadName(WORD inThreadId, const std::string & inThreadName);
+
     std::string System_GetLastError(DWORD lastError);
    
     // Opens default browser and navigates to url.

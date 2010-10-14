@@ -3,6 +3,7 @@
 
 
 #include "XULWin/Node.h"
+#include "XULWin/Rect.h"
 #include "XULWin/Types.h"
 #include "XULWin/Windows.h"
 #include <boost/function.hpp>
@@ -69,6 +70,12 @@ namespace WinAPI
     // Window functions (everything is a window)
     // 
     HWND Window_GetDefaultWindow();
+
+    std::string Window_GetClassName(HWND inHWND);
+
+    Rect Window_GetClientRect(HWND inHWND);
+
+    Rect Window_GetWindowRect(HWND inHWND);
 
     int Window_GetWidth(HWND inHandle);
 

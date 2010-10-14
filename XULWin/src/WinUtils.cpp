@@ -54,6 +54,30 @@ namespace WinAPI
     }
 
 
+    std::string Window_GetClassName(HWND inHWND)
+    {
+        std::vector<TCHAR> buffer(512);
+        ::GetClassName(inHWND, &buffer[0], static_cast<int>(buffer.size()));
+        return ToUTF8(&buffer[0]);
+    }
+
+    
+    Rect Window_GetClientRect(HWND inHWND)
+    {
+        RECT rc;
+        ::GetClientRect(inHWND, &rc);
+        return Rect(rc.left, rc.top, rc.right -  rc.left, rc.bottom - rc.top);
+    }
+
+
+    Rect Window_GetWindowRect(HWND inHWND)
+    {
+        RECT rw;
+        ::GetWindowRect(inHWND, &rw);
+        return Rect(rw.left, rw.top, rw.right -  rw.left, rw.bottom - rw.top);
+    }
+
+
     std::string System_GetCurrentDirectory()
     {
         TCHAR buffer[MAX_PATH+1];

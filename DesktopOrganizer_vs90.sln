@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XULWin", "XULWin\XULWin_vs90.vcproj", "{82864729-DFC2-4F6D-A1AE-984D82CF81E1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8164D41D-B053-405B-826C-CF37AC0EF176} = {8164D41D-B053-405B-826C-CF37AC0EF176}
+		{9E211743-85FE-4977-82F3-4F04B40C912D} = {9E211743-85FE-4977-82F3-4F04B40C912D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoFoundation", "3rdParty\Poco\Foundation\Foundation_vs90.vcproj", "{8164D41D-B053-405B-826C-CF37AC0EF176}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PocoXML", "3rdParty\Poco\XML\XML_vs90.vcproj", "{9E211743-85FE-4977-82F3-4F04B40C912D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8164D41D-B053-405B-826C-CF37AC0EF176} = {8164D41D-B053-405B-826C-CF37AC0EF176}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DesktopOrganizer", "Samples\DesktopOrganizer\DesktopOrganizer_vs90.vcproj", "{55BE11F0-DFDD-42C9-B51B-17639BFA7AC5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8164D41D-B053-405B-826C-CF37AC0EF176} = {8164D41D-B053-405B-826C-CF37AC0EF176}
+		{9E211743-85FE-4977-82F3-4F04B40C912D} = {9E211743-85FE-4977-82F3-4F04B40C912D}
+		{82864729-DFC2-4F6D-A1AE-984D82CF81E1} = {82864729-DFC2-4F6D-A1AE-984D82CF81E1}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82864729-DFC2-4F6D-A1AE-984D82CF81E1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{82864729-DFC2-4F6D-A1AE-984D82CF81E1}.Debug|Win32.Build.0 = Debug|Win32
+		{82864729-DFC2-4F6D-A1AE-984D82CF81E1}.Release|Win32.ActiveCfg = Release|Win32
+		{82864729-DFC2-4F6D-A1AE-984D82CF81E1}.Release|Win32.Build.0 = Release|Win32
+		{8164D41D-B053-405B-826C-CF37AC0EF176}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8164D41D-B053-405B-826C-CF37AC0EF176}.Debug|Win32.Build.0 = Debug|Win32
+		{8164D41D-B053-405B-826C-CF37AC0EF176}.Release|Win32.ActiveCfg = Release|Win32
+		{8164D41D-B053-405B-826C-CF37AC0EF176}.Release|Win32.Build.0 = Release|Win32
+		{9E211743-85FE-4977-82F3-4F04B40C912D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9E211743-85FE-4977-82F3-4F04B40C912D}.Debug|Win32.Build.0 = Debug|Win32
+		{9E211743-85FE-4977-82F3-4F04B40C912D}.Release|Win32.ActiveCfg = Release|Win32
+		{9E211743-85FE-4977-82F3-4F04B40C912D}.Release|Win32.Build.0 = Release|Win32
+		{55BE11F0-DFDD-42C9-B51B-17639BFA7AC5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{55BE11F0-DFDD-42C9-B51B-17639BFA7AC5}.Debug|Win32.Build.0 = Debug|Win32
+		{55BE11F0-DFDD-42C9-B51B-17639BFA7AC5}.Release|Win32.ActiveCfg = Release|Win32
+		{55BE11F0-DFDD-42C9-B51B-17639BFA7AC5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

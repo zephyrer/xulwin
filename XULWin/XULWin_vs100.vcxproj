@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>XULWin</ProjectName>
+    <ProjectGuid>{82864729-DFC2-4F6D-A1AE-984D82CF81E1}</ProjectGuid>
+    <RootNamespace>XULWin</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)Build\vs100\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)Intermediate\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Build\vs100\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)Intermediate\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\Poco\XML\include;$(SolutionDir)3rdParty\Poco\Foundation\include;$(SolutionDir)3rdParty\Boost;$(SolutionDir)3rdParty\Boost_1_44_0;$(SolutionDir)XULWin\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\Poco\XML\include;$(SolutionDir)3rdParty\Poco\Foundation\include;$(SolutionDir)3rdParty\Boost;$(SolutionDir)3rdParty\Boost_1_44_0;$(SolutionDir)XULWin\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\XULWin\Element.h" />
+    <ClInclude Include="include\XULWin\Elements.h" />
+    <ClInclude Include="include\XULWin\XMLOverlay.h" />
+    <ClInclude Include="include\XULWin\XMLScript.h" />
+    <ClInclude Include="include\XULWin\XMLWindow.h" />
+    <ClInclude Include="include\XULWin\Gdiplus.h" />
+    <ClInclude Include="include\XULWin\GdiplusUtils.h" />
+    <ClInclude Include="include\XULWin\ICustomDraw.h" />
+    <ClInclude Include="include\XULWin\ISubClass.h" />
+    <ClInclude Include="include\XULWin\ToolbarMenuItem.h" />
+    <ClInclude Include="include\XULWin\Windows.h" />
+    <ClInclude Include="include\XULWin\WindowsListBox.h" />
+    <ClInclude Include="include\XULWin\WindowsListView.h" />
+    <ClInclude Include="include\XULWin\WindowsOpenFileDialog.h" />
+    <ClInclude Include="include\XULWin\WindowsToolbar.h" />
+    <ClInclude Include="include\XULWin\WindowsToolbarItem.h" />
+    <ClInclude Include="include\XULWin\WinUtils.h" />
+    <ClInclude Include="include\XULWin\AttributeController.h" />
+    <ClInclude Include="include\XULWin\ComponentFactory.h" />
+    <ClInclude Include="include\XULWin\Defaults.h" />
+    <ClInclude Include="include\XULWin\ElementFactory.h" />
+    <ClInclude Include="include\XULWin\Enums.h" />
+    <ClInclude Include="include\XULWin\EventListener.h" />
+    <ClInclude Include="include\XULWin\ForwardDeclarations.h" />
+    <ClInclude Include="include\XULWin\Initializer.h" />
+    <ClInclude Include="include\XULWin\StyleController.h" />
+    <ClInclude Include="include\XULWin\Types.h" />
+    <ClInclude Include="include\XULWin\UniqueId.h" />
+    <ClInclude Include="include\XULWin\XULOverlayParser.h" />
+    <ClInclude Include="include\XULWin\XULParser.h" />
+    <ClInclude Include="include\XULWin\XULRunner.h" />
+    <ClInclude Include="include\XULWin\SVG.h" />
+    <ClInclude Include="include\XULWin\SVGPathInstructions.h" />
+    <ClInclude Include="include\XULWin\XMLSVG.h" />
+    <ClInclude Include="include\XULWin\Grid.h" />
+    <ClInclude Include="include\XULWin\Node.h" />
+    <ClInclude Include="include\XULWin\Point.h" />
+    <ClInclude Include="include\XULWin\Rect.h" />
+    <ClInclude Include="include\XULWin\RGBColor.h" />
+    <ClInclude Include="include\XULWin\Size.h" />
+    <ClInclude Include="include\XULWin\Algorithms.h" />
+    <ClInclude Include="include\XULWin\BoxLayouter.h" />
+    <ClInclude Include="include\XULWin\ChromeURL.h" />
+    <ClInclude Include="include\XULWin\ConditionalState.h" />
+    <ClInclude Include="include\XULWin\Conversions.h" />
+    <ClInclude Include="include\XULWin\ErrorReporter.h" />
+    <ClInclude Include="include\XULWin\Fallible.h" />
+    <ClInclude Include="include\XULWin\GdiplusLoader.h" />
+    <ClInclude Include="include\XULWin\Layout.h" />
+    <ClInclude Include="include\XULWin\Unicode.h" />
+    <ClInclude Include="include\XULWin\Component.h" />
+    <ClInclude Include="include\XULWin\Components.h" />
+    <ClInclude Include="include\XULWin\ConcreteComponent.h" />
+    <ClInclude Include="include\XULWin\Decorator.h" />
+    <ClInclude Include="include\XULWin\Decorators.h" />
+    <ClInclude Include="include\XULWin\DetachedComponent.h" />
+    <ClInclude Include="include\XULWin\Dialog.h" />
+    <ClInclude Include="include\XULWin\Image.h" />
+    <ClInclude Include="include\XULWin\ListBox.h" />
+    <ClInclude Include="include\XULWin\Menu.h" />
+    <ClInclude Include="include\XULWin\NativeComponent.h" />
+    <ClInclude Include="include\XULWin\NativeControl.h" />
+    <ClInclude Include="include\XULWin\Overlay.h" />
+    <ClInclude Include="include\XULWin\PhonyComponent.h" />
+    <ClInclude Include="include\XULWin\Toolbar.h" />
+    <ClInclude Include="include\XULWin\VirtualComponent.h" />
+    <ClInclude Include="include\XULWin\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Element.cpp" />
+    <ClCompile Include="src\Elements.cpp" />
+    <ClCompile Include="src\XMLOverlay.cpp" />
+    <ClCompile Include="src\XMLScript.cpp" />
+    <ClCompile Include="src\XMLWindow.cpp" />
+    <ClCompile Include="src\GdiplusUtils.cpp" />
+    <ClCompile Include="src\ICustomDraw.cpp" />
+    <ClCompile Include="src\ISubClass.cpp" />
+    <ClCompile Include="src\WindowsListBox.cpp" />
+    <ClCompile Include="src\WindowsListView.cpp" />
+    <ClCompile Include="src\WindowsOpenFileDialog.cpp" />
+    <ClCompile Include="src\WindowsToolbar.cpp" />
+    <ClCompile Include="src\WindowsToolbarItem.cpp" />
+    <ClCompile Include="src\WinUtils.cpp" />
+    <ClCompile Include="src\AttributeController.cpp" />
+    <ClCompile Include="src\ComponentFactory.cpp" />
+    <ClCompile Include="src\ElementFactory.cpp" />
+    <ClCompile Include="src\EventListener.cpp" />
+    <ClCompile Include="src\Initializer.cpp" />
+    <ClCompile Include="src\StyleController.cpp" />
+    <ClCompile Include="src\UniqueId.cpp" />
+    <ClCompile Include="src\XULOverlayParser.cpp" />
+    <ClCompile Include="src\XULParser.cpp" />
+    <ClCompile Include="src\XULRunner.cpp" />
+    <ClCompile Include="src\SVG.cpp" />
+    <ClCompile Include="src\SVGPathInstructions.cpp" />
+    <ClCompile Include="src\XMLSVG.cpp" />
+    <ClCompile Include="src\RGBColor.cpp" />
+    <ClCompile Include="src\BoxLayouter.cpp" />
+    <ClCompile Include="src\ChromeURL.cpp" />
+    <ClCompile Include="src\ConditionalState.cpp" />
+    <ClCompile Include="src\Conversions.cpp" />
+    <ClCompile Include="src\ErrorReporter.cpp" />
+    <ClCompile Include="src\GdiplusLoader.cpp" />
+    <ClCompile Include="src\Layout.cpp" />
+    <ClCompile Include="src\Unicode.cpp" />
+    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\Components.cpp" />
+    <ClCompile Include="src\ConcreteComponent.cpp" />
+    <ClCompile Include="src\Decorator.cpp" />
+    <ClCompile Include="src\Decorators.cpp" />
+    <ClCompile Include="src\DetachedComponent.cpp" />
+    <ClCompile Include="src\Dialog.cpp" />
+    <ClCompile Include="src\Image.cpp" />
+    <ClCompile Include="src\ListBox.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
+    <ClCompile Include="src\NativeComponent.cpp" />
+    <ClCompile Include="src\NativeControl.cpp" />
+    <ClCompile Include="src\Overlay.cpp" />
+    <ClCompile Include="src\PhonyComponent.cpp" />
+    <ClCompile Include="src\Toolbar.cpp" />
+    <ClCompile Include="src\VirtualComponent.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Todo.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

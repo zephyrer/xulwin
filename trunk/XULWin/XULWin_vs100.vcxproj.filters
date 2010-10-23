@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Elements">
+      <UniqueIdentifier>{72aff3e8-4d49-438f-83e9-c631be52303e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Elements\Header Files">
+      <UniqueIdentifier>{fc2d553d-35d8-494d-9407-a96e3385296d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Elements\Source Files">
+      <UniqueIdentifier>{fe029418-eb96-4bad-aa9c-df01e9b8104e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinAPI">
+      <UniqueIdentifier>{80220325-bd52-40fd-9ca3-ed36098790f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinAPI\Header Files">
+      <UniqueIdentifier>{dd42c2c1-893d-4413-bd59-190d2937f471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinAPI\Source Files">
+      <UniqueIdentifier>{e8cbaa15-36a3-47b5-ac51-ef3cd67891a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{520a8d4a-3164-437d-bd92-e38e1edf66ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Header Files">
+      <UniqueIdentifier>{844ff6bd-b1b7-49d3-9536-231f951b7d06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Source Files">
+      <UniqueIdentifier>{287d5ffa-71c4-44d0-b0fc-275fd357f681}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SVG">
+      <UniqueIdentifier>{92756e6c-0092-4b60-bee1-1e5fadde4e3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SVG\Header Files">
+      <UniqueIdentifier>{e173e50c-6eda-4dff-bc34-086a560abd84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SVG\Source Files">
+      <UniqueIdentifier>{5e5f0ce3-0c4a-407a-9833-12a68ecb6946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataTypes">
+      <UniqueIdentifier>{319fcbf1-9ee2-47cd-86ab-737a12ec2256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataTypes\Header Files">
+      <UniqueIdentifier>{9c5c6ff5-f28d-4140-b966-a1e134de97e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataTypes\Source Files">
+      <UniqueIdentifier>{4d30a661-d138-4c40-86e8-565597820994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{1e5bc0bf-66e8-4a5c-ab00-18e2bcfb5852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Header Files">
+      <UniqueIdentifier>{dfe4f795-0b76-4e27-95ae-79fff5dc76f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Source Files">
+      <UniqueIdentifier>{dcd1d1fd-7b33-4c34-bae8-c3063cc2fffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{1192945c-c138-42d9-9fd8-582ed6d2e7cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Header Files">
+      <UniqueIdentifier>{51adaa46-daaa-4c7c-b3ad-5f96be5d5dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Source Files">
+      <UniqueIdentifier>{09dbae47-fc22-409c-a6ba-37b4aaff43f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\XULWin\Element.h">
+      <Filter>Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Elements.h">
+      <Filter>Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\XMLOverlay.h">
+      <Filter>Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\XMLScript.h">
+      <Filter>Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\XMLWindow.h">
+      <Filter>Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Gdiplus.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\GdiplusUtils.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ICustomDraw.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ISubClass.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ToolbarMenuItem.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Windows.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\WindowsListBox.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\WindowsListView.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\WindowsOpenFileDialog.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\WindowsToolbar.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\WindowsToolbarItem.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\WinUtils.h">
+      <Filter>WinAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\AttributeController.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ComponentFactory.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Defaults.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ElementFactory.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Enums.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\EventListener.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ForwardDeclarations.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Initializer.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\StyleController.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Types.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\UniqueId.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\XULOverlayParser.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\XULParser.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\XULRunner.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\SVG.h">
+      <Filter>SVG\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\SVGPathInstructions.h">
+      <Filter>SVG\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\XMLSVG.h">
+      <Filter>SVG\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Grid.h">
+      <Filter>DataTypes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Node.h">
+      <Filter>DataTypes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Point.h">
+      <Filter>DataTypes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Rect.h">
+      <Filter>DataTypes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\RGBColor.h">
+      <Filter>DataTypes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Size.h">
+      <Filter>DataTypes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Algorithms.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\BoxLayouter.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ChromeURL.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ConditionalState.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Conversions.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ErrorReporter.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Fallible.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\GdiplusLoader.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Layout.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Unicode.h">
+      <Filter>Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Component.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Components.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ConcreteComponent.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Decorator.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Decorators.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\DetachedComponent.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Dialog.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Image.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\ListBox.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Menu.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\NativeComponent.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\NativeControl.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Overlay.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\PhonyComponent.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Toolbar.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\VirtualComponent.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XULWin\Window.h">
+      <Filter>Components\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Element.cpp">
+      <Filter>Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Elements.cpp">
+      <Filter>Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XMLOverlay.cpp">
+      <Filter>Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XMLScript.cpp">
+      <Filter>Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XMLWindow.cpp">
+      <Filter>Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GdiplusUtils.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ICustomDraw.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ISubClass.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowsListBox.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowsListView.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowsOpenFileDialog.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowsToolbar.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowsToolbarItem.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinUtils.cpp">
+      <Filter>WinAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AttributeController.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentFactory.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ElementFactory.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventListener.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Initializer.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StyleController.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UniqueId.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XULOverlayParser.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XULParser.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XULRunner.cpp">
+      <Filter>Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SVG.cpp">
+      <Filter>SVG\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SVGPathInstructions.cpp">
+      <Filter>SVG\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XMLSVG.cpp">
+      <Filter>SVG\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RGBColor.cpp">
+      <Filter>DataTypes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BoxLayouter.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChromeURL.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConditionalState.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Conversions.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ErrorReporter.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GdiplusLoader.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layout.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Unicode.cpp">
+      <Filter>Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Component.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConcreteComponent.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decorator.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decorators.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DetachedComponent.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dialog.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Image.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ListBox.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NativeComponent.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NativeControl.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlay.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhonyComponent.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Toolbar.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VirtualComponent.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Window.cpp">
+      <Filter>Components\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Todo.txt" />
+  </ItemGroup>
+</Project>

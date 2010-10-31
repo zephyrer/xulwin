@@ -127,6 +127,9 @@ namespace WinAPI
 
     void ComboBox_Clear(HWND inHandle);
 
+	// Returns whether the dropdown box is currently visible or not.
+	bool ComboBox_IsOpen(HWND inHandle);
+
     // returns CB_ERR (-1) if not found
     int ComboBox_FindString(HWND inHandle, const std::string & inString, int inOffset = -1);
 
@@ -209,13 +212,25 @@ namespace WinAPI
         PARTIALLY_CHECKED = BST_INDETERMINATE
     };
 
-    void Checkbox_SetState(HWND inHandle, CheckState inState);
+    void CheckBox_SetState(HWND inHandle, CheckState inState);
 
     CheckState CheckBox_GetState(HWND inHandle);
 
     bool CheckBox_IsChecked(HWND inHandle);
 
     void CheckBox_SetChecked(HWND inHandle, bool inChecked);
+
+
+    //
+    // RadioButton Functions
+    //
+    void RadioButton_SetState(HWND inHandle, CheckState inState);
+
+    CheckState RadioButton_GetState(HWND inHandle);
+
+    bool RadioButton_IsChecked(HWND inHandle);
+
+    void RadioButton_SetChecked(HWND inHandle, bool inChecked);
 
 
     //

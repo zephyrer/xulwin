@@ -583,7 +583,8 @@ namespace XULWin
     };
 
 
-    class Radio : public NativeControl
+    class Radio : public NativeControl,
+                  public virtual SelectedController
     {
     public:
         typedef NativeControl Super;
@@ -593,6 +594,13 @@ namespace XULWin
         virtual int calculateWidth(SizeConstraint inSizeConstraint) const;
 
         virtual int calculateHeight(SizeConstraint inSizeConstraint) const;
+
+        // SelectedController methods
+        virtual bool isSelected() const;
+
+        virtual void setSelected(bool inSelected);
+
+        bool initAttributeControllers();
     };
 
 

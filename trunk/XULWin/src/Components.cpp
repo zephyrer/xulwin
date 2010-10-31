@@ -1718,7 +1718,7 @@ namespace XULWin
                       inAttr,
                       TEXT("BUTTON"),
                       0, // exStyle
-                      WS_TABSTOP | BS_RADIOBUTTON)
+                      WS_TABSTOP | BS_AUTORADIOBUTTON)
     {
     }
 
@@ -1732,6 +1732,25 @@ namespace XULWin
     int Radio::calculateHeight(SizeConstraint inSizeConstraint) const
     {
         return Defaults::controlHeight();
+    }
+    
+    
+    bool Radio::isSelected() const
+    {
+        return XULWin::WinAPI::RadioButton_IsChecked(handle());
+    }
+
+    
+    void Radio::setSelected(bool inSelected)
+    {
+        WinAPI::RadioButton_SetChecked(handle(), inSelected);
+    }
+
+    
+    bool Radio::initAttributeControllers()
+    {
+        setAttributeController<SelectedController>(this);
+        return Super::initAttributeControllers();
     }
 
 

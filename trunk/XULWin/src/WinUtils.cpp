@@ -352,6 +352,12 @@ namespace WinAPI
     }
 
 
+	bool ComboBox_IsOpen(HWND inHandle)
+	{
+		return TRUE == ::SendMessage(inHandle, CB_GETDROPPEDSTATE, (WPARAM)0, (LPARAM)0);
+	}
+
+
     int ComboBox_FindString(HWND inHandle, const std::string & inString, int inOffset)
     {
         std::wstring utf16String = ToUTF16(inString);
@@ -580,7 +586,7 @@ namespace WinAPI
     }
 
 
-    void Checkbox_SetState(HWND inHandle, CheckState inState)
+    void CheckBox_SetState(HWND inHandle, CheckState inState)
     {
         // This message always returns zero.
         ::SendMessage(inHandle, BM_SETCHECK, (WPARAM)inState, 0);
@@ -601,7 +607,31 @@ namespace WinAPI
 
     void CheckBox_SetChecked(HWND inHandle, bool inChecked)
     {
-        Checkbox_SetState(inHandle, inChecked ? CHECKED : UNCHECKED);
+        CheckBox_SetState(inHandle, inChecked ? CHECKED : UNCHECKED);
+    }
+
+    
+    void RadioButton_SetState(HWND inHandle, CheckState inState)
+    {
+        CheckBox_SetState(inHandle, inState);
+    }
+
+    
+    CheckState RadioButton_GetState(HWND inHandle)
+    {
+        return CheckBox_GetState(inHandle);
+    }
+
+    
+    bool RadioButton_IsChecked(HWND inHandle)
+    {
+        return CheckBox_IsChecked(inHandle);
+    }
+
+
+    void RadioButton_SetChecked(HWND inHandle, bool inChecked)
+    {
+        CheckBox_SetChecked(inHandle, inChecked);
     }
 
 

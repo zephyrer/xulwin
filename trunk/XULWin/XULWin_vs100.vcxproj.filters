@@ -267,6 +267,9 @@
     <ClInclude Include="include\XULWin\Window.h">
       <Filter>Components\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\XULWin\HSVColor.h">
+      <Filter>DataTypes\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Element.cpp">
@@ -427,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="src\Window.cpp">
       <Filter>Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HSVColor.cpp">
+      <Filter>DataTypes\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

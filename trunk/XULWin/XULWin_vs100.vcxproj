@@ -93,6 +93,7 @@
   <ItemGroup>
     <ClInclude Include="include\XULWin\Element.h" />
     <ClInclude Include="include\XULWin\Elements.h" />
+    <ClInclude Include="include\XULWin\HSVColor.h" />
     <ClInclude Include="include\XULWin\XMLOverlay.h" />
     <ClInclude Include="include\XULWin\XMLScript.h" />
     <ClInclude Include="include\XULWin\XMLWindow.h" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="src\Element.cpp" />
     <ClCompile Include="src\Elements.cpp" />
+    <ClCompile Include="src\HSVColor.cpp" />
     <ClCompile Include="src\XMLOverlay.cpp" />
     <ClCompile Include="src\XMLScript.cpp" />
     <ClCompile Include="src\XMLWindow.cpp" />

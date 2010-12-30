@@ -1,5 +1,5 @@
-#include "HSVColor.h"
-#include "RGBColor.h"
+#include "XULWin/HSVColor.h"
+#include "XULWin/RGBColor.h"
 #include <cassert>
 #include <cmath>
 
@@ -49,8 +49,8 @@ HSVColor RGB2HSV(const RGBColor & rgb)
 	double b = rgb.blue() / 255.0;
 
 	// Calculate chroma
-	double maxColor = max(r, g, b);
-	double minColor = min(r, g, b);
+	double maxColor = Max(r, g, b);
+	double minColor = Min(r, g, b);
 	double chroma = maxColor - minColor;
 	
 	// Calculate hue

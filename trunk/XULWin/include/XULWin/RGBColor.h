@@ -5,6 +5,9 @@
 namespace XULWin
 {
 
+	/**
+	 * Color components are in the [0, 255] range
+	 */
     class RGBColor
     {
     public:
@@ -13,6 +16,16 @@ namespace XULWin
         RGBColor(int inRed, int inGreen, int inBlue);
 
         RGBColor(int inAlpha, int inRed, int inGreen, int inBlue);
+
+		bool operator==(const RGBColor & rhs) const
+		{
+			return mAlpha == rhs.mAlpha && mRed == rhs.mRed && mGreen == rhs.mGreen && mBlue == rhs.mBlue;
+		}
+
+		bool operator!=(const RGBColor & rhs) const
+		{
+			return !(*this == rhs);
+		}
 
         int red() const;
 
@@ -29,6 +42,9 @@ namespace XULWin
         int mBlue;
     };
 
+
 } // namespace XULWin
 
+
 #endif //RGB_COLOR_H_INCLUDED
+

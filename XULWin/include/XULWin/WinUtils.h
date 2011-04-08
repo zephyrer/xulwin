@@ -12,336 +12,332 @@
 #include <string>
 
 
-namespace XULWin
+namespace XULWin {
+namespace WinAPI {
+
+
+//
+// CurrentDirectoryChanger class
+//
+class CurrentDirectoryChanger
 {
+public:
+    CurrentDirectoryChanger(const std::string & inTargetDir);
 
-namespace WinAPI
+    ~CurrentDirectoryChanger();
+
+private:
+    CurrentDirectoryChanger(const CurrentDirectoryChanger &);
+    CurrentDirectoryChanger & operator=(const CurrentDirectoryChanger &);
+    TCHAR mOldDir[MAX_PATH+1];
+};
+
+
+//
+// CommonControlsInitializer class
+//
+class CommonControlsInitializer
 {
+public:
+    CommonControlsInitializer();
+};
 
 
-    //
-    // CurrentDirectoryChanger class
-    //
-    class CurrentDirectoryChanger
-    {
-    public:
-        CurrentDirectoryChanger(const std::string & inTargetDir);
+//
+// System functions
+//
+std::string System_GetCurrentDirectory();
 
-        ~CurrentDirectoryChanger();
+std::string System_GetEnvironmentVariable(const std::string & inVariableName);
 
-    private:
-        CurrentDirectoryChanger(const CurrentDirectoryChanger &);
-        CurrentDirectoryChanger & operator=(const CurrentDirectoryChanger &);
-        TCHAR mOldDir[MAX_PATH+1];
-    };
+std::string System_GetEnvironmentVariable(HINSTANCE hInstance);
 
+std::string System_GetProgramFilesDirectory();
 
-    //
-    // CommonControlsInitializer class
-    //
-    class CommonControlsInitializer
-    {
-    public:
-        CommonControlsInitializer();
-    };
+// Set the thread name that will be shown in the Visual Studio debugger
+void System_SetThreadName(WORD inThreadId, const std::string & inThreadName);
 
+std::string System_GetLastError(DWORD lastError);
 
-    //
-    // System functions
-    //
-    std::string System_GetCurrentDirectory();
+// Opens default browser and navigates to url.
+void System_NavigateURL(const std::string & inURL);
 
-    std::string System_GetEnvironmentVariable(const std::string & inVariableName);
 
-    std::string System_GetEnvironmentVariable(HINSTANCE hInstance);
+//
+// Window functions (everything is a window)
+// 
+HWND Window_GetDefaultWindow();
 
-    std::string System_GetProgramFilesDirectory();
+std::string Window_GetClassName(HWND inHWND);
 
-    // Set the thread name that will be shown in the Visual Studio debugger
-    void System_SetThreadName(WORD inThreadId, const std::string & inThreadName);
+Rect Window_GetClientRect(HWND inHWND);
 
-    std::string System_GetLastError(DWORD lastError);
-   
-    // Opens default browser and navigates to url.
-    void System_NavigateURL(const std::string & inURL);
+Rect Window_GetWindowRect(HWND inHWND);
 
+int Window_GetWidth(HWND inHandle);
 
-    //
-    // Window functions (everything is a window)
-    // 
-    HWND Window_GetDefaultWindow();
+int Window_GetHeight(HWND inHandle);
 
-    std::string Window_GetClassName(HWND inHWND);
+void Window_SetWidth(HWND inHandle, int inWidth);
 
-    Rect Window_GetClientRect(HWND inHWND);
+void Window_SetHeight(HWND inHandle, int inHeight);
 
-    Rect Window_GetWindowRect(HWND inHWND);
+std::string Window_GetText(HWND inHandle);
 
-    int Window_GetWidth(HWND inHandle);
+void Window_SetText(HWND inHandle, const std::string & inText);
 
-    int Window_GetHeight(HWND inHandle);
+SIZE Window_GetTextSize(HWND inHandle, const std::string & inText);
 
-    void Window_SetWidth(HWND inHandle, int inWidth);
+SIZE Window_GetTextSize(const std::string & inText);
 
-    void Window_SetHeight(HWND inHandle, int inHeight);
+int Window_GetMultilineTextHeight(HWND inHandle);
 
-    std::string Window_GetText(HWND inHandle);
+SIZE Window_GetSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
 
-    void Window_SetText(HWND inHandle, const std::string & inText);
+void Window_SetVisible(HWND inHandle, bool inVisible);
 
-    SIZE Window_GetTextSize(HWND inHandle, const std::string & inText);
+bool Window_IsVisible(HWND inHandle);
 
-    SIZE Window_GetTextSize(const std::string & inText);
+bool Window_IsDisabled(HWND inHandle);
 
-    int Window_GetMultilineTextHeight(HWND inHandle);
+void Window_SetDisabled(HWND inHandle, bool inDisable);
 
-    SIZE Window_GetSizeDifferenceBetweenWindowRectAndClientRect(HWND inHandle);
+void Window_AddStyle(HWND inHandle, LONG inStyle);
 
-    void Window_SetVisible(HWND inHandle, bool inVisible);
+LONG Window_GetStyles(HWND inHandle);
 
-    bool Window_IsVisible(HWND inHandle);
+void Window_SetStyle(HWND inHandle, LONG inStyle);
 
-    bool Window_IsDisabled(HWND inHandle);
+void Window_RemoveStyle(HWND inHandle, LONG inStyle);
 
-    void Window_SetDisabled(HWND inHandle, bool inDisable);
-    
-    void Window_AddStyle(HWND inHandle, LONG inStyle);
+bool Window_HasStyle(HWND inHandle, LONG inStyle);
 
-    LONG Window_GetStyles(HWND inHandle);
+HFONT Window_GetFont(HWND inHandle);
 
-    void Window_SetStyle(HWND inHandle, LONG inStyle);
 
-    void Window_RemoveStyle(HWND inHandle, LONG inStyle);
+//
+// ComboBox functions
+//
+void ComboBox_Add(HWND inHandle, const std::string & inString);
 
-    bool Window_HasStyle(HWND inHandle, LONG inStyle);
+void ComboBox_RemoveByIndex(HWND inHandle, int inIndex);
 
-    HFONT Window_GetFont(HWND inHandle);
+void ComboBox_Clear(HWND inHandle);
 
+// Returns whether the dropdown box is currently visible or not.
+bool ComboBox_IsOpen(HWND inHandle);
 
-    //
-    // ComboBox functions
-    //
-    void ComboBox_Add(HWND inHandle, const std::string & inString);
+// returns CB_ERR (-1) if not found
+int ComboBox_FindString(HWND inHandle, const std::string & inString, int inOffset = -1);
 
-    void ComboBox_RemoveByIndex(HWND inHandle, int inIndex);
+int ComboBox_Size(HWND inHandle);
 
-    void ComboBox_Clear(HWND inHandle);
+// Returns CB_ERR (-1) if an error occurs
+int ComboBox_ItemHeight(HWND inHandle, int inItemIndex);
 
-	// Returns whether the dropdown box is currently visible or not.
-	bool ComboBox_IsOpen(HWND inHandle);
+int ComboBox_GetSelectedIndex(HWND inHandle);
 
-    // returns CB_ERR (-1) if not found
-    int ComboBox_FindString(HWND inHandle, const std::string & inString, int inOffset = -1);
+void ComboBox_SetSelectedIndex(HWND inHandle, int inItemIndex);
 
-    int ComboBox_Size(HWND inHandle);
 
-    // Returns CB_ERR (-1) if an error occurs
-    int ComboBox_ItemHeight(HWND inHandle, int inItemIndex);
+//
+// SpinButton functions
+//
+HWND SpinButton_GetBuddy(HWND inHandle);
 
-    int ComboBox_GetSelectedIndex(HWND inHandle);
+HWND SpinButton_SetBuddy(HWND inHandle, HWND inBuddy);
 
-    void ComboBox_SetSelectedIndex(HWND inHandle, int inItemIndex);
+int SpinButton_GetPos(HWND inHandle);
 
+int SpinButton_SetPos(HWND inHandle, int inPos);
 
-    //
-    // SpinButton functions
-    //
-    HWND SpinButton_GetBuddy(HWND inHandle);
+DWORD SpinButton_GetRange(HWND inHandle);
 
-    HWND SpinButton_SetBuddy(HWND inHandle, HWND inBuddy);
+void SpinButton_GetRange(HWND inHandle, int & outLower, int & outUpper);
 
-    int SpinButton_GetPos(HWND inHandle);
+void SpinButton_SetRange(HWND inHandle, int inLower, int inUpper);
 
-    int SpinButton_SetPos(HWND inHandle, int inPos);
+void SpinButton_GetRange32(HWND inHandle, int & outLower, int & outUpper);
 
-    DWORD SpinButton_GetRange(HWND inHandle);
+void SpinButton_SetRange32(HWND inHandle, int inLower, int inUpper);
 
-    void SpinButton_GetRange(HWND inHandle, int & outLower, int & outUpper);
 
-    void SpinButton_SetRange(HWND inHandle, int inLower, int inUpper);
+//
+//
+// ListBox functions
+//
+std::string ListBox_getByIndex(HWND inHandle, int inIndex);
 
-    void SpinButton_GetRange32(HWND inHandle, int & outLower, int & outUpper);
-    
-    void SpinButton_SetRange32(HWND inHandle, int inLower, int inUpper);
+void ListBox_Add(HWND inHandle, const std::string & inString);
 
+void ListBox_Remove(HWND inHandle, int inIndex);
 
-    //
-    //
-    // ListBox functions
-    //
-    std::string ListBox_getByIndex(HWND inHandle, int inIndex);
+int ListBox_GetSize(HWND inHandle);
 
-    void ListBox_Add(HWND inHandle, const std::string & inString);
+// returns LB_ERR (-1) if not found
+int ListBox_GetIndexOf(HWND inHandle, const std::string & inStringValue);
 
-    void ListBox_Remove(HWND inHandle, int inIndex);
+void ListBox_GetItemRect(HWND inHandle, int inIndex, RECT & outRect);
 
-    int ListBox_GetSize(HWND inHandle);
+// returns LB_ERR is nothing is selected
+int ListBox_GetSelectedIndex(HWND inHandle);
 
-    // returns LB_ERR (-1) if not found
-    int ListBox_GetIndexOf(HWND inHandle, const std::string & inStringValue);
+// Use index -1 to deselect
+void ListBox_SetSelectedIndex(HWND inHandle, int inIndex);
 
-    void ListBox_GetItemRect(HWND inHandle, int inIndex, RECT & outRect);
 
-    // returns LB_ERR is nothing is selected
-    int ListBox_GetSelectedIndex(HWND inHandle);
+//
+// ListView functions
+//
+// Returns index of column, -1 if failed
+int ListView_AddColumn(HWND inHandle, int inIndex, const std::string & inText);
 
-    // Use index -1 to deselect
-    void ListBox_SetSelectedIndex(HWND inHandle, int inIndex);
 
+//
+// Tab functions
+//
+void Tab_AddPanel(HWND inHandle, const std::string & inTitle);
 
-    //
-    // ListView functions
-    //
-    // Returns index of column, -1 if failed
-    int ListView_AddColumn(HWND inHandle, int inIndex, const std::string & inText);
 
+//
+// Checkbox Functions
+//
+enum CheckState
+{
+    CHECKED = BST_CHECKED,
+    UNCHECKED = BST_UNCHECKED,
+    PARTIALLY_CHECKED = BST_INDETERMINATE
+};
 
-    //
-    // Tab functions
-    //
-    void Tab_AddPanel(HWND inHandle, const std::string & inTitle);
+void CheckBox_SetState(HWND inHandle, CheckState inState);
 
+CheckState CheckBox_GetState(HWND inHandle);
 
-    //
-    // Checkbox Functions
-    //
-    enum CheckState
-    {
-        CHECKED = BST_CHECKED,
-        UNCHECKED = BST_UNCHECKED,
-        PARTIALLY_CHECKED = BST_INDETERMINATE
-    };
+bool CheckBox_IsChecked(HWND inHandle);
 
-    void CheckBox_SetState(HWND inHandle, CheckState inState);
+void CheckBox_SetChecked(HWND inHandle, bool inChecked);
 
-    CheckState CheckBox_GetState(HWND inHandle);
 
-    bool CheckBox_IsChecked(HWND inHandle);
+//
+// RadioButton Functions
+//
+void RadioButton_SetState(HWND inHandle, CheckState inState);
 
-    void CheckBox_SetChecked(HWND inHandle, bool inChecked);
+CheckState RadioButton_GetState(HWND inHandle);
 
+bool RadioButton_IsChecked(HWND inHandle);
 
-    //
-    // RadioButton Functions
-    //
-    void RadioButton_SetState(HWND inHandle, CheckState inState);
+void RadioButton_SetChecked(HWND inHandle, bool inChecked);
 
-    CheckState RadioButton_GetState(HWND inHandle);
 
-    bool RadioButton_IsChecked(HWND inHandle);
+//
+// ProgressMeter functions
+//
+void ProgressMeter_Init(HWND inHandle, int inLimit);
 
-    void RadioButton_SetChecked(HWND inHandle, bool inChecked);
+void ProgressMeter_Advance(HWND inHandle);
 
+void ProgressMeter_SetProgress(HWND inHandle, int inProgress);
 
-    //
-    // ProgressMeter functions
-    //
-    void ProgressMeter_Init(HWND inHandle, int inLimit);
+int ProgressMeter_GetProgress(HWND inHandle);
 
-    void ProgressMeter_Advance(HWND inHandle);
 
-    void ProgressMeter_SetProgress(HWND inHandle, int inProgress);
+//
+// TextBox functions
+//
+void TextBox_SetReadOnly(HWND inHandle, bool inReadOnly);
 
-    int ProgressMeter_GetProgress(HWND inHandle);
+bool TextBox_IsReadOnly(HWND inHandle);
 
 
-    //
-    // TextBox functions
-    //
-    void TextBox_SetReadOnly(HWND inHandle, bool inReadOnly);
+//
+// Scrollbar functions
+//
+void Scrollbar_SetInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition);
 
-    bool TextBox_IsReadOnly(HWND inHandle);
+void Scrollbar_GetInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition);
 
+int Scrollbar_GetPos(HWND inHandle);
 
-    //
-    // Scrollbar functions
-    //
-    void Scrollbar_SetInfo(HWND inHandle, int inTotalHeight, int inPageHeight, int inCurrentPosition);
+void Scrollbar_SetPos(HWND inHandle, int inPos);
 
-    void Scrollbar_GetInfo(HWND inHandle, int & outTotalHeight, int & outPageHeight, int & outCurrentPosition);
 
-    int Scrollbar_GetPos(HWND inHandle);
+//
+// Menu functions
+//
+void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex);
 
-    void Scrollbar_SetPos(HWND inHandle, int inPos);
+void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText);
 
+void Menu_InsertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
 
-    //
-    // Menu functions
-    //
-    void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex);
 
-    void Menu_InsertItem(HMENU inMenuHandle, UINT inIndex, UInt32 inComponentId, const std::string & inText);
+//
+// MenuItemInfo
+//
+// Contains the data fields associated with each node from the MenuNode (see below).
+//
+struct MenuItemInfo
+{
+    MenuItemInfo(int inId, const std::string & inLabel) : id(inId), label(inLabel) {}
+    int id;
+    std::string label;
+};
 
-    void Menu_InsertSubMenu(HMENU inMenuHandle, UINT inIndex, HMENU inSubMenu, const std::string & inText);
+//
+// MenuNode typedef
+//
+// A menu is essentially a tree where the branches are submenus and the leafs are menu items.
+// The MenuNode class represents a full menu as a tree object.
+//
+typedef GenericNode<MenuItemInfo,
+                    ContainerPolicy_Vector,
+                    PointerPolicy_Shared> MenuNode;
 
+// Creates a menu from a tree object
+HMENU Menu_Create(const MenuNode & inMenuNode);
 
-    //
-    // MenuItemInfo
-    //
-    // Contains the data fields associated with each node from the MenuNode (see below).
-    //
-    struct MenuItemInfo
-    {
-        MenuItemInfo(int inId, const std::string & inLabel) : id(inId), label(inLabel) {}
-        int id;
-        std::string label;
-    };
+void Menu_SetItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
 
-    //
-    // MenuNode typedef
-    //
-    // A menu is essentially a tree where the branches are submenus and the leafs are menu items.
-    // The MenuNode class represents a full menu as a tree object.
-    //
-    typedef GenericNode<MenuItemInfo,
-                        ContainerPolicy_Vector,
-                        PointerPolicy_Shared> MenuNode;
+void Menu_SetItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
 
-    // Creates a menu from a tree object
-    HMENU Menu_Create(const MenuNode & inMenuNode);
 
-    void Menu_SetItemEnabled(HMENU inMenuHandle, UInt32 inComponentId, bool inEnabled);
+//
+// Toolbar functions
+//
+UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId);
 
-    void Menu_SetItemChecked(HMENU inMenuHandle, UInt32 inComponentId, bool inChecked);
+RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId);
 
+void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth);
 
-    //
-    // Toolbar functions
-    //
-    UInt32 Toolbar_GetToolbarButtonSize(HWND inToolbarHandle, UInt32 inToolbarButtonId);
 
-    RECT Toolbar_GetToolbarButtonRect(HWND inToolbarHandle, UInt32 inToolbarButtonId);
+//
+// Timer class
+//
+class Timer : boost::noncopyable
+{
+public:
+    Timer();
 
-    void Toolbar_SetButtonWidth(HWND inToolbarHandle, UInt32 inToolbarButtonId, int inWidth);
+    ~Timer();
 
+    typedef boost::function<void()> TimerAction;
 
-    //
-    // Timer class
-    //
-    class Timer : boost::noncopyable
-    {
-    public:
-        Timer();
+    void start(const TimerAction & inAction, int inDelayInMilliseconds);
 
-        ~Timer();
+    void stop();
 
-        typedef boost::function<void()> TimerAction;
+private:
+    static void CALLBACK OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime);
+    typedef std::map<Timer *, UINT_PTR> TimerMapping;
+    static TimerMapping sTimerMapping;
+    TimerAction mTimerAction;
+    UINT_PTR mTimerId;
+};
 
-        void start(const TimerAction & inAction, int inDelayInMilliseconds);
 
-        void stop();
-
-    private:
-        static void CALLBACK OnTimerEvent(HWND inHWND, UINT inMessage, UINT_PTR inTimerId, DWORD inTime);
-        typedef std::map<Timer *, UINT_PTR> TimerMapping;
-        static TimerMapping sTimerMapping;
-        TimerAction mTimerAction;
-        UINT_PTR mTimerId;
-    };
-
-} // namespace WinAPI
-
-} // namespace XULWin
+} } // namespace XULWin::WinAPI
 
 
 #endif // WINUTILS_H_INCLUDED
